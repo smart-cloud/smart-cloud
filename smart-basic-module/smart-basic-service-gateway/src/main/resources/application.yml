@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: smart-basic-service-gateway
+  profiles:
+    include: common-config,eureka
+
+server:
+  port: 80

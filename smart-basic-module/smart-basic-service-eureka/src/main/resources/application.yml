@@ -1,0 +1,7 @@
+spring:  application:    name: smart-basic-service-eureka  profiles:    include: common-config
+server:
+  port: 10001
+# 多节点配置
+#eureka:#  instance:
+#    hostname: nodeA
+#  client:#    service-url:#      defaultZone: http://nodeB:10002/eureka/# 单节点配置      eureka:  server:    enable-self-preservation: false #关闭自我保护    eviction-interval-timer-in-ms: 4000 #清理无效节点的时间间隔（单位毫秒，默认是60*1000）  instance:    hostname: nodeA  client:    register-with-eureka: false #不向注册中心注册自己    fetch-registry: false       #不检索服务    service-url:      defaultZone: http://nodeA:10002/eureka/

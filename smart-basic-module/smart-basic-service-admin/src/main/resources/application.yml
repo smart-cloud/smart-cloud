@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: smart-basic-service-admin
+  profiles:
+    include: common-config,eureka
+
+server:
+  port: 10011

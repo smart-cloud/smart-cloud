@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.smartframework.cloud</groupId>
+		<artifactId>smart-cloud</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>smart-cloud-starter</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>smart-cloud-starter-configure</module>
+		<module>smart-cloud-starter-common</module>
+		<module>smart-cloud-starter-job</module>
+		<module>smart-cloud-starter-locale</module>
+		<module>smart-cloud-starter-log</module>
+		<module>smart-cloud-starter-mock</module>
+		<module>smart-cloud-starter-mq</module>
+		<module>smart-cloud-starter-mybatis</module>
+		<module>smart-cloud-starter-redis</module>
+		<module>smart-cloud-starter-rpc</module>
+		<module>smart-cloud-starter-swagger</module>
+		<module>smart-cloud-starter-test</module>
+		<module>smart-cloud-starter-web</module>
+	</modules>
+</project>
