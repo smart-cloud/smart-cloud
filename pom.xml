@@ -335,7 +335,7 @@
 
 	<modules>
 		<module>smart-cloud-starter</module>
-		<module>smart-basic-module</module>
+		<module>smart-support-module</module>
 		<module>smart-utility</module>
 	</modules>
 </project>
