@@ -3,6 +3,7 @@ package org.smartframework.cloud.utility;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +12,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import com.google.common.base.Charsets;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
@@ -53,7 +53,7 @@ public final class JAXBUtil {
 	 * @throws JAXBException
 	 */
 	public static String beanToXml(Object bean) throws JAXBException {
-		return beanToXml(bean, Charsets.UTF_8.name());
+		return beanToXml(bean, StandardCharsets.UTF_8.name());
 	}
 	
 	/**

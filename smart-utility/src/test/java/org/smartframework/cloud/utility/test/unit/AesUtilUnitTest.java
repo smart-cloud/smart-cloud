@@ -5,7 +5,7 @@ import org.smartframework.cloud.utility.security.AesUtil;
 
 import junit.framework.TestCase;
 
-public class AesUtilUnitTest extends TestCase{
+public class AesUtilUnitTest extends TestCase {
 
 	public void testEncryptAndDecrypt() {
 		String password = "123456";

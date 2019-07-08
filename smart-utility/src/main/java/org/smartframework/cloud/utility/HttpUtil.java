@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -48,7 +49,13 @@ public class HttpUtil {
 	 * @throws IOException
 	 */
 	public static <T> T postWithRaw(String url, Object req, TypeReference<T> typeReference) throws IOException {
-		String content = postWithRaw(url, JSON.toJSONString(req));
+		String stringEntity = null;
+		if(req instanceof String) {
+			stringEntity = String.valueOf(req);
+		} else {
+			stringEntity = JSON.toJSONString(req);
+		}
+		String content = postWithRaw(url, stringEntity);
 		return JSON.parseObject(content, typeReference);
 	}
 	
@@ -96,13 +103,13 @@ public class HttpUtil {
 		
 		RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout);
 
-		HttpPost post = new HttpPost(url);
-		post.setConfig(requestConfig);
-		post.setHeader("Content-Type", MediaType.JSON_UTF_8.toString());
-		post.setEntity(new StringEntity(stringEntity, charset));
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setConfig(requestConfig);
+		httpPost.setHeader("Content-Type", MediaType.JSON_UTF_8.toString());
+		httpPost.setEntity(new StringEntity(stringEntity, charset));
 		String result = null;
 		try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
-			HttpResponse response = client.execute(post);
+			HttpResponse response = client.execute(httpPost);
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
 				result = EntityUtils.toString(entity, charset);
@@ -112,7 +119,76 @@ public class HttpUtil {
 		log.info("result=>{}", result);
 		return result;
 	}
+	
+	/**
+	 * 以get方式请求
+	 * 
+	 * @param <T>
+	 * @param url
+	 * @param typeReference
+	 * @return
+	 * @throws IOException
+	 */
+	public static <T> T get(String url, TypeReference<T> typeReference) throws IOException {
+		String content = get(url);
+		return JSON.parseObject(content, typeReference);
+	}
+	
+	/**
+	 * 以get方式请求
+	 * 
+	 * @param url
+	 * @return
+	 * @throws IOException
+	 */
+	public static String get(String url) throws IOException {
+		return get(url, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT);
+	}
+	
+	/**
+	 * 以get方式请求
+	 * 
+	 * @param url
+	 * @param socketTimeout
+	 * @param connectTimeout
+	 * @return
+	 * @throws IOException
+	 */
+	public static String get(String url, int socketTimeout, int connectTimeout) throws IOException {
+		return get(url, DEFAULT_CHARSET, socketTimeout, connectTimeout);
+	}
 
+	/**
+	 * 以get方式请求
+	 * 
+	 * @param url
+	 * @param charset
+	 * @param socketTimeout
+	 * @param connectTimeout
+	 * @return
+	 * @throws IOException
+	 */
+	public static String get(String url, String charset, int socketTimeout, int connectTimeout) throws IOException {
+		log.info("url=>{}", url);
+
+		RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout);
+
+		HttpGet httpGet = new HttpGet(url);
+		httpGet.setConfig(requestConfig);
+		httpGet.setHeader("Content-Type", MediaType.JSON_UTF_8.toString());
+		String result = null;
+		try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
+			HttpResponse response = client.execute(httpGet);
+			HttpEntity entity = response.getEntity();
+			if (entity != null) {
+				result = EntityUtils.toString(entity, charset);
+			}
+		}
+
+		log.info("result=>{}", result);
+		return result;
+	}
+	
 	/**
 	 * 构建RequestConfig对象
 	 * 

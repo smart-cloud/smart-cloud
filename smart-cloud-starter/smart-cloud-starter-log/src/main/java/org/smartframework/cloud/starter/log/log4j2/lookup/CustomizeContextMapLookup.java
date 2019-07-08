@@ -1,5 +1,6 @@
 package org.smartframework.cloud.starter.log.log4j2.lookup;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Objects;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.lookup.StrLookup;
+import org.smartframework.cloud.starter.log.system.ApplicationHome;
 import org.springframework.core.io.ClassPathResource;
 import org.yaml.snakeyaml.Yaml;
 
@@ -35,6 +37,42 @@ public class CustomizeContextMapLookup implements StrLookup {
 	static {
 		// 解析yaml
 		ClassPathResource resource = new ClassPathResource(YAML_FILE_NAME);
+		String appName = null;
+		if (!resource.exists()) {
+			// 不存在，则取当前工程名
+			appName = getCurrentProjectName();
+		} else {
+			appName = readAppNameFromYaml(resource);
+		}
+		
+		if (appName == null) {
+			appName = "";
+		}
+		
+		DATA.put("appName", appName);
+	}
+	
+	/**
+	 * 获取当前功能名
+	 * 
+	 * @return
+	 */
+	private static String getCurrentProjectName() {
+		ApplicationHome applicationHome = new ApplicationHome(CustomizeContextMapLookup.class);
+		File dir = applicationHome.getDir();
+		if (dir == null) {
+			return null;
+		}
+		return dir.getName();
+	}
+	
+	/**
+	 * 从yaml文件中读取服务名
+	 * 
+	 * @param resource
+	 * @return
+	 */
+	private static String readAppNameFromYaml(ClassPathResource resource) {
 		Yaml yaml = new Yaml();
 		String appName = null;
 		try (InputStream yamlInputStream = resource.getInputStream()) {
@@ -42,10 +80,9 @@ public class CustomizeContextMapLookup implements StrLookup {
 			appName = getYamlValue(APP_NAME_KEY, yamlJson);
 		} catch (IOException e) {
 			// 抛异常，则取当前jar名
-			appName = "common";
 			e.printStackTrace();
 		}
-		DATA.put("appName", appName);
+		return appName;
 	}
 	
 	@Override
