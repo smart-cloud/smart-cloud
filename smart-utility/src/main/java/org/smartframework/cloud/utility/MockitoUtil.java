@@ -41,10 +41,18 @@ public class MockitoUtil {
 	 * @param mockTypeEnum
 	 */
 	public static void setMockAttribute(Object targetObject, Object mockObject, MockTypeEnum mockTypeEnum) {
-		if (targetObject != null && SPRING_AOP_PRESENT) {
+		if (SPRING_AOP_PRESENT) {
 			targetObject = AopTestUtils.getUltimateTargetObject(targetObject);
 		}
-		Field[] fields = targetObject.getClass().getDeclaredFields();
+		Field[] fields = null;
+		if (MockUtil.isSpy(targetObject) || MockUtil.isMock(targetObject)) {
+			MockCreationSettings<?> targetObjectMockCreationSettings = MockUtil.getMockSettings(targetObject);
+			Object spyObject = targetObjectMockCreationSettings.getSpiedInstance();
+			fields = spyObject.getClass().getDeclaredFields();
+		} else {
+			fields = targetObject.getClass().getDeclaredFields();
+		}
+		
 		if (fields == null) {
 			return;
 		}

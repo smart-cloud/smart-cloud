@@ -13,7 +13,7 @@ import lombok.Getter;
 
 public class MockitoUtilUnitTest extends TestCase {
 
-	public void test() {
+	public void testMock() {
 		Service service = new Service();
 		Service mockService = Mockito.mock(Service.class);
 		Controller controller = new Controller(service);
@@ -25,6 +25,23 @@ public class MockitoUtilUnitTest extends TestCase {
 		beanFactory.registerSingleton("controller", controller);
 		
 		MockitoUtil.setMockAttribute(controller, mockService, MockTypeEnum.MOCK_BORROW);
+		MockitoUtil.revertMockAttribute(context);
+		
+		Assertions.assertThat(controller.getService()).isEqualTo(service);
+	}
+	
+	public void testSpy() {
+		Service service = new Service();
+		Service serviceSpy = Mockito.spy(service);
+		Controller controller = new Controller(service);
+
+		AnnotationConfigApplicationContext context = new  AnnotationConfigApplicationContext();
+		context.refresh();
+		ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+		beanFactory.registerSingleton("service", service);
+		beanFactory.registerSingleton("controller", controller);
+		
+		MockitoUtil.setMockAttribute(controller, serviceSpy, MockTypeEnum.MOCK_BORROW);
 		MockitoUtil.revertMockAttribute(context);
 		
 		Assertions.assertThat(controller.getService()).isEqualTo(service);
