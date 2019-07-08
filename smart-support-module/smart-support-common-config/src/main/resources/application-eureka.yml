@@ -1,7 +1,0 @@
-eureka: 
-  client:       
-    registerWithEureka: true   
-    fetchRegistry: true
-    service-url: 
-      defaultZone: http://nodeA:10001/eureka/
-      #defaultZone: http://nodeA:10001/eureka/,http://nodeB:10002/eureka/

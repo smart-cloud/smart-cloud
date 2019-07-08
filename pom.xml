@@ -12,6 +12,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+	<modules>
+		<module>smart-cloud-starter</module>
+		<module>smart-utility</module>
+	</modules>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
@@ -332,10 +337,4 @@
 			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
 		</repository>
 	</repositories>
-
-	<modules>
-		<module>smart-cloud-starter</module>
-		<module>smart-support-module</module>
-		<module>smart-utility</module>
-	</modules>
 </project>

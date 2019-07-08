@@ -1,30 +1,0 @@
-logging:
-  config: classpath:log4j2.xml
-
-smart: 
-  api: 
-    apiVersion: 1.0.0
-    
-jasypt:
-  encryptor:
-    password: 123456
-  
-server:
-  servlet:
-    context-path: /  compression:    enabled: true
-  undertow:    direct-buffers: true
-# 监控跟踪
-management:
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-        
-spring: 
-  jmx:
-    enabled: true
-  sleuth: 
-    enabled: true
