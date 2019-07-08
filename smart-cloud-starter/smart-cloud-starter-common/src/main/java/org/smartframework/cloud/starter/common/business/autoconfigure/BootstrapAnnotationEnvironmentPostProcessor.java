@@ -15,7 +15,6 @@ import org.smartframework.cloud.utility.ArrayUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.env.YamlPropertySourceLoader;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertySource;
@@ -35,8 +34,20 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 		if (isRegisterShutdownHook(application)) {
 			Class<?> mainApplicationClass = application.getMainApplicationClass();
-			
-			initBasePackages(mainApplicationClass);
+			// 1、设置{@link ComponentScan}的{@code basePackages}
+			SmartSpringCloudApplication smartSpringCloudApplication = AnnotationUtils
+					.findAnnotation(mainApplicationClass, SmartSpringCloudApplication.class);
+			if (smartSpringCloudApplication == null) {
+				mainApplicationClass = new AnnotatedClassFinder(SmartSpringCloudApplication.class)
+						.findFromClass(mainApplicationClass);// 此处findFromClass的参数为测试启动类
+				
+				smartSpringCloudApplication = AnnotationUtils
+						.findAnnotation(mainApplicationClass, SmartSpringCloudApplication.class);
+			}
+			String[] componentBasePackages = smartSpringCloudApplication.componentBasePackages();
+			PackageConfig.setBasePackages(componentBasePackages);
+
+			// 2、加载yml
 			loadYaml(environment, mainApplicationClass);
 		}
 	}
@@ -55,25 +66,13 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
 	}
 
 	/**
-	 * 设置{@link ComponentScan}的{@code basePackages}
-	 * 
-	 * @param mainApplicationClass
-	 */
-	private void initBasePackages(Class<?> mainApplicationClass) {
-		SmartSpringCloudApplication smartSpringCloudApplication = AnnotationUtils.findAnnotation(mainApplicationClass,
-				SmartSpringCloudApplication.class);
-		String[] componentBasePackages = smartSpringCloudApplication.componentBasePackages();
-		PackageConfig.setBasePackages(componentBasePackages);
-	}
-
-	/**
 	 * 将启动类注解上配置的yaml文件加到environment中
 	 * 
 	 * @param environment
 	 * @param mainApplicationClass
 	 */
 	private void loadYaml(ConfigurableEnvironment environment, Class<?> mainApplicationClass) {
-		String[] locationPatterns = getLocationPatterns(mainApplicationClass);
+		String[] locationPatterns = getLocationPatternsOnSpringBoot(mainApplicationClass);
 		if (ArrayUtil.isEmpty(locationPatterns)) {
 			return;
 		}
@@ -125,35 +124,6 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * 获取yaml文件路径
-	 * 
-	 * @param mainApplicationClass
-	 * @return
-	 */
-	private String[] getLocationPatterns(Class<?> mainApplicationClass) {
-		String[] locationPatterns = getLocationPatternsOnSpringBoot(mainApplicationClass);
-		if (ArrayUtil.isNotEmpty(locationPatterns)) {
-			return locationPatterns;
-		}
-
-		return getLocationPatternsOnSpringBootTest(mainApplicationClass);
-	}
-
-	/**
-	 * application作为test启动
-	 * 
-	 * @param mainApplicationClass
-	 * @return
-	 */
-	private String[] getLocationPatternsOnSpringBootTest(Class<?> mainApplicationClass) {
-		Class<?> found = new AnnotatedClassFinder(YamlScan.class).findFromClass(mainApplicationClass);
-		if (Objects.isNull(found)) {
-			return new String[0];
-		}
-		return getLocationPatternsOnSpringBoot(found);
 	}
 
 	/**
