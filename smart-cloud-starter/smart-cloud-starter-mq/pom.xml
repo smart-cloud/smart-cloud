@@ -10,4 +10,11 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>smart-cloud-starter-mq</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.rocketmq</groupId>
+			<artifactId>rocketmq-spring-boot-starter</artifactId>
+		</dependency>
+	</dependencies>
 </project>
