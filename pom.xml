@@ -1,0 +1,417 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.5.RELEASE</version>
+	</parent>
+	<groupId>org.smartframework.cloud</groupId>
+	<artifactId>smart-cloud</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>smart-cloud-starter</module>
+		<module>smart-utility</module>
+	</modules>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<!-- 2.1.5.RELEASE 升级后，IDE插件不兼容 -->
+		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+		<spring-cloud>Greenwich.SR1</spring-cloud>
+		<spring.boot>2.1.5.RELEASE</spring.boot>
+		<spring.boot.admin>2.1.5</spring.boot.admin>
+		<!-- version>=3.10.0时，NX返回null -->
+		<redisson>3.9.1</redisson>
+		<mybatis-spring-boot-starter>2.0.1</mybatis-spring-boot-starter>
+		<mapper>4.1.5</mapper>
+		<pagehelper>5.1.8</pagehelper>
+		<sharding-jdbc>4.0.0-RC1</sharding-jdbc>
+		<spring-cloud-alibaba>0.9.1.BUILD-SNAPSHOT</spring-cloud-alibaba>
+		<seata>0.6.1</seata>
+		<mysql>8.0.15</mysql>
+		<fastjson>1.2.58</fastjson>
+		<springfox-swagger2>2.9.2</springfox-swagger2>
+		<podam>7.2.3.RELEASE</podam>
+		<guava>23.0</guava>
+		<reflections>0.9.11</reflections>
+		<jasypt>2.1.1</jasypt>
+		<commons-codec>1.12</commons-codec>
+		<commons-io>2.2</commons-io>
+		<servlet>4.0.1</servlet>
+		<rocketmq>2.0.3</rocketmq>
+		<xxl-job>2.1.0</xxl-job>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- 私有jar start -->
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-utility</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-common</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-configure</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-job</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-locale</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-log</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-mock</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-mq</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-mybatis</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-redis</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-rpc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-swagger</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-test</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-web</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- 私有jar end -->
+
+			<!-- 第三方jar start -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring.boot}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-logging</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-tomcat</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-test</artifactId>
+				<version>${spring.boot}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-server</artifactId>
+				<version>${spring.boot.admin}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-client</artifactId>
+				<version>${spring.boot.admin}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.redisson</groupId>
+				<artifactId>redisson-spring-boot-starter</artifactId>
+				<version>${redisson}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis-spring-boot-starter}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>tk.mybatis</groupId>
+				<artifactId>mapper</artifactId>
+				<version>${mapper}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.pagehelper</groupId>
+				<artifactId>pagehelper</artifactId>
+				<version>${pagehelper}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.shardingsphere</groupId>
+				<artifactId>sharding-jdbc-core</artifactId>
+				<version>${sharding-jdbc}</version>
+			</dependency>
+		
+			<!-- 分布式事务 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-seata</artifactId>
+				<version>${spring-cloud-alibaba}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>io.seata</groupId>
+						<artifactId>seata-spring</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>io.seata</groupId>
+				<artifactId>seata-all</artifactId>
+				<version>${seata}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql}</version>
+			</dependency>
+
+			<!-- mock -->
+			<dependency>
+				<groupId>uk.co.jemos.podam</groupId>
+				<artifactId>podam</artifactId>
+				<version>${podam}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>${guava}</version>
+			</dependency>
+
+			<!-- 反射工具类 -->
+			<dependency>
+				<groupId>org.reflections</groupId>
+				<artifactId>reflections</artifactId>
+				<version>${reflections}</version>
+			</dependency>
+
+			<!-- 配置文件加解密 -->
+			<dependency>
+				<groupId>com.github.ulisesbocchio</groupId>
+				<artifactId>jasypt-spring-boot-starter</artifactId>
+				<version>${jasypt}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.ulisesbocchio</groupId>
+				<artifactId>jasypt-spring-boot</artifactId>
+				<version>${jasypt}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox-swagger2}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-core</artifactId>
+				<version>${springfox-swagger2}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger-ui</artifactId>
+				<version>${springfox-swagger2}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>javax.servlet</groupId>
+			    <artifactId>javax.servlet-api</artifactId>
+			    <version>${servlet}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>org.apache.rocketmq</groupId>
+			    <artifactId>rocketmq-spring-boot-starter</artifactId>
+			    <version>${rocketmq}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-logging</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			
+			<dependency>
+			    <groupId>com.xuxueli</groupId>
+			    <artifactId>xxl-job-core</artifactId>
+			    <version>${xxl-job}</version>
+			</dependency>
+			<!-- 第三方jar end -->
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<compilerVersion>${java.version}</compilerVersion>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<debug>true</debug>
+					<optimize>true</optimize>
+					<showWarnings>true</showWarnings>
+				</configuration>
+			</plugin>
+			<!-- 生成source源码包 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 检查代码覆盖率 -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+							<!-- <goal>check</goal> -->
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+				<!-- <configuration> rules里面指定覆盖规则 <rules> <rule implementation="org.jacoco.maven.RuleConfiguration"> 
+					<element>BUNDLE</element> <limits> 指定行覆盖到90% <limit implementation="org.jacoco.report.check.Limit"> 
+					<counter>LINE</counter> <value>COVEREDRATIO</value> <minimum>0.90</minimum> 
+					</limit> 指定分支覆盖到100% <limit implementation="org.jacoco.report.check.Limit"> 
+					<counter>BRANCH</counter> <value>COVEREDRATIO</value> <minimum>1</minimum> 
+					</limit> 指定方法覆盖到95% <limit implementation="org.jacoco.report.check.Limit"> 
+					<counter>METHOD</counter> <value>COVEREDRATIO</value> <minimum>0.95</minimum> 
+					</limit> 指定类覆盖到100%，不能遗失任何类 <limit implementation="org.jacoco.report.check.Limit"> 
+					<counter>CLASS</counter> <value>MISSEDCOUNT</value> <maximum>0</maximum> 
+					</limit> </limits> </rule> </rules> </configuration> -->
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- 使用aliyun镜像 -->
+	<repositories>
+		<repository>
+			<id>aliyun</id>
+			<name>aliyun</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+</project>
