@@ -8,13 +8,13 @@ import org.springframework.core.Ordered;
 import org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration;
 
 /**
- * BeanPostProcessor used to ensure that MultipleDataSourceInitializerInvoker is initialized as soon as a ProxyTransactionManagementConfiguration is.
+ * BeanPostProcessor used to ensure that SmartDataSourceInitializerInvoker is initialized as soon as a ProxyTransactionManagementConfiguration is.
  * 
  * @author liyulin
  * @date 2019年6月1日 上午10:11:12
  * @since DataSourceInitializerPostProcessor
  */
-public class MultipleDataSourceInitializerPostProcessor implements BeanPostProcessor, Ordered {
+public class SmartDataSourceInitializerPostProcessor implements BeanPostProcessor, Ordered {
 	
 	@Override
 	public int getOrder() {
@@ -29,7 +29,7 @@ public class MultipleDataSourceInitializerPostProcessor implements BeanPostProce
 			throws BeansException {
 		if (bean instanceof ProxyTransactionManagementConfiguration) {
 			// force initialization of this bean as soon as we see a ProxyTransactionManagementConfiguration
-			this.beanFactory.getBean(MultipleDataSourceInitializerInvoker.class);
+			this.beanFactory.getBean(SmartDataSourceInitializerInvoker.class);
 		}
 		return bean;
 	}

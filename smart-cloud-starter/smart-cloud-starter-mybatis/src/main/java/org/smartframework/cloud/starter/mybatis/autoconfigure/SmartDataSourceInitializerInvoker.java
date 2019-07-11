@@ -19,7 +19,7 @@ import org.smartframework.cloud.starter.common.support.bean.UniqueBeanNameGenera
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.starter.mybatis.constant.MultipleDataSourceConstant;
 import org.smartframework.cloud.starter.mybatis.plugin.MybatisSqlLogInterceptor;
-import org.smartframework.cloud.starter.mybatis.properties.MultipleDatasourceProperties;
+import org.smartframework.cloud.starter.mybatis.properties.SmartDatasourceProperties;
 import org.smartframework.cloud.starter.mybatis.properties.ShardingJdbcDatasourceProperties;
 import org.smartframework.cloud.starter.mybatis.properties.SingleDatasourceProperties;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -41,9 +41,9 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
  * @date 2019年5月28日 下午7:58:56
  * @since DataSourceInitializerInvoker
  */
-public class MultipleDataSourceInitializerInvoker {
+public class SmartDataSourceInitializerInvoker {
 
-	private final MultipleDatasourceProperties multipleDatasourceProperties;
+	private final SmartDatasourceProperties multipleDatasourceProperties;
 	private final ConfigurableBeanFactory beanFactory;
 	private MybatisSqlLogInterceptor mybatisSqlLogInterceptor;
 	private PageInterceptor pageInterceptor;
@@ -53,21 +53,21 @@ public class MultipleDataSourceInitializerInvoker {
 	 */
 	private static final String DEFAULT_JDBCURL_PARAMS = "serverTimezone=Asia/Shanghai";
 
-	public MultipleDataSourceInitializerInvoker(final MultipleDatasourceProperties multipleDatasourceProperties,
+	public SmartDataSourceInitializerInvoker(final SmartDatasourceProperties smartDatasourceProperties,
 			final ConfigurableBeanFactory beanFactory) {
-		this.multipleDatasourceProperties = multipleDatasourceProperties;
+		this.multipleDatasourceProperties = smartDatasourceProperties;
 		this.beanFactory = beanFactory;
 		
 		this.mybatisSqlLogInterceptor = new MybatisSqlLogInterceptor();
 		this.pageInterceptor = buildPageInterceptor();
 		
-		dynamicCreateMultipleDataSourceBeans();
+		dynamicCreateSmartDataSourceBeans();
 	}
 
 	/**
 	 * 动态创建多数据源的bean，并注册到容器中
 	 */
-	private void dynamicCreateMultipleDataSourceBeans() {
+	private void dynamicCreateSmartDataSourceBeans() {
 		initDatasources(multipleDatasourceProperties.getDatasources());
 		initShardingJdbcDatasources(multipleDatasourceProperties.getShardingDatasources());
 	}
@@ -279,7 +279,7 @@ public class MultipleDataSourceInitializerInvoker {
 		// 注册bean
 		registerBean(mapperScannerConfigurerBeanName, mapperScannerConfigurer);
 		// 注入mapper接口
-		mapperScannerConfigurer.postProcessBeanDefinitionRegistry(MultipleDataSourceAutoConfiguration.Registrar.getRegistry());
+		mapperScannerConfigurer.postProcessBeanDefinitionRegistry(SmartDataSourceAutoConfiguration.Registrar.getRegistry());
 
 		return mapperScannerConfigurer;
 	}
@@ -320,6 +320,5 @@ public class MultipleDataSourceInitializerInvoker {
 		pageHelper.setProperties(p);
 		return pageHelper;
 	}
-
 
 }

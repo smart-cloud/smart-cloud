@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "smart")
-public class MultipleDatasourceProperties extends BaseDto {
+public class SmartDatasourceProperties extends BaseDto {
 	
 	private static final long serialVersionUID = 1L;
 	

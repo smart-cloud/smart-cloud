@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.mybatis.autoconfigure;
 
-import org.smartframework.cloud.starter.mybatis.properties.MultipleDatasourceProperties;
+import org.smartframework.cloud.starter.mybatis.properties.SmartDatasourceProperties;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
@@ -22,14 +22,14 @@ import lombok.Getter;
  * @since DataSourceInitializationConfiguration
  */
 @Configuration
-@EnableConfigurationProperties(MultipleDatasourceProperties.class)
+@EnableConfigurationProperties(SmartDatasourceProperties.class)
 @EnableTransactionManagement
-@Import({ MultipleDataSourceInitializerInvoker.class, MultipleDataSourceAutoConfiguration.Registrar.class })
-public class MultipleDataSourceAutoConfiguration {
+@Import({ SmartDataSourceInitializerInvoker.class, SmartDataSourceAutoConfiguration.Registrar.class })
+public class SmartDataSourceAutoConfiguration {
 
 	static class Registrar implements ImportBeanDefinitionRegistrar {
 
-		private static final String BEAN_NAME = MultipleDataSourceInitializerPostProcessor.class.getSimpleName();
+		private static final String BEAN_NAME = SmartDataSourceInitializerPostProcessor.class.getSimpleName();
 		@Getter
 		private static BeanDefinitionRegistry registry;
 
@@ -37,10 +37,10 @@ public class MultipleDataSourceAutoConfiguration {
 		public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 				BeanDefinitionRegistry registry) {
 			if (!registry.containsBeanDefinition(BEAN_NAME)) {
-				MultipleDataSourceAutoConfiguration.Registrar.registry = registry;
+				SmartDataSourceAutoConfiguration.Registrar.registry = registry;
 				
 				GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-				beanDefinition.setBeanClass(MultipleDataSourceInitializerPostProcessor.class);
+				beanDefinition.setBeanClass(SmartDataSourceInitializerPostProcessor.class);
 				beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 				// We don't need this one to be post processed otherwise it can cause a
 				// cascade of bean instantiation that we would rather avoid.
