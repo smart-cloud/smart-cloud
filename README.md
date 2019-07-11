@@ -13,76 +13,76 @@
 - 代码安全保护
 - 技术栈稳定、实用、易用
 
-----------
-> <table>
-> 	<tr>
-> 		<th width="150px">模块</th>
-> 		<th width="235px">工程名</th>
-> 		<th>说明</th>
-> 	</tr>
-> 	<tr>
-> 		<td rowspan=13>smart-cloud-starter</td>
-> 		<td>smart-cloud-starter-common</td>
-> 		<td>自定义注解、异常封装、请求响应公共参数、业务相关工具类</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-configure</td>
-> 		<td>配置信息</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-job</td>
-> 		<td>xxl job封装</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-locale</td>
-> 		<td>国际化语言</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-log</td>
-> 		<td>日志封装（log4j2）</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-mock</td>
-> 		<td>mock工具类、常用mock策略、请求接口mock拦截器</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-mq</td>
-> 		<td>mq封装（rocketmq）</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-mybatis</td>
-> 		<td>mybatis封装。支持多数据源配置、分库分表（sharding jdbc配置）、分布式事务（seata配置）；通用mapper封装，mapper工具类等</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-redis</td>
-> 		<td>redis封装</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-rpc</td>
-> 		<td>rpc封装（feign，可拆可合），切面拦截（日志、加密、签名等处理）</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-swagger</td>
-> 		<td>swagger封装（支持校验注解，swagger文档自动上传文档服务器）</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-test</td>
-> 		<td>测试相关基类封装</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-cloud-starter-web</td>
-> 		<td>web相关封装。常用注解（如重复提交）、切面（日志、加密、签名等处理）、统一异常处理、参数校验配置</td>
-> 	</tr>
-> 	<tr>
-> 		<td>smart-utility</td>
-> 		<td>-</td>
-> 		<td>常用工具类</td>
-> 	</tr>
-> </table>
+示例工程见[smart-cloud-examples](https://note.youdao.com/)
 
-----------
+# 二、模块说明
+<table>
+	<tr>
+		<th width="150px">模块</th>
+		<th width="235px">工程名</th>
+		<th>说明</th>
+	</tr>
+ 	<tr>
+ 		<td rowspan=13>smart-cloud-starter</td>
+ 		<td>smart-cloud-starter-common</td>
+ 		<td>自定义注解、异常封装、请求响应公共参数、业务相关工具类</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-configure</td>
+ 		<td>配置信息</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-job</td>
+ 		<td>xxl job封装</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-locale</td>
+ 		<td>国际化语言</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-log</td>
+ 		<td>日志封装（log4j2）</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-mock</td>
+ 		<td>mock工具类、常用mock策略、请求接口mock拦截器</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-mq</td>
+ 		<td>mq封装（rocketmq）</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-mybatis</td>
+ 		<td>mybatis封装。支持多数据源配置、分库分表（sharding jdbc配置）、分布式事务（seata配置）；通用mapper封装，mapper工具类等</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-redis</td>
+ 		<td>redis封装</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-rpc</td>
+ 		<td>rpc封装（feign，可拆可合），切面拦截（日志、加密、签名等处理）</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-swagger</td>
+ 		<td>swagger封装（支持校验注解，swagger文档自动上传文档服务器）</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-test</td>
+ 		<td>测试相关基类封装</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-web</td>
+ 		<td>web相关封装。常用注解（如重复提交）、切面（日志、加密、签名等处理）、统一异常处理、参数校验配置</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-utility</td>
+ 		<td>-</td>
+ 		<td>常用工具类</td>
+ 	</tr>
+</table>
 
-# 二、技术栈
+# 三、技术栈
  名称 | 说明
 ---|---
 [spring boot](https://spring.io/projects/spring-boot/) | 手脚架 
@@ -107,7 +107,7 @@
 [jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot) | 配置文件中敏感数据加解密
 [Lombok](https://www.projectlombok.org/) | 简化代码 
 
-# 三、接口协议
+# 四、接口协议
 
 ```
 仅支持http get、http post两种方式。
@@ -223,7 +223,7 @@ body = AES加密(body json串)
 sign = RSA签名签名(AES加密(head的json串) + AES加密(body json串))
 ```
 
-# 四、相关说明
+# 五、相关说明
 ## （一）服务合并遇到的问题
 单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
 ### 1、多数据源冲突
