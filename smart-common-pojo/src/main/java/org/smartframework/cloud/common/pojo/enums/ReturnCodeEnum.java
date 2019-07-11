@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.common.business.exception.enums;
+package org.smartframework.cloud.common.pojo.enums;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

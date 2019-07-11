@@ -1,9 +1,11 @@
 package org.smartframework.cloud.starter.configure.properties;
 
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
 import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -12,10 +14,12 @@ import lombok.experimental.UtilityClass;
  * @author liyulin
  * @date 2019年4月14日下午4:45:04
  */
-@Data
+@Getter
+@Setter
 @ConfigurationProperties(prefix = SmartConstant.SMART_PROPERTIES_PREFIX)
-public class SmartProperties {
+public class SmartProperties extends BaseDto {
 
+	private static final long serialVersionUID = 1L;
 	/** id生成器数据机器标识配置 */
 	private Long dataMachineId;
 	/** @Async配置开关 */

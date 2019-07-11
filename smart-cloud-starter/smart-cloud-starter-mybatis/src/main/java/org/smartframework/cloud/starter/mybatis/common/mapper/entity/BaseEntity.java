@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-import org.smartframework.cloud.starter.common.business.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

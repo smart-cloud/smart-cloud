@@ -2,7 +2,7 @@ package org.smartframework.cloud.starter.common.business;
 
 import java.util.Objects;
 
-import org.smartframework.cloud.starter.common.business.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
 import org.smartframework.cloud.starter.common.business.exception.DataValidateException;
 import org.smartframework.cloud.starter.common.business.exception.confg.ParamValidateMessage;
 import org.smartframework.cloud.starter.common.business.security.LoginRedisConfig;

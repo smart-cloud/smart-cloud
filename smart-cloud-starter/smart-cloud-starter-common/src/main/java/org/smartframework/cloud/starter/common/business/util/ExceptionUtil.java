@@ -7,9 +7,9 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.starter.common.business.dto.RespHead;
+import org.smartframework.cloud.common.pojo.dto.RespHead;
+import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 import org.smartframework.cloud.starter.common.business.exception.BaseException;
-import org.smartframework.cloud.starter.common.business.exception.enums.ReturnCodeEnum;
 import org.smartframework.cloud.starter.common.constants.SymbolConstant;
 import org.smartframework.cloud.utility.CollectionUtil;
 import org.springframework.validation.BindException;

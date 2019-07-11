@@ -1,6 +1,9 @@
 package org.smartframework.cloud.starter.configure.properties;
 
-import lombok.Data;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * swagger配置信息
@@ -8,9 +11,11 @@ import lombok.Data;
  * @author liyulin
  * @date 2019年6月18日 下午10:23:25
  */
-@Data
-public class SwaggerProperties {
+@Getter
+@Setter
+public class SwaggerProperties extends BaseDto {
 
+	private static final long serialVersionUID = 1L;
 	/** swagger开关 （默认false） */
 	private boolean enable = false;
 	private String groupName;

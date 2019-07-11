@@ -1,8 +1,8 @@
-package org.smartframework.cloud.starter.common.business.dto;
+package org.smartframework.cloud.common.pojo.dto;
 
 import java.util.Date;
 
-import org.smartframework.cloud.utility.DateUtil;
+import org.smartframework.cloud.common.pojo.constant.DateConstant;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -26,15 +26,15 @@ public class BaseEntityRespBody extends BaseDto {
 	private Long id;
 
 	@ApiModelProperty(value = "创建时间 ")
-	@JSONField(format = DateUtil.FOROMAT_DATETIME)
+	@JSONField(format = DateConstant.DEFAULT_DATE_FORMAT)
 	private Date addTime;
 
 	@ApiModelProperty(value = "更新时间")
-	@JSONField(format = DateUtil.FOROMAT_DATETIME)
+	@JSONField(format = DateConstant.DEFAULT_DATE_FORMAT)
 	private Date updTime;
 
 	@ApiModelProperty(value = "删除时间")
-	@JSONField(format = DateUtil.FOROMAT_DATETIME)
+	@JSONField(format = DateConstant.DEFAULT_DATE_FORMAT)
 	private Date delTime;
 
 	@ApiModelProperty(value = "新增者")

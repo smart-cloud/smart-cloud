@@ -1,8 +1,8 @@
 package org.smartframework.cloud.starter.web.aspect;
 
-import org.smartframework.cloud.starter.common.business.dto.BaseDto;
-import org.smartframework.cloud.starter.common.business.dto.Resp;
-import org.smartframework.cloud.starter.common.business.dto.RespHead;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.dto.Resp;
+import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.starter.common.business.util.ExceptionUtil;
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.springframework.http.HttpStatus;

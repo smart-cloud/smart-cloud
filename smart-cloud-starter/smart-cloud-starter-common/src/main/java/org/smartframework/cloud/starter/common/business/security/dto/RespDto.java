@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.common.business.security.dto;
 
-import org.smartframework.cloud.starter.common.business.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.common.business.dto;
+package org.smartframework.cloud.common.pojo.dto;
 
 import java.io.Serializable;
 

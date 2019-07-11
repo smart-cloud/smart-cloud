@@ -1,9 +1,15 @@
 package org.smartframework.cloud.starter.configure.properties;
 
-import lombok.Data;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
 
-@Data
-public class XxlJobProperties {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class XxlJobProperties extends BaseDto {
+
+	private static final long serialVersionUID = 1L;
 
 	/** admin端地址 */
 	private String adminAddresses;

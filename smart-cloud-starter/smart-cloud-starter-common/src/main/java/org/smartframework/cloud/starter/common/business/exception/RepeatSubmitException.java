@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.common.business.exception;
 
-import org.smartframework.cloud.starter.common.business.exception.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 
 /**
  * 重复提交校验异常

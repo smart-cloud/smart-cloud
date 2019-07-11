@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 import org.smartframework.cloud.starter.common.business.exception.ServerException;
-import org.smartframework.cloud.starter.common.business.exception.enums.ReturnCodeEnum;
 import org.smartframework.cloud.utility.ArrayUtil;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;

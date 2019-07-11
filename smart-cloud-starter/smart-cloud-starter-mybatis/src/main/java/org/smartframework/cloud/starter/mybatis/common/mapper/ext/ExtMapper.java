@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.smartframework.cloud.starter.common.business.dto.BaseEntityRespBody;
-import org.smartframework.cloud.starter.common.business.dto.BasePageResp;
+import org.smartframework.cloud.common.pojo.dto.BaseEntityRespBody;
+import org.smartframework.cloud.common.pojo.dto.BasePageResp;
 import org.smartframework.cloud.starter.mybatis.common.mapper.entity.BaseEntity;
 import org.smartframework.cloud.starter.mybatis.common.mapper.ext.mapper.InsertListSelectiveMapper;
 import org.smartframework.cloud.starter.mybatis.common.mapper.ext.mapper.LogicDeleteMapper;

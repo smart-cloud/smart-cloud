@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.common.business.util;
 
-import org.smartframework.cloud.starter.common.business.dto.BaseDto;
-import org.smartframework.cloud.starter.common.business.dto.BasePageReq;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.dto.BasePageReq;
 
 import lombok.experimental.UtilityClass;
 

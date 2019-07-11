@@ -82,6 +82,11 @@
  		<td>代码生成</td>
  	</tr>
  	<tr>
+ 		<td>smart-common-pojo</td>
+ 		<td>-</td>
+ 		<td>公共java对象</td>
+ 	</tr>
+ 	<tr>
  		<td>smart-utility</td>
  		<td>-</td>
  		<td>常用工具类</td>

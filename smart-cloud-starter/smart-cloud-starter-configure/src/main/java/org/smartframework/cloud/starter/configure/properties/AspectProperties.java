@@ -1,6 +1,9 @@
 package org.smartframework.cloud.starter.configure.properties;
 
-import lombok.Data;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 切面配置
@@ -8,9 +11,11 @@ import lombok.Data;
  * @author liyulin
  * @date 2019年6月19日 下午10:20:54
  */
-@Data
-public class AspectProperties {
+@Getter
+@Setter
+public class AspectProperties extends BaseDto {
 
+	private static final long serialVersionUID = 1L;
 	/** 重复提交校验切面开关 （默认false） */
 	private boolean repeatSubmitCheck = false;
 	/** feign切面开关 （默认false） */

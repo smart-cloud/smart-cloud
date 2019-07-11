@@ -1,10 +1,10 @@
 package org.smartframework.cloud.starter.common.business.util;
 
-import org.smartframework.cloud.starter.common.business.dto.BaseDto;
-import org.smartframework.cloud.starter.common.business.dto.Resp;
-import org.smartframework.cloud.starter.common.business.dto.RespHead;
-import org.smartframework.cloud.starter.common.business.exception.enums.IBaseReturnCode;
-import org.smartframework.cloud.starter.common.business.exception.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.dto.Resp;
+import org.smartframework.cloud.common.pojo.dto.RespHead;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
+import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 import org.smartframework.cloud.utility.ObjectUtil;
 
 import lombok.experimental.UtilityClass;

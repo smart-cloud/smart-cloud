@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.common.business.exception.enums;
+package org.smartframework.cloud.common.pojo.enums;
 
 /**
  * 状态码格式接口类：XXXXXX（服务模块编码|类型）

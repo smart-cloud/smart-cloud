@@ -14,8 +14,9 @@
 
 	<modules>
 		<module>smart-cloud-starter</module>
-		<module>smart-utility</module>
 		<module>smart-code-generate</module>
+		<module>smart-common-pojo</module>
+		<module>smart-utility</module>
 	</modules>
 
 	<properties>
@@ -39,6 +40,7 @@
 		<mysql>8.0.15</mysql>
 		<fastjson>1.2.58</fastjson>
 		<springfox-swagger2>2.9.2</springfox-swagger2>
+		<swagger-annotations>1.5.20</swagger-annotations>
 		<podam>7.2.3.RELEASE</podam>
 		<guava>23.0</guava>
 		<reflections>0.9.11</reflections>
@@ -56,6 +58,12 @@
 			<dependency>
 				<groupId>org.smartframework.cloud</groupId>
 				<artifactId>smart-utility</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-common-pojo</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -368,6 +376,12 @@
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-core</artifactId>
 				<version>${springfox-swagger2}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>${swagger-annotations}</version>
 			</dependency>
 
 			<dependency>

@@ -1,6 +1,6 @@
-package org.smartframework.cloud.starter.common.business.dto;
+package org.smartframework.cloud.common.pojo.dto;
 
-import org.smartframework.cloud.starter.common.business.exception.enums.IBaseReturnCode;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

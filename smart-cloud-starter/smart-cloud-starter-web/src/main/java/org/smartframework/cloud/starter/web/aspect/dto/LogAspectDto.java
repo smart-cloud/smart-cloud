@@ -2,7 +2,7 @@ package org.smartframework.cloud.starter.web.aspect.dto;
 
 import java.util.Date;
 
-import org.smartframework.cloud.starter.common.business.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
 import org.smartframework.cloud.starter.common.business.security.dto.ReqHttpHeadersDto;
 import org.smartframework.cloud.utility.DateUtil;
 

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.shardingsphere.core.yaml.config.sharding.YamlShardingRuleConfiguration;
-import org.smartframework.cloud.starter.common.business.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.dto.BaseDto;
 
 import lombok.Getter;
 import lombok.Setter;

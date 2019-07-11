@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.common.business.exception;
 
-import org.smartframework.cloud.starter.common.business.exception.enums.IBaseReturnCode;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

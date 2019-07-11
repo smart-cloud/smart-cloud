@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.smartframework.cloud.starter.common.business.dto.Resp;
-import org.smartframework.cloud.starter.common.business.dto.RespHead;
+import org.smartframework.cloud.common.pojo.dto.Resp;
+import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.starter.common.business.security.util.ReqHttpHeadersUtil;
 import org.smartframework.cloud.starter.common.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.common.business.util.ExceptionUtil;

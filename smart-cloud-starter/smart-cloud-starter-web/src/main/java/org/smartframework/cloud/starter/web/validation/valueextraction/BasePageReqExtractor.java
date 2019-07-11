@@ -4,7 +4,7 @@ import javax.validation.valueextraction.ExtractedValue;
 import javax.validation.valueextraction.ValueExtractor;
 
 import org.hibernate.validator.internal.engine.valueextraction.ValueExtractorDescriptor;
-import org.smartframework.cloud.starter.common.business.dto.BasePageReq;
+import org.smartframework.cloud.common.pojo.dto.BasePageReq;
 
 /**
  * <code>BasePageReq</code>泛型参数T校验生效

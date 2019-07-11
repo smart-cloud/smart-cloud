@@ -12,6 +12,11 @@
 	<artifactId>smart-cloud-starter-configure</artifactId>
 	<dependencies>
 		<dependency>
+			<groupId>org.smartframework.cloud</groupId>
+			<artifactId>smart-common-pojo</artifactId>
+		</dependency>
+		
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot</artifactId>
 		</dependency>

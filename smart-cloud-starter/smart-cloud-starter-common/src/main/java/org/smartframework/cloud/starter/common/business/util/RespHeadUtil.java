@@ -1,9 +1,9 @@
 package org.smartframework.cloud.starter.common.business.util;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.starter.common.business.dto.RespHead;
-import org.smartframework.cloud.starter.common.business.exception.enums.IBaseReturnCode;
-import org.smartframework.cloud.starter.common.business.exception.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.dto.RespHead;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
+import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 import org.smartframework.cloud.utility.NonceUtil;
 
 import lombok.experimental.UtilityClass;
