@@ -15,6 +15,7 @@
 	<modules>
 		<module>smart-cloud-starter</module>
 		<module>smart-utility</module>
+		<module>smart-code-generate</module>
 	</modules>
 
 	<properties>
@@ -145,7 +146,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
@@ -161,7 +162,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>
@@ -175,7 +176,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
@@ -191,7 +192,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-actuator</artifactId>
@@ -203,7 +204,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-starter-gateway</artifactId>
@@ -227,7 +228,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-server</artifactId>
@@ -281,7 +282,7 @@
 				<artifactId>sharding-jdbc-core</artifactId>
 				<version>${sharding-jdbc}</version>
 			</dependency>
-		
+
 			<!-- 分布式事务 -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -374,17 +375,17 @@
 				<artifactId>springfox-swagger-ui</artifactId>
 				<version>${springfox-swagger2}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>javax.servlet</groupId>
-			    <artifactId>javax.servlet-api</artifactId>
-			    <version>${servlet}</version>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>org.apache.rocketmq</groupId>
-			    <artifactId>rocketmq-spring-boot-starter</artifactId>
-			    <version>${rocketmq}</version>
+				<groupId>org.apache.rocketmq</groupId>
+				<artifactId>rocketmq-spring-boot-starter</artifactId>
+				<version>${rocketmq}</version>
 				<exclusions>
 					<exclusion>
 						<groupId>org.springframework.boot</groupId>
@@ -392,11 +393,11 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>com.xuxueli</groupId>
-			    <artifactId>xxl-job-core</artifactId>
-			    <version>${xxl-job}</version>
+				<groupId>com.xuxueli</groupId>
+				<artifactId>xxl-job-core</artifactId>
+				<version>${xxl-job}</version>
 			</dependency>
 			<!-- 第三方jar end -->
 		</dependencies>
@@ -460,16 +461,36 @@
 						</goals>
 					</execution>
 				</executions>
-				<!-- <configuration> rules里面指定覆盖规则 <rules> <rule implementation="org.jacoco.maven.RuleConfiguration"> 
-					<element>BUNDLE</element> <limits> 指定行覆盖到90% <limit implementation="org.jacoco.report.check.Limit"> 
-					<counter>LINE</counter> <value>COVEREDRATIO</value> <minimum>0.90</minimum> 
-					</limit> 指定分支覆盖到100% <limit implementation="org.jacoco.report.check.Limit"> 
-					<counter>BRANCH</counter> <value>COVEREDRATIO</value> <minimum>1</minimum> 
-					</limit> 指定方法覆盖到95% <limit implementation="org.jacoco.report.check.Limit"> 
-					<counter>METHOD</counter> <value>COVEREDRATIO</value> <minimum>0.95</minimum> 
-					</limit> 指定类覆盖到100%，不能遗失任何类 <limit implementation="org.jacoco.report.check.Limit"> 
-					<counter>CLASS</counter> <value>MISSEDCOUNT</value> <maximum>0</maximum> 
-					</limit> </limits> </rule> </rules> </configuration> -->
+				<configuration> 
+				    <!-- rules里面指定覆盖规则 -->
+					<!-- <rules>
+						<rule implementation="org.jacoco.maven.RuleConfiguration">
+							<element>BUNDLE</element>
+							<limits> 指定行覆盖到85%
+								<limit implementation="org.jacoco.report.check.Limit">
+									<counter>LINE</counter>
+									<value>COVEREDRATIO</value>
+									<minimum>0.85</minimum>
+								</limit> 指定分支覆盖到90%
+								<limit implementation="org.jacoco.report.check.Limit">
+									<counter>BRANCH</counter>
+									<value>COVEREDRATIO</value>
+									<minimum>0.9</minimum>
+								</limit> 指定方法覆盖到85%
+								<limit implementation="org.jacoco.report.check.Limit">
+									<counter>METHOD</counter>
+									<value>COVEREDRATIO</value>
+									<minimum>0.85</minimum>
+								</limit> 指定类覆盖到90%，不能遗失任何类
+								<limit implementation="org.jacoco.report.check.Limit">
+									<counter>CLASS</counter>
+									<value>MISSEDCOUNT</value>
+									<maximum>0.1</maximum>
+								</limit>
+							</limits>
+						</rule>
+					</rules> -->
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

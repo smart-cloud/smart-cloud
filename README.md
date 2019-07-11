@@ -16,10 +16,11 @@
 示例工程见[smart-cloud-examples](https://github.com/smart-cloud/smart-cloud-examples)
 
 # 二、模块说明
+
 <table>
 	<tr>
-		<th width="150px">模块</th>
-		<th width="235px">工程名</th>
+		<th>模块</th>
+		<th>工程名</th>
 		<th>说明</th>
 	</tr>
  	<tr>
@@ -76,6 +77,11 @@
  		<td>web相关封装。常用注解（如重复提交）、切面（日志、加密、签名等处理）、统一异常处理、参数校验配置</td>
  	</tr>
  	<tr>
+ 		<td>smart-code-generate</td>
+ 		<td>-</td>
+ 		<td>代码生成</td>
+ 	</tr>
+ 	<tr>
  		<td>smart-utility</td>
  		<td>-</td>
  		<td>常用工具类</td>
@@ -83,7 +89,8 @@
 </table>
 
 # 三、技术栈
- 名称 | 说明
+
+ 名称 | 说明 
 ---|---
 [spring boot](https://spring.io/projects/spring-boot/) | 手脚架 
 [spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关 
@@ -240,14 +247,14 @@ smart:
 	  url: jdbc:mysql://127.0.0.1:3306/demo_product?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
 	  username: root
 	  password: 123456
-	  mapper-interface-location: com.liyulin.demo.mall.product.mapper
-	  mapper-xml-location: classpath*:com/liyulin/demo/mall/product/mybatis/**.xml
+	  mapper-interface-location: com.xxx.demo.mall.product.mapper
+	  mapper-xml-location: classpath*:com/xxx/demo/mall/product/mybatis/**.xml
 	order:
 	  url: jdbc:mysql://127.0.0.1:3306/demo_order?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
 	  username: root
 	  password: 123456
-	  mapper-interface-location: com.liyulin.demo.mall.order.mapper
-	  mapper-xml-location: classpath*:com/liyulin/demo/mall/order/mybatis/**.xml
+	  mapper-interface-location: com.xxx.demo.mall.order.mapper
+	  mapper-xml-location: classpath*:com/xxx/demo/mall/order/mybatis/**.xml
 ```
 ### 2、rpc与rpc实现类冲突
 ```
