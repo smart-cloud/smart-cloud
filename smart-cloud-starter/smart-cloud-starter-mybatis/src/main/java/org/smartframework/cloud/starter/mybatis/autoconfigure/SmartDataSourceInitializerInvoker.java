@@ -162,11 +162,12 @@ public class SmartDataSourceInitializerInvoker {
 
 				String dataSourceBeanName = generateBeanName(serviceName, ShardingDataSource.class.getSimpleName());
 				registerBean(dataSourceBeanName, dataSource);
+				
+				shardingJdbcDatasourcesMap
+						.forEach((name, properties) -> initOtherBeanOfDatasource(name, dataSource, properties));
 			} catch (SQLException e) {
 				LogUtil.error(e.getMessage(), e);
 			}
-			shardingJdbcDatasourcesMap.forEach(
-					(name, properties) -> initOtherBeanOfDatasource(name, dataSourceMap.get(name), properties));
 		});
 	}
 
