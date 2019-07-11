@@ -1,7 +1,6 @@
 package org.smartframework.cloud.starter.configure.properties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * swagger配置信息
@@ -9,8 +8,7 @@ import lombok.Setter;
  * @author liyulin
  * @date 2019年6月18日 下午10:23:25
  */
-@Getter
-@Setter
+@Data
 public class SwaggerProperties {
 
 	/** swagger开关 （默认false） */

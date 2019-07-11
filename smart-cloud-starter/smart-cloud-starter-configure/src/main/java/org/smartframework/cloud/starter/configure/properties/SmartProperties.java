@@ -3,8 +3,7 @@ package org.smartframework.cloud.starter.configure.properties;
 import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -13,8 +12,7 @@ import lombok.experimental.UtilityClass;
  * @author liyulin
  * @date 2019年4月14日下午4:45:04
  */
-@Getter
-@Setter
+@Data
 @ConfigurationProperties(prefix = SmartConstant.SMART_PROPERTIES_PREFIX)
 public class SmartProperties {
 
@@ -28,6 +26,8 @@ public class SmartProperties {
 	private AspectProperties aspect = new AspectProperties();
 	/** swagger配置 */
 	private SwaggerProperties swagger = new SwaggerProperties();
+	/** xxl-job配置 */
+	private XxlJobProperties xxlJob = new XxlJobProperties();
 
 	@UtilityClass
 	public static final class PropertiesName {

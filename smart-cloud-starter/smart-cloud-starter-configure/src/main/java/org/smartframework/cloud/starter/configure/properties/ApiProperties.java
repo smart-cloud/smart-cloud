@@ -1,7 +1,6 @@
 package org.smartframework.cloud.starter.configure.properties;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * api配置
@@ -9,8 +8,7 @@ import lombok.Setter;
  * @author liyulin
  * @date 2019年6月19日 下午10:24:02
  */
-@Getter
-@Setter
+@Data
 public class ApiProperties {
 
 	/** hibernate validator开关 （默认false） */
