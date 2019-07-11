@@ -16,6 +16,9 @@ public interface InsertListSelectiveMapper<T> {
 	/**
 	 * 批量插入（不为null的值）
 	 * 
+	 * <p>
+	 * 该操作，需要支持“allowMultiQueries=true”
+	 * 
 	 * @param list
 	 * @return
 	 */

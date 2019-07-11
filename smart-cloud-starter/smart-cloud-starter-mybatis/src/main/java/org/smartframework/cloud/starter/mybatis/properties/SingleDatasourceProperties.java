@@ -38,4 +38,7 @@ public class SingleDatasourceProperties extends BaseDto {
 	/** jdbc驱动类名 */
 	private String driverClassName = "com.mysql.cj.jdbc.Driver";
 
+	/** 是否开始seate事务（默认false，不开启） */
+	private boolean seataEnable = false;
+
 }

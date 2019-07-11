@@ -19,6 +19,9 @@ public interface UpdateListByExamplesMapper<T> {
 	/**
 	 * 根据对应的{@link Example}条件更新对应实体`record`包含的全部属性，null值会被更新
 	 * 
+	 * <p>
+	 * 该操作，需要支持“allowMultiQueries=true”
+	 * 
 	 * @param list
 	 * @return
 	 */
