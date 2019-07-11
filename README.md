@@ -13,7 +13,7 @@
 - 代码安全保护
 - 技术栈稳定、实用、易用
 
-示例工程见[smart-cloud-examples](https://note.youdao.com/)
+示例工程见[smart-cloud-examples](https://github.com/smart-cloud/smart-cloud-examples)
 
 # 二、模块说明
 <table>
