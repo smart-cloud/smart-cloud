@@ -3,17 +3,13 @@ package org.smartframework.cloud.starter.redis.component;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.redisson.Redisson;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStringCommands.SetOption;
 import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
-import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
@@ -29,8 +25,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author liyulin
  * @date 2018年10月17日下午11:14:06
  */
-@Component
-@ConditionalOnClass({ Redisson.class, RedisOperations.class })
 @Slf4j
 public class RedisComponent {
 

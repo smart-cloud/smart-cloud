@@ -3,7 +3,6 @@ package org.smartframework.cloud.starter.common.business.util;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
 
 /**
  * Spring工具类
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
  * @author liyulin
  * @date 2019年4月3日下午10:06:52
  */
-@Component
 public class SpringContextUtil implements ApplicationListener<ContextRefreshedEvent> {
 
 	private static ApplicationContext applicationContext;

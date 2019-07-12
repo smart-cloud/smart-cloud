@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties(SmartProperties.class)
-public class SmartConfigure {
+public class SmartAutoConfigure {
 
 }

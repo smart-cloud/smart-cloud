@@ -7,13 +7,13 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.starter.log.util.LogUtil;
+import org.smartframework.cloud.utility.CollectionUtil;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.MethodClassKey;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.AbstractFallbackTransactionAttributeSource;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
@@ -26,7 +26,6 @@ import org.springframework.util.ConcurrentReferenceHashMap;
  * @author liyulin
  * @date 2019年5月19日下午4:36:04
  */
-@Component
 public class InitTransactionalValue implements ApplicationListener<ApplicationStartedEvent> {
 
 	@Autowired
@@ -46,6 +45,10 @@ public class InitTransactionalValue implements ApplicationListener<ApplicationSt
 				.getBean(AbstractFallbackTransactionAttributeSource.class);
 		Map<Object, TransactionAttribute> attributeCache = getField(transactionAttributeSource,
 				AbstractFallbackTransactionAttributeSource.class, ABSTRACTFALLBACKTRANSACTIONATTRIBUTE_ATTRIBUTECACHE);
+		if (CollectionUtil.isEmpty(attributeCache)) {
+			return;
+		}
+		
 		for (Map.Entry<Object, TransactionAttribute> entry : attributeCache.entrySet()) {
 			if (StringUtils.isNotBlank(entry.getValue().getQualifier())
 					|| !(entry.getValue() instanceof DefaultTransactionAttribute)) {

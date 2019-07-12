@@ -3,8 +3,11 @@ package org.smartframework.cloud.starter.redis.autoconfigure;
 import java.io.Serializable;
 
 import org.redisson.Redisson;
+import org.smartframework.cloud.starter.redis.component.RedisComponent;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -51,6 +54,11 @@ public class RedisAutoConfigure {
 		stringRedisTemplate.afterPropertiesSet();
 		return stringRedisTemplate;
 	}
+	
+	@Bean
+	public CacheManager cacheManager() {
+		return new SimpleCacheManager();
+	}
 
 	@Bean
 	public ValueOperations<Serializable, Serializable> redisValueOperations(
@@ -80,6 +88,11 @@ public class RedisAutoConfigure {
 	public HashOperations<Serializable, Serializable, Serializable> redisHashOperations(
 			final RedisTemplate<Serializable, Serializable> redisTemplate) {
 		return redisTemplate.opsForHash();
+	}
+	
+	@Bean
+	public RedisComponent redisComponent() {
+		return new RedisComponent();
 	}
 
 }

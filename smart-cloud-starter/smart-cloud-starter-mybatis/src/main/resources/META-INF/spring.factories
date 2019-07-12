@@ -1,3 +1,2 @@
-# Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.smartframework.cloud.starter.mybatis.autoconfigure.SmartDataSourceAutoConfiguration
