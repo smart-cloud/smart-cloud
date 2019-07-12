@@ -14,6 +14,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 import org.apache.commons.codec.DecoderException;
+import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 import org.smartframework.cloud.utility.security.RsaUtil;
 
@@ -73,6 +74,27 @@ public class RsaUtilUnitTest extends TestCase {
 		String sign = RsaUtil.sign(content, rsaPrivateKey);
 		boolean result = RsaUtil.checkSign(content, sign, rsaPublicKey);
 		Assertions.assertThat(result).isTrue();
+	}
+
+	public void testGenerateRSAPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException, DecoderException {
+		KeyPair keyPair = RsaUtil.generateKeyPair();
+		String publicExponent = RsaUtil.getPublicExponent(keyPair);
+		String modulus = RsaUtil.getModulus(keyPair);
+		RsaUtil.getRSAPublidKey(modulus, publicExponent);
+	}
+
+	public void testDecryptStringByJs() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
+			IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, DecoderException {
+		KeyPair keyPair = RsaUtil.generateKeyPair();
+		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+
+		String plainText = "hello world!";
+		// 加密后的文本
+		String encryptText = RsaUtil.encryptString(publicKey, plainText);
+		// 解密后的文本
+		String decryptPrivateKey = RsaUtil.decryptStringByJs(keyPair.getPrivate(), encryptText);
+
+		Assertions.assertThat(StringUtils.reverse(decryptPrivateKey)).isEqualTo(plainText);
 	}
 
 }

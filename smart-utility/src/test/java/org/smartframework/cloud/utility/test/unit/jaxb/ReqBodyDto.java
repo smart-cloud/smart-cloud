@@ -6,14 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
-@Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -21,9 +15,9 @@ import lombok.Setter;
 public class ReqBodyDto {
 
 	@XmlElement(name = "ID")
-	private String id;
+	private Long id;
 	
 	@XmlElement(name = "PRICE")
-	private String price;
+	private Long price;
 
 }
