@@ -1,13 +1,16 @@
 package org.smartframework.cloud.starter.mybatis.util;
 
-import java.util.HashMap;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.springframework.util.StringUtils;
+import javax.sql.DataSource;
+
+import com.alibaba.fastjson.JSON;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -22,49 +25,38 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DbTableUtil {
 
-	/** copy表结构sql */
-	private static final String COPY_TABLE_SQL = "CREATE TABLE ${targetTableName} LIKE ${sourceTableName}";
-	/** 查询表名称sql */
-	private static final String QUERY_TABLE_SQL = "SHOW TABLES LIKE #{tableName}";
-	/** 删除表sql */
-	private static final String DROP_TABLE_SQL = "DROP TABLE ${tableName}";
-	/** 删除表数据sql */
-	private static final String DELETE_TABLE_SQL = "DELETE FROM ${tableName}";
-
 	/**
 	 * （在当前库）复制表结构
 	 * 
-	 * @param sourceTableName       被复制的表名
-	 * @param targetTableName       复制后的表名
-	 * @param sqlSessionFactoryBean
-	 * @throws Exception
+	 * @param sourceTableName   被复制的表名
+	 * @param targetTableName   复制后的表名
+	 * @param sqlSessionFactory
 	 */
-	public static void copyTableSchema(String sourceTableName, String targetTableName,
-			SqlSessionFactory sqlSessionFactory) {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession();) {
-			Map<String, String> sqlParams = new HashMap<>();
-			sqlParams.put("targetTableName", targetTableName);
-			sqlParams.put("sourceTableName", sourceTableName);
-
-			SqlMapper sqlMapper = new SqlMapper(sqlSession);
-			// 此处不能用“selectOne”，否则sharding-jdbc会报错
-			sqlMapper.update(COPY_TABLE_SQL, sqlParams);
+	public static void copyTableSchema(String sourceTableName, String targetTableName, DataSource dataSource) {
+		String copyTableSql = "CREATE TABLE " + targetTableName + " LIKE " + sourceTableName;
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement pstat = connection.prepareStatement(copyTableSql);) {
+			pstat.executeUpdate();
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+		} finally {
+			log.info("execute sql==>{}", copyTableSql);
 		}
 	}
 
 	/**
 	 * （在当前库）创建表（如果不存在）
 	 * 
-	 * @param sourceTableName       源表
-	 * @param targetTableName       待创建的表
-	 * @param sqlSessionFactoryBean
+	 * @param sourceTableName   源表
+	 * @param targetTableName   待创建的表
+	 * @param dataSource
 	 */
 	public static void createTableIfAbsent(String sourceTableName, String targetTableName,
-			SqlSessionFactory sqlSessionFactory) {
+			DataSource dataSource) {
 		try {
-			boolean exist = existTable(targetTableName, sqlSessionFactory);
+			boolean exist = existTable(targetTableName, dataSource);
 			if (!exist) {
-				copyTableSchema(sourceTableName, targetTableName, sqlSessionFactory);
+				copyTableSchema(sourceTableName, targetTableName, dataSource);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -74,101 +66,52 @@ public class DbTableUtil {
 	/**
 	 * （在当前库）判断表是否已存在
 	 * 
-	 * @param tableName             表名
-	 * @param sqlSessionFactoryBean
+	 * @param tableName         表名
+	 * @param dataSource
 	 * @return
 	 * @throws Exception
 	 */
-	public static boolean existTable(String tableName, SqlSessionFactory sqlSessionFactory) {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession();) {
-			Map<String, String> sqlParams = new HashMap<>();
-			sqlParams.put("tableName", tableName);
-
-			SqlMapper sqlMapper = new SqlMapper(sqlSession);
-			String result = sqlMapper.selectOne(QUERY_TABLE_SQL, sqlParams, String.class);
-			return !StringUtils.isEmpty(result);
-		}
+	public static boolean existTable(String tableName, DataSource dataSource) {
+		List<String> tables = queryTables(tableName, false, dataSource);
+		return tables.contains(tableName);
 	}
 
 	/**
 	 * 通过表名前缀查询所有的表名
 	 * 
 	 * @param tableNamePrefix   表名前缀
-	 * @param sqlSessionFactory
+	 * @param dataSource
 	 * @return
 	 */
-	public static List<String> queryTablesByPrefix(String tableNamePrefix, SqlSessionFactory sqlSessionFactory) {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession();) {
-			Map<String, String> sqlParams = new HashMap<>();
-			sqlParams.put("tableName", tableNamePrefix + "%");
-
-			SqlMapper sqlMapper = new SqlMapper(sqlSession);
-			return sqlMapper.selectList(QUERY_TABLE_SQL, sqlParams, String.class);
-		}
+	public static List<String> queryTablesByPrefix(String tableNamePrefix, DataSource dataSource) {
+		return queryTables(tableNamePrefix, true, dataSource);
 	}
 
 	/**
-	 * 删除表数据
+	 * 根据表名查询满足条件的表
 	 * 
 	 * @param tableName         表名
-	 * @param sqlSessionFactory
+	 * @param prefix            是否表名前缀匹配
+	 * @param dataSource
+	 * @return
 	 */
-	public static void delete(String tableName, SqlSessionFactory sqlSessionFactory) {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession();) {
-			Map<String, String> sqlParams = new HashMap<>();
-			sqlParams.put("tableName", tableName);
-
-			SqlMapper sqlMapper = new SqlMapper(sqlSession);
-			sqlMapper.delete(DELETE_TABLE_SQL, sqlParams);
+	private static List<String> queryTables(String tableName, Boolean prefix, DataSource dataSource) {
+		if (prefix) {
+			tableName += "%";
 		}
-	}
-
-	/**
-	 * 删除所有逻辑表
-	 * 
-	 * @param logicTableName    逻辑表
-	 * @param sqlSessionFactory
-	 */
-	public static void dropAllLogicTables(String logicTableName, SqlSessionFactory sqlSessionFactory) {
-		List<String> tableNames = queryTablesByPrefix(logicTableName, sqlSessionFactory);
-		if (tableNames == null || tableNames.isEmpty()) {
-			return;
-		}
-		tableNames = tableNames.stream().filter(item -> !item.equals(logicTableName)).collect(Collectors.toList());
-
-		dropTables(tableNames, sqlSessionFactory);
-	}
-
-	/**
-	 * 删除所有逻辑表
-	 * 
-	 * @param tableNames        待drop的表名
-	 * @param sqlSessionFactory
-	 */
-	public static void dropTables(List<String> tableNames, SqlSessionFactory sqlSessionFactory) {
-		try (SqlSession sqlSession = sqlSessionFactory.openSession();) {
-			SqlMapper sqlMapper = new SqlMapper(sqlSession);
-
-			Map<String, String> sqlParams = new HashMap<>();
-			for (int i = 0; i < tableNames.size(); i++) {
-				String tableName = tableNames.get(i);
-				sqlParams.put("tableName", tableName);
-				sqlMapper.update(DROP_TABLE_SQL, sqlParams);
-
-				sqlParams.clear();
+		List<String> tablesWithPrefix = new ArrayList<>();
+		try (Connection connection = dataSource.getConnection()){
+			DatabaseMetaData databaseMetaData = connection.getMetaData();
+			ResultSet resultSet = databaseMetaData.getTables(null, null, tableName, null);
+			while (resultSet.next()) {
+				tablesWithPrefix.add(resultSet.getString(3));
 			}
+		} catch (SQLException e) {
+			log.error(e.getMessage(), e);
+		} finally {
+			log.info("查询相关表tableName={}; result={}", tableName, JSON.toJSONString(tablesWithPrefix));
 		}
-	}
-
-	/**
-	 * 清空表（drop逻辑表对应的所有真实表，删除逻辑表哦数据）
-	 * 
-	 * @param logicTableName    逻辑表
-	 * @param sqlSessionFactory
-	 */
-	public static void cleanTable(String logicTableName, SqlSessionFactory sqlSessionFactory) {
-		dropAllLogicTables(logicTableName, sqlSessionFactory);
-		delete(logicTableName, sqlSessionFactory);
+		return tablesWithPrefix;
 	}
 
 }
