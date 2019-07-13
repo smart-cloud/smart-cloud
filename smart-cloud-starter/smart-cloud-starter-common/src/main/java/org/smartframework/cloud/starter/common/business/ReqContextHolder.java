@@ -18,7 +18,7 @@ import lombok.experimental.UtilityClass;
  * 请求上下文
  * 
  * @author liyulin
- * @date 2019年6月26日 下午5:07:13
+ * @date 2019-06-26
  */
 @UtilityClass
 public class ReqContextHolder extends BaseDto {

@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * mockito工具类
  * 
  * @author liyulin
- * @date 2019年6月17日上午12:15:38
+ * @date 2019-06-17
  */
 @Slf4j
 @UtilityClass

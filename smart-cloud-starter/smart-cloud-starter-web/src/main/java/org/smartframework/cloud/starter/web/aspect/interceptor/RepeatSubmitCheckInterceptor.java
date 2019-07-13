@@ -22,7 +22,7 @@ import lombok.AllArgsConstructor;
  * 重复提交校验拦截器
  * 
  * @author liyulin
- * @date 2019年6月13日 上午9:24:18
+ * @date 2019-06-13
  */
 @AllArgsConstructor
 public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered {

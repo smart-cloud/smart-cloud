@@ -9,7 +9,7 @@ import org.smartframework.cloud.starter.mybatis.common.mapper.ext.provider.Batch
  * 批量更新（null值不更新）
  *
  * @author liyulin
- * @date 2019年3月24日下午8:40:09
+ * @date 2019-03-24
  */
 public interface UpdateListByPrimaryKeySelectiveMapper<T> {
 

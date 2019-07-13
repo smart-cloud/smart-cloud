@@ -9,7 +9,7 @@ import lombok.Setter;
  * 用户登陆缓存信息
  *
  * @author liyulin
- * @date 2019年6月29日下午4:50:26
+ * @date 2019-06-29
  */
 @Getter
 @Setter

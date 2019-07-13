@@ -12,7 +12,7 @@ import lombok.experimental.UtilityClass;
  * {@link RespHead}工具类
  *
  * @author liyulin
- * @date 2019年4月14日下午5:47:57
+ * @date 2019-04-14
  */
 @UtilityClass
 public class RespHeadUtil {

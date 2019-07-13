@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * 符号常量
  *
  * @author liyulin
- * @date 2019年4月27日上午2:03:48
+ * @date 2019-04-27
  */
 @UtilityClass
 public class SymbolConstant {

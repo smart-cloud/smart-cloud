@@ -20,7 +20,7 @@ import lombok.experimental.UtilityClass;
  * 切面拦截器工具类
  *
  * @author liyulin
- * @date 2019年4月21日上午12:55:33
+ * @date 2019-04-21
  */
 @UtilityClass
 public class AspectInterceptorUtil {

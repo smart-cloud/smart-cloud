@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * </ul>
  *
  * @author liyulin
- * @date 2019年3月22日下午2:30:00
+ * @date 2019-03-22
  */
 @Slf4j
 public class SmartFeignClientCondition implements Condition {

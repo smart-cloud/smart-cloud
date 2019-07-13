@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    status: 这个用于设置log4j2自身内部的信息输出,可以不设置,当设置成trace时,会看到log4j2内部各种详细输出
+    monitorInterval: Log4j能够自动检测修改配置文件和重新配置本身, 设置间隔秒数。
+    packages：以逗号隔开的包名列表，用于搜索插件，比如自定义filter、appender等。插件仅会加载一次，所以要想修改后生效必须重启项目
+-->
+<Configuration status="WARN" monitorInterval="600" packages="org.smartframework.cloud.starter.log.log4j2.lookup">
+	<!-- 变量配置 -->
+	<Properties>
+		<Property name="project">smart-code-generate</Property>
+		<Property name="log_path">E:/logs/${project}</Property>
+		<!-- 
+			%level 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL 
+			%m 输出代码中指定的消息 
+			%n 输出一个回车换行符，Windows平台为“/r/n”，Unix平台为“/n” 
+			%thread 输出产生该日志事件的线程名
+			%line 代码调用位置 
+			%method 执行的方法 
+			-->
+		<Property name="log_format">[%-5level][%date{yyyy-MM-dd HH:mm:ss.SSS}][%thread] (%F:%line)[%method] -> %message%n</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${log_format}" />
+		</Console>
+		<RollingRandomAccessFile immediateFlush="true"
+			name="dailyRollingRandomAccessFile" 
+			fileName="${log_path}/${project}.log"
+			filePattern="${log_path}/${project}.%d{yyyy-MM-dd-HH}.log.gz">
+			<PatternLayout pattern="${log_format}" />
+			<Policies>
+				<!-- 如果启用此配置，则日志会按文件名生成新压缩文件，
+				                即如果filePattern配置的日期格式为 %d{yyyy-MM-dd HH} ，则每小时生成一个压缩文件，
+				                如果filePattern配置的日期格式为 %d{yyyy-MM-dd} ，则每天生成一个压缩文件 -->
+				<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+				<!-- 每个日志文件最大10MB -->
+				<!-- <SizeBasedTriggeringPolicy size="10 MB" /> -->
+			</Policies>
+		</RollingRandomAccessFile>
+	</Appenders>
+	
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="console" />
+			<AppenderRef ref="dailyRollingRandomAccessFile" />
+		</Root>
+		 <!-- 第三方日志系统 -->
+        <logger name="org.apache.logging.log4j" level="debug"/>
+	</Loggers>
+</Configuration>

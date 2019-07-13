@@ -10,7 +10,7 @@ import lombok.experimental.UtilityClass;
  * 随机工具类
  *
  * @author liyulin
- * @date 2019年4月8日下午5:04:27
+ * @date 2019-04-08
  */
 @UtilityClass
 public class RandomUtil extends AbstractRandomUtil{

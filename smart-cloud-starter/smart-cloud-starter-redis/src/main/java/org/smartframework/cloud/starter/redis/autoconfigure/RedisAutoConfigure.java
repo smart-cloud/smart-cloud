@@ -26,7 +26,7 @@ import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
  * redis配置
  *
  * @author liyulin
- * @date 2018年10月17日下午10:58:24
+ * @date 2018-10-17
  */
 @Configuration
 @ConditionalOnClass({ Redisson.class, RedisOperations.class })

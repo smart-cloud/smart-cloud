@@ -26,7 +26,7 @@ import lombok.experimental.UtilityClass;
  * 异常工具类
  *
  * @author liyulin
- * @date 2019年4月9日下午6:04:40
+ * @date 2019-04-09
  */
 @UtilityClass
 public class ExceptionUtil {

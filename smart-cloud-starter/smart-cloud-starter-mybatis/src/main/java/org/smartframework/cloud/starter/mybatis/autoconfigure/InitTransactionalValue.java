@@ -24,7 +24,7 @@ import org.springframework.util.ConcurrentReferenceHashMap;
  * 初始化<code>@Transactional</code>的属性value值
  *
  * @author liyulin
- * @date 2019年5月19日下午4:36:04
+ * @date 2019-05-19
  */
 public class InitTransactionalValue implements ApplicationListener<ApplicationStartedEvent> {
 

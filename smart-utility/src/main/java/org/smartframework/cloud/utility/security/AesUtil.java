@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
  * AES对称加密工具类
  * 
  * @author liyulin
- * @date 2019年6月24日 下午8:59:18
+ * @date 2019-06-24
  */
 @UtilityClass
 @Slf4j

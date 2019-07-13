@@ -9,7 +9,7 @@ import lombok.Setter;
  * 切面配置
  * 
  * @author liyulin
- * @date 2019年6月19日 下午10:20:54
+ * @date 2019-06-19
  */
 @Getter
 @Setter

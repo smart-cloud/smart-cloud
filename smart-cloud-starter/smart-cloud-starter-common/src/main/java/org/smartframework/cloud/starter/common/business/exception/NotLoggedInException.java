@@ -6,7 +6,7 @@ import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
  * 未登陆异常
  *
  * @author liyulin
- * @date 2019年7月6日上午1:32:37
+ * @date 2019-07-06
  */
 public class NotLoggedInException extends BaseException {
 

@@ -8,7 +8,7 @@ import lombok.Getter;
  * 请求头名称枚举
  * 
  * @author liyulin
- * @date 2019年6月27日 下午12:04:13
+ * @date 2019-06-27
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

@@ -30,7 +30,7 @@ import org.springframework.util.CollectionUtils;
  * mybatis sql日志打印
  *
  * @author liyulin
- * @date 2019年3月22日下午11:31:29
+ * @date 2019-03-22
  */
 @Intercepts({ @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
 		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }),

@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * web相关工具类
  *
  * @author liyulin
- * @date 2019年4月3日下午7:57:28
+ * @date 2019-04-03
  */
 @UtilityClass
 @Slf4j

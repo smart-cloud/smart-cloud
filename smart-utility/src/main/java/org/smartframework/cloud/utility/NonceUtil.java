@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
  * 改造雪花算法，将ip作为机器标志，进程号作为数据中心
  *
  * @author liyulin
- * @date 2019年4月6日下午5:53:51
+ * @date 2019-04-06
  */
 @Slf4j
 public final class NonceUtil {

@@ -11,7 +11,7 @@ import lombok.experimental.UtilityClass;
  * 密码安全处理工具类
  *
  * @author liyulin
- * @date 2019年7月1日上午12:36:31
+ * @date 2019-07-01
  */
 @UtilityClass
 public class PasswordUtil {

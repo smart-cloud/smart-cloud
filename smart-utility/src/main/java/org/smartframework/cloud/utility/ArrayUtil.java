@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * 数组工具类
  *
  * @author liyulin
- * @date 2019年4月8日下午5:06:09
+ * @date 2019-04-08
  */
 @UtilityClass
 public class ArrayUtil {

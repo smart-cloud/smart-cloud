@@ -9,7 +9,7 @@ import org.smartframework.cloud.starter.mybatis.common.mapper.ext.provider.Inser
  * 批量插入（不为null的值）
  *
  * @author liyulin
- * @date 2019年3月24日下午8:39:14
+ * @date 2019-03-24
  */
 public interface InsertListSelectiveMapper<T> {
 

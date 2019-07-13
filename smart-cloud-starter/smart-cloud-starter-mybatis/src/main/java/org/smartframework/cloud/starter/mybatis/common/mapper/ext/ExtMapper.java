@@ -46,7 +46,7 @@ import tk.mybatis.mapper.entity.Example;
  * @param <R> entity对应的resp对象
  * @param <PK> 表主键类型
  * @author liyulin
- * @date 2019年3月31日下午4:16:10
+ * @date 2019-03-31
  */
 @RegisterMapper
 public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, PK> extends Mapper<T>,

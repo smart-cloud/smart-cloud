@@ -20,7 +20,7 @@ import org.yaml.snakeyaml.Yaml;
  * <p>NOTE：需要在log4j2的配置文件中设置“packages”的属性值（即当前类的包名）
  *
  * @author liyulin
- * @date 2019年3月19日上午12:13:57
+ * @date 2019-03-19
  */
 @Plugin(name = "cctx", category = StrLookup.CATEGORY)
 public class CustomizeContextMapLookup implements StrLookup {
@@ -53,7 +53,7 @@ public class CustomizeContextMapLookup implements StrLookup {
 	}
 	
 	/**
-	 * 获取当前功能名
+	 * 获取当前工程名
 	 * 
 	 * @return
 	 */

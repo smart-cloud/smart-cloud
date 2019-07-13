@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  * redis常用api封装
  *
  * @author liyulin
- * @date 2018年10月17日下午11:14:06
+ * @date 2018-10-17
  */
 @Slf4j
 public class RedisComponent {

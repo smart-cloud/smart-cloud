@@ -8,7 +8,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * Spring工具类
  *
  * @author liyulin
- * @date 2019年4月3日下午10:06:52
+ * @date 2019-04-03
  */
 public class SpringContextUtil implements ApplicationListener<ContextRefreshedEvent> {
 

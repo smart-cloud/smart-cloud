@@ -12,7 +12,7 @@ import lombok.experimental.UtilityClass;
  * md5工具类
  * 
  * @author liyulin
- * @date 2019年7月12日 下午2:35:00
+ * @date 2019-07-12
  */
 @UtilityClass
 public class Md5Util {

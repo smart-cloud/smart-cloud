@@ -38,7 +38,7 @@ import lombok.experimental.UtilityClass;
  * RSA非对称加密工具类
  * 
  * @author liyulin
- * @date 2019年6月24日 下午8:59:59
+ * @date 2019-06-24
  */
 @UtilityClass
 public class RsaUtil {

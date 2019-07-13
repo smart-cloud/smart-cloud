@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
  * 请求对象工具类
  *
  * @author liyulin
- * @date 2019年4月22日上午12:26:38
+ * @date 2019-04-22
  */
 @UtilityClass
 public class ReqUtil {

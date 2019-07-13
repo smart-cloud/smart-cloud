@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  * 工具类注入
  * 
  * @author liyulin
- * @date 2019年7月12日 下午12:22:32
+ * @date 2019-07-12
  */
 @Configuration
 public class UtilAutoConfigure {

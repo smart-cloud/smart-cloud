@@ -13,7 +13,7 @@ import lombok.experimental.UtilityClass;
  * {@link Condition}工具类
  *
  * @author liyulin
- * @date 2019年4月27日上午3:56:53
+ * @date 2019-04-27
  */
 @UtilityClass
 public class ReflectionUtil extends ReflectionUtils {

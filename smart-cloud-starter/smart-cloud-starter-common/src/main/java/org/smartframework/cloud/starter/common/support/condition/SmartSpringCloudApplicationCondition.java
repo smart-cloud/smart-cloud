@@ -10,7 +10,7 @@ import org.springframework.core.type.ClassMetadata;
  * 判断注解{@link SmartSpringCloudApplication}是否生效
  * 
  * @author liyulin
- * @date 2019年4月27日上午3:15:00
+ * @date 2019-04-27
  */
 public class SmartSpringCloudApplicationCondition implements Condition {
 

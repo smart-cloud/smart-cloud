@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  * 自动搜索满足条件的Test类，以便以套件的方式进行测试
  *
  * @author liyulin
- * @date 2019年4月28日上午12:54:15
+ * @date 2019-04-28
  */
 @Slf4j
 public class AllTestsRunner extends Suite {

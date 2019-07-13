@@ -17,7 +17,7 @@ import lombok.experimental.UtilityClass;
  * {@link ReqHttpHeadersDto}工具类
  * 
  * @author liyulin
- * @date 2019年6月27日 下午12:09:20
+ * @date 2019-06-27
  */
 @UtilityClass
 public class ReqHttpHeadersUtil {

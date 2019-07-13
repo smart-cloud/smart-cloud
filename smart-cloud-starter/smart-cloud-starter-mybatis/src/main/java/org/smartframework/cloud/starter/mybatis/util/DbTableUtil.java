@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  * 数据库表工具类
  * 
  * @author liyulin
- * @date 2019年6月4日 下午10:07:34
+ * @date 2019-06-04
  */
 @UtilityClass
 @Slf4j

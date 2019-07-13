@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
  * feign切面配置
  * 
  * @author liyulin
- * @date 2019年7月3日 下午2:43:38
+ * @date 2019-07-03
  */
 @Configuration
 @ConditionalOnExpression(FeignAspectAutoConfigure.FEIGN_ASPECT_CONDITION)

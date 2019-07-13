@@ -24,7 +24,7 @@ import lombok.experimental.UtilityClass;
  * 请求响应信息签名工具类
  * 
  * @author liyulin
- * @date 2019年6月27日 下午1:15:41
+ * @date 2019-06-27
  */
 @UtilityClass
 public class SmartSignatureUtil {

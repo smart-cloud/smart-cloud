@@ -26,7 +26,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * 接口日志切面
  *
  * @author liyulin
- * @date 2019年4月8日下午8:49:29
+ * @date 2019-04-08
  */
 public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 

@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * 日期常量
  * 
  * @author liyulin
- * @date 2019年7月11日 下午9:34:58
+ * @date 2019-07-11
  */
 @UtilityClass
 public class DateConstant {

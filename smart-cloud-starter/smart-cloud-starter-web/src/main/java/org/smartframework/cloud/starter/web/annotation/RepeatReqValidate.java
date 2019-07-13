@@ -13,7 +13,7 @@ import org.smartframework.cloud.starter.web.aspect.interceptor.RepeatSubmitCheck
  * <p>实现逻辑见{@link RepeatSubmitCheckInterceptor}
  * 
  * @author liyulin
- * @date 2019年6月13日 下午2:07:18
+ * @date 2019-06-13
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

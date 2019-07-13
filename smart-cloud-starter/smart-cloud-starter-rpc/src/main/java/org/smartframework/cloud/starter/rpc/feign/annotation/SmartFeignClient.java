@@ -18,7 +18,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * <code>FeignClient</code>自定义条件封装
  *
  * @author liyulin
- * @date 2019年3月22日下午2:42:14
+ * @date 2019-03-22
  */
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)

@@ -8,7 +8,7 @@ import lombok.Getter;
  * 通用状态码
  * 
  * @author liyulin
- * @date 2019年3月27日下午10:50:41
+ * @date 2019-03-27
  * @see IBaseReturnCode
  */
 @Getter

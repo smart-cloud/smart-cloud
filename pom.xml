@@ -46,7 +46,7 @@
 		<reflections>0.9.11</reflections>
 		<jasypt>2.1.1</jasypt>
 		<commons-codec>1.12</commons-codec>
-		<commons-io>2.2</commons-io>
+		<commons-io>2.6</commons-io>
 		<servlet>4.0.1</servlet>
 		<rocketmq>2.0.3</rocketmq>
 		<xxl-job>2.1.0</xxl-job>

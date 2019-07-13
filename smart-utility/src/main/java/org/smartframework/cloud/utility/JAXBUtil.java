@@ -28,7 +28,7 @@ import lombok.experimental.UtilityClass;
  * </ul>
  *
  * @author liyulin
- * @date 2019年4月17日下午5:12:12
+ * @date 2019-04-17
  */
 @UtilityClass
 public final class JAXBUtil {

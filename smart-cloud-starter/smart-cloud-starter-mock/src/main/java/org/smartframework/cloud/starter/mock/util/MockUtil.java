@@ -12,7 +12,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  * mock工具类
  *
  * @author liyulin
- * @date 2019年5月11日上午11:49:40
+ * @date 2019-05-11
  */
 @UtilityClass
 public class MockUtil {

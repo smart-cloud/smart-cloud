@@ -13,7 +13,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
  * Hibernate Validator校验配置
  *
  * @author liyulin
- * @date 2019年3月29日下午11:14:39
+ * @date 2019-03-29
  */
 @Configuration
 @ConditionalOnProperty(name = "smart.api.validator", havingValue = "true")

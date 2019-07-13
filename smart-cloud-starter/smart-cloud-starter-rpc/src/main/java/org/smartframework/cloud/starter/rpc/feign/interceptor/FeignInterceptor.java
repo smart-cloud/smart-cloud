@@ -20,7 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  * feign切面
  *
  * @author liyulin
- * @date 2019年4月21日下午3:32:33
+ * @date 2019-04-21
  */
 public class FeignInterceptor implements MethodInterceptor {
 

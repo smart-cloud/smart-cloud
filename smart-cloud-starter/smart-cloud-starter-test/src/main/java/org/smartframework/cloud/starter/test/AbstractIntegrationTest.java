@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
  * SpringBoot集成测试基类
  *
  * @author liyulin
- * @date 2019年4月22日上午12:25:45
+ * @date 2019-04-22
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest

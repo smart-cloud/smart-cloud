@@ -6,7 +6,7 @@ import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
  * 服务器异常
  *
  * @author liyulin
- * @date 2019年6月29日下午2:15:05
+ * @date 2019-06-29
  */
 public class ServerException extends BaseException {
 

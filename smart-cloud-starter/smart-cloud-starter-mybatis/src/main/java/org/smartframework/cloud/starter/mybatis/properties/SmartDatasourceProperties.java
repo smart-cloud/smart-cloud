@@ -13,7 +13,7 @@ import lombok.Setter;
  * 多数据源配置
  * 
  * @author liyulin
- * @date 2019年5月25日 下午3:56:55
+ * @date 2019-05-25
  * @since YamlShardingDataSourceFactory
  */
 @Getter

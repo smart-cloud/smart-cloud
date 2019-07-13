@@ -10,7 +10,7 @@ import lombok.experimental.UtilityClass;
  * jasypt加解密工具类
  * 
  * @author liyulin
- * @date 2019年5月24日 下午8:19:26
+ * @date 2019-05-24
  */
 @UtilityClass
 public class JasyptUtil {

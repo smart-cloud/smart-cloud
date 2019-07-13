@@ -10,7 +10,7 @@ import lombok.Setter;
  * 自定义异常基类
  *
  * @author liyulin
- * @date 2019年4月22日上午12:25:07
+ * @date 2019-04-22
  */
 @NoArgsConstructor
 @Getter

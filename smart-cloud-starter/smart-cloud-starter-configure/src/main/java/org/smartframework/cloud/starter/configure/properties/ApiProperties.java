@@ -9,7 +9,7 @@ import lombok.Setter;
  * api配置
  * 
  * @author liyulin
- * @date 2019年6月19日 下午10:24:02
+ * @date 2019-06-19
  */
 @Getter
 @Setter

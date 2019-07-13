@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * bean执行顺利
  *
  * @author liyulin
- * @date 2019年6月28日下午6:29:16
+ * @date 2019-06-28
  */
 @UtilityClass
 public class OrderConstant {

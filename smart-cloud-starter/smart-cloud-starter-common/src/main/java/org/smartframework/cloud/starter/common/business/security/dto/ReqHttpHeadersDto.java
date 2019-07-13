@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
  * 请求头信息
  * 
  * @author liyulin
- * @date 2019年6月27日 下午12:04:53
+ * @date 2019-06-27
  */
 @Getter
 @Setter

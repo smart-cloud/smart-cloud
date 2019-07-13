@@ -10,7 +10,7 @@ import tk.mybatis.mapper.mapperhelper.SqlHelper;
  * 批量更新
  *
  * @author liyulin
- * @date 2019年3月24日上午12:17:15
+ * @date 2019-03-24
  */
 public class BatchUpdateMapperProvider extends MapperTemplate {
 

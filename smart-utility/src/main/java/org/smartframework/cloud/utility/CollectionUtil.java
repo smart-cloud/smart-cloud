@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
  * 集合工具类
  *
  * @author liyulin
- * @date 2019年3月30日下午4:09:46
+ * @date 2019-03-30
  */
 @UtilityClass
 public class CollectionUtil {

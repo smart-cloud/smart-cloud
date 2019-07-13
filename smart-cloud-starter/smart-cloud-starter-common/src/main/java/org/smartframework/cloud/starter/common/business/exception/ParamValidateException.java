@@ -6,7 +6,7 @@ import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
  * 参数校验错误
  *
  * @author liyulin
- * @date 2019年5月1日上午11:56:59
+ * @date 2019-05-01
  */
 public class ParamValidateException extends BaseException {
 

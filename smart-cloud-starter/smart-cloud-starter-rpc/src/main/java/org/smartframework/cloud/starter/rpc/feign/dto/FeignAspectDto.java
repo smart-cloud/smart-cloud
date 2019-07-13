@@ -18,7 +18,7 @@ import lombok.experimental.SuperBuilder;
  * feign切面日志Dto
  *
  * @author liyulin
- * @date 2019年4月9日下午5:00:23
+ * @date 2019-04-09
  */
 @Getter
 @Setter

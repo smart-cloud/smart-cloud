@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
  * 安全的随机生成工具类
  * 
  * @author liyulin
- * @date 2019年7月1日 上午9:59:04
+ * @date 2019-07-01
  */
 @UtilityClass
 public class SecureRandomUtil extends AbstractRandomUtil {

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
  * xxl-job日志工具类（会在日志系统、xxl-job中同时写入）
  * 
  * @author liyulin
- * @date 2019年7月11日 下午5:51:07
+ * @date 2019-7-11
  */
 @UtilityClass
 @Slf4j

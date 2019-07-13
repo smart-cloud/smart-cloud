@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
  * 此注解的解析不能通过<code>@Import</code>注解；否则，类似<code>@ConditionalOnProperty</code>这种条件注解将不会生效
  *
  * @author liyulin
- * @date 2019年5月11日下午5:08:26
+ * @date 2019-05-11
  * @since YamlEnvironmentPostProcessor
  */
 @Retention(RetentionPolicy.RUNTIME)

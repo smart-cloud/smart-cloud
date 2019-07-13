@@ -10,7 +10,7 @@ import tk.mybatis.mapper.mapperhelper.SqlHelper;
  * 逻辑删除
  *
  * @author liyulin
- * @date 2019年3月24日下午8:38:02
+ * @date 2019-03-24
  */
 public class LogicDeleteProvider extends MapperTemplate {
 

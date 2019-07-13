@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
  * 日志打印封装，超过指定长度，截取掉
  *
  * @author liyulin
- * @date 2019年3月23日上午11:37:26
+ * @date 2019-03-23
  */
 @Slf4j
 @UtilityClass

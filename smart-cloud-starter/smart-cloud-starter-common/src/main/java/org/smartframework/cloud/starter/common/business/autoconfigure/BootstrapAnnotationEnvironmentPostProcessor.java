@@ -26,7 +26,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
  * 启动类注解值读取
  * 
  * @author liyulin
- * @date 2019年6月21日 下午12:58:22
+ * @date 2019-06-21
  */
 public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentPostProcessor {
 

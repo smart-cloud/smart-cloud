@@ -8,7 +8,7 @@ import lombok.Getter;
  * 表字段f_sys_del_state对应的枚举值
  *
  * @author liyulin
- * @date 2019年3月24日下午4:54:31
+ * @date 2019-03-24
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

@@ -8,7 +8,7 @@ import lombok.Getter;
  * 接口类型
  * 
  * @author liyulin
- * @date 2019年7月3日 下午2:25:01
+ * @date 2019-07-03
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

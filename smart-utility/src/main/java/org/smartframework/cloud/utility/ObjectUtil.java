@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * Object工具类
  *
  * @author liyulin
- * @date 2019年4月7日下午12:18:49
+ * @date 2019-04-07
  */
 @UtilityClass
 public class ObjectUtil {

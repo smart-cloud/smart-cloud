@@ -15,7 +15,7 @@ import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
  * xxl-job自动配置
  * 
  * @author liyulin
- * @date 2019年7月11日 下午5:50:53
+ * @date 2019-07-11
  */
 @Configuration
 @ConditionalOnProperty(name = "smart.xxlJob.enabled", havingValue = "true", matchIfMissing = true)

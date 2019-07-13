@@ -9,7 +9,7 @@ import lombok.Setter;
  * boolean dto
  * 
  * @author liyulin
- * @date 2019年7月5日 下午1:26:01
+ * @date 2019-07-05
  */
 @Getter
 @Setter

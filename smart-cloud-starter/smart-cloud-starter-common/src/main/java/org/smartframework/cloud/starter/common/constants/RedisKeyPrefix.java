@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * redis key前缀
  *
  * @author liyulin
- * @date 2019年4月6日上午2:00:34
+ * @date 2019-04-06
  */
 @UtilityClass
 public class RedisKeyPrefix {

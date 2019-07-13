@@ -10,7 +10,7 @@ import org.smartframework.cloud.common.pojo.dto.BasePageReq;
  * <code>BasePageReq</code>泛型参数T校验生效
  *
  * @author liyulin
- * @date 2019年3月29日下午11:13:23
+ * @date 2019-03-29
  */
 public class BasePageReqExtractor implements ValueExtractor<BasePageReq<@ExtractedValue ?>> {
 

@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * 公共常量定义
  *
  * @author liyulin
- * @date 2019年4月22日上午12:27:46
+ * @date 2019-04-22
  */
 @UtilityClass
 public class SmartConstant {

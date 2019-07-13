@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * 参数校验提示
  *
  * @author liyulin
- * @date 2019年6月29日下午9:20:21
+ * @date 2019-06-29
  */
 @UtilityClass
 public class ParamValidateMessage {

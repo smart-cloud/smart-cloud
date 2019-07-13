@@ -17,7 +17,7 @@ import lombok.experimental.UtilityClass;
  * 参数校验
  *
  * @author liyulin
- * @date 2019年5月1日下午12:34:50
+ * @date 2019-05-01
  */
 @UtilityClass
 public class ValidationUtil {

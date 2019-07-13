@@ -27,7 +27,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * 服务启动类注解
  *
  * @author liyulin
- * @date 2019年3月31日下午4:34:43
+ * @date 2019-03-31
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

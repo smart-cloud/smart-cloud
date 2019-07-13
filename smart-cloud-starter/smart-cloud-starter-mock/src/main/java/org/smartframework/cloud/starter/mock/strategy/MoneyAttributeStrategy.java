@@ -11,7 +11,7 @@ import uk.co.jemos.podam.common.AttributeStrategy;
  * 金额mock生成策略
  *
  * @author liyulin
- * @date 2019年4月17日下午10:37:39
+ * @date 2019-04-17
  */
 public class MoneyAttributeStrategy implements AttributeStrategy<Long> {
 

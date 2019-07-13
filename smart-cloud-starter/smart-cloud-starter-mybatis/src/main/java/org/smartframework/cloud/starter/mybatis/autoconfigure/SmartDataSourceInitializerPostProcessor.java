@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.ProxyTransactionManagementConf
  * BeanPostProcessor used to ensure that SmartDataSourceInitializerInvoker is initialized as soon as a ProxyTransactionManagementConfiguration is.
  * 
  * @author liyulin
- * @date 2019年6月1日 上午10:11:12
+ * @date 2019-06-01
  * @since DataSourceInitializerPostProcessor
  */
 public class SmartDataSourceInitializerPostProcessor implements BeanPostProcessor, Ordered {

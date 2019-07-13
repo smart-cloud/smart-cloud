@@ -12,7 +12,7 @@ package org.smartframework.cloud.common.pojo.enums;
  * </ul>
  *
  * @author liyulin
- * @date 2019年3月27日下午11:24:10
+ * @date 2019-03-27
  */
 public interface IBaseReturnCode {
 

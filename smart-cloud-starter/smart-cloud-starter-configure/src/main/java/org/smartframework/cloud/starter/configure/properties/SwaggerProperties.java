@@ -9,7 +9,7 @@ import lombok.Setter;
  * swagger配置信息
  * 
  * @author liyulin
- * @date 2019年6月18日 下午10:23:25
+ * @date 2019-06-18
  */
 @Getter
 @Setter

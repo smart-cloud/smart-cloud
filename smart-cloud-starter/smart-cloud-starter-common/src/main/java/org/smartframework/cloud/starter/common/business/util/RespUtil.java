@@ -13,7 +13,7 @@ import lombok.experimental.UtilityClass;
  * {@link Resp}工具类
  *
  * @author liyulin
- * @date 2019年4月6日下午5:36:34
+ * @date 2019-04-06
  */
 @UtilityClass
 public class RespUtil {

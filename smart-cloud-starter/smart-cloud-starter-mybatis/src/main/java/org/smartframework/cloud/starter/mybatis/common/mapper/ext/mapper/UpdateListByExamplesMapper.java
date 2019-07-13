@@ -12,7 +12,7 @@ import tk.mybatis.mapper.entity.Example;
  * 批量更新（null值也被更新）
  *
  * @author liyulin
- * @date 2019年4月7日下午4:42:14
+ * @date 2019-04-07
  */
 public interface UpdateListByExamplesMapper<T> {
 

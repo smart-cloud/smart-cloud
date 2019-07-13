@@ -12,7 +12,7 @@ import org.smartframework.cloud.starter.mock.util.MockUtil;
  * mock切面
  *
  * @author liyulin
- * @date 2019年4月21日下午3:32:44
+ * @date 2019-04-21
  */
 public class MockInterceptor implements MethodInterceptor {
 

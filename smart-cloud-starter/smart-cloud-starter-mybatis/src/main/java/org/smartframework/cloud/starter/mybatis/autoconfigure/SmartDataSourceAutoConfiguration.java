@@ -18,7 +18,7 @@ import lombok.Getter;
  * 多数据源配置
  * 
  * @author liyulin
- * @date 2019年5月28日 下午7:58:14
+ * @date 2019-05-28
  * @since DataSourceAutoConfiguration
  * @since DataSourceInitializationConfiguration
  */
