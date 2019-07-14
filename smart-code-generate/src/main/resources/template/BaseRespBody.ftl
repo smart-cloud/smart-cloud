@@ -22,7 +22,6 @@ public class ${className} extends BaseEntityRespBody {
 	<#if attribute.comment!="">
     @ApiModelProperty(value = "${attribute.comment}")
 	</#if>
-    @Column(name = "${attribute.name}")     
 	private ${attribute.javaType} ${attribute.name};
 	
 </#list>

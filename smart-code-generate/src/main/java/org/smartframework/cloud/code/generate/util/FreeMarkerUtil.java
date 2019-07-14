@@ -4,7 +4,6 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
-import org.smartframework.cloud.code.generate.Application;
 import org.smartframework.cloud.code.generate.config.Config;
 
 import freemarker.template.Configuration;
@@ -24,7 +23,7 @@ public class FreeMarkerUtil {
 
 	private static Configuration freemarkerCfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 	static {
-		freemarkerCfg.setClassForTemplateLoading(Application.class, Config.TEMPLATE_PATH);
+		freemarkerCfg.setClassForTemplateLoading(FreeMarkerUtil.class, Config.TEMPLATE_PATH);
 	}
 
 	public static String freeMarkerRender(Object data, String templateName) {

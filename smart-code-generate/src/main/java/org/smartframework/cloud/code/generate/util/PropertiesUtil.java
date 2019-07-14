@@ -2,16 +2,19 @@ package org.smartframework.cloud.code.generate.util;
 
 import java.util.ResourceBundle;
 
+import org.smartframework.cloud.code.generate.config.Config;
+
 public class PropertiesUtil {
 
 	/**
 	 * 读取properties文件
 	 * 
-	 * @param configName 配置文件路径（注：名为“mall_product.properties”，则值为“config/mall_product”）
 	 * @return
 	 */
-	public static ResourceBundle getBundle(String configName) {
-		return ResourceBundle.getBundle(configName);
+	public static ResourceBundle getPropertiesBundle() {
+		ResourceBundle configResource = ResourceBundle.getBundle(Config.CONFIG_NAME);
+		String configPath = configResource.getString(Config.PROPERTIES_KEY);
+		return ResourceBundle.getBundle(Config.CONFIG_PATH + configPath);
 	}
 
 }

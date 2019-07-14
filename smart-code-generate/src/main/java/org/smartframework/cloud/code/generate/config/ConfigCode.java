@@ -30,6 +30,12 @@ public class ConfigCode {
 		public static final String TABLES = "generate.tables";
 		/** 多个表用隔开的分隔符 */
 		public static final String TABLES_SEPARATOR = ",";
+		/** spring boot启动类包名 */
+		public static final String MAIN_CLASS_PACKAGE = "generate.mainClassPackage";
+		/** spring boot启动类包名 */
+		public static final String RPC_PATH = "generate.project.rpc.path";
+		/** spring boot启动类包名 */
+		public static final String SERVICE_PATH = "generate.project.service.path";
 	}
 
 }
