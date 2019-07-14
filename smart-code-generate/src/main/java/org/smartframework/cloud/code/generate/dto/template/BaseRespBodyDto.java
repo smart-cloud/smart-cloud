@@ -9,13 +9,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class EntityDto {
+public class BaseRespBodyDto {
 	
-	private CommonDto common;
 	/** 包名 */
 	private String packageName;
-	/** 表名 */
-	private String tableName;
 	/** 表备注 */
 	private String tableComment;
 	/** 类名 */

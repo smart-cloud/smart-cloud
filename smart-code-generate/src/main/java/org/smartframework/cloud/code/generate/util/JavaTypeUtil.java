@@ -24,7 +24,15 @@ public class JavaTypeUtil {
 	}
 
 	public static String getEntityName(String tableName) {
-		return TableUtil.getEntityClassName(tableName) + Config.ENTITY_SUFFIX;
+		return TableUtil.getEntityClassName(tableName) + Config.ENTITY_CLASS_SUFFIX;
+	}
+	
+	public static String getMapperName(String tableName) {
+		return TableUtil.getEntityClassName(tableName) + Config.MAPPER_CLASS_SUFFIX;
+	}
+	
+	public static String getBaseRespBodyName(String tableName) {
+		return TableUtil.getEntityClassName(tableName) + Config.BASE_RESPBODY_CLASS_SUFFIX;
 	}
 
 }

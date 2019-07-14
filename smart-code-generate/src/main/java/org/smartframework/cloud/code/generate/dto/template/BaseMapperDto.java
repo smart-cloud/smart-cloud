@@ -1,7 +1,5 @@
 package org.smartframework.cloud.code.generate.dto.template;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,18 +7,24 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class EntityDto {
+public class BaseMapperDto {
 	
 	private CommonDto common;
 	/** 包名 */
 	private String packageName;
-	/** 表名 */
-	private String tableName;
 	/** 表备注 */
 	private String tableComment;
 	/** 类名 */
 	private String className;
-	/** 表字段对应的java属性信息 */
-	List<EntityAttributeDto> attributes;
+	
+	/** entity类名 */
+	private String entityClassName;
+	/** entity package */
+	private String importEntityClass;
+	
+	/** baseRespBody类名 */
+	private String baseRespBodyClassName;
+	/** baseRespBody package */
+	private String importBaseRespBodyClass;
 	
 }
