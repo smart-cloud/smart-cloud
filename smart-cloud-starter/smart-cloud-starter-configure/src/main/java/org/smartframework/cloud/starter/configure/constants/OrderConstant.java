@@ -1,9 +1,9 @@
-package org.smartframework.cloud.starter.common.constants;
+package org.smartframework.cloud.starter.configure.constants;
 
 import lombok.experimental.UtilityClass;
 
 /**
- * bean执行顺利
+ * bean执行顺序
  *
  * @author liyulin
  * @date 2019-06-28
@@ -21,5 +21,7 @@ public class OrderConstant {
 	public static final int FEIGN_SECURITY = 4;
 	/** feign日志 */
 	public static final int FEIGN_LOG = 5;
+	/** 多语言切面 */
+	public static final int LOCALE = 6;
 
 }

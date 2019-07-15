@@ -4,7 +4,7 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.starter.common.business.exception.ParamValidateException;
-import org.smartframework.cloud.starter.common.constants.OrderConstant;
+import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.springframework.core.Ordered;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.RequestMethod;

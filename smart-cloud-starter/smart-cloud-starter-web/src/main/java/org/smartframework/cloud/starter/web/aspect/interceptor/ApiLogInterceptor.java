@@ -13,8 +13,8 @@ import org.smartframework.cloud.starter.common.business.security.util.ReqHttpHea
 import org.smartframework.cloud.starter.common.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.common.business.util.ExceptionUtil;
 import org.smartframework.cloud.starter.common.business.util.WebUtil;
-import org.smartframework.cloud.starter.common.constants.OrderConstant;
 import org.smartframework.cloud.starter.common.constants.SymbolConstant;
+import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.starter.web.aspect.dto.LogAspectDto;
 import org.smartframework.cloud.utility.ObjectUtil;

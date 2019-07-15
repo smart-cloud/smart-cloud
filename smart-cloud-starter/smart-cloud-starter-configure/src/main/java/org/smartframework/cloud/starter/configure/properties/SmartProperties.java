@@ -32,6 +32,8 @@ public class SmartProperties extends BaseDto {
 	private SwaggerProperties swagger = new SwaggerProperties();
 	/** xxl-job配置 */
 	private XxlJobProperties xxlJob = new XxlJobProperties();
+	/** 多语言配置 */
+	private LocaleProperties locale = new LocaleProperties();
 
 	@UtilityClass
 	public static final class PropertiesName {
