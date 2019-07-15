@@ -14,12 +14,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class EntityAttributeDto {
-	
+
 	/** 表字段对应的java属性名 */
 	private String name;
+	/** 表字段名称 */
+	private String columnName;
 	/** 类型 */
 	private String javaType;
 	/** 备注 */
 	private String comment;
-	
+
 }

@@ -38,9 +38,8 @@ public class DbUtil {
 	 */
 	public static Connection getConnection(ResourceBundle resource) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		Connection connnection = DriverManager.getConnection(resource.getString(ConfigCode.Db.URL),
+		return DriverManager.getConnection(resource.getString(ConfigCode.Db.URL),
 				resource.getString(ConfigCode.Db.USERNAME), resource.getString(ConfigCode.Db.PASSWORD));
-		return connnection;
 	}
 
 	/**
@@ -53,13 +52,45 @@ public class DbUtil {
 	 */
 	public static Map<String, TableMetaDataDto> getTablesMetaData(Connection connnection, ResourceBundle resource)
 			throws SQLException {
+		String qryTableMetaDataSql = getQueryTableMetaDataSql(connnection.getCatalog(),
+				resource.getString(ConfigCode.Generate.TYPE), resource.getString(ConfigCode.Generate.TABLES));
+
+		Map<String, TableMetaDataDto> tableMetaDataDtos = new HashMap<>();
+		try (PreparedStatement preparedStatement = connnection.prepareStatement(qryTableMetaDataSql);
+				ResultSet resultSet = preparedStatement.executeQuery();) {
+			while (resultSet.next()) {
+				TableMetaDataDto tableDto = new TableMetaDataDto();
+				tableDto.setName(resultSet.getString(1));
+				tableDto.setComment(resultSet.getString(2));
+
+				tableMetaDataDtos.put(tableDto.getName(), tableDto);
+			}
+		}
+
+		return tableMetaDataDtos;
+	}
+
+	/**
+	 * 获取查询表信息的sql
+	 * 
+	 * @param dbName
+	 * @param generateType
+	 * @param tableNameStr
+	 * @return
+	 */
+	private static String getQueryTableMetaDataSql(String dbName, String generateType, String tableNameStr) {
 		StringBuilder qryTableMetaDataSql = new StringBuilder();
 		qryTableMetaDataSql
-				.append("SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = ?");
-		if (GenerateTypeEnum.PART.getType().equals(resource.getString(ConfigCode.Generate.TYPE))) {
-			String tableNameStr = resource.getString(ConfigCode.Generate.TABLES);
+				.append("SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '");
+		qryTableMetaDataSql.append(dbName);
+		qryTableMetaDataSql.append("' ");
+		if (!GenerateTypeEnum.ALL.getType().equals(generateType)) {
 			String[] tableNames = tableNameStr.split(ConfigCode.Generate.TABLES_SEPARATOR);
-			qryTableMetaDataSql.append(" AND table_name IN(");
+			qryTableMetaDataSql.append("AND table_name ");
+			if (GenerateTypeEnum.EXCLUDE.getType().equals(generateType)) {
+				qryTableMetaDataSql.append("NOT ");
+			}
+			qryTableMetaDataSql.append("IN(");
 			for (int i = 0; i < tableNames.length; i++) {
 				qryTableMetaDataSql.append("'");
 				qryTableMetaDataSql.append(tableNames[i]);
@@ -70,19 +101,7 @@ public class DbUtil {
 			}
 			qryTableMetaDataSql.append(")");
 		}
-		PreparedStatement preparedStatement = connnection.prepareStatement(qryTableMetaDataSql.toString());
-		preparedStatement.setString(1, connnection.getCatalog());
-
-		ResultSet resultSet = preparedStatement.executeQuery();
-		Map<String, TableMetaDataDto> tableMetaDataDtos = new HashMap<>();
-		while (resultSet.next()) {
-			TableMetaDataDto tableDto = new TableMetaDataDto();
-			tableDto.setName(resultSet.getString(1));
-			tableDto.setComment(resultSet.getString(2));
-
-			tableMetaDataDtos.put(tableDto.getName(), tableDto);
-		}
-		return tableMetaDataDtos;
+		return qryTableMetaDataSql.toString();
 	}
 
 	/**
@@ -96,21 +115,23 @@ public class DbUtil {
 	 */
 	public static List<ColumnMetaDataDto> getTableColumnMetaDatas(DatabaseMetaData metaData, String database,
 			String tableName) throws SQLException {
-		ResultSet resultSet = metaData.getColumns(database, "", tableName, null);
 		List<ColumnMetaDataDto> columnMetaDatas = new ArrayList<>();
-		while (resultSet.next()) {
-			String name = resultSet.getString("COLUMN_NAME");
-			if (DefaultColumnEnum.contains(name)) {
-				continue;
-			}
-			ColumnMetaDataDto columnMetaData = new ColumnMetaDataDto();
-			columnMetaData.setName(name);
-			columnMetaData.setComment(resultSet.getString("REMARKS"));
-			columnMetaData.setJdbcType(resultSet.getInt("DATA_TYPE"));
-			columnMetaData.setLength(resultSet.getInt("COLUMN_SIZE"));
+		try (ResultSet resultSet = metaData.getColumns(database, "", tableName, null);) {
+			while (resultSet.next()) {
+				String name = resultSet.getString("COLUMN_NAME");
+				if (DefaultColumnEnum.contains(name)) {
+					continue;
+				}
+				ColumnMetaDataDto columnMetaData = new ColumnMetaDataDto();
+				columnMetaData.setName(name);
+				columnMetaData.setComment(resultSet.getString("REMARKS"));
+				columnMetaData.setJdbcType(resultSet.getInt("DATA_TYPE"));
+				columnMetaData.setLength(resultSet.getInt("COLUMN_SIZE"));
 
-			columnMetaDatas.add(columnMetaData);
+				columnMetaDatas.add(columnMetaData);
+			}
 		}
+
 		return columnMetaDatas;
 	}
 

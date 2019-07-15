@@ -12,5 +12,5 @@ public class CodeFileGenerateUtilTest extends TestCase {
 	public void testInit() throws ClassNotFoundException, SQLException, IOException {
 		CodeGenerateUtil.init();
 	}
-
+	
 }

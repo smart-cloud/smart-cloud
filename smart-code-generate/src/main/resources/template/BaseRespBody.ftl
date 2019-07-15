@@ -1,5 +1,10 @@
 package ${packageName};
 
+<#list importPackages as package>
+<#if package!="">
+import ${package}
+</#if>
+</#list>
 import org.smartframework.cloud.common.pojo.dto.BaseEntityRespBody;
 
 import io.swagger.annotations.ApiModel;

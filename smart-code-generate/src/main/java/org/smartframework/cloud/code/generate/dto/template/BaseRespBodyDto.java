@@ -1,6 +1,7 @@
 package org.smartframework.cloud.code.generate.dto.template;
 
 import java.util.List;
+import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,8 @@ public class BaseRespBodyDto {
 	
 	/** 包名 */
 	private String packageName;
+	/** 需要导入的包名 */
+	private Set<String> importPackages;
 	/** 表备注 */
 	private String tableComment;
 	/** 类名 */

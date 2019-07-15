@@ -59,7 +59,7 @@ public class CodeGenerateUtil {
 				CodeFileGenerateUtil.generateEntity(entityDto, servicePath);
 
 				BaseRespBodyDto baseRespBodyDto = TemplateDtoUtil.getBaseRespBodyDto(tableMetaData, columnMetaDatas,
-						mainClassPackage);
+						mainClassPackage, entityDto.getImportPackages());
 				CodeFileGenerateUtil.generateBaseRespBody(baseRespBodyDto, rpcPath);
 
 				BaseMapperDto baseMapperDto = TemplateDtoUtil.getBaseMapperDto(tableMetaData, entityDto,

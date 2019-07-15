@@ -16,9 +16,11 @@ public enum GenerateTypeEnum {
 
 	/** 数据库整个表全部生成 */
 	ALL("1"),
-	/** 指定表生成 */
-	PART("2");
-	
+	/** 只生成指定的表 */
+	INCLUDE("2"),
+	/** 除了指定的表，全部生成 */
+	EXCLUDE("3");
+
 	private String type;
 
 }

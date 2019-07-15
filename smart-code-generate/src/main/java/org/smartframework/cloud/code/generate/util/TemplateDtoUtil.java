@@ -3,7 +3,9 @@ package org.smartframework.cloud.code.generate.util;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.smartframework.cloud.code.generate.config.Config;
 import org.smartframework.cloud.code.generate.dto.ColumnMetaDataDto;
@@ -52,30 +54,41 @@ public class TemplateDtoUtil {
 
 		List<EntityAttributeDto> attributes = new ArrayList<>();
 		entityDto.setAttributes(attributes);
+		Set<String> importPackages = new HashSet<>();
+		entityDto.setImportPackages(importPackages);
 		for (ColumnMetaDataDto columnMetaData : columnMetaDatas) {
 			EntityAttributeDto entityAttribute = new EntityAttributeDto();
-			entityAttribute.setComment(columnMetaData.getComment());
 			entityAttribute.setName(TableUtil.getAttibuteName(columnMetaData.getName()));
+			entityAttribute.setColumnName(columnMetaData.getName());
+			String comment = StringEscapeUtil.secapeComment(columnMetaData.getComment());
+			entityAttribute.setComment(comment);
 			entityAttribute
 					.setJavaType(JavaTypeUtil.getByJdbcType(columnMetaData.getJdbcType(), columnMetaData.getLength()));
-
+			String importPackage = JavaTypeUtil.getImportPackage(columnMetaData.getJdbcType());
+			if (importPackage != null) {
+				importPackages.add(importPackage);
+			}
+			
 			attributes.add(entityAttribute);
 		}
 		return entityDto;
 	}
 
 	public static BaseRespBodyDto getBaseRespBodyDto(TableMetaDataDto tableMetaData,
-			List<ColumnMetaDataDto> columnMetaDatas, String mainClassPackage) {
+			List<ColumnMetaDataDto> columnMetaDatas, String mainClassPackage, Set<String> importPackages) {
 		BaseRespBodyDto baseRespBodyDto = new BaseRespBodyDto();
 		baseRespBodyDto.setPackageName(getBaseRespBodyPackage(mainClassPackage));
 		baseRespBodyDto.setTableComment(tableMetaData.getComment());
 		baseRespBodyDto.setClassName(JavaTypeUtil.getBaseRespBodyName(tableMetaData.getName()));
+		baseRespBodyDto.setImportPackages(importPackages);
 
 		List<EntityAttributeDto> attributes = new ArrayList<>();
 		baseRespBodyDto.setAttributes(attributes);
 		for (ColumnMetaDataDto columnMetaData : columnMetaDatas) {
 			EntityAttributeDto entityAttribute = new EntityAttributeDto();
-			entityAttribute.setComment(columnMetaData.getComment());
+			String comment = StringEscapeUtil.secapeComment(columnMetaData.getComment());
+			entityAttribute.setComment(comment);
+			
 			entityAttribute.setName(TableUtil.getAttibuteName(columnMetaData.getName()));
 			entityAttribute
 					.setJavaType(JavaTypeUtil.getByJdbcType(columnMetaData.getJdbcType(), columnMetaData.getLength()));

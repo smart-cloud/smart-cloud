@@ -1,5 +1,10 @@
 package ${packageName};
 
+<#list importPackages as package>
+<#if package!="">
+import ${package}
+</#if>
+</#list>
 import javax.persistence.Column;
 import javax.persistence.Table;
 
@@ -29,7 +34,7 @@ public class ${className} extends BaseEntity {
 	<#if attribute.comment!="">
     /** ${attribute.comment} */
 	</#if>
-    @Column(name = "${attribute.name}")     
+    @Column(name = "${attribute.columnName}")     
 	private ${attribute.javaType} ${attribute.name};
 	
 </#list>

@@ -42,8 +42,4 @@ public class TableUtil {
 		return name;
 	}
 
-	public static void main(String[] agrs) {
-		System.out.println(getEntityClassName("tproduct_info"));
-	}
-
 }
