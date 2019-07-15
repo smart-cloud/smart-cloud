@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.common;
+package org.smartframework.cloud.starter.common.test.unit;
 
 import java.security.NoSuchAlgorithmException;
 

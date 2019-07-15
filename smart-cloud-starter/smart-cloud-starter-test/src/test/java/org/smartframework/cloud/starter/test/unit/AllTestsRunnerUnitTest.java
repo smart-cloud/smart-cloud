@@ -11,7 +11,7 @@ public class AllTestsRunnerUnitTest extends TestCase {
 
 	public void test() throws InitializationError {
 		AllTestsRunner allTestsRunner = new AllTestsRunner(AllTestsRunnerUnitTest.class, new AllDefaultPossibilitiesBuilder(true));
-		Assertions.assertThat(allTestsRunner.testCount()).isEqualTo(1);
+		Assertions.assertThat(allTestsRunner.testCount()).isGreaterThanOrEqualTo(1);
 	}
 	
 }
