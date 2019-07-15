@@ -1,6 +1,6 @@
 # 一、功能特征
 **该框架基于spring cloud。所实现功能如下：**
-- 接口文档自动生成（服务启动时通过swagger生成原始json数据，处理后上传至gitbook）
+- 接口文档自动生成（服务启动时通过swagger生成原始json数据，处理后上传至文档服务如showdoc、gitbook等）
 - 可以生成mock数据，充分发挥前后端分离的作用
 - 部署灵活，服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）部署，合并后也可拆分开部署
 - 业务无关代码自动生成
@@ -296,4 +296,4 @@ smart:
 接口文档由三个步骤自动生成：
 1. 通过swagger自动生成接口文档的json格式数据；
 2. 将json格式数据转化为markdown格式；
-3. 在服务启动时将markdown格式数据上传（可根据配置的开关控制是否上传）到gitbook。
+3. 在服务启动时将markdown格式数据上传（可根据配置的开关控制是否上传）到服务服务器（如[showdoc](https://github.com/star7th/showdoc)、gitbook）。
