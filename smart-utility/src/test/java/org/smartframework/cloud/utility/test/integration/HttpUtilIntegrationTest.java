@@ -15,8 +15,9 @@ import junit.framework.TestCase;
 
 @SpringBootApplication
 public class HttpUtilIntegrationTest extends TestCase {
-
-	private static final String REQUEST_URL_PREFIX = "http://localhost:8080/test";
+	/** 服务启动端口 */
+	private static final int PORT = 12345;
+	private static final String REQUEST_URL_PREFIX = "http://localhost:" + PORT + "/test";
 	private static boolean bootstrap = false;
 
 	@Test
@@ -53,7 +54,7 @@ public class HttpUtilIntegrationTest extends TestCase {
 	private void startService() {
 		if (!bootstrap) {
 			bootstrap = true;
-			SpringApplication.run(HttpUtilIntegrationTest.class);
+			SpringApplication.run(HttpUtilIntegrationTest.class, "--server.port=" + PORT);
 		}
 	}
 
