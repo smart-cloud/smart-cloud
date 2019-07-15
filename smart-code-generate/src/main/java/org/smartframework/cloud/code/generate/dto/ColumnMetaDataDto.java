@@ -3,6 +3,12 @@ package org.smartframework.cloud.code.generate.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 表字段元数据信息
+ * 
+ * @author liyulin
+ * @date 2019-07-15
+ */
 @Getter
 @Setter
 public class ColumnMetaDataDto {

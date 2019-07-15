@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 表生成类型
+ * 表生成类型（1、数据库整个表全部生成；2、只生成指定的表；3、除了指定的表，全部生成）
  *
  * @author liyulin
  * @date 2019-07-14
@@ -21,6 +21,7 @@ public enum GenerateTypeEnum {
 	/** 除了指定的表，全部生成 */
 	EXCLUDE("3");
 
+	/** 生成类型 */
 	private String type;
 
 }

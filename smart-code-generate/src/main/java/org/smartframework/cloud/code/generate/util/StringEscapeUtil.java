@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * 字符串转义工具类
  * 
  * @author liyulin
- * @date 2019年7月15日 上午10:26:03
+ * @date 2019-07-15
  */
 @UtilityClass
 public class StringEscapeUtil {

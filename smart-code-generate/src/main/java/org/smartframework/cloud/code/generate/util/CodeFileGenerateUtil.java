@@ -2,7 +2,6 @@ package org.smartframework.cloud.code.generate.util;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.commons.io.FileUtils;
 import org.smartframework.cloud.code.generate.config.Config;
@@ -27,8 +26,6 @@ public class CodeFileGenerateUtil {
 	private static final String SRC_MAIN_JAVA = "/src/main/java/";
 	/** java文件名后缀 */
 	private static final String JAVA_FILE_SUFFIX = ".java";
-	/** 默认的编码（utf-8） */
-	private static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.name();
 
 	/**
 	 * 生成Mapper
@@ -42,7 +39,7 @@ public class CodeFileGenerateUtil {
 		String filePath = getClassFilePath(basePath, baseMapperDto.getPackageName(), baseMapperDto.getClassName());
 		log.info(filePath);
 
-		FileUtils.writeStringToFile(new File(filePath), code, DEFAULT_ENCODING);
+		FileUtils.writeStringToFile(new File(filePath), code, Config.DEFAULT_ENCODING);
 	}
 
 	/**
@@ -57,7 +54,7 @@ public class CodeFileGenerateUtil {
 		String filePath = getClassFilePath(basePath, entityDto.getPackageName(), entityDto.getClassName());
 		log.info(filePath);
 
-		FileUtils.writeStringToFile(new File(filePath), code, DEFAULT_ENCODING);
+		FileUtils.writeStringToFile(new File(filePath), code, Config.DEFAULT_ENCODING);
 	}
 
 	/**
@@ -72,7 +69,7 @@ public class CodeFileGenerateUtil {
 		String filePath = getClassFilePath(basePath, baseRespBodyDto.getPackageName(), baseRespBodyDto.getClassName());
 		log.info(filePath);
 
-		FileUtils.writeStringToFile(new File(filePath), code, DEFAULT_ENCODING);
+		FileUtils.writeStringToFile(new File(filePath), code, Config.DEFAULT_ENCODING);
 	}
 
 	/**

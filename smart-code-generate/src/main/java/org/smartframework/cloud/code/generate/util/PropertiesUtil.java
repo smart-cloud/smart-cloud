@@ -4,6 +4,15 @@ import java.util.ResourceBundle;
 
 import org.smartframework.cloud.code.generate.config.Config;
 
+import lombok.experimental.UtilityClass;
+
+/**
+ * properties读取工具类
+ * 
+ * @author liyulin
+ * @date 2019-07-15
+ */
+@UtilityClass
 public class PropertiesUtil {
 
 	/**

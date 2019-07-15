@@ -47,26 +47,40 @@ public class CodeGenerateUtil {
 
 			DatabaseMetaData metaData = connnection.getMetaData();
 			for (Map.Entry<String, TableMetaDataDto> entry : tableMetaDataMap.entrySet()) {
-				TableMetaDataDto tableMetaData = entry.getValue();
-				List<ColumnMetaDataDto> columnMetaDatas = DbUtil.getTableColumnMetaDatas(metaData,
-						connnection.getCatalog(), entry.getKey());
-				String mainClassPackage = resource.getString(ConfigCode.Generate.MAIN_CLASS_PACKAGE);
-				String rpcPath = resource.getString(ConfigCode.Generate.RPC_PATH);
-				String servicePath = resource.getString(ConfigCode.Generate.SERVICE_PATH);
-
-				EntityDto entityDto = TemplateDtoUtil.getEntityDto(tableMetaData, columnMetaDatas, commonDto,
-						mainClassPackage);
-				CodeFileGenerateUtil.generateEntity(entityDto, servicePath);
-
-				BaseRespBodyDto baseRespBodyDto = TemplateDtoUtil.getBaseRespBodyDto(tableMetaData, columnMetaDatas,
-						mainClassPackage, entityDto.getImportPackages());
-				CodeFileGenerateUtil.generateBaseRespBody(baseRespBodyDto, rpcPath);
-
-				BaseMapperDto baseMapperDto = TemplateDtoUtil.getBaseMapperDto(tableMetaData, entityDto,
-						baseRespBodyDto, commonDto, mainClassPackage);
-				CodeFileGenerateUtil.generateBaseMapper(baseMapperDto, servicePath);
+				generateSingleTable(connnection.getCatalog(), entry.getValue(), metaData, commonDto, resource);
 			}
 		}
+	}
+
+	/**
+	 * 生成当个表的代码
+	 * 
+	 * @param database      数据库名
+	 * @param tableMetaData
+	 * @param metaData
+	 * @param commonDto     公共信息
+	 * @param resource      配置信息
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	private static void generateSingleTable(String database, TableMetaDataDto tableMetaData, DatabaseMetaData metaData,
+			CommonDto commonDto, ResourceBundle resource) throws SQLException, IOException {
+		List<ColumnMetaDataDto> columnMetaDatas = DbUtil.getTableColumnMetaDatas(metaData, database,
+				tableMetaData.getName());
+		String mainClassPackage = resource.getString(ConfigCode.Generate.MAIN_CLASS_PACKAGE);
+		String rpcPath = resource.getString(ConfigCode.Generate.RPC_PATH);
+		String servicePath = resource.getString(ConfigCode.Generate.SERVICE_PATH);
+
+		EntityDto entityDto = TemplateDtoUtil.getEntityDto(tableMetaData, columnMetaDatas, commonDto, mainClassPackage);
+		CodeFileGenerateUtil.generateEntity(entityDto, servicePath);
+
+		BaseRespBodyDto baseRespBodyDto = TemplateDtoUtil.getBaseRespBodyDto(tableMetaData, columnMetaDatas,
+				mainClassPackage, entityDto.getImportPackages());
+		CodeFileGenerateUtil.generateBaseRespBody(baseRespBodyDto, rpcPath);
+
+		BaseMapperDto baseMapperDto = TemplateDtoUtil.getBaseMapperDto(tableMetaData, entityDto, baseRespBodyDto,
+				commonDto, mainClassPackage);
+		CodeFileGenerateUtil.generateBaseMapper(baseMapperDto, servicePath);
 	}
 
 }

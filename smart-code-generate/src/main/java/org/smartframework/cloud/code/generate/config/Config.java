@@ -1,5 +1,7 @@
 package org.smartframework.cloud.code.generate.config;
 
+import java.nio.charset.StandardCharsets;
+
 import lombok.experimental.UtilityClass;
 
 /**
@@ -11,6 +13,8 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Config {
 
+	/** 默认编码（utf-8） */
+	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.name();
 	/** 配置文件所在路径 */
 	public static final String CONFIG_PATH = "config/";
 	/** 总配置文件名 */

@@ -2,6 +2,12 @@ package org.smartframework.cloud.code.generate.util;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * table工具类
+ * 
+ * @author liyulin
+ * @date 2019-07-15
+ */
 @UtilityClass
 public class TableUtil {
 
@@ -12,14 +18,34 @@ public class TableUtil {
 	/** 表、字段名称分隔符 */
 	private static final char SEPARATOR = '_';
 
+	/**
+	 * 根据表名获取Entity类名
+	 * 
+	 * @param tableName 表名
+	 * @return
+	 */
 	public static String getEntityClassName(String tableName) {
 		return getJavaName(tableName, TABLE_PREFIX, true);
 	}
 
+	/**
+	 * 根据表字段名获取对应java对象属性名
+	 * 
+	 * @param column 表字段名
+	 * @return
+	 */
 	public static String getAttibuteName(String column) {
 		return getJavaName(column, COLUMN_PREFIXS, false);
 	}
 
+	/**
+	 * 下划线转驼峰
+	 * 
+	 * @param name    数据库表名
+	 * @param prefixs
+	 * @param isTable
+	 * @return
+	 */
 	private static String getJavaName(String name, String[] prefixs, boolean isTable) {
 		for (String prefix : prefixs) {
 			if (name.startsWith(prefix)) {

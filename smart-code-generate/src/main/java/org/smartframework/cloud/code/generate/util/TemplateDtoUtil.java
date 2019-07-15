@@ -27,15 +27,21 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TemplateDtoUtil {
 
+	/**
+	 * 获取公共信息（如生成时间、作者等）
+	 * 
+	 * @param author
+	 * @return
+	 */
 	public static CommonDto getCommonDto(String author) {
 		CommonDto commonDto = new CommonDto();
 		commonDto.setCreateDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		commonDto.setAuthor(author);
 		return commonDto;
 	}
-	
+
 	/**
-	 * 获取待Entity信息
+	 * 获取生成Entity所需的参数信息
 	 * 
 	 * @param tableMetaData
 	 * @param columnMetaDatas
@@ -68,12 +74,21 @@ public class TemplateDtoUtil {
 			if (importPackage != null) {
 				importPackages.add(importPackage);
 			}
-			
+
 			attributes.add(entityAttribute);
 		}
 		return entityDto;
 	}
 
+	/**
+	 * 获取生成BaseRespBody所需的参数信息
+	 * 
+	 * @param tableMetaData
+	 * @param columnMetaDatas
+	 * @param mainClassPackage
+	 * @param importPackages
+	 * @return
+	 */
 	public static BaseRespBodyDto getBaseRespBodyDto(TableMetaDataDto tableMetaData,
 			List<ColumnMetaDataDto> columnMetaDatas, String mainClassPackage, Set<String> importPackages) {
 		BaseRespBodyDto baseRespBodyDto = new BaseRespBodyDto();
@@ -88,7 +103,7 @@ public class TemplateDtoUtil {
 			EntityAttributeDto entityAttribute = new EntityAttributeDto();
 			String comment = StringEscapeUtil.secapeComment(columnMetaData.getComment());
 			entityAttribute.setComment(comment);
-			
+
 			entityAttribute.setName(TableUtil.getAttibuteName(columnMetaData.getName()));
 			entityAttribute
 					.setJavaType(JavaTypeUtil.getByJdbcType(columnMetaData.getJdbcType(), columnMetaData.getLength()));
@@ -98,6 +113,29 @@ public class TemplateDtoUtil {
 		return baseRespBodyDto;
 	}
 
+	/**
+	 * 获取BaseRespBody包名
+	 * 
+	 * @param mainClassPackage
+	 * @return
+	 */
+	private static String getBaseRespBodyPackage(String mainClassPackage) {
+		int index = mainClassPackage.lastIndexOf('.');
+
+		return mainClassPackage.subSequence(0, index) + ".rpc" + mainClassPackage.substring(index)
+				+ Config.BASE_RESPBODY_PACKAGE_SUFFIX;
+	}
+
+	/**
+	 * 获取生成BaesMapper所需的参数信息
+	 * 
+	 * @param tableMetaData
+	 * @param entityDto
+	 * @param baseRespBodyDto
+	 * @param commonDto
+	 * @param mainClassPackage
+	 * @return
+	 */
 	public static BaseMapperDto getBaseMapperDto(TableMetaDataDto tableMetaData, EntityDto entityDto,
 			BaseRespBodyDto baseRespBodyDto, CommonDto commonDto, String mainClassPackage) {
 		BaseMapperDto baseMapperDto = new BaseMapperDto();
@@ -113,13 +151,6 @@ public class TemplateDtoUtil {
 		baseMapperDto
 				.setImportBaseRespBodyClass(baseRespBodyDto.getPackageName() + "." + baseRespBodyDto.getClassName());
 		return baseMapperDto;
-	}
-
-	private static String getBaseRespBodyPackage(String mainClassPackage) {
-		int index = mainClassPackage.lastIndexOf('.');
-
-		return mainClassPackage.subSequence(0, index) + ".rpc" + mainClassPackage.substring(index)
-				+ Config.BASE_RESPBODY_PACKAGE_SUFFIX;
 	}
 
 }
