@@ -7,15 +7,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BaseMapperDto {
-	
-	private CommonDto common;
-	/** 包名 */
-	private String packageName;
+public class BaseMapperDto extends CommonDto {
+
+	/** 类注释信息 */
+	private ClassCommentDto classComment;
 	/** 表备注 */
 	private String tableComment;
-	/** 类名 */
-	private String className;
 	
 	/** entity类名 */
 	private String entityClassName;

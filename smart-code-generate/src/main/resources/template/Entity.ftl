@@ -18,8 +18,8 @@ import lombok.experimental.SuperBuilder;
 /**
  * ${tableComment}
  *
- * @author ${common.author}
- * @date ${common.createDate}
+ * @author ${classComment.author}
+ * @date ${classComment.createDate}
  */
 @Getter
 @Setter

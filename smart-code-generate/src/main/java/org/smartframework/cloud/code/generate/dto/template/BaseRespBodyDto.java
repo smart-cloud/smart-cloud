@@ -10,16 +10,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BaseRespBodyDto {
+public class BaseRespBodyDto extends CommonDto {
 	
-	/** 包名 */
-	private String packageName;
 	/** 需要导入的包名 */
 	private Set<String> importPackages;
 	/** 表备注 */
 	private String tableComment;
-	/** 类名 */
-	private String className;
 	/** 表字段对应的java属性信息 */
 	List<EntityAttributeDto> attributes;
 	

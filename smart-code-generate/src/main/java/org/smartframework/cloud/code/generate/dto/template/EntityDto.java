@@ -10,19 +10,16 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class EntityDto {
+public class EntityDto extends CommonDto {
 
-	private CommonDto common;
-	/** 包名 */
-	private String packageName;
+	/** 类注释信息 */
+	private ClassCommentDto classComment;
 	/** 需要导入的包名 */
 	private Set<String> importPackages;
 	/** 表名 */
 	private String tableName;
 	/** 表备注 */
 	private String tableComment;
-	/** 类名 */
-	private String className;
 	/** 表字段对应的java属性信息 */
 	List<EntityAttributeDto> attributes;
 

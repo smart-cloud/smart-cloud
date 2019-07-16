@@ -12,7 +12,7 @@ import org.smartframework.cloud.code.generate.dto.ColumnMetaDataDto;
 import org.smartframework.cloud.code.generate.dto.TableMetaDataDto;
 import org.smartframework.cloud.code.generate.dto.template.BaseMapperDto;
 import org.smartframework.cloud.code.generate.dto.template.BaseRespBodyDto;
-import org.smartframework.cloud.code.generate.dto.template.CommonDto;
+import org.smartframework.cloud.code.generate.dto.template.ClassCommentDto;
 import org.smartframework.cloud.code.generate.dto.template.EntityAttributeDto;
 import org.smartframework.cloud.code.generate.dto.template.EntityDto;
 
@@ -33,11 +33,11 @@ public class TemplateDtoUtil {
 	 * @param author
 	 * @return
 	 */
-	public static CommonDto getCommonDto(String author) {
-		CommonDto commonDto = new CommonDto();
-		commonDto.setCreateDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-		commonDto.setAuthor(author);
-		return commonDto;
+	public static ClassCommentDto getClassCommentDto(String author) {
+		ClassCommentDto classComment = new ClassCommentDto();
+		classComment.setCreateDate(new SimpleDateFormat(Config.CREATEDATE_FORMAT).format(new Date()));
+		classComment.setAuthor(author);
+		return classComment;
 	}
 
 	/**
@@ -45,17 +45,17 @@ public class TemplateDtoUtil {
 	 * 
 	 * @param tableMetaData
 	 * @param columnMetaDatas
-	 * @param commonDto
+	 * @param classComment
 	 * @param mainClassPackage
 	 * @return
 	 */
 	public static EntityDto getEntityDto(TableMetaDataDto tableMetaData, List<ColumnMetaDataDto> columnMetaDatas,
-			CommonDto commonDto, String mainClassPackage) {
+			ClassCommentDto classComment, String mainClassPackage) {
 		EntityDto entityDto = new EntityDto();
-		entityDto.setCommon(commonDto);
-		entityDto.setPackageName(mainClassPackage + Config.ENTITY_PACKAGE_SUFFIX);
+		entityDto.setClassComment(classComment);
 		entityDto.setTableName(tableMetaData.getName());
 		entityDto.setTableComment(tableMetaData.getComment());
+		entityDto.setPackageName(mainClassPackage + Config.ENTITY_PACKAGE_SUFFIX);
 		entityDto.setClassName(JavaTypeUtil.getEntityName(tableMetaData.getName()));
 
 		List<EntityAttributeDto> attributes = new ArrayList<>();
@@ -92,8 +92,8 @@ public class TemplateDtoUtil {
 	public static BaseRespBodyDto getBaseRespBodyDto(TableMetaDataDto tableMetaData,
 			List<ColumnMetaDataDto> columnMetaDatas, String mainClassPackage, Set<String> importPackages) {
 		BaseRespBodyDto baseRespBodyDto = new BaseRespBodyDto();
-		baseRespBodyDto.setPackageName(getBaseRespBodyPackage(mainClassPackage));
 		baseRespBodyDto.setTableComment(tableMetaData.getComment());
+		baseRespBodyDto.setPackageName(getBaseRespBodyPackage(mainClassPackage));
 		baseRespBodyDto.setClassName(JavaTypeUtil.getBaseRespBodyName(tableMetaData.getName()));
 		baseRespBodyDto.setImportPackages(importPackages);
 
@@ -132,16 +132,16 @@ public class TemplateDtoUtil {
 	 * @param tableMetaData
 	 * @param entityDto
 	 * @param baseRespBodyDto
-	 * @param commonDto
+	 * @param classComment
 	 * @param mainClassPackage
 	 * @return
 	 */
 	public static BaseMapperDto getBaseMapperDto(TableMetaDataDto tableMetaData, EntityDto entityDto,
-			BaseRespBodyDto baseRespBodyDto, CommonDto commonDto, String mainClassPackage) {
+			BaseRespBodyDto baseRespBodyDto, ClassCommentDto classComment, String mainClassPackage) {
 		BaseMapperDto baseMapperDto = new BaseMapperDto();
-		baseMapperDto.setCommon(commonDto);
-		baseMapperDto.setPackageName(mainClassPackage + Config.MAPPER_PACKAGE_SUFFIX);
+		baseMapperDto.setClassComment(classComment);
 		baseMapperDto.setTableComment(tableMetaData.getComment());
+		baseMapperDto.setPackageName(mainClassPackage + Config.MAPPER_PACKAGE_SUFFIX);
 		baseMapperDto.setClassName(JavaTypeUtil.getMapperName(tableMetaData.getName()));
 
 		baseMapperDto.setEntityClassName(entityDto.getClassName());

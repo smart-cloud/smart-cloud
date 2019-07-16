@@ -13,7 +13,7 @@ import org.smartframework.cloud.code.generate.dto.ColumnMetaDataDto;
 import org.smartframework.cloud.code.generate.dto.TableMetaDataDto;
 import org.smartframework.cloud.code.generate.dto.template.BaseMapperDto;
 import org.smartframework.cloud.code.generate.dto.template.BaseRespBodyDto;
-import org.smartframework.cloud.code.generate.dto.template.CommonDto;
+import org.smartframework.cloud.code.generate.dto.template.ClassCommentDto;
 import org.smartframework.cloud.code.generate.dto.template.EntityDto;
 import org.smartframework.cloud.code.generate.util.CodeFileGenerateUtil;
 import org.smartframework.cloud.code.generate.util.DbUtil;
@@ -43,11 +43,12 @@ public class CodeGenerateUtil {
 
 		try (Connection connnection = DbUtil.getConnection(resource);) {
 			Map<String, TableMetaDataDto> tableMetaDataMap = DbUtil.getTablesMetaData(connnection, resource);
-			CommonDto commonDto = TemplateDtoUtil.getCommonDto(resource.getString(ConfigCode.Generate.AUTHOR));
+			ClassCommentDto classComment = TemplateDtoUtil
+					.getClassCommentDto(resource.getString(ConfigCode.Generate.AUTHOR));
 
 			DatabaseMetaData metaData = connnection.getMetaData();
 			for (Map.Entry<String, TableMetaDataDto> entry : tableMetaDataMap.entrySet()) {
-				generateSingleTable(connnection.getCatalog(), entry.getValue(), metaData, commonDto, resource);
+				generateSingleTable(connnection.getCatalog(), entry.getValue(), metaData, classComment, resource);
 			}
 		}
 	}
@@ -58,20 +59,21 @@ public class CodeGenerateUtil {
 	 * @param database      数据库名
 	 * @param tableMetaData
 	 * @param metaData
-	 * @param commonDto     公共信息
+	 * @param classComment  公共信息
 	 * @param resource      配置信息
 	 * @throws SQLException
 	 * @throws IOException
 	 */
 	private static void generateSingleTable(String database, TableMetaDataDto tableMetaData, DatabaseMetaData metaData,
-			CommonDto commonDto, ResourceBundle resource) throws SQLException, IOException {
+			ClassCommentDto classComment, ResourceBundle resource) throws SQLException, IOException {
 		List<ColumnMetaDataDto> columnMetaDatas = DbUtil.getTableColumnMetaDatas(metaData, database,
 				tableMetaData.getName());
 		String mainClassPackage = resource.getString(ConfigCode.Generate.MAIN_CLASS_PACKAGE);
 		String rpcPath = resource.getString(ConfigCode.Generate.RPC_PATH);
 		String servicePath = resource.getString(ConfigCode.Generate.SERVICE_PATH);
 
-		EntityDto entityDto = TemplateDtoUtil.getEntityDto(tableMetaData, columnMetaDatas, commonDto, mainClassPackage);
+		EntityDto entityDto = TemplateDtoUtil.getEntityDto(tableMetaData, columnMetaDatas, classComment,
+				mainClassPackage);
 		CodeFileGenerateUtil.generateEntity(entityDto, servicePath);
 
 		BaseRespBodyDto baseRespBodyDto = TemplateDtoUtil.getBaseRespBodyDto(tableMetaData, columnMetaDatas,
@@ -79,7 +81,7 @@ public class CodeGenerateUtil {
 		CodeFileGenerateUtil.generateBaseRespBody(baseRespBodyDto, rpcPath);
 
 		BaseMapperDto baseMapperDto = TemplateDtoUtil.getBaseMapperDto(tableMetaData, entityDto, baseRespBodyDto,
-				commonDto, mainClassPackage);
+				classComment, mainClassPackage);
 		CodeFileGenerateUtil.generateBaseMapper(baseMapperDto, servicePath);
 	}
 

@@ -13,9 +13,9 @@ import lombok.Setter;
 @Setter
 public class CommonDto {
 
-	/** 创建人 */
-	private String author;
-	/** 生成时间(yyyy-MM-dd) */
-	private String createDate;
+	/** 包名 */
+	private String packageName;
+	/** 类名 */
+	private String className;
 
 }

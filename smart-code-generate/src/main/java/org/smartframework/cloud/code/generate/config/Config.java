@@ -15,6 +15,8 @@ public class Config {
 
 	/** 默认编码（utf-8） */
 	public static final String DEFAULT_ENCODING = StandardCharsets.UTF_8.name();
+	/** 代码生成日期格式 */
+	public static final String CREATEDATE_FORMAT = "yyyy-MM-dd";
 	/** 配置文件所在路径 */
 	public static final String CONFIG_PATH = "config/";
 	/** 总配置文件名 */
