@@ -28,7 +28,7 @@ import lombok.Getter;
 @Import({ SmartDataSourceInitializerInvoker.class, SmartDataSourceAutoConfiguration.Registrar.class })
 public class SmartDataSourceAutoConfiguration {
 
-	static class Registrar implements ImportBeanDefinitionRegistrar {
+	public static class Registrar implements ImportBeanDefinitionRegistrar {
 
 		private static final String BEAN_NAME = SmartDataSourceInitializerPostProcessor.class.getSimpleName();
 		@Getter
@@ -39,7 +39,7 @@ public class SmartDataSourceAutoConfiguration {
 				BeanDefinitionRegistry registry) {
 			if (!registry.containsBeanDefinition(BEAN_NAME)) {
 				SmartDataSourceAutoConfiguration.Registrar.registry = registry;
-				
+
 				GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
 				beanDefinition.setBeanClass(SmartDataSourceInitializerPostProcessor.class);
 				beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -51,7 +51,7 @@ public class SmartDataSourceAutoConfiguration {
 		}
 
 	}
-	
+
 	@Bean
 	public InitTransactionalValue initTransactionalValue() {
 		return new InitTransactionalValue();

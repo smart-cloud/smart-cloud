@@ -33,6 +33,7 @@
 		<redisson>3.9.1</redisson>
 		<mybatis-spring-boot-starter>2.0.1</mybatis-spring-boot-starter>
 		<mapper>4.1.5</mapper>
+		<mybatis-plus>3.1.2</mybatis-plus>
 		<pagehelper>5.1.8</pagehelper>
 		<sharding-jdbc>4.0.0-RC1</sharding-jdbc>
 		<spring-cloud-alibaba>0.9.1.BUILD-SNAPSHOT</spring-cloud-alibaba>
@@ -277,6 +278,12 @@
 				<groupId>tk.mybatis</groupId>
 				<artifactId>mapper</artifactId>
 				<version>${mapper}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus</artifactId>
+				<version>${mybatis-plus}</version>
 			</dependency>
 
 			<dependency>
