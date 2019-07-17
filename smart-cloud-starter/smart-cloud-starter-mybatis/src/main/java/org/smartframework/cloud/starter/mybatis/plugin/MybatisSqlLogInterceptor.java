@@ -25,6 +25,8 @@ import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.utility.DateUtil;
 import org.springframework.util.CollectionUtils;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * mybatis sql日志打印
@@ -36,6 +38,7 @@ import org.springframework.util.CollectionUtils;
 		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }),
 		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class }),
 		@Signature(type = Executor.class, method = "queryCursor", args = { MappedStatement.class, Object.class, RowBounds.class }) })
+@Slf4j
 public class MybatisSqlLogInterceptor implements Interceptor {
 
 	private static final String QUOTE = "\\?";
@@ -102,7 +105,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 		str.append("result===>");
 		str.append(returnValue);
 
-		LogUtil.info(str.toString());
+		log.info(LogUtil.truncate(str.toString()));
 	}
 
 	private static String getParameterValue(Object obj) {

@@ -21,7 +21,10 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Configuration
+@Slf4j
 public class SmartWebMvcConfigurer implements WebMvcConfigurer {
 
 	@Override
@@ -56,7 +59,7 @@ public class SmartWebMvcConfigurer implements WebMvcConfigurer {
 		@ExceptionHandler(Exception.class)
 		@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 		public Resp<BaseDto> handleException(Exception e) {
-			LogUtil.error(e.getMessage(), e);
+			log.error(LogUtil.truncate(e.getMessage(), e));
 
 			RespHead head = ExceptionUtil.parse(e);
 			return new Resp<>(head);

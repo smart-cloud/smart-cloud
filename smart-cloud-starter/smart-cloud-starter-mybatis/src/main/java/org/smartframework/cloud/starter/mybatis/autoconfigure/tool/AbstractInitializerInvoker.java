@@ -11,7 +11,6 @@ import org.apache.shardingsphere.core.yaml.swapper.impl.ShardingRuleConfiguratio
 import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
 import org.smartframework.cloud.starter.common.constants.SymbolConstant;
-import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.starter.mybatis.autoconfigure.InitTransactionalValue;
 import org.smartframework.cloud.starter.mybatis.constant.MultipleDataSourceConstant;
 import org.smartframework.cloud.starter.mybatis.plugin.MybatisSqlLogInterceptor;
@@ -25,6 +24,7 @@ import org.springframework.util.Assert;
 import com.zaxxer.hikari.HikariDataSource;
 
 import io.seata.rm.datasource.DataSourceProxy;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 多数据源bean初始化
@@ -33,6 +33,7 @@ import io.seata.rm.datasource.DataSourceProxy;
  * @date 2019-05-28
  * @since DataSourceInitializerInvoker
  */
+@Slf4j
 public abstract class AbstractInitializerInvoker {
 
 	private final SmartDatasourceProperties multipleDatasourceProperties;
@@ -156,7 +157,7 @@ public abstract class AbstractInitializerInvoker {
 				shardingJdbcDatasourcesMap
 						.forEach((name, properties) -> initOtherBeanOfDatasource(name, dataSource, properties));
 			} catch (SQLException e) {
-				LogUtil.error(e.getMessage(), e);
+				log.error(e.getMessage(), e);
 			}
 		});
 	}

@@ -16,12 +16,15 @@ import org.smartframework.cloud.starter.rpc.feign.dto.FeignAspectDto;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * feign切面
  *
  * @author liyulin
  * @date 2019-04-21
  */
+@Slf4j
 public class FeignInterceptor implements MethodInterceptor {
 
 	@Override
@@ -54,7 +57,7 @@ public class FeignInterceptor implements MethodInterceptor {
 		logDto.setRespData(result);
 
 		// 3、打印日志
-		LogUtil.info("rpc.logDto=>{}", logDto);
+		log.info(LogUtil.truncate("rpc.logDto=>{}", logDto));
 
 		return result;
 	}

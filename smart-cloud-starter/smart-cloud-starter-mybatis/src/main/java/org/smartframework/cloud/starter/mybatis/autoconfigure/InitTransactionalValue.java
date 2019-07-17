@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.utility.CollectionUtil;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,15 @@ import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 import org.springframework.transaction.interceptor.TransactionAttribute;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 初始化<code>@Transactional</code>的属性value值
  *
  * @author liyulin
  * @date 2019-05-19
  */
+@Slf4j
 public class InitTransactionalValue implements ApplicationListener<ApplicationStartedEvent> {
 
 	@Autowired
@@ -104,7 +106,7 @@ public class InitTransactionalValue implements ApplicationListener<ApplicationSt
 			field.setAccessible(true);
 			return (T) field.get(object);
 		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-			LogUtil.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 
 		return null;

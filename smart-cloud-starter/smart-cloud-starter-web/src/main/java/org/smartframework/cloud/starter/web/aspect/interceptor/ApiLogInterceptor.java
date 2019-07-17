@@ -22,12 +22,15 @@ import org.springframework.core.Ordered;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 接口日志切面
  *
  * @author liyulin
  * @date 2019-04-08
  */
+@Slf4j
 public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 
 	@Override
@@ -71,14 +74,14 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 			logDto.setReqDealTime(getReqDealTime(logDto));
 			logDto.setRespData(result);
 
-			LogUtil.info("api.logDto.info=>{}", logDto);
+			log.info(LogUtil.truncate("api.logDto.info=>{}", logDto));
 			return result;
 		} catch (Exception e) {
 			logDto.setReqEndTime(new Date());
 			logDto.setReqDealTime(getReqDealTime(logDto));
 			logDto.setExceptionStackInfo(ExceptionUtil.toString(e));
 
-			LogUtil.error("api.logDto.error=>{}", logDto);
+			log.error(LogUtil.truncate("api.logDto.error=>{}", logDto));
 
 			RespHead head = ExceptionUtil.parse(e);
 			return new Resp<>(head);
