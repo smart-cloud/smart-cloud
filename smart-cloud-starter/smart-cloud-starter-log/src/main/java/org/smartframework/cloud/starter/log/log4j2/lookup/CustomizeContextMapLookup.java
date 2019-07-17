@@ -12,6 +12,7 @@ import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.lookup.StrLookup;
 import org.smartframework.cloud.starter.log.system.ApplicationHome;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -43,10 +44,9 @@ public class CustomizeContextMapLookup implements StrLookup {
 			appName = getCurrentProjectName();
 		} else {
 			appName = readAppNameFromYaml(resource);
-		}
-		
-		if (appName == null) {
-			appName = "";
+			if (StringUtils.isEmpty(appName)) {
+				appName = getCurrentProjectName();
+			}
 		}
 		
 		DATA.put("appName", appName);
@@ -117,9 +117,17 @@ public class CustomizeContextMapLookup implements StrLookup {
 		String value = null;
 		for (int i = 0; i < keys.length; i++) {
 			if (i == 0) {
-				tempMap = (Map<String, Object>) yamlJson.get(keys[i]);
+				Object tmp = yamlJson.get(keys[i]);
+				if (tmp == null) {
+					return null;
+				}
+				tempMap = (Map<String, Object>) tmp;
 			} else if (i < keys.length - 1) {
-				tempMap = (Map<String, Object>) tempMap.get(keys[i]);
+				Object tmp = tempMap.get(keys[i]);
+				if (tmp == null) {
+					return null;
+				}
+				tempMap = (Map<String, Object>) tmp;
 			} else {
 				value = String.valueOf(tempMap.get(keys[i]));
 			}
