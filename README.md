@@ -54,7 +54,7 @@
  	</tr>
  	<tr>
  		<td>smart-cloud-starter-mybatis</td>
- 		<td>mybatis封装。支持多数据源配置、分库分表（sharding jdbc配置）、分布式事务（seata配置）；通用mapper封装，mapper工具类等</td>
+ 		<td>mybatis封装。支持多数据源配置、分库分表（sharding jdbc配置）、分布式事务（seata配置）；通用mapper封装，mapper工具类等;支持通用mapper、mybatis plus。</td>
  	</tr>
  	<tr>
  		<td>smart-cloud-starter-redis</td>
@@ -104,7 +104,7 @@
 [携程apollo](https://github.com/ctripcorp/apollo) | 配置中心 
 [openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
-[mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)| ORM 
+[mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM 
 [seata](https://github.com/seata/seata) | 分布式事务
 [sharding jdbc](https://github.com/apache/incubator-shardingsphere) | 分库分表
 [redis](https://redis.io/) | 缓存 
