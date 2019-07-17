@@ -18,7 +18,6 @@
 		<module>smart-cloud-starter-locale</module>
 		<module>smart-cloud-starter-log</module>
 		<module>smart-cloud-starter-mock</module>
-		<module>smart-cloud-starter-mq</module>
 		<module>smart-cloud-starter-mybatis</module>
 		<module>smart-cloud-starter-redis</module>
 		<module>smart-cloud-starter-rpc</module>

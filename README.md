@@ -24,7 +24,7 @@
 		<th>说明</th>
 	</tr>
  	<tr>
- 		<td rowspan=13>smart-cloud-starter</td>
+ 		<td rowspan=12>smart-cloud-starter</td>
  		<td>smart-cloud-starter-common</td>
  		<td>自定义注解、异常封装、请求响应公共参数、业务相关工具类</td>
  	</tr>
@@ -47,10 +47,6 @@
  	<tr>
  		<td>smart-cloud-starter-mock</td>
  		<td>mock工具类、常用mock策略、请求接口mock拦截器</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-mq</td>
- 		<td>mq封装（rocketmq）</td>
  	</tr>
  	<tr>
  		<td>smart-cloud-starter-mybatis</td>

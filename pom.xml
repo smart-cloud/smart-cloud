@@ -106,12 +106,6 @@
 
 			<dependency>
 				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-mq</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
 				<artifactId>smart-cloud-starter-mybatis</artifactId>
 				<version>${project.version}</version>
 			</dependency>
