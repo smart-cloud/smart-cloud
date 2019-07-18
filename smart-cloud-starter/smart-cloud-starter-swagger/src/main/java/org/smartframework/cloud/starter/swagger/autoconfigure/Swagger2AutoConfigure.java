@@ -17,7 +17,6 @@ import org.springframework.web.context.request.async.DeferredResult;
 
 import com.google.common.base.Predicate;
 
-import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -37,7 +36,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@Import(BeanValidatorPluginsConfiguration.class)
+@Import(SmartBeanValidatorPluginsConfiguration.class)
 @ConditionalOnProperty(name="smart.swagger.enable", havingValue = "true")
 public class Swagger2AutoConfigure {
 	
@@ -45,7 +44,7 @@ public class Swagger2AutoConfigure {
 	private SmartProperties smartProperties;
 
 	@Bean
-	public Docket createRestApi() {
+	public Docket docket() {
 		List<Predicate<RequestHandler>> requestHandlers = new ArrayList<>();
 		String[] basePackages = PackageConfig.getBasePackages();
 		for (String basePackage : basePackages) {
