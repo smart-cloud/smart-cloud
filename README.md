@@ -110,6 +110,7 @@
 [easyexcel](https://github.com/alibaba/easyexcel) | excel导入导出
 [Hibernator-Validator](http://hibernate.org/validator/) | 参数校验 
 [mockito](https://site.mockito.org/) | 单元测试
+[freemarker](https://freemarker.apache.org/) | 用于代码生成
 [swagger](https://swagger.io/)、[gitbook](https://www.gitbook.com/) | 接口文档 
 [xjar](https://github.com/core-lib/xjar) | 代码安全 
 [jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot) | 配置文件中敏感数据加解密
