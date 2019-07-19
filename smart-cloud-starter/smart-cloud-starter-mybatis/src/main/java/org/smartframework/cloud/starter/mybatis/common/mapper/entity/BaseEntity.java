@@ -7,8 +7,6 @@ import javax.persistence.Id;
 
 import org.smartframework.cloud.common.pojo.dto.BaseDto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -54,27 +52,23 @@ public class BaseEntity extends BaseDto {
 	@Column(name = "f_sys_del_state")
 	private Byte delState;
 
-	@Getter
-	@AllArgsConstructor(access = AccessLevel.PRIVATE)
 	public enum Columns {
 		/** 主键 */
-		ID("id"),
+		id,
 		/** 创建时间 */
-		ADD_TIME("addTime"),
+		addTime,
 		/** 更新时间 */
-		UPD_TIME("updTime"),
+		updTime,
 		/** 删除时间 */
-		DEL_TIME("delTime"),
+		delTime,
 		/** 新增者 */
-		ADD_USER("addUser"),
+		addUser,
 		/** 更新者 */
-		UPD_USER("updUser"),
+		updUser,
 		/** 删除者 */
-		DEL_USER("delUser"),
+		delUser,
 		/** 删除状态 */
-		DEL_STATE("delState");
-
-		private String property;
+		delState;
 	}
 
 }
