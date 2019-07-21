@@ -22,11 +22,11 @@ public class RespHead extends BaseDto {
 	@ApiModelProperty(value = "全局唯一交易流水号", example = "eb9f81e7cee1c000")
 	private String nonce;
 
-	@ApiModelProperty(value = "响应状态码", example = "100500")
+	@ApiModelProperty(value = "响应状态码", example = "100200")
 	@PodamStringValue(strValue = "100200")
 	private String code;
 
-	@ApiModelProperty(value = "提示信息", example = "服务器异常")
+	@ApiModelProperty(value = "提示信息", example = "成功")
 	private String message;
 
 	@ApiModelProperty(value = "响应时间戳", example = "1554551377629")
