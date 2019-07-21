@@ -16,7 +16,7 @@
 			<groupId>org.smartframework.cloud</groupId>
 			<artifactId>smart-cloud-starter-common</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -31,5 +31,15 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-bean-validators</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>io.github.swagger2markup</groupId>
+			<artifactId>swagger2markup</artifactId>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 	</dependencies>
 </project>

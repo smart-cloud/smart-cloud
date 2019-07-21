@@ -42,6 +42,7 @@
 		<fastjson>1.2.58</fastjson>
 		<springfox-swagger2>2.9.2</springfox-swagger2>
 		<swagger-annotations>1.5.20</swagger-annotations>
+		<swagger2markup>1.3.3</swagger2markup>
 		<podam>7.2.3.RELEASE</podam>
 		<guava>23.0</guava>
 		<reflections>0.9.11</reflections>
@@ -395,6 +396,12 @@
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-annotations</artifactId>
 				<version>${swagger-annotations}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>io.github.swagger2markup</groupId>
+				<artifactId>swagger2markup</artifactId>
+				<version>${swagger2markup}</version>
 			</dependency>
 
 			<dependency>

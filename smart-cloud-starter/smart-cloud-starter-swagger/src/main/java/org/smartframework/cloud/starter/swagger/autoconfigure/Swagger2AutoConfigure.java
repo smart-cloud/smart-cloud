@@ -8,7 +8,10 @@ import java.util.List;
 import org.smartframework.cloud.starter.common.constants.PackageConfig;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.configure.properties.SwaggerProperties;
+import org.smartframework.cloud.starter.swagger.core.Swagger2Markdown;
+import org.smartframework.cloud.starter.swagger.listener.SwaggerListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -67,6 +70,16 @@ public class Swagger2AutoConfigure {
 				.contact(contact)
 				.version(smartProperties.getApi().getApiVersion())
 				.build();
+	}
+	
+	@Bean
+	public Swagger2Markdown Swagger2Markdown(@Value("${server.port}") String port) {
+		return new Swagger2Markdown(port, smartProperties.getSwagger().getGroupName());
+	}
+
+	@Bean
+	public SwaggerListener SwaggerListener(final Swagger2Markdown swagger2Markdown) {
+		return new SwaggerListener(swagger2Markdown);
 	}
 
 }
