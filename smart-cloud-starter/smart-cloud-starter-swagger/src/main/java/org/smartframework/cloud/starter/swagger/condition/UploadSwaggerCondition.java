@@ -12,7 +12,7 @@ import org.springframework.web.context.WebApplicationContext;
  * 上传swagger文档的条件
  *
  * @author liyulin
- * @date 2019年7月24日下午11:54:57
+ * @date 2019-07-25
  */
 public class UploadSwaggerCondition implements Condition {
 

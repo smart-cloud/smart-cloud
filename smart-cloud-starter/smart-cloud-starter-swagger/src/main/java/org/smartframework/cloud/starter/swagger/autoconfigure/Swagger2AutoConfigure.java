@@ -10,7 +10,7 @@ import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.configure.properties.SwaggerProperties;
 import org.smartframework.cloud.starter.swagger.condition.UploadSwaggerCondition;
 import org.smartframework.cloud.starter.swagger.core.Swagger2Markdown;
-import org.smartframework.cloud.starter.swagger.listener.SwaggerListener;
+import org.smartframework.cloud.starter.swagger.listener.UploadSwaggerListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -64,8 +64,7 @@ public class Swagger2AutoConfigure {
 
 	private ApiInfo apiInfo() {
 		SwaggerProperties swagger = smartProperties.getSwagger();
-		Contact contact = new Contact(swagger.getName(), swagger.getUrl(),
-				swagger.getEmail());
+		Contact contact = new Contact(swagger.getName(), swagger.getUrl(), swagger.getEmail());
 		return new ApiInfoBuilder()
 				.title(swagger.getTitle())
 				.description(swagger.getDescription())
@@ -79,14 +78,14 @@ public class Swagger2AutoConfigure {
 	static class UploadSwaggerAutoConfigure {
 		
 		@Bean
-		public Swagger2Markdown Swagger2Markdown(@Value("${server.port}") String port,
+		public Swagger2Markdown swagger2Markdown(@Value("${server.port}") String port,
 				final SmartProperties smartProperties) {
 			return new Swagger2Markdown(port, smartProperties.getSwagger().getGroupName());
 		}
 
 		@Bean
-		public SwaggerListener SwaggerListener(final Swagger2Markdown swagger2Markdown) {
-			return new SwaggerListener(swagger2Markdown);
+		public UploadSwaggerListener uploadSwaggerListener(final Swagger2Markdown swagger2Markdown) {
+			return new UploadSwaggerListener(swagger2Markdown);
 		}
 		
 	}

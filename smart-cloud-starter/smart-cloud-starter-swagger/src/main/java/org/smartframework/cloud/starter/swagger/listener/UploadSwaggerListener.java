@@ -17,19 +17,19 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RequiredArgsConstructor
 @Slf4j
-public class SwaggerListener implements ApplicationListener<ApplicationStartedEvent> {
+public class UploadSwaggerListener implements ApplicationListener<ApplicationStartedEvent> {
 
 	private final Swagger2Markdown swagger2Markdown;
 
 	@Override
 	public void onApplicationEvent(ApplicationStartedEvent event) {
-		syncUploadApiDocs();
+		syncUploadSwaggerDocs();
 	}
 
 	/**
 	 * 异步上传接口文档
 	 */
-	private void syncUploadApiDocs() {
+	private void syncUploadSwaggerDocs() {
 		new Thread(() -> {
 			try {
 				swagger2Markdown.getSwaggerMd();
