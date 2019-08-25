@@ -30,6 +30,7 @@
 		<spring-cloud-netflix-dependencies>2.1.1.RELEASE</spring-cloud-netflix-dependencies>
 		<spring.boot.admin>2.1.5</spring.boot.admin>
 		<!-- version>=3.10.0时，NX返回null -->
+		<dubbo>2.7.3</dubbo>
 		<redisson>3.9.1</redisson>
 		<mybatis-spring-boot-starter>2.0.1</mybatis-spring-boot-starter>
 		<mapper>4.1.5</mapper>
@@ -119,7 +120,7 @@
 
 			<dependency>
 				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-rpc</artifactId>
+				<artifactId>smart-cloud-starter-feign</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -195,6 +196,12 @@
 						<artifactId>spring-boot-starter-tomcat</artifactId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.dubbo</groupId>
+				<artifactId>dubbo-spring-boot-starter</artifactId>
+				<version>${dubbo}</version>
 			</dependency>
 
 			<dependency>

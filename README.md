@@ -24,13 +24,17 @@
 		<th>说明</th>
 	</tr>
  	<tr>
- 		<td rowspan=12>smart-cloud-starter</td>
+ 		<td rowspan=13>smart-cloud-starter</td>
  		<td>smart-cloud-starter-common</td>
  		<td>自定义注解、异常封装、请求响应公共参数、业务相关工具类</td>
  	</tr>
  	<tr>
  		<td>smart-cloud-starter-configure</td>
  		<td>配置信息</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-cloud-starter-dubbo</td>
+ 		<td>日志、参数校验、加密、签名等处理</td>
  	</tr>
  	<tr>
  		<td>smart-cloud-starter-job</td>
@@ -57,8 +61,8 @@
  		<td>redis封装</td>
  	</tr>
  	<tr>
- 		<td>smart-cloud-starter-rpc</td>
- 		<td>rpc封装（feign，可拆可合），切面拦截（日志、加密、签名等处理）</td>
+ 		<td>smart-cloud-starter-feign</td>
+ 		<td>feign封装（可拆可合），切面拦截（日志、加密、签名等处理）</td>
  	</tr>
  	<tr>
  		<td>smart-cloud-starter-swagger</td>
