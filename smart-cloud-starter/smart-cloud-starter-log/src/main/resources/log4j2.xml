@@ -20,7 +20,7 @@
 			sleuth相关参数：
 			TraceId为此次调用链共享id；SpanId本应用唯一id；ParentSpanId为上级应用唯一id；X-Span-Export是否是发送给Zipkin
 			-->
-		<Property name="log_format">[%-5level][${cctx:appName}][%date{yyyy-MM-dd HH:mm:ss.SSS}][%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}][%thread] (%F:%line)[%method] -> %message%n</Property>
+		<Property name="log_format">[%-5level][${project}][%date{yyyy-MM-dd HH:mm:ss.SSS}][%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}][%thread] (%F:%line)[%method] -> %message%n</Property>
 	</Properties>
 
 	<Appenders>
