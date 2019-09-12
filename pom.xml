@@ -29,9 +29,8 @@
 		<spring-cloud-gateway-dependencies>2.1.1.RELEASE</spring-cloud-gateway-dependencies>
 		<spring-cloud-netflix-dependencies>2.1.1.RELEASE</spring-cloud-netflix-dependencies>
 		<spring.boot.admin>2.1.5</spring.boot.admin>
-		<!-- version>=3.10.0时，NX返回null -->
 		<dubbo>2.7.3</dubbo>
-		<redisson>3.9.1</redisson>
+		<redisson>3.11.3</redisson>
 		<mybatis-spring-boot-starter>2.0.1</mybatis-spring-boot-starter>
 		<mapper>4.1.5</mapper>
 		<mybatis-plus>3.1.2</mybatis-plus>
