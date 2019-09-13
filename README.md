@@ -149,6 +149,19 @@ http get、http post共同部分，即http headers部分的数据，它包含请
 	smart-nonce: eb9f81e7cee1c000
 ```
 
+**接口类型标志**
+
+签名(sign->s) | 加密(encrypt->e) | 鉴权(auth->a) | url约定
+---|---|---|---
+需要 | 需要 | 需要 | sea
+需要 | 需要 | 不需要 | se
+需要 | 不需要 | 需要 | sa
+需要 | 不需要 | 不需要 | s
+不需要 | 需要 | 需要 | ea
+不需要 | 需要 | 不需要 | e
+不需要 | 不需要 | 需要 | a
+不需要 | 不需要 | 不需要 | o
+
 ## （二）Http GET
 请求数据由http headers、url查询字符串组成，url查询字符串为实际请求的参数。
 如http://localhost:10010/api/open/user/loginInfo/queryById?id=100
