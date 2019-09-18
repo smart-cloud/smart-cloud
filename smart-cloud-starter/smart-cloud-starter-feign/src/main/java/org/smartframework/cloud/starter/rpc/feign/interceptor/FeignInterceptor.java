@@ -12,7 +12,7 @@ import org.smartframework.cloud.starter.common.business.util.AspectInterceptorUt
 import org.smartframework.cloud.starter.common.business.util.WebUtil;
 import org.smartframework.cloud.starter.common.constants.SymbolConstant;
 import org.smartframework.cloud.starter.log.util.LogUtil;
-import org.smartframework.cloud.starter.rpc.feign.dto.FeignAspectDto;
+import org.smartframework.cloud.starter.rpc.feign.pojo.FeignLogAspectDO;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -33,31 +33,31 @@ public class FeignInterceptor implements MethodInterceptor {
 		// 1、填充head
 		// TODO:填充token、sign
 
-		FeignAspectDto logDto = new FeignAspectDto();
-		logDto.setReqStartTime(new Date());
+		FeignLogAspectDO logDO = new FeignLogAspectDO();
+		logDO.setReqStartTime(new Date());
 
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
 
 		Method method = invocation.getMethod();
 		String apiDesc = AspectInterceptorUtil.getFeignMethodDesc(method, request.getServletPath());
-		logDto.setApiDesc(apiDesc);
+		logDO.setApiDesc(apiDesc);
 
 		String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstant.DOT + method.getName();
-		logDto.setClassMethod(classMethod);
+		logDO.setClassMethod(classMethod);
 
-		logDto.setReqParams(WebUtil.getRequestArgs(args));
-		logDto.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto());
+		logDO.setReqParams(WebUtil.getRequestArgs(args));
+		logDO.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto());
 
 		// 2、rpc
 		Object result = invocation.proceed();
 
-		logDto.setReqEndTime(new Date());
-		logDto.setReqDealTime((int) (logDto.getReqEndTime().getTime() - logDto.getReqStartTime().getTime()));
-		logDto.setRespData(result);
+		logDO.setReqEndTime(new Date());
+		logDO.setReqDealTime((int) (logDO.getReqEndTime().getTime() - logDO.getReqStartTime().getTime()));
+		logDO.setRespData(result);
 
 		// 3、打印日志
-		log.info(LogUtil.truncate("rpc.logDto=>{}", logDto));
+		log.info(LogUtil.truncate("rpc.logDO=>{}", logDO));
 
 		return result;
 	}

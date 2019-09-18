@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.rpc.feign.dto;
+package org.smartframework.cloud.starter.rpc.feign.pojo;
 
 import java.util.Date;
 
@@ -25,7 +25,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class FeignAspectDto extends BaseDto {
+public class FeignLogAspectDO extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 

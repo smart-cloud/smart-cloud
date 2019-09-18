@@ -16,7 +16,7 @@ import org.smartframework.cloud.starter.common.business.util.WebUtil;
 import org.smartframework.cloud.starter.common.constants.SymbolConstant;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.starter.log.util.LogUtil;
-import org.smartframework.cloud.starter.web.aspect.dto.LogAspectDto;
+import org.smartframework.cloud.starter.web.aspect.pojo.LogAspectDO;
 import org.smartframework.cloud.utility.ObjectUtil;
 import org.springframework.core.Ordered;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -44,51 +44,51 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 		if (ObjectUtil.isNull(RequestContextHolder.getRequestAttributes())) {
 			return invocation.proceed();
 		}
-		LogAspectDto logDto = new LogAspectDto();
-		logDto.setReqStartTime(new Date());
+		LogAspectDO logDO = new LogAspectDO();
+		logDO.setReqStartTime(new Date());
 
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
 
 		Method method = invocation.getMethod();
 		String apiDesc = AspectInterceptorUtil.getControllerMethodDesc(method, request.getServletPath());
-		logDto.setApiDesc(apiDesc);
+		logDO.setApiDesc(apiDesc);
 
-		logDto.setReqParams(WebUtil.getRequestArgs(invocation.getArguments()));
-		logDto.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto());
+		logDO.setReqParams(WebUtil.getRequestArgs(invocation.getArguments()));
+		logDO.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto());
 
-		logDto.setUrl(request.getRequestURL().toString());
-		logDto.setIp(WebUtil.getRealIP(request));
-		logDto.setOs(request.getHeader("User-Agent"));
-		logDto.setHttpMethod(request.getMethod());
+		logDO.setUrl(request.getRequestURL().toString());
+		logDO.setIp(WebUtil.getRealIP(request));
+		logDO.setOs(request.getHeader("User-Agent"));
+		logDO.setHttpMethod(request.getMethod());
 
 		String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstant.DOT + method.getName();
-		logDto.setClassMethod(classMethod);
+		logDO.setClassMethod(classMethod);
 
 		// 处理请求
 		Object result = null;
 		try {
 			result = invocation.proceed();
 			// 正常请求后
-			logDto.setReqEndTime(new Date());
-			logDto.setReqDealTime(getReqDealTime(logDto));
-			logDto.setRespData(result);
+			logDO.setReqEndTime(new Date());
+			logDO.setReqDealTime(getReqDealTime(logDO));
+			logDO.setRespData(result);
 
-			log.info(LogUtil.truncate("api.logDto.info=>{}", logDto));
+			log.info(LogUtil.truncate("api.logDO.info=>{}", logDO));
 			return result;
 		} catch (Exception e) {
-			logDto.setReqEndTime(new Date());
-			logDto.setReqDealTime(getReqDealTime(logDto));
-			logDto.setExceptionStackInfo(ExceptionUtil.toString(e));
+			logDO.setReqEndTime(new Date());
+			logDO.setReqDealTime(getReqDealTime(logDO));
+			logDO.setExceptionStackInfo(ExceptionUtil.toString(e));
 
-			log.error(LogUtil.truncate("api.logDto.error=>{}", logDto));
+			log.error(LogUtil.truncate("api.logDO.error=>{}", logDO));
 
 			RespHead head = ExceptionUtil.parse(e);
 			return new Resp<>(head);
 		}
 	}
 
-	private final int getReqDealTime(LogAspectDto logDto) {
+	private final int getReqDealTime(LogAspectDO logDto) {
 		return (int) (logDto.getReqEndTime().getTime() - logDto.getReqStartTime().getTime());
 	}
 

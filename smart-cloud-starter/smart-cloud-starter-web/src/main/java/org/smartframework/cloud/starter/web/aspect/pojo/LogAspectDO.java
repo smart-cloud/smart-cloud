@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.web.aspect.dto;
+package org.smartframework.cloud.starter.web.aspect.pojo;
 
 import java.util.Date;
 
@@ -15,7 +15,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 /**
- * 普通接口（除了feign以外的接口）切面日志Dto
+ * 普通接口（除了feign以外的接口）切面日志DO
  *
  * @author liyulin
  * @date 2019-04-09
@@ -25,7 +25,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class LogAspectDto extends BaseDto {
+public class LogAspectDO extends BaseDto {
 
 	private static final long serialVersionUID = 1L;
 
