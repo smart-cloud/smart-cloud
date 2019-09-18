@@ -12,18 +12,18 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>smart-cloud-starter-configure</module>
 		<module>smart-cloud-starter-common</module>
+		<module>smart-cloud-starter-configure</module>
+		<module>smart-cloud-starter-dubbo</module>
+		<module>smart-cloud-starter-feign</module>
 		<module>smart-cloud-starter-job</module>
 		<module>smart-cloud-starter-locale</module>
 		<module>smart-cloud-starter-log</module>
 		<module>smart-cloud-starter-mock</module>
 		<module>smart-cloud-starter-mybatis</module>
 		<module>smart-cloud-starter-redis</module>
-		<module>smart-cloud-starter-rpc</module>
 		<module>smart-cloud-starter-swagger</module>
 		<module>smart-cloud-starter-test</module>
 		<module>smart-cloud-starter-web</module>
-		<module>smart-cloud-starter-dubbo</module>
 	</modules>
 </project>
