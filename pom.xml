@@ -51,6 +51,7 @@
 		<servlet>4.0.1</servlet>
 		<rocketmq>2.0.3</rocketmq>
 		<xxl-job>2.1.0</xxl-job>
+		<esapi>2.2.0.0</esapi>
 	</properties>
 
 	<dependencyManagement>
@@ -423,6 +424,13 @@
 				<groupId>com.xuxueli</groupId>
 				<artifactId>xxl-job-core</artifactId>
 				<version>${xxl-job}</version>
+			</dependency>
+			
+			<!-- web安全 -->
+			<dependency>
+				<groupId>org.owasp.esapi</groupId>
+				<artifactId>esapi</artifactId>
+				<version>${esapi}</version>
 			</dependency>
 			<!-- 第三方jar end -->
 		</dependencies>
