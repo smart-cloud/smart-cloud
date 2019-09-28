@@ -1,0 +1,11 @@
+smart:
+  datasources:
+    product:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      #url格式：jdbc:mysql:replication://[master host][:port],[slave host 1][:port],[slave host 2][:port].../[database][?propertyName1=propertyValue1[&propertyName2=propertyValue2]...]
+      url: jdbc:mysql:replication://localhost:3306,localhost:3306/demo_log?serverTimezone=Asia/Shanghai&allowMasterDownConnections=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+      username: root
+      password: 123456
+      mapper-interface-location: org.smartframework.cloud.starter.mybatis.test.cases.masterslave
+      transaction-base-packages: org.smartframework.cloud.examples.mall.service.product.service
+      mapper-xml-location: classpath*:/org/smartframework/cloud/examples/mall/service/product/mybatis/**/*.xml

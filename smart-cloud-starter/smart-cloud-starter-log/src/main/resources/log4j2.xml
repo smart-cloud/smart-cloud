@@ -8,7 +8,7 @@
 	<!-- 变量配置 -->
 	<Properties>
 		<Property name="project">${cctx:appName}</Property>
-		<Property name="log_path">E:/logs/${project}</Property>
+		<Property name="log_path">c:/logs/${project}</Property>
 		<!-- 
 			%level 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL 
 			%m 输出代码中指定的消息 

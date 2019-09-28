@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.sql.DataSource;
 
-import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.smartframework.cloud.starter.common.support.bean.UniqueBeanNameGenerator;
 import org.smartframework.cloud.starter.mybatis.autoconfigure.SmartDataSourceAutoConfiguration;
@@ -46,7 +45,7 @@ public class MybatisPlusInitializerInvoker extends AbstractInitializerInvoker {
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 		}
-		sqlSessionFactoryBean.setPlugins(new Interceptor[] { mybatisSqlLogInterceptor, buildPaginationInterceptor() });
+		sqlSessionFactoryBean.setPlugins(mybatisSqlLogInterceptor, buildPaginationInterceptor());
 
 		// 注册bean
 		registerBean(beanName, sqlSessionFactoryBean);

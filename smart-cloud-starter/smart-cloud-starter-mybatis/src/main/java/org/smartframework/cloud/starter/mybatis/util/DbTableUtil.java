@@ -95,7 +95,7 @@ public class DbTableUtil {
 	 * @param dataSource
 	 * @return
 	 */
-	private static List<String> queryTables(String tableName, Boolean prefix, DataSource dataSource) {
+	private static List<String> queryTables(String tableName, boolean prefix, DataSource dataSource) {
 		if (prefix) {
 			tableName += "%";
 		}
