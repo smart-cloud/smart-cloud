@@ -99,9 +99,8 @@
 ---|---
 [spring boot](https://spring.io/projects/spring-boot/) | 手脚架 
 [spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关 
-[eureka](https://spring.io/projects/spring-cloud-netflix) | 服务注册 
+[nacos](https://nacos.io/en-us/docs/quick-start.html) | 服务注册、配置中心
 [spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 
-[携程apollo](https://github.com/ctripcorp/apollo) | 配置中心 
 [openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
 [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM 
