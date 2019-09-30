@@ -36,7 +36,7 @@
 		<pagehelper>5.1.10</pagehelper>
 		<sharding-jdbc>4.0.0-RC2</sharding-jdbc>
 		<spring-cloud-alibaba>2.1.0.RELEASE</spring-cloud-alibaba>
-		<seata>0.8.0</seata>
+		<seata>0.8.1</seata>
 		<mysql>8.0.15</mysql>
 		<fastjson>1.2.60</fastjson>
 		<springfox-swagger2>2.9.2</springfox-swagger2>
