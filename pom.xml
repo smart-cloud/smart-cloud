@@ -24,6 +24,7 @@
 		<java.version>1.8</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<spring-cloud>Greenwich.RELEASE</spring-cloud>
+		<spring-cloud-alibaba>2.1.0.RELEASE</spring-cloud-alibaba>
 		<spring.boot>2.1.8.RELEASE</spring.boot>
 		<spring-cloud-gateway>2.1.2.RELEASE</spring-cloud-gateway>
 		<spring-cloud-netflix>2.1.2.RELEASE</spring-cloud-netflix>
@@ -35,7 +36,6 @@
 		<mybatis-plus>3.2.0</mybatis-plus>
 		<pagehelper>5.1.10</pagehelper>
 		<sharding-jdbc>4.0.0-RC2</sharding-jdbc>
-		<spring-cloud-alibaba>2.1.0.RELEASE</spring-cloud-alibaba>
 		<seata>0.8.1</seata>
 		<mysql>8.0.15</mysql>
 		<fastjson>1.2.60</fastjson>
@@ -149,6 +149,18 @@
 				<version>${spring-cloud}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			
+			<dependency>
+			    <groupId>com.alibaba.cloud</groupId>
+			    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+			    <version>${spring-cloud-alibaba}</version>
+			</dependency>
+
+			<dependency>
+			    <groupId>com.alibaba.cloud</groupId>
+			    <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+			    <version>${spring-cloud-alibaba}</version>
 			</dependency>
 
 			<dependency>
