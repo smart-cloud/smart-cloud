@@ -1,5 +1,7 @@
 package org.smartframework.cloud.starter.common.business.security;
 
+import java.util.Objects;
+
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -17,11 +19,17 @@ public class LoginRedisConfig {
 
 	/**
 	 * userId redis key
+	 * 
 	 * @param userId
 	 * @return
 	 */
 	public static String getUserIdRedisKey(Long userId) {
-		return "mall:user:login:userId:" + userId;
+		String keyPrefix = "mall:user:login:userId:";
+		if (Objects.isNull(userId)) {
+			return keyPrefix;
+		}
+		
+		return keyPrefix + userId;
 	}
 
 }

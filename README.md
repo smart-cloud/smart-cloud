@@ -9,7 +9,7 @@
 - 支持多数据源、分表分库、分布式事务
 - 支持多语言（国际化）
 - 敏感配置信息支持加密
-- 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭eureka等）
+- 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭nacos、sentinel等）
 - 代码安全保护
 - 技术栈稳定、实用、易用
 
@@ -105,6 +105,7 @@
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
 [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM 
 [seata](https://github.com/seata/seata) | 分布式事务
+[sentinel](https://github.com/alibaba/Sentinel) | 限流、熔断降级
 [sharding jdbc](https://github.com/apache/incubator-shardingsphere) | 分库分表
 [redis](https://redis.io/) | 缓存 
 [rocketmq](https://github.com/apache/rocketmq) | 消息队列 
