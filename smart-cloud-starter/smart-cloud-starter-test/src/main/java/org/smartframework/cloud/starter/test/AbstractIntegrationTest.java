@@ -4,7 +4,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.smartframework.cloud.starter.common.business.security.enums.ReqHttpHeadersEnum;
 import org.smartframework.cloud.starter.common.business.security.util.ReqHttpHeadersUtil;
@@ -15,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -41,7 +39,6 @@ public abstract class AbstractIntegrationTest extends TestCase {
 
 	@Autowired
 	protected WebApplicationContext applicationContext;
-	protected MockMvc mockMvc = null;
 	/** 测试的默认sign */
 	private static final String DEFAULT_TEST_SIGN = "test";
 	
@@ -51,13 +48,6 @@ public abstract class AbstractIntegrationTest extends TestCase {
 		System.setProperty("eureka.client.enabled", "false");
 		// 2.单元测试环境下，关闭Sentinel自动化配置
 		System.setProperty("spring.cloud.sentinel.enabled", "false");
-	}
-	
-	@Before
-	public void initMock() {
-		if (mockMvc == null) {
-			mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
-		}
 	}
 	
 	@After
@@ -98,12 +88,10 @@ public abstract class AbstractIntegrationTest extends TestCase {
 		String requestBody = JSON.toJSONString(req);
 		log.info("test.requestBody={}", requestBody);
 
-		MvcResult result = mockMvc.perform(
-				MockMvcRequestBuilders.post(url)
-					.contentType(MediaType.APPLICATION_JSON_UTF8)
-					.accept(MediaType.APPLICATION_JSON_UTF8)
-					.content(requestBody)
-				).andReturn();
+		MvcResult result = MockMvcBuilders.webAppContextSetup(applicationContext).build()
+				.perform(MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+						.accept(MediaType.APPLICATION_JSON_UTF8).content(requestBody))
+				.andReturn();
 
 		String content = result.getResponse().getContentAsString();
 		log.info("test.result={}", content);
@@ -141,13 +129,10 @@ public abstract class AbstractIntegrationTest extends TestCase {
 		HttpHeaders httpHeaders = generateHeaders(token);
 		log.info("test.httpHeaders={}; requestBody={}", JSON.toJSONString(httpHeaders), requestBody);
 
-		MvcResult result = mockMvc.perform(
-				MockMvcRequestBuilders.post(url)
-					.contentType(MediaType.APPLICATION_JSON_UTF8)
-					.accept(MediaType.APPLICATION_JSON_UTF8)
-					.headers(httpHeaders)
-					.content(requestBody)
-				).andReturn();
+		MvcResult result = MockMvcBuilders.webAppContextSetup(applicationContext).build()
+				.perform(MockMvcRequestBuilders.post(url).contentType(MediaType.APPLICATION_JSON_UTF8)
+						.accept(MediaType.APPLICATION_JSON_UTF8).headers(httpHeaders).content(requestBody))
+				.andReturn();
 		String content = result.getResponse().getContentAsString();
 		log.info("test.result={}", content);
 		
@@ -194,7 +179,8 @@ public abstract class AbstractIntegrationTest extends TestCase {
 			requestMap.forEach(mockHttpServletRequestBuilder::param);
 		}
 		
-		MvcResult result = mockMvc.perform(mockHttpServletRequestBuilder).andReturn();
+		MvcResult result = MockMvcBuilders.webAppContextSetup(applicationContext).build()
+				.perform(mockHttpServletRequestBuilder).andReturn();
 		String content = result.getResponse().getContentAsString();
 		log.info("test.result={}", content);
 
