@@ -3,7 +3,6 @@ package org.smartframework.cloud.starter.redis.component;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStringCommands.SetOption;
@@ -26,9 +25,9 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2018-10-17
  */
 @Slf4j
+@AllArgsConstructor
 public class RedisComponent {
 
-	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
 
 	/**

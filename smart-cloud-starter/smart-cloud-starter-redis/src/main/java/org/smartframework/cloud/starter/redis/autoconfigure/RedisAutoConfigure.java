@@ -91,8 +91,8 @@ public class RedisAutoConfigure {
 	}
 	
 	@Bean
-	public RedisComponent redisComponent() {
-		return new RedisComponent();
+	public RedisComponent redisComponent(final StringRedisTemplate stringRedisTemplate) {
+		return new RedisComponent(stringRedisTemplate);
 	}
 
 }

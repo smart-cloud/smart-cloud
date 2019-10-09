@@ -9,7 +9,7 @@
 - 支持多数据源、分表分库、分布式事务
 - 支持多语言（国际化）
 - 敏感配置信息支持加密
-- 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭nacos、sentinel等）
+- 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭eureka、sentinel等）
 - 代码安全保护
 - 技术栈稳定、实用、易用
 
@@ -99,7 +99,7 @@
 ---|---
 [spring boot](https://spring.io/projects/spring-boot/) | 手脚架 
 [spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关 
-[nacos](https://nacos.io/en-us/docs/quick-start.html) | 服务注册、配置中心
+[eureka](https://spring.io/projects/spring-cloud-netflix) | 服务注册 
 [spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 
 [openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 

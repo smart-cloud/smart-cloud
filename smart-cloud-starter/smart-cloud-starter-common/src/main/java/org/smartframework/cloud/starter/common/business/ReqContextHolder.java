@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.common.business;
 
 import java.util.Objects;
 
+import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.common.pojo.dto.BaseDto;
 import org.smartframework.cloud.starter.common.business.exception.DataValidateException;
 import org.smartframework.cloud.starter.common.business.exception.confg.ParamValidateMessage;
@@ -65,6 +66,33 @@ public class ReqContextHolder extends BaseDto {
 			return false;
 		}
 		return loginCache.getUserId() != null;
+	}
+	
+	/**
+	 * 清除登陆信息
+	 */
+	public static void clearLoginCache() {
+		LoginCache loginCache = loginCacheThreadLocal.get();
+		if (Objects.isNull(loginCache)) {
+			return;
+		}
+		// 1、删除本地线程缓存
+		loginCacheThreadLocal.remove();
+
+		// 2、删除redis缓存
+		String token = loginCache.getToken();
+		if (StringUtils.isNotBlank(token)) {
+			String tokenRedisKey = LoginRedisConfig.getTokenRedisKey(token);
+			RedisComponent redisWrapper = SpringContextUtil.getBean(RedisComponent.class);
+			redisWrapper.delete(tokenRedisKey);
+		}
+
+		Long userId = loginCache.getUserId();
+		if (!Objects.isNull(userId)) {
+			String userIdRedisKey = LoginRedisConfig.getUserIdRedisKey(userId);
+			RedisComponent redisWrapper = SpringContextUtil.getBean(RedisComponent.class);
+			redisWrapper.delete(userIdRedisKey);
+		}
 	}
 
 	private static LoginCache getAvailableLoginCache() {

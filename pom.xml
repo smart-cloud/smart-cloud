@@ -22,15 +22,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
-		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<spring-cloud>Greenwich.RELEASE</spring-cloud>
 		<spring-cloud-alibaba>2.1.0.RELEASE</spring-cloud-alibaba>
 		<spring.boot>2.1.8.RELEASE</spring.boot>
-		<spring-cloud-gateway>2.1.2.RELEASE</spring-cloud-gateway>
-		<spring-cloud-netflix>2.1.2.RELEASE</spring-cloud-netflix>
+		<spring-cloud-gateway>2.1.3.RELEASE</spring-cloud-gateway>
+		<spring-cloud-netflix>2.1.3.RELEASE</spring-cloud-netflix>
 		<spring.boot.admin>2.1.6</spring.boot.admin>
 		<dubbo>2.7.3</dubbo>
-		<redisson>3.11.3</redisson>
+		<redisson>3.11.4</redisson>
 		<mybatis-spring-boot-starter>2.1.0</mybatis-spring-boot-starter>
 		<mapper>4.1.5</mapper>
 		<mybatis-plus>3.2.0</mybatis-plus>
@@ -38,7 +37,7 @@
 		<sharding-jdbc>4.0.0-RC2</sharding-jdbc>
 		<seata>0.8.1</seata>
 		<mysql>8.0.15</mysql>
-		<fastjson>1.2.60</fastjson>
+		<fastjson>1.2.62</fastjson>
 		<springfox-swagger2>2.9.2</springfox-swagger2>
 		<swagger-annotations>1.5.20</swagger-annotations>
 		<swagger2markup>1.3.3</swagger2markup>
@@ -152,17 +151,13 @@
 			</dependency>
 			
 			<dependency>
-			    <groupId>com.alibaba.cloud</groupId>
-			    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-			    <version>${spring-cloud-alibaba}</version>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${spring-cloud-alibaba}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
-
-			<dependency>
-			    <groupId>com.alibaba.cloud</groupId>
-			    <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-			    <version>${spring-cloud-alibaba}</version>
-			</dependency>
-
+			
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
@@ -307,19 +302,6 @@
 				<groupId>org.apache.shardingsphere</groupId>
 				<artifactId>sharding-jdbc-core</artifactId>
 				<version>${sharding-jdbc}</version>
-			</dependency>
-
-			<!-- 分布式事务 -->
-			<dependency>
-				<groupId>com.alibaba.cloud</groupId>
-				<artifactId>spring-cloud-alibaba-seata</artifactId>
-				<version>${spring-cloud-alibaba}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>io.seata</groupId>
-				<artifactId>seata-all</artifactId>
-				<version>${seata}</version>
 			</dependency>
 
 			<dependency>
