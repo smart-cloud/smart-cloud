@@ -44,7 +44,8 @@
 		<podam>7.2.3.RELEASE</podam>
 		<guava>23.0</guava>
 		<reflections>0.9.11</reflections>
-		<jasypt>2.1.2</jasypt>
+		<!-- jasypt2.1.2会导致mall-service-order启动时一直卡住 -->
+		<jasypt>2.1.1</jasypt>
 		<commons-codec>1.13</commons-codec>
 		<commons-io>2.6</commons-io>
 		<servlet>4.0.1</servlet>
@@ -157,6 +158,12 @@
 				<version>${spring-cloud-alibaba}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			
+			<dependency>
+			  <groupId>io.seata</groupId>
+			  <artifactId>seata-all</artifactId>
+			  <version>0.8.1</version>
 			</dependency>
 			
 			<dependency>
