@@ -113,7 +113,7 @@
 [xxl-job](https://github.com/xuxueli/xxl-job)| 定时任务 
 [easyexcel](https://github.com/alibaba/easyexcel) | excel导入导出
 [Hibernator-Validator](http://hibernate.org/validator/) | 参数校验 
-[mockito](https://site.mockito.org/) | 单元测试
+[mockito](https://site.mockito.org/)、[podam](https://github.com/mtedone/podam) | 单元测试、数据mock
 [freemarker](https://freemarker.apache.org/) | 用于代码生成
 [swagger](https://swagger.io/)、[gitbook](https://www.gitbook.com/) | 接口文档 
 [xjar](https://github.com/core-lib/xjar) | 代码安全 
