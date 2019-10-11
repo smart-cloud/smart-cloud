@@ -1,9 +1,11 @@
 package org.smartframework.cloud.starter.web.aspect.interceptor;
 
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.starter.common.business.exception.RepeatSubmitException;
 import org.smartframework.cloud.starter.common.business.security.util.ReqHttpHeadersUtil;
@@ -43,7 +45,7 @@ public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered 
 
 		Method method = invocation.getMethod();
 		RepeatReqValidate validate = method.getAnnotation(RepeatReqValidate.class);
-		if (null == validate) {
+		if (Objects.isNull(validate)) {
 			return invocation.proceed();
 		}
 
@@ -52,8 +54,8 @@ public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered 
 		try {
 			Object reqObject = WebUtil.getRequestArgs(invocation.getArguments());
 			if (reqObject != null) {
-				String reqString = JSON.toJSONString(reqObject);
-				Boolean success = redisComponent.setNx(repeatSubmitCheckRedisKey, reqString, validate.expireMillis());
+				String reqStrMd5 = DigestUtils.md5Hex(JSON.toJSONString(reqObject));
+				Boolean success = redisComponent.setNx(repeatSubmitCheckRedisKey, reqStrMd5, validate.expireMillis());
 				result = (success != null && success);
 				if (result) {
 					return invocation.proceed();
