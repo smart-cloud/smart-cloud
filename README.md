@@ -130,7 +130,7 @@
 ## （一）约定
 ```
 接口mapping url格式：接口使用端标志/接口类型标志/服务模块名/接口模块名/接口名
-如：api/sign/user/loginInfo/login
+如：api/se/user/loginInfo/login
 
 接口使用端标记：
 	api：app端使用的接口
@@ -200,6 +200,7 @@ http get、http post共同部分，即http headers部分的数据，它包含请
 ```
 ## （四）加密、签名
 ### 1、签名、加密的key传递
+![](docs/images/encrypt_sign.png)
 ```
 1、C（客户端）请求S（服务端）；
 2、S端随机产生两对rsa公钥、私钥（clientPriKey、serverPubKey；clientPubKey、serverPriKey），以及token，并返回token、clientPubKey、clientPriKey给C端；
@@ -249,7 +250,11 @@ body = AES加密(body json串)
 sign = RSA签名签名(AES加密(head的json串) + AES加密(body json串))
 ```
 
-# 五、相关说明
+# 五、服务合并原理
+![](docs/images/service_merge.png)
+
+合并服务只需修改pom.xml，将待合并的服务import进去即可。
+# 六、相关说明
 ## （一）服务合并遇到的问题
 单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
 ### 1、多数据源冲突
