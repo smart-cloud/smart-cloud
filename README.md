@@ -136,11 +136,6 @@
 	api：app端使用的接口
 	oms：管理后台使用的接口
 	rpc：rpc接口
-接口分为4种：
-	open：既不登陆，亦不签名加密
-	sign：不需登陆，需签名加密
-	identity：需登陆，不签名加密，需鉴权
-	auth：需登陆，需签名加密，需鉴权
 	
 http get、http post共同部分，即http headers部分的数据，它包含请求时间戳（默认2分钟内有效）、请求的token、交易流水号、签名等4个自定义字段：
 	smart-sign: 109ad1a8e05f8de345e6d780f09b001e97dc3d6fa9bbbe6936edb2b75a81864ac3b0b071e093af001fbffa479217540138b98f6f165e8246dd25a2536649f1f6
