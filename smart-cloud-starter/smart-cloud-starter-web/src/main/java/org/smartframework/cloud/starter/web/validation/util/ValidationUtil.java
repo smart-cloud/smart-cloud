@@ -6,10 +6,10 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.smartframework.cloud.starter.common.business.exception.ParamValidateException;
 import org.smartframework.cloud.starter.common.business.util.ExceptionUtil;
 import org.smartframework.cloud.starter.web.validation.ValidatorSingleton;
-import org.smartframework.cloud.utility.CollectionUtil;
 
 import lombok.experimental.UtilityClass;
 
@@ -35,7 +35,7 @@ public class ValidationUtil {
 		Validator validator = ValidatorSingleton.getInstance();
 		Set<ConstraintViolation<Object>> constraintViolationSet = validator.validate(object);
 		// 抛出检验异常
-		if (CollectionUtil.isNotEmpty(constraintViolationSet)) {
+		if (CollectionUtils.isNotEmpty(constraintViolationSet)) {
 			Set<ConstraintViolation<?>> constraintViolationSetTmp = constraintViolationSet.stream()
 					.map(item -> (ConstraintViolation<?>) (item)).collect(Collectors.toSet());
 

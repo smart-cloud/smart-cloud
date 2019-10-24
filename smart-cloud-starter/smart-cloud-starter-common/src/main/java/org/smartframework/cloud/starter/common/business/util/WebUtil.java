@@ -11,10 +11,10 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 import org.smartframework.cloud.starter.common.business.exception.ServerException;
-import org.smartframework.cloud.utility.ArrayUtil;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -50,19 +50,20 @@ public class WebUtil {
 	 */
 	public static String getRealIP(HttpServletRequest request) {
 		String ip = request.getHeader("x-forwarded-for");
-		if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+		String unknown = "unknown";
+		if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
 		}
-		if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("WL-Proxy-Client-IP");
 		}
-		if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
 		}
-		if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("http_client_ip");
 		}
-		if (StringUtils.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+		if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
 		}
 
@@ -129,7 +130,7 @@ public class WebUtil {
 	 * @return
 	 */
 	public static Object getRequestArgs(Object[] args) {
-		if (ArrayUtil.isEmpty(args)) {
+		if (ArrayUtils.isEmpty(args)) {
 			return args;
 		}
 
@@ -167,7 +168,7 @@ public class WebUtil {
 	 * @return
 	 */
 	private static Object getValidArgs(Object[] args) {
-		if (ArrayUtil.isEmpty(args)) {
+		if (ArrayUtils.isEmpty(args)) {
 			return args;
 		}
 

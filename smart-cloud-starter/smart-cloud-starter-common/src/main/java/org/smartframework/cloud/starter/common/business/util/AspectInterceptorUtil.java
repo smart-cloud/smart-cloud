@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.utility.ArrayUtil;
 import org.smartframework.cloud.utility.ObjectUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,7 +72,7 @@ public class AspectInterceptorUtil {
 			// 如果为空，则从接口类rpc取
 			Class<?> controllerClass = method.getDeclaringClass();
 			Class<?>[] interfaces = controllerClass.getInterfaces();
-			if (ArrayUtil.isNotEmpty(interfaces)) {
+			if (ArrayUtils.isNotEmpty(interfaces)) {
 				Class<?> rpcClass = interfaces[0];
 				Method[] methods = rpcClass.getMethods();
 				for (Method rpcMethod : methods) {

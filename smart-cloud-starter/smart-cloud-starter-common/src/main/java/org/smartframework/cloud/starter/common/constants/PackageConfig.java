@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.common.constants;
 
-import org.smartframework.cloud.utility.ArrayUtil;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.Assert;
 
 import lombok.AccessLevel;
@@ -15,7 +15,7 @@ public class PackageConfig {
 	private static String[] basePackages = null;
 	
 	public static String[] getBasePackages() {
-		Assert.isTrue(ArrayUtil.isNotEmpty(PackageConfig.basePackages), "basePackages未配置！！！");
+		Assert.isTrue(ArrayUtils.isNotEmpty(PackageConfig.basePackages), "basePackages未配置！！！");
 		
 		return basePackages;
 	}

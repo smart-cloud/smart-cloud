@@ -51,7 +51,7 @@
 		<servlet>4.0.1</servlet>
 		<rocketmq>2.0.3</rocketmq>
 		<xxl-job>2.1.0</xxl-job>
-		<esapi>2.2.0.0</esapi>
+		<commons-collections4>4.4</commons-collections4>
 	</properties>
 
 	<dependencyManagement>
@@ -428,13 +428,11 @@
 				<version>${xxl-job}</version>
 			</dependency>
 			
-			<!-- web安全 -->
 			<dependency>
-				<groupId>org.owasp.esapi</groupId>
-				<artifactId>esapi</artifactId>
-				<version>${esapi}</version>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-collections4</artifactId>
+			    <version>${commons-collections4}</version>
 			</dependency>
-			<!-- 第三方jar end -->
 		</dependencies>
 	</dependencyManagement>
 

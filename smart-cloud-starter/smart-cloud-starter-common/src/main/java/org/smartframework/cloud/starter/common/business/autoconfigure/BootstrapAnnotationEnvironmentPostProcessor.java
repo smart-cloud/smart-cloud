@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.smartframework.cloud.starter.common.business.util.AnnotatedClassFinder;
 import org.smartframework.cloud.starter.common.constants.PackageConfig;
 import org.smartframework.cloud.starter.common.support.annotation.SmartSpringCloudApplication;
 import org.smartframework.cloud.starter.common.support.annotation.YamlScan;
-import org.smartframework.cloud.utility.ArrayUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.env.YamlPropertySourceLoader;
@@ -78,7 +78,7 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
 	 */
 	private void loadYaml(ConfigurableEnvironment environment, Class<?> mainApplicationClass) {
 		String[] locationPatterns = getLocationPatternsOnSpringBoot(mainApplicationClass);
-		if (ArrayUtil.isEmpty(locationPatterns)) {
+		if (ArrayUtils.isEmpty(locationPatterns)) {
 			return;
 		}
 

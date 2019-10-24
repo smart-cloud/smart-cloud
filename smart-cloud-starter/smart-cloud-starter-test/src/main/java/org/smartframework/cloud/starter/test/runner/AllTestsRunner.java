@@ -6,12 +6,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 import org.junit.runners.Suite;
 import org.junit.runners.model.InitializationError;
 import org.junit.runners.model.RunnerBuilder;
 import org.reflections.Reflections;
-import org.smartframework.cloud.utility.ArrayUtil;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import junit.framework.TestCase;
@@ -73,7 +73,7 @@ public class AllTestsRunner extends Suite {
 	 */
 	private static boolean isContainTestCase(Class<?> clazz) {
 		Method[] methods = clazz.getMethods();
-		if (ArrayUtil.isEmpty(methods)) {
+		if (ArrayUtils.isEmpty(methods)) {
 			return false;
 		}
 		if (TestCase.class.isAssignableFrom(clazz)) {

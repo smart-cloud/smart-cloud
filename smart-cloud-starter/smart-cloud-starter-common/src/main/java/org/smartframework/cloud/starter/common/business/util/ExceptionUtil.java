@@ -6,12 +6,12 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 import org.smartframework.cloud.starter.common.business.exception.BaseException;
 import org.smartframework.cloud.starter.common.constants.SymbolConstant;
-import org.smartframework.cloud.utility.CollectionUtil;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -96,7 +96,7 @@ public class ExceptionUtil {
 			// 参数校验
 			BindException bindException = (BindException) e;
 			List<FieldError> fieldErrors  = bindException.getFieldErrors();
-			if (CollectionUtil.isNotEmpty(fieldErrors)) {
+			if (CollectionUtils.isNotEmpty(fieldErrors)) {
 				String errorMsg = getErrorMsg(fieldErrors);
 				return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, errorMsg);
 			}
@@ -105,7 +105,7 @@ public class ExceptionUtil {
 			// 参数校验
 			ConstraintViolationException constraintViolationException = (ConstraintViolationException) e;
 			Set<ConstraintViolation<?>> constraintViolationSet = constraintViolationException.getConstraintViolations();
-			if (CollectionUtil.isNotEmpty(constraintViolationSet)) {
+			if (CollectionUtils.isNotEmpty(constraintViolationSet)) {
 				String errorMsg = getErrorMsg(constraintViolationSet);
 				return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, errorMsg);
 			}
@@ -114,7 +114,7 @@ public class ExceptionUtil {
 		if (e instanceof MethodArgumentNotValidException) {
 			// 参数校验
 			List<FieldError> fieldErrors = ((MethodArgumentNotValidException) e).getBindingResult().getFieldErrors();
-			if (CollectionUtil.isNotEmpty(fieldErrors)) {
+			if (CollectionUtils.isNotEmpty(fieldErrors)) {
 				String errorMsg = getErrorMsg(fieldErrors);
 				return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, errorMsg);
 			}

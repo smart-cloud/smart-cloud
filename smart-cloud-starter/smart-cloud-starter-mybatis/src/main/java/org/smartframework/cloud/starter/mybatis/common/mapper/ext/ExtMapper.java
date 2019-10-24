@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.smartframework.cloud.common.pojo.dto.BaseEntityRespBody;
 import org.smartframework.cloud.common.pojo.dto.BasePageResp;
 import org.smartframework.cloud.starter.mybatis.common.mapper.entity.BaseEntity;
@@ -14,7 +15,6 @@ import org.smartframework.cloud.starter.mybatis.common.mapper.ext.mapper.UpdateL
 import org.smartframework.cloud.starter.mybatis.common.mapper.ext.mapper.UpdateListByPrimaryKeyMapper;
 import org.smartframework.cloud.starter.mybatis.common.mapper.ext.mapper.UpdateListByPrimaryKeySelectiveMapper;
 import org.smartframework.cloud.starter.mybatis.util.ClassUtil;
-import org.smartframework.cloud.utility.CollectionUtil;
 import org.springframework.beans.BeanUtils;
 
 import com.github.pagehelper.Page;
@@ -99,7 +99,7 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 	default BasePageResp<R> pageRespByExample(Example example, int pageNum, int pageSize) {
 		Page<T> page = PageHelper.startPage(pageNum, pageSize, true);
 		List<T> entitydatas = selectByExample(example);
-		if (CollectionUtil.isEmpty(entitydatas)) {
+		if (CollectionUtils.isEmpty(entitydatas)) {
 			return new BasePageResp<>(null, pageNum, pageSize, page.getTotal());
 		}
 
@@ -141,7 +141,7 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 	default BasePageResp<R> pageRespByEntity(T entity, int pageNum, int pageSize) {
 		Page<T> page = PageHelper.startPage(pageNum, pageSize, true);
 		List<T> entitydatas = select(entity);
-		if (CollectionUtil.isEmpty(entitydatas)) {
+		if (CollectionUtils.isEmpty(entitydatas)) {
 			return new BasePageResp<>(null, pageNum, pageSize, page.getTotal());
 		}
 

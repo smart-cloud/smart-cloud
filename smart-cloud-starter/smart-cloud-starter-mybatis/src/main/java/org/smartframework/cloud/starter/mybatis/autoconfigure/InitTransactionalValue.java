@@ -5,8 +5,8 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.utility.CollectionUtil;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -47,7 +47,7 @@ public class InitTransactionalValue implements ApplicationListener<ApplicationSt
 				.getBean(AbstractFallbackTransactionAttributeSource.class);
 		Map<Object, TransactionAttribute> attributeCache = getField(transactionAttributeSource,
 				AbstractFallbackTransactionAttributeSource.class, ABSTRACTFALLBACKTRANSACTIONATTRIBUTE_ATTRIBUTECACHE);
-		if (CollectionUtil.isEmpty(attributeCache)) {
+		if (MapUtils.isEmpty(attributeCache)) {
 			return;
 		}
 		
