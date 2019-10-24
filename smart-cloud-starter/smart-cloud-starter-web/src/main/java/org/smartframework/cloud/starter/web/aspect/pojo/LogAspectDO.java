@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.smartframework.cloud.common.pojo.dto.BaseDto;
 import org.smartframework.cloud.starter.common.business.security.dto.ReqHttpHeadersDto;
-import org.smartframework.cloud.utility.DateUtil;
+import org.smartframework.cloud.utility.constant.DateFormartConst;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -36,11 +36,11 @@ public class LogAspectDO extends BaseDto {
 	private String classMethod;
 
 	/** 请求发起时间 */
-	@JSONField(format = DateUtil.FOROMAT_DATETIME_HH_MM_SS_SSS)
+	@JSONField(format = DateFormartConst.DATETIME_SSS)
 	private Date reqStartTime;
 
 	/** 请求结束时间 */
-	@JSONField(format = DateUtil.FOROMAT_DATETIME_HH_MM_SS_SSS)
+	@JSONField(format = DateFormartConst.DATETIME_SSS)
 	private Date reqEndTime;
 
 	/** 请求处理时间,毫秒 */
