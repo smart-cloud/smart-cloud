@@ -139,7 +139,7 @@ public class DateUtil {
 		int length = dateStr.length();
 		String format = DATETIME_FORMATTER_ROUTE.get(length);
 		if (Objects.isNull(format)) {
-			throw new IllegalArgumentException("dateStr格式不支持！");
+			throw new IllegalArgumentException(String.format("[%s]格式不支持！", format));
 		}
 
 		Date date = null;
