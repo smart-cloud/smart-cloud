@@ -27,10 +27,12 @@ public class DateUtilUnitTest extends TestCase {
 	}
 
 	public void testGetCurrentDateTimeWithFormat() {
+		Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.YYYY).length())
+		.isEqualTo(DateFormartConst.YYYY.length());
+		Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.YYYY_MM).length())
+		.isEqualTo(DateFormartConst.YYYY_MM.length());
 		Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATE).length())
 				.isEqualTo(DateFormartConst.DATE.length());
-		Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.YYYY_MM).length())
-				.isEqualTo(DateFormartConst.YYYY_MM.length());
 		Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATE_HH).length())
 				.isEqualTo(DateFormartConst.DATE_HH.length());
 		Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATE_HH_MM).length())
@@ -42,8 +44,20 @@ public class DateUtilUnitTest extends TestCase {
 	}
 
 	public void testFormat() {
+		Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.YYYY).length())
+				.isEqualTo(DateFormartConst.YYYY.length());
 		Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.YYYY_MM).length())
 				.isEqualTo(DateFormartConst.YYYY_MM.length());
+		Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATE).length())
+				.isEqualTo(DateFormartConst.DATE.length());
+		Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATE_HH).length())
+				.isEqualTo(DateFormartConst.DATE_HH.length());
+		Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATE_HH_MM).length())
+				.isEqualTo(DateFormartConst.DATE_HH_MM.length());
+		Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATETIME).length())
+				.isEqualTo(DateFormartConst.DATETIME.length());
+		Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATETIME_SSS).length())
+				.isEqualTo(DateFormartConst.DATETIME_SSS.length());
 	}
 
 	public void testFormatDate() {
@@ -56,6 +70,7 @@ public class DateUtilUnitTest extends TestCase {
 	}
 
 	public void testToDate() {
+		Assertions.assertThat(DateUtil.toDate("2019")).isNotNull();
 		Assertions.assertThat(DateUtil.toDate("2019-01")).isNotNull();
 		Assertions.assertThat(DateUtil.toDate("2019-01-01")).isNotNull();
 		Assertions.assertThat(DateUtil.toDate("2019-01-01 11")).isNotNull();
@@ -63,5 +78,5 @@ public class DateUtilUnitTest extends TestCase {
 		Assertions.assertThat(DateUtil.toDate("2019-01-01 11:11:11")).isNotNull();
 		Assertions.assertThat(DateUtil.toDate("2019-01-01 11:11:11.111")).isNotNull();
 	}
-
+	
 }

@@ -1,15 +1,17 @@
 package org.smartframework.cloud.utility;
 
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import org.apache.commons.lang3.time.DateUtils;
 import org.smartframework.cloud.utility.constant.DateFormartConst;
 
 import lombok.experimental.UtilityClass;
@@ -26,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DateUtil {
 
 	/** 所有的日期格式 */
-	private static final Map<Integer, DateTimeFormatter> DATETIME_FORMATTER_ROUTE = new HashMap<>();
+	private static final Map<Integer, String> DATETIME_FORMATTER_ROUTE = new HashMap<>();
 
 	static {
 		// 所有公有
@@ -40,12 +42,8 @@ public class DateUtil {
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				log.error(e.getMessage(), e);
 			}
-			setDateTimeFormatterRoute(format);
+			DATETIME_FORMATTER_ROUTE.put(format.length(), format);
 		}
-	}
-
-	private static void setDateTimeFormatterRoute(String format) {
-		DATETIME_FORMATTER_ROUTE.put(format.length(), DateTimeFormat.forPattern(format));
 	}
 
 	/**
@@ -63,7 +61,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String getCurrentDate() {
-		return DateTime.now().toString(DateFormartConst.DATE);
+		return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormartConst.DATE));
 	}
 
 	/**
@@ -72,7 +70,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String getCurrentDateTime() {
-		return DateTime.now().toString(DateFormartConst.DATETIME);
+		return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormartConst.DATETIME));
 	}
 
 	/**
@@ -82,7 +80,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String getCurrentDateTime(String format) {
-		return DateTime.now().toString(format);
+		return LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
 	}
 
 	/**
@@ -93,7 +91,8 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String format(Date date, String format) {
-		return new DateTime(date).toString(format);
+		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+				.format(DateTimeFormatter.ofPattern(format));
 	}
 
 	/**
@@ -137,12 +136,19 @@ public class DateUtil {
 			return null;
 		}
 
-		DateTimeFormatter format = DATETIME_FORMATTER_ROUTE.get(dateStr.length());
+		int length = dateStr.length();
+		String format = DATETIME_FORMATTER_ROUTE.get(length);
 		if (Objects.isNull(format)) {
 			throw new IllegalArgumentException("dateStr格式不支持！");
 		}
 
-		return format.parseDateTime(dateStr).toDate();
+		Date date = null;
+		try {
+			date = DateUtils.parseDate(dateStr, format);
+		} catch (ParseException e) {
+			log.error("data string parse error", e);
+		}
+		return date;
 	}
 
 }
