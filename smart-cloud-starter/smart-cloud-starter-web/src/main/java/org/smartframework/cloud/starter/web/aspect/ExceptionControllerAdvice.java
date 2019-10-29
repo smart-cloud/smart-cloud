@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.web.aspect;
 import org.smartframework.cloud.common.pojo.dto.BaseDto;
 import org.smartframework.cloud.common.pojo.dto.Resp;
 import org.smartframework.cloud.common.pojo.dto.RespHead;
-import org.smartframework.cloud.starter.common.business.util.ExceptionUtil;
+import org.smartframework.cloud.starter.common.business.util.exception.ExceptionHandlerContext;
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class ExceptionControllerAdvice {
 	public Resp<BaseDto> handleException(Exception e) {
 		log.error(LogUtil.truncate(e.getMessage(), e));
 
-		RespHead head = ExceptionUtil.parse(e);
+		RespHead head = ExceptionHandlerContext.transRespHead(e);
 		return new Resp<>(head);
 	}
 

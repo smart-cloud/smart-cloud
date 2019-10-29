@@ -13,6 +13,7 @@ import org.smartframework.cloud.starter.common.business.security.util.ReqHttpHea
 import org.smartframework.cloud.starter.common.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.common.business.util.ExceptionUtil;
 import org.smartframework.cloud.starter.common.business.util.WebUtil;
+import org.smartframework.cloud.starter.common.business.util.exception.ExceptionHandlerContext;
 import org.smartframework.cloud.starter.common.constants.SymbolConstant;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.starter.log.util.LogUtil;
@@ -83,7 +84,7 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 
 			log.error(LogUtil.truncate("api.logDO.error=>{}", logDO));
 
-			RespHead head = ExceptionUtil.parse(e);
+			RespHead head = ExceptionHandlerContext.transRespHead(e);
 			return new Resp<>(head);
 		}
 	}
