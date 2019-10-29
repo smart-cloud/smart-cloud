@@ -1,8 +1,9 @@
-package org.smartframework.cloud.starter.common.business.util.exception;
+package org.smartframework.cloud.starter.common.business.util.exception.strategy;
 
 import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.starter.common.business.exception.BaseException;
 import org.smartframework.cloud.starter.common.business.util.RespHeadUtil;
+import org.smartframework.cloud.starter.common.business.util.exception.IExceptionHandlerStrategy;
 
 /**
  * @desc 自定义异常传唤
