@@ -3,6 +3,7 @@ package org.smartframework.cloud.starter.log.log4j2.lookup;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -18,14 +19,15 @@ import org.yaml.snakeyaml.Yaml;
 /**
  * 自定义lo4j2插件，用于设置变量
  * 
- * <p>NOTE：需要在log4j2的配置文件中设置“packages”的属性值（即当前类的包名）
+ * <p>
+ * NOTE：需要在log4j2的配置文件中设置“packages”的属性值（即当前类的包名）
  *
  * @author liyulin
  * @date 2019-03-19
  */
 @Plugin(name = "cctx", category = StrLookup.CATEGORY)
 public class CustomizeContextMapLookup implements StrLookup {
-	
+
 	/** yaml文件名 */
 	private static final String YAML_FILE_NAME = "application.yml";
 	/** spring yaml文件中key的分隔符 */
@@ -48,10 +50,10 @@ public class CustomizeContextMapLookup implements StrLookup {
 				appName = getCurrentProjectName();
 			}
 		}
-		
+
 		DATA.put("appName", appName);
 	}
-	
+
 	/**
 	 * 获取当前工程名
 	 * 
@@ -59,13 +61,52 @@ public class CustomizeContextMapLookup implements StrLookup {
 	 */
 	private static String getCurrentProjectName() {
 		ApplicationHome applicationHome = new ApplicationHome(CustomizeContextMapLookup.class);
-		File dir = applicationHome.getDir();
-		if (dir == null) {
-			return null;
+		File source = getApplicationHomeSource(applicationHome);
+		if (source == null) {
+			// 外部工程
+			File dir = applicationHome.getDir();
+			if (dir == null) {
+				return null;
+			}
+			return dir.getName();
 		}
-		return dir.getName();
+
+		// 本工程
+		return getProjectNameFromApplicationHomeSource(source);
 	}
-	
+
+	/**
+	 * 通过放射获取{@link ApplicationHome}的属性source
+	 * 
+	 * @param applicationHome
+	 * @return
+	 */
+	private static File getApplicationHomeSource(ApplicationHome applicationHome) {
+		File source = null;
+		try {
+			Field field = ApplicationHome.class.getDeclaredField("source");
+			field.setAccessible(true);
+			source = (File) field.get(applicationHome);
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
+		return source;
+	}
+
+	/**
+	 * 从{@link ApplicationHome}的属性source中获取工程名
+	 * 
+	 * @param source
+	 * @return
+	 */
+	private static String getProjectNameFromApplicationHomeSource(File source) {
+		String endWord = File.separator + "target" + File.separator;
+		String path = source.getPath();
+		String tmp = path.substring(0, path.indexOf(endWord));
+		return tmp.substring(tmp.lastIndexOf(File.separator) + 1);
+	}
+
 	/**
 	 * 从yaml文件中读取服务名
 	 * 
@@ -84,7 +125,7 @@ public class CustomizeContextMapLookup implements StrLookup {
 		}
 		return appName;
 	}
-	
+
 	@Override
 	public String lookup(String key) {
 		return DATA.get(key);
