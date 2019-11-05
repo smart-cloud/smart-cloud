@@ -9,6 +9,7 @@
 - 支持多数据源、分表分库、分布式事务
 - 支持多语言（国际化）
 - 敏感配置信息支持加密
+- 日志敏感数据脱敏
 - 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭eureka、sentinel等）
 - 代码安全保护
 - 技术栈稳定、实用、易用
@@ -46,7 +47,7 @@
  	</tr>
  	<tr>
  		<td>smart-cloud-starter-log</td>
- 		<td>日志封装（log4j2）</td>
+ 		<td>日志封装（log4j2），支持日志敏感数据脱敏</td>
  	</tr>
  	<tr>
  		<td>smart-cloud-starter-mock</td>
@@ -85,6 +86,11 @@
  		<td>smart-common-pojo</td>
  		<td>-</td>
  		<td>公共java对象</td>
+ 	</tr>
+ 	<tr>
+ 		<td>smart-mask</td>
+ 		<td>-</td>
+ 		<td>敏感数据脱敏</td>
  	</tr>
  	<tr>
  		<td>smart-utility</td>
