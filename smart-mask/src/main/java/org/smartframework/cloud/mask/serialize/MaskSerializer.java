@@ -29,7 +29,7 @@ public class MaskSerializer extends JavaBeanSerializer {
 	protected Object processValue(JSONSerializer jsonBeanDeser, BeanContext beanContext, Object object, String key,
 			Object propertyValue) {
 		try {
-			Field field = object.getClass().getDeclaredField(key);
+			Field field = beanContext.getField();
 			MaskLog maskLog = field.getAnnotation(MaskLog.class);
 			if (maskLog != null) {
 				field.setAccessible(true);
@@ -48,7 +48,7 @@ public class MaskSerializer extends JavaBeanSerializer {
 				}
 				return MaskUtil.mask(propertyValue.toString(), startLen, endLen, mask);
 			}
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException e) {
+		} catch (SecurityException | IllegalArgumentException e) {
 			log.error("process value error by reflection", e);
 		}
 

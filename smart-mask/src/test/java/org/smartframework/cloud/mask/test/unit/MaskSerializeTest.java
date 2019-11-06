@@ -47,6 +47,27 @@ public class MaskSerializeTest extends TestCase {
 		Assertions.assertThat(maskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
 	}
 
+	// 子类对象
+	public void testMaskSerializeSubClass() {
+		Student student = new Student();
+		student.setId(9L);
+		student.setName("名字");
+		student.setMobile("13112345678");
+		
+		student.setAge(11);
+		student.setClassName("高305班");
+
+		String maskResult = MaskUtil.mask(student);
+
+		Student maskStudent = JSON.parseObject(maskResult, Student.class);
+		Assertions.assertThat(maskStudent.getId()).isEqualTo(student.getId());
+		Assertions.assertThat(maskStudent.getName()).isEqualTo(MaskUtil.mask(student.getName(), MaskRule.NAME));
+		Assertions.assertThat(maskStudent.getMobile()).isEqualTo(MaskUtil.mask(student.getMobile(), MaskRule.MOBILE));
+
+		Assertions.assertThat(maskStudent.getAge()).isEqualTo(student.getAge());
+		Assertions.assertThat(maskStudent.getClassName()).isEqualTo(MaskUtil.mask(student.getClassName(), MaskRule.NAME));
+	}
+
 	// 数组对象
 	public void testMaskSerializeArray() {
 		User user = new User();
@@ -144,6 +165,15 @@ public class MaskSerializeTest extends TestCase {
 		private String name;
 		@MaskLog(MaskRule.MOBILE)
 		private String mobile;
+	}
+
+	@Getter
+	@Setter
+	@ToString
+	public static class Student extends User {
+		private int age;
+		@MaskLog(MaskRule.NAME)
+		private String className;
 	}
 
 	@Getter
