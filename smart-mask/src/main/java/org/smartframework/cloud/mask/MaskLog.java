@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MaskLog {
 
-	/** mask规则 */
+	/** mask规则（当startLen、endLen、mask中有任一个被赋值时，value失效） */
 	MaskRule value() default MaskRule.DEFAULT;
 
 	/** 开头保留的长度 */

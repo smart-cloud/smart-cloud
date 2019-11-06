@@ -13,6 +13,11 @@ import com.alibaba.fastjson.serializer.JavaBeanSerializer;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @desc mask序列化器
+ * @author liyulin
+ * @date 2019/11/06
+ */
 @Slf4j
 public class MaskSerializer extends JavaBeanSerializer {
 

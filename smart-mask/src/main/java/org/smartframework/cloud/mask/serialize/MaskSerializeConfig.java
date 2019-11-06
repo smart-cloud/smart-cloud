@@ -8,6 +8,11 @@ import com.alibaba.fastjson.serializer.ObjectSerializer;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.util.IdentityHashMap;
 
+/**
+ * @desc mask序列化器配置
+ * @author liyulin
+ * @date 2019/11/06
+ */
 public class MaskSerializeConfig extends SerializeConfig {
 
 	public static final SerializeConfig GLOBAL_INSTANCE = new MaskSerializeConfig();
@@ -18,20 +23,20 @@ public class MaskSerializeConfig extends SerializeConfig {
 
 	@Override
 	public ObjectSerializer getObjectWriter(Class<?> clazz) {
-		ObjectSerializer writer = get(clazz);
-		if (writer == null) {
-			writer = getObjectSerializer(clazz);
-			if (writer != null) {
+		ObjectSerializer serializer = get(clazz);
+		if (serializer == null) {
+			serializer = getMaskObjectSerializer(clazz);
+			if (serializer != null) {
 				// cache
-				put(clazz, writer);
-				return writer;
+				put(clazz, serializer);
+				return serializer;
 			}
 		}
 
 		return super.getObjectWriter(clazz);
 	}
 
-	private ObjectSerializer getObjectSerializer(Class<?> clazz) {
+	private ObjectSerializer getMaskObjectSerializer(Class<?> clazz) {
 		while (clazz != null) {
 			Field[] fields = clazz.getDeclaredFields();
 			for (Field field : fields) {

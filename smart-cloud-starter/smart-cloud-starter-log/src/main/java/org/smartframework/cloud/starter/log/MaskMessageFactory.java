@@ -6,6 +6,11 @@ import org.apache.logging.log4j.message.ParameterizedMessage;
 import org.apache.logging.log4j.message.SimpleMessage;
 import org.smartframework.cloud.mask.util.MaskUtil;
 
+/**
+ * @desc mask MessageFactory
+ * @author liyulin
+ * @date 2019/11/06
+ */
 public class MaskMessageFactory extends AbstractMessageFactory {
 
 	private static final long serialVersionUID = 1L;
