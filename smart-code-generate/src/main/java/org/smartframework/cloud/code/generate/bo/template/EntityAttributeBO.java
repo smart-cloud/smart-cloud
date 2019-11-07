@@ -1,4 +1,4 @@
-package org.smartframework.cloud.code.generate.dto.template;
+package org.smartframework.cloud.code.generate.bo.template;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class EntityAttributeDto {
+public class EntityAttributeBO {
 
 	/** 表字段对应的java属性名 */
 	private String name;

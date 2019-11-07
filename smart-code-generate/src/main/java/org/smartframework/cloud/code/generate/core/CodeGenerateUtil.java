@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
+import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
+import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
+import org.smartframework.cloud.code.generate.bo.template.BaseRespBodyBO;
+import org.smartframework.cloud.code.generate.bo.template.ClassCommentBO;
+import org.smartframework.cloud.code.generate.bo.template.EntityBO;
 import org.smartframework.cloud.code.generate.config.ConfigCode;
-import org.smartframework.cloud.code.generate.dto.ColumnMetaDataDto;
-import org.smartframework.cloud.code.generate.dto.TableMetaDataDto;
-import org.smartframework.cloud.code.generate.dto.template.BaseMapperDto;
-import org.smartframework.cloud.code.generate.dto.template.BaseRespBodyDto;
-import org.smartframework.cloud.code.generate.dto.template.ClassCommentDto;
-import org.smartframework.cloud.code.generate.dto.template.EntityDto;
 import org.smartframework.cloud.code.generate.util.CodeFileGenerateUtil;
 import org.smartframework.cloud.code.generate.util.DbUtil;
 import org.smartframework.cloud.code.generate.util.PropertiesUtil;
-import org.smartframework.cloud.code.generate.util.TemplateDtoUtil;
+import org.smartframework.cloud.code.generate.util.TemplateBOUtil;
 
 import lombok.experimental.UtilityClass;
 
@@ -42,12 +42,12 @@ public class CodeGenerateUtil {
 		ResourceBundle resource = PropertiesUtil.getPropertiesBundle();
 
 		try (Connection connnection = DbUtil.getConnection(resource);) {
-			Map<String, TableMetaDataDto> tableMetaDataMap = DbUtil.getTablesMetaData(connnection, resource);
-			ClassCommentDto classComment = TemplateDtoUtil
-					.getClassCommentDto(resource.getString(ConfigCode.Generate.AUTHOR));
+			Map<String, TableMetaDataBO> tableMetaDataMap = DbUtil.getTablesMetaData(connnection, resource);
+			ClassCommentBO classComment = TemplateBOUtil
+					.getClassCommentBO(resource.getString(ConfigCode.Generate.AUTHOR));
 
 			DatabaseMetaData metaData = connnection.getMetaData();
-			for (Map.Entry<String, TableMetaDataDto> entry : tableMetaDataMap.entrySet()) {
+			for (Map.Entry<String, TableMetaDataBO> entry : tableMetaDataMap.entrySet()) {
 				generateSingleTable(connnection.getCatalog(), entry.getValue(), metaData, classComment, resource);
 			}
 		}
@@ -64,23 +64,23 @@ public class CodeGenerateUtil {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	private static void generateSingleTable(String database, TableMetaDataDto tableMetaData, DatabaseMetaData metaData,
-			ClassCommentDto classComment, ResourceBundle resource) throws SQLException, IOException {
-		List<ColumnMetaDataDto> columnMetaDatas = DbUtil.getTableColumnMetaDatas(metaData, database,
+	private static void generateSingleTable(String database, TableMetaDataBO tableMetaData, DatabaseMetaData metaData,
+			ClassCommentBO classComment, ResourceBundle resource) throws SQLException, IOException {
+		List<ColumnMetaDataBO> columnMetaDatas = DbUtil.getTableColumnMetaDatas(metaData, database,
 				tableMetaData.getName());
 		String mainClassPackage = resource.getString(ConfigCode.Generate.MAIN_CLASS_PACKAGE);
 		String rpcPath = resource.getString(ConfigCode.Generate.RPC_PATH);
 		String servicePath = resource.getString(ConfigCode.Generate.SERVICE_PATH);
 
-		EntityDto entityDto = TemplateDtoUtil.getEntityDto(tableMetaData, columnMetaDatas, classComment,
+		EntityBO entityDto = TemplateBOUtil.getEntityBO(tableMetaData, columnMetaDatas, classComment,
 				mainClassPackage);
 		CodeFileGenerateUtil.generateEntity(entityDto, servicePath);
 
-		BaseRespBodyDto baseRespBodyDto = TemplateDtoUtil.getBaseRespBodyDto(tableMetaData, columnMetaDatas,
+		BaseRespBodyBO baseRespBodyDto = TemplateBOUtil.getBaseRespBodyBO(tableMetaData, columnMetaDatas,
 				mainClassPackage, entityDto.getImportPackages());
 		CodeFileGenerateUtil.generateBaseRespBody(baseRespBodyDto, rpcPath);
 
-		BaseMapperDto baseMapperDto = TemplateDtoUtil.getBaseMapperDto(tableMetaData, entityDto, baseRespBodyDto,
+		BaseMapperBO baseMapperDto = TemplateBOUtil.getBaseMapperBO(tableMetaData, entityDto, baseRespBodyDto,
 				classComment, mainClassPackage);
 		CodeFileGenerateUtil.generateBaseMapper(baseMapperDto, servicePath);
 	}

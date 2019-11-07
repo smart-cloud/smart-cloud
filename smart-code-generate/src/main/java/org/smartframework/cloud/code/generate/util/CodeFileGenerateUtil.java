@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
+import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
+import org.smartframework.cloud.code.generate.bo.template.BaseRespBodyBO;
+import org.smartframework.cloud.code.generate.bo.template.CommonBO;
+import org.smartframework.cloud.code.generate.bo.template.EntityBO;
 import org.smartframework.cloud.code.generate.config.Config;
-import org.smartframework.cloud.code.generate.dto.template.BaseMapperDto;
-import org.smartframework.cloud.code.generate.dto.template.BaseRespBodyDto;
-import org.smartframework.cloud.code.generate.dto.template.CommonDto;
-import org.smartframework.cloud.code.generate.dto.template.EntityDto;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class CodeFileGenerateUtil {
 	 * @param basePath
 	 * @throws IOException
 	 */
-	public static void generateBaseMapper(BaseMapperDto baseMapperDto, String basePath) throws IOException {
+	public static void generateBaseMapper(BaseMapperBO baseMapperDto, String basePath) throws IOException {
 		generateCodeFile(baseMapperDto, basePath, Config.Template.BASE_MAPPER);
 	}
 
@@ -49,7 +49,7 @@ public class CodeFileGenerateUtil {
 	 * @param basePath
 	 * @throws IOException
 	 */
-	public static void generateEntity(EntityDto entityDto, String basePath) throws IOException {
+	public static void generateEntity(EntityBO entityDto, String basePath) throws IOException {
 		generateCodeFile(entityDto, basePath, Config.Template.ENTITY);
 	}
 
@@ -60,7 +60,7 @@ public class CodeFileGenerateUtil {
 	 * @param basePath
 	 * @throws IOException
 	 */
-	public static void generateBaseRespBody(BaseRespBodyDto baseRespBodyDto, String basePath) throws IOException {
+	public static void generateBaseRespBody(BaseRespBodyBO baseRespBodyDto, String basePath) throws IOException {
 		generateCodeFile(baseRespBodyDto, basePath, Config.Template.BASE_RESPBODY);
 	}
 
@@ -72,7 +72,7 @@ public class CodeFileGenerateUtil {
 	 * @param templateName
 	 * @throws IOException
 	 */
-	private static void generateCodeFile(CommonDto dto, String basePath, String templateName) throws IOException {
+	private static void generateCodeFile(CommonBO dto, String basePath, String templateName) throws IOException {
 		String newCode = FreeMarkerUtil.freeMarkerRender(dto, templateName);
 		String filePath = getClassFilePath(basePath, dto.getPackageName(), dto.getClassName());
 

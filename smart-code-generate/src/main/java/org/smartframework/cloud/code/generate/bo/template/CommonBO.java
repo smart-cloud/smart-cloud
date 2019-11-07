@@ -1,4 +1,4 @@
-package org.smartframework.cloud.code.generate.dto.template;
+package org.smartframework.cloud.code.generate.bo.template;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class CommonDto {
+public class CommonBO {
 
 	/** 包名 */
 	private String packageName;

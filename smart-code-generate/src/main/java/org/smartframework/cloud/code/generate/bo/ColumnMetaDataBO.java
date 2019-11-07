@@ -1,4 +1,4 @@
-package org.smartframework.cloud.code.generate.dto;
+package org.smartframework.cloud.code.generate.bo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ColumnMetaDataDto {
+public class ColumnMetaDataBO {
 
 	/** 表字段名 */
 	private String name;

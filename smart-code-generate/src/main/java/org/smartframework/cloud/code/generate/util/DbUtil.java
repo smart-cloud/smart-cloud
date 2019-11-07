@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
+import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.config.ConfigCode;
-import org.smartframework.cloud.code.generate.dto.ColumnMetaDataDto;
-import org.smartframework.cloud.code.generate.dto.TableMetaDataDto;
 import org.smartframework.cloud.code.generate.enums.DefaultColumnEnum;
 import org.smartframework.cloud.code.generate.enums.GenerateTypeEnum;
 
@@ -50,16 +50,16 @@ public class DbUtil {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Map<String, TableMetaDataDto> getTablesMetaData(Connection connnection, ResourceBundle resource)
+	public static Map<String, TableMetaDataBO> getTablesMetaData(Connection connnection, ResourceBundle resource)
 			throws SQLException {
 		String qryTableMetaDataSql = getQueryTableMetaDataSql(connnection.getCatalog(),
 				resource.getString(ConfigCode.Generate.TYPE), resource.getString(ConfigCode.Generate.TABLES));
 
-		Map<String, TableMetaDataDto> tableMetaDataDtos = new HashMap<>();
+		Map<String, TableMetaDataBO> tableMetaDataDtos = new HashMap<>();
 		try (PreparedStatement preparedStatement = connnection.prepareStatement(qryTableMetaDataSql);
 				ResultSet resultSet = preparedStatement.executeQuery();) {
 			while (resultSet.next()) {
-				TableMetaDataDto tableDto = new TableMetaDataDto();
+				TableMetaDataBO tableDto = new TableMetaDataBO();
 				tableDto.setName(resultSet.getString(1));
 				tableDto.setComment(resultSet.getString(2));
 
@@ -113,16 +113,16 @@ public class DbUtil {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static List<ColumnMetaDataDto> getTableColumnMetaDatas(DatabaseMetaData metaData, String database,
+	public static List<ColumnMetaDataBO> getTableColumnMetaDatas(DatabaseMetaData metaData, String database,
 			String tableName) throws SQLException {
-		List<ColumnMetaDataDto> columnMetaDatas = new ArrayList<>();
+		List<ColumnMetaDataBO> columnMetaDatas = new ArrayList<>();
 		try (ResultSet resultSet = metaData.getColumns(database, "", tableName, null);) {
 			while (resultSet.next()) {
 				String name = resultSet.getString("COLUMN_NAME");
 				if (DefaultColumnEnum.contains(name)) {
 					continue;
 				}
-				ColumnMetaDataDto columnMetaData = new ColumnMetaDataDto();
+				ColumnMetaDataBO columnMetaData = new ColumnMetaDataBO();
 				columnMetaData.setName(name);
 				columnMetaData.setComment(resultSet.getString("REMARKS"));
 				columnMetaData.setJdbcType(resultSet.getInt("DATA_TYPE"));

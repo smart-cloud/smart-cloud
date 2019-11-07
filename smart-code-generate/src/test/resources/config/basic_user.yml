@@ -1,0 +1,26 @@
+#db config
+db:
+  url: jdbc:mysql://127.0.0.1:3306/demo_user?serverTimezone=Asia/Shanghai
+  username: root
+  password: 123456
+
+#generate config  
+generate:
+  author: liyulin
+  #生成类型：1、数据库整个表全部生成；2、只生成指定的表；3、除了指定的表，全部生成
+  type: 1
+  #指定要生成的表，多个表用英文逗号（,）隔开
+  tables:
+    mask: 
+      # 表名
+      xx :
+        # 字段
+        f_mobile: 1
+  #启动类包名
+  mainClassPackage: org.smartframework.cloud.examples.basic.service.user
+  project:
+    path: 
+      #rpc生成路径
+      rpc: D:/code/study/smart-cloud-examples/application-module/rpc-module/basic-service-rpc
+      #服务生成路径
+      service: D:/code/study/smart-cloud-examples/application-module/basic-module/basic-service-user
