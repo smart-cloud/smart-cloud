@@ -2,7 +2,9 @@ package org.smartframework.cloud.mask.serialize;
 
 import java.lang.reflect.Field;
 
+import org.smartframework.cloud.mask.MaskConstants;
 import org.smartframework.cloud.mask.MaskLog;
+import org.smartframework.cloud.mask.MaskRule;
 import org.smartframework.cloud.mask.util.MaskUtil;
 
 import com.alibaba.fastjson.serializer.BeanContext;
@@ -28,14 +30,38 @@ public class MaskSerializer extends JavaBeanSerializer {
 			Object propertyValue) {
 		try {
 			Field field = beanContext.getField();
-			if (MaskSerializerHelper.isNeedMask(field)) {
-				return MaskUtil.mask(propertyValue.toString(), field.getAnnotation(MaskLog.class));
+			if (MaskSerializeHelper.isNeedMask(field)) {
+				MaskLog maskLog = field.getAnnotation(MaskLog.class);
+				int startLen, endLen;
+				String mask;
+				if (isSetMaskAttributes(maskLog)) {
+					startLen = maskLog.startLen();
+					endLen = maskLog.endLen();
+					mask = maskLog.mask();
+				} else {
+					MaskRule maskRule = maskLog.value();
+					startLen = maskRule.getStartLen();
+					endLen = maskRule.getEndLen();
+					mask = maskRule.getMask();
+				}
+				return MaskUtil.mask(propertyValue.toString(), startLen, endLen, mask);
 			}
 		} catch (SecurityException | IllegalArgumentException e) {
 			log.error("process value error by reflection", e);
 		}
 
 		return super.processValue(jsonBeanDeser, beanContext, object, key, propertyValue);
+	}
+
+	/**
+	 * 是否已设置{@link MaskLog}的非规则属性（除了value以外的）
+	 * 
+	 * @param maskLog
+	 * @return
+	 */
+	private boolean isSetMaskAttributes(MaskLog maskLog) {
+		return maskLog.startLen() != MaskConstants.START_LEN || maskLog.endLen() != MaskConstants.END_LEN
+				|| !MaskConstants.DEFAULT_MASK_TEXT.equals(maskLog.mask());
 	}
 
 }

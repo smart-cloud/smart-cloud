@@ -1,5 +1,7 @@
 package org.smartframework.cloud.mask.serialize;
 
+import java.lang.reflect.Field;
+
 import com.alibaba.fastjson.serializer.ObjectSerializer;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.util.IdentityHashMap;
@@ -19,14 +21,30 @@ public class MaskSerializeConfig extends SerializeConfig {
 
 	@Override
 	public ObjectSerializer getObjectWriter(Class<?> clazz) {
-		ObjectSerializer serializer = super.get(clazz);
+		ObjectSerializer serializer = get(clazz);
 		if (serializer == null) {
-			serializer = new MaskSerializer(clazz);
-			// cache
-			super.put(clazz, serializer);
+			serializer = getMaskObjectSerializer(clazz);
+			if (serializer != null) {
+				// cache
+				put(clazz, serializer);
+				return serializer;
+			}
 		}
 
-		return serializer;
+		return super.getObjectWriter(clazz);
+	}
+
+	private ObjectSerializer getMaskObjectSerializer(Class<?> clazz) {
+		while (clazz != null) {
+			Field[] fields = clazz.getDeclaredFields();
+			for (Field field : fields) {
+				if (MaskSerializeHelper.isNeedMask(field)) {
+					return new MaskSerializer(clazz);
+				}
+			}
+			clazz = clazz.getSuperclass();
+		}
+		return null;
 	}
 
 }

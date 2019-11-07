@@ -92,7 +92,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 	 */
 	public static void showSql(Configuration configuration, BoundSql boundSql, String sqlId, long time,
 			Object returnValue) {
-		String separator = " => ";
+		String separator = " ==> ";
 		String sql = getSql(configuration, boundSql);
 		StringBuilder str = new StringBuilder((sql.length() > 256) ? 256 : 64);
 		str.append(sqlId);
@@ -103,7 +103,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 		str.append(time);
 		str.append("ms");
 		str.append(separator);
-		str.append("result=>");
+		str.append("result===>");
 		str.append(MaskUtil.mask(returnValue));
 
 		log.info(LogUtil.truncate(str.toString()));
@@ -126,19 +126,19 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 	}
 
 	public static String getSql(Configuration configuration, BoundSql boundSql) {
-		Object wrapMaskParameterObject = MaskUtil.wrapMask(boundSql.getParameterObject());
+		Object parameterObject = boundSql.getParameterObject();
 		List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
 
 		String sql = boundSql.getSql().replaceAll("[\\s]+", " ");
-		if (CollectionUtils.isEmpty(parameterMappings) || Objects.isNull(wrapMaskParameterObject)) {
+		if (CollectionUtils.isEmpty(parameterMappings) || Objects.isNull(parameterObject)) {
 			return sql;
 		}
 
 		TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
-		if (typeHandlerRegistry.hasTypeHandler(wrapMaskParameterObject.getClass())) {
-			sql = sql.replaceFirst(QUOTE, getParameterValue(wrapMaskParameterObject));
+		if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) {
+			sql = sql.replaceFirst(QUOTE, getParameterValue(parameterObject));
 		} else {
-			MetaObject metaObject = configuration.newMetaObject(wrapMaskParameterObject);
+			MetaObject metaObject = configuration.newMetaObject(parameterObject);
 			for (ParameterMapping parameterMapping : parameterMappings) {
 				String propertyName = parameterMapping.getProperty();
 				if (metaObject.hasGetter(propertyName)) {

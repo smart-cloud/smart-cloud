@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @desc mask日志标记注解（只支持String类型）
+ * @desc mask日志标记注解（支支持{@link String}类型）
  * @author liyulin
  * @date 2019/11/05
  */
