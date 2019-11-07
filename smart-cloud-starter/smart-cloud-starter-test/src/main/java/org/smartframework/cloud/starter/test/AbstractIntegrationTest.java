@@ -48,7 +48,7 @@ public abstract class AbstractIntegrationTest extends TestCase {
 	static {
 		String closeTag = Boolean.FALSE.toString();
 		// 单元测试环境下，关闭依赖
-		// 1.关闭eureka
+		// 1.关闭api接口校验
 		System.setProperty("smart.aspect.apiSecurity", closeTag);
 		// 2.关闭eureka
 		System.setProperty("eureka.client.enabled", closeTag);
