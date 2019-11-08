@@ -3,9 +3,8 @@ package org.smartframework.cloud.code.generate.util;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
@@ -47,10 +46,11 @@ public class TemplateBOUtil {
 	 * @param columnMetaDatas
 	 * @param classComment
 	 * @param mainClassPackage
+	 * @param mask
 	 * @return
 	 */
 	public static EntityBO getEntityBO(TableMetaDataBO tableMetaData, List<ColumnMetaDataBO> columnMetaDatas,
-			ClassCommentBO classComment, String mainClassPackage) {
+			ClassCommentBO classComment, String mainClassPackage, Map<String, Map<String, String>> mask) {
 		EntityBO entityBO = new EntityBO();
 		entityBO.setClassComment(classComment);
 		entityBO.setTableName(tableMetaData.getName());
@@ -60,7 +60,7 @@ public class TemplateBOUtil {
 
 		List<EntityAttributeBO> attributes = new ArrayList<>();
 		entityBO.setAttributes(attributes);
-		Set<String> importPackages = new HashSet<>();
+		List<String> importPackages = new ArrayList<>();
 		entityBO.setImportPackages(importPackages);
 		for (ColumnMetaDataBO columnMetaData : columnMetaDatas) {
 			EntityAttributeBO entityAttribute = new EntityAttributeBO();
@@ -68,6 +68,13 @@ public class TemplateBOUtil {
 			entityAttribute.setColumnName(columnMetaData.getName());
 			String comment = StringEscapeUtil.secapeComment(columnMetaData.getComment());
 			entityAttribute.setComment(comment);
+			// mask信息
+			entityAttribute.setMaskRule(getMaskRule(mask, tableMetaData.getName(), columnMetaData.getName()));
+			if (entityAttribute.getMaskRule() != null && !importPackages.contains(Config.MaskPackage.MASK_RULE)) {
+				importPackages.add(Config.MaskPackage.MASK_RULE);
+				importPackages.add(Config.MaskPackage.MASK_LOG);
+			}
+			
 			entityAttribute
 					.setJavaType(JavaTypeUtil.getByJdbcType(columnMetaData.getJdbcType(), columnMetaData.getLength()));
 			String importPackage = JavaTypeUtil.getImportPackage(columnMetaData.getJdbcType());
@@ -80,6 +87,17 @@ public class TemplateBOUtil {
 		return entityBO;
 	}
 
+	private static String getMaskRule(Map<String, Map<String, String>> mask, String tableName, String column) {
+		if (mask == null) {
+			return null;
+		}
+		Map<String, String> maskRuleMap = mask.get(tableName);
+		if (maskRuleMap == null) {
+			return null;
+		}
+		return maskRuleMap.get(column);
+	}
+
 	/**
 	 * 获取生成BaseRespBody所需的参数信息
 	 * 
@@ -87,10 +105,12 @@ public class TemplateBOUtil {
 	 * @param columnMetaDatas
 	 * @param mainClassPackage
 	 * @param importPackages
+	 * @param mask
 	 * @return
 	 */
 	public static BaseRespBodyBO getBaseRespBodyBO(TableMetaDataBO tableMetaData,
-			List<ColumnMetaDataBO> columnMetaDatas, String mainClassPackage, Set<String> importPackages) {
+			List<ColumnMetaDataBO> columnMetaDatas, String mainClassPackage, List<String> importPackages,
+			Map<String, Map<String, String>> mask) {
 		BaseRespBodyBO baseRespBodyBO = new BaseRespBodyBO();
 		baseRespBodyBO.setTableComment(tableMetaData.getComment());
 		baseRespBodyBO.setPackageName(getBaseRespBodyPackage(mainClassPackage));
@@ -103,6 +123,7 @@ public class TemplateBOUtil {
 			EntityAttributeBO entityAttribute = new EntityAttributeBO();
 			String comment = StringEscapeUtil.secapeComment(columnMetaData.getComment());
 			entityAttribute.setComment(comment);
+			entityAttribute.setMaskRule(getMaskRule(mask, tableMetaData.getName(), columnMetaData.getName()));
 
 			entityAttribute.setName(TableUtil.getAttibuteName(columnMetaData.getName()));
 			entityAttribute
@@ -148,8 +169,7 @@ public class TemplateBOUtil {
 		baseMapperBO.setImportEntityClass(entityBO.getPackageName() + "." + entityBO.getClassName());
 
 		baseMapperBO.setBaseRespBodyClassName(baseRespBodyBO.getClassName());
-		baseMapperBO
-				.setImportBaseRespBodyClass(baseRespBodyBO.getPackageName() + "." + baseRespBodyBO.getClassName());
+		baseMapperBO.setImportBaseRespBodyClass(baseRespBodyBO.getPackageName() + "." + baseRespBodyBO.getClassName());
 		return baseMapperBO;
 	}
 

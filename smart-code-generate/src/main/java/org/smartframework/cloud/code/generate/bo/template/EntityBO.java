@@ -1,7 +1,6 @@
 package org.smartframework.cloud.code.generate.bo.template;
 
 import java.util.List;
-import java.util.Set;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +14,7 @@ public class EntityBO extends CommonBO {
 	/** 类注释信息 */
 	private ClassCommentBO classComment;
 	/** 需要导入的包名 */
-	private Set<String> importPackages;
+	private List<String> importPackages;
 	/** 表名 */
 	private String tableName;
 	/** 表备注 */

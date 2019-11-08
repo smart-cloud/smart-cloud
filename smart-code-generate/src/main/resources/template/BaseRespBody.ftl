@@ -2,7 +2,7 @@ package ${packageName};
 
 <#list importPackages as package>
 <#if package!="">
-import ${package}
+import ${package};
 </#if>
 </#list>
 import org.smartframework.cloud.common.pojo.dto.BaseEntityRespBody;
@@ -26,6 +26,9 @@ public class ${className} extends BaseEntityRespBody {
 <#list attributes as attribute>
 	<#if attribute.comment!="">
     @ApiModelProperty(value = "${attribute.comment}")
+	</#if>
+	<#if attribute.maskRule??>
+    @MaskLog(MaskRule.${attribute.maskRule})
 	</#if>
 	private ${attribute.javaType} ${attribute.name};
 	

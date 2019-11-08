@@ -50,7 +50,7 @@ public class JavaTypeUtil {
 	public static String getImportPackage(int jdbcType) {
 		MysqlType mysqlType = MysqlType.getByJdbcType(jdbcType);
 		if (mysqlType == MysqlType.TIMESTAMP || mysqlType == MysqlType.DATE || mysqlType == MysqlType.DATETIME) {
-			return Date.class.getName() + ";";
+			return Date.class.getName();
 		}
 		return null;
 	}

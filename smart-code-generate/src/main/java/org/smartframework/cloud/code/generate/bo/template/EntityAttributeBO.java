@@ -23,5 +23,7 @@ public class EntityAttributeBO {
 	private String javaType;
 	/** 备注 */
 	private String comment;
+	/** mask规则 */
+	private String maskRule;
 
 }

@@ -63,7 +63,7 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 		logDO.setOs(request.getHeader("User-Agent"));
 		logDO.setHttpMethod(request.getMethod());
 
-		String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstant.DOT + method.getName();
+		String classMethod = method.getDeclaringClass().getSimpleName() + SymbolConstant.DOT + method.getName();
 		logDO.setClassMethod(classMethod);
 
 		// 处理请求

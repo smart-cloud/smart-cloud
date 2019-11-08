@@ -43,7 +43,7 @@ public class FeignInterceptor implements MethodInterceptor {
 		String apiDesc = AspectInterceptorUtil.getFeignMethodDesc(method, request.getServletPath());
 		logDO.setApiDesc(apiDesc);
 
-		String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstant.DOT + method.getName();
+		String classMethod = method.getDeclaringClass().getSimpleName() + SymbolConstant.DOT + method.getName();
 		logDO.setClassMethod(classMethod);
 
 		logDO.setReqParams(WebUtil.getRequestArgs(args));

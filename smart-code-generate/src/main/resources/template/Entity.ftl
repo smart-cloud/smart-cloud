@@ -2,7 +2,7 @@ package ${packageName};
 
 <#list importPackages as package>
 <#if package!="">
-import ${package}
+import ${package};
 </#if>
 </#list>
 import javax.persistence.Column;
@@ -33,6 +33,9 @@ public class ${className} extends BaseEntity {
 <#list attributes as attribute>
 	<#if attribute.comment!="">
     /** ${attribute.comment} */
+	</#if>
+	<#if attribute.maskRule??>
+    @MaskLog(MaskRule.${attribute.maskRule})
 	</#if>
     @Column(name = "${attribute.columnName}")     
 	private ${attribute.javaType} ${attribute.name};

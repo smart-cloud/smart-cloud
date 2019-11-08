@@ -4,7 +4,6 @@ import org.smartframework.cloud.mask.MaskRule;
 import org.smartframework.cloud.mask.serialize.MaskSerializeConfig;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 
 /**
  * @desc mask工具类
@@ -13,13 +12,6 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
  */
 public final class MaskUtil {
 
-	private static final SerializerFeature[] SERIALIZER_FEATURES = { SerializerFeature.WriteMapNullValue,
-			SerializerFeature.WriteNullListAsEmpty, SerializerFeature.WriteNullStringAsEmpty,
-			SerializerFeature.WriteDateUseDateFormat, SerializerFeature.WriteBigDecimalAsPlain,
-			SerializerFeature.WriteEnumUsingToString,
-			// 禁用“循环引用检测”
-			SerializerFeature.DisableCircularReferenceDetect };
-	
 	private MaskUtil() {}
 
 	/**
@@ -64,7 +56,8 @@ public final class MaskUtil {
 	 * @return
 	 */
 	public static String mask(Object object) {
-		return JSON.toJSONString(object, MaskSerializeConfig.GLOBAL_INSTANCE, SERIALIZER_FEATURES);
+		// 注意：使用SerializerFeature时，不能禁用“循环引用检测”
+		return JSON.toJSONString(object, MaskSerializeConfig.GLOBAL_INSTANCE);
 	}
 
 }

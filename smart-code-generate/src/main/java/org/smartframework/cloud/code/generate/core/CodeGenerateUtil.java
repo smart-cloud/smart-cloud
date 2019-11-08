@@ -43,7 +43,7 @@ public class CodeGenerateUtil {
 	public static void init() throws ClassNotFoundException, SQLException, IOException {
 		YamlProperties yamlProperties = YamlUtil.readYamlProperties();
 		YamlPropertiesCheckUtil.check(yamlProperties);
-		
+
 		CodeProperties codeProperties = yamlProperties.getCode();
 		try (Connection connnection = DbUtil.getConnection(yamlProperties.getDb());) {
 			Map<String, TableMetaDataBO> tableMetaDataMap = DbUtil.getTablesMetaData(connnection, codeProperties);
@@ -76,11 +76,12 @@ public class CodeGenerateUtil {
 		String rpcPath = pathProperties.getRpc();
 		String servicePath = pathProperties.getService();
 
-		EntityBO entityDto = TemplateBOUtil.getEntityBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage);
+		EntityBO entityDto = TemplateBOUtil.getEntityBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage,
+				code.getMask());
 		CodeFileGenerateUtil.generateEntity(entityDto, servicePath);
 
 		BaseRespBodyBO baseRespBodyDto = TemplateBOUtil.getBaseRespBodyBO(tableMetaData, columnMetaDatas,
-				mainClassPackage, entityDto.getImportPackages());
+				mainClassPackage, entityDto.getImportPackages(), code.getMask());
 		CodeFileGenerateUtil.generateBaseRespBody(baseRespBodyDto, rpcPath);
 
 		BaseMapperBO baseMapperDto = TemplateBOUtil.getBaseMapperBO(tableMetaData, entityDto, baseRespBodyDto,

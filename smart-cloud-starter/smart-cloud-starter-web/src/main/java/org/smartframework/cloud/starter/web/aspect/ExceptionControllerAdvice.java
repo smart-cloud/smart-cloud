@@ -4,7 +4,6 @@ import org.smartframework.cloud.common.pojo.dto.BaseDto;
 import org.smartframework.cloud.common.pojo.dto.Resp;
 import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.starter.common.business.util.exception.ExceptionHandlerContext;
-import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +26,7 @@ public class ExceptionControllerAdvice {
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public Resp<BaseDto> handleException(Exception e) {
-		log.error(LogUtil.truncate(e.getMessage(), e));
+		log.error("global.error", e);
 
 		RespHead head = ExceptionHandlerContext.transRespHead(e);
 		return new Resp<>(head);
