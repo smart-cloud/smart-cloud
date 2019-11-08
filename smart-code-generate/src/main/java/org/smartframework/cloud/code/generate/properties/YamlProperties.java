@@ -18,7 +18,7 @@ import lombok.ToString;
 @ConfigurationProperties
 public class YamlProperties {
 	/** 数据库连接信息 */
-	private DdProperties db;
+	private DbProperties db;
 	/** 待生成的代码信息 */
 	private CodeProperties code;
 }

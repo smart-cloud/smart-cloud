@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class DdProperties {
+public class DbProperties {
 	/** 数据库连接url */
 	private String url;
 	/** 数据库用户名 */

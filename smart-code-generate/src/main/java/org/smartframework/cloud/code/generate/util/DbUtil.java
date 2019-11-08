@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
-import org.smartframework.cloud.code.generate.config.ConfigCode;
+import org.smartframework.cloud.code.generate.config.Config;
 import org.smartframework.cloud.code.generate.enums.DefaultColumnEnum;
 import org.smartframework.cloud.code.generate.enums.GenerateTypeEnum;
+import org.smartframework.cloud.code.generate.properties.CodeProperties;
+import org.smartframework.cloud.code.generate.properties.DbProperties;
 
 import lombok.experimental.UtilityClass;
 
@@ -32,28 +33,28 @@ public class DbUtil {
 	/**
 	 * 获取数据库连接
 	 * 
+	 * @param db
 	 * @return
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public static Connection getConnection(ResourceBundle resource) throws ClassNotFoundException, SQLException {
+	public static Connection getConnection(DbProperties db) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		return DriverManager.getConnection(resource.getString(ConfigCode.Db.URL),
-				resource.getString(ConfigCode.Db.USERNAME), resource.getString(ConfigCode.Db.PASSWORD));
+		return DriverManager.getConnection(db.getUrl(), db.getUsername(), db.getPassword());
 	}
 
 	/**
 	 * 获取表信息
 	 * 
 	 * @param connnection
-	 * @param resource
+	 * @param code
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Map<String, TableMetaDataBO> getTablesMetaData(Connection connnection, ResourceBundle resource)
+	public static Map<String, TableMetaDataBO> getTablesMetaData(Connection connnection, CodeProperties code)
 			throws SQLException {
-		String qryTableMetaDataSql = getQueryTableMetaDataSql(connnection.getCatalog(),
-				resource.getString(ConfigCode.Generate.TYPE), resource.getString(ConfigCode.Generate.TABLES));
+		String qryTableMetaDataSql = getQueryTableMetaDataSql(connnection.getCatalog(), code.getType(),
+				code.getSpecifiedTables());
 
 		Map<String, TableMetaDataBO> tableMetaDataDtos = new HashMap<>();
 		try (PreparedStatement preparedStatement = connnection.prepareStatement(qryTableMetaDataSql);
@@ -78,16 +79,16 @@ public class DbUtil {
 	 * @param tableNameStr
 	 * @return
 	 */
-	private static String getQueryTableMetaDataSql(String dbName, String generateType, String tableNameStr) {
+	private static String getQueryTableMetaDataSql(String dbName, Integer generateType, String tableNameStr) {
 		StringBuilder qryTableMetaDataSql = new StringBuilder();
 		qryTableMetaDataSql
 				.append("SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '");
 		qryTableMetaDataSql.append(dbName);
 		qryTableMetaDataSql.append("' ");
-		if (!GenerateTypeEnum.ALL.getType().equals(generateType)) {
-			String[] tableNames = tableNameStr.split(ConfigCode.Generate.TABLES_SEPARATOR);
+		if (GenerateTypeEnum.ALL.getType().compareTo(generateType) != 0) {
+			String[] tableNames = tableNameStr.split(Config.TABLES_SEPARATOR);
 			qryTableMetaDataSql.append("AND table_name ");
-			if (GenerateTypeEnum.EXCLUDE.getType().equals(generateType)) {
+			if (GenerateTypeEnum.EXCLUDE.getType().compareTo(generateType) == 0) {
 				qryTableMetaDataSql.append("NOT ");
 			}
 			qryTableMetaDataSql.append("IN(");

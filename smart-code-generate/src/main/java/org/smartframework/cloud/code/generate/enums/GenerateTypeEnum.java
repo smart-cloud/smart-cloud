@@ -15,13 +15,13 @@ import lombok.Getter;
 public enum GenerateTypeEnum {
 
 	/** 数据库整个表全部生成 */
-	ALL("1"),
+	ALL(1),
 	/** 只生成指定的表 */
-	INCLUDE("2"),
+	INCLUDE(2),
 	/** 除了指定的表，全部生成 */
-	EXCLUDE("3");
+	EXCLUDE(3);
 
 	/** 生成类型 */
-	private String type;
+	private Integer type;
 
 }

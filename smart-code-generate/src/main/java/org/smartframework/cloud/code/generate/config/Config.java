@@ -20,11 +20,13 @@ public class Config {
 	/** 配置文件所在路径 */
 	public static final String CONFIG_PATH = "config/";
 	/** 总配置文件名 */
-	public static final String CONFIG_NAME = CONFIG_PATH + "generate_config";
+	public static final String CONFIG_NAME = "generate_config";
 	/** 配置文key */
-	public static final String PROPERTIES_KEY = "config.properties";
+	public static final String PROPERTIES_KEY = "config.yaml";
 	/** 模板所在位置 */
 	public static final String TEMPLATE_PATH = "/template";
+	/** 多个表用隔开的分隔符 */
+	public static final String TABLES_SEPARATOR = ",";
 
 	public static final String ENTITY_CLASS_SUFFIX = "Entity";
 	public static final String MAPPER_CLASS_SUFFIX = "BaseMapper";

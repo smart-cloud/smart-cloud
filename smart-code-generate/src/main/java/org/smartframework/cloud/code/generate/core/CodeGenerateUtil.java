@@ -6,7 +6,6 @@ import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
@@ -14,11 +13,14 @@ import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
 import org.smartframework.cloud.code.generate.bo.template.BaseRespBodyBO;
 import org.smartframework.cloud.code.generate.bo.template.ClassCommentBO;
 import org.smartframework.cloud.code.generate.bo.template.EntityBO;
-import org.smartframework.cloud.code.generate.config.ConfigCode;
+import org.smartframework.cloud.code.generate.properties.CodeProperties;
+import org.smartframework.cloud.code.generate.properties.PathProperties;
+import org.smartframework.cloud.code.generate.properties.YamlProperties;
 import org.smartframework.cloud.code.generate.util.CodeFileGenerateUtil;
 import org.smartframework.cloud.code.generate.util.DbUtil;
-import org.smartframework.cloud.code.generate.util.PropertiesUtil;
 import org.smartframework.cloud.code.generate.util.TemplateBOUtil;
+import org.smartframework.cloud.code.generate.util.YamlPropertiesCheckUtil;
+import org.smartframework.cloud.code.generate.util.YamlUtil;
 
 import lombok.experimental.UtilityClass;
 
@@ -39,16 +41,17 @@ public class CodeGenerateUtil {
 	 * @throws IOException
 	 */
 	public static void init() throws ClassNotFoundException, SQLException, IOException {
-		ResourceBundle resource = PropertiesUtil.getPropertiesBundle();
-
-		try (Connection connnection = DbUtil.getConnection(resource);) {
-			Map<String, TableMetaDataBO> tableMetaDataMap = DbUtil.getTablesMetaData(connnection, resource);
-			ClassCommentBO classComment = TemplateBOUtil
-					.getClassCommentBO(resource.getString(ConfigCode.Generate.AUTHOR));
+		YamlProperties yamlProperties = YamlUtil.readYamlProperties();
+		YamlPropertiesCheckUtil.check(yamlProperties);
+		
+		CodeProperties codeProperties = yamlProperties.getCode();
+		try (Connection connnection = DbUtil.getConnection(yamlProperties.getDb());) {
+			Map<String, TableMetaDataBO> tableMetaDataMap = DbUtil.getTablesMetaData(connnection, codeProperties);
+			ClassCommentBO classComment = TemplateBOUtil.getClassCommentBO(codeProperties.getAuthor());
 
 			DatabaseMetaData metaData = connnection.getMetaData();
 			for (Map.Entry<String, TableMetaDataBO> entry : tableMetaDataMap.entrySet()) {
-				generateSingleTable(connnection.getCatalog(), entry.getValue(), metaData, classComment, resource);
+				generateSingleTable(connnection.getCatalog(), entry.getValue(), metaData, classComment, codeProperties);
 			}
 		}
 	}
@@ -60,20 +63,20 @@ public class CodeGenerateUtil {
 	 * @param tableMetaData
 	 * @param metaData
 	 * @param classComment  公共信息
-	 * @param resource      配置信息
+	 * @param code
 	 * @throws SQLException
 	 * @throws IOException
 	 */
 	private static void generateSingleTable(String database, TableMetaDataBO tableMetaData, DatabaseMetaData metaData,
-			ClassCommentBO classComment, ResourceBundle resource) throws SQLException, IOException {
+			ClassCommentBO classComment, CodeProperties code) throws SQLException, IOException {
 		List<ColumnMetaDataBO> columnMetaDatas = DbUtil.getTableColumnMetaDatas(metaData, database,
 				tableMetaData.getName());
-		String mainClassPackage = resource.getString(ConfigCode.Generate.MAIN_CLASS_PACKAGE);
-		String rpcPath = resource.getString(ConfigCode.Generate.RPC_PATH);
-		String servicePath = resource.getString(ConfigCode.Generate.SERVICE_PATH);
+		String mainClassPackage = code.getMainClassPackage();
+		PathProperties pathProperties = code.getProject().getPath();
+		String rpcPath = pathProperties.getRpc();
+		String servicePath = pathProperties.getService();
 
-		EntityBO entityDto = TemplateBOUtil.getEntityBO(tableMetaData, columnMetaDatas, classComment,
-				mainClassPackage);
+		EntityBO entityDto = TemplateBOUtil.getEntityBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage);
 		CodeFileGenerateUtil.generateEntity(entityDto, servicePath);
 
 		BaseRespBodyBO baseRespBodyDto = TemplateBOUtil.getBaseRespBodyBO(tableMetaData, columnMetaDatas,
