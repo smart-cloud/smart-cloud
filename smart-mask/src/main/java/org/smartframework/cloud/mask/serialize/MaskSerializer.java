@@ -44,7 +44,7 @@ public class MaskSerializer extends JavaBeanSerializer {
 					endLen = maskRule.getEndLen();
 					mask = maskRule.getMask();
 				}
-				return MaskUtil.mask(propertyValue.toString(), startLen, endLen, mask);
+				return MaskUtil.mask(propertyValue, startLen, endLen, mask);
 			}
 		} catch (SecurityException | IllegalArgumentException e) {
 			log.error("process value error by reflection", e);

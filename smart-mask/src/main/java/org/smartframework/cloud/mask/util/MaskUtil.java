@@ -24,6 +24,22 @@ public final class MaskUtil {
 	public static String mask(String s, MaskRule maskRule) {
 		return mask(s, maskRule.getStartLen(), maskRule.getEndLen(), maskRule.getMask());
 	}
+	
+	/**
+	 * 根据传入的mask规则，替换字符串
+	 * 
+	 * @param obj
+	 * @param start
+	 * @param end
+	 * @param mask
+	 * @return
+	 */
+	public static String mask(Object obj, int start, int end, String mask) {
+		if (obj == null) {
+			return mask;
+		}
+		return mask(obj.toString(), start, end, mask);
+	}
 
 	/**
 	 * 根据传入的mask规则，替换字符串
