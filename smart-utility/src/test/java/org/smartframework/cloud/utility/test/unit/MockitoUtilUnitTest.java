@@ -18,16 +18,17 @@ public class MockitoUtilUnitTest extends TestCase {
 		Service mockService = Mockito.mock(Service.class);
 		Controller controller = new Controller(service);
 
-		AnnotationConfigApplicationContext context = new  AnnotationConfigApplicationContext();
-		context.refresh();
-		ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-		beanFactory.registerSingleton("service", service);
-		beanFactory.registerSingleton("controller", controller);
-		
-		MockitoUtil.setMockAttribute(controller, mockService, MockTypeEnum.MOCK_BORROW);
-		MockitoUtil.revertMockAttribute(context);
-		
-		Assertions.assertThat(controller.getService()).isEqualTo(service);
+		try(AnnotationConfigApplicationContext context = new  AnnotationConfigApplicationContext()){
+			context.refresh();
+			ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+			beanFactory.registerSingleton("service", service);
+			beanFactory.registerSingleton("controller", controller);
+			
+			MockitoUtil.setMockAttribute(controller, mockService, MockTypeEnum.MOCK_BORROW);
+			MockitoUtil.revertMockAttribute();
+			
+			Assertions.assertThat(controller.getService()).isEqualTo(service);
+		}
 	}
 	
 	public void testSpy() {
@@ -35,16 +36,17 @@ public class MockitoUtilUnitTest extends TestCase {
 		Service serviceSpy = Mockito.spy(service);
 		Controller controller = new Controller(service);
 
-		AnnotationConfigApplicationContext context = new  AnnotationConfigApplicationContext();
-		context.refresh();
-		ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-		beanFactory.registerSingleton("service", service);
-		beanFactory.registerSingleton("controller", controller);
-		
-		MockitoUtil.setMockAttribute(controller, serviceSpy, MockTypeEnum.MOCK_BORROW);
-		MockitoUtil.revertMockAttribute(context);
-		
-		Assertions.assertThat(controller.getService()).isEqualTo(service);
+		try(AnnotationConfigApplicationContext context = new  AnnotationConfigApplicationContext()){
+			context.refresh();
+			ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+			beanFactory.registerSingleton("service", service);
+			beanFactory.registerSingleton("controller", controller);
+			
+			MockitoUtil.setMockAttribute(controller, serviceSpy, MockTypeEnum.MOCK_BORROW);
+			MockitoUtil.revertMockAttribute();
+			
+			Assertions.assertThat(controller.getService()).isEqualTo(service);
+		}
 	}
 	
 	@AllArgsConstructor

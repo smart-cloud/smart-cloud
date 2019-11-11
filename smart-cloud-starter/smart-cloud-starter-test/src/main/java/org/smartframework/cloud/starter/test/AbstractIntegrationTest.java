@@ -65,7 +65,7 @@ public abstract class AbstractIntegrationTest extends TestCase {
 	
 	@After
 	public void after() {
-		MockitoUtil.revertMockAttribute(applicationContext);
+		MockitoUtil.revertMockAttribute();
 	}
 
 	/**

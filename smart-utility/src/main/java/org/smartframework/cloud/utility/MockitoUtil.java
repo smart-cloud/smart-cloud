@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.mockito.internal.util.MockUtil;
 import org.mockito.mock.MockCreationSettings;
 import org.springframework.aop.framework.Advised;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.util.AopTestUtils;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.ClassUtils;
@@ -65,6 +64,10 @@ public class MockitoUtil {
 			for (Field field : fields) {
 				if (Object.class != field.getType() && field.getType().isInstance(mockObject)) {
 					field.setAccessible(true);
+                    if (mockTypeEnum == MockTypeEnum.MOCK_BORROW) {
+                        Object realObject = field.get(targetObject);
+                        mockCache.add(new MockDto(targetObject, realObject));
+                    }
 					field.set(targetObject, mockObject);
 				}
 			}
@@ -78,10 +81,10 @@ public class MockitoUtil {
 	 * 
 	 * @param applicationContext
 	 */
-	public static void revertMockAttribute(ApplicationContext applicationContext) {
+	public static void revertMockAttribute() {
 		MockDto mockDto = null;
 		while ((mockDto = MockitoUtil.getMockCache().poll()) != null) {
-			MockitoUtil.setMockAttribute(mockDto.getTargetObject(), applicationContext.getBean(mockDto.getMockClass()),
+			MockitoUtil.setMockAttribute(mockDto.getTargetObject(), mockDto.getBarrier(),
 					MockitoUtil.MockTypeEnum.MOCK_REVERT);
 		}
 	}
@@ -91,7 +94,7 @@ public class MockitoUtil {
 	@AllArgsConstructor
 	public static class MockDto {
 		Object targetObject;
-		Class<?> mockClass;
+		Object barrier;
 	}
 
 	@Getter
