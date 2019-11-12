@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.common.business.autoconfigure;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -100,10 +101,8 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
 		for (String locationPattern : locationPatterns) {
 			try {
 				Resource[] resources = resourcePatternResolver.getResources(locationPattern);
-				if (resources != null && resources.length > 0) {
-					for (Resource resource : resources) {
-						resourceSet.add(resource);
-					}
+				if (ArrayUtils.isNotEmpty(resources)) {
+					Collections.addAll(resourceSet, resources);
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
