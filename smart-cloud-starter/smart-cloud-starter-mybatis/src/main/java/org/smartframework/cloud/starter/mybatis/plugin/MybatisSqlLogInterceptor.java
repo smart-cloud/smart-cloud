@@ -1,11 +1,6 @@
 package org.smartframework.cloud.starter.mybatis.plugin;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.regex.Matcher;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
@@ -26,7 +21,11 @@ import org.smartframework.cloud.mask.util.MaskUtil;
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.utility.DateUtil;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.regex.Matcher;
 
 
 /**
@@ -43,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MybatisSqlLogInterceptor implements Interceptor {
 
 	/**sql最大长度限制*/
-	private static final int SQL_MAX_LEN = 1<<8;
+	private static final int SQL_MAX_LEN = 1 << 8;
 	private static final String QUOTE = "\\?";
 
 	@Override
@@ -64,11 +63,9 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 				Object parameter = invocation.getArgs()[1];
 				boundSql = mappedStatement.getBoundSql(parameter);
 			}
-//			printSql(boundSql, mappedStatement.getId(), time, returnValue);
 			String sqlId = mappedStatement.getId();
 			Configuration configuration = mappedStatement.getConfiguration();
 			showSql(configuration, boundSql, sqlId, time, returnValue);
-		
 		}
 	}
 
@@ -79,42 +76,13 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 
 	@Override
 	public void setProperties(Properties properties) {
-
 	}
 	
-	/**
-	 * 打印sql日志
-	 * 
-	 * @param boundSql
-	 * @param sqlId
-	 * @param time
-	 * @param returnValue
-	 */
-//	public static void printSql(BoundSql boundSql, String sqlId, long time, Object returnValue) {
-//		String separator = " ==> ";
-//		String sql = boundSql.getSql();
-//		StringBuilder str = new StringBuilder((sql.length() >= SQL_MAX_LEN) ? SQL_MAX_LEN : 64);
-//		str.append(sqlId);
-//		str.append("：");
-//		str.append(boundSql.getSql());
-//		str.append(separator);
-//		str.append(MaskUtil.mask(boundSql.getParameterObject()));
-//		str.append(separator);
-//		str.append("spend：");
-//		str.append(time);
-//		str.append("ms");
-//		str.append(separator);
-//		str.append("result==> ");
-//		str.append(MaskUtil.mask(returnValue));
-//
-//		log.info(LogUtil.truncate(str.toString()));
-//	}
-
 	/**
 	 * sql日志拼接
 	 * 
 	 * <p>
-	 * 不能用换行。如果使用换行，在logstash中日志的顺序将会混乱
+	 * 不能用换行。如果使用换行，在ELK中日志的顺序将会混乱
 	 * 
 	 * @param configuration
 	 * @param boundSql
