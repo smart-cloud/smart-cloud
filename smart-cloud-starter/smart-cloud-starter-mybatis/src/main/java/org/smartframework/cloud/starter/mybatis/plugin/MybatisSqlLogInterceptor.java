@@ -95,7 +95,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 		String separator = " ==> ";
 		String sql = getSql(configuration, boundSql);
 		StringBuilder str = new StringBuilder((sql.length() > SQL_MAX_LEN) ? SQL_MAX_LEN : 64);
-		str.append(sqlId);
+		str.append(getShortSqlId(sqlId));
 		str.append("：");
 		str.append(sql);
 		str.append(separator);
@@ -107,6 +107,22 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 		str.append(MaskUtil.mask(returnValue));
 
 		log.info(LogUtil.truncate(str.toString()));
+	}
+
+	/**
+	 * 截取sqlId（只保留class.method）
+	 *
+	 * @param sqlId
+	 * @return
+	 */
+	public static String getShortSqlId(String sqlId) {
+		for (int i = sqlId.length() - 1, times = 0; i >= 0; i--) {
+			if (sqlId.charAt(i) == '.' && (++times) == 2) {
+				return sqlId.substring(i + 1);
+			}
+		}
+
+		return sqlId;
 	}
 
 	private static String getParameterValue(Object obj) {
