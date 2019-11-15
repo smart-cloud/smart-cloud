@@ -1,10 +1,15 @@
 package org.smartframework.cloud.mask.test.unit;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.assertj.core.api.Assertions;
+import org.smartframework.cloud.mask.EnableMask;
 import org.smartframework.cloud.mask.MaskLog;
 import org.smartframework.cloud.mask.MaskRule;
 import org.smartframework.cloud.mask.util.MaskUtil;
@@ -16,6 +21,7 @@ import junit.framework.TestCase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import sun.misc.ClassLoaderUtil;
 
 public class MaskSerializeTest extends TestCase {
 
@@ -181,9 +187,42 @@ public class MaskSerializeTest extends TestCase {
 		Assertions.assertThat(maskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
 	}
 
+	public void testWrapMask() {
+		User user = new User();
+		user.setId(9L);
+		user.setName("名字");
+		user.setMobile("13112345678");
+
+		User wrapMaskUser = MaskUtil.wrapMask(user);
+
+		Assertions.assertThat(wrapMaskUser.getId()).isEqualTo(user.getId());
+		Assertions.assertThat(wrapMaskUser.getName()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
+		Assertions.assertThat(wrapMaskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
+	}
+
+	public void testWrapMaskGeneric() {
+		User user = new User();
+		user.setId(9L);
+		user.setName("名字");
+		user.setMobile("13112345678");
+
+		Req2<User> req = new Req2<>();
+		req.setToken("1234");
+		req.setT(user);
+		Req2<User> wrapMaskReq = MaskUtil.wrapMask(req);
+		Assertions.assertThat(wrapMaskReq).isNotNull();
+		Assertions.assertThat(wrapMaskReq.getToken()).isEqualTo(req.getToken());
+
+		User wrapMaskUser = wrapMaskReq.getT();
+		Assertions.assertThat(wrapMaskUser.getId()).isEqualTo(user.getId());
+		Assertions.assertThat(wrapMaskUser.getName()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
+		Assertions.assertThat(wrapMaskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
+	}
+
 	@Getter
 	@Setter
 	@ToString
+	@EnableMask
 	public static class LoginVO {
 		@MaskLog(startLen = 1, endLen = 1, mask = "###")
 		private String name;
@@ -194,6 +233,7 @@ public class MaskSerializeTest extends TestCase {
 	@Getter
 	@Setter
 	@ToString
+	@EnableMask
 	public static class User {
 		@MaskLog
 		private Long id;
@@ -206,6 +246,7 @@ public class MaskSerializeTest extends TestCase {
 	@Getter
 	@Setter
 	@ToString
+	@EnableMask
 	public static class Student extends User {
 		private int age;
 		@MaskLog(MaskRule.NAME)
@@ -215,6 +256,7 @@ public class MaskSerializeTest extends TestCase {
 	@Getter
 	@Setter
 	@ToString
+	@EnableMask
 	public static class Source {
 		@MaskLog(MaskRule.IP)
 		private String ip;
@@ -224,6 +266,7 @@ public class MaskSerializeTest extends TestCase {
 	@Getter
 	@Setter
 	@ToString
+	@EnableMask
 	public static class Req<T> {
 		@MaskLog
 		private String token;
@@ -233,6 +276,7 @@ public class MaskSerializeTest extends TestCase {
 	@Getter
 	@Setter
 	@ToString
+	@EnableMask
 	public static class Req2<T> {
 		private String token;
 		private T t;

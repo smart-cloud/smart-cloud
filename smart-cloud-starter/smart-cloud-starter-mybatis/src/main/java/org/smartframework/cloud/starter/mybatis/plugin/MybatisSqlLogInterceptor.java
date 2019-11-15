@@ -34,14 +34,16 @@ import java.util.regex.Matcher;
  * @author liyulin
  * @date 2019-03-22
  */
-@Intercepts({ @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
-		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class }),
-		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class }),
-		@Signature(type = Executor.class, method = "queryCursor", args = { MappedStatement.class, Object.class, RowBounds.class }) })
+@Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
+		@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
+		@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
+		@Signature(type = Executor.class, method = "queryCursor", args = {MappedStatement.class, Object.class, RowBounds.class})})
 @Slf4j
 public class MybatisSqlLogInterceptor implements Interceptor {
 
-	/**sql最大长度限制*/
+	/**
+	 * sql最大长度限制
+	 */
 	private static final int SQL_MAX_LEN = 1 << 8;
 	private static final String QUOTE = "\\?";
 
@@ -77,13 +79,13 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 	@Override
 	public void setProperties(Properties properties) {
 	}
-	
+
 	/**
 	 * sql日志拼接
-	 * 
+	 *
 	 * <p>
 	 * 不能用换行。如果使用换行，在ELK中日志的顺序将会混乱
-	 * 
+	 *
 	 * @param configuration
 	 * @param boundSql
 	 * @param sqlId
@@ -91,7 +93,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 	 * @param returnValue
 	 */
 	public static void showSql(Configuration configuration, BoundSql boundSql, String sqlId, long time,
-			Object returnValue) {
+							   Object returnValue) {
 		String separator = " ==> ";
 		String sql = getSql(configuration, boundSql);
 		StringBuilder str = new StringBuilder((sql.length() > SQL_MAX_LEN) ? SQL_MAX_LEN : 64);
@@ -142,7 +144,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 	}
 
 	public static String getSql(Configuration configuration, BoundSql boundSql) {
-		Object parameterObject = boundSql.getParameterObject();
+		Object parameterObject = MaskUtil.wrapMask(boundSql.getParameterObject());
 		List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
 
 		String sql = boundSql.getSql().replaceAll("[\\s]+", " ");
