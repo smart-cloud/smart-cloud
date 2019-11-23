@@ -14,19 +14,19 @@ import lombok.Getter;
 public enum MaskRule {
 
 	/** 手机号 */
-	MOBILE(3, 4, MaskConstants.DEFAULT_MASK_TEXT),
+	MOBILE(3, 4, DefaultMaskConfig.MASK_TEXT),
 	/** 银行卡 */
-	BANKCARD(4, 4, MaskConstants.DEFAULT_MASK_TEXT),
+	BANKCARD(4, 4, DefaultMaskConfig.MASK_TEXT),
 	/** 身份证 */
-	IDCARD(4, 4, MaskConstants.DEFAULT_MASK_TEXT),
+	IDCARD(4, 4, DefaultMaskConfig.MASK_TEXT),
 	/** ip地址 */
-	IP(3, 0, MaskConstants.DEFAULT_MASK_TEXT),
+	IP(3, 0, DefaultMaskConfig.MASK_TEXT),
 	/** 名字 */
-	NAME(1, 0, MaskConstants.DEFAULT_MASK_TEXT),
+	NAME(1, 0, DefaultMaskConfig.MASK_TEXT),
 	/** 密码 */
-	PASSWROD(0, 0, MaskConstants.DEFAULT_MASK_TEXT),
+	PASSWROD(0, 0, DefaultMaskConfig.MASK_TEXT),
 	/** 默认（全部mask） */
-	DEFAULT(0, 0, MaskConstants.DEFAULT_MASK_TEXT);
+	DEFAULT(0, 0, DefaultMaskConfig.MASK_TEXT);
 
 	/** 开头保留的长度 */
 	private int startLen;

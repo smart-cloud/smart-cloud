@@ -20,12 +20,12 @@ public @interface MaskLog {
 	MaskRule value() default MaskRule.DEFAULT;
 
 	/** 开头保留的长度 */
-	int startLen() default MaskConstants.START_LEN;
+	int startLen() default DefaultMaskConfig.START_LEN;
 
 	/** 结尾保留的长度 */
-	int endLen() default MaskConstants.END_LEN;
+	int endLen() default DefaultMaskConfig.END_LEN;
 
 	/** 掩码值 */
-	String mask() default MaskConstants.DEFAULT_MASK_TEXT;
+	String mask() default DefaultMaskConfig.MASK_TEXT;
 
 }

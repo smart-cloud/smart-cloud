@@ -2,7 +2,7 @@ package org.smartframework.cloud.mask.serialize;
 
 import java.lang.reflect.Field;
 
-import org.smartframework.cloud.mask.MaskConstants;
+import org.smartframework.cloud.mask.DefaultMaskConfig;
 import org.smartframework.cloud.mask.MaskLog;
 import org.smartframework.cloud.mask.MaskRule;
 import org.smartframework.cloud.mask.util.MaskUtil;
@@ -60,8 +60,8 @@ public class MaskSerializer extends JavaBeanSerializer {
 	 * @return
 	 */
 	private boolean isSetMaskAttributes(MaskLog maskLog) {
-		return maskLog.startLen() != MaskConstants.START_LEN || maskLog.endLen() != MaskConstants.END_LEN
-				|| !MaskConstants.DEFAULT_MASK_TEXT.equals(maskLog.mask());
+		return maskLog.startLen() != DefaultMaskConfig.START_LEN || maskLog.endLen() != DefaultMaskConfig.END_LEN
+				|| !DefaultMaskConfig.MASK_TEXT.equals(maskLog.mask());
 	}
 
 }
