@@ -1,7 +1,8 @@
 package ${packageName};
 
-import ${importEntityClass};
-import ${importBaseRespBodyClass};
+<#list importPackages as package>
+import ${package};
+</#list>
 import org.smartframework.cloud.starter.mybatis.common.mapper.ext.ExtMapper;
 
 /**

@@ -11,14 +11,12 @@ import lombok.ToString;
 @ToString
 public class EntityBO extends CommonBO {
 
+	/** 是否mask注解 */
+	private String enableMask;
 	/** 类注释信息 */
 	private ClassCommentBO classComment;
-	/** 需要导入的包名 */
-	private List<String> importPackages;
 	/** 表名 */
 	private String tableName;
-	/** 表备注 */
-	private String tableComment;
 	/** 表字段对应的java属性信息 */
 	List<EntityAttributeBO> attributes;
 

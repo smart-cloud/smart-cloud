@@ -2,6 +2,7 @@ package org.smartframework.cloud.code.generate.config;
 
 import java.nio.charset.StandardCharsets;
 
+import org.smartframework.cloud.mask.EnableMask;
 import org.smartframework.cloud.mask.MaskLog;
 import org.smartframework.cloud.mask.MaskRule;
 
@@ -55,6 +56,8 @@ public class Config {
 		public static final String MASK_RULE = MaskRule.class.getTypeName();
 		/** MaskLog包名 */
 		public static final String MASK_LOG = MaskLog.class.getTypeName();
+		/** MaskLog包名 */
+		public static final String ENABLE_MASK = EnableMask.class.getTypeName();
 	}
 	
 }

@@ -1,9 +1,8 @@
 package ${packageName};
 
 <#list importPackages as package>
-<#if package!="">
 import ${package};
-</#if>
+
 </#list>
 import javax.persistence.Column;
 import javax.persistence.Table;
@@ -26,6 +25,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Table(name = "${tableName}")
+<#if enableMask??>
+@${enableMask}
+</#if>
 public class ${className} extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

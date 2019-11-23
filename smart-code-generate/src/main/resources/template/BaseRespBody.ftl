@@ -1,9 +1,7 @@
 package ${packageName};
 
 <#list importPackages as package>
-<#if package!="">
 import ${package};
-</#if>
 </#list>
 import org.smartframework.cloud.common.pojo.dto.BaseEntityRespBody;
 
@@ -19,6 +17,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @ApiModel(description = "${tableComment}")
+<#if enableMask??>
+@${enableMask}
+</#if>
 public class ${className} extends BaseEntityRespBody {
 
 	private static final long serialVersionUID = 1L;
