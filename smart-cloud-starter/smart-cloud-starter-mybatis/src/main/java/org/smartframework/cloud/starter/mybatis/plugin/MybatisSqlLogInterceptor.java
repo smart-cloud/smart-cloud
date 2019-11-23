@@ -1,7 +1,13 @@
 package org.smartframework.cloud.starter.mybatis.plugin;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.regex.Matcher;
+
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -18,15 +24,11 @@ import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.smartframework.cloud.mask.util.MaskUtil;
+import org.smartframework.cloud.mask.util.MaskUtil.MaskTypeEnum;
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.utility.DateUtil;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.regex.Matcher;
-
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * mybatis sql日志打印
@@ -34,29 +36,29 @@ import java.util.regex.Matcher;
  * @author liyulin
  * @date 2019-03-22
  */
-@Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-		@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
-		@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
-		@Signature(type = Executor.class, method = "queryCursor", args = {MappedStatement.class, Object.class, RowBounds.class})})
+@Intercepts({ @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
+		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class,
+				RowBounds.class, ResultHandler.class }),
+		@Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class,
+				RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class }),
+		@Signature(type = Executor.class, method = "queryCursor", args = { MappedStatement.class, Object.class,
+				RowBounds.class }) })
 @Slf4j
 public class MybatisSqlLogInterceptor implements Interceptor {
 
-	/**
-	 * sql最大长度限制
-	 */
-	private static final int SQL_MAX_LEN = 1 << 8;
+	/** sql最大长度限制 */
+	private static final int SQL_LEN_LIMIT = 1 << 8;
 	private static final String QUOTE = "\\?";
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
-		Object returnValue = null;
 		long start = System.currentTimeMillis();
+		Object returnValue = null;
 		try {
 			returnValue = invocation.proceed();
 			return returnValue;
 		} finally {
-			long end = System.currentTimeMillis();
-			long time = (end - start);
+			long time = System.currentTimeMillis() - start;
 			MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
 			BoundSql boundSql = null;
 			if (invocation.getArgs().length == 6) {
@@ -65,9 +67,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 				Object parameter = invocation.getArgs()[1];
 				boundSql = mappedStatement.getBoundSql(parameter);
 			}
-			String sqlId = mappedStatement.getId();
-			Configuration configuration = mappedStatement.getConfiguration();
-			showSql(configuration, boundSql, sqlId, time, returnValue);
+			printSql(mappedStatement.getConfiguration(), boundSql, mappedStatement.getId(), time, returnValue);
 		}
 	}
 
@@ -78,6 +78,27 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 
 	@Override
 	public void setProperties(Properties properties) {
+	}
+
+	private void printSql(Configuration configuration, BoundSql boundSql, String sqlId, long time, Object returnValue) {
+		Object parameterObject = boundSql.getParameterObject();
+		MaskTypeEnum maskTypeEnum = MaskUtil.getMaskType(parameterObject.getClass());
+		String sqllog = null;
+		returnValue = MaskUtil.mask(returnValue);
+		switch (maskTypeEnum) {
+		case NONE:
+			sqllog = concatNoneMaskSql(configuration, boundSql, sqlId, time, returnValue);
+		case NORMAL:
+			sqllog = printNormalMaskSql(configuration, boundSql, sqlId, time, returnValue);
+			break;
+		case GENERIC:
+			sqllog = concatSql(sqlId, boundSql.getSql(), MaskUtil.mask(boundSql.getParameterObject()), time,
+					returnValue);
+			break;
+		default:
+			throw new UnsupportedOperationException(String.format("The mask type[%s] is not supported!", maskTypeEnum));
+		}
+		log.info(LogUtil.truncate(sqllog));
 	}
 
 	/**
@@ -92,23 +113,61 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 	 * @param time
 	 * @param returnValue
 	 */
-	public static void showSql(Configuration configuration, BoundSql boundSql, String sqlId, long time,
-							   Object returnValue) {
+	private String concatNoneMaskSql(Configuration configuration, BoundSql boundSql, String sqlId, long time,
+			Object returnValue) {
+		String sql = getSql(configuration, boundSql, false);
+		return concatSql(sqlId, sql, null, time, returnValue);
+	}
+
+	/**
+	 * sql日志拼接
+	 *
+	 * <p>
+	 * 不能用换行。如果使用换行，在ELK中日志的顺序将会混乱
+	 *
+	 * @param configuration
+	 * @param boundSql
+	 * @param sqlId
+	 * @param time
+	 * @param returnValue
+	 */
+	private String printNormalMaskSql(Configuration configuration, BoundSql boundSql, String sqlId, long time,
+			Object returnValue) {
+		String sql = getSql(configuration, boundSql, true);
+		return concatSql(sqlId, sql, null, time, returnValue);
+	}
+
+	/**
+	 * sql日志拼接
+	 *
+	 * <p>
+	 * 不能用换行。如果使用换行，在ELK中日志的顺序将会混乱
+	 *
+	 * @param sqlId
+	 * @param sql
+	 * @param inParams    入参
+	 * @param time        sql执行时间
+	 * @param returnValue sql执行结果
+	 */
+	private String concatSql(String sqlId, String sql, String inParams, long time, Object returnValue) {
 		String separator = " ==> ";
-		String sql = getSql(configuration, boundSql);
-		StringBuilder str = new StringBuilder((sql.length() > SQL_MAX_LEN) ? SQL_MAX_LEN : 64);
+		StringBuilder str = new StringBuilder((sql.length() > SQL_LEN_LIMIT) ? SQL_LEN_LIMIT : 64);
 		str.append(getShortSqlId(sqlId));
 		str.append("：");
 		str.append(sql);
 		str.append(separator);
+		if (StringUtils.isNotBlank(inParams)) {
+			str.append(inParams);
+			str.append(separator);
+		}
 		str.append("spend：");
 		str.append(time);
 		str.append("ms");
 		str.append(separator);
 		str.append("result===>");
-		str.append(MaskUtil.mask(returnValue));
+		str.append(returnValue);
 
-		log.info(LogUtil.truncate(str.toString()));
+		return str.toString();
 	}
 
 	/**
@@ -117,7 +176,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 	 * @param sqlId
 	 * @return
 	 */
-	public static String getShortSqlId(String sqlId) {
+	private String getShortSqlId(String sqlId) {
 		for (int i = sqlId.length() - 1, times = 0; i >= 0; i--) {
 			if (sqlId.charAt(i) == '.' && (++times) == 2) {
 				return sqlId.substring(i + 1);
@@ -127,7 +186,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 		return sqlId;
 	}
 
-	private static String getParameterValue(Object obj) {
+	private String getParameterValue(Object obj) {
 		String params = "";
 		if (obj instanceof String) {
 			params = "'" + obj + "'";
@@ -143,11 +202,14 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 		return Matcher.quoteReplacement(params);
 	}
 
-	public static String getSql(Configuration configuration, BoundSql boundSql) {
-		Object parameterObject = MaskUtil.wrapMask(boundSql.getParameterObject());
+	private String getSql(Configuration configuration, BoundSql boundSql, boolean needMask) {
+		Object parameterObject = boundSql.getParameterObject();
+		if (needMask) {
+			parameterObject = MaskUtil.wrapMask(parameterObject);
+		}
 		List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
 
-		String sql = boundSql.getSql().replaceAll("[\\s]+", " ");
+		String sql = cleanSql(boundSql.getSql());
 		if (CollectionUtils.isEmpty(parameterMappings) || Objects.isNull(parameterObject)) {
 			return sql;
 		}
@@ -170,6 +232,10 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 		}
 
 		return sql;
+	}
+
+	private String cleanSql(String sql) {
+		return sql.replaceAll("[\\s]+", " ");
 	}
 
 }

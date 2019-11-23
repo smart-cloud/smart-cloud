@@ -1,9 +1,5 @@
 package org.smartframework.cloud.mask.test.unit;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +17,6 @@ import junit.framework.TestCase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import sun.misc.ClassLoaderUtil;
 
 public class MaskSerializeTest extends TestCase {
 
@@ -195,25 +190,6 @@ public class MaskSerializeTest extends TestCase {
 
 		User wrapMaskUser = MaskUtil.wrapMask(user);
 
-		Assertions.assertThat(wrapMaskUser.getId()).isEqualTo(user.getId());
-		Assertions.assertThat(wrapMaskUser.getName()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
-		Assertions.assertThat(wrapMaskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
-	}
-
-	public void testWrapMaskGeneric() {
-		User user = new User();
-		user.setId(9L);
-		user.setName("名字");
-		user.setMobile("13112345678");
-
-		Req2<User> req = new Req2<>();
-		req.setToken("1234");
-		req.setT(user);
-		Req2<User> wrapMaskReq = MaskUtil.wrapMask(req);
-		Assertions.assertThat(wrapMaskReq).isNotNull();
-		Assertions.assertThat(wrapMaskReq.getToken()).isEqualTo(req.getToken());
-
-		User wrapMaskUser = wrapMaskReq.getT();
 		Assertions.assertThat(wrapMaskUser.getId()).isEqualTo(user.getId());
 		Assertions.assertThat(wrapMaskUser.getName()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
 		Assertions.assertThat(wrapMaskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
