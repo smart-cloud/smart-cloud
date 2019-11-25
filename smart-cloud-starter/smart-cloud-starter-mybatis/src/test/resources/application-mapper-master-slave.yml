@@ -7,5 +7,5 @@ smart:
       username: root
       password: 123456
       mapper-interface-location: org.smartframework.cloud.starter.mybatis.test.cases.masterslave
-      transaction-base-packages: org.smartframework.cloud.examples.mall.service.product.service
-      mapper-xml-location: classpath*:/org/smartframework/cloud/examples/mall/service/product/mybatis/**/*.xml
+      transaction-base-packages: org.smartframework.cloud.starter.mybatis.test.cases.masterslave
+      mapper-xml-location: classpath*:/mapper/**/*.xml

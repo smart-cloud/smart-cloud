@@ -1,11 +1,6 @@
 package org.smartframework.cloud.starter.mybatis.plugin;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.regex.Matcher;
-
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cache.CacheKey;
@@ -28,7 +23,11 @@ import org.smartframework.cloud.mask.util.MaskUtil.MaskTypeEnum;
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.utility.DateUtil;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.regex.Matcher;
 
 /**
  * mybatis sql日志打印
@@ -82,7 +81,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 
 	private void printSql(Configuration configuration, BoundSql boundSql, String sqlId, long time, Object returnValue) {
 		Object parameterObject = boundSql.getParameterObject();
-		MaskTypeEnum maskTypeEnum = MaskUtil.getMaskType(parameterObject.getClass());
+        MaskTypeEnum maskTypeEnum = parameterObject == null ? MaskTypeEnum.NONE : MaskUtil.getMaskType(parameterObject.getClass());
 		String sqllog = null;
 		returnValue = MaskUtil.mask(returnValue);
 		switch (maskTypeEnum) {
