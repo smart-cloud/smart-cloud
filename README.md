@@ -121,7 +121,7 @@
 [Hibernator-Validator](http://hibernate.org/validator/) | 参数校验 
 [mockito](https://site.mockito.org/)、[podam](https://github.com/mtedone/podam) | 单元测试、数据mock
 [freemarker](https://freemarker.apache.org/) | 用于代码生成
-[swagger](https://swagger.io/)、[gitbook](https://www.gitbook.com/) | 接口文档 
+[swagger](https://swagger.io/)、[yapi](https://github.com/YMFE/yapi) | 接口文档 
 [xjar](https://github.com/core-lib/xjar) | 代码安全 
 [jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot) | 配置文件中敏感数据加解密
 [Lombok](https://www.projectlombok.org/) | 简化代码 
