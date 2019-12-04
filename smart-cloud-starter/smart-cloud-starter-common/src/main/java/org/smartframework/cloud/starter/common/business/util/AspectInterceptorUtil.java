@@ -26,7 +26,7 @@ import lombok.experimental.UtilityClass;
 public class AspectInterceptorUtil {
 
 	/** 接口描述缓存 */
-	private ConcurrentMap<String, String> apiDescMap = new ConcurrentHashMap<>();
+	private static final ConcurrentMap<String, String> API_DESC_CACHE = new ConcurrentHashMap<>();
 
 	/**
 	 * 获取feign method的描述
@@ -35,9 +35,9 @@ public class AspectInterceptorUtil {
 	 * @param path
 	 * @return
 	 */
-	public String getFeignMethodDesc(Method method, String path) {
+	public static String getFeignMethodDesc(Method method, String path) {
 		// 先从缓存取
-		String apiDesc = apiDescMap.get(path);
+		String apiDesc = API_DESC_CACHE.get(path);
 		if (ObjectUtil.isNotNull(apiDesc)) {
 			return apiDesc;
 		}
@@ -46,7 +46,7 @@ public class AspectInterceptorUtil {
 		ApiOperation operation = method.getAnnotation(ApiOperation.class);
 		apiDesc = ObjectUtil.isNotNull(operation) ? operation.value() : StringUtils.EMPTY;
 
-		apiDescMap.putIfAbsent(path, apiDesc);
+		API_DESC_CACHE.putIfAbsent(path, apiDesc);
 
 		return apiDesc;
 	}
@@ -58,9 +58,9 @@ public class AspectInterceptorUtil {
 	 * @param path
 	 * @return
 	 */
-	public String getControllerMethodDesc(Method method, String path) {
+	public static String getControllerMethodDesc(Method method, String path) {
 		// 先从缓存取
-		String apiDesc = apiDescMap.get(path);
+		String apiDesc = API_DESC_CACHE.get(path);
 		if (ObjectUtil.isNotNull(apiDesc)) {
 			return apiDesc;
 		}
@@ -85,7 +85,7 @@ public class AspectInterceptorUtil {
 			}
 		}
 
-		apiDescMap.putIfAbsent(path, apiDesc);
+		API_DESC_CACHE.putIfAbsent(path, apiDesc);
 
 		return apiDesc;
 	}
@@ -134,7 +134,7 @@ public class AspectInterceptorUtil {
 	 * @param b
 	 * @return
 	 */
-	private boolean isSameMethod(Method a, Method b) {
+	private static boolean isSameMethod(Method a, Method b) {
 		return (a.getReturnType() == b.getReturnType()) && ObjectUtil.equals(a.getName(), b.getName());
 	}
 

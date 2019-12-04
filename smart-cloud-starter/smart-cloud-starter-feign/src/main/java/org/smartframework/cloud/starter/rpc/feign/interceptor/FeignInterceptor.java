@@ -3,8 +3,6 @@ package org.smartframework.cloud.starter.rpc.feign.interceptor;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.smartframework.cloud.starter.common.business.security.util.ReqHttpHeadersUtil;
@@ -13,9 +11,9 @@ import org.smartframework.cloud.starter.common.business.util.WebUtil;
 import org.smartframework.cloud.starter.common.constants.SymbolConstant;
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.starter.rpc.feign.pojo.FeignLogAspectDO;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -25,7 +23,9 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2019-04-21
  */
 @Slf4j
-public class FeignInterceptor implements MethodInterceptor {
+public class FeignInterceptor implements MethodInterceptor,RequestInterceptor {
+	
+	private static final ThreadLocal<String> FEIGN_PATH_THREAD_LOCAL = new ThreadLocal<>();
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -36,13 +36,7 @@ public class FeignInterceptor implements MethodInterceptor {
 		FeignLogAspectDO logDO = new FeignLogAspectDO();
 		logDO.setReqStartTime(new Date());
 
-		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-		HttpServletRequest request = attributes.getRequest();
-
 		Method method = invocation.getMethod();
-		String apiDesc = AspectInterceptorUtil.getFeignMethodDesc(method, request.getServletPath());
-		logDO.setApiDesc(apiDesc);
-
 		String classMethod = method.getDeclaringClass().getSimpleName() + SymbolConstant.DOT + method.getName();
 		logDO.setClassMethod(classMethod);
 
@@ -52,14 +46,25 @@ public class FeignInterceptor implements MethodInterceptor {
 		// 2、rpc
 		Object result = invocation.proceed();
 
+		String apiDesc = AspectInterceptorUtil.getFeignMethodDesc(method, FEIGN_PATH_THREAD_LOCAL.get());
+		logDO.setApiDesc(apiDesc);
 		logDO.setReqEndTime(new Date());
 		logDO.setReqDealTime((int) (logDO.getReqEndTime().getTime() - logDO.getReqStartTime().getTime()));
 		logDO.setRespData(result);
 
 		// 3、打印日志
 		log.info(LogUtil.truncate("rpc.logDO=>{}", logDO));
+		
+		// 方法调用顺序：apply（初始化值） ——> invoke（获取值，并清除）
+		// 防止内存泄漏
+		FEIGN_PATH_THREAD_LOCAL.remove();
 
 		return result;
+	}
+
+	@Override
+	public void apply(RequestTemplate template) {
+		FEIGN_PATH_THREAD_LOCAL.set(template.path());
 	}
 
 }

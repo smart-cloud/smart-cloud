@@ -67,7 +67,4 @@ public class LogAspectDO extends BaseDto {
 	/** 操作系统相关信息 */
 	private String os;
 
-	/** 异常堆栈信息 */
-	private String exceptionStackInfo;
-
 }

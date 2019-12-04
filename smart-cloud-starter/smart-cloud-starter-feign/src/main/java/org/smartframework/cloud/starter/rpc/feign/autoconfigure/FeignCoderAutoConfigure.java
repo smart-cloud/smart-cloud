@@ -10,7 +10,6 @@ import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 /**
  * @author liyulin
@@ -24,8 +23,8 @@ public class FeignCoderAutoConfigure {
     private ObjectFactory<HttpMessageConverters> messageConverterObjectFactory;
 
     @Bean
-    public ProtobufHttpMessageConverter protobufHttpMessageConverter() {
-        return new ProtobufHttpMessageConverter();
+    public ProtostuffHttpMessageConverter protobufHttpMessageConverter() {
+        return new ProtostuffHttpMessageConverter();
     }
 
     @Bean

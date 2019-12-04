@@ -11,7 +11,6 @@ import org.smartframework.cloud.common.pojo.dto.Resp;
 import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.starter.common.business.security.util.ReqHttpHeadersUtil;
 import org.smartframework.cloud.starter.common.business.util.AspectInterceptorUtil;
-import org.smartframework.cloud.starter.common.business.util.ExceptionUtil;
 import org.smartframework.cloud.starter.common.business.util.WebUtil;
 import org.smartframework.cloud.starter.common.business.util.exception.ExceptionHandlerContext;
 import org.smartframework.cloud.starter.common.constants.SymbolConstant;
@@ -80,9 +79,8 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 		} catch (Exception e) {
 			logDO.setReqEndTime(new Date());
 			logDO.setReqDealTime(getReqDealTime(logDO));
-			logDO.setExceptionStackInfo(ExceptionUtil.toString(e));
 
-			log.error(LogUtil.truncate("api.logDO.error=>{}", logDO));
+			log.error(LogUtil.truncate("api.logDO.error=>{}", logDO), e);
 
 			RespHead head = ExceptionHandlerContext.transRespHead(e);
 			return new Resp<>(head);

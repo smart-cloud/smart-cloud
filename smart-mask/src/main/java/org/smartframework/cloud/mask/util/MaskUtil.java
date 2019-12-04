@@ -7,6 +7,7 @@ import org.smartframework.cloud.mask.MaskRule;
 import org.smartframework.cloud.mask.serialize.MaskSerializeConfig;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
@@ -90,8 +91,11 @@ public final class MaskUtil {
 	 * @return
 	 */
 	public static String mask(Object object) {
-		// 注意：使用SerializerFeature时，不能禁用“循环引用检测”
-		return JSON.toJSONString(object, MaskSerializeConfig.GLOBAL_INSTANCE);
+		// -------------------注意-------------------
+		// 1、使用SerializerFeature时，不能禁用“循环引用检测”
+		// 2、要使用IgnoreNonFieldGetter，否则某些情况会出现NPE
+		// ------------------------------------------
+		return JSON.toJSONString(object, MaskSerializeConfig.GLOBAL_INSTANCE, SerializerFeature.IgnoreNonFieldGetter);
 	}
 
 	/**

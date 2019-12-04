@@ -107,7 +107,7 @@
 [spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关 
 [eureka](https://spring.io/projects/spring-cloud-netflix) | 服务注册 
 [spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 
-[openfeign](https://spring.io/projects/spring-cloud-openfeign) | 声明式服务调用 
+[openfeign](https://spring.io/projects/spring-cloud-openfeign)、[protostuff](https://github.com/protostuff/protostuff) | 声明式服务调用 
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
 [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM 
 [seata](https://github.com/seata/seata) | 分布式事务
