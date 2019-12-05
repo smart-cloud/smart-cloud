@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.rpc.feign.autoconfigure;
+package org.smartframework.cloud.starter.rpc.feign.converter;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

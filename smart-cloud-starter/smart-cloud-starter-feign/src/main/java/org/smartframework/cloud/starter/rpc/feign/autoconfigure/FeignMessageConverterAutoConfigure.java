@@ -2,6 +2,8 @@ package org.smartframework.cloud.starter.rpc.feign.autoconfigure;
 
 import feign.codec.Decoder;
 import feign.codec.Encoder;
+
+import org.smartframework.cloud.starter.rpc.feign.converter.ProtostuffHttpMessageConverter;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
@@ -13,11 +15,11 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author liyulin
- * @desc
+ * @desc feign消息转换配置
  * @date 2019/12/2
  */
 @Configuration
-public class FeignCoderAutoConfigure {
+public class FeignMessageConverterAutoConfigure {
 
     @Autowired
     private ObjectFactory<HttpMessageConverters> messageConverterObjectFactory;
