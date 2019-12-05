@@ -1,5 +1,6 @@
 package org.smartframework.cloud.starter.web.autoconfigure;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,9 +29,10 @@ public class SmartWebMvcConfigurer implements WebMvcConfigurer {
 				SerializerFeature.WriteEnumUsingToString,
 				// 禁用“循环引用检测”
 				SerializerFeature.DisableCircularReferenceDetect);
+		fastJsonConfig.setCharset(StandardCharsets.UTF_8);
 
 		FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-		fastJsonHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON_UTF8));
+		fastJsonHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
 		fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
 		return fastJsonHttpMessageConverter;
 	}

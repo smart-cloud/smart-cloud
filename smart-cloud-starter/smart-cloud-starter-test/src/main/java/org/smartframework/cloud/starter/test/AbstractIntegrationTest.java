@@ -1,5 +1,6 @@
 package org.smartframework.cloud.starter.test;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -103,8 +104,9 @@ public abstract class AbstractIntegrationTest extends TestCase {
 
 		MvcResult result = mockMvc.perform(
 				MockMvcRequestBuilders.post(url)
-					.contentType(MediaType.APPLICATION_JSON_UTF8)
-					.accept(MediaType.APPLICATION_JSON_UTF8)
+					.characterEncoding(StandardCharsets.UTF_8.name())
+					.contentType(MediaType.APPLICATION_JSON_VALUE)
+					.accept(MediaType.APPLICATION_JSON_VALUE)
 					.content(requestBody)
 				).andReturn();
 
@@ -146,8 +148,9 @@ public abstract class AbstractIntegrationTest extends TestCase {
 
 		MvcResult result = mockMvc.perform(
 				MockMvcRequestBuilders.post(url)
-					.contentType(MediaType.APPLICATION_JSON_UTF8)
-					.accept(MediaType.APPLICATION_JSON_UTF8)
+					.characterEncoding(StandardCharsets.UTF_8.name())
+					.contentType(MediaType.APPLICATION_JSON_VALUE)
+					.accept(MediaType.APPLICATION_JSON_VALUE)
 					.headers(httpHeaders)
 					.content(requestBody)
 				).andReturn();
@@ -188,7 +191,9 @@ public abstract class AbstractIntegrationTest extends TestCase {
 		log.info("test.httpHeaders={}; requestBody={}", JSON.toJSONString(httpHeaders), requestJsonStr);
 
 		MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(url)
-				.contentType(MediaType.APPLICATION_JSON_UTF8).accept(MediaType.APPLICATION_JSON_UTF8)
+				.characterEncoding(StandardCharsets.UTF_8.name())
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
 				.headers(httpHeaders);
 
 		Map<String, String> requestMap = JSON.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {

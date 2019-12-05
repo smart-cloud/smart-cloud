@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.common.test.unit;
 import org.assertj.core.api.Assertions;
 import org.smartframework.cloud.starter.common.support.annotation.SmartSpringCloudApplication;
 import org.smartframework.cloud.starter.common.support.condition.SmartSpringCloudApplicationCondition;
-import org.springframework.core.type.StandardAnnotationMetadata;
+import org.springframework.core.type.AnnotationMetadata;
 
 import junit.framework.TestCase;
 
@@ -11,8 +11,8 @@ public class SmartSpringCloudApplicationConditionUnitTest extends TestCase {
 
 	public void test() {
 		SmartSpringCloudApplicationCondition smartSpringCloudApplicationCondition = new SmartSpringCloudApplicationCondition();
-		StandardAnnotationMetadata standardAnnotationMetadata = new StandardAnnotationMetadata(ApplicationTest.class);
-		boolean result = smartSpringCloudApplicationCondition.matches(null, standardAnnotationMetadata);
+		AnnotationMetadata annotationMetadata = AnnotationMetadata.introspect(ApplicationTest.class);
+		boolean result = smartSpringCloudApplicationCondition.matches(null, annotationMetadata);
 		Assertions.assertThat(result).isTrue();
 	}
 
