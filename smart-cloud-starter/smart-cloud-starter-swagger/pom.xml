@@ -33,11 +33,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>io.github.swagger2markup</groupId>
-			<artifactId>swagger2markup</artifactId>
-		</dependency>
-		
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
