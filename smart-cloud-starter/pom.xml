@@ -23,6 +23,5 @@
 		<module>smart-cloud-starter-swagger</module>
 		<module>smart-cloud-starter-test</module>
 		<module>smart-cloud-starter-web</module>
-    <module>smart-cloud-starter-apidoc</module>
   </modules>
 </project>
