@@ -8,15 +8,21 @@ import java.util.List;
 import org.smartframework.cloud.starter.common.constants.PackageConfig;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.configure.properties.SwaggerProperties;
+import org.smartframework.cloud.starter.swagger.condition.UploadSwaggerCondition;
+import org.smartframework.cloud.starter.swagger.listener.UploadSwagger2YapiListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import com.google.common.base.Predicate;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
@@ -40,9 +46,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 @Import(SmartBeanValidatorPluginsConfiguration.class)
-@ConditionalOnProperty(name="smart.swagger.enable", havingValue = "true")
+@ConditionalOnProperty(name = "smart.swagger.enable", havingValue = "true")
 public class Swagger2AutoConfigure {
-	
+
 	@Autowired
 	private SmartProperties smartProperties;
 
@@ -55,66 +61,60 @@ public class Swagger2AutoConfigure {
 			requestHandlers.add(RequestHandlerSelectors.basePackage(basePackage));
 		}
 		ApiSelector apiSelector = new ApiSelector(or(requestHandlers), PathSelectors.any());
-		
-		return new Docket(DocumentationType.SWAGGER_2)
-				.groupName(smartProperties.getSwagger().getGroupName())
-				.genericModelSubstitutes(DeferredResult.class)
-				.useDefaultResponseMessages(false)
-				.forCodeGeneration(false)
-				.apiInfo(apiInfo())
-				.select()
-				.apis(apiSelector.getRequestHandlerSelector())
-				.paths(PathSelectors.any())
-				.build()
-				.globalOperationParameters(buildParameters());
-	}
-	
-	private List<Parameter> buildParameters(){
-		List<Parameter> parameters = new ArrayList<>();
-		parameters.add(new ParameterBuilder()
-				.parameterType("header")
-				.required(true)
-				.name("smart-sign")
-				.description("签名")
-				.modelRef(new ModelRef("string"))
-				.scalarExample("109ad1a8e05f8de345e6d780f09b001e97dc3d6fa9bbbe6936edb2b75a81864ac3b0b071e093af001fbffa479217540138b98f6f165e8246dd25a2536649f1f6")
-				.build());
-		parameters.add(new ParameterBuilder()
-				.parameterType("header")
-				.required(true)
-				.name("smart-timestamp")
-				.description("请求时间戳（单位秒）")
-				.modelRef(new ModelRef("long"))
-				.scalarExample(1555778393862L)
-				.build());
-		parameters.add(new ParameterBuilder()
-				.parameterType("header")
-				.required(true)
-				.name("smart-token")
-				.description("请求token")
-				.modelRef(new ModelRef("string"))
-				.scalarExample("4c2e22605001000rK")
-				.build());
-		parameters.add(new ParameterBuilder()
-				.parameterType("header")
-				.required(true)
-				.name("smart-nonce")
-				.description("请求流水号")
-				.modelRef(new ModelRef("string"))
-				.scalarExample("eb9f81e7cee1c000")
-				.build());
-        return parameters;
+
+		return new Docket(DocumentationType.SWAGGER_2).groupName(smartProperties.getSwagger().getGroupName())
+				.genericModelSubstitutes(DeferredResult.class).useDefaultResponseMessages(false)
+				.forCodeGeneration(false).apiInfo(apiInfo()).select().apis(apiSelector.getRequestHandlerSelector())
+				.paths(PathSelectors.any()).build().globalOperationParameters(buildParameters());
 	}
 
 	private ApiInfo apiInfo() {
 		SwaggerProperties swagger = smartProperties.getSwagger();
 		Contact contact = new Contact(swagger.getName(), swagger.getUrl(), swagger.getEmail());
-		return new ApiInfoBuilder()
-				.title(swagger.getTitle())
-				.description(swagger.getDescription())
-				.contact(contact)
-				.version(smartProperties.getApi().getApiVersion())
-				.build();
+		return new ApiInfoBuilder().title(swagger.getTitle()).description(swagger.getDescription()).contact(contact)
+				.version(smartProperties.getApi().getApiVersion()).build();
+	}
+
+	private List<Parameter> buildParameters() {
+		List<Parameter> parameters = new ArrayList<>();
+		HeaderParameter[] headerParameters = HeaderParameter.values();
+		for (HeaderParameter headerParameter : headerParameters) {
+			parameters.add(new ParameterBuilder().parameterType(headerParameter.getParameterType())
+					.required(headerParameter.isRequired()).name(headerParameter.getName())
+					.description(headerParameter.getDescription()).modelRef(new ModelRef(headerParameter.getModelRef()))
+					.scalarExample(headerParameter.getExample()).build());
+		}
+		return parameters;
+	}
+
+	@AllArgsConstructor
+	@Getter
+	enum HeaderParameter {
+		SIGN("header", "smart-sign", true, "签名", "string",
+				"109ad1a8e05f8de345e6d780f09b001e97dc3d6fa9bbbe6936edb2b75a81864ac3b0b071e093af001fbffa479217540138b98f6f165e8246dd25a2536649f1f6"),
+		TIMESTAMP("header", "smart-timestamp", true, "请求时间戳（单位秒）", "long", "1555778393862"),
+		TOKEN("header", "smart-token", true, "请求token", "string", "4c2e22605001000rK"),
+		NONCE("header", "smart-nonce", true, "请求流水号", "string", "eb9f81e7cee1c000");
+
+		private String parameterType;
+		private String name;
+		private boolean required;
+		private String description;
+		private String modelRef;
+		private String example;
+	}
+
+	@Configuration
+	@Conditional(UploadSwaggerCondition.class)
+	static class UploadSwaggerYapiAutoConfigure {
+
+		@Bean
+		public UploadSwagger2YapiListener uploadSwaggerListener(final SmartProperties smartProperties,
+				@Value("${server.port}") String port) {
+			SwaggerProperties swaggerProperties = smartProperties.getSwagger();
+			return new UploadSwagger2YapiListener(swaggerProperties.getGroupName(), swaggerProperties.getYapi(), port);
+		}
+
 	}
 
 }

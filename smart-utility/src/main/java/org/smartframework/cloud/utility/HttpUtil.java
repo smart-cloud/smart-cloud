@@ -2,10 +2,13 @@ package org.smartframework.cloud.utility;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -40,7 +43,7 @@ public class HttpUtil {
 	private static final int CONNECTION_REQUEST_TIMEOUT = 2000;
 	
 	/**
-	 * post方式请求（编码为UTF-8，超时时间10秒）
+	 * post（raw）方式请求（编码为UTF-8，超时时间10秒）
 	 * 
 	 * @param url 
 	 * @param req 请求参数对象
@@ -60,7 +63,7 @@ public class HttpUtil {
 	}
 	
 	/**
-	 * post方式请求（编码为UTF-8，超时时间10秒）
+	 * post（raw）方式请求（编码为UTF-8，超时时间10秒）
 	 * 
 	 * @param url
 	 * @param stringEntity 请求体中的数据
@@ -72,7 +75,7 @@ public class HttpUtil {
 	}
 
 	/**
-	 * 以post方式请求（编码为UTF-8）
+	 * 以post（raw）方式请求（编码为UTF-8）
 	 * 
 	 * @param url
 	 * @param stringEntity   请求体中的数据
@@ -87,7 +90,7 @@ public class HttpUtil {
 	}
 
 	/**
-	 * 以post方式请求
+	 * 以post（raw）方式请求
 	 * 
 	 * @param url
 	 * @param stringEntity   请求体中的数据
@@ -107,6 +110,66 @@ public class HttpUtil {
 		httpPost.setConfig(requestConfig);
 		httpPost.setHeader("Content-Type", MediaType.JSON_UTF_8.toString());
 		httpPost.setEntity(new StringEntity(stringEntity, charset));
+		String result = null;
+		try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
+			HttpResponse response = client.execute(httpPost);
+			HttpEntity entity = response.getEntity();
+			if (entity != null) {
+				result = EntityUtils.toString(entity, charset);
+			}
+		}
+
+		log.info("result=>{}", result);
+		return result;
+	}
+	
+	/**
+	 * post（x-www-form-urlencoded）方式请求（编码为UTF-8，超时时间10秒）
+	 * 
+	 * @param url 
+	 * @param req 请求参数对象
+	 * @param typeReference 返回对象
+	 * @return
+	 * @throws IOException
+	 */
+	public static <T> T postWithUrlEncoded(String url, List<? extends NameValuePair> parameters, TypeReference<T> typeReference) throws IOException {
+		return JSON.parseObject(postWithUrlEncoded(url, parameters), typeReference);
+	}
+	
+	/**
+	 * post（x-www-form-urlencoded）方式请求（编码为UTF-8，超时时间10秒）
+	 * 
+	 * @param url
+	 * @param parameters 请求体中的数据
+	 * @return
+	 * @throws IOException
+	 */
+	public static String postWithUrlEncoded(String url, List<? extends NameValuePair> parameters) throws IOException {
+		return postWithUrlEncoded(url, parameters, DEFAULT_CHARSET, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT);
+	}
+	
+	/**
+	 * 以post（x-www-form-urlencoded）方式请求
+	 * 
+	 * @param url
+	 * @param parameters     请求参数
+	 * @param charset        编码方式
+	 * @param socketTimeout  从服务器获取响应数据的超时时间，单位毫秒
+	 * @param connectTimeout socket的连接超时时间，单位毫秒
+	 * @return
+	 * @throws IOException
+	 */
+	public static String postWithUrlEncoded(String url, List<? extends NameValuePair> parameters, String charset,
+			int socketTimeout, int connectTimeout) throws IOException {
+		log.info("parameters=>{}", JSON.toJSONString(parameters));
+
+		RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout);
+
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setConfig(requestConfig);
+		httpPost.setHeader("Content-Type", MediaType.FORM_DATA.toString());
+		httpPost.setEntity(new UrlEncodedFormEntity(parameters, charset));
+
 		String result = null;
 		try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
 			HttpResponse response = client.execute(httpPost);

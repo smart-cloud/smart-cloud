@@ -3,6 +3,8 @@ package org.smartframework.cloud.utility.test.integration;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.smartframework.cloud.utility.test.integration.vo.PostUrlEncodedReqVO;
+import org.smartframework.cloud.utility.test.integration.vo.PostUrlEncodedRespVO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +37,11 @@ public class IntegrationTestController {
 		List<String> list = new ArrayList<>();
 		list.add(str);
 		return list;
+	}
+	
+	@PostMapping("postUrlEncoded")
+	public PostUrlEncodedRespVO postUrlEncoded(PostUrlEncodedReqVO req) {
+		return new PostUrlEncodedRespVO(req.getId());
 	}
 	
 }
