@@ -106,6 +106,7 @@ public class Swagger2AutoConfigure {
 
 	@Configuration
 	@Conditional(UploadSwaggerCondition.class)
+	@ConditionalOnProperty(name = "smart.swagger.yapi.enable", havingValue = "true", matchIfMissing = true)
 	static class UploadSwaggerYapiAutoConfigure {
 
 		@Bean

@@ -38,6 +38,8 @@ public class SwaggerProperties extends BaseDto {
 	@Setter
 	public static class Yapi extends BaseDto {
 		private static final long serialVersionUID = 1L;
+		/** 上传yapi开关 （默认true） */
+		private boolean enable = true;
 		/** yapi项目url */
 		private String projectUrl;
 		/** yapi项目的token */

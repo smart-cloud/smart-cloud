@@ -14,7 +14,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 
 @Configuration
-@ConditionalOnProperty(prefix = "smart", name = "async", havingValue = "true")
+@ConditionalOnProperty(prefix = "smart", name = "async", havingValue = "true", matchIfMissing = true)
 @Slf4j
 public class AsyncAutoConfigure extends AsyncConfigurerSupport {
 
