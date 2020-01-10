@@ -56,7 +56,7 @@ public class Swagger2AutoConfigure {
 		}
 		ApiSelector apiSelector = new ApiSelector(or(requestHandlers), PathSelectors.any());
 		
-		return new Docket(DocumentationType.SPRING_WEB)
+		return new Docket(DocumentationType.SWAGGER_2)
 				.groupName(smartProperties.getSwagger().getGroupName())
 				.genericModelSubstitutes(DeferredResult.class)
 				.useDefaultResponseMessages(false)
