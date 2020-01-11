@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.smartframework.cloud.starter.configure.properties.SwaggerProperties.Yapi;
+import org.smartframework.cloud.starter.configure.properties.SwaggerProperties.UploadYapiProperties;
 import org.smartframework.cloud.utility.HttpUtil;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
@@ -25,12 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 public class UploadSwagger2YapiListener implements ApplicationListener<ApplicationStartedEvent> {
 
 	private final String groupName;
-	private final Yapi yapi;
+	private final UploadYapiProperties uploadYapi;
 	private final String port;
 
 	@Override
 	public void onApplicationEvent(ApplicationStartedEvent event) {
-		if (yapi == null || StringUtils.isBlank(yapi.getProjectUrl())) {
+		if (uploadYapi == null || StringUtils.isBlank(uploadYapi.getProjectUrl())) {
 			log.info("yapi upload url is null! ignore upload api docs!");
 			return;
 		}
@@ -49,10 +49,10 @@ public class UploadSwagger2YapiListener implements ApplicationListener<Applicati
 				// yapi接口文档
 				// https://hellosean1025.github.io/yapi/openapi-doc.html#u670du52a1u7aefu6570u636eu5bfcu51650a3ca20id3du670du52a1u7aefu6570u636eu5bfcu51653e203ca3e
 				parameters.add(new BasicNameValuePair("type", "swagger"));
-				parameters.add(new BasicNameValuePair("merge", yapi.getMerge()));
-				parameters.add(new BasicNameValuePair("token", yapi.getToken()));
+				parameters.add(new BasicNameValuePair("merge", uploadYapi.getMerge()));
+				parameters.add(new BasicNameValuePair("token", uploadYapi.getToken()));
 				parameters.add(new BasicNameValuePair("json", fetchSwaggerDocsJson()));
-				HttpUtil.postWithUrlEncoded(yapi.getProjectUrl(), parameters);
+				HttpUtil.postWithUrlEncoded(uploadYapi.getProjectUrl(), parameters);
 			} catch (IOException e) {
 				log.error(e.getMessage(), e);
 			}

@@ -106,14 +106,14 @@ public class Swagger2AutoConfigure {
 
 	@Configuration
 	@Conditional(UploadSwaggerCondition.class)
-	@ConditionalOnProperty(name = "smart.swagger.yapi.enable", havingValue = "true", matchIfMissing = true)
+	@ConditionalOnProperty(name = "smart.swagger.uploadYapi.enable", havingValue = "true", matchIfMissing = true)
 	static class UploadSwaggerYapiAutoConfigure {
 
 		@Bean
 		public UploadSwagger2YapiListener uploadSwaggerListener(final SmartProperties smartProperties,
 				@Value("${server.port}") String port) {
 			SwaggerProperties swaggerProperties = smartProperties.getSwagger();
-			return new UploadSwagger2YapiListener(swaggerProperties.getGroupName(), swaggerProperties.getYapi(), port);
+			return new UploadSwagger2YapiListener(swaggerProperties.getGroupName(), swaggerProperties.getUploadYapi(), port);
 		}
 
 	}

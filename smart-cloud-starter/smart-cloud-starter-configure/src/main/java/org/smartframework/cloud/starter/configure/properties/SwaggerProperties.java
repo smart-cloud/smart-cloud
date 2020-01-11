@@ -30,13 +30,13 @@ public class SwaggerProperties extends BaseDto {
 	private String url;
 	/** 作者邮箱 */
 	private String email;
-	/** yapi配置信息 */
-	private Yapi yapi = new Yapi();
+	/** 上传yapi配置信息 */
+	private UploadYapiProperties uploadYapi = new UploadYapiProperties();
 
 	/** yapi配置信息 */
 	@Getter
 	@Setter
-	public static class Yapi extends BaseDto {
+	public static class UploadYapiProperties extends BaseDto {
 		private static final long serialVersionUID = 1L;
 		/** 上传yapi开关 （默认true） */
 		private boolean enable = true;
