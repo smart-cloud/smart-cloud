@@ -1,9 +1,11 @@
 package org.smartframework.cloud.starter.swagger.autoconfigure;
 
-import org.smartframework.cloud.starter.swagger.validators.plugins.parameter.ExpandedParameterNotBlankAnnotationPlugin;
-import org.smartframework.cloud.starter.swagger.validators.plugins.parameter.ExpandedParameterNotEmptyAnnotationPlugin;
-import org.smartframework.cloud.starter.swagger.validators.plugins.schema.NotBlankAnnotationPlugin;
-import org.smartframework.cloud.starter.swagger.validators.plugins.schema.NotEmptyAnnotationPlugin;
+import org.smartframework.cloud.starter.swagger.validators.plugins.parameter.NotBlankExpandedParameterAnnotationPlugin;
+import org.smartframework.cloud.starter.swagger.validators.plugins.parameter.NotBlankParameterAnnotationPlugin;
+import org.smartframework.cloud.starter.swagger.validators.plugins.parameter.NotEmptyExpandedParameterAnnotationPlugin;
+import org.smartframework.cloud.starter.swagger.validators.plugins.parameter.NotEmptyParameterAnnotationPlugin;
+import org.smartframework.cloud.starter.swagger.validators.plugins.schema.NotBlankModelPropertyAnnotationPlugin;
+import org.smartframework.cloud.starter.swagger.validators.plugins.schema.NotEmptyModelPropertyAnnotationPlugin;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,35 +22,35 @@ public class SmartBeanValidatorPluginsConfiguration extends BeanValidatorPlugins
 
 	// ------@NotBlank start
 	@Bean
-	public ExpandedParameterNotBlankAnnotationPlugin expanderNotBlank() {
-		return new ExpandedParameterNotBlankAnnotationPlugin();
+	public NotBlankExpandedParameterAnnotationPlugin expanderNotBlank() {
+		return new NotBlankExpandedParameterAnnotationPlugin();
 	}
 
 	@Bean
-	public org.smartframework.cloud.starter.swagger.validators.plugins.parameter.NotBlankAnnotationPlugin parameterNotBlank() {
-		return new org.smartframework.cloud.starter.swagger.validators.plugins.parameter.NotBlankAnnotationPlugin();
+	public NotBlankParameterAnnotationPlugin parameterNotBlank() {
+		return new NotBlankParameterAnnotationPlugin();
 	}
 
 	@Bean
-	public NotBlankAnnotationPlugin notBlankPlugin() {
-		return new NotBlankAnnotationPlugin();
+	public NotBlankModelPropertyAnnotationPlugin notBlankPlugin() {
+		return new NotBlankModelPropertyAnnotationPlugin();
 	}
 	// ------@NotBlank end
 
 	// ------@Empty start
 	@Bean
-	public ExpandedParameterNotEmptyAnnotationPlugin expanderNotEmpty() {
-		return new ExpandedParameterNotEmptyAnnotationPlugin();
+	public NotEmptyExpandedParameterAnnotationPlugin expanderNotEmpty() {
+		return new NotEmptyExpandedParameterAnnotationPlugin();
 	}
 
 	@Bean
-	public org.smartframework.cloud.starter.swagger.validators.plugins.parameter.NotEmptyAnnotationPlugin parameterNotEmpty() {
-		return new org.smartframework.cloud.starter.swagger.validators.plugins.parameter.NotEmptyAnnotationPlugin();
+	public NotEmptyParameterAnnotationPlugin parameterNotEmpty() {
+		return new NotEmptyParameterAnnotationPlugin();
 	}
 
 	@Bean
-	public NotEmptyAnnotationPlugin notEmptyPlugin() {
-		return new NotEmptyAnnotationPlugin();
+	public NotEmptyModelPropertyAnnotationPlugin notEmptyPlugin() {
+		return new NotEmptyModelPropertyAnnotationPlugin();
 	}
 	// ------@Empty end
 

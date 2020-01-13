@@ -18,7 +18,7 @@ import springfox.documentation.spi.service.contexts.ParameterContext;
 @Component
 @Order(Validators.BEAN_VALIDATOR_PLUGIN_ORDER)
 @Slf4j
-public class NotEmptyAnnotationPlugin implements ParameterBuilderPlugin {
+public class NotEmptyParameterAnnotationPlugin implements ParameterBuilderPlugin {
 
 	@Override
 	public boolean supports(DocumentationType delimiter) {

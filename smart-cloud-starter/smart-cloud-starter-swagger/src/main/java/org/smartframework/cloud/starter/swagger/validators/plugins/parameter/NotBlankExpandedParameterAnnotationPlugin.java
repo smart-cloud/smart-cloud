@@ -1,7 +1,5 @@
 package org.smartframework.cloud.starter.swagger.validators.plugins.parameter;
 
-import static springfox.bean.validators.plugins.Validators.annotationFromParameter;
-
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.core.annotation.Order;
@@ -12,27 +10,27 @@ import com.google.common.base.Optional;
 import lombok.extern.slf4j.Slf4j;
 import springfox.bean.validators.plugins.Validators;
 import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.ParameterBuilderPlugin;
-import springfox.documentation.spi.service.contexts.ParameterContext;
+import springfox.documentation.spi.service.ExpandedParameterBuilderPlugin;
+import springfox.documentation.spi.service.contexts.ParameterExpansionContext;
 
 @Component
 @Order(Validators.BEAN_VALIDATOR_PLUGIN_ORDER)
 @Slf4j
-public class NotBlankAnnotationPlugin implements ParameterBuilderPlugin {
+public class NotBlankExpandedParameterAnnotationPlugin implements ExpandedParameterBuilderPlugin {
 
 	@Override
 	public boolean supports(DocumentationType delimiter) {
-		// we simply support all documentationTypes!
 		return true;
 	}
 
 	@Override
-	public void apply(ParameterContext context) {
-		Optional<NotBlank> notBlank = annotationFromParameter(context, NotBlank.class);
+	public void apply(ParameterExpansionContext context) {
+		Optional<NotBlank> notBlank = context.findAnnotation(NotBlank.class);
 
 		if (notBlank.isPresent()) {
-			log.debug("@NotBlank present: setting parameter as required");
-			context.parameterBuilder().allowEmptyValue(false).required(true);
+			log.debug("Setting parameter to required because of @NotBlank attribute");
+			context.getParameterBuilder().allowEmptyValue(false).required(true);
 		}
 	}
+
 }

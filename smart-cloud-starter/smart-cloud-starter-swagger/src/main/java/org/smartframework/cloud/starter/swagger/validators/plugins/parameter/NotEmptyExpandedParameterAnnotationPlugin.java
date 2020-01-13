@@ -16,7 +16,7 @@ import springfox.documentation.spi.service.contexts.ParameterExpansionContext;
 @Component
 @Order(Validators.BEAN_VALIDATOR_PLUGIN_ORDER)
 @Slf4j
-public class ExpandedParameterNotEmptyAnnotationPlugin implements ExpandedParameterBuilderPlugin {
+public class NotEmptyExpandedParameterAnnotationPlugin implements ExpandedParameterBuilderPlugin {
 
 	@Override
 	public boolean supports(DocumentationType delimiter) {

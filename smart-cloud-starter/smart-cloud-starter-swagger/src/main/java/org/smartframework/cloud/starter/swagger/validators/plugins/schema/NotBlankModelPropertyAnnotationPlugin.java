@@ -18,7 +18,7 @@ import springfox.documentation.spi.schema.contexts.ModelPropertyContext;
 
 @Component
 @Order(Validators.BEAN_VALIDATOR_PLUGIN_ORDER)
-public class NotBlankAnnotationPlugin implements ModelPropertyBuilderPlugin {
+public class NotBlankModelPropertyAnnotationPlugin implements ModelPropertyBuilderPlugin {
 
 	/**
 	 * support all documentationTypes
