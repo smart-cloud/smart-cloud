@@ -21,7 +21,7 @@ code:
       f_mobile: MOBILE
       f_real_name: NAME
   #启动类包名
-  mainClassPackage: org.smartframework.cloud.examples.basic.service.user
+  mainClassPackage: org.smartframework.cloud.examples.basic.user
   project:
     path: 
       #rpc生成路径

@@ -12,7 +12,7 @@ code:
   #指定要生成的表，多个表用英文逗号（,）隔开
   specifiedTables: undo_log
   #启动类包名
-  mainClassPackage: org.smartframework.cloud.examples.mall.service.product
+  mainClassPackage: org.smartframework.cloud.examples.mall.product
   project:
     path: 
       #rpc生成路径

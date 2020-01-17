@@ -2,6 +2,7 @@ package org.smartframework.cloud.code.generate.bo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 表字段元数据信息
@@ -11,6 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class ColumnMetaDataBO {
 
 	/** 表字段名 */

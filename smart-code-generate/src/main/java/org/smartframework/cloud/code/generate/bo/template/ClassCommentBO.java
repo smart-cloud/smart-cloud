@@ -2,6 +2,7 @@ package org.smartframework.cloud.code.generate.bo.template;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 类注释信息
@@ -11,6 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@ToString
 public class ClassCommentBO {
 
 	/** 创建人 */
