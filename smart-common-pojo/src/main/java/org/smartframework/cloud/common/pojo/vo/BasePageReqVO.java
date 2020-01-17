@@ -1,8 +1,10 @@
-package org.smartframework.cloud.common.pojo.dto;
+package org.smartframework.cloud.common.pojo.vo;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import org.smartframework.cloud.common.pojo.Base;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "分页请求参数基类")
-public class BasePageReq<T extends BaseDto> extends BaseDto {
+public class BasePageReqVO<T extends Base> extends Base {
 
 	private static final long serialVersionUID = 1L;
 

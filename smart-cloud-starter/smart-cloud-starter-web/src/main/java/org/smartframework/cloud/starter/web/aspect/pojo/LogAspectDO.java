@@ -2,7 +2,7 @@ package org.smartframework.cloud.starter.web.aspect.pojo;
 
 import java.util.Date;
 
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.starter.common.business.security.dto.ReqHttpHeadersDto;
 import org.smartframework.cloud.utility.constant.DateFormartConst;
 
@@ -25,7 +25,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class LogAspectDO extends BaseDto {
+public class LogAspectDO extends Base {
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,13 +1,13 @@
 package org.smartframework.cloud.starter.configure.properties;
 
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.Base;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class XxlJobProperties extends BaseDto {
+public class XxlJobProperties extends Base {
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.configure.properties;
 
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -17,7 +17,7 @@ import lombok.experimental.UtilityClass;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = SmartConstant.SMART_PROPERTIES_PREFIX)
-public class SmartProperties extends BaseDto {
+public class SmartProperties extends Base {
 
 	private static final long serialVersionUID = 1L;
 	/** id生成器数据机器标识配置 */

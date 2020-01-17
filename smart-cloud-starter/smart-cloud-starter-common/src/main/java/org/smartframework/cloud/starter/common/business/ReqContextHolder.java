@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.common.business;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.starter.common.business.exception.DataValidateException;
 import org.smartframework.cloud.starter.common.business.exception.confg.ParamValidateMessage;
 import org.smartframework.cloud.starter.common.business.security.LoginRedisConfig;
@@ -22,7 +22,7 @@ import lombok.experimental.UtilityClass;
  * @date 2019-06-26
  */
 @UtilityClass
-public class ReqContextHolder extends BaseDto {
+public class ReqContextHolder extends Base {
 	private static final long serialVersionUID = 1L;
 
 	private static ThreadLocal<LoginCache> loginCacheThreadLocal = new ThreadLocal<>();

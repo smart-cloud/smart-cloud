@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.common.business.util;
 
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
-import org.smartframework.cloud.common.pojo.dto.BasePageReq;
+import org.smartframework.cloud.common.pojo.Base;
+import org.smartframework.cloud.common.pojo.vo.BasePageReqVO;
 
 import lombok.experimental.UtilityClass;
 
@@ -24,8 +24,8 @@ public class ReqUtil {
 	 * @param pageSize
 	 * @return
 	 */
-	public static <T extends BaseDto> BasePageReq<T> build(T body, Integer pageNum, Integer pageSize) {
-		return new BasePageReq<>(body, pageNum, pageSize);
+	public static <T extends Base> BasePageReqVO<T> build(T body, Integer pageNum, Integer pageSize) {
+		return new BasePageReqVO<>(body, pageNum, pageSize);
 	}
 
 }

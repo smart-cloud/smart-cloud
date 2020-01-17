@@ -4,7 +4,7 @@ import javax.validation.valueextraction.ExtractedValue;
 import javax.validation.valueextraction.ValueExtractor;
 
 import org.hibernate.validator.internal.engine.valueextraction.ValueExtractorDescriptor;
-import org.smartframework.cloud.common.pojo.dto.BasePageReq;
+import org.smartframework.cloud.common.pojo.vo.BasePageReqVO;
 
 /**
  * <code>BasePageReq</code>泛型参数T校验生效
@@ -12,7 +12,7 @@ import org.smartframework.cloud.common.pojo.dto.BasePageReq;
  * @author liyulin
  * @date 2019-03-29
  */
-public class BasePageReqExtractor implements ValueExtractor<BasePageReq<@ExtractedValue ?>> {
+public class BasePageReqExtractor implements ValueExtractor<BasePageReqVO<@ExtractedValue ?>> {
 
 	public static final ValueExtractorDescriptor DESCRIPTOR = new ValueExtractorDescriptor(new BasePageReqExtractor());
 
@@ -20,7 +20,7 @@ public class BasePageReqExtractor implements ValueExtractor<BasePageReq<@Extract
 	}
 
 	@Override
-	public void extractValues(BasePageReq<?> originalValue, ValueReceiver receiver) {
+	public void extractValues(BasePageReqVO<?> originalValue, ValueReceiver receiver) {
 		receiver.value(null, originalValue.getQuery());
 	}
 

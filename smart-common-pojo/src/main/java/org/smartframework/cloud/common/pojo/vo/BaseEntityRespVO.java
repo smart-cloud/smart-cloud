@@ -1,7 +1,8 @@
-package org.smartframework.cloud.common.pojo.dto;
+package org.smartframework.cloud.common.pojo.vo;
 
 import java.util.Date;
 
+import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.common.pojo.constant.DateConstant;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -18,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @ApiModel(description = "实体对象对应的响应对象基类")
-public class BaseEntityRespBody extends BaseDto {
+public class BaseEntityRespVO extends Base {
 
 	private static final long serialVersionUID = 1L;
 

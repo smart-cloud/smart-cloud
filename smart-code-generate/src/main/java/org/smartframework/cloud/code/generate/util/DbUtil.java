@@ -56,19 +56,19 @@ public class DbUtil {
 		String qryTableMetaDataSql = getQueryTableMetaDataSql(connnection.getCatalog(), code.getType(),
 				code.getSpecifiedTables());
 
-		Map<String, TableMetaDataBO> tableMetaDataDtos = new HashMap<>();
+		Map<String, TableMetaDataBO> tableMetaDataBOs = new HashMap<>();
 		try (PreparedStatement preparedStatement = connnection.prepareStatement(qryTableMetaDataSql);
 				ResultSet resultSet = preparedStatement.executeQuery();) {
 			while (resultSet.next()) {
-				TableMetaDataBO tableDto = new TableMetaDataBO();
-				tableDto.setName(resultSet.getString(1));
-				tableDto.setComment(resultSet.getString(2));
+				TableMetaDataBO tableBO = new TableMetaDataBO();
+				tableBO.setName(resultSet.getString(1));
+				tableBO.setComment(resultSet.getString(2));
 
-				tableMetaDataDtos.put(tableDto.getName(), tableDto);
+				tableMetaDataBOs.put(tableBO.getName(), tableBO);
 			}
 		}
 
-		return tableMetaDataDtos;
+		return tableMetaDataBOs;
 	}
 
 	/**

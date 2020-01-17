@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.smartframework.cloud.common.pojo.dto.BaseEntityRespBody;
-import org.smartframework.cloud.common.pojo.dto.BasePageResp;
+import org.smartframework.cloud.common.pojo.vo.BaseEntityRespVO;
+import org.smartframework.cloud.common.pojo.vo.BasePageRespVO;
 import org.smartframework.cloud.starter.mybatis.common.mapper.entity.BaseEntity;
 import org.smartframework.cloud.starter.mybatis.common.mapper.ext.mapper.InsertListSelectiveMapper;
 import org.smartframework.cloud.starter.mybatis.common.mapper.ext.mapper.LogicDeleteMapper;
@@ -49,7 +49,7 @@ import tk.mybatis.mapper.entity.Example;
  * @date 2019-03-31
  */
 @RegisterMapper
-public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, PK> extends Mapper<T>,
+public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespVO, PK> extends Mapper<T>,
 		IdListMapper<T, PK>, InsertListMapper<T>, InsertListSelectiveMapper<T>, UpdateListByPrimaryKeyMapper<T>,
 		UpdateListByPrimaryKeySelectiveMapper<T>, UpdateByPrimaryKeySelectiveForceMapper<T>,
 		UpdateListByExamplesMapper<T>, UpdateListByExamplesSelectiveMapper<T>, LogicDeleteMapper<T>, Marker {
@@ -80,11 +80,11 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 	 * @param pageSize
 	 * @return
 	 */
-	default BasePageResp<T> pageEntityByExample(Example example, int pageNum, int pageSize) {
+	default BasePageRespVO<T> pageEntityByExample(Example example, int pageNum, int pageSize) {
 		Page<T> page = PageHelper.startPage(pageNum, pageSize, true);
 		List<T> datas = selectByExample(example);
 
-		return new BasePageResp<>(datas, pageNum, pageSize, page.getTotal());
+		return new BasePageRespVO<>(datas, pageNum, pageSize, page.getTotal());
 	}
 
 	/**
@@ -96,11 +96,11 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 	 * @param pageSize
 	 * @return
 	 */
-	default BasePageResp<R> pageRespByExample(Example example, int pageNum, int pageSize) {
+	default BasePageRespVO<R> pageRespByExample(Example example, int pageNum, int pageSize) {
 		Page<T> page = PageHelper.startPage(pageNum, pageSize, true);
 		List<T> entitydatas = selectByExample(example);
 		if (CollectionUtils.isEmpty(entitydatas)) {
-			return new BasePageResp<>(null, pageNum, pageSize, page.getTotal());
+			return new BasePageRespVO<>(null, pageNum, pageSize, page.getTotal());
 		}
 
 		Class<R> clazz = ClassUtil.getActualTypeArgumentFromSuperGenericInterface(getClass(), 1);
@@ -111,7 +111,7 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 			respDatas.add(r);
 		}
 
-		return new BasePageResp<>(respDatas, pageNum, pageSize, page.getTotal());
+		return new BasePageRespVO<>(respDatas, pageNum, pageSize, page.getTotal());
 	}
 
 	/**
@@ -122,11 +122,11 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 	 * @param pageSize
 	 * @return
 	 */
-	default BasePageResp<T> pageEntityByEntity(T entity, int pageNum, int pageSize) {
+	default BasePageRespVO<T> pageEntityByEntity(T entity, int pageNum, int pageSize) {
 		Page<T> page = PageHelper.startPage(pageNum, pageSize, true);
 		List<T> datas = select(entity);
 
-		return new BasePageResp<>(datas, pageNum, pageSize, page.getTotal());
+		return new BasePageRespVO<>(datas, pageNum, pageSize, page.getTotal());
 	}
 
 	/**
@@ -138,11 +138,11 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 	 * @param pageSize
 	 * @return
 	 */
-	default BasePageResp<R> pageRespByEntity(T entity, int pageNum, int pageSize) {
+	default BasePageRespVO<R> pageRespByEntity(T entity, int pageNum, int pageSize) {
 		Page<T> page = PageHelper.startPage(pageNum, pageSize, true);
 		List<T> entitydatas = select(entity);
 		if (CollectionUtils.isEmpty(entitydatas)) {
-			return new BasePageResp<>(null, pageNum, pageSize, page.getTotal());
+			return new BasePageRespVO<>(null, pageNum, pageSize, page.getTotal());
 		}
 
 		Class<R> clazz = ClassUtil.getActualTypeArgumentFromSuperGenericInterface(getClass(), 1);
@@ -153,7 +153,7 @@ public interface ExtMapper<T extends BaseEntity, R extends BaseEntityRespBody, P
 			respDatas.add(r);
 		}
 
-		return new BasePageResp<>(respDatas, pageNum, pageSize, page.getTotal());
+		return new BasePageRespVO<>(respDatas, pageNum, pageSize, page.getTotal());
 	}
 
 }

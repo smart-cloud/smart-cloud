@@ -1,15 +1,15 @@
 package org.smartframework.cloud.starter.common.business.util;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.utility.NonceUtil;
 
 import lombok.experimental.UtilityClass;
 
 /**
- * {@link RespHead}工具类
+ * {@link RespHeadVO}工具类
  *
  * @author liyulin
  * @date 2019-04-14
@@ -22,7 +22,7 @@ public class RespHeadUtil {
 	 * 
 	 * @return 默认返回状态码{@code ReturnCodeEnum.SUCCESS}
 	 */
-	public static RespHead of() {
+	public static RespHeadVO of() {
 		return of(ReturnCodeEnum.SUCCESS, null);
 	}
 
@@ -33,12 +33,12 @@ public class RespHeadUtil {
 	 * @param message
 	 * @return
 	 */
-	public static RespHead of(String code, String message) {
-		RespHead respHead = new RespHead(code, message);
-		respHead.setTimestamp(System.currentTimeMillis());
-		respHead.setNonce(NonceUtil.getInstance().nextId());
+	public static RespHeadVO of(String code, String message) {
+		RespHeadVO respHeadVO = new RespHeadVO(code, message);
+		respHeadVO.setTimestamp(System.currentTimeMillis());
+		respHeadVO.setNonce(NonceUtil.getInstance().nextId());
 
-		return respHead;
+		return respHeadVO;
 	}
 
 	/**
@@ -48,15 +48,15 @@ public class RespHeadUtil {
 	 * @param message
 	 * @return
 	 */
-	public static RespHead of(IBaseReturnCode returnCode, String message) {
-		RespHead respHead = new RespHead(returnCode);
-		respHead.setTimestamp(System.currentTimeMillis());
-		respHead.setNonce(NonceUtil.getInstance().nextId());
+	public static RespHeadVO of(IBaseReturnCode returnCode, String message) {
+		RespHeadVO respHeadVO = new RespHeadVO(returnCode);
+		respHeadVO.setTimestamp(System.currentTimeMillis());
+		respHeadVO.setNonce(NonceUtil.getInstance().nextId());
 		if (StringUtils.isNotBlank(message)) {
-			respHead.setMessage(message);
+			respHeadVO.setMessage(message);
 		}
 
-		return respHead;
+		return respHeadVO;
 	}
 
 }

@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.configure.properties;
 
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.Base;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SwaggerProperties extends BaseDto {
+public class SwaggerProperties extends Base {
 
 	private static final long serialVersionUID = 1L;
 	/** swagger开关 （默认false） */
@@ -36,7 +36,7 @@ public class SwaggerProperties extends BaseDto {
 	/** yapi配置信息 */
 	@Getter
 	@Setter
-	public static class UploadYapiProperties extends BaseDto {
+	public static class UploadYapiProperties extends Base {
 		private static final long serialVersionUID = 1L;
 		/** 上传yapi开关 （默认true） */
 		private boolean enable = true;

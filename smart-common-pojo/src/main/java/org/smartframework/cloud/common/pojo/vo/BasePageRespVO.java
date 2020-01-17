@@ -1,8 +1,10 @@
-package org.smartframework.cloud.common.pojo.dto;
+package org.smartframework.cloud.common.pojo.vo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import org.smartframework.cloud.common.pojo.Base;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "分页请求响应信息")
-public class BasePageResp<T extends BaseDto> extends BaseDto {
+public class BasePageRespVO<T extends Base> extends Base {
 
 	private static final long serialVersionUID = 1L;
 

@@ -1,5 +1,6 @@
-package org.smartframework.cloud.common.pojo.dto;
+package org.smartframework.cloud.common.pojo.vo;
 
+import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
 
 import io.swagger.annotations.ApiModel;
@@ -15,7 +16,7 @@ import uk.co.jemos.podam.common.PodamStringValue;
 @NoArgsConstructor
 @SuperBuilder
 @ApiModel(description = "响应头部")
-public class RespHead extends BaseDto {
+public class RespHeadVO extends Base {
 
 	private static final long serialVersionUID = 1L;
 
@@ -32,16 +33,16 @@ public class RespHead extends BaseDto {
 	@ApiModelProperty(value = "响应时间戳", example = "1554551377629")
 	private long timestamp;
 	
-	public RespHead(IBaseReturnCode returnCode) {
+	public RespHeadVO(IBaseReturnCode returnCode) {
 		setReturnCode(returnCode);
 	}
 
-	public RespHead(String code, String message) {
+	public RespHeadVO(String code, String message) {
 		this.code = code;
 		this.message = message;
 	}
 
-	public RespHead(IBaseReturnCode returnCode, String message) {
+	public RespHeadVO(IBaseReturnCode returnCode, String message) {
 		if (returnCode != null) {
 			this.code = returnCode.getCode();
 		}

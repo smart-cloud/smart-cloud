@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.mybatis.properties;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.starter.mybatis.enums.ToolTypeEnum;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "smart")
-public class SmartDatasourceProperties extends BaseDto {
+public class SmartDatasourceProperties extends Base {
 
 	private static final long serialVersionUID = 1L;
 

@@ -9,7 +9,7 @@ import java.util.Map;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
-import org.smartframework.cloud.code.generate.bo.template.BaseRespBodyBO;
+import org.smartframework.cloud.code.generate.bo.template.BaseRespVOBO;
 import org.smartframework.cloud.code.generate.bo.template.ClassCommentBO;
 import org.smartframework.cloud.code.generate.bo.template.EntityAttributeBO;
 import org.smartframework.cloud.code.generate.bo.template.EntityBO;
@@ -19,7 +19,7 @@ import org.smartframework.cloud.mask.EnableMask;
 import lombok.experimental.UtilityClass;
 
 /**
- * 模板dto工具类
+ * 模板BO工具类
  *
  * @author liyulin
  * @date 2019-07-15
@@ -116,18 +116,18 @@ public class TemplateBOUtil {
 	 * @param mask
 	 * @return
 	 */
-	public static BaseRespBodyBO getBaseRespBodyBO(TableMetaDataBO tableMetaData,
+	public static BaseRespVOBO getBaseRespBodyBO(TableMetaDataBO tableMetaData,
 			List<ColumnMetaDataBO> columnMetaDatas, String enableMask, String mainClassPackage, List<String> importPackages,
 			Map<String, Map<String, String>> mask) {
-		BaseRespBodyBO baseRespBodyBO = new BaseRespBodyBO();
-		baseRespBodyBO.setTableComment(tableMetaData.getComment());
-		baseRespBodyBO.setPackageName(getBaseRespBodyPackage(mainClassPackage));
-		baseRespBodyBO.setClassName(JavaTypeUtil.getBaseRespBodyName(tableMetaData.getName()));
-		baseRespBodyBO.setImportPackages(importPackages);
-		baseRespBodyBO.setEnableMask(enableMask);
+		BaseRespVOBO baseRespVOBO = new BaseRespVOBO();
+		baseRespVOBO.setTableComment(tableMetaData.getComment());
+		baseRespVOBO.setPackageName(getBaseRespBodyPackage(mainClassPackage));
+		baseRespVOBO.setClassName(JavaTypeUtil.getBaseRespBodyName(tableMetaData.getName()));
+		baseRespVOBO.setImportPackages(importPackages);
+		baseRespVOBO.setEnableMask(enableMask);
 
 		List<EntityAttributeBO> attributes = new ArrayList<>();
-		baseRespBodyBO.setAttributes(attributes);
+		baseRespVOBO.setAttributes(attributes);
 		for (ColumnMetaDataBO columnMetaData : columnMetaDatas) {
 			EntityAttributeBO entityAttribute = new EntityAttributeBO();
 			String comment = StringEscapeUtil.secapeComment(columnMetaData.getComment());
@@ -140,7 +140,7 @@ public class TemplateBOUtil {
 
 			attributes.add(entityAttribute);
 		}
-		return baseRespBodyBO;
+		return baseRespVOBO;
 	}
 
 	/**
@@ -153,7 +153,7 @@ public class TemplateBOUtil {
 		int index = mainClassPackage.lastIndexOf('.');
 
 		return mainClassPackage.subSequence(0, index) + ".rpc" + mainClassPackage.substring(index)
-				+ Config.BASE_RESPBODY_PACKAGE_SUFFIX;
+				+ Config.BASE_RESPVO_PACKAGE_SUFFIX;
 	}
 
 	/**
@@ -161,13 +161,13 @@ public class TemplateBOUtil {
 	 * 
 	 * @param tableMetaData
 	 * @param entityBO
-	 * @param baseRespBodyBO
+	 * @param baseRespVOBO
 	 * @param classComment
 	 * @param mainClassPackage
 	 * @return
 	 */
 	public static BaseMapperBO getBaseMapperBO(TableMetaDataBO tableMetaData, EntityBO entityBO,
-			BaseRespBodyBO baseRespBodyBO, ClassCommentBO classComment, String mainClassPackage) {
+			BaseRespVOBO baseRespVOBO, ClassCommentBO classComment, String mainClassPackage) {
 		BaseMapperBO baseMapperBO = new BaseMapperBO();
 		baseMapperBO.setClassComment(classComment);
 		baseMapperBO.setTableComment(tableMetaData.getComment());
@@ -178,11 +178,11 @@ public class TemplateBOUtil {
 		// entity package
 		importPackages.add(entityBO.getPackageName() + "." + entityBO.getClassName());
 		// baseRespBody package
-		importPackages.add(baseRespBodyBO.getPackageName() + "." + baseRespBodyBO.getClassName());
+		importPackages.add(baseRespVOBO.getPackageName() + "." + baseRespVOBO.getClassName());
 		baseMapperBO.setImportPackages(importPackages);
 		
 		baseMapperBO.setEntityClassName(entityBO.getClassName());
-		baseMapperBO.setBaseRespBodyClassName(baseRespBodyBO.getClassName());
+		baseMapperBO.setBaseRespBodyClassName(baseRespVOBO.getClassName());
 		return baseMapperBO;
 	}
 

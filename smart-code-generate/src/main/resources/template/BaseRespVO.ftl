@@ -3,7 +3,7 @@ package ${packageName};
 <#list importPackages as package>
 import ${package};
 </#list>
-import org.smartframework.cloud.common.pojo.dto.BaseEntityRespBody;
+import org.smartframework.cloud.common.pojo.vo.BaseEntityRespVO;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 <#if enableMask??>
 @${enableMask}
 </#if>
-public class ${className} extends BaseEntityRespBody {
+public class ${className} extends BaseEntityRespVO {
 
 	private static final long serialVersionUID = 1L;
 

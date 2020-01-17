@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.smartframework.cloud.common.pojo.dto.Resp;
-import org.smartframework.cloud.common.pojo.dto.RespHead;
+import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
+import org.smartframework.cloud.common.pojo.vo.RespVO;
 import org.smartframework.cloud.starter.common.business.security.util.ReqHttpHeadersUtil;
 import org.smartframework.cloud.starter.common.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.common.business.util.WebUtil;
@@ -82,8 +82,8 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 
 			log.error(LogUtil.truncate("api.logDO.error=>{}", logDO), e);
 
-			RespHead head = ExceptionHandlerContext.transRespHead(e);
-			return new Resp<>(head);
+			RespHeadVO head = ExceptionHandlerContext.transRespHead(e);
+			return new RespVO<>(head);
 		}
 	}
 

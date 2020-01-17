@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.common.business.security.dto;
 
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.Base;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class ReqHttpHeadersDto extends BaseDto {
+public class ReqHttpHeadersDto extends Base {
 
 	private static final long serialVersionUID = 1L;
 

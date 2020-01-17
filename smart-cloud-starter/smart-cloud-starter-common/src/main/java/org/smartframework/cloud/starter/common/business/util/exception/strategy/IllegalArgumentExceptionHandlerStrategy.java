@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.common.business.util.exception.strategy;
 
-import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.common.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.common.business.util.exception.IExceptionHandlerStrategy;
 
@@ -18,7 +18,7 @@ public class IllegalArgumentExceptionHandlerStrategy implements IExceptionHandle
 	}
 
 	@Override
-	public RespHead transRespHead(Throwable e) {
+	public RespHeadVO transRespHead(Throwable e) {
 		return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, e.getMessage());
 	}
 

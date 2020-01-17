@@ -1,5 +1,6 @@
-package org.smartframework.cloud.common.pojo.dto;
+package org.smartframework.cloud.common.pojo.vo;
 
+import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -14,12 +15,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "响应对象")
-public class Resp<T extends BaseDto> extends BaseDto {
+public class RespVO<T extends Base> extends Base {
 
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "响应头部")
-	private RespHead head = null;
+	private RespHeadVO head = null;
 
 	@ApiModelProperty(value = "响应体")
 	private T body;
@@ -27,12 +28,12 @@ public class Resp<T extends BaseDto> extends BaseDto {
 	@ApiModelProperty(value = "签名")
 	private String sign;
 
-	public Resp(RespHead head) {
+	public RespVO(RespHeadVO head) {
 		this.head = head;
 	}
 
-	public Resp(T body) {
-		this.head = new RespHead(ReturnCodeEnum.SUCCESS);
+	public RespVO(T body) {
+		this.head = new RespHeadVO(ReturnCodeEnum.SUCCESS);
 		this.body = body;
 	}
 

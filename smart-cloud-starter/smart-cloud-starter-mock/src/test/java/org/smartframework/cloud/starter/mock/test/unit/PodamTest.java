@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
-import org.smartframework.cloud.common.pojo.dto.BasePageReq;
+import org.smartframework.cloud.common.pojo.Base;
+import org.smartframework.cloud.common.pojo.vo.BasePageReqVO;
 import org.smartframework.cloud.starter.mock.util.MockUtil;
 import org.smartframework.cloud.starter.mock.util.TypeReference;
 
@@ -40,7 +40,7 @@ public class PodamTest extends TestCase {
 	@SuppressWarnings("unchecked")
 	public void testMockSimpleGenericObject() {
 		// mock方式1
-		BasePageReq<Product> resp1 = MockUtil.mock(BasePageReq.class, Product.class);
+		BasePageReqVO<Product> resp1 = MockUtil.mock(BasePageReqVO.class, Product.class);
 		log.info("单层泛型对象resp1=>{}", resp1);
 		
 		Assertions.assertThat(resp1).isNotNull();
@@ -49,7 +49,7 @@ public class PodamTest extends TestCase {
 		Assertions.assertThat(resp1.getQuery().getPrice()).isNotNull();
 
 		// mock方式2
-		BasePageReq<Product> resp2 = MockUtil.mock(new TypeReference<BasePageReq<Product>>() {
+		BasePageReqVO<Product> resp2 = MockUtil.mock(new TypeReference<BasePageReqVO<Product>>() {
 		});
 		log.info("单层泛型对象resp2=>{}", resp2);
 
@@ -73,7 +73,7 @@ public class PodamTest extends TestCase {
 
 	@Getter
 	@Setter
-	public class Product extends BaseDto {
+	public class Product extends Base {
 		private static final long serialVersionUID = 1L;
 
 		private String name;
@@ -82,7 +82,7 @@ public class PodamTest extends TestCase {
 
 	@Getter
 	@Setter
-	public class OrderReqBody extends BaseDto {
+	public class OrderReqBody extends Base {
 		private static final long serialVersionUID = 1L;
 
 		@PodamStrategyValue(value = MobileAttributeStrategy.class)

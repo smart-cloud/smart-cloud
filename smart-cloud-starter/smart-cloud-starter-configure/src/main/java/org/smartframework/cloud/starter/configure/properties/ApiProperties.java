@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.configure.properties;
 
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.Base;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ApiProperties extends BaseDto {
+public class ApiProperties extends Base {
 
 	private static final long serialVersionUID = 1L;
 	/** hibernate validator开关 （默认false） */

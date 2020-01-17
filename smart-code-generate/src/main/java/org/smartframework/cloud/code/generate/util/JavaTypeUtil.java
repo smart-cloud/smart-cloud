@@ -82,7 +82,7 @@ public class JavaTypeUtil {
 	 * @return
 	 */
 	public static String getBaseRespBodyName(String tableName) {
-		return TableUtil.getEntityClassName(tableName) + Config.BASE_RESPBODY_CLASS_SUFFIX;
+		return TableUtil.getEntityClassName(tableName) + Config.BASE_RESPVO_CLASS_SUFFIX;
 	}
 
 }

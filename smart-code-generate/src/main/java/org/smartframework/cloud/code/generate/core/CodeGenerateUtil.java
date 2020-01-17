@@ -10,7 +10,7 @@ import java.util.Map;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
-import org.smartframework.cloud.code.generate.bo.template.BaseRespBodyBO;
+import org.smartframework.cloud.code.generate.bo.template.BaseRespVOBO;
 import org.smartframework.cloud.code.generate.bo.template.ClassCommentBO;
 import org.smartframework.cloud.code.generate.bo.template.EntityBO;
 import org.smartframework.cloud.code.generate.properties.CodeProperties;
@@ -76,17 +76,17 @@ public class CodeGenerateUtil {
 		String rpcPath = pathProperties.getRpc();
 		String servicePath = pathProperties.getService();
 
-		EntityBO entityDto = TemplateBOUtil.getEntityBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage,
+		EntityBO entityBO = TemplateBOUtil.getEntityBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage,
 				code.getMask());
-		CodeFileGenerateUtil.generateEntity(entityDto, servicePath);
+		CodeFileGenerateUtil.generateEntity(entityBO, servicePath);
 
-		BaseRespBodyBO baseRespBodyDto = TemplateBOUtil.getBaseRespBodyBO(tableMetaData, columnMetaDatas,
-				entityDto.getEnableMask(), mainClassPackage, entityDto.getImportPackages(), code.getMask());
-		CodeFileGenerateUtil.generateBaseRespBody(baseRespBodyDto, rpcPath);
+		BaseRespVOBO baseRespVOBO = TemplateBOUtil.getBaseRespBodyBO(tableMetaData, columnMetaDatas,
+				entityBO.getEnableMask(), mainClassPackage, entityBO.getImportPackages(), code.getMask());
+		CodeFileGenerateUtil.generateBaseRespVO(baseRespVOBO, rpcPath);
 
-		BaseMapperBO baseMapperDto = TemplateBOUtil.getBaseMapperBO(tableMetaData, entityDto, baseRespBodyDto,
+		BaseMapperBO baseMapperBO = TemplateBOUtil.getBaseMapperBO(tableMetaData, entityBO, baseRespVOBO,
 				classComment, mainClassPackage);
-		CodeFileGenerateUtil.generateBaseMapper(baseMapperDto, servicePath);
+		CodeFileGenerateUtil.generateBaseMapper(baseMapperBO, servicePath);
 	}
 
 }

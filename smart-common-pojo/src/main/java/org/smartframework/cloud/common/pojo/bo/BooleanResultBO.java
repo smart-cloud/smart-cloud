@@ -1,4 +1,6 @@
-package org.smartframework.cloud.common.pojo.dto;
+package org.smartframework.cloud.common.pojo.bo;
+
+import org.smartframework.cloud.common.pojo.Base;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * boolean dto
+ * boolean BO
  * 
  * @author liyulin
  * @date 2019-07-05
@@ -15,7 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BooleanResultDto extends BaseDto {
+public class BooleanResultBO extends Base {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -25,7 +27,7 @@ public class BooleanResultDto extends BaseDto {
 	/**提示信息*/
 	private String message;
 	
-	public BooleanResultDto(boolean success) {
+	public BooleanResultBO(boolean success) {
 		this.success = success;
 	}
 	

@@ -3,8 +3,8 @@ package org.smartframework.cloud.starter.common.business.util.exception.strategy
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.common.business.util.ExceptionUtil;
 import org.smartframework.cloud.starter.common.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.common.business.util.exception.IExceptionHandlerStrategy;
@@ -24,7 +24,7 @@ public class BindExceptionHandlerStrategy implements IExceptionHandlerStrategy {
 	}
 
 	@Override
-	public RespHead transRespHead(Throwable e) {
+	public RespHeadVO transRespHead(Throwable e) {
 		// 参数校验
 		BindException bindException = (BindException) e;
 		List<FieldError> fieldErrors = bindException.getFieldErrors();

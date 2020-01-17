@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.common.business.util.exception.strategy;
 
-import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.common.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.common.business.util.exception.IExceptionHandlerStrategy;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -19,7 +19,7 @@ public class NoHandlerFoundExceptionHandlerStrategy implements IExceptionHandler
 	}
 
 	@Override
-	public RespHead transRespHead(Throwable e) {
+	public RespHeadVO transRespHead(Throwable e) {
 		return RespHeadUtil.of(ReturnCodeEnum.REQUEST_URL_ERROR, e.getMessage());
 	}
 

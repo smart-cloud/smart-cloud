@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.common.business.util.exception;
 
-import org.smartframework.cloud.common.pojo.dto.RespHead;
+import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 
 /**
  * @desc 接口异常转换
@@ -23,6 +23,6 @@ public interface IExceptionHandlerStrategy {
 	 * @param e
 	 * @return
 	 */
-	RespHead transRespHead(Throwable e);
+	RespHeadVO transRespHead(Throwable e);
 
 }

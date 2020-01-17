@@ -1,4 +1,4 @@
-package org.smartframework.cloud.common.pojo.dto;
+package org.smartframework.cloud.common.pojo;
 
 import java.io.Serializable;
 
@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
- * 所有实体对象的基类
+ * pojo基类
  *
  * @author liyulin
  * @date 2019-04-22
  */
 @NoArgsConstructor
 @SuperBuilder
-public class BaseDto implements Serializable, Cloneable {
+public class Base implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 

@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BaseRespBodyBO extends CommonBO {
+public class BaseRespVOBO extends CommonBO {
 
 	/** 是否mask注解 */
 	private String enableMask;

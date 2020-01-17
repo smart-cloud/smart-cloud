@@ -34,18 +34,18 @@ public class Config {
 
 	public static final String ENTITY_CLASS_SUFFIX = "Entity";
 	public static final String MAPPER_CLASS_SUFFIX = "BaseMapper";
-	public static final String BASE_RESPBODY_CLASS_SUFFIX = "BaseRespBody";
+	public static final String BASE_RESPVO_CLASS_SUFFIX = "BaseRespVO";
 
 	public static final String ENTITY_PACKAGE_SUFFIX = ".entity.base";
 	public static final String MAPPER_PACKAGE_SUFFIX = ".mapper.base";
-	public static final String BASE_RESPBODY_PACKAGE_SUFFIX = ".response.base";
+	public static final String BASE_RESPVO_PACKAGE_SUFFIX = ".response.base";
 
 	/** 模板文件名 */
 	public static final class Template {
 		/** mapper */
 		public static final String BASE_MAPPER = "BaseMapper.ftl";
 		/** respbody */
-		public static final String BASE_RESPBODY = "BaseRespBody.ftl";
+		public static final String BASE_RESPBODY = "BaseRespVO.ftl";
 		/** entity */
 		public static final String ENTITY = "Entity.ftl";
 	}

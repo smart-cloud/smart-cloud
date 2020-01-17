@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.mybatis.properties;
 
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
+import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.starter.mybatis.constant.MultipleDataSourceConstant;
 
 import lombok.Getter;
@@ -14,7 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SingleDatasourceProperties extends BaseDto {
+public class SingleDatasourceProperties extends Base {
 
 	private static final long serialVersionUID = 1L;
 

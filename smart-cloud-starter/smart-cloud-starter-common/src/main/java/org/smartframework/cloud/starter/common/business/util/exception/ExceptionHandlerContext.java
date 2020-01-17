@@ -1,8 +1,8 @@
 package org.smartframework.cloud.starter.common.business.util.exception;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.common.pojo.dto.RespHead;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.common.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.common.constants.SymbolConstant;
 
@@ -12,21 +12,21 @@ import lombok.experimental.UtilityClass;
 public class ExceptionHandlerContext {
 
 	/**
-	 * 将{@link Throwable}解析构造{@link RespHead}
+	 * 将{@link Throwable}解析构造{@link RespHeadVO}
 	 * 
 	 * @param e
 	 * @return
 	 */
-	public static RespHead transRespHead(Throwable e) {
+	public static RespHeadVO transRespHead(Throwable e) {
 		for (IExceptionHandlerStrategy exceptionHandler : ExceptionHandlerStrategyFactory
 				.getExceptionHandlerStrategys()) {
 			if (!exceptionHandler.match(e)) {
 				continue;
 			}
 
-			RespHead respHead = exceptionHandler.transRespHead(e);
-			if (respHead != null) {
-				return respHead;
+			RespHeadVO respHeadVO = exceptionHandler.transRespHead(e);
+			if (respHeadVO != null) {
+				return respHeadVO;
 			}
 		}
 

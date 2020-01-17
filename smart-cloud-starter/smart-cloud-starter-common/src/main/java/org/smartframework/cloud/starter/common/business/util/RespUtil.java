@@ -1,16 +1,16 @@
 package org.smartframework.cloud.starter.common.business.util;
 
-import org.smartframework.cloud.common.pojo.dto.BaseDto;
-import org.smartframework.cloud.common.pojo.dto.Resp;
-import org.smartframework.cloud.common.pojo.dto.RespHead;
+import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
+import org.smartframework.cloud.common.pojo.vo.RespVO;
 import org.smartframework.cloud.utility.ObjectUtil;
 
 import lombok.experimental.UtilityClass;
 
 /**
- * {@link Resp}工具类
+ * {@link RespVO}工具类
  *
  * @author liyulin
  * @date 2019-04-06
@@ -23,8 +23,8 @@ public class RespUtil {
 	 * 
 	 * @return
 	 */
-	public static <R extends BaseDto> Resp<R> success() {
-		return new Resp<>(new RespHead(ReturnCodeEnum.SUCCESS));
+	public static <R extends Base> RespVO<R> success() {
+		return new RespVO<>(new RespHeadVO(ReturnCodeEnum.SUCCESS));
 	}
 
 	/**
@@ -33,8 +33,8 @@ public class RespUtil {
 	 * @param r
 	 * @return
 	 */
-	public static <R extends BaseDto> Resp<R> success(R r) {
-		return new Resp<>(r);
+	public static <R extends Base> RespVO<R> success(R r) {
+		return new RespVO<>(r);
 	}
 
 	/**
@@ -43,8 +43,8 @@ public class RespUtil {
 	 * @param returnCode
 	 * @return
 	 */
-	public static <R extends BaseDto> Resp<R> error(IBaseReturnCode returnCode) {
-		return new Resp<>(new RespHead(returnCode));
+	public static <R extends Base> RespVO<R> error(IBaseReturnCode returnCode) {
+		return new RespVO<>(new RespHeadVO(returnCode));
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class RespUtil {
 	 * @param resp
 	 * @return
 	 */
-	public static <R extends BaseDto, T extends BaseDto> Resp<T> error(Resp<R> resp) {
+	public static <R extends Base, T extends Base> RespVO<T> error(RespVO<R> resp) {
 		return error(getFailMsg(resp));
 	}
 
@@ -63,8 +63,8 @@ public class RespUtil {
 	 * @param msg
 	 * @return
 	 */
-	public static <R extends BaseDto> Resp<R> error(String msg) {
-		return new Resp<>(new RespHead(ReturnCodeEnum.SERVER_ERROR.getCode(), msg));
+	public static <R extends Base> RespVO<R> error(String msg) {
+		return new RespVO<>(new RespHeadVO(ReturnCodeEnum.SERVER_ERROR.getCode(), msg));
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class RespUtil {
 	 * @param resp
 	 * @return
 	 */
-	public static <R extends BaseDto> boolean isSuccess(Resp<R> resp) {
+	public static <R extends Base> boolean isSuccess(RespVO<R> resp) {
 		return ObjectUtil.isNotNull(resp) && ObjectUtil.isNotNull(resp.getHead())
 				&& ObjectUtil.equals(ReturnCodeEnum.SUCCESS.getCode(), resp.getHead().getCode());
 	}
@@ -84,7 +84,7 @@ public class RespUtil {
 	 * @param resp
 	 * @return
 	 */
-	public static <R extends BaseDto> String getFailMsg(Resp<R> resp) {
+	public static <R extends Base> String getFailMsg(RespVO<R> resp) {
 		if (ObjectUtil.isNull(resp)) {
 			return "rpc请求失败";
 		}

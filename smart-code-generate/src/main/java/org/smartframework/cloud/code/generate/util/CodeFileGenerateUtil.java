@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
-import org.smartframework.cloud.code.generate.bo.template.BaseRespBodyBO;
+import org.smartframework.cloud.code.generate.bo.template.BaseRespVOBO;
 import org.smartframework.cloud.code.generate.bo.template.CommonBO;
 import org.smartframework.cloud.code.generate.bo.template.EntityBO;
 import org.smartframework.cloud.code.generate.config.Config;
@@ -34,47 +34,47 @@ public class CodeFileGenerateUtil {
 	/**
 	 * 生成Mapper
 	 * 
-	 * @param baseMapperDto
+	 * @param baseMapperBO
 	 * @param basePath
 	 * @throws IOException
 	 */
-	public static void generateBaseMapper(BaseMapperBO baseMapperDto, String basePath) throws IOException {
-		generateCodeFile(baseMapperDto, basePath, Config.Template.BASE_MAPPER);
+	public static void generateBaseMapper(BaseMapperBO baseMapperBO, String basePath) throws IOException {
+		generateCodeFile(baseMapperBO, basePath, Config.Template.BASE_MAPPER);
 	}
 
 	/**
 	 * 生成Entity
 	 * 
-	 * @param entityDto
+	 * @param entityBO
 	 * @param basePath
 	 * @throws IOException
 	 */
-	public static void generateEntity(EntityBO entityDto, String basePath) throws IOException {
-		generateCodeFile(entityDto, basePath, Config.Template.ENTITY);
+	public static void generateEntity(EntityBO entityBO, String basePath) throws IOException {
+		generateCodeFile(entityBO, basePath, Config.Template.ENTITY);
 	}
 
 	/**
 	 * 生成RespBody
 	 * 
-	 * @param baseRespBodyDto
+	 * @param baseRespVOBO
 	 * @param basePath
 	 * @throws IOException
 	 */
-	public static void generateBaseRespBody(BaseRespBodyBO baseRespBodyDto, String basePath) throws IOException {
-		generateCodeFile(baseRespBodyDto, basePath, Config.Template.BASE_RESPBODY);
+	public static void generateBaseRespVO(BaseRespVOBO baseRespVOBO, String basePath) throws IOException {
+		generateCodeFile(baseRespVOBO, basePath, Config.Template.BASE_RESPBODY);
 	}
 
 	/**
 	 * 生成代码文件
 	 * 
-	 * @param dto
+	 * @param bo
 	 * @param basePath
 	 * @param templateName
 	 * @throws IOException
 	 */
-	private static void generateCodeFile(CommonBO dto, String basePath, String templateName) throws IOException {
-		String newCode = FreeMarkerUtil.freeMarkerRender(dto, templateName);
-		String filePath = getClassFilePath(basePath, dto.getPackageName(), dto.getClassName());
+	private static void generateCodeFile(CommonBO bo, String basePath, String templateName) throws IOException {
+		String newCode = FreeMarkerUtil.freeMarkerRender(bo, templateName);
+		String filePath = getClassFilePath(basePath, bo.getPackageName(), bo.getClassName());
 
 		File codeFile = new File(filePath);
 		boolean override = isOverride(codeFile, newCode);
