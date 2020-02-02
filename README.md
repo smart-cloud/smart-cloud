@@ -69,16 +69,10 @@ smart-cloud
 [Lombok](https://www.projectlombok.org/) | 简化代码 
 
 # 四、接口协议
-
-```
-仅支持http get、http post两种方式。
-对于http get，请求参数只签名；响应信息加密，且签名。
-对于http post，请求响应皆加密，且签名。
-```
 ## （一）约定
 ```
-接口mapping url格式：接口使用端标志/接口类型标志/服务模块名/接口模块名/接口名
-如：api/se/user/loginInfo/login
+接口mapping url格式：服务模块名/接口使用端标志/接口模块名/接口名
+如：user/api/loginInfo/login
 
 接口使用端标记：
 	api：app端使用的接口
@@ -91,19 +85,6 @@ http get、http post共同部分，即http headers部分的数据，它包含请
 	smart-token: 4c2e22605001000rK
 	smart-nonce: eb9f81e7cee1c000
 ```
-
-**接口类型标志**
-
-签名(sign->s) | 加密(encrypt->e) | 鉴权(auth->a) | url约定
----|---|---|---
-需要 | 需要 | 需要 | sea
-需要 | 需要 | 不需要 | se
-需要 | 不需要 | 需要 | sa
-需要 | 不需要 | 不需要 | s
-不需要 | 需要 | 需要 | ea
-不需要 | 需要 | 不需要 | e
-不需要 | 不需要 | 需要 | a
-不需要 | 不需要 | 不需要 | o
 
 ## （二）Http GET
 请求数据由http headers、url查询字符串组成，url查询字符串为实际请求的参数。
