@@ -11,6 +11,7 @@ import org.smartframework.cloud.utility.test.unit.Md5UtilUnitTest;
 import org.smartframework.cloud.utility.test.unit.MockitoUtilUnitTest;
 import org.smartframework.cloud.utility.test.unit.NonceUtilUnitTest;
 import org.smartframework.cloud.utility.test.unit.ObjectUtilUnitTest;
+import org.smartframework.cloud.utility.test.unit.PBEWithMD5AndDESUtilUnitTest;
 import org.smartframework.cloud.utility.test.unit.RandomUtilUnitTest;
 import org.smartframework.cloud.utility.test.unit.RsaUtilUnitTest;
 import org.smartframework.cloud.utility.test.unit.SecureRandomUtilUnitTest;
@@ -19,8 +20,8 @@ import org.smartframework.cloud.utility.test.unit.SystemUtilUnitTest;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ HttpUtilIntegrationTest.class, AesUtilUnitTest.class, DateUtilUnitTest.class,
 		JasyptUtilUnitTest.class, JAXBUtilUnitTest.class, Md5UtilUnitTest.class, MockitoUtilUnitTest.class,
-		NonceUtilUnitTest.class, ObjectUtilUnitTest.class, RandomUtilUnitTest.class, RsaUtilUnitTest.class,
-		SecureRandomUtilUnitTest.class, SystemUtilUnitTest.class })
+		NonceUtilUnitTest.class, ObjectUtilUnitTest.class, PBEWithMD5AndDESUtilUnitTest.class, RandomUtilUnitTest.class,
+		RsaUtilUnitTest.class, SecureRandomUtilUnitTest.class, SystemUtilUnitTest.class })
 public class SuiteTest {
 
 }
