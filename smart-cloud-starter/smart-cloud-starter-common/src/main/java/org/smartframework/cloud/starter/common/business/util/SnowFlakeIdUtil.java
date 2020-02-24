@@ -3,6 +3,7 @@ package org.smartframework.cloud.starter.common.business.util;
 import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.utility.ObjectUtil;
+import org.smartframework.cloud.utility.spring.SpringContextUtil;
 
 /**
  * Twitter_Snowflake

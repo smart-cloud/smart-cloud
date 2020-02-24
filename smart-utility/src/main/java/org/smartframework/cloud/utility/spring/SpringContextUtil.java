@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.common.business.util;
+package org.smartframework.cloud.utility.spring;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;

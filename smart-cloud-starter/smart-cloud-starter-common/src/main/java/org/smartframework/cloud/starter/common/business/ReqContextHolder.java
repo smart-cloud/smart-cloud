@@ -8,8 +8,8 @@ import org.smartframework.cloud.starter.common.business.exception.DataValidateEx
 import org.smartframework.cloud.starter.common.business.exception.confg.ParamValidateMessage;
 import org.smartframework.cloud.starter.common.business.security.LoginRedisConfig;
 import org.smartframework.cloud.starter.common.business.security.util.ReqHttpHeadersUtil;
-import org.smartframework.cloud.starter.common.business.util.SpringContextUtil;
 import org.smartframework.cloud.starter.redis.component.RedisComponent;
+import org.smartframework.cloud.utility.spring.SpringContextUtil;
 
 import com.alibaba.fastjson.TypeReference;
 

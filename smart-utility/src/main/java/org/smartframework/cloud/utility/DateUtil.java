@@ -9,12 +9,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.smartframework.cloud.utility.constant.DateFormartConst;
+import org.smartframework.cloud.utility.spring.SpringContextUtil;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.util.ClassUtils;
 
-import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -24,26 +28,9 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2019-03-23
  */
 @Slf4j
-@UtilityClass
 public class DateUtil {
 
-	/** 所有的日期格式 */
-	private static final Map<Integer, String> DATETIME_FORMATTER_ROUTE = new HashMap<>();
-
-	static {
-		// 所有公有
-		Field[] fields = DateFormartConst.class.getFields();
-		// 日期格式变量前缀
-		for (int i = 0; i < fields.length; i++) {
-			Field field = fields[i];
-			String format = null;
-			try {
-				format = String.valueOf(field.get(field));
-			} catch (IllegalArgumentException | IllegalAccessException e) {
-				log.error(e.getMessage(), e);
-			}
-			DATETIME_FORMATTER_ROUTE.put(format.length(), format);
-		}
+	private DateUtil() {
 	}
 
 	/**
@@ -100,7 +87,7 @@ public class DateUtil {
 	 * @return
 	 */
 	public static String format(Date date, String format) {
-		return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+		return LocalDateTime.ofInstant(date.toInstant(), Holder.getZoneId())
 				.format(DateTimeFormatter.ofPattern(format));
 	}
 
@@ -177,7 +164,7 @@ public class DateUtil {
 		}
 
 		int length = dateStr.length();
-		String format = DATETIME_FORMATTER_ROUTE.get(length);
+		String format = Holder.getDateTimeFormatterRouter().get(length);
 		if (Objects.isNull(format)) {
 			throw new IllegalArgumentException(String.format("The format of [%s] is not supported！", format));
 		}
@@ -202,6 +189,7 @@ public class DateUtil {
 	 * <li>yyyy-MM-dd HH
 	 * <li>yyyy-MM-dd HH:mm
 	 * <li>yyyy-MM-dd HH:mm:ss
+	 * <li>yyyy-MM-dd HH:mm:ss.SSS
 	 * </ul>
 	 * 
 	 * @param dateStr 日期字符串
@@ -223,6 +211,78 @@ public class DateUtil {
 	 */
 	public static Date toDate(long currentMillis) {
 		return new Date(currentMillis);
+	}
+
+	static class Holder {
+		/** 所有的日期格式 */
+		private static final Map<Integer, String> DATETIME_FORMATTER_ROUTER = new HashMap<>();
+		private static ZoneId zoneId;
+		private static final String SMART_ZONEID_KEY = "smart.zoneId";
+		private static final String ENV_NAME = "org.springframework.core.env.ConfigurableEnvironment";
+
+		static {
+			initDatetimeFormatterRouter();
+			try {
+				initZoneId();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		/**
+		 * 初始化时间格式路由器
+		 */
+		private static void initDatetimeFormatterRouter() {
+			// 所有公有
+			Field[] fields = DateFormartConst.class.getFields();
+			// 日期格式变量前缀
+			for (int i = 0; i < fields.length; i++) {
+				Field field = fields[i];
+				String format = null;
+				try {
+					format = String.valueOf(field.get(field));
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					log.error(e.getMessage(), e);
+				}
+				DATETIME_FORMATTER_ROUTER.put(format.length(), format);
+			}
+		}
+
+		/**
+		 * 初始化ZoneId（优先从配置文件中取时区配置）
+		 */
+		private static void initZoneId() {
+			boolean isPresent = ClassUtils.isPresent(ENV_NAME, Holder.class.getClassLoader());
+			if (!isPresent) {
+				zoneId = ZoneId.systemDefault();
+				return;
+			}
+
+			ApplicationContext applicationContext = SpringContextUtil.getApplicationContext();
+			if (applicationContext == null) {
+				log.warn(
+						"ApplicationContext is null!!! The default zone id will be got instead of the zone id configed!!!");
+				zoneId = ZoneId.systemDefault();
+				return;
+			}
+			ConfigurableEnvironment environment = applicationContext.getBean(ConfigurableEnvironment.class);
+			String id = environment.getProperty(SMART_ZONEID_KEY);
+			if (StringUtils.isBlank(id)) {
+				log.warn("'{}' is not configed!!! The default zone id will be got instead of the zone id configed!!!",
+						SMART_ZONEID_KEY);
+				zoneId = ZoneId.systemDefault();
+			} else {
+				zoneId = TimeZone.getTimeZone(id).toZoneId();
+			}
+		}
+
+		protected static Map<Integer, String> getDateTimeFormatterRouter() {
+			return DATETIME_FORMATTER_ROUTER;
+		}
+
+		protected static ZoneId getZoneId() {
+			return zoneId;
+		}
 	}
 
 }
