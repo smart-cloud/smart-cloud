@@ -1,7 +1,6 @@
 package org.smartframework.cloud.starter.web.aspect;
 
 import org.smartframework.cloud.common.pojo.Base;
-import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.common.pojo.vo.RespVO;
 import org.smartframework.cloud.starter.common.business.util.exception.ExceptionHandlerContext;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +27,7 @@ public class ExceptionControllerAdvice {
 	public RespVO<Base> handleException(Exception e) {
 		log.error("global.error", e);
 
-		RespHeadVO head = ExceptionHandlerContext.transRespHead(e);
-		return new RespVO<>(head);
+		return new RespVO<>(ExceptionHandlerContext.transRespHead(e));
 	}
 
 }
