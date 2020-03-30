@@ -30,6 +30,8 @@ import lombok.AllArgsConstructor;
 public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered {
 
 	private RedisComponent redisComponent;
+	/** md5的长度 */
+	private static final int MD5_LEN = 32;
 
 	@Override
 	public int getOrder() {
@@ -54,7 +56,7 @@ public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered 
 		try {
 			Object reqObject = WebUtil.getRequestArgs(invocation.getArguments());
 			if (reqObject != null) {
-				String reqStrMd5 = DigestUtils.md5Hex(JSON.toJSONString(reqObject));
+				String reqStrMd5 = getRepeatReqCheckKey(JSON.toJSONString(reqObject));
 				Boolean success = redisComponent.setNx(repeatSubmitCheckRedisKey, reqStrMd5, validate.expireMillis());
 				result = (success != null && success);
 				if (result) {
@@ -71,6 +73,13 @@ public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered 
 
 		return invocation.proceed();
 	}
+	
+	private final String getRepeatReqCheckKey(String reqStr) {
+		if (reqStr.length() <= MD5_LEN) {
+			return reqStr;
+		}
+		return DigestUtils.md5Hex(reqStr);
+	}
 
 	/**
 	 * 重复提交校验redis key
@@ -78,7 +87,7 @@ public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered 
 	 * @param token
 	 * @return
 	 */
-	private String getRepeatSubmitCheckRedisKey(String token) {
+	private final String getRepeatSubmitCheckRedisKey(String token) {
 		return RedisKeyPrefix.API + RedisKeyPrefix.REDIS_KEY_SEPARATOR + "rsc" + RedisKeyPrefix.REDIS_KEY_SEPARATOR
 				+ token;
 	}
