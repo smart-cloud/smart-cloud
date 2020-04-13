@@ -17,7 +17,8 @@
 		<module>smart-common-pojo</module>
 		<module>smart-utility</module>
     	<module>smart-mask</module>
-  </modules>
+    	<module>smart-api-core</module>
+  	</modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,6 +58,12 @@
 	<dependencyManagement>
 		<dependencies>
 			<!-- 私有jar start -->
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-api-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>org.smartframework.cloud</groupId>
 				<artifactId>smart-mask</artifactId>
