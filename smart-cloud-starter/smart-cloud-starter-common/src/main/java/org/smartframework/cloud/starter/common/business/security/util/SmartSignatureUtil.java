@@ -11,8 +11,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.codec.DecoderException;
-import org.smartframework.cloud.starter.common.business.security.dto.ReqHttpHeadersDto;
-import org.smartframework.cloud.starter.common.business.security.dto.RespDto;
+import org.smartframework.cloud.starter.common.business.security.bo.ReqHttpHeadersBO;
+import org.smartframework.cloud.starter.common.business.security.bo.RespBO;
 import org.smartframework.cloud.starter.common.business.security.enums.ReqHttpHeadersEnum;
 import org.smartframework.cloud.utility.security.RsaUtil;
 
@@ -44,7 +44,7 @@ public class SmartSignatureUtil {
 	 * @throws SignatureException
 	 * @throws UnsupportedEncodingException
 	 */
-	public static String signReq(ReqHttpHeadersDto reqHttpHeaders, String encryptedBody, RSAPrivateKey rsaPrivateKey)
+	public static String signReq(ReqHttpHeadersBO reqHttpHeaders, String encryptedBody, RSAPrivateKey rsaPrivateKey)
 			throws InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException, SignatureException,
 			UnsupportedEncodingException {
 		String signContent = getReqSignContent(reqHttpHeaders, encryptedBody);
@@ -65,7 +65,7 @@ public class SmartSignatureUtil {
 	 * @throws UnsupportedEncodingException
 	 * @throws DecoderException
 	 */
-	public static boolean checkReqSign(ReqHttpHeadersDto reqHttpHeaders, String encryptedBody,
+	public static boolean checkReqSign(ReqHttpHeadersBO reqHttpHeaders, String encryptedBody,
 			RSAPublicKey rsaPublicKey) throws InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			SignatureException, UnsupportedEncodingException, DecoderException {
 		String signContent = getReqSignContent(reqHttpHeaders, encryptedBody);
@@ -79,7 +79,7 @@ public class SmartSignatureUtil {
 	 * @param encryptedBody
 	 * @return
 	 */
-	private static String getReqSignContent(ReqHttpHeadersDto reqHttpHeaders, String encryptedBody) {
+	private static String getReqSignContent(ReqHttpHeadersBO reqHttpHeaders, String encryptedBody) {
 		SortedMap<String, String> signParams = new TreeMap<>();
 		signParams.put(ReqHttpHeadersEnum.SMART_TIMESTAMP.getHeaderName(), reqHttpHeaders.getTimestamp());
 		signParams.put(ReqHttpHeadersEnum.SMART_TOKEN.getHeaderName(), reqHttpHeaders.getToken());
@@ -111,7 +111,7 @@ public class SmartSignatureUtil {
 	/**
 	 * 校验响应参数签名
 	 * 
-	 * @param respDto
+	 * @param respBO
 	 * @param rsaPublicKey
 	 * @return
 	 * @throws InvalidKeyException
@@ -121,11 +121,11 @@ public class SmartSignatureUtil {
 	 * @throws UnsupportedEncodingException
 	 * @throws DecoderException
 	 */
-	public static boolean checkRespSign(RespDto respDto,
+	public static boolean checkRespSign(RespBO respBO,
 			RSAPublicKey rsaPublicKey) throws InvalidKeyException, InvalidKeySpecException, NoSuchAlgorithmException,
 			SignatureException, UnsupportedEncodingException, DecoderException {
-		String signContent = getRespSignContent(respDto.getHead(), respDto.getBody());
-		return RsaUtil.checkSign(signContent, respDto.getSign(), rsaPublicKey);
+		String signContent = getRespSignContent(respBO.getHead(), respBO.getBody());
+		return RsaUtil.checkSign(signContent, respBO.getSign(), rsaPublicKey);
 	}
 	
 	/**

@@ -41,7 +41,7 @@ public class FeignInterceptor implements MethodInterceptor,RequestInterceptor {
 		logDO.setClassMethod(classMethod);
 
 		logDO.setReqParams(WebUtil.getRequestArgs(args));
-		logDO.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersDto());
+		logDO.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersBO());
 
 		// 2、rpc
 		Object result = invocation.proceed();

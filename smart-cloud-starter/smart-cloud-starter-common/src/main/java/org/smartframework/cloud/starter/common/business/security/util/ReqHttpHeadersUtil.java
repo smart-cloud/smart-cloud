@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.starter.common.business.exception.ParamValidateException;
 import org.smartframework.cloud.starter.common.business.exception.confg.ParamValidateMessage;
-import org.smartframework.cloud.starter.common.business.security.dto.ReqHttpHeadersDto;
+import org.smartframework.cloud.starter.common.business.security.bo.ReqHttpHeadersBO;
 import org.smartframework.cloud.starter.common.business.security.enums.ReqHttpHeadersEnum;
 import org.smartframework.cloud.starter.common.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.common.business.util.WebUtil;
@@ -14,7 +14,7 @@ import org.smartframework.cloud.utility.RandomUtil;
 import lombok.experimental.UtilityClass;
 
 /**
- * {@link ReqHttpHeadersDto}工具类
+ * {@link ReqHttpHeadersBO}工具类
  * 
  * @author liyulin
  * @date 2019-06-27
@@ -27,7 +27,7 @@ public class ReqHttpHeadersUtil {
 	 * 
 	 * @return
 	 */
-	public static ReqHttpHeadersDto getReqHttpHeadersDto() {
+	public static ReqHttpHeadersBO getReqHttpHeadersBO() {
 		HttpServletRequest request = WebUtil.getHttpServletRequest();
 
 		String token = request.getHeader(ReqHttpHeadersEnum.SMART_TOKEN.getHeaderName());
@@ -35,7 +35,7 @@ public class ReqHttpHeadersUtil {
 		String timestamp = request.getHeader(ReqHttpHeadersEnum.SMART_TIMESTAMP.getHeaderName());
 		String sign = request.getHeader(ReqHttpHeadersEnum.SMART_SIGN.getHeaderName());
 
-		return ReqHttpHeadersDto.builder().token(token).nonce(nonce).timestamp(timestamp).sign(sign).build();
+		return ReqHttpHeadersBO.builder().token(token).nonce(nonce).timestamp(timestamp).sign(sign).build();
 	}
 
 	/**

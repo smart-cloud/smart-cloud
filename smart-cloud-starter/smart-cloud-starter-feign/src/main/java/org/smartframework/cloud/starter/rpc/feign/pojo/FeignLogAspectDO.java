@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.rpc.feign.pojo;
 import java.util.Date;
 
 import org.smartframework.cloud.common.pojo.Base;
-import org.smartframework.cloud.starter.common.business.security.dto.ReqHttpHeadersDto;
+import org.smartframework.cloud.starter.common.business.security.bo.ReqHttpHeadersBO;
 import org.smartframework.cloud.utility.constant.DateFormartConst;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -50,7 +50,7 @@ public class FeignLogAspectDO extends Base {
 	private Object reqParams;
 	
 	/** 请求头 */
-	private ReqHttpHeadersDto reqHttpHeaders;
+	private ReqHttpHeadersBO reqHttpHeaders;
 
 	/** 响应数据 */
 	private Object respData;

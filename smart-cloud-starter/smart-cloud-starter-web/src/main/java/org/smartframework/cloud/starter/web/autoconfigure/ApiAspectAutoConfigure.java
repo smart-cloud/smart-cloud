@@ -4,7 +4,6 @@ import org.smartframework.cloud.starter.common.business.util.AspectInterceptorUt
 import org.smartframework.cloud.starter.common.constants.PackageConfig;
 import org.smartframework.cloud.starter.redis.component.RedisComponent;
 import org.smartframework.cloud.starter.web.aspect.interceptor.ApiLogInterceptor;
-import org.smartframework.cloud.starter.web.aspect.interceptor.ApiSecurityInterceptor;
 import org.smartframework.cloud.starter.web.aspect.interceptor.RepeatSubmitCheckInterceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -25,12 +24,10 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnExpression(ApiAspectAutoConfigure.API_ASPECT_CONDITION)
 public class ApiAspectAutoConfigure {
 
-	private static final String API_SECURITY_CONDITION_PROPERTY = "smart.aspect.apiSecurity";
 	private static final String API_LOG_CONDITION_PROPERTY = "smart.aspect.apilog";
 	private static final String REPEAT_SUBMIT_CHECK_CONDITION_PROPERTY = "smart.aspect.repeatSubmitCheck";
 	/** api切面生效条件 */
-	public static final String API_ASPECT_CONDITION = "${" + API_SECURITY_CONDITION_PROPERTY + ":false}" 
-												  + "||${" + API_LOG_CONDITION_PROPERTY + ":false}"
+	public static final String API_ASPECT_CONDITION = "${" + API_LOG_CONDITION_PROPERTY + ":false}"
 												  + "||${" + REPEAT_SUBMIT_CHECK_CONDITION_PROPERTY + ":false}";
 
 	@Bean
@@ -72,33 +69,6 @@ public class ApiAspectAutoConfigure {
 			apiLogAdvisor.setPointcut(apiPointcut);
 
 			return apiLogAdvisor;
-		}
-	}
-
-	/**
-	 * 接口安全处理
-	 * 
-	 * @author liyulin
-	 * @date 2019年7月3日 下午3:58:00
-	 */
-	@Configuration
-	@ConditionalOnBean(RedisComponent.class)
-	@ConditionalOnProperty(name = API_SECURITY_CONDITION_PROPERTY, havingValue = "true")
-	class ApiSecurityAutoConfigure {
-
-		@Bean
-		public ApiSecurityInterceptor apiSecurityInterceptor() {
-			return new ApiSecurityInterceptor();
-		}
-
-		@Bean
-		public Advisor apiSecurityAdvisor(final ApiSecurityInterceptor apiSecurityInterceptor,
-				final AspectJExpressionPointcut apiPointcut) {
-			DefaultBeanFactoryPointcutAdvisor apiSecurityAdvisor = new DefaultBeanFactoryPointcutAdvisor();
-			apiSecurityAdvisor.setAdvice(apiSecurityInterceptor);
-			apiSecurityAdvisor.setPointcut(apiPointcut);
-
-			return apiSecurityAdvisor;
 		}
 	}
 
