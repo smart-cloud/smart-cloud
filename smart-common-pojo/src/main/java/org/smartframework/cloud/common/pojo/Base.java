@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
  */
 @NoArgsConstructor
 @SuperBuilder
-public class Base implements Serializable, Cloneable {
+public class Base implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
