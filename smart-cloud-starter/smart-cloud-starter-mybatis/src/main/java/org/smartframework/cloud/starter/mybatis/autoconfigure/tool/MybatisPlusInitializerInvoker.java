@@ -5,7 +5,7 @@ import java.io.IOException;
 import javax.sql.DataSource;
 
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
-import org.smartframework.cloud.starter.common.support.bean.UniqueBeanNameGenerator;
+import org.smartframework.cloud.starter.core.support.bean.UniqueBeanNameGenerator;
 import org.smartframework.cloud.starter.mybatis.autoconfigure.SmartDataSourceAutoConfiguration;
 import org.smartframework.cloud.starter.mybatis.properties.SingleDatasourceProperties;
 import org.smartframework.cloud.starter.mybatis.properties.SmartDatasourceProperties;

@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.apache.dubbo.config.annotation.Service;
 import org.apache.dubbo.config.spring.ReferenceBean;
-import org.smartframework.cloud.starter.common.business.util.ReflectionUtil;
+import org.smartframework.cloud.starter.core.business.util.ReflectionUtil;
 import org.smartframework.cloud.utility.ObjectUtil;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;

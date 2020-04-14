@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.smartframework.cloud.starter.common.support.bean.UniqueBeanNameGenerator;
+import org.smartframework.cloud.starter.core.support.bean.UniqueBeanNameGenerator;
 import org.smartframework.cloud.starter.mybatis.autoconfigure.SmartDataSourceAutoConfiguration;
 import org.smartframework.cloud.starter.mybatis.properties.SingleDatasourceProperties;
 import org.smartframework.cloud.starter.mybatis.properties.SmartDatasourceProperties;

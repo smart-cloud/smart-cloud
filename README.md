@@ -18,86 +18,28 @@
 
 # 二、模块说明
 
-<table>
-	<tr>
-		<th>模块</th>
-		<th>工程名</th>
-		<th>说明</th>
-	</tr>
- 	<tr>
- 		<td rowspan=13>smart-cloud-starter</td>
- 		<td>smart-cloud-starter-common</td>
- 		<td>自定义注解、异常封装、请求响应公共参数、业务相关工具类</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-configure</td>
- 		<td>配置信息</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-dubbo</td>
- 		<td>日志、参数校验、加密、签名等处理</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-job</td>
- 		<td>xxl job封装</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-locale</td>
- 		<td>国际化语言</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-log</td>
- 		<td>日志封装（log4j2），支持日志敏感数据脱敏</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-mock</td>
- 		<td>mock工具类、常用mock策略、请求接口mock拦截器</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-mybatis</td>
- 		<td>mybatis封装。支持多数据源配置、分库分表（sharding jdbc配置）、分布式事务（seata配置）；通用mapper封装，mapper工具类等;支持通用mapper、mybatis plus。</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-redis</td>
- 		<td>redis封装</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-feign</td>
- 		<td>feign封装（可拆可合），切面拦截（日志、加密、签名等处理）</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-swagger</td>
- 		<td>swagger封装（支持校验注解，swagger文档自动上传文档服务器）</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-test</td>
- 		<td>测试相关基类封装</td>
- 	</tr>
- 	<tr>
- 		<td>smart-cloud-starter-web</td>
- 		<td>web相关封装。常用注解（如重复提交）、切面（日志、加密、签名等处理）、统一异常处理、参数校验配置</td>
- 	</tr>
- 	<tr>
- 		<td>smart-code-generate</td>
- 		<td>-</td>
- 		<td>代码生成</td>
- 	</tr>
- 	<tr>
- 		<td>smart-common-pojo</td>
- 		<td>-</td>
- 		<td>公共java对象</td>
- 	</tr>
- 	<tr>
- 		<td>smart-mask</td>
- 		<td>-</td>
- 		<td>敏感数据脱敏</td>
- 	</tr>
- 	<tr>
- 		<td>smart-utility</td>
- 		<td>-</td>
- 		<td>常用工具类</td>
- 	</tr>
-</table>
+```
+smart-cloud
+├── smart-api-core -- 接口权限、加解密、签名等注解
+├── smart-code-generate -- 代码生成
+├── smart-common-pojo -- 公共对象
+├── smart-mask -- 敏感数据混淆
+├── smart-utility -- 工具类
+└── smart-could-starter -- 框架封装
+     ├── smart-cloud-starter-configure -- 框架配置属性封装
+     ├── smart-cloud-starter-core -- 框架核心（自定义注解、异常封装、请求响应公共参数、业务相关工具类）
+     ├── smart-cloud-starter-dubbo -- dubbo封装
+     ├── smart-cloud-starter-feign -- feign封装（可拆可合、切面处理）
+     ├── smart-cloud-starter-job -- 定时任务封装
+     ├── smart-cloud-starter-locale -- 多语言封装
+     ├── smart-cloud-starter-log -- 日志封装（log4j2封装，支持日志敏感数据脱敏）
+     ├── smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
+     ├── smart-cloud-starter-mybatis -- mybatis封装（支持多数据源、分库分表、分布式事务；通用mapper封装，mapper工具类等;支持通用mapper、mybatis plus）
+     ├── smart-cloud-starter-redis -- redis封装
+     ├── smart-cloud-starter-swagger -- swagger封装（校验注解，文档自动上传）
+     ├── smart-cloud-starter-test -- test封装
+     └── smart-cloud-starter-web -- web封装（切面、异常处理、参数校验）
+```
 
 # 三、技术栈
 

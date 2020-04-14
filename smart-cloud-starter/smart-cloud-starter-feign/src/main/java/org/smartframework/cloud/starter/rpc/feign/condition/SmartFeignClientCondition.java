@@ -2,7 +2,7 @@ package org.smartframework.cloud.starter.rpc.feign.condition;
 
 import java.util.Set;
 
-import org.smartframework.cloud.starter.common.business.util.ReflectionUtil;
+import org.smartframework.cloud.starter.core.business.util.ReflectionUtil;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;

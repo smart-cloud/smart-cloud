@@ -10,7 +10,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>smart-cloud-starter-common</module>
+		<module>smart-cloud-starter-core</module>
 		<module>smart-cloud-starter-configure</module>
 		<module>smart-cloud-starter-dubbo</module>
 		<module>smart-cloud-starter-feign</module>

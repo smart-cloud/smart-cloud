@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.rpc.test.unit;
 
 import org.assertj.core.api.Assertions;
-import org.smartframework.cloud.starter.common.constants.PackageConfig;
+import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.rpc.feign.annotation.SmartFeignClient;
 import org.smartframework.cloud.starter.rpc.feign.condition.SmartFeignClientCondition;
 import org.smartframework.cloud.starter.rpc.test.SuiteTest;

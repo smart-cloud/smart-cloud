@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.mock.autoconfigure;
 
-import org.smartframework.cloud.starter.common.business.util.AspectInterceptorUtil;
-import org.smartframework.cloud.starter.common.constants.PackageConfig;
+import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
+import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.mock.interceptor.MockInterceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;

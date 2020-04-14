@@ -5,9 +5,9 @@ import static com.google.common.base.Predicates.or;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.smartframework.cloud.starter.common.constants.PackageConfig;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.configure.properties.SwaggerProperties;
+import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.swagger.condition.UploadSwaggerCondition;
 import org.smartframework.cloud.starter.swagger.listener.UploadSwagger2YapiListener;
 import org.springframework.beans.factory.annotation.Autowired;

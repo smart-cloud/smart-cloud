@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.web.aspect.pojo;
 import java.util.Date;
 
 import org.smartframework.cloud.common.pojo.Base;
-import org.smartframework.cloud.starter.common.business.security.bo.ReqHttpHeadersBO;
+import org.smartframework.cloud.starter.core.business.security.bo.ReqHttpHeadersBO;
 import org.smartframework.cloud.utility.constant.DateFormartConst;
 
 import com.alibaba.fastjson.annotation.JSONField;

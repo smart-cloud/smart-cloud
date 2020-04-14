@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shardingsphere.core.yaml.swapper.impl.ShardingRuleConfigurationYamlSwapper;
 import org.apache.shardingsphere.shardingjdbc.api.ShardingDataSourceFactory;
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
-import org.smartframework.cloud.starter.common.constants.SymbolConstant;
+import org.smartframework.cloud.starter.core.constants.SymbolConstant;
 import org.smartframework.cloud.starter.mybatis.autoconfigure.InitTransactionalValue;
 import org.smartframework.cloud.starter.mybatis.constant.MultipleDataSourceConstant;
 import org.smartframework.cloud.starter.mybatis.plugin.MybatisSqlLogInterceptor;

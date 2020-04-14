@@ -2,7 +2,7 @@ package org.smartframework.cloud.starter.web.aspect;
 
 import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.common.pojo.vo.RespVO;
-import org.smartframework.cloud.starter.common.business.util.exception.ExceptionHandlerContext;
+import org.smartframework.cloud.starter.core.business.util.exception.ExceptionHandlerContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;

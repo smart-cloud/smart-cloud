@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.rpc.dubbo.autoconfigure;
 import java.util.Arrays;
 
 import org.apache.dubbo.config.annotation.Service;
-import org.smartframework.cloud.starter.common.business.util.AspectInterceptorUtil;
+import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.rpc.dubbo.interceptor.DubboLogInterceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;

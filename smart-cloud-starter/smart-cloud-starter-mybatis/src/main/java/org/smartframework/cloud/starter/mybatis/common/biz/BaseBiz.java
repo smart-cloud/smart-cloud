@@ -2,7 +2,7 @@ package org.smartframework.cloud.starter.mybatis.common.biz;
 
 import java.util.Date;
 
-import org.smartframework.cloud.starter.common.business.util.SnowFlakeIdUtil;
+import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.mybatis.common.mapper.entity.BaseEntity;
 import org.smartframework.cloud.starter.mybatis.common.mapper.enums.DelStateEnum;
 import org.smartframework.cloud.starter.mybatis.util.ClassUtil;

@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.smartframework.cloud</groupId>
-			<artifactId>smart-cloud-starter-common</artifactId>
+			<artifactId>smart-cloud-starter-core</artifactId>
 		</dependency>
 
 		<dependency>

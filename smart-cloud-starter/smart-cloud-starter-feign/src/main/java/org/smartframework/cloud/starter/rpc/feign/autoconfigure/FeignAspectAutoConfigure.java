@@ -2,7 +2,7 @@ package org.smartframework.cloud.starter.rpc.feign.autoconfigure;
 
 import java.util.Arrays;
 
-import org.smartframework.cloud.starter.common.business.util.AspectInterceptorUtil;
+import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.rpc.feign.annotation.SmartFeignClient;
 import org.smartframework.cloud.starter.rpc.feign.interceptor.FeignInterceptor;
 import org.springframework.aop.Advisor;
