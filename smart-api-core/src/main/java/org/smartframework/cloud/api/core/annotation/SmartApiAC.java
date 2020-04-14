@@ -3,7 +3,7 @@ package org.smartframework.cloud.api.core.annotation;
 import org.smartframework.cloud.api.core.enums.SignType;
 
 /**
- * @desc 接口访问控制注解
+ * @desc 接口访问控制注解（只支持普通接口，不支持rpc接口）
  * @author liyulin
  * @date 2020/04/13
  */
