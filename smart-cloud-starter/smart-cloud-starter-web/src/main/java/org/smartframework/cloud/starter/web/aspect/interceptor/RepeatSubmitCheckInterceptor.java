@@ -11,8 +11,8 @@ import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.starter.core.business.exception.RepeatSubmitException;
 import org.smartframework.cloud.starter.core.business.security.util.ReqHttpHeadersUtil;
 import org.smartframework.cloud.starter.core.business.util.WebUtil;
-import org.smartframework.cloud.starter.core.constants.RedisKeyPrefix;
 import org.smartframework.cloud.starter.redis.component.RedisComponent;
+import org.smartframework.cloud.starter.redis.enums.RedisKeyPrefix;
 import org.smartframework.cloud.starter.web.annotation.RepeatReqValidate;
 import org.springframework.core.Ordered;
 
@@ -88,8 +88,8 @@ public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered 
 	 * @return
 	 */
 	private final String getRepeatSubmitCheckRedisKey(String token) {
-		return RedisKeyPrefix.API + RedisKeyPrefix.REDIS_KEY_SEPARATOR + "rsc" + RedisKeyPrefix.REDIS_KEY_SEPARATOR
-				+ token;
+		return RedisKeyPrefix.LOCK.getKey() + RedisKeyPrefix.REDIS_KEY_SEPARATOR.getKey() + "rsc"
+				+ RedisKeyPrefix.REDIS_KEY_SEPARATOR + token;
 	}
 
 }
