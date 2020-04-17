@@ -4,7 +4,7 @@ import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.redis.component.RedisComponent;
 import org.smartframework.cloud.starter.web.aspect.interceptor.ApiLogInterceptor;
-import org.smartframework.cloud.starter.web.aspect.interceptor.RepeatSubmitCheckInterceptor;
+import org.smartframework.cloud.starter.web.aspect.interceptor.ApiIdempotentInterceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
@@ -25,10 +25,10 @@ import org.springframework.context.annotation.Configuration;
 public class ApiAspectAutoConfigure {
 
 	private static final String API_LOG_CONDITION_PROPERTY = "smart.aspect.apilog";
-	private static final String REPEAT_SUBMIT_CHECK_CONDITION_PROPERTY = "smart.aspect.repeatSubmitCheck";
+	private static final String API_IDEMPOTENT_CONDITION_PROPERTY = "smart.aspect.apiidempotent";
 	/** api切面生效条件 */
 	public static final String API_ASPECT_CONDITION = "${" + API_LOG_CONDITION_PROPERTY + ":false}"
-												  + "||${" + REPEAT_SUBMIT_CHECK_CONDITION_PROPERTY + ":false}";
+												  + "||${" + API_IDEMPOTENT_CONDITION_PROPERTY + ":false}";
 
 	@Bean
 	public AspectJExpressionPointcut apiPointcut() {
@@ -39,33 +39,33 @@ public class ApiAspectAutoConfigure {
 	}
 	
 	/**
-	 * 重复提交校验
+	 * 幂等校验
 	 * 
 	 * @author liyulin
 	 * @date 2019年7月3日 下午3:58:27
 	 */
 	@Configuration
 	@ConditionalOnBean(RedisComponent.class)
-	@ConditionalOnProperty(name = REPEAT_SUBMIT_CHECK_CONDITION_PROPERTY, havingValue = "true")
-	class RepeatSubmitCheckAutoConfigure {
+	@ConditionalOnProperty(name = API_IDEMPOTENT_CONDITION_PROPERTY, havingValue = "true")
+	class IdempotentAutoConfigure {
 
 		@Bean
-		public RepeatSubmitCheckInterceptor repeatSubmitCheckInterceptor(final RedisComponent redisComponent) {
-			return new RepeatSubmitCheckInterceptor(redisComponent);
+		public ApiIdempotentInterceptor idempotentInterceptor(final RedisComponent redisComponent) {
+			return new ApiIdempotentInterceptor(redisComponent);
 		}
 
 		/**
 		 * api日志切面
 		 * 
-		 * @param apiLogInterceptor
+		 * @param idempotentInterceptor
 		 * @param apiPointcut
 		 * @return
 		 */
 		@Bean
-		public Advisor repeatSubmitCheckAdvisor(final RepeatSubmitCheckInterceptor repeatSubmitCheckInterceptor,
+		public Advisor idempotentAdvisor(final ApiIdempotentInterceptor idempotentInterceptor,
 				final AspectJExpressionPointcut apiPointcut) {
 			DefaultBeanFactoryPointcutAdvisor apiLogAdvisor = new DefaultBeanFactoryPointcutAdvisor();
-			apiLogAdvisor.setAdvice(repeatSubmitCheckInterceptor);
+			apiLogAdvisor.setAdvice(idempotentInterceptor);
 			apiLogAdvisor.setPointcut(apiPointcut);
 
 			return apiLogAdvisor;

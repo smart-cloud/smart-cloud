@@ -13,7 +13,7 @@ import org.smartframework.cloud.starter.core.business.security.util.ReqHttpHeade
 import org.smartframework.cloud.starter.core.business.util.WebUtil;
 import org.smartframework.cloud.starter.redis.component.RedisComponent;
 import org.smartframework.cloud.starter.redis.enums.RedisKeyPrefix;
-import org.smartframework.cloud.starter.web.annotation.RepeatReqValidate;
+import org.smartframework.cloud.starter.web.annotation.ApiIdempotent;
 import org.springframework.core.Ordered;
 
 import com.alibaba.fastjson.JSON;
@@ -21,13 +21,13 @@ import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 
 /**
- * 重复提交校验拦截器
+ * 幂等校验拦截器
  * 
  * @author liyulin
  * @date 2019-06-13
  */
 @AllArgsConstructor
-public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered {
+public class ApiIdempotentInterceptor implements MethodInterceptor, Ordered {
 
 	private RedisComponent redisComponent;
 	/** md5的长度 */
@@ -46,8 +46,8 @@ public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered 
 		}
 
 		Method method = invocation.getMethod();
-		RepeatReqValidate validate = method.getAnnotation(RepeatReqValidate.class);
-		if (Objects.isNull(validate)) {
+		ApiIdempotent idempotent = method.getAnnotation(ApiIdempotent.class);
+		if (Objects.isNull(idempotent)) {
 			return invocation.proceed();
 		}
 
@@ -57,12 +57,12 @@ public class RepeatSubmitCheckInterceptor implements MethodInterceptor, Ordered 
 			Object reqObject = WebUtil.getRequestArgs(invocation.getArguments());
 			if (reqObject != null) {
 				String reqStrMd5 = getRepeatReqCheckKey(JSON.toJSONString(reqObject));
-				Boolean success = redisComponent.setNx(repeatSubmitCheckRedisKey, reqStrMd5, validate.expireMillis());
+				Boolean success = redisComponent.setNx(repeatSubmitCheckRedisKey, reqStrMd5, idempotent.expireMillis());
 				result = (success != null && success);
 				if (result) {
 					return invocation.proceed();
 				} else {
-					throw new RepeatSubmitException(validate.message());
+					throw new RepeatSubmitException(idempotent.message());
 				}
 			}
 		} finally {
