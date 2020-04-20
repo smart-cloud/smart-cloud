@@ -16,6 +16,7 @@ smart:
         default-data-source-name: product
         tables:
           t_api_log:
+            actual-data-nodes: product.t_api_log${0..1}
             table-strategy:
               inline:
                 sharding-column: f_id

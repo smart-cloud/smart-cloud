@@ -34,9 +34,9 @@ public class XxlJobAutoConfigure {
 		XxlJobSpringExecutor xxlJobExecutor = new XxlJobSpringExecutor();
 		xxlJobExecutor.setAdminAddresses(xxlJobProperties.getAdminAddresses());
 		if (StringUtils.isNotEmpty(xxlJobProperties.getAppName())) {
-			xxlJobExecutor.setAppName(xxlJobProperties.getAppName());
+			xxlJobExecutor.setAppname(xxlJobProperties.getAppName());
 		} else {
-			xxlJobExecutor.setAppName(appName);
+			xxlJobExecutor.setAppname(appName);
 		}
 		if (StringUtils.isNotEmpty(xxlJobProperties.getIp())) {
 			xxlJobExecutor.setIp(xxlJobProperties.getIp());
