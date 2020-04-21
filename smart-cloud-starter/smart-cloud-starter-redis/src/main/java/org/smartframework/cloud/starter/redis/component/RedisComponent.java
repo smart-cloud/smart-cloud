@@ -35,10 +35,14 @@ public class RedisComponent {
 	 * 
 	 * @param key
 	 * @param value
-	 * @param expireMillis 有效期（毫秒）
+	 * @param expireMillis 有效期（毫秒），为null表示不设置有效期
 	 */
-	public void setString(String key, String value, long expireMillis) {
-		stringRedisTemplate.opsForValue().set(key, value, expireMillis, TimeUnit.MILLISECONDS);
+	public void setString(String key, String value, Long expireMillis) {
+		if (expireMillis == null) {
+			stringRedisTemplate.opsForValue().set(key, value);
+		} else {
+			stringRedisTemplate.opsForValue().set(key, value, expireMillis, TimeUnit.MILLISECONDS);
+		}
 	}
 	
 	/**
@@ -46,7 +50,7 @@ public class RedisComponent {
 	 * 
 	 * @param keys
 	 * @param values
-	 * @param expireSeconds 有效期（秒）
+	 * @param expireSeconds 有效期（毫秒）
 	 * @return
 	 */
 	public boolean batchSetString(List<String> keys, List<String> values, long expireSeconds) {
@@ -98,9 +102,9 @@ public class RedisComponent {
 	 * 
 	 * @param key
 	 * @param value 对象
-	 * @param expireMillis 有效期（毫秒）
+	 * @param expireMillis 有效期（毫秒），为null表示不设置有效期
 	 */
-	public void setObject(String key, Object value, long expireMillis) {
+	public void setObject(String key, Object value, Long expireMillis) {
 		setString(key, JSON.toJSONString(value), expireMillis);
 	}
 
