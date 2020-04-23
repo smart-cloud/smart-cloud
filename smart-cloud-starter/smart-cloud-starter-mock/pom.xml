@@ -23,11 +23,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.smartframework.cloud</groupId>
-			<artifactId>smart-utility</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

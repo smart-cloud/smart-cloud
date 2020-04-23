@@ -66,6 +66,7 @@ public class RedisComponent {
 					connection.exec();
 					result.setBool(true);
 				} catch (Exception e) {
+					result.setBool(false);
 					log.error("redis事务失败", e);
 					connection.discard();
 				}
@@ -91,7 +92,7 @@ public class RedisComponent {
 	 * 删除k-v对
 	 * 
 	 * @param key
-	 * @return
+	 * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
 	 */
 	public Boolean delete(String key) {
 		return stringRedisTemplate.delete(key);
@@ -131,16 +132,17 @@ public class RedisComponent {
 	 * @param key
 	 * @param value
 	 * @param expireMillis 有效期（毫秒）
-	 * @return {@code true}表示成功；{@code false}表示失败；null when used in pipeline / transaction.
+	 * @return {@code true}表示成功；{@code false}表示失败
 	 */
-	public Boolean setNx(String key, String value, long expireMillis) {
-		return stringRedisTemplate.execute(new RedisCallback<Boolean>() {
+	public boolean setNx(String key, String value, long expireMillis) {
+		Boolean result = stringRedisTemplate.execute(new RedisCallback<Boolean>() {
 			@Override
 			public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
 				return connection.set(key.getBytes(), value.getBytes(), Expiration.milliseconds(expireMillis),
 						SetOption.SET_IF_ABSENT);
 			}
 		}, true);
+		return result != null && result;
 	}
 
 	@Getter
