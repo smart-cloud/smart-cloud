@@ -50,7 +50,7 @@ public enum ReturnCodeEnum implements IBaseReturnCode {
 	/** 获取HttpServletRequest失败 */
 	GET_HTTPSERVLETREQUEST_FAIL("100501", "获取HttpServletRequest失败"),
 	/** 获取getHttpServletResponse失败 */
-	GET_HTTPSERVLETRESPONSE_FAIL("100501", "获取getHttpServletResponse失败");
+	GET_HTTPSERVLETRESPONSE_FAIL("100502", "获取getHttpServletResponse失败");
 
 	/** 状态码 */
 	private String code;
