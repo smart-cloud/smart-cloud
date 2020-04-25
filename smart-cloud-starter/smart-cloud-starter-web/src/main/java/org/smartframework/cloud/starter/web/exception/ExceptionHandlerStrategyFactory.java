@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.core.business.util.exception;
+package org.smartframework.cloud.starter.web.exception;
 
 import java.util.HashSet;
 import java.util.Set;

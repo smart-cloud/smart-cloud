@@ -1,9 +1,10 @@
-package org.smartframework.cloud.starter.core.business.util.exception.strategy;
+package org.smartframework.cloud.starter.web.exception.strategy;
 
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
-import org.smartframework.cloud.starter.core.business.util.exception.IExceptionHandlerStrategy;
+import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
+import org.smartframework.cloud.utility.spring.I18NUtil;
 
 /**
  * @desc 参数不合法异常转换
@@ -19,7 +20,7 @@ public class IllegalArgumentExceptionHandlerStrategy implements IExceptionHandle
 
 	@Override
 	public RespHeadVO transRespHead(Throwable e) {
-		return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, e.getMessage());
+		return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, I18NUtil.getMessage(e.getMessage()));
 	}
 
 }

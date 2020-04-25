@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.core.business.util;
+package org.smartframework.cloud.starter.web.exception.util;
 
 import java.util.List;
 import java.util.Set;
@@ -7,6 +7,7 @@ import javax.validation.ConstraintViolation;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.starter.core.constants.SymbolConstant;
+import org.smartframework.cloud.utility.spring.I18NUtil;
 import org.springframework.validation.FieldError;
 
 import lombok.experimental.UtilityClass;
@@ -46,7 +47,7 @@ public class ExceptionUtil {
 				errorMsg.append(constraintViolation.getMessage());
 			} else {
 				errorMsg.append(constraintViolation.getPropertyPath().toString()).append(SymbolConstant.HYPHEN)
-						.append(constraintViolation.getMessage());
+						.append(I18NUtil.getMessage(constraintViolation.getMessage()));
 			}
 			if (size > 1 && i < size) {
 				errorMsg.append("; ");
@@ -64,7 +65,7 @@ public class ExceptionUtil {
 			}
 
 			String validateField = fieldErrors.get(i).getField();
-			errorMsg.append(validateField + SymbolConstant.HYPHEN + fieldErrors.get(i).getDefaultMessage());
+			errorMsg.append(validateField + SymbolConstant.HYPHEN + I18NUtil.getMessage(fieldErrors.get(i).getDefaultMessage()));
 			if (size > 1 && i < size - 1) {
 				errorMsg.append("; ");
 			}
@@ -72,5 +73,5 @@ public class ExceptionUtil {
 
 		return errorMsg.toString();
 	}
-
+	
 }

@@ -8,7 +8,7 @@ import javax.validation.Validator;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.smartframework.cloud.starter.core.business.exception.ParamValidateException;
-import org.smartframework.cloud.starter.core.business.util.ExceptionUtil;
+import org.smartframework.cloud.starter.web.exception.util.ExceptionUtil;
 import org.smartframework.cloud.starter.web.validation.ValidatorSingleton;
 
 import lombok.experimental.UtilityClass;

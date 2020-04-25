@@ -16,5 +16,10 @@ public class UtilAutoConfigure {
 	public SpringContextUtil springContextUtil() {
 		return new SpringContextUtil();
 	}
+
+	@Bean
+	public I18NUtil i18NUtil() {
+		return new I18NUtil();
+	}
 	
 }

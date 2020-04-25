@@ -14,6 +14,7 @@ import org.smartframework.cloud.starter.core.business.util.WebUtil;
 import org.smartframework.cloud.starter.redis.component.RedisComponent;
 import org.smartframework.cloud.starter.redis.enums.RedisKeyPrefix;
 import org.smartframework.cloud.starter.web.annotation.ApiIdempotent;
+import org.smartframework.cloud.utility.spring.I18NUtil;
 import org.springframework.core.Ordered;
 
 import com.alibaba.fastjson.JSON;
@@ -62,7 +63,7 @@ public class ApiIdempotentInterceptor implements MethodInterceptor, Ordered {
 				if (result) {
 					return invocation.proceed();
 				} else {
-					throw new RepeatSubmitException(idempotent.message());
+					throw new RepeatSubmitException(I18NUtil.getMessage(idempotent.message()));
 				}
 			}
 		} finally {

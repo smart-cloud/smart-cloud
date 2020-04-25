@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.core.business.util.exception;
+package org.smartframework.cloud.starter.web.exception;
 
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 
