@@ -22,7 +22,7 @@ import lombok.experimental.UtilityClass;
  * @date 2019-06-26
  */
 @UtilityClass
-public class ReqContextHolder extends Base {
+public class SmartReqContext extends Base {
 	private static final long serialVersionUID = 1L;
 
 	private static ThreadLocal<LoginCache> loginCacheThreadLocal = new ThreadLocal<>();
