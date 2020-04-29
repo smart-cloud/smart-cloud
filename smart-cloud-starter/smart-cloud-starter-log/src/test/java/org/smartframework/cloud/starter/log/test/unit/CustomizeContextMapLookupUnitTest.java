@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.log.test.unit;
 
 import org.assertj.core.api.Assertions;
-import org.smartframework.cloud.starter.log.log4j2.lookup.CustomizeContextMapLookup;
+import org.smartframework.cloud.starter.log.log4j2.plugin.CustomizeContextMapLookup;
 
 import junit.framework.TestCase;
 

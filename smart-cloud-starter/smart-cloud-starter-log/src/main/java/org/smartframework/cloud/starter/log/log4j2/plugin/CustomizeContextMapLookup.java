@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.log.log4j2.lookup;
+package org.smartframework.cloud.starter.log.log4j2.plugin;
 
 import java.io.File;
 import java.io.IOException;

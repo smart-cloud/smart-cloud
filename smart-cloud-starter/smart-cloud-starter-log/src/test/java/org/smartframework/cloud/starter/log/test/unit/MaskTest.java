@@ -1,5 +1,6 @@
 package org.smartframework.cloud.starter.log.test.unit;
 
+import org.smartframework.cloud.mask.EnableMask;
 import org.smartframework.cloud.mask.MaskLog;
 import org.smartframework.cloud.mask.MaskRule;
 
@@ -23,6 +24,7 @@ public class MaskTest  extends TestCase {
 	@Getter
 	@Setter
 	@ToString
+	@EnableMask
 	public static class User {
 		private Long id;
 		@MaskLog(MaskRule.NAME)
