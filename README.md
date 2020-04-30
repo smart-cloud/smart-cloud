@@ -54,7 +54,7 @@ smart-cloud
 [seata](https://github.com/seata/seata) | 分布式事务
 [sentinel](https://github.com/alibaba/Sentinel) | 限流、熔断降级
 [sharding jdbc](https://github.com/apache/incubator-shardingsphere) | 分库分表
-[redis](https://redis.io/) | 缓存 
+[redis](https://redis.io/)、[embedded-redis](https://github.com/kstyrc/embedded-redis) | 缓存、集成测试 
 [rocketmq](https://github.com/apache/rocketmq) | 消息队列 
 [fastdfs](https://github.com/happyfish100/fastdfs) | 文件存储 
 [xxl-job](https://github.com/xuxueli/xxl-job)| 定时任务 
