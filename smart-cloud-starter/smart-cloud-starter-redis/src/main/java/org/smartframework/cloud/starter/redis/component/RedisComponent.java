@@ -1,5 +1,6 @@
 package org.smartframework.cloud.starter.redis.component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -96,6 +97,17 @@ public class RedisComponent {
 	 */
 	public Boolean delete(String key) {
 		return stringRedisTemplate.delete(key);
+	}
+	
+	/**
+	 * 批量删除k-v对
+	 * 
+	 * @param keys
+	 * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
+	 */
+	public Boolean delete(Collection<String> keys) {
+		Long count = stringRedisTemplate.delete(keys);
+		return count != null && count == keys.size();
 	}
 
 	/**

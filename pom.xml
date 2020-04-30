@@ -31,6 +31,7 @@
 		<protostuff>1.7.2</protostuff>
 		<dubbo>2.7.6</dubbo>
 		<redisson>3.12.5</redisson>
+		<embedded-redis>0.6</embedded-redis>
 		<mybatis-spring-boot-starter>2.1.2</mybatis-spring-boot-starter>
 		<mapper>4.1.5</mapper>
 		<mybatis-plus>3.2.0</mybatis-plus>
@@ -290,6 +291,13 @@
 				<groupId>org.redisson</groupId>
 				<artifactId>redisson-spring-boot-starter</artifactId>
 				<version>${redisson}</version>
+			</dependency>
+
+			<!-- redis集成测试 -->
+			<dependency>
+				<groupId>com.github.kstyrc</groupId>
+				<artifactId>embedded-redis</artifactId>
+				<version>${embedded-redis}</version>
 			</dependency>
 
 			<dependency>
