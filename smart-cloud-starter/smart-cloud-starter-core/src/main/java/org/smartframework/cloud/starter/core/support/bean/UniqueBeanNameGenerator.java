@@ -1,6 +1,5 @@
 package org.smartframework.cloud.starter.core.support.bean;
 
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -25,15 +24,8 @@ public class UniqueBeanNameGenerator extends AnnotationBeanNameGenerator {
 			}
 		}
 
-		// 默认的bean名称（不含package，首字母小写）
-		String defaultClassName = super.buildDefaultBeanName(definition);
-		// 如果该bean名称不存在容器中，则按照className的规则生成；否则按照“package+className”的规则存在。
-		BeanFactory beanFactory = (BeanFactory) registry;
-		if (beanFactory.containsBean(defaultClassName)) {
+		// 如果该bean名称没有指定，则按照“package+className”的规则生成
 			return definition.getBeanClassName();
-		} else {
-			return defaultClassName;
-		}
 	}
-
+	
 }
