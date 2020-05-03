@@ -1,6 +1,7 @@
 package org.smartframework.cloud.starter.mybatis.autoconfigure;
 
 import org.smartframework.cloud.starter.mybatis.properties.SmartDatasourceProperties;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
@@ -53,8 +54,8 @@ public class SmartDataSourceAutoConfiguration {
 	}
 
 	@Bean
-	public InitTransactionalValue initTransactionalValue() {
-		return new InitTransactionalValue();
+	public InitTransactionalValue initTransactionalValue(final BeanFactory beanFactory) {
+		return new InitTransactionalValue(beanFactory);
 	}
 
 }

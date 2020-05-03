@@ -2,7 +2,6 @@ package org.smartframework.cloud.starter.mybatis.autoconfigure;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration;
@@ -18,13 +17,16 @@ import org.springframework.transaction.annotation.ProxyTransactionManagementConf
  */
 public class SmartDataSourceInitializerPostProcessor implements BeanPostProcessor, Ordered {
 
+	private BeanFactory beanFactory;
+	
+	public SmartDataSourceInitializerPostProcessor(final BeanFactory beanFactory) {
+		this.beanFactory = beanFactory;
+	}
+	
 	@Override
 	public int getOrder() {
 		return Ordered.HIGHEST_PRECEDENCE + 1;
 	}
-
-	@Autowired
-	private BeanFactory beanFactory;
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {

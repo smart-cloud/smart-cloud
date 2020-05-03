@@ -10,7 +10,6 @@ import org.smartframework.cloud.starter.configure.properties.SwaggerProperties;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.swagger.condition.UploadSwaggerCondition;
 import org.smartframework.cloud.starter.swagger.listener.UploadSwagger2YapiListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -49,11 +48,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ConditionalOnProperty(name = "smart.swagger.enable", havingValue = "true")
 public class Swagger2AutoConfigure {
 
-	@Autowired
-	private SmartProperties smartProperties;
-
 	@Bean
-	public Docket docket() {
+	public Docket docket(final SmartProperties smartProperties) {
 		// ApiSelector
 		List<Predicate<RequestHandler>> requestHandlers = new ArrayList<>();
 		String[] basePackages = PackageConfig.getBasePackages();
@@ -64,11 +60,11 @@ public class Swagger2AutoConfigure {
 
 		return new Docket(DocumentationType.SWAGGER_2).groupName(smartProperties.getSwagger().getGroupName())
 				.genericModelSubstitutes(DeferredResult.class).useDefaultResponseMessages(false)
-				.forCodeGeneration(false).apiInfo(apiInfo()).select().apis(apiSelector.getRequestHandlerSelector())
+				.forCodeGeneration(false).apiInfo(apiInfo(smartProperties)).select().apis(apiSelector.getRequestHandlerSelector())
 				.paths(PathSelectors.any()).build().globalOperationParameters(buildParameters());
 	}
 
-	private ApiInfo apiInfo() {
+	private ApiInfo apiInfo(final SmartProperties smartProperties) {
 		SwaggerProperties swagger = smartProperties.getSwagger();
 		Contact contact = new Contact(swagger.getName(), swagger.getUrl(), swagger.getEmail());
 		return new ApiInfoBuilder().title(swagger.getTitle()).description(swagger.getDescription()).contact(contact)

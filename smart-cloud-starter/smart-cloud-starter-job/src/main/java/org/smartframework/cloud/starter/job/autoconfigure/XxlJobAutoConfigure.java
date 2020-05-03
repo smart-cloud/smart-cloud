@@ -3,7 +3,6 @@ package org.smartframework.cloud.starter.job.autoconfigure;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.configure.properties.XxlJobProperties;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -21,14 +20,11 @@ import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 @ConditionalOnProperty(name = "smart.xxlJob.enabled", havingValue = "true", matchIfMissing = true)
 public class XxlJobAutoConfigure {
 
-	@Autowired
-	private SmartProperties smartProperties;
-
 	@Value("${spring.application.name}")
 	private String appName;
 
 	@Bean(initMethod = "start", destroyMethod = "destroy")
-	public XxlJobSpringExecutor xxlJobSpringExecutor() {
+	public XxlJobSpringExecutor xxlJobSpringExecutor(final SmartProperties smartProperties) {
 		XxlJobProperties xxlJobProperties = smartProperties.getXxlJob();
 
 		XxlJobSpringExecutor xxlJobExecutor = new XxlJobSpringExecutor();

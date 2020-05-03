@@ -8,7 +8,6 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.MethodClassKey;
@@ -30,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class InitTransactionalValue implements ApplicationListener<ApplicationStartedEvent> {
 
-	@Autowired
 	private BeanFactory beanFactory;
 	/** AbstractFallbackTransactionAttributeSource的属性attributeCache */
 	private static final String ABSTRACTFALLBACKTRANSACTIONATTRIBUTE_ATTRIBUTECACHE = "attributeCache";
@@ -40,6 +38,10 @@ public class InitTransactionalValue implements ApplicationListener<ApplicationSt
 	/** <带有事务注解类的包名, 事务名> */
 	private static ConcurrentMap<String, String> multipleTransactionManagerInfoCache = new ConcurrentReferenceHashMap<>(
 			4);
+	
+    public InitTransactionalValue(final BeanFactory beanFactory) {
+    	this.beanFactory = beanFactory;
+    }
 
 	@Override
 	public void onApplicationEvent(ApplicationStartedEvent event) {
