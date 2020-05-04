@@ -166,10 +166,23 @@
 			  <version>${seata}</version>
 			</dependency>
 			
+			
+			<dependency>
+				<groupId>io.seata</groupId>
+				<artifactId>seata-spring-boot-starter</artifactId>
+			    <version>${seata}</version>
+			</dependency>
+			
 			<dependency>
 			    <groupId>com.alibaba.cloud</groupId>
 			    <artifactId>spring-cloud-alibaba-seata</artifactId>
 			    <version>${spring-cloud-alibaba-seata}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>io.seata</groupId>
+						<artifactId>seata-spring-boot-starter</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			
 			<dependency>

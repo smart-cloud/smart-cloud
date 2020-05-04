@@ -51,9 +51,11 @@ public abstract class AbstractIntegrationTest extends TestCase {
 		// 单元测试环境下，关闭依赖
 		// 1.关闭api接口校验
 		System.setProperty("smart.aspect.apiSecurity", closeTag);
-		// 2.关闭eureka
+		// 2.关闭api元数据上传
+		System.setProperty("smart.uploadApiMeta", closeTag);
+		// 3.关闭eureka
 		System.setProperty("eureka.client.enabled", closeTag);
-		// 3.单元测试环境下，关闭Sentinel自动化配置
+		// 4.单元测试环境下，关闭Sentinel自动化配置
 		System.setProperty("spring.cloud.sentinel.enabled", closeTag);
 	}
 	
