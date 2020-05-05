@@ -7,6 +7,7 @@ import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.starter.core.business.exception.DataValidateException;
 import org.smartframework.cloud.starter.core.business.exception.confg.ParamValidateMessage;
 import org.smartframework.cloud.starter.core.business.security.LoginRedisConfig;
+import org.smartframework.cloud.starter.core.business.security.bo.ReqHttpHeadersBO;
 import org.smartframework.cloud.starter.core.business.security.util.ReqHttpHeadersUtil;
 import org.smartframework.cloud.starter.redis.component.RedisComponent;
 import org.smartframework.cloud.utility.spring.SpringContextUtil;
@@ -25,7 +26,22 @@ import lombok.experimental.UtilityClass;
 public class SmartReqContext extends Base {
 	private static final long serialVersionUID = 1L;
 
+	/** 登陆信息缓存 */
 	private static ThreadLocal<LoginCache> loginCacheThreadLocal = new ThreadLocal<>();
+	/** http请求信息缓存 */
+	private static ThreadLocal<ReqHttpHeadersBO> httpReqThreadLocal = new ThreadLocal<>();
+
+	public static void setReqHttpHeadersBO(ReqHttpHeadersBO bo) {
+		httpReqThreadLocal.set(bo);
+	}
+	
+	public static ReqHttpHeadersBO getReqHttpHeadersBO() {
+		return httpReqThreadLocal.get();
+	}
+	
+	public static void removeReqHttpHeadersBO() {
+		httpReqThreadLocal.remove();
+	}
 
 	/**
 	 * 获取当前用户id
@@ -67,7 +83,7 @@ public class SmartReqContext extends Base {
 		}
 		return loginCache.getUserId() != null;
 	}
-	
+
 	/**
 	 * 清除登陆信息
 	 */

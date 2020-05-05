@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.smartframework.cloud.starter.core.business.security.util.ReqHttpHeadersUtil;
+import org.smartframework.cloud.starter.core.business.SmartReqContext;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.core.business.util.WebUtil;
 import org.smartframework.cloud.starter.core.constants.SymbolConstant;
@@ -41,7 +41,7 @@ public class FeignInterceptor implements MethodInterceptor,RequestInterceptor {
 		logDO.setClassMethod(classMethod);
 
 		logDO.setReqParams(WebUtil.getRequestArgs(args));
-		logDO.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersBO());
+		logDO.setReqHttpHeaders(SmartReqContext.getReqHttpHeadersBO());
 
 		// 2、rpc
 		Object result = invocation.proceed();

@@ -10,7 +10,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.common.pojo.vo.RespVO;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
-import org.smartframework.cloud.starter.core.business.security.util.ReqHttpHeadersUtil;
+import org.smartframework.cloud.starter.core.business.SmartReqContext;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.core.business.util.WebUtil;
 import org.smartframework.cloud.starter.core.constants.SymbolConstant;
@@ -55,7 +55,7 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 		logDO.setApiDesc(apiDesc);
 
 		logDO.setReqParams(WebUtil.getRequestArgs(invocation.getArguments()));
-		logDO.setReqHttpHeaders(ReqHttpHeadersUtil.getReqHttpHeadersBO());
+		logDO.setReqHttpHeaders(SmartReqContext.getReqHttpHeadersBO());
 
 		logDO.setUrl(request.getRequestURL().toString());
 		logDO.setIp(WebUtil.getRealIP(request));
