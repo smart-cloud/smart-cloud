@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "响应对象")
-public class RespVO<T extends Base> extends Base {
+public class RespVO<T> extends Base {
 
 	private static final long serialVersionUID = 1L;
 

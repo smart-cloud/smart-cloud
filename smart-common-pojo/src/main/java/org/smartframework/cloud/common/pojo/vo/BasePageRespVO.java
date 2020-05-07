@@ -18,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "分页请求响应信息")
-public class BasePageRespVO<T extends Base> extends Base {
+public class BasePageRespVO<T> extends Base {
 
 	private static final long serialVersionUID = 1L;
 

@@ -18,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "分页请求参数基类")
-public class BasePageReqVO<T extends Base> extends Base {
+public class BasePageReqVO<T> extends Base {
 
 	private static final long serialVersionUID = 1L;
 

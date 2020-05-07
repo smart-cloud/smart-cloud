@@ -20,7 +20,6 @@ import feign.codec.Encoder;
 @Configuration
 public class FeignMessageConverterAutoConfigure {
 
-
     @Bean
     public ProtostuffHttpMessageConverter protobufHttpMessageConverter() {
         return new ProtostuffHttpMessageConverter();
