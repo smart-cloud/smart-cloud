@@ -15,12 +15,12 @@ public enum RedisKeyPrefix {
 
 	/** redis key分隔符 */
 	REDIS_KEY_SEPARATOR(":"),
-	/** cache */
-	CACHE("cache" + REDIS_KEY_SEPARATOR),
-	/** lock */
-	LOCK("lock" + REDIS_KEY_SEPARATOR),
-	/** data */
-	DATA("data" + REDIS_KEY_SEPARATOR);
+	/** cache: */
+	CACHE("cache" + REDIS_KEY_SEPARATOR.key),
+	/** lock: */
+	LOCK("lock" + REDIS_KEY_SEPARATOR.key),
+	/** data: */
+	DATA("data" + REDIS_KEY_SEPARATOR.key);
 
 	private String key;
 
