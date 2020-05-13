@@ -25,10 +25,14 @@ public class SmartHttpFilter implements Filter {
 		// feign protobuf content-type设置
 		processRpcContentType(servletRequest, servletResponse);
 
-		// local参数设置
-		SmartReqContext.setReqHttpHeadersBO(ReqHttpHeadersUtil.getReqHttpHeadersBO());
-		chain.doFilter(servletRequest, servletResponse);
-		SmartReqContext.removeReqHttpHeadersBO();
+		try {
+			// local参数设置
+			SmartReqContext.setReqHttpHeadersBO(ReqHttpHeadersUtil.getReqHttpHeadersBO());
+			
+			chain.doFilter(servletRequest, servletResponse);
+		} finally {
+			SmartReqContext.removeReqHttpHeadersBO();
+		}
 	}
 
 	private void processRpcContentType(ServletRequest servletRequest, ServletResponse servletResponse) {

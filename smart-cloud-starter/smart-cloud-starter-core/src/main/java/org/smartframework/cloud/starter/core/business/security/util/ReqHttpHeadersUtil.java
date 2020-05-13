@@ -10,6 +10,8 @@ import org.smartframework.cloud.starter.core.business.security.enums.ReqHttpHead
 import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.core.business.util.WebUtil;
 import org.smartframework.cloud.utility.RandomUtil;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 
 import lombok.experimental.UtilityClass;
 
@@ -34,6 +36,22 @@ public class ReqHttpHeadersUtil {
 		String nonce = request.getHeader(ReqHttpHeadersEnum.SMART_NONCE.getHeaderName());
 		String timestamp = request.getHeader(ReqHttpHeadersEnum.SMART_TIMESTAMP.getHeaderName());
 		String sign = request.getHeader(ReqHttpHeadersEnum.SMART_SIGN.getHeaderName());
+
+		return ReqHttpHeadersBO.builder().token(token).nonce(nonce).timestamp(timestamp).sign(sign).build();
+	}
+	
+	/**
+	 * 从<code>ServerHttpRequest</code>中获取请求头信息
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static ReqHttpHeadersBO getReqHttpHeadersBO(ServerHttpRequest request) {
+		HttpHeaders httpHeaders = request.getHeaders();
+		String token = httpHeaders.getFirst(ReqHttpHeadersEnum.SMART_TOKEN.getHeaderName());
+		String nonce = httpHeaders.getFirst(ReqHttpHeadersEnum.SMART_NONCE.getHeaderName());
+		String timestamp = httpHeaders.getFirst(ReqHttpHeadersEnum.SMART_TIMESTAMP.getHeaderName());
+		String sign = httpHeaders.getFirst(ReqHttpHeadersEnum.SMART_SIGN.getHeaderName());
 
 		return ReqHttpHeadersBO.builder().token(token).nonce(nonce).timestamp(timestamp).sign(sign).build();
 	}
