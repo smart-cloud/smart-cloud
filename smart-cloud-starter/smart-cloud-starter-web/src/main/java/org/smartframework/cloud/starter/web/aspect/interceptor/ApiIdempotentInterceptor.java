@@ -89,8 +89,7 @@ public class ApiIdempotentInterceptor implements MethodInterceptor, Ordered {
 	 * @return
 	 */
 	private final String getRepeatSubmitCheckRedisKey(String token) {
-		return RedisKeyPrefix.LOCK.getKey() + RedisKeyPrefix.REDIS_KEY_SEPARATOR.getKey() + "rsc"
-				+ RedisKeyPrefix.REDIS_KEY_SEPARATOR + token;
+		return RedisKeyPrefix.LOCK.getKey() + "rsc" + RedisKeyPrefix.REDIS_KEY_SEPARATOR.getKey() + token;
 	}
 
 }
