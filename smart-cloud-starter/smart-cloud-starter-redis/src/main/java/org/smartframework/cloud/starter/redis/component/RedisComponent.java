@@ -1,7 +1,6 @@
 package org.smartframework.cloud.starter.redis.component;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.dao.DataAccessException;
@@ -15,9 +14,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * redis常用api封装
@@ -25,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author liyulin
  * @date 2018-10-17
  */
-@Slf4j
 @AllArgsConstructor
 public class RedisComponent {
 
@@ -44,39 +39,6 @@ public class RedisComponent {
 		} else {
 			stringRedisTemplate.opsForValue().set(key, value, expireMillis, TimeUnit.MILLISECONDS);
 		}
-	}
-	
-	/**
-	 * 批量设置k-v对
-	 * 
-	 * @param keys
-	 * @param values
-	 * @param expireSeconds 有效期（毫秒）
-	 * @return
-	 */
-	public boolean batchSetString(List<String> keys, List<String> values, long expireSeconds) {
-		final RedisResult result = new RedisResult(false);
-		stringRedisTemplate.executePipelined(new RedisCallback<Object>() {
-			@Override
-			public Object doInRedis(RedisConnection connection) throws DataAccessException {
-				try {
-					connection.multi();
-					for (int i = 0; i < keys.size(); i++) {
-						connection.setEx(keys.get(i).getBytes(), expireSeconds, values.get(i).getBytes());
-					}
-					connection.exec();
-					result.setBool(true);
-				} catch (Exception e) {
-					result.setBool(false);
-					log.error("redis事务失败", e);
-					connection.discard();
-				}
-
-				return null;
-			}
-		});
-
-		return result.isBool();
 	}
 	
 	/**
@@ -157,11 +119,4 @@ public class RedisComponent {
 		return result != null && result;
 	}
 
-	@Getter
-	@Setter
-	@AllArgsConstructor
-	class RedisResult{
-		private boolean bool;
-	}
-	
 }

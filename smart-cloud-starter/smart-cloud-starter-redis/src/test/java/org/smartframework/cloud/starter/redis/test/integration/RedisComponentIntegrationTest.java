@@ -2,7 +2,6 @@ package org.smartframework.cloud.starter.redis.test.integration;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import org.assertj.core.api.Assertions;
@@ -66,17 +65,6 @@ public class RedisComponentIntegrationTest extends TestCase {
 		redisComponent.setString(key, value, 1000 * 60L);
 		String expectedValue = redisComponent.getString(key);
 		Assertions.assertThat(value).isEqualTo(expectedValue);
-	}
-
-	@Test
-	public void testBatchSetString() {
-		List<String> keys = Arrays.asList("batchkey1", "batchkey2");
-		List<String> values = Arrays.asList("batchvalue1", "batchvalue2");
-		Boolean result = redisComponent.batchSetString(keys, values, 1000 * 60L);
-		Assertions.assertThat(result).isTrue();
-
-		Assertions.assertThat(redisComponent.getString(keys.get(0))).isEqualTo(values.get(0));
-		Assertions.assertThat(redisComponent.getString(keys.get(1))).isEqualTo(values.get(1));
 	}
 
 	@Test
