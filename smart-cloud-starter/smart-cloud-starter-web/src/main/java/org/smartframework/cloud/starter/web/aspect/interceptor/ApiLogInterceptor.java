@@ -3,24 +3,21 @@ package org.smartframework.cloud.starter.web.aspect.interceptor;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.common.pojo.vo.RespVO;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.starter.core.business.SmartReqContext;
+import org.smartframework.cloud.starter.core.business.security.ReactiveRequestContextHolder;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.core.business.util.WebUtil;
 import org.smartframework.cloud.starter.core.constants.SymbolConstant;
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.starter.web.aspect.pojo.LogAspectDO;
 import org.smartframework.cloud.starter.web.exception.ExceptionHandlerContext;
-import org.smartframework.cloud.utility.ObjectUtil;
 import org.springframework.core.Ordered;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,26 +38,25 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		// 请求前
-		if (ObjectUtil.isNull(RequestContextHolder.getRequestAttributes())) {
+		if (RequestContextHolder.getRequestAttributes() == null
+				&& ReactiveRequestContextHolder.getServerHttpRequest() == null) {
 			return invocation.proceed();
 		}
 		LogAspectDO logDO = new LogAspectDO();
 		logDO.setReqStartTime(new Date());
 
-		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-		HttpServletRequest request = attributes.getRequest();
-
 		Method method = invocation.getMethod();
-		String apiDesc = AspectInterceptorUtil.getControllerMethodDesc(method, request.getServletPath());
+		String path = WebUtil.getMappingPath();
+		String apiDesc = AspectInterceptorUtil.getControllerMethodDesc(method, path);
 		logDO.setApiDesc(apiDesc);
 
 		logDO.setReqParams(WebUtil.getRequestArgs(invocation.getArguments()));
 		logDO.setReqHttpHeaders(SmartReqContext.getReqHttpHeadersBO());
 
-		logDO.setUrl(request.getRequestURL().toString());
-		logDO.setIp(WebUtil.getRealIP(request));
-		logDO.setOs(request.getHeader("User-Agent"));
-		logDO.setHttpMethod(request.getMethod());
+		logDO.setUrl(path);
+		logDO.setIp(WebUtil.getRealIP());
+		logDO.setOs(WebUtil.getUserAgent());
+		logDO.setHttpMethod(WebUtil.getHttpMethod());
 
 		String classMethod = method.getDeclaringClass().getSimpleName() + SymbolConstant.DOT + method.getName();
 		logDO.setClassMethod(classMethod);

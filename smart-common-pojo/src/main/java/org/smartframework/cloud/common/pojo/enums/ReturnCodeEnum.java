@@ -47,10 +47,10 @@ public enum ReturnCodeEnum implements IBaseReturnCode {
 	NOT_LOGGED_IN("100419", "当前会话已失效，请重新登陆"),
 	/** 服务器异常 */
 	SERVER_ERROR("100500", "服务器异常"),
-	/** 获取HttpServletRequest失败 */
-	GET_HTTPSERVLETREQUEST_FAIL("100501", "获取HttpServletRequest失败"),
-	/** 获取getHttpServletResponse失败 */
-	GET_HTTPSERVLETRESPONSE_FAIL("100502", "获取getHttpServletResponse失败");
+	/** 获取Request失败 */
+	GET_REQUEST_FAIL("100501", "获取Request失败"),
+	/** 获取Response失败 */
+	GET_RESPONSE_FAIL("100502", "获取Response失败");
 
 	/** 状态码 */
 	private String code;

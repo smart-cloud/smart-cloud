@@ -15,7 +15,7 @@ import org.smartframework.cloud.starter.core.business.SmartReqContext;
 import org.smartframework.cloud.starter.core.business.security.enums.ApiUseSideEnum;
 import org.smartframework.cloud.starter.core.business.security.util.ReqHttpHeadersUtil;
 
-public class SmartHttpFilter implements Filter {
+public class ServletFilter implements Filter {
 
 	private static final String PROTOBUF_CONTENT_TYPE = "application/x-protobuf";
 

@@ -1,27 +1,26 @@
 package org.smartframework.cloud.starter.configure.constants;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * bean执行顺序
  *
  * @author liyulin
  * @date 2019-06-28
  */
-@UtilityClass
-public class OrderConstant {
-
+public interface OrderConstant {
+	
+	/** http filter */
+	int HTTP_FITLER = Integer.MIN_VALUE;
 	/** 重复提交校验 */
-	public static final int REPEAT_SUBMIT_CHECK = 1;
+	int REPEAT_SUBMIT_CHECK = 1;
 	/** 接口安全处理 */
-	public static final int API_SECURITY = 2;
+	int API_SECURITY = 2;
 	/** 接口日志 */
-	public static final int API_LOG = 3;
+	int API_LOG = 3;
 	/** feign安全处理 */
-	public static final int FEIGN_SECURITY = 4;
+	int FEIGN_SECURITY = 4;
 	/** feign日志 */
-	public static final int FEIGN_LOG = 5;
+	int FEIGN_LOG = 5;
 	/** 多语言切面 */
-	public static final int LOCALE = 6;
+	int LOCALE = 6;
 
 }
