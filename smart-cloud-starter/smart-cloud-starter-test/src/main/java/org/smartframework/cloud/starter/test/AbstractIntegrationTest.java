@@ -15,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -104,15 +104,19 @@ public abstract class AbstractIntegrationTest extends TestCase {
 		String requestBody = JSON.toJSONString(req);
 		log.info("test.requestBody={}", requestBody);
 
-		MvcResult result = mockMvc.perform(
-				MockMvcRequestBuilders.post(url)
-					.characterEncoding(StandardCharsets.UTF_8.name())
-					.contentType(MediaType.APPLICATION_JSON_VALUE)
-					.accept(MediaType.APPLICATION_JSON_VALUE)
-					.content(requestBody)
-				).andReturn();
-
-		String content = result.getResponse().getContentAsString();
+		MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post(url)
+				.characterEncoding(StandardCharsets.UTF_8.name())
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE);
+		if (requestBody != null) {
+			mockHttpServletRequestBuilder.content(requestBody);
+		}
+		
+		MockHttpServletResponse response = mockMvc.perform(mockHttpServletRequestBuilder)
+				.andReturn()
+				.getResponse();
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		String content = response.getContentAsString();
 		log.info("test.result={}", content);
 
 		return JSON.parseObject(content, typeReference);
@@ -148,15 +152,21 @@ public abstract class AbstractIntegrationTest extends TestCase {
 		HttpHeaders httpHeaders = generateHeaders(token);
 		log.info("test.httpHeaders={}; requestBody={}", JSON.toJSONString(httpHeaders), requestBody);
 
-		MvcResult result = mockMvc.perform(
+		MockHttpServletRequestBuilder mockHttpServletRequestBuilder = 
 				MockMvcRequestBuilders.post(url)
-					.characterEncoding(StandardCharsets.UTF_8.name())
-					.contentType(MediaType.APPLICATION_JSON_VALUE)
-					.accept(MediaType.APPLICATION_JSON_VALUE)
-					.headers(httpHeaders)
-					.content(requestBody)
-				).andReturn();
-		String content = result.getResponse().getContentAsString();
+				.characterEncoding(StandardCharsets.UTF_8.name())
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
+				.headers(httpHeaders);
+		if (requestBody != null) {
+			mockHttpServletRequestBuilder.content(requestBody);
+		}
+		
+		MockHttpServletResponse response = mockMvc.perform(mockHttpServletRequestBuilder)
+				.andReturn()
+				.getResponse();
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		String content = response.getContentAsString();
 		log.info("test.result={}", content);
 		
 		return JSON.parseObject(content, typeReference);
@@ -204,8 +214,12 @@ public abstract class AbstractIntegrationTest extends TestCase {
 			requestMap.forEach(mockHttpServletRequestBuilder::param);
 		}
 		
-		MvcResult result = mockMvc.perform(mockHttpServletRequestBuilder).andReturn();
-		String content = result.getResponse().getContentAsString();
+		MockHttpServletResponse response = mockMvc.perform(mockHttpServletRequestBuilder)
+				.andReturn()
+				.getResponse();
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+		String content = response.getContentAsString();
+		
 		log.info("test.result={}", content);
 
 		return JSON.parseObject(content, typeReference);
