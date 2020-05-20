@@ -18,6 +18,11 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>org.smartframework.cloud</groupId>
+			<artifactId>smart-api-core</artifactId>
+		</dependency>
+		
+		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 		</dependency>
