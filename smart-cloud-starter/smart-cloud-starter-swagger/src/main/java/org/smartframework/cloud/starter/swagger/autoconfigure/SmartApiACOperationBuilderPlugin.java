@@ -7,7 +7,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.api.core.annotation.SmartApiAC;
 import org.smartframework.cloud.api.core.enums.SignType;
-import org.springframework.context.annotation.Configuration;
 
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.OperationBuilderPlugin;
@@ -19,7 +18,6 @@ import springfox.documentation.spi.service.contexts.OperationContext;
  * @author liyulin
  * @date 2020-05-21
  */
-@Configuration
 public class SmartApiACOperationBuilderPlugin implements OperationBuilderPlugin {
 
 	@Override

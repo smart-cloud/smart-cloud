@@ -49,6 +49,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class Swagger2AutoConfigure {
 
 	@Bean
+	public SmartApiACOperationBuilderPlugin smartApiACOperationBuilderPlugin() {
+		return new SmartApiACOperationBuilderPlugin();
+	}
+
+	@Bean
 	public Docket docket(final SmartProperties smartProperties) {
 		// ApiSelector
 		List<Predicate<RequestHandler>> requestHandlers = new ArrayList<>();
@@ -62,6 +67,20 @@ public class Swagger2AutoConfigure {
 				.genericModelSubstitutes(DeferredResult.class).useDefaultResponseMessages(false)
 				.forCodeGeneration(false).apiInfo(apiInfo(smartProperties)).select().apis(apiSelector.getRequestHandlerSelector())
 				.paths(PathSelectors.any()).build().globalOperationParameters(buildParameters());
+	}
+
+	@Configuration
+	@Conditional(UploadSwaggerCondition.class)
+	@ConditionalOnProperty(name = "smart.swagger.uploadYapi.enable", havingValue = "true", matchIfMissing = true)
+	static class UploadSwaggerYapiAutoConfigure {
+
+		@Bean
+		public UploadSwagger2YapiListener uploadSwaggerListener(final SmartProperties smartProperties,
+				@Value("${server.port}") String port) {
+			SwaggerProperties swaggerProperties = smartProperties.getSwagger();
+			return new UploadSwagger2YapiListener(swaggerProperties.getGroupName(), swaggerProperties.getUploadYapi(), port);
+		}
+
 	}
 
 	private ApiInfo apiInfo(final SmartProperties smartProperties) {
@@ -98,20 +117,6 @@ public class Swagger2AutoConfigure {
 		private String description;
 		private String modelRef;
 		private String example;
-	}
-
-	@Configuration
-	@Conditional(UploadSwaggerCondition.class)
-	@ConditionalOnProperty(name = "smart.swagger.uploadYapi.enable", havingValue = "true", matchIfMissing = true)
-	static class UploadSwaggerYapiAutoConfigure {
-
-		@Bean
-		public UploadSwagger2YapiListener uploadSwaggerListener(final SmartProperties smartProperties,
-				@Value("${server.port}") String port) {
-			SwaggerProperties swaggerProperties = smartProperties.getSwagger();
-			return new UploadSwagger2YapiListener(swaggerProperties.getGroupName(), swaggerProperties.getUploadYapi(), port);
-		}
-
 	}
 
 }
