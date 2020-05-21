@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 @Getter
 public enum SignType {
 
-	/** 不需要处理 */
+	/** 不需要签名 */
 	NONE((byte) 1),
 	/** 只有请求参数需要验签 */
 	REQUEST((byte) 2),

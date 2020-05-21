@@ -7,7 +7,6 @@ import org.smartframework.cloud.starter.swagger.validators.plugins.parameter.Not
 import org.smartframework.cloud.starter.swagger.validators.plugins.schema.NotBlankModelPropertyAnnotationPlugin;
 import org.smartframework.cloud.starter.swagger.validators.plugins.schema.NotEmptyModelPropertyAnnotationPlugin;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 
@@ -17,7 +16,6 @@ import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration
  * @author liyulin
  * @date 2019-07-18
  */
-@Configuration
 public class SmartBeanValidatorPluginsConfiguration extends BeanValidatorPluginsConfiguration {
 
 	// ------@NotBlank start
