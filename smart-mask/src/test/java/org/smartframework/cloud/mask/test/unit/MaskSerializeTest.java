@@ -5,13 +5,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.assertj.core.api.Assertions;
-import org.smartframework.cloud.mask.EnableMask;
 import org.smartframework.cloud.mask.MaskLog;
 import org.smartframework.cloud.mask.MaskRule;
+import org.smartframework.cloud.mask.util.JacksonMaskUtil;
 import org.smartframework.cloud.mask.util.MaskUtil;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import junit.framework.TestCase;
 import lombok.Getter;
@@ -28,7 +27,7 @@ public class MaskSerializeTest extends TestCase {
 
 		String maskResult = MaskUtil.mask(loginVO);
 
-		LoginVO maskLoginVO = JSON.parseObject(maskResult, LoginVO.class);
+		LoginVO maskLoginVO = JacksonMaskUtil.parseObject(maskResult, LoginVO.class);
 		Assertions.assertThat(maskLoginVO.getName()).isEqualTo(MaskUtil.mask(loginVO.getName(), 1, 1, "###"));
 		Assertions.assertThat(maskLoginVO.getPassword()).isEqualTo(MaskUtil.mask(loginVO.getPassword(), 2, 0, "***"));
 	}
@@ -42,10 +41,13 @@ public class MaskSerializeTest extends TestCase {
 
 		String maskResult = MaskUtil.mask(user);
 
-		User maskUser = JSON.parseObject(maskResult, User.class);
-		Assertions.assertThat(maskUser.getId()).isEqualTo(user.getId());
-		Assertions.assertThat(maskUser.getName()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
-		Assertions.assertThat(maskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
+		JsonNode maskUser = JacksonMaskUtil.parseObject(maskResult);
+		String expectedId = MaskUtil.mask(String.valueOf(user.getId()), MaskRule.DEFAULT.getStartLen(),
+				MaskRule.DEFAULT.getEndLen(), MaskRule.DEFAULT.getMask());
+		Assertions.assertThat(maskUser.get("id").asText()).isEqualTo(expectedId);
+		Assertions.assertThat(maskUser.get("name").asText()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
+		Assertions.assertThat(maskUser.get("mobile").asText())
+				.isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
 	}
 
 	// 子类对象
@@ -60,13 +62,18 @@ public class MaskSerializeTest extends TestCase {
 
 		String maskResult = MaskUtil.mask(student);
 
-		Student maskStudent = JSON.parseObject(maskResult, Student.class);
-		Assertions.assertThat(maskStudent.getId()).isEqualTo(student.getId());
-		Assertions.assertThat(maskStudent.getName()).isEqualTo(MaskUtil.mask(student.getName(), MaskRule.NAME));
-		Assertions.assertThat(maskStudent.getMobile()).isEqualTo(MaskUtil.mask(student.getMobile(), MaskRule.MOBILE));
+		JsonNode maskStudent = JacksonMaskUtil.parseObject(maskResult);
+		String expectedId = MaskUtil.mask(String.valueOf(student.getId()), MaskRule.DEFAULT.getStartLen(),
+				MaskRule.DEFAULT.getEndLen(), MaskRule.DEFAULT.getMask());
+		Assertions.assertThat(maskStudent.get("id").asText()).isEqualTo(expectedId);
 
-		Assertions.assertThat(maskStudent.getAge()).isEqualTo(student.getAge());
-		Assertions.assertThat(maskStudent.getClassName())
+		Assertions.assertThat(maskStudent.get("name").asText())
+				.isEqualTo(MaskUtil.mask(student.getName(), MaskRule.NAME));
+		Assertions.assertThat(maskStudent.get("mobile").asText())
+				.isEqualTo(MaskUtil.mask(student.getMobile(), MaskRule.MOBILE));
+
+		Assertions.assertThat(maskStudent.get("age").asInt()).isEqualTo(student.getAge());
+		Assertions.assertThat(maskStudent.get("className").asText())
 				.isEqualTo(MaskUtil.mask(student.getClassName(), MaskRule.NAME));
 	}
 
@@ -81,11 +88,17 @@ public class MaskSerializeTest extends TestCase {
 
 		String maskResult = MaskUtil.mask(users);
 
-		User[] maskUsers = JSON.parseObject(maskResult, User[].class);
-		User maskUser = maskUsers[0];
-		Assertions.assertThat(maskUser.getId()).isEqualTo(user.getId());
-		Assertions.assertThat(maskUser.getName()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
-		Assertions.assertThat(maskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
+		JsonNode maskUsers = JacksonMaskUtil.parseObject(maskResult);
+
+		JsonNode maskUser = maskUsers.get(0);
+
+		String expectedId = MaskUtil.mask(String.valueOf(user.getId()), MaskRule.DEFAULT.getStartLen(),
+				MaskRule.DEFAULT.getEndLen(), MaskRule.DEFAULT.getMask());
+		Assertions.assertThat(maskUser.get("id").asText()).isEqualTo(expectedId);
+
+		Assertions.assertThat(maskUser.get("name").asText()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
+		Assertions.assertThat(maskUser.get("mobile").asText())
+				.isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
 	}
 
 	// 嵌套对象
@@ -104,14 +117,18 @@ public class MaskSerializeTest extends TestCase {
 
 		String maskResult = MaskUtil.mask(source);
 
-		Source maskSource = JSON.parseObject(maskResult, Source.class);
+		JsonNode maskSource = JacksonMaskUtil.parseObject(maskResult);
+		Assertions.assertThat(maskSource.get("ip").asText()).isEqualTo(MaskUtil.mask(source.getIp(), MaskRule.IP));
 
-		Assertions.assertThat(maskSource.getIp()).isEqualTo(MaskUtil.mask(source.getIp(), MaskRule.IP));
+		JsonNode maskUser = maskSource.get("users").get(0);
 
-		User maskUser = maskSource.getUsers().get(0);
-		Assertions.assertThat(maskUser.getId()).isEqualTo(user.getId());
-		Assertions.assertThat(maskUser.getName()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
-		Assertions.assertThat(maskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
+		String expectedId = MaskUtil.mask(String.valueOf(user.getId()), MaskRule.DEFAULT.getStartLen(),
+				MaskRule.DEFAULT.getEndLen(), MaskRule.DEFAULT.getMask());
+		Assertions.assertThat(maskUser.get("id").asText()).isEqualTo(expectedId);
+
+		Assertions.assertThat(maskUser.get("name").asText()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
+		Assertions.assertThat(maskUser.get("mobile").asText())
+				.isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
 	}
 
 	// 泛型对象
@@ -134,18 +151,21 @@ public class MaskSerializeTest extends TestCase {
 
 		String maskResult = MaskUtil.mask(req);
 
-		Req<Source> maskReq = JSON.parseObject(maskResult, new TypeReference<Req<Source>>() {
-		});
+		JsonNode maskReq = JacksonMaskUtil.parseObject(maskResult);
 
-		Assertions.assertThat(maskReq.getToken()).isEqualTo(MaskUtil.mask(req.getToken(), MaskRule.DEFAULT));
+		Assertions.assertThat(maskReq.get("token").asText()).isEqualTo(MaskUtil.mask(req.getToken(), MaskRule.DEFAULT));
 
-		Source maskSource = maskReq.getT();
-		Assertions.assertThat(maskSource.getIp()).isEqualTo(MaskUtil.mask(source.getIp(), MaskRule.IP));
+		JsonNode maskSource = maskReq.get("t");
+		Assertions.assertThat(maskSource.get("ip").asText()).isEqualTo(MaskUtil.mask(source.getIp(), MaskRule.IP));
 
-		User maskUser = maskSource.getUsers().get(0);
-		Assertions.assertThat(maskUser.getId()).isEqualTo(user.getId());
-		Assertions.assertThat(maskUser.getName()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
-		Assertions.assertThat(maskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
+		JsonNode maskUser = maskSource.get("users").get(0);
+		String expectedId = MaskUtil.mask(String.valueOf(user.getId()), MaskRule.DEFAULT.getStartLen(),
+				MaskRule.DEFAULT.getEndLen(), MaskRule.DEFAULT.getMask());
+		Assertions.assertThat(maskUser.get("id").asText()).isEqualTo(expectedId);
+
+		Assertions.assertThat(maskUser.get("name").asText()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
+		Assertions.assertThat(maskUser.get("mobile").asText())
+				.isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
 	}
 
 	// 泛型对象（外部字段无mask注解）
@@ -168,37 +188,26 @@ public class MaskSerializeTest extends TestCase {
 
 		String maskResult = MaskUtil.mask(req);
 
-		Req2<Source> maskReq = JSON.parseObject(maskResult, new TypeReference<Req2<Source>>() {
-		});
+		JsonNode maskReq = JacksonMaskUtil.parseObject(maskResult);
+		
+		Assertions.assertThat(maskReq.get("token").asText()).isEqualTo(req.getToken());
 
-		Assertions.assertThat(maskReq.getToken()).isEqualTo(req.getToken());
+		JsonNode maskSource = maskReq.get("t");
+		Assertions.assertThat(maskSource.get("ip").asText()).isEqualTo(MaskUtil.mask(source.getIp(), MaskRule.IP));
 
-		Source maskSource = maskReq.getT();
-		Assertions.assertThat(maskSource.getIp()).isEqualTo(MaskUtil.mask(source.getIp(), MaskRule.IP));
+		JsonNode maskUser = maskSource.get("users").get(0);
+		String expectedId = MaskUtil.mask(String.valueOf(user.getId()), MaskRule.DEFAULT.getStartLen(),
+				MaskRule.DEFAULT.getEndLen(), MaskRule.DEFAULT.getMask());
+		Assertions.assertThat(maskUser.get("id").asText()).isEqualTo(expectedId);
 
-		User maskUser = maskSource.getUsers().get(0);
-		Assertions.assertThat(maskUser.getId()).isEqualTo(user.getId());
-		Assertions.assertThat(maskUser.getName()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
-		Assertions.assertThat(maskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
-	}
-
-	public void testWrapMask() {
-		User user = new User();
-		user.setId(9L);
-		user.setName("名字");
-		user.setMobile("13112345678");
-
-		User wrapMaskUser = MaskUtil.wrapMask(user);
-
-		Assertions.assertThat(wrapMaskUser.getId()).isEqualTo(user.getId());
-		Assertions.assertThat(wrapMaskUser.getName()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
-		Assertions.assertThat(wrapMaskUser.getMobile()).isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
+		Assertions.assertThat(maskUser.get("name").asText()).isEqualTo(MaskUtil.mask(user.getName(), MaskRule.NAME));
+		Assertions.assertThat(maskUser.get("mobile").asText())
+				.isEqualTo(MaskUtil.mask(user.getMobile(), MaskRule.MOBILE));
 	}
 
 	@Getter
 	@Setter
 	@ToString
-	@EnableMask
 	public static class LoginVO {
 		@MaskLog(startLen = 1, endLen = 1, mask = "###")
 		private String name;
@@ -209,7 +218,6 @@ public class MaskSerializeTest extends TestCase {
 	@Getter
 	@Setter
 	@ToString
-	@EnableMask
 	public static class User {
 		@MaskLog
 		private Long id;
@@ -222,7 +230,6 @@ public class MaskSerializeTest extends TestCase {
 	@Getter
 	@Setter
 	@ToString
-	@EnableMask
 	public static class Student extends User {
 		private int age;
 		@MaskLog(MaskRule.NAME)
@@ -232,7 +239,6 @@ public class MaskSerializeTest extends TestCase {
 	@Getter
 	@Setter
 	@ToString
-	@EnableMask
 	public static class Source {
 		@MaskLog(MaskRule.IP)
 		private String ip;
@@ -242,7 +248,6 @@ public class MaskSerializeTest extends TestCase {
 	@Getter
 	@Setter
 	@ToString
-	@EnableMask
 	public static class Req<T> {
 		@MaskLog
 		private String token;
@@ -252,7 +257,6 @@ public class MaskSerializeTest extends TestCase {
 	@Getter
 	@Setter
 	@ToString
-	@EnableMask
 	public static class Req2<T> {
 		private String token;
 		private T t;

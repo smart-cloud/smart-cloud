@@ -40,7 +40,6 @@
 		<seata>1.2.0</seata>
 		<spring-cloud-alibaba-seata>2.2.0.RELEASE</spring-cloud-alibaba-seata>
 		<mysql>8.0.15</mysql>
-		<fastjson>1.2.59</fastjson>
 		<springfox-swagger2>2.9.2</springfox-swagger2>
 		<swagger-annotations>1.5.20</swagger-annotations>
 		<podam>7.2.3.RELEASE</podam>
@@ -400,12 +399,6 @@
 			</dependency>
 
 			<dependency>
-				<groupId>com.alibaba</groupId>
-				<artifactId>fastjson</artifactId>
-				<version>${fastjson}</version>
-			</dependency>
-
-			<dependency>
 				<groupId>io.springfox</groupId>
 				<artifactId>springfox-swagger2</artifactId>
 				<version>${springfox-swagger2}</version>
@@ -473,10 +466,6 @@
 			<artifactId>lombok</artifactId>
 			<scope>compile</scope>
 			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
 		</dependency>
 	</dependencies>
 
