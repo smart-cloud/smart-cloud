@@ -16,8 +16,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.net.MediaType;
 
 import lombok.experimental.UtilityClass;
@@ -56,10 +55,10 @@ public class HttpUtil {
 		if(req instanceof String) {
 			stringEntity = String.valueOf(req);
 		} else {
-			stringEntity = JSON.toJSONString(req);
+			stringEntity = JacksonUtil.toJson(req);
 		}
 		String content = postWithRaw(url, stringEntity);
-		return JSON.parseObject(content, typeReference);
+		return JacksonUtil.parseObject(content, typeReference);
 	}
 	
 	/**
@@ -133,7 +132,7 @@ public class HttpUtil {
 	 * @throws IOException
 	 */
 	public static <T> T postWithUrlEncoded(String url, List<? extends NameValuePair> parameters, TypeReference<T> typeReference) throws IOException {
-		return JSON.parseObject(postWithUrlEncoded(url, parameters), typeReference);
+		return JacksonUtil.parseObject(postWithUrlEncoded(url, parameters), typeReference);
 	}
 	
 	/**
@@ -161,7 +160,7 @@ public class HttpUtil {
 	 */
 	public static String postWithUrlEncoded(String url, List<? extends NameValuePair> parameters, String charset,
 			int socketTimeout, int connectTimeout) throws IOException {
-		log.info("parameters=>{}", JSON.toJSONString(parameters));
+		log.info("parameters=>{}", JacksonUtil.toJson(parameters));
 
 		RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout);
 
@@ -194,7 +193,7 @@ public class HttpUtil {
 	 */
 	public static <T> T get(String url, TypeReference<T> typeReference) throws IOException {
 		String content = get(url);
-		return JSON.parseObject(content, typeReference);
+		return JacksonUtil.parseObject(content, typeReference);
 	}
 	
 	/**

@@ -12,7 +12,7 @@ import org.smartframework.cloud.utility.test.integration.vo.PostUrlEncodedRespVO
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.alibaba.fastjson.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import junit.framework.TestCase;
 
