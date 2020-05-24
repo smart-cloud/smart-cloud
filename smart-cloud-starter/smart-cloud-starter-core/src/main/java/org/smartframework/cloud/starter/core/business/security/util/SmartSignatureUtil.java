@@ -14,9 +14,8 @@ import org.apache.commons.codec.DecoderException;
 import org.smartframework.cloud.starter.core.business.security.bo.ReqHttpHeadersBO;
 import org.smartframework.cloud.starter.core.business.security.bo.RespBO;
 import org.smartframework.cloud.starter.core.business.security.enums.ReqHttpHeadersEnum;
+import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.security.RsaUtil;
-
-import com.alibaba.fastjson.JSON;
 
 import lombok.experimental.UtilityClass;
 
@@ -85,7 +84,7 @@ public class SmartSignatureUtil {
 		signParams.put(ReqHttpHeadersEnum.SMART_TOKEN.getHeaderName(), reqHttpHeaders.getToken());
 		signParams.put(ReqHttpHeadersEnum.SMART_NONCE.getHeaderName(), reqHttpHeaders.getNonce());
 		signParams.put(SIGN_BODY_NAME, encryptedBody);
-		return JSON.toJSONString(signParams);
+		return JacksonUtil.toJson(signParams);
 	}
 
 	/**
@@ -140,7 +139,7 @@ public class SmartSignatureUtil {
 		signParams.put(SIGN_HEAD_NAME, encryptedHead);
 		signParams.put(SIGN_BODY_NAME, encryptedBody);
 
-		return JSON.toJSONString(signParams);
+		return JacksonUtil.toJson(signParams);
 	}
 
 }

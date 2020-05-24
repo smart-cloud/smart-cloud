@@ -80,8 +80,8 @@ public class CodeGenerateUtil {
 				code.getMask());
 		CodeFileGenerateUtil.generateEntity(entityBO, servicePath);
 
-		BaseRespVOBO baseRespVOBO = TemplateBOUtil.getBaseRespBodyBO(tableMetaData, columnMetaDatas,
-				entityBO.getEnableMask(), mainClassPackage, entityBO.getImportPackages(), code.getMask());
+		BaseRespVOBO baseRespVOBO = TemplateBOUtil.getBaseRespBodyBO(tableMetaData, columnMetaDatas, mainClassPackage,
+				entityBO.getImportPackages(), code.getMask());
 		CodeFileGenerateUtil.generateBaseRespVO(baseRespVOBO, rpcPath);
 
 		BaseMapperBO baseMapperBO = TemplateBOUtil.getBaseMapperBO(tableMetaData, entityBO, baseRespVOBO,

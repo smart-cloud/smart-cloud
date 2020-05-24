@@ -2,14 +2,13 @@ package org.smartframework.cloud.starter.core.business.autoconfigure;
 
 import java.util.concurrent.Executor;
 
+import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-
-import com.alibaba.fastjson.JSON;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +36,7 @@ public class AsyncAutoConfigure extends AsyncConfigurerSupport {
 	@Override
 	@Nullable
 	public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-		return (throwable, method, obj) -> log.error("asyncException@method=" + method.getName() + "; param=" + JSON.toJSONString(obj), throwable);
+		return (throwable, method, obj) -> log.error("asyncException@method=" + method.getName() + "; param=" + JacksonUtil.toJson(obj), throwable);
 	}
 
 }

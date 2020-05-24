@@ -14,7 +14,6 @@ import org.smartframework.cloud.code.generate.bo.template.ClassCommentBO;
 import org.smartframework.cloud.code.generate.bo.template.EntityAttributeBO;
 import org.smartframework.cloud.code.generate.bo.template.EntityBO;
 import org.smartframework.cloud.code.generate.config.Config;
-import org.smartframework.cloud.mask.EnableMask;
 
 import lombok.experimental.UtilityClass;
 
@@ -63,7 +62,6 @@ public class TemplateBOUtil {
 		entityBO.setAttributes(attributes);
 		List<String> importPackages = new ArrayList<>();
 		entityBO.setImportPackages(importPackages);
-		boolean enableMask = false;
 		for (ColumnMetaDataBO columnMetaData : columnMetaDatas) {
 			EntityAttributeBO entityAttribute = new EntityAttributeBO();
 			entityAttribute.setName(TableUtil.getAttibuteName(columnMetaData.getName()));
@@ -75,7 +73,6 @@ public class TemplateBOUtil {
 			if (entityAttribute.getMaskRule() != null && !importPackages.contains(Config.MaskPackage.MASK_RULE)) {
 				importPackages.add(Config.MaskPackage.MASK_RULE);
 				importPackages.add(Config.MaskPackage.MASK_LOG);
-				enableMask = true;
 			}
 			
 			entityAttribute
@@ -86,10 +83,6 @@ public class TemplateBOUtil {
 			}
 
 			attributes.add(entityAttribute);
-		}
-		if (enableMask) {
-			importPackages.add(Config.MaskPackage.ENABLE_MASK);
-			entityBO.setEnableMask(EnableMask.class.getSimpleName());
 		}
 		return entityBO;
 	}
@@ -110,21 +103,18 @@ public class TemplateBOUtil {
 	 * 
 	 * @param tableMetaData
 	 * @param columnMetaDatas
-	 * @param enableMask
 	 * @param mainClassPackage
 	 * @param importPackages
 	 * @param mask
 	 * @return
 	 */
-	public static BaseRespVOBO getBaseRespBodyBO(TableMetaDataBO tableMetaData,
-			List<ColumnMetaDataBO> columnMetaDatas, String enableMask, String mainClassPackage, List<String> importPackages,
-			Map<String, Map<String, String>> mask) {
+	public static BaseRespVOBO getBaseRespBodyBO(TableMetaDataBO tableMetaData, List<ColumnMetaDataBO> columnMetaDatas,
+			String mainClassPackage, List<String> importPackages, Map<String, Map<String, String>> mask) {
 		BaseRespVOBO baseRespVOBO = new BaseRespVOBO();
 		baseRespVOBO.setTableComment(tableMetaData.getComment());
 		baseRespVOBO.setPackageName(getBaseRespBodyPackage(mainClassPackage));
 		baseRespVOBO.setClassName(JavaTypeUtil.getBaseRespBodyName(tableMetaData.getName()));
 		baseRespVOBO.setImportPackages(importPackages);
-		baseRespVOBO.setEnableMask(enableMask);
 
 		List<EntityAttributeBO> attributes = new ArrayList<>();
 		baseRespVOBO.setAttributes(attributes);

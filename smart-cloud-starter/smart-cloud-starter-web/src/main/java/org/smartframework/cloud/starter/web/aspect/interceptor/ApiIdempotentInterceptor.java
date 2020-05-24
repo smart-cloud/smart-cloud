@@ -14,10 +14,9 @@ import org.smartframework.cloud.starter.core.business.util.WebUtil;
 import org.smartframework.cloud.starter.redis.component.RedisComponent;
 import org.smartframework.cloud.starter.redis.enums.RedisKeyPrefix;
 import org.smartframework.cloud.starter.web.annotation.ApiIdempotent;
+import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.spring.I18NUtil;
 import org.springframework.core.Ordered;
-
-import com.alibaba.fastjson.JSON;
 
 import lombok.AllArgsConstructor;
 
@@ -57,7 +56,7 @@ public class ApiIdempotentInterceptor implements MethodInterceptor, Ordered {
 		try {
 			Object reqObject = WebUtil.getRequestArgs(invocation.getArguments());
 			if (reqObject != null) {
-				String reqStrMd5 = getRepeatReqCheckKey(JSON.toJSONString(reqObject));
+				String reqStrMd5 = getRepeatReqCheckKey(JacksonUtil.toJson(reqObject));
 				Boolean success = redisComponent.setNx(repeatSubmitCheckRedisKey, reqStrMd5, idempotent.expireMillis());
 				result = (success != null && success);
 				if (result) {

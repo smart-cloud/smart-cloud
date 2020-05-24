@@ -1,33 +1,24 @@
 package org.smartframework.cloud.starter.mybatis.plugin;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
+import java.util.Properties;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.plugin.Intercepts;
 import org.apache.ibatis.plugin.Invocation;
 import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
-import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
-import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.smartframework.cloud.mask.util.MaskUtil;
-import org.smartframework.cloud.mask.util.MaskUtil.MaskTypeEnum;
 import org.smartframework.cloud.starter.log.util.LogUtil;
-import org.smartframework.cloud.utility.DateUtil;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.regex.Matcher;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * mybatis sql日志打印
@@ -47,7 +38,6 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 
 	/** sql最大长度限制 */
 	private static final int SQL_LEN_LIMIT = 1 << 8;
-	private static final String QUOTE = "\\?";
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
@@ -80,60 +70,10 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 	}
 
 	private void printSql(Configuration configuration, BoundSql boundSql, String sqlId, long time, Object returnValue) {
-		Object parameterObject = boundSql.getParameterObject();
-        MaskTypeEnum maskTypeEnum = parameterObject == null ? MaskTypeEnum.NONE : MaskUtil.getMaskType(parameterObject.getClass());
-		String sqllog = null;
-		returnValue = MaskUtil.mask(returnValue);
-		switch (maskTypeEnum) {
-		case NONE:
-			sqllog = concatNoneMaskSql(configuration, boundSql, sqlId, time, returnValue);
-		case NORMAL:
-			sqllog = printNormalMaskSql(configuration, boundSql, sqlId, time, returnValue);
-			break;
-		case GENERIC:
-			sqllog = concatSql(sqlId, boundSql.getSql(), MaskUtil.mask(boundSql.getParameterObject()), time,
-					returnValue);
-			break;
-		default:
-			throw new UnsupportedOperationException(String.format("The mask type[%s] is not supported!", maskTypeEnum));
-		}
+		String sqllog = concatSql(sqlId, boundSql.getSql(), MaskUtil.mask(boundSql.getParameterObject()), time,
+				MaskUtil.mask(returnValue));
+
 		log.info(LogUtil.truncate(sqllog));
-	}
-
-	/**
-	 * sql日志拼接
-	 *
-	 * <p>
-	 * 不能用换行。如果使用换行，在ELK中日志的顺序将会混乱
-	 *
-	 * @param configuration
-	 * @param boundSql
-	 * @param sqlId
-	 * @param time
-	 * @param returnValue
-	 */
-	private String concatNoneMaskSql(Configuration configuration, BoundSql boundSql, String sqlId, long time,
-			Object returnValue) {
-		String sql = getSql(configuration, boundSql, false);
-		return concatSql(sqlId, sql, null, time, returnValue);
-	}
-
-	/**
-	 * sql日志拼接
-	 *
-	 * <p>
-	 * 不能用换行。如果使用换行，在ELK中日志的顺序将会混乱
-	 *
-	 * @param configuration
-	 * @param boundSql
-	 * @param sqlId
-	 * @param time
-	 * @param returnValue
-	 */
-	private String printNormalMaskSql(Configuration configuration, BoundSql boundSql, String sqlId, long time,
-			Object returnValue) {
-		String sql = getSql(configuration, boundSql, true);
-		return concatSql(sqlId, sql, null, time, returnValue);
 	}
 
 	/**
@@ -183,58 +123,6 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 		}
 
 		return sqlId;
-	}
-
-	private String getParameterValue(Object obj) {
-		String params = "";
-		if (obj instanceof String) {
-			params = "'" + obj + "'";
-		} else if (obj instanceof Date) {
-			Date date = (Date) obj;
-			params = "'" + DateUtil.formatDateTime(date) + "'";
-		} else if (Objects.isNull(obj)) {
-			params = "null";
-		} else {
-			params = obj.toString();
-		}
-
-		return Matcher.quoteReplacement(params);
-	}
-
-	private String getSql(Configuration configuration, BoundSql boundSql, boolean needMask) {
-		Object parameterObject = boundSql.getParameterObject();
-		if (needMask) {
-			parameterObject = MaskUtil.wrapMask(parameterObject);
-		}
-		List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
-
-		String sql = cleanSql(boundSql.getSql());
-		if (CollectionUtils.isEmpty(parameterMappings) || Objects.isNull(parameterObject)) {
-			return sql;
-		}
-
-		TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
-		if (typeHandlerRegistry.hasTypeHandler(parameterObject.getClass())) {
-			sql = sql.replaceFirst(QUOTE, getParameterValue(parameterObject));
-		} else {
-			MetaObject metaObject = configuration.newMetaObject(parameterObject);
-			for (ParameterMapping parameterMapping : parameterMappings) {
-				String propertyName = parameterMapping.getProperty();
-				if (metaObject.hasGetter(propertyName)) {
-					Object obj = metaObject.getValue(propertyName);
-					sql = sql.replaceFirst(QUOTE, getParameterValue(obj));
-				} else if (boundSql.hasAdditionalParameter(propertyName)) {
-					Object obj = boundSql.getAdditionalParameter(propertyName);
-					sql = sql.replaceFirst(QUOTE, getParameterValue(obj));
-				}
-			}
-		}
-
-		return sql;
-	}
-
-	private String cleanSql(String sql) {
-		return sql.replaceAll("[\\s]+", " ");
 	}
 
 }

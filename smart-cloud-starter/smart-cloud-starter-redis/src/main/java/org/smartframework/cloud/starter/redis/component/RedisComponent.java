@@ -3,6 +3,7 @@ package org.smartframework.cloud.starter.redis.component;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
+import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStringCommands.SetOption;
@@ -10,8 +11,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import lombok.AllArgsConstructor;
 
@@ -80,7 +80,7 @@ public class RedisComponent {
 	 * @param expireMillis 有效期（毫秒），为null表示不设置有效期
 	 */
 	public void setObject(String key, Object value, Long expireMillis) {
-		setString(key, JSON.toJSONString(value), expireMillis);
+		setString(key, JacksonUtil.toJson(value), expireMillis);
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class RedisComponent {
 			return null;
 		}
 
-		return JSON.parseObject(value, t);
+		return JacksonUtil.parseObject(value, t);
 	}
 
 	/**

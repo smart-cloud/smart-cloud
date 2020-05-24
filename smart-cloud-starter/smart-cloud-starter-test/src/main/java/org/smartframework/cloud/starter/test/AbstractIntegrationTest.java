@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.smartframework.cloud.starter.core.business.security.enums.ReqHttpHeadersEnum;
 import org.smartframework.cloud.starter.core.business.security.util.ReqHttpHeadersUtil;
+import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.MockitoUtil;
 import org.smartframework.cloud.utility.NonceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import junit.framework.TestCase;
 import lombok.extern.slf4j.Slf4j;
@@ -101,7 +101,7 @@ public abstract class AbstractIntegrationTest extends TestCase {
 	 * @throws Exception
 	 */
 	protected <T> T postWithNoHeaders(String url, Object req, TypeReference<T> typeReference) throws Exception {
-		String requestBody = JSON.toJSONString(req);
+		String requestBody = JacksonUtil.toJson(req);
 		log.info("test.requestBody={}", requestBody);
 
 		MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post(url)
@@ -119,7 +119,7 @@ public abstract class AbstractIntegrationTest extends TestCase {
 		String content = response.getContentAsString();
 		log.info("test.result={}", content);
 
-		return JSON.parseObject(content, typeReference);
+		return JacksonUtil.parseObject(content, typeReference);
 	}
 	
 	/**
@@ -148,9 +148,9 @@ public abstract class AbstractIntegrationTest extends TestCase {
 	 */
 	protected <T> T postWithHeaders(String url, Object req, String token, TypeReference<T> typeReference)
 			throws Exception {
-		String requestBody = JSON.toJSONString(req);
+		String requestBody = JacksonUtil.toJson(req);
 		HttpHeaders httpHeaders = generateHeaders(token);
-		log.info("test.httpHeaders={}; requestBody={}", JSON.toJSONString(httpHeaders), requestBody);
+		log.info("test.httpHeaders={}; requestBody={}", JacksonUtil.toJson(httpHeaders), requestBody);
 
 		MockHttpServletRequestBuilder mockHttpServletRequestBuilder = 
 				MockMvcRequestBuilders.post(url)
@@ -169,7 +169,7 @@ public abstract class AbstractIntegrationTest extends TestCase {
 		String content = response.getContentAsString();
 		log.info("test.result={}", content);
 		
-		return JSON.parseObject(content, typeReference);
+		return JacksonUtil.parseObject(content, typeReference);
 	}
 	
 	/**
@@ -198,9 +198,9 @@ public abstract class AbstractIntegrationTest extends TestCase {
 	 */
 	protected <T> T getWithHeaders(String url, Object req, String token, TypeReference<T> typeReference)
 			throws Exception {
-		String requestJsonStr = JSON.toJSONString(req);
+		String requestJsonStr = JacksonUtil.toJson(req);
 		HttpHeaders httpHeaders = generateHeaders(token);
-		log.info("test.httpHeaders={}; requestBody={}", JSON.toJSONString(httpHeaders), requestJsonStr);
+		log.info("test.httpHeaders={}; requestBody={}", JacksonUtil.toJson(httpHeaders), requestJsonStr);
 
 		MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(url)
 				.characterEncoding(StandardCharsets.UTF_8.name())
@@ -208,7 +208,7 @@ public abstract class AbstractIntegrationTest extends TestCase {
 				.accept(MediaType.APPLICATION_JSON_VALUE)
 				.headers(httpHeaders);
 
-		Map<String, String> requestMap = JSON.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {
+		Map<String, String> requestMap = JacksonUtil.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {
 		});
 		if (requestMap != null) {
 			requestMap.forEach(mockHttpServletRequestBuilder::param);
@@ -222,7 +222,7 @@ public abstract class AbstractIntegrationTest extends TestCase {
 		
 		log.info("test.result={}", content);
 
-		return JSON.parseObject(content, typeReference);
+		return JacksonUtil.parseObject(content, typeReference);
 	}
 	
 	/**

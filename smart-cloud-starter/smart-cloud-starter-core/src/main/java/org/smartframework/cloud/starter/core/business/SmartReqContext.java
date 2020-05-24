@@ -12,7 +12,7 @@ import org.smartframework.cloud.starter.core.business.security.util.ReqHttpHeade
 import org.smartframework.cloud.starter.redis.component.RedisComponent;
 import org.smartframework.cloud.utility.spring.SpringContextUtil;
 
-import com.alibaba.fastjson.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import lombok.experimental.UtilityClass;
 

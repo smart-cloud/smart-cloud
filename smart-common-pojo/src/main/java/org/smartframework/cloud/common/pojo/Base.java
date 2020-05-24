@@ -2,8 +2,7 @@ package org.smartframework.cloud.common.pojo;
 
 import java.io.Serializable;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.smartframework.cloud.utility.JacksonUtil;
 
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -22,11 +21,7 @@ public class Base implements Serializable {
 
 	@Override
 	public String toString() {
-		return JSON.toJSONString(this, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullListAsEmpty,
-				SerializerFeature.WriteNullStringAsEmpty, SerializerFeature.WriteDateUseDateFormat,
-				SerializerFeature.WriteBigDecimalAsPlain, SerializerFeature.WriteEnumUsingToString,
-				// 禁用“循环引用检测”
-				SerializerFeature.DisableCircularReferenceDetect);
+		return JacksonUtil.toJson(this);
 	}
 
 }

@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.rpc.dubbo.pojo;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,11 +31,11 @@ public class DubboLogAspectDO implements Serializable {
 	private String classMethod;
 
 	/** 请求发起时间 */
-	@JSONField(format = LOG_DATE_FORMAT)
+	@JsonFormat(pattern = LOG_DATE_FORMAT)
 	private Date reqStartTime;
 
 	/** 请求结束时间 */
-	@JSONField(format = LOG_DATE_FORMAT)
+	@JsonFormat(pattern = LOG_DATE_FORMAT)
 	private Date reqEndTime;
 
 	/** 请求处理时间,毫秒 */

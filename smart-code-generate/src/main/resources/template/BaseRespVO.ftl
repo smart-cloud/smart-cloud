@@ -17,9 +17,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @ApiModel(description = "${tableComment}")
-<#if enableMask??>
-@${enableMask}
-</#if>
 public class ${className} extends BaseEntityRespVO {
 
 	private static final long serialVersionUID = 1L;

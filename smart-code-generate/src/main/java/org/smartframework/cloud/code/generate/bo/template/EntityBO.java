@@ -11,8 +11,6 @@ import lombok.ToString;
 @ToString
 public class EntityBO extends CommonBO {
 
-	/** 是否mask注解 */
-	private String enableMask;
 	/** 类注释信息 */
 	private ClassCommentBO classComment;
 	/** 表名 */

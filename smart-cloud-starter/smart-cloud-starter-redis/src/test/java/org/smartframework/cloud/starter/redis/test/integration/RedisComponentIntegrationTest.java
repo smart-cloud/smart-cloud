@@ -1,11 +1,9 @@
 package org.smartframework.cloud.starter.redis.test.integration;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 
 import org.assertj.core.api.Assertions;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,46 +13,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.alibaba.fastjson.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import junit.framework.TestCase;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import redis.embedded.RedisServer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-@Slf4j
 public class RedisComponentIntegrationTest extends TestCase {
 
 	@Autowired
 	private RedisComponent redisComponent;
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
-	private static RedisServer server = null;
 	
-	static {
-		try {
-			server = new RedisServer();
-			server.start();
-		} catch (IOException e) {
-			log.error("embedded redis start error", e);
-		}
-	}
-
 	@Before
 	public void beforeTest() {
 		Set<String> keys = stringRedisTemplate.keys("*");
 		stringRedisTemplate.delete(keys);
-	}
-
-	@AfterClass
-	public static void afterTestClass() throws IOException {
-		server.stop();
-		server = null;
 	}
 
 	@Test

@@ -6,7 +6,7 @@ import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.starter.core.business.security.bo.ReqHttpHeadersBO;
 import org.smartframework.cloud.utility.constant.DateFormartConst;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,11 +36,11 @@ public class FeignLogAspectDO extends Base {
 	private String classMethod;
 
 	/** 请求发起时间 */
-	@JSONField(format = DateFormartConst.DATETIME_SSS)
+	@JsonFormat(pattern = DateFormartConst.DATETIME_SSS)
 	private Date reqStartTime;
 
 	/** 请求结束时间 */
-	@JSONField(format = DateFormartConst.DATETIME_SSS)
+	@JsonFormat(pattern = DateFormartConst.DATETIME_SSS)
 	private Date reqEndTime;
 
 	/** 请求处理时间,毫秒 */

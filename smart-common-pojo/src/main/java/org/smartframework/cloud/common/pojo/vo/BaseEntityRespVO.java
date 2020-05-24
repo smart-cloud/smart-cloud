@@ -5,7 +5,7 @@ import java.util.Date;
 import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.common.pojo.constant.DateConstant;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -27,15 +27,15 @@ public class BaseEntityRespVO extends Base {
 	private Long id;
 
 	@ApiModelProperty(value = "创建时间 ")
-	@JSONField(format = DateConstant.DEFAULT_DATE_FORMAT)
+	@JsonFormat(pattern = DateConstant.DEFAULT_DATE_FORMAT)
 	private Date addTime;
 
 	@ApiModelProperty(value = "更新时间")
-	@JSONField(format = DateConstant.DEFAULT_DATE_FORMAT)
+	@JsonFormat(pattern = DateConstant.DEFAULT_DATE_FORMAT)
 	private Date updTime;
 
 	@ApiModelProperty(value = "删除时间")
-	@JSONField(format = DateConstant.DEFAULT_DATE_FORMAT)
+	@JsonFormat(pattern = DateConstant.DEFAULT_DATE_FORMAT)
 	private Date delTime;
 
 	@ApiModelProperty(value = "新增者")

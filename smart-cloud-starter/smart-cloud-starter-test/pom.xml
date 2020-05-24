@@ -21,6 +21,11 @@
 			<groupId>org.smartframework.cloud</groupId>
 			<artifactId>smart-cloud-starter-mock</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.smartframework.cloud</groupId>
+			<artifactId>smart-utility</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
