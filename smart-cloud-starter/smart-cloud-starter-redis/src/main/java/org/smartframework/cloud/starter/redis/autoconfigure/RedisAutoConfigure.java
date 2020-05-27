@@ -20,14 +20,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * redis配置
@@ -46,7 +38,7 @@ public class RedisAutoConfigure {
 		RedisTemplate<Serializable, Serializable> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setConnectionFactory(connectionFactory);
 		redisTemplate.setEnableDefaultSerializer(true);
-		redisTemplate.setDefaultSerializer(buildJackson2JsonRedisSerializer());
+		redisTemplate.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
 		redisTemplate.afterPropertiesSet();
 		return redisTemplate;
 	}
@@ -56,27 +48,10 @@ public class RedisAutoConfigure {
 		StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
 		stringRedisTemplate.setConnectionFactory(connectionFactory);
 		stringRedisTemplate.setEnableDefaultSerializer(true);
-		stringRedisTemplate.setDefaultSerializer(buildJackson2JsonRedisSerializer());
+		stringRedisTemplate.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
 
 		stringRedisTemplate.afterPropertiesSet();
 		return stringRedisTemplate;
-	}
-
-	private Jackson2JsonRedisSerializer<Object> buildJackson2JsonRedisSerializer() {
-		// 使用Jackson2JsonRedisSerialize 替换默认序列化(默认采用的是JDK序列化)
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-		objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-		objectMapper.registerModule(new JavaTimeModule());
-		objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL,
-				JsonTypeInfo.As.PROPERTY);
-		GenericJackson2JsonRedisSerializer.registerNullValueSerializer(objectMapper, null);
-
-		Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(
-				Object.class);
-		jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
-
-		return jackson2JsonRedisSerializer;
 	}
 
 	@Bean
