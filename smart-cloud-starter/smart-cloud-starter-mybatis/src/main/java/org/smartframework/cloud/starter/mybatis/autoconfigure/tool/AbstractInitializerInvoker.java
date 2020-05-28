@@ -39,11 +39,8 @@ public abstract class AbstractInitializerInvoker {
 	private final SmartDatasourceProperties multipleDatasourceProperties;
 	private final ConfigurableBeanFactory beanFactory;
 	protected MybatisSqlLogInterceptor mybatisSqlLogInterceptor;
-	/**
-	 * jdbc url默认参数
-	 * !!!此处添加“characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true”中任何一个参数，seata都会报错，可能是seata的bug
-	 */
-	private static final String DEFAULT_JDBCURL_PARAMS = "serverTimezone=Asia/Shanghai";
+	/** jdbc url默认参数 */
+	private static final String DEFAULT_JDBCURL_PARAMS = "serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true";
 
 	public AbstractInitializerInvoker(final SmartDatasourceProperties smartDatasourceProperties,
 			final ConfigurableBeanFactory beanFactory) {
