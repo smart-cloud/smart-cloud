@@ -101,6 +101,12 @@
 
 			<dependency>
 				<groupId>org.smartframework.cloud</groupId>
+				<artifactId>smart-cloud-starter-local</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.smartframework.cloud</groupId>
 				<artifactId>smart-cloud-starter-log</artifactId>
 				<version>${project.version}</version>
 			</dependency>
