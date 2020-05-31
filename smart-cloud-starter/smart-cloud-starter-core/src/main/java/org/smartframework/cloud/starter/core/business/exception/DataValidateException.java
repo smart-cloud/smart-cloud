@@ -13,7 +13,7 @@ public class DataValidateException extends BaseException {
 	private static final long serialVersionUID = 1L;
 
 	public DataValidateException(String message) {
-		setCode(ReturnCodeEnum.DATE_MISSING.getCode());
+		setCode(ReturnCodeEnum.DATA_MISSING.getCode());
 		setMessage(message);
 	}
 

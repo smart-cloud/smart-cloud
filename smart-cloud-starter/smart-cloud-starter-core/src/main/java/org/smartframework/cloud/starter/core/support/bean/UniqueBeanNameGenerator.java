@@ -25,7 +25,7 @@ public class UniqueBeanNameGenerator extends AnnotationBeanNameGenerator {
 		}
 
 		// 如果该bean名称没有指定，则按照“package+className”的规则生成
-			return definition.getBeanClassName();
+		return definition.getBeanClassName();
 	}
 	
 }
