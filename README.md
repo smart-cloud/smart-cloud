@@ -31,7 +31,7 @@ smart-cloud
      ├── smart-cloud-starter-dubbo -- dubbo封装
      ├── smart-cloud-starter-feign -- feign封装（可拆可合、切面处理）
      ├── smart-cloud-starter-job -- 定时任务封装
-     ├── smart-cloud-starter-local -- 国际化封装
+     ├── smart-cloud-starter-locale -- 国际化封装
      ├── smart-cloud-starter-log -- 日志封装（log4j2封装，支持日志敏感数据脱敏）
      ├── smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
      ├── smart-cloud-starter-mybatis -- mybatis封装（支持多数据源、分库分表、分布式事务；通用mapper封装，mapper工具类等;支持通用mapper、mybatis plus）
