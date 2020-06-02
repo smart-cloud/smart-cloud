@@ -24,6 +24,6 @@ public @interface ApiIdempotent {
 	long expireMillis() default 30000;
 
 	/** 提示消息（自定义消息时，要支持国际化） */
-	String message() default "message.smart.repeat.submit";
+	String message() default "web.api.repeat.submit";
 
 }
