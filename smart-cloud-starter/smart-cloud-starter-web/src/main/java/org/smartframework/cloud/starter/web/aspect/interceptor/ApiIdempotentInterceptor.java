@@ -30,8 +30,6 @@ import lombok.AllArgsConstructor;
 public class ApiIdempotentInterceptor implements MethodInterceptor, Ordered {
 
 	private RedisComponent redisComponent;
-	/** md5的长度 */
-	private static final int MD5_LEN = 32;
 
 	@Override
 	public int getOrder() {
@@ -51,13 +49,14 @@ public class ApiIdempotentInterceptor implements MethodInterceptor, Ordered {
 			return invocation.proceed();
 		}
 
-		String repeatSubmitCheckRedisKey = getRepeatSubmitCheckRedisKey(token);
+		
+		String repeatSubmitCheckRedisKey = null;
 		boolean result = false;
 		try {
 			Object reqObject = WebUtil.getRequestArgs(invocation.getArguments());
 			if (reqObject != null) {
-				String reqStrMd5 = getRepeatReqCheckKey(JacksonUtil.toJson(reqObject));
-				Boolean success = redisComponent.setNx(repeatSubmitCheckRedisKey, reqStrMd5, idempotent.expireMillis());
+				repeatSubmitCheckRedisKey = getRepeatSubmitCheckRedisKey(token, JacksonUtil.toJson(reqObject));
+				Boolean success = redisComponent.setNx(repeatSubmitCheckRedisKey, "", idempotent.expireMillis());
 				result = (success != null && success);
 				if (result) {
 					return invocation.proceed();
@@ -74,21 +73,17 @@ public class ApiIdempotentInterceptor implements MethodInterceptor, Ordered {
 		return invocation.proceed();
 	}
 	
-	private final String getRepeatReqCheckKey(String reqStr) {
-		if (reqStr.length() <= MD5_LEN) {
-			return reqStr;
-		}
-		return DigestUtils.md5Hex(reqStr);
-	}
-
 	/**
 	 * 重复提交校验redis key
 	 * 
 	 * @param token
+	 * @param requestParamJson
 	 * @return
 	 */
-	private final String getRepeatSubmitCheckRedisKey(String token) {
-		return RedisKeyPrefix.LOCK.getKey() + "rsc" + RedisKeyPrefix.REDIS_KEY_SEPARATOR.getKey() + token;
+	private final String getRepeatSubmitCheckRedisKey(String token, String requestParamJson) {
+		// url:token:method:request_params
+		String key = WebUtil.getMappingPath()+token+WebUtil.getHttpMethod()+ requestParamJson;
+		return RedisKeyPrefix.LOCK.getKey() + "rsc" + RedisKeyPrefix.REDIS_KEY_SEPARATOR.getKey() + DigestUtils.md5Hex(key);
 	}
 
 }
