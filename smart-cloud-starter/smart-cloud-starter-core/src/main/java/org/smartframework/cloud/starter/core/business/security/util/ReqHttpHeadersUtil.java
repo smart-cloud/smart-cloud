@@ -1,5 +1,7 @@
 package org.smartframework.cloud.starter.core.business.security.util;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -8,10 +10,8 @@ import org.smartframework.cloud.starter.core.business.exception.confg.ParamValid
 import org.smartframework.cloud.starter.core.business.security.ReactiveRequestContextHolder;
 import org.smartframework.cloud.starter.core.business.security.bo.ReqHttpHeadersBO;
 import org.smartframework.cloud.starter.core.business.security.enums.ReqHttpHeadersEnum;
-import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.core.business.util.WebServletUtil;
 import org.smartframework.cloud.starter.core.business.util.WebUtil;
-import org.smartframework.cloud.utility.RandomUtil;
 import org.springframework.http.HttpHeaders;
 
 import lombok.experimental.UtilityClass;
@@ -55,8 +55,7 @@ public class ReqHttpHeadersUtil {
 	 * @return
 	 */
 	public static String generateToken() {
-		// 产生规则：16进制（雪花算法）+2位随机字符混淆
-		return Long.toHexString(SnowFlakeIdUtil.getInstance().nextId()) + RandomUtil.generateRandom(false, 2);
+		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 
 	/**
