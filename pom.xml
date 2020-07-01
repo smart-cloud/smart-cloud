@@ -38,7 +38,7 @@
 		<sharding-jdbc>4.0.1</sharding-jdbc>
 		<seata>1.2.0</seata>
 		<spring-cloud-alibaba-seata>2.2.0.RELEASE</spring-cloud-alibaba-seata>
-		<mysql>8.0.15</mysql>
+		<mysql>8.0.16</mysql>
 		<springfox-swagger2>2.9.2</springfox-swagger2>
 		<swagger-annotations>1.5.20</swagger-annotations>
 		<podam>7.2.3.RELEASE</podam>
