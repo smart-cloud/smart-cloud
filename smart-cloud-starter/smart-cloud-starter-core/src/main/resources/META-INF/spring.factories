@@ -3,4 +3,5 @@ org.smartframework.cloud.starter.core.business.autoconfigure.BootstrapAnnotation
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.smartframework.cloud.starter.core.business.autoconfigure.AsyncAutoConfigure,\
-org.smartframework.cloud.starter.core.business.autoconfigure.SmartFilterAutoConfigure
+org.smartframework.cloud.starter.core.business.autoconfigure.ReactiveFilterAutoConfigure,\
+org.smartframework.cloud.starter.core.business.autoconfigure.ServletFilterAutoConfigure
