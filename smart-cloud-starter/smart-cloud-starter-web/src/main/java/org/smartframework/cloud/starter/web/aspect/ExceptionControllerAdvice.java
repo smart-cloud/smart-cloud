@@ -22,6 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ExceptionControllerAdvice {
 
+	static {
+		// 增加对404等的处理
+		System.setProperty("spring.mvc.throw-exception-if-no-handler-found","true");
+		System.setProperty("spring.resources.add-mappings","false");
+	}
+
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public RespVO<Base> handleException(Exception e) {
