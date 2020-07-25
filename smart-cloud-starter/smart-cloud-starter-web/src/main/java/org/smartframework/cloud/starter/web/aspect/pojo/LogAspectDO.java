@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.web.aspect.pojo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.starter.core.business.security.bo.ReqHttpHeadersBO;
 import org.smartframework.cloud.utility.constant.DateFormartConst;
@@ -25,6 +26,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class LogAspectDO extends Base {
 
 	private static final long serialVersionUID = 1L;
