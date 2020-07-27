@@ -7,6 +7,7 @@ import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.utility.NonceUtil;
 
 import lombok.experimental.UtilityClass;
+import org.smartframework.cloud.utility.spring.I18NUtil;
 
 /**
  * {@link RespHeadVO}工具类
@@ -55,6 +56,21 @@ public class RespHeadUtil {
 		if (StringUtils.isNotBlank(message)) {
 			respHeadVO.setMessage(message);
 		}
+
+		return respHeadVO;
+	}
+
+	/**
+	 * 构造RespHead对象（i18n message）
+	 *
+	 * @param returnCode
+	 * @return
+	 */
+	public static RespHeadVO ofI18n(IBaseReturnCode returnCode) {
+		RespHeadVO respHeadVO = new RespHeadVO(returnCode);
+		respHeadVO.setTimestamp(System.currentTimeMillis());
+		respHeadVO.setNonce(NonceUtil.getInstance().nextId());
+		respHeadVO.setMessage(I18NUtil.getMessage(returnCode.getMessage()));
 
 		return respHeadVO;
 	}

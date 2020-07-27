@@ -4,7 +4,6 @@ import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
-import org.smartframework.cloud.utility.spring.I18NUtil;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 /**
@@ -21,7 +20,7 @@ public class HttpRequestMethodNotSupportedExceptionHandlerStrategy implements IE
 
 	@Override
 	public RespHeadVO transRespHead(Throwable e) {
-		return RespHeadUtil.of(ReturnCodeEnum.REQUEST_METHOD_NOT_SUPPORTED, I18NUtil.getMessage(e.getMessage()));
+		return RespHeadUtil.ofI18n(ReturnCodeEnum.REQUEST_METHOD_NOT_SUPPORTED);
 	}
 
 }

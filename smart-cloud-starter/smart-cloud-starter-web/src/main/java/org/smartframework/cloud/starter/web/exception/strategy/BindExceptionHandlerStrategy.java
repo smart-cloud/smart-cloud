@@ -1,7 +1,5 @@
 package org.smartframework.cloud.starter.web.exception.strategy;
 
-import java.util.List;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
@@ -10,6 +8,8 @@ import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.smartframework.cloud.starter.web.exception.util.ExceptionUtil;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+
+import java.util.List;
 
 /**
  * @desc 参数检验异常转换

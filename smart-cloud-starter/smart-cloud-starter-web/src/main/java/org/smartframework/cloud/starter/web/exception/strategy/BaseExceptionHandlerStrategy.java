@@ -7,21 +7,21 @@ import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.smartframework.cloud.utility.spring.I18NUtil;
 
 /**
- * @desc 自定义异常传唤
  * @author liyulin
+ * @desc 自定义异常转换
  * @date 2019/10/29
  */
 public class BaseExceptionHandlerStrategy implements IExceptionHandlerStrategy {
 
-	@Override
-	public boolean match(Throwable e) {
-		return e instanceof BaseException;
-	}
+    @Override
+    public boolean match(Throwable e) {
+        return e instanceof BaseException;
+    }
 
-	@Override
-	public RespHeadVO transRespHead(Throwable e) {
-		BaseException ex = (BaseException) e;
-		return RespHeadUtil.of(ex.getCode(), I18NUtil.getMessage(ex.getMessage()));
-	}
+    @Override
+    public RespHeadVO transRespHead(Throwable e) {
+        BaseException ex = (BaseException) e;
+        return RespHeadUtil.of(ex.getCode(), I18NUtil.getMessage(ex.getMessage()));
+    }
 
 }
