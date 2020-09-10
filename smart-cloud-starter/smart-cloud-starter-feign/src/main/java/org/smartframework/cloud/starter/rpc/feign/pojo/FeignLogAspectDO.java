@@ -29,9 +29,6 @@ public class FeignLogAspectDO extends Base {
 
 	private static final long serialVersionUID = 1L;
 
-	/** 接口描述 */
-	private String apiDesc;
-
 	/** 调用的类方法 */
 	private String classMethod;
 

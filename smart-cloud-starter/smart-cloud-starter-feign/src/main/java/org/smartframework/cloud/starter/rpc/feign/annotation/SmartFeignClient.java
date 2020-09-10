@@ -4,7 +4,6 @@ import org.smartframework.cloud.starter.rpc.feign.condition.SmartFeignClientCond
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.core.annotation.AliasFor;
-import springfox.documentation.annotations.ApiIgnore;
 
 import java.lang.annotation.*;
 
@@ -14,25 +13,24 @@ import java.lang.annotation.*;
  * @author liyulin
  * @date 2019-03-22
  */
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 @FeignClient
 @Conditional(SmartFeignClientCondition.class)
-@ApiIgnore
 public @interface SmartFeignClient {
 
-	@AliasFor(annotation = FeignClient.class)
-	String name() default "";
+    @AliasFor(annotation = FeignClient.class)
+    String name() default "";
 
-	@AliasFor(annotation = FeignClient.class)
-	String url() default "";
+    @AliasFor(annotation = FeignClient.class)
+    String url() default "";
 
-	@AliasFor(annotation = FeignClient.class)
-	String contextId() default "";
+    @AliasFor(annotation = FeignClient.class)
+    String contextId() default "";
 
-	@AliasFor(annotation = FeignClient.class)
-	Class<?> fallback() default void.class;
+    @AliasFor(annotation = FeignClient.class)
+    Class<?> fallback() default void.class;
 
 }

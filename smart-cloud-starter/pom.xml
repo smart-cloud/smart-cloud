@@ -20,7 +20,6 @@
 		<module>smart-cloud-starter-mock</module>
 		<module>smart-cloud-starter-mybatis</module>
 		<module>smart-cloud-starter-redis</module>
-		<module>smart-cloud-starter-swagger</module>
 		<module>smart-cloud-starter-test</module>
 		<module>smart-cloud-starter-web</module>
 	</modules>

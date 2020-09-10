@@ -28,8 +28,6 @@ public class SmartProperties extends Base {
 	private ApiProperties api = new ApiProperties();
 	/** 切面配置 */
 	private AspectProperties aspect = new AspectProperties();
-	/** swagger配置 */
-	private SwaggerProperties swagger = new SwaggerProperties();
 	/** xxl-job配置 */
 	private XxlJobProperties xxlJob = new XxlJobProperties();
 	/** 多语言配置 */

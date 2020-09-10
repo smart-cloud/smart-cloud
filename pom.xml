@@ -39,8 +39,6 @@
 		<seata>1.2.0</seata>
 		<spring-cloud-alibaba-seata>2.2.0.RELEASE</spring-cloud-alibaba-seata>
 		<mysql>8.0.15</mysql>
-		<springfox-swagger2>2.9.2</springfox-swagger2>
-		<swagger-annotations>1.5.20</swagger-annotations>
 		<podam>7.2.3.RELEASE</podam>
 		<guava>28.1-jre</guava>
 		<reflections>0.9.12</reflections>
@@ -132,12 +130,6 @@
 			<dependency>
 				<groupId>org.smartframework.cloud</groupId>
 				<artifactId>smart-cloud-starter-feign</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-swagger</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 
@@ -396,36 +388,6 @@
 				<version>${commons-io}</version>
 			</dependency>
 
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${springfox-swagger2}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-core</artifactId>
-				<version>${springfox-swagger2}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger-ui</artifactId>
-				<version>${springfox-swagger2}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-bean-validators</artifactId>
-				<version>${springfox-swagger2}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>io.swagger</groupId>
-				<artifactId>swagger-annotations</artifactId>
-				<version>${swagger-annotations}</version>
-			</dependency>
-			
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>javax.servlet-api</artifactId>

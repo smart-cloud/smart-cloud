@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.smartframework.cloud.starter.swagger.autoconfigure.Swagger2AutoConfigure,\
-org.smartframework.cloud.starter.swagger.autoconfigure.SmartApiACOperationBuilderPlugin

@@ -1,39 +1,47 @@
 package org.smartframework.cloud.common.pojo.vo;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
-import org.smartframework.cloud.common.pojo.Base;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.smartframework.cloud.common.pojo.Base;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+/**
+ * 分页请求参数基类
+ *
+ * @author liyulin
+ * @date 2020-05-07
+ */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "分页请求参数基类")
 public class BasePageReqVO<T> extends Base {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "分页请求参数（不包括分页信息）")
-	@Valid
-	private T query;
+    /**
+     * 分页请求参数（不包括分页信息）
+     */
+    @Valid
+    private T query;
 
-	@ApiModelProperty(value = "第几页，第1页值为1", required = true, example = "1")
-	@NotNull
-	@Min(value = 1)
-	private Integer pageNum;
+    /**
+     * 第几页，第1页值为1
+     */
+    @NotNull
+    @Min(value = 1)
+    private Integer pageNum;
 
-	@ApiModelProperty(value = "页面数据大小", required = true, example = "10")
-	@NotNull
-	@Min(value = 1)
-	private Integer pageSize;
+    /**
+     * 页面数据大小
+     */
+    @NotNull
+    @Min(value = 1)
+    private Integer pageSize;
 
 }
