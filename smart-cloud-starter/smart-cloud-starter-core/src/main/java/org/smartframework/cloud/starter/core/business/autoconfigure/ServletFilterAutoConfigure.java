@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.core.business.autoconfigure;
 
-import org.smartframework.cloud.starter.core.business.security.filter.ServletFilter;
+import org.smartframework.cloud.starter.core.business.filter.ServletFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

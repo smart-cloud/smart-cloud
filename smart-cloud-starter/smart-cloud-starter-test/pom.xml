@@ -1,46 +1,52 @@
 <?xml version="1.0"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.smartframework.cloud</groupId>
-		<artifactId>smart-cloud-starter</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
-	<artifactId>smart-cloud-starter-test</artifactId>
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.smartframework.cloud</groupId>
+        <artifactId>smart-cloud-starter</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>smart-cloud-starter-test</artifactId>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.smartframework.cloud</groupId>
-			<artifactId>smart-cloud-starter-log</artifactId>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>org.smartframework.cloud</groupId>
+            <artifactId>smart-cloud-starter-log</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.smartframework.cloud</groupId>
-			<artifactId>smart-cloud-starter-mock</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.smartframework.cloud</groupId>
-			<artifactId>smart-utility</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.smartframework.cloud</groupId>
+            <artifactId>smart-cloud-starter-mock</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-		</dependency>
+        <!--解决“使用@SpyBean时报 Mockito cannot mock/spy because : - final class”-->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.smartframework.cloud</groupId>
+            <artifactId>smart-utility</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<scope>provided</scope>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>

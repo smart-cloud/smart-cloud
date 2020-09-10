@@ -7,7 +7,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.starter.core.business.security.ReactiveRequestContextHolder;
+import org.smartframework.cloud.starter.core.business.filter.ReactiveRequestContextHolder;
 import org.springframework.util.ClassUtils;
 
 import lombok.experimental.UtilityClass;
