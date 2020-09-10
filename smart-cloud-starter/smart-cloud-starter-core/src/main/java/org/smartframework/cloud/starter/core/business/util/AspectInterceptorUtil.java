@@ -51,7 +51,7 @@ public class AspectInterceptorUtil {
             }
         }
 
-        return "(" + executions + ") && (" + controllerExpression + ")";
+        return "(" + executions + ") && (" + controllerExpression + ") && !@annotation(org.springframework.web.bind.annotation.InitBinder)";
     }
 
 }
