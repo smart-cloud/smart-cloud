@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.test.core;
+package org.smartframework.cloud.starter.test.integration;
 
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;

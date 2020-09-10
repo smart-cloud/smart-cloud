@@ -1,9 +1,8 @@
-package org.smartframework.cloud.starter.test.core;
+package org.smartframework.cloud.starter.test.integration;
 
 import junit.framework.TestCase;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.runner.RunWith;
-import org.smartframework.cloud.starter.test.core.MockitoBeansTestExecutionListener;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;

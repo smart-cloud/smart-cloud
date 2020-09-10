@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.test.core;
+package org.smartframework.cloud.starter.test.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
