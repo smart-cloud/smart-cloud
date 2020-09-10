@@ -39,7 +39,8 @@ public class AllTestsRunner extends Suite {
 		String testCasePackage = bootstrapClazz.getPackage().getName();
 		log.info("扫描package={}", testCasePackage);
 		Reflections reflections = new Reflections(testCasePackage);
-		
+
+		// 继承TestCase的类
 		Class<?>[] allSuperClass = { TestCase.class };
 		Set<Class<?>> testClassSet = new HashSet<>();
 		for (Class<?> superClass : allSuperClass) {
