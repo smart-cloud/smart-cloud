@@ -28,10 +28,12 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
     public <T> T post(String url, Object req, TypeReference<T> typeReference) throws Exception {
         String requestJsonStr = JacksonUtil.toJson(req);
         log.info("test.requestBody={}", requestJsonStr);
-        byte[] resultBytes = webTestClient.post().uri(url)
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(req)
-                .acceptCharset(StandardCharsets.UTF_8)
+        WebTestClient.RequestBodySpec requestBodySpec = webTestClient.post().uri(url)
+                .contentType(MediaType.APPLICATION_JSON);
+        if (req != null) {
+            requestBodySpec.bodyValue(req);
+        }
+        byte[] resultBytes = requestBodySpec.acceptCharset(StandardCharsets.UTF_8)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectBody()
