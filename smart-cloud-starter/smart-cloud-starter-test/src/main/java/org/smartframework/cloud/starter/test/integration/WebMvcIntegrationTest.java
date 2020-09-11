@@ -3,7 +3,6 @@ package org.smartframework.cloud.starter.test.integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
-import org.smartframework.cloud.starter.test.AbstractUnitTest;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,7 +23,7 @@ import java.util.Map;
  * @date 2020-09-07
  */
 @Slf4j
-public class WebMvcIntegrationTest extends AbstractUnitTest implements IIntegrationTest {
+public class WebMvcIntegrationTest extends AbstractIntegrationTest implements IIntegrationTest {
 
     @Autowired
     protected WebApplicationContext applicationContext;
