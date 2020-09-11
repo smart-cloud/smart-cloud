@@ -36,6 +36,7 @@ import lombok.experimental.UtilityClass;
 
 /**
  * RSA非对称加密工具类
+ * <p>注意：加密的文本长度<=秘钥长度/8</p>
  * 
  * @author liyulin
  * @date 2019-06-24
