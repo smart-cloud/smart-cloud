@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.core.business.filter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.starter.core.business.enums.ApiUseSideEnum;
+import org.smartframework.cloud.starter.core.constants.ProtostuffConstant;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ServletFilter implements Filter {
 
-    private static final String PROTOBUF_CONTENT_TYPE = "application/x-protobuf";
+    private static final String PROTOBUF_CONTENT_TYPE = ProtostuffConstant.PROTOBUF_MEDIA_TYPE.toString();
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)

@@ -22,7 +22,7 @@ import java.util.Map;
 public class WebReactiveIntegrationTest extends AbstractIntegrationTest implements IIntegrationTest {
 
     @Autowired
-    public WebTestClient webTestClient;
+    protected WebTestClient webTestClient;
 
     @Override
     public <T> T post(String url, Object req, TypeReference<T> typeReference) throws Exception {
