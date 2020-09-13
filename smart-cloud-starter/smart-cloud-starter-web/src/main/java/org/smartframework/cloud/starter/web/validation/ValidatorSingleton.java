@@ -5,7 +5,6 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.hibernate.validator.HibernateValidator;
-import org.smartframework.cloud.starter.web.validation.valueextraction.BasePageReqExtractor;
 
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
@@ -25,7 +24,6 @@ public class ValidatorSingleton {
 		private Holder() {
 			ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
 					.configure()
-					.addValueExtractor(BasePageReqExtractor.DESCRIPTOR.getValueExtractor())
 					.addProperty("hibernate.validator.fail_fast", "true")
 					.buildValidatorFactory();
 			validator = validatorFactory.getValidator();

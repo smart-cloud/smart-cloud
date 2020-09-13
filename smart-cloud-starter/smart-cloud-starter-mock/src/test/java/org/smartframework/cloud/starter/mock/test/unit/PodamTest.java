@@ -1,23 +1,23 @@
 package org.smartframework.cloud.starter.mock.test.unit;
 
-import java.lang.annotation.Annotation;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.api.Assertions;
-import org.smartframework.cloud.common.pojo.Base;
-import org.smartframework.cloud.common.pojo.vo.BasePageReqVO;
-import org.smartframework.cloud.starter.mock.util.MockUtil;
-import org.smartframework.cloud.starter.mock.util.TypeReference;
-
 import junit.framework.TestCase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.api.Assertions;
+import org.smartframework.cloud.common.pojo.Base;
+import org.smartframework.cloud.starter.mock.util.MockUtil;
+import org.smartframework.cloud.starter.mock.util.TypeReference;
+import org.smartframework.cloud.utility.JacksonUtil;
 import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.PodamLongValue;
 import uk.co.jemos.podam.common.PodamStrategyValue;
 import uk.co.jemos.podam.common.PodamStringValue;
+
+import java.lang.annotation.Annotation;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 public class PodamTest extends TestCase {
@@ -40,23 +40,17 @@ public class PodamTest extends TestCase {
 	@SuppressWarnings("unchecked")
 	public void testMockSimpleGenericObject() {
 		// mock方式1
-		BasePageReqVO<Product> resp1 = MockUtil.mock(BasePageReqVO.class, Product.class);
-		log.info("单层泛型对象resp1=>{}", resp1);
+		List<Product> list = MockUtil.mock(List.class, Product.class);
+		log.info("单层泛型对象resp1=>{}", JacksonUtil.toJson(list));
 		
-		Assertions.assertThat(resp1).isNotNull();
-		Assertions.assertThat(resp1.getQuery()).isNotNull();
-		Assertions.assertThat(resp1.getQuery().getName()).isNotBlank();
-		Assertions.assertThat(resp1.getQuery().getPrice()).isNotNull();
+		Assertions.assertThat(list).isNotEmpty();
 
 		// mock方式2
-		BasePageReqVO<Product> resp2 = MockUtil.mock(new TypeReference<BasePageReqVO<Product>>() {
+		Set<Product> set = MockUtil.mock(new TypeReference<Set<Product>>() {
 		});
-		log.info("单层泛型对象resp2=>{}", resp2);
+		log.info("单层泛型对象resp2=>{}", JacksonUtil.toJson(set));
 
-		Assertions.assertThat(resp2).isNotNull();
-		Assertions.assertThat(resp2.getQuery()).isNotNull();
-		Assertions.assertThat(resp2.getQuery().getName()).isNotBlank();
-		Assertions.assertThat(resp2.getQuery().getPrice()).isNotNull();
+		Assertions.assertThat(set).isNotEmpty();
 	}
 
 	public void testMockCustomizeStrategy() {

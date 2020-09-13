@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.smartframework.cloud.common.pojo.Base;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -20,15 +19,9 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasePageReqVO<T> extends Base {
+public class BasePageReqVO extends Base {
 
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 分页请求参数（不包括分页信息）
-     */
-    @Valid
-    private T query;
 
     /**
      * 第几页，第1页值为1
