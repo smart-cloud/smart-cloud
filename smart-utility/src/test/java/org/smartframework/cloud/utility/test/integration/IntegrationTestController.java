@@ -1,47 +1,43 @@
 package org.smartframework.cloud.utility.test.integration;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.smartframework.cloud.utility.test.integration.vo.GetPageReqVO;
+import org.smartframework.cloud.utility.test.integration.vo.GetPageRespVO;
 import org.smartframework.cloud.utility.test.integration.vo.PostUrlEncodedReqVO;
 import org.smartframework.cloud.utility.test.integration.vo.PostUrlEncodedRespVO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("test")
 public class IntegrationTestController {
 
-	@GetMapping
-	public String get(String str) {
-		return str;
-	}
-	
-	@GetMapping("page")
-	public List<String> page(String str) {
-		List<String> list = new ArrayList<>();
-		list.add(str);
-		return list;
-	}
+    @GetMapping
+    public String get(String str) {
+        return str;
+    }
 
-	@PostMapping
-	public String post(@RequestBody String str) {
-		return str;
-	}
+    @GetMapping("page")
+    public GetPageRespVO page(GetPageReqVO reqVO) {
+        return new GetPageRespVO(reqVO.getStr(), reqVO.getIds());
+    }
 
-	@PostMapping("list")
-	public List<String> list(@RequestBody String str) {
-		List<String> list = new ArrayList<>();
-		list.add(str);
-		return list;
-	}
-	
-	@PostMapping("postUrlEncoded")
-	public PostUrlEncodedRespVO postUrlEncoded(PostUrlEncodedReqVO req) {
-		return new PostUrlEncodedRespVO(req.getId());
-	}
-	
+    @PostMapping
+    public String post(@RequestBody String str) {
+        return str;
+    }
+
+    @PostMapping("list")
+    public List<String> list(@RequestBody String str) {
+        List<String> list = new ArrayList<>();
+        list.add(str);
+        return list;
+    }
+
+    @PostMapping("postUrlEncoded")
+    public PostUrlEncodedRespVO postUrlEncoded(PostUrlEncodedReqVO req) {
+        return new PostUrlEncodedRespVO(req.getId());
+    }
+
 }

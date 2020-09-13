@@ -1,7 +1,9 @@
 package org.smartframework.cloud.starter.test.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -89,10 +95,23 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE);
 
-        Map<String, String> requestMap = JacksonUtil.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {
-        });
-        if (requestMap != null) {
-            requestMap.forEach(mockHttpServletRequestBuilder::param);
+        if (StringUtils.isNotBlank(requestJsonStr)) {
+            JsonNode jsonNodeElements = JacksonUtil.parseObject(requestJsonStr);
+            Iterator<Map.Entry<String, JsonNode>> jsonNodeIterator = jsonNodeElements.fields();
+            while (jsonNodeIterator.hasNext()) {
+                Map.Entry<String, JsonNode> entry = jsonNodeIterator.next();
+                JsonNode jsonNode = entry.getValue();
+                if (jsonNode.isArray()) {
+                    String[] values = new String[jsonNode.size()];
+                    for (int i = 0; i < values.length; i++) {
+                        String value = jsonNode.get(i).isNull()? null : String.valueOf(jsonNode.get(i));
+                        values[i] = value;
+                    }
+                    mockHttpServletRequestBuilder.param(entry.getKey(), values);
+                } else if (!jsonNode.isNull()) {
+                    mockHttpServletRequestBuilder.param(entry.getKey(), String.valueOf(jsonNode));
+                }
+            }
         }
 
         MockHttpServletResponse response = mockMvc.perform(mockHttpServletRequestBuilder)

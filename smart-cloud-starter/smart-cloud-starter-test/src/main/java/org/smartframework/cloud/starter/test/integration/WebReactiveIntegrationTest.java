@@ -1,7 +1,9 @@
 package org.smartframework.cloud.starter.test.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -9,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -50,8 +54,28 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
     public <T> T get(String url, Object req, TypeReference<T> typeReference) throws Exception {
         String requestJsonStr = JacksonUtil.toJson(req);
         log.info("test.requestBody={}", requestJsonStr);
-        Map<String, String> params = JacksonUtil.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {
-        });
+        Map<String, Object> params = null;
+        if (StringUtils.isNotBlank(requestJsonStr)) {
+            params = new LinkedHashMap<>();
+            JsonNode jsonNodeElements = JacksonUtil.parseObject(requestJsonStr);
+            Iterator<Map.Entry<String, JsonNode>> jsonNodeIterator = jsonNodeElements.fields();
+            while (jsonNodeIterator.hasNext()) {
+                Map.Entry<String, JsonNode> entry = jsonNodeIterator.next();
+                JsonNode jsonNode = entry.getValue();
+                if (jsonNode.isArray()) {
+                    String[] values = new String[jsonNode.size()];
+                    for (int i = 0; i < values.length; i++) {
+                        String value = jsonNode.get(i).isNull() ? null : String.valueOf(jsonNode.get(i));
+                        values[i] = value;
+                    }
+                    params.put(entry.getKey(), values);
+                } else if (!jsonNode.isNull()) {
+                    params.put(entry.getKey(), String.valueOf(jsonNode));
+                }
+            }
+        }
+
+
         byte[] resultBytes = webTestClient.get().uri(url, params)
                 .acceptCharset(StandardCharsets.UTF_8)
                 .accept(MediaType.APPLICATION_JSON)
