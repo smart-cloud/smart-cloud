@@ -4,9 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.Before;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -22,11 +23,19 @@ import java.util.Map;
  * @date 2020-09-07
  */
 @Slf4j
-@AutoConfigureWebTestClient
 public class WebReactiveIntegrationTest extends AbstractIntegrationTest implements IIntegrationTest {
 
-    @Autowired
     protected WebTestClient webTestClient;
+
+    @Autowired
+    protected ApplicationContext applicationContext;
+
+    @Before
+    public void initMock() {
+        if (webTestClient == null) {
+            webTestClient = WebTestClient.bindToApplicationContext(applicationContext).build();
+        }
+    }
 
     @Override
     public <T> T post(String url, Object req, TypeReference<T> typeReference) throws Exception {
@@ -44,10 +53,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
                 .returnResult()
                 .getResponseBody();
 
-        String result = new String(resultBytes);
-        log.info("test.result={}", result);
-
-        return JacksonUtil.parseObject(result, typeReference);
+        return deserializeResponse(resultBytes, typeReference, url);
     }
 
     @Override
@@ -75,7 +81,6 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
             }
         }
 
-
         byte[] resultBytes = webTestClient.get().uri(url, params)
                 .acceptCharset(StandardCharsets.UTF_8)
                 .accept(MediaType.APPLICATION_JSON)
@@ -83,10 +88,8 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
                 .expectBody()
                 .returnResult()
                 .getResponseBody();
-        String result = new String(resultBytes);
-        log.info("test.result={}", result);
 
-        return JacksonUtil.parseObject(result, typeReference);
+        return deserializeResponse(resultBytes, typeReference, url);
     }
 
 }

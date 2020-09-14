@@ -18,12 +18,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.protostuff</groupId>
-			<artifactId>protostuff-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.protostuff</groupId>
-			<artifactId>protostuff-runtime</artifactId>
+			<groupId>org.smartframework.cloud</groupId>
+			<artifactId>smart-utility</artifactId>
 		</dependency>
 
 		<dependency>

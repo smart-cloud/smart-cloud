@@ -13,12 +13,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.servlet.Filter;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -38,7 +36,15 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
     @Before
     public void initMock() {
         if (mockMvc == null) {
-            mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
+            // 添加过滤器
+            Map<String, Filter> filterMap = applicationContext.getBeansOfType(Filter.class);
+            Filter[] filters = new Filter[filterMap.size()];
+            int i = 0;
+            for (Map.Entry<String, Filter> entry : filterMap.entrySet()) {
+                filters[i++] = entry.getValue();
+            }
+
+            mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).addFilters(filters).build();
         }
     }
 
@@ -69,10 +75,8 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .andReturn()
                 .getResponse();
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        String content = response.getContentAsString();
-        log.info("test.result={}", content);
 
-        return JacksonUtil.parseObject(content, typeReference);
+        return deserializeResponse(response.getContentAsByteArray(), typeReference, url);
     }
 
     /**
@@ -104,7 +108,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 if (jsonNode.isArray()) {
                     String[] values = new String[jsonNode.size()];
                     for (int i = 0; i < values.length; i++) {
-                        String value = jsonNode.get(i).isNull()? null : String.valueOf(jsonNode.get(i));
+                        String value = jsonNode.get(i).isNull() ? null : String.valueOf(jsonNode.get(i));
                         values[i] = value;
                     }
                     mockHttpServletRequestBuilder.param(entry.getKey(), values);
@@ -118,11 +122,8 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .andReturn()
                 .getResponse();
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        String content = response.getContentAsString();
 
-        log.info("test.result={}", content);
-
-        return JacksonUtil.parseObject(content, typeReference);
+        return deserializeResponse(response.getContentAsByteArray(), typeReference, url);
     }
 
 }
