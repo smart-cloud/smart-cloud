@@ -25,5 +25,7 @@ public class CommonBO {
 	private String className;
 	/** 表备注 */
 	private String tableComment;
+	/** 类注释信息 */
+	private ClassCommentBO classComment;
 
 }
