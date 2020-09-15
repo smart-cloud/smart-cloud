@@ -1,6 +1,6 @@
 # 一、功能特征
 **一个基于spring cloud实现的脚手架。所实现功能如下：**
-- [接口文档自动生成（利用swagger生成原始json数据，然后上传到yapi）](https://github.com/smart-cloud/smart-cloud#%E4%BA%94%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)
+- [接口文档自动生成（利用idea yapi插件上传到yapi server）](https://github.com/smart-cloud/smart-cloud#%E4%BA%94%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)
 - [可以生成mock数据，充分发挥前后端分离的作用](https://github.com/smart-cloud/smart-cloud#%E4%B8%89%E6%8E%A5%E5%8F%A3mock%E6%95%B0%E6%8D%AE)
 - [部署灵活，服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）部署，合并后也可拆分开部署](https://github.com/smart-cloud/smart-cloud#%E5%9B%9B%E6%9C%8D%E5%8A%A1%E5%90%88%E5%B9%B6%E5%8E%9F%E7%90%86)
 - 业务无关代码自动生成
@@ -11,7 +11,6 @@
 - 敏感配置信息支持加密
 - [日志敏感数据脱敏](https://github.com/smart-cloud/smart-cloud#%E4%BA%8C%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F)
 - 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭eureka、sentinel等）
-- 代码安全保护
 - 技术栈稳定、实用、易用
 
 示例工程见[smart-cloud-examples](https://github.com/smart-cloud/smart-cloud-examples)
@@ -36,7 +35,6 @@ smart-cloud
      ├── smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
      ├── smart-cloud-starter-mybatis -- mybatis封装（支持多数据源、分库分表、分布式事务；通用mapper封装，mapper工具类等;支持通用mapper、mybatis plus）
      ├── smart-cloud-starter-redis -- redis封装
-     ├── smart-cloud-starter-swagger -- swagger封装（校验注解，文档自动上传）
      ├── smart-cloud-starter-test -- test封装
      └── smart-cloud-starter-web -- web封装（切面、异常处理、参数校验）
 ```
@@ -63,8 +61,7 @@ smart-cloud
 [Hibernator-Validator](http://hibernate.org/validator/) | 参数校验 
 [mockito](https://site.mockito.org/)、[podam](https://github.com/mtedone/podam) | 单元测试、数据mock
 [freemarker](https://freemarker.apache.org/) | 用于代码生成
-[swagger](https://swagger.io/)、[yapi](https://github.com/YMFE/yapi) | 接口文档 
-[xjar](https://github.com/core-lib/xjar) | 代码安全 
+[yapi](https://github.com/YMFE/yapi)、[idea yapi upload plugin](https://github.com/smart-cloud/yapi_upload) | 接口文档 
 [jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot) | 配置文件中敏感数据加解密
 [Lombok](https://www.projectlombok.org/) | 简化代码 
 
@@ -139,8 +136,7 @@ smart:
 
 ## （五）接口文档
 ### 1、接口文档由以下步骤自动生成：
-1. 通过swagger自动生成接口文档的json格式数据；
-2. 监听服务启动，并将json格式的swagger api docs数据上传（可根据配置的开关控制是否上传）到yapi。
+通过[idea yapi upload plugin](https://github.com/smart-cloud/yapi_upload)插件，上传到[yapi server](https://github.com/YMFE/yapi)
 
 ### 2、接口文档效果图
 #### 概要
