@@ -25,6 +25,7 @@ public class MaskJsonSerializer extends JsonSerializer<Object> implements Contex
 
 	private MaskLog maskLog;
 
+	@Override
 	public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property)
 			throws JsonMappingException {
 		if (property != null) {

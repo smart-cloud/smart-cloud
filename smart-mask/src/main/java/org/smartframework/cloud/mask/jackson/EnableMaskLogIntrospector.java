@@ -1,10 +1,9 @@
 package org.smartframework.cloud.mask.jackson;
 
-import java.lang.annotation.Annotation;
-
+import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import org.smartframework.cloud.mask.MaskLog;
 
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import java.lang.annotation.Annotation;
 
 /**
  * 使{@link MaskLog}注解生效，相当与{@code @JacksonAnnotationsInside}的作用
@@ -14,15 +13,15 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
  */
 public class EnableMaskLogIntrospector extends JacksonAnnotationIntrospector {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public boolean isAnnotationBundle(Annotation ann) {
-		if (ann.annotationType() == MaskLog.class) {
-			return true;
-		} else {
-			return super.isAnnotationBundle(ann);
-		}
-	}
+    @Override
+    public boolean isAnnotationBundle(Annotation ann) {
+        if (ann.annotationType() == MaskLog.class) {
+            return true;
+        } else {
+            return super.isAnnotationBundle(ann);
+        }
+    }
 
 }
