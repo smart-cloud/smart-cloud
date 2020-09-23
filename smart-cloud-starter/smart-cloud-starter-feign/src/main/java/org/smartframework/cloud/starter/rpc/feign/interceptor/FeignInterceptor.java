@@ -5,6 +5,7 @@ import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.smartframework.cloud.starter.core.business.filter.ReactiveRequestContextHolder;
 import org.smartframework.cloud.starter.core.business.util.WebReactiveUtil;
 import org.smartframework.cloud.starter.core.business.util.WebUtil;
 import org.smartframework.cloud.starter.core.constants.SymbolConstant;
@@ -73,15 +74,16 @@ public class FeignInterceptor implements MethodInterceptor, RequestInterceptor {
     }
 
     private void fillReactiveHeader(RequestTemplate template) {
-        ServerHttpRequest serverHttpRequest = WebReactiveUtil.getServerHttpRequest();
+        ServerHttpRequest serverHttpRequest = ReactiveRequestContextHolder.getServerHttpRequest();
+        if (serverHttpRequest == null) {
+            return;
+        }
         HttpHeaders httpHeaders = serverHttpRequest.getHeaders();
         if (httpHeaders == null) {
             return;
         }
 
-        httpHeaders.forEach((k, v) -> {
-            template.header(k, v);
-        });
+        httpHeaders.forEach(template::header);
     }
 
     private void fillServletHeader(RequestTemplate template) {

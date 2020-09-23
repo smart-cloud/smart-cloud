@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.core.business.autoconfigure;
 
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.core.support.annotation.SmartSpringCloudApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @desc BasePackages初始化

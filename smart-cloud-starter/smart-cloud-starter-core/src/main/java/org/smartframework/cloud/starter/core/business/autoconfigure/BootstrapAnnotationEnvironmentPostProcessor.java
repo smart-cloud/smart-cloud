@@ -25,8 +25,9 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
 			SmartSpringCloudApplication smartSpringCloudApplication = AnnotationUtils
 					.findAnnotation(mainApplicationClass, SmartSpringCloudApplication.class);
 			if (smartSpringCloudApplication == null) {
+				// 此处findFromClass的参数为测试启动类
 				mainApplicationClass = new AnnotatedClassFinder(SmartSpringCloudApplication.class)
-						.findFromClass(mainApplicationClass);// 此处findFromClass的参数为测试启动类
+						.findFromClass(mainApplicationClass);
 				if (mainApplicationClass == null) {
 					return;
 				}
