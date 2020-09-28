@@ -49,7 +49,7 @@ smart-cloud
 [spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 
 [openfeign](https://spring.io/projects/spring-cloud-openfeign)、[protostuff](https://github.com/protostuff/protostuff) | 声明式服务调用 
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
-[mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mapper](https://github.com/abel533/Mapper)、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM 
+[mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM 
 [seata](https://github.com/seata/seata) | 分布式事务
 [sentinel](https://github.com/alibaba/Sentinel) | 限流、熔断降级
 [sharding jdbc](https://github.com/apache/incubator-shardingsphere) | 分库分表
@@ -72,42 +72,19 @@ smart-cloud
 # 五、相关说明
 ## （一）服务合并遇到的问题
 单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
-### 1、多数据源冲突
-```
-1. 定义单数据源properties对象SingleDataSourceProperties，多数据源配置数据以Map<String, SingleDataSourceProperties>的形式从yml文件中读取；
-2. 手动（通过new方式）构建所有需要的bean对象；
-3. 手动将bean注入到容器中。
-```
-**多数据源配置示例：**
-```
-smart:
-  data-sources:
-	product:
-	  url: jdbc:mysql://127.0.0.1:3306/demo_product?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-	  username: root
-	  password: 123456
-	  mapper-interface-location: com.xxx.demo.mall.product.mapper
-	  mapper-xml-location: classpath*:com/xxx/demo/mall/product/mybatis/**.xml
-	order:
-	  url: jdbc:mysql://127.0.0.1:3306/demo_order?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-	  username: root
-	  password: 123456
-	  mapper-interface-location: com.xxx.demo.mall.order.mapper
-	  mapper-xml-location: classpath*:com/xxx/demo/mall/order/mybatis/**.xml
-```
-### 2、rpc与rpc实现类冲突
+### 1、rpc与rpc实现类冲突
 ```
 自定义条件注解封装FeignClient。使其在单体服务时，rpc走feign；在合体服务时，rpc走内部进程通信。
 ```
-### 3、yaml文件的自动加载
+### 2、yaml文件的自动加载
 ```
 自定义注解YamlScan，用来加载配置的yaml文件（支持正则匹配）。通过SPI机制，在spring.factories文件中添加EnvironmentPostProcessor的实现类，通过其方法参数SpringApplication获取启动类的信息，从而获取YamlScan注解配置的yaml文件信息。然后将yaml文件加到ConfigurableEnvironment中。
 ```
-### 4、启动类注解冲突
+### 3、启动类注解冲突
 ```
 自定义条件注解SmartSpringCloudApplicationCondition，只会让启动类标记的启动注解生效。
 ```
-### 5、maven打包异常
+### 4、maven打包异常
 ```
 合体服务打包时，单体服务依赖的包也打进单体服务jar。通过maven profiles解决
 ```

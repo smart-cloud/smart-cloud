@@ -1,520 +1,501 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.1.RELEASE</version>
-	</parent>
-	<groupId>org.smartframework.cloud</groupId>
-	<artifactId>smart-cloud</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.1.RELEASE</version>
+    </parent>
+    <groupId>org.smartframework.cloud</groupId>
+    <artifactId>smart-cloud</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<modules>
-		<module>smart-cloud-starter</module>
-		<module>smart-code-generate</module>
-		<module>smart-common-pojo</module>
-		<module>smart-utility</module>
-    	<module>smart-mask</module>
-    	<module>smart-api-core</module>
-  	</modules>
+    <modules>
+        <module>smart-cloud-starter</module>
+        <module>smart-code-generate</module>
+        <module>smart-common-pojo</module>
+        <module>smart-utility</module>
+        <module>smart-mask</module>
+        <module>smart-api-core</module>
+    </modules>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
-		<spring.boot>2.2.1.RELEASE</spring.boot>
-		<spring-cloud>Hoxton.RELEASE</spring-cloud>
-		<spring-cloud-gateway>2.2.0.RELEASE</spring-cloud-gateway>
-		<spring-cloud-netflix>2.2.0.RELEASE</spring-cloud-netflix>
-		<spring.boot.admin>2.2.0</spring.boot.admin>
-		<protostuff>1.7.2</protostuff>
-		<dubbo>2.7.6</dubbo>
-		<redisson>3.12.5</redisson>
-		<mybatis-spring-boot-starter>2.1.2</mybatis-spring-boot-starter>
-		<mapper>4.1.5</mapper>
-		<mybatis-plus>3.2.0</mybatis-plus>
-		<pagehelper>5.1.11</pagehelper>
-		<sharding-jdbc>4.0.1</sharding-jdbc>
-		<seata>1.2.0</seata>
-		<spring-cloud-alibaba-seata>2.2.0.RELEASE</spring-cloud-alibaba-seata>
-		<mysql>8.0.15</mysql>
-		<podam>7.2.3.RELEASE</podam>
-		<guava>28.1-jre</guava>
-		<reflections>0.9.12</reflections>
-		<!-- jasypt2.1.2会导致mall-service-order启动时一直卡住 -->
-		<jasypt>2.1.1</jasypt>
-		<commons-codec>1.14</commons-codec>
-		<commons-io>2.6</commons-io>
-		<servlet>4.0.1</servlet>
-		<rocketmq>2.1.0</rocketmq>
-		<xxl-job>2.2.0</xxl-job>
-		<commons-collections4>4.4</commons-collections4>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <spring.boot>2.2.1.RELEASE</spring.boot>
+        <spring-cloud>Hoxton.RELEASE</spring-cloud>
+        <spring-cloud-gateway>2.2.0.RELEASE</spring-cloud-gateway>
+        <spring-cloud-netflix>2.2.0.RELEASE</spring-cloud-netflix>
+        <spring.boot.admin>2.2.0</spring.boot.admin>
+        <protostuff>1.7.2</protostuff>
+        <dubbo>2.7.6</dubbo>
+        <redisson>3.12.5</redisson>
+        <mybatis-spring-boot-starter>2.1.3</mybatis-spring-boot-starter>
+        <mybatis-plus>3.4.0</mybatis-plus>
+        <dynamic-datasource>3.2.1</dynamic-datasource>
+        <sharding-jdbc>4.0.1</sharding-jdbc>
+        <seata>1.2.0</seata>
+        <spring-cloud-alibaba-seata>2.2.0.RELEASE</spring-cloud-alibaba-seata>
+        <mysql>8.0.15</mysql>
+        <podam>7.2.3.RELEASE</podam>
+        <guava>28.1-jre</guava>
+        <reflections>0.9.12</reflections>
+        <!-- jasypt2.1.2会导致mall-service-order启动时一直卡住 -->
+        <jasypt>2.1.1</jasypt>
+        <commons-codec>1.14</commons-codec>
+        <commons-io>2.6</commons-io>
+        <servlet>4.0.1</servlet>
+        <xxl-job>2.2.0</xxl-job>
+        <commons-collections4>4.4</commons-collections4>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<!-- 私有jar start -->
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-api-core</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-mask</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-utility</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-common-pojo</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+    <dependencyManagement>
+        <dependencies>
+            <!-- 私有jar start -->
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-api-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-core</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-mask</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-configure</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-utility</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-job</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-common-pojo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-locale</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-log</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-configure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-mock</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-job</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-mybatis</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-locale</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-redis</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-log</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-feign</artifactId>
-				<version>${project.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-mock</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-test</artifactId>
-				<version>${project.version}</version>
-				<scope>test</scope>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.smartframework.cloud</groupId>
-				<artifactId>smart-cloud-starter-web</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<!-- 私有jar end -->
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<!-- 第三方jar start -->
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			
-			<dependency>
-			  <groupId>io.seata</groupId>
-			  <artifactId>seata-all</artifactId>
-			  <version>${seata}</version>
-			</dependency>
-			
-			
-			<dependency>
-				<groupId>io.seata</groupId>
-				<artifactId>seata-spring-boot-starter</artifactId>
-			    <version>${seata}</version>
-			</dependency>
-			
-			<dependency>
-			    <groupId>com.alibaba.cloud</groupId>
-			    <artifactId>spring-cloud-alibaba-seata</artifactId>
-			    <version>${spring-cloud-alibaba-seata}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>io.seata</groupId>
-						<artifactId>seata-spring-boot-starter</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-				<version>${spring-cloud-netflix}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-tomcat</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-feign</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-				<version>${spring-cloud-netflix}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-test</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>io.protostuff</groupId>
-				<artifactId>protostuff-core</artifactId>
-				<version>${protostuff}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.protostuff</groupId>
-				<artifactId>protostuff-runtime</artifactId>
-				<version>${protostuff}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- 私有jar end -->
 
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-web</artifactId>
-				<version>${spring.boot}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-logging</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-tomcat</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.apache.dubbo</groupId>
-				<artifactId>dubbo-spring-boot-starter</artifactId>
-				<version>${dubbo}</version>
-			</dependency>
+            <!-- 第三方jar start -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-actuator</artifactId>
-				<version>${spring.boot}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-all</artifactId>
+                <version>${seata}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-starter-gateway</artifactId>
-				<version>${spring-cloud-gateway}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
 
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-test</artifactId>
-				<version>${spring.boot}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring-boot-starter</artifactId>
+                <version>${seata}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-starter-server</artifactId>
-				<version>${spring.boot.admin}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-seata</artifactId>
+                <version>${spring-cloud-alibaba-seata}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.seata</groupId>
+                        <artifactId>seata-spring-boot-starter</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-starter-client</artifactId>
-				<version>${spring.boot.admin}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+                <version>${spring-cloud-netflix}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-tomcat</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<dependency>
-				<groupId>org.redisson</groupId>
-				<artifactId>redisson-spring-boot-starter</artifactId>
-				<version>${redisson}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+                <version>${spring-cloud-netflix}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<dependency>
-				<groupId>org.mybatis.spring.boot</groupId>
-				<artifactId>mybatis-spring-boot-starter</artifactId>
-				<version>${mybatis-spring-boot-starter}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			
-			<dependency>
-				<groupId>tk.mybatis</groupId>
-				<artifactId>mapper</artifactId>
-				<version>${mapper}</version>
-			</dependency>
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-core</artifactId>
+                <version>${protostuff}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.protostuff</groupId>
+                <artifactId>protostuff-runtime</artifactId>
+                <version>${protostuff}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.baomidou</groupId>
-				<artifactId>mybatis-plus</artifactId>
-				<version>${mybatis-plus}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-tomcat</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<dependency>
-				<groupId>com.github.pagehelper</groupId>
-				<artifactId>pagehelper</artifactId>
-				<version>${pagehelper}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${dubbo}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.apache.shardingsphere</groupId>
-				<artifactId>sharding-jdbc-core</artifactId>
-				<version>${sharding-jdbc}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring.boot}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<dependency>
-				<groupId>mysql</groupId>
-				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-gateway</artifactId>
+                <version>${spring-cloud-gateway}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<!-- mock -->
-			<dependency>
-				<groupId>uk.co.jemos.podam</groupId>
-				<artifactId>podam</artifactId>
-				<version>${podam}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring.boot}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>${guava}</version>
-			</dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring.boot.admin}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<!-- 反射工具类 -->
-			<dependency>
-				<groupId>org.reflections</groupId>
-				<artifactId>reflections</artifactId>
-				<version>${reflections}</version>
-			</dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring.boot.admin}</version>
+            </dependency>
 
-			<!-- 配置文件加解密 -->
-			<dependency>
-				<groupId>com.github.ulisesbocchio</groupId>
-				<artifactId>jasypt-spring-boot-starter</artifactId>
-				<version>${jasypt}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.ulisesbocchio</groupId>
-				<artifactId>jasypt-spring-boot</artifactId>
-				<version>${jasypt}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>commons-codec</groupId>
-				<artifactId>commons-codec</artifactId>
-				<version>${commons-codec}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot-starter}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>${commons-io}</version>
-			</dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>${servlet}</version>
-			</dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.apache.rocketmq</groupId>
-				<artifactId>rocketmq-spring-boot-starter</artifactId>
-				<version>${rocketmq}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-starter-logging</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-core</artifactId>
+                <version>${sharding-jdbc}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.xuxueli</groupId>
-				<artifactId>xxl-job-core</artifactId>
-				<version>${xxl-job}</version>
-			</dependency>
-			
-			<dependency>
-			    <groupId>org.apache.commons</groupId>
-			    <artifactId>commons-collections4</artifactId>
-			    <version>${commons-collections4}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql}</version>
+            </dependency>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>compile</scope>
-			<optional>true</optional>
-		</dependency>
-	</dependencies>
+            <!-- mock -->
+            <dependency>
+                <groupId>uk.co.jemos.podam</groupId>
+                <artifactId>podam</artifactId>
+                <version>${podam}</version>
+            </dependency>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-					<compilerVersion>${java.version}</compilerVersion>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<debug>true</debug>
-					<optimize>true</optimize>
-					<showWarnings>true</showWarnings>
-				</configuration>
-			</plugin>
-			<!-- 生成source源码包 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- 检查代码覆盖率 -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.5</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-							<!-- <goal>check</goal> -->
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration> 
-				    <!-- rules里面指定覆盖规则 -->
-					<!-- <rules>
-						<rule implementation="org.jacoco.maven.RuleConfiguration">
-							<element>BUNDLE</element>
-							<limits> 指定行覆盖到85%
-								<limit implementation="org.jacoco.report.check.Limit">
-									<counter>LINE</counter>
-									<value>COVEREDRATIO</value>
-									<minimum>0.85</minimum>
-								</limit> 指定分支覆盖到90%
-								<limit implementation="org.jacoco.report.check.Limit">
-									<counter>BRANCH</counter>
-									<value>COVEREDRATIO</value>
-									<minimum>0.9</minimum>
-								</limit> 指定方法覆盖到85%
-								<limit implementation="org.jacoco.report.check.Limit">
-									<counter>METHOD</counter>
-									<value>COVEREDRATIO</value>
-									<minimum>0.85</minimum>
-								</limit> 指定类覆盖到90%，不能遗失任何类
-								<limit implementation="org.jacoco.report.check.Limit">
-									<counter>CLASS</counter>
-									<value>MISSEDCOUNT</value>
-									<maximum>0.1</maximum>
-								</limit>
-							</limits>
-						</rule>
-					</rules> -->
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava}</version>
+            </dependency>
 
-	<!-- 使用aliyun镜像 -->
-	<repositories>
-		<repository>
-			<id>aliyun</id>
-			<name>aliyun</name>
-			<url>http://maven.aliyun.com/nexus/content/groups/public</url>
-		</repository>
-	</repositories>
+            <!-- 反射工具类 -->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections}</version>
+            </dependency>
+
+            <!-- 配置文件加解密 -->
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>${jasypt}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot</artifactId>
+                <version>${jasypt}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <compilerVersion>${java.version}</compilerVersion>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <debug>true</debug>
+                    <optimize>true</optimize>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <!-- 生成source源码包 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 检查代码覆盖率 -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                            <!-- <goal>check</goal> -->
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- rules里面指定覆盖规则 -->
+                    <!-- <rules>
+                        <rule implementation="org.jacoco.maven.RuleConfiguration">
+                            <element>BUNDLE</element>
+                            <limits> 指定行覆盖到85%
+                                <limit implementation="org.jacoco.report.check.Limit">
+                                    <counter>LINE</counter>
+                                    <value>COVEREDRATIO</value>
+                                    <minimum>0.85</minimum>
+                                </limit> 指定分支覆盖到90%
+                                <limit implementation="org.jacoco.report.check.Limit">
+                                    <counter>BRANCH</counter>
+                                    <value>COVEREDRATIO</value>
+                                    <minimum>0.9</minimum>
+                                </limit> 指定方法覆盖到85%
+                                <limit implementation="org.jacoco.report.check.Limit">
+                                    <counter>METHOD</counter>
+                                    <value>COVEREDRATIO</value>
+                                    <minimum>0.85</minimum>
+                                </limit> 指定类覆盖到90%，不能遗失任何类
+                                <limit implementation="org.jacoco.report.check.Limit">
+                                    <counter>CLASS</counter>
+                                    <value>MISSEDCOUNT</value>
+                                    <maximum>0.1</maximum>
+                                </limit>
+                            </limits>
+                        </rule>
+                    </rules> -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- 使用aliyun镜像 -->
+    <repositories>
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository>
+    </repositories>
 </project>
