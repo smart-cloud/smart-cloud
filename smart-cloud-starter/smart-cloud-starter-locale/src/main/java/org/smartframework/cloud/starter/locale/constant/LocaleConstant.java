@@ -16,6 +16,6 @@ public class LocaleConstant {
 	/** locale文件目录 */
 	public static final String LOCALE_DIR = "i18n/";
 	/** locale文件路径 */
-	public static final String LOCALE_PATTERN = "classpath*:/" + LOCALE_DIR + "*Messages.properties";
+	public static final String LOCALE_PATTERN = "classpath*:/" + LOCALE_DIR + "*messages.properties";
 
 }
