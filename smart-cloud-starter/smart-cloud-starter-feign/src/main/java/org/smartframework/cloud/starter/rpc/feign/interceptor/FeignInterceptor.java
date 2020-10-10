@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.smartframework.cloud.starter.core.business.filter.ReactiveRequestContextHolder;
-import org.smartframework.cloud.starter.core.business.util.WebReactiveUtil;
 import org.smartframework.cloud.starter.core.business.util.WebUtil;
 import org.smartframework.cloud.starter.core.constants.SymbolConstant;
 import org.smartframework.cloud.starter.log.util.LogUtil;
@@ -46,17 +45,20 @@ public class FeignInterceptor implements MethodInterceptor, RequestInterceptor {
         logDO.setReqHeaders(FEIGN_HEADER_THREAD_LOCAL.get());
 
         // 2、rpc
-        Object result = invocation.proceed();
+        Object result = null;
+        try {
+            result = invocation.proceed();
+            logDO.setRespData(result);
+        } finally {
+            logDO.setCost(System.currentTimeMillis() - startTime);
 
-        logDO.setCost(System.currentTimeMillis() - startTime);
-        logDO.setRespData(result);
+            // 3、打印日志
+            log.info(LogUtil.truncate("rpc.logDO=>{}", logDO));
 
-        // 3、打印日志
-        log.info(LogUtil.truncate("rpc.logDO=>{}", logDO));
-
-        // 方法调用顺序：apply（初始化值） ——> invoke（获取值，并清除）
-        // 防止内存泄漏
-        FEIGN_HEADER_THREAD_LOCAL.remove();
+            // 方法调用顺序：apply（初始化值） ——> invoke（获取值，并清除）
+            // 防止内存泄漏
+            FEIGN_HEADER_THREAD_LOCAL.remove();
+        }
 
         return result;
     }

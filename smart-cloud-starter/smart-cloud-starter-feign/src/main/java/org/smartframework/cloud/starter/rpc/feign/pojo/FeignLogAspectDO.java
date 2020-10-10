@@ -1,5 +1,6 @@
 package org.smartframework.cloud.starter.rpc.feign.pojo;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ import org.smartframework.cloud.common.pojo.Base;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@JsonPropertyOrder({"classMethod", "cost", "reqParams", "reqHeaders", "respData"})
 public class FeignLogAspectDO extends Base {
 
     private static final long serialVersionUID = 1L;

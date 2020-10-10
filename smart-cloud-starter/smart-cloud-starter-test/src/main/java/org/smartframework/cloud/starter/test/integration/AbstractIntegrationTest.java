@@ -47,6 +47,11 @@ public abstract class AbstractIntegrationTest extends TestCase {
      * @throws IOException
      */
     protected <T> T deserializeResponse(byte[] resultBytes, TypeReference<T> typeReference, String url) throws IOException {
+        if (resultBytes == null) {
+            log.warn("test.result=null");
+            return null;
+        }
+
         if (url.contains("rpc")) {
             // 处理rpc返回结果（protostuff反序列化）
             Class c = null;
@@ -55,6 +60,7 @@ public abstract class AbstractIntegrationTest extends TestCase {
             } else {
                 c = (Class) typeReference.getType();
             }
+
             T t = (T) SerializingUtil.deserialize(resultBytes, c);
             log.info("test.result={}", JacksonUtil.toJson(t));
             return t;

@@ -1,6 +1,7 @@
 package org.smartframework.cloud.starter.web.aspect.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ import org.smartframework.cloud.common.pojo.Base;
 @AllArgsConstructor
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({"url", "method", "cost", "head", "queryParams", "args", "result"})
 public class LogAspectDO extends Base {
 
     private static final long serialVersionUID = 1L;
