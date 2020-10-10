@@ -91,7 +91,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
     @Override
     public <T> T get(String url, Object req, TypeReference<T> typeReference)
             throws Exception {
-        String requestJsonStr = JacksonUtil.toJson(req);
+        String requestJsonStr = (req == null) ? null : JacksonUtil.toJson(req);
         log.info("test.requestBody={}", requestJsonStr);
 
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(url)
