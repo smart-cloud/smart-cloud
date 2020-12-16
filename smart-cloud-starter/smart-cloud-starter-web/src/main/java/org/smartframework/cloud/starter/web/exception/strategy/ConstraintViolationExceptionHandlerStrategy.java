@@ -4,7 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
-import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
+import org.smartframework.cloud.starter.web.exception.AbstractExceptionHandlerStrategy;
 import org.smartframework.cloud.starter.web.exception.util.ExceptionUtil;
 
 import javax.validation.ConstraintViolation;
@@ -12,28 +12,28 @@ import javax.validation.ConstraintViolationException;
 import java.util.Set;
 
 /**
- * @desc 参数校验异常转换
  * @author liyulin
+ * @desc 参数校验异常转换
  * @date 2019/10/29
  */
-public class ConstraintViolationExceptionHandlerStrategy implements IExceptionHandlerStrategy {
+public class ConstraintViolationExceptionHandlerStrategy extends AbstractExceptionHandlerStrategy {
 
-	@Override
-	public boolean match(Throwable e) {
-		return e instanceof ConstraintViolationException;
-	}
+    @Override
+    public boolean match(Throwable e) {
+        return e instanceof ConstraintViolationException;
+    }
 
-	@Override
-	public RespHeadVO transRespHead(Throwable e) {
-		// 参数校验
-		ConstraintViolationException constraintViolationException = (ConstraintViolationException) e;
-		Set<ConstraintViolation<?>> constraintViolationSet = constraintViolationException.getConstraintViolations();
-		if (CollectionUtils.isNotEmpty(constraintViolationSet)) {
-			String errorMsg = ExceptionUtil.getErrorMsg(constraintViolationSet);
-			return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, errorMsg);
-		}
-		
-		return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, e.getMessage());
-	}
+    @Override
+    public RespHeadVO transRespHead(Throwable e) {
+        // 参数校验
+        ConstraintViolationException constraintViolationException = (ConstraintViolationException) e;
+        Set<ConstraintViolation<?>> constraintViolationSet = constraintViolationException.getConstraintViolations();
+        if (CollectionUtils.isNotEmpty(constraintViolationSet)) {
+            String errorMsg = ExceptionUtil.getErrorMsg(constraintViolationSet);
+            return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, errorMsg);
+        }
+
+        return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, e.getMessage());
+    }
 
 }

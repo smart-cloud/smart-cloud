@@ -32,9 +32,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
 
     @Before
     public void initMock() {
-        if (webTestClient == null) {
-            webTestClient = WebTestClient.bindToApplicationContext(applicationContext).build();
-        }
+        webTestClient = WebTestClient.bindToApplicationContext(applicationContext).build();
     }
 
     @Override

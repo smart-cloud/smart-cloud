@@ -19,14 +19,9 @@ import java.util.List;
 public class MockitoBeansTestExecutionListener extends AbstractTestExecutionListener {
 
     private List<Object> injectMockBeans = new ArrayList<>();
-    private boolean init = false;
 
     @Override
     public void beforeTestMethod(TestContext testContext) throws Exception {
-        if (init) {
-            return;
-        }
-
         Field[] declaredFields = testContext.getTestClass().getDeclaredFields();
         //将需要mock注入的对象存储起来，以便case执行完后清除设置
         for (Field field : declaredFields) {
@@ -36,8 +31,6 @@ public class MockitoBeansTestExecutionListener extends AbstractTestExecutionList
                 injectMockBeans.add(mockBean);
             }
         }
-
-        init = true;
     }
 
     @Override

@@ -35,17 +35,15 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
 
     @Before
     public void initMock() {
-        if (mockMvc == null) {
-            // 添加过滤器
-            Map<String, Filter> filterMap = applicationContext.getBeansOfType(Filter.class);
-            Filter[] filters = new Filter[filterMap.size()];
-            int i = 0;
-            for (Map.Entry<String, Filter> entry : filterMap.entrySet()) {
-                filters[i++] = entry.getValue();
-            }
-
-            mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).addFilters(filters).build();
+        // 添加过滤器
+        Map<String, Filter> filterMap = applicationContext.getBeansOfType(Filter.class);
+        Filter[] filters = new Filter[filterMap.size()];
+        int i = 0;
+        for (Map.Entry<String, Filter> entry : filterMap.entrySet()) {
+            filters[i++] = entry.getValue();
         }
+
+        mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).addFilters(filters).build();
     }
 
 

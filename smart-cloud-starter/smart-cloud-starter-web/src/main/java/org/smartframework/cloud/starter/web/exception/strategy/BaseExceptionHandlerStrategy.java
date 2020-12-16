@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.web.exception.strategy;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.core.business.exception.BaseException;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
-import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
+import org.smartframework.cloud.starter.web.exception.AbstractExceptionHandlerStrategy;
 import org.smartframework.cloud.utility.spring.I18NUtil;
 
 /**
@@ -11,7 +11,7 @@ import org.smartframework.cloud.utility.spring.I18NUtil;
  * @desc 自定义异常转换
  * @date 2019/10/29
  */
-public class BaseExceptionHandlerStrategy implements IExceptionHandlerStrategy {
+public class BaseExceptionHandlerStrategy extends AbstractExceptionHandlerStrategy {
 
     @Override
     public boolean match(Throwable e) {

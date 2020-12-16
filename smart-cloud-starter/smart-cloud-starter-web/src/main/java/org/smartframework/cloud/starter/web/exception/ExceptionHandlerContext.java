@@ -18,7 +18,7 @@ public class ExceptionHandlerContext {
 	 * @return
 	 */
 	public static RespHeadVO transRespHead(Throwable e) {
-		for (IExceptionHandlerStrategy exceptionHandler : ExceptionHandlerStrategyFactory
+		for (AbstractExceptionHandlerStrategy exceptionHandler : ExceptionHandlerStrategyFactory
 				.getExceptionHandlerStrategys()) {
 			if (!exceptionHandler.match(e)) {
 				continue;
