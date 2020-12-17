@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.SerializingUtil;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -22,7 +21,6 @@ import java.lang.reflect.ParameterizedType;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@TestExecutionListeners(value = MockitoBeansTestExecutionListener.class, mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
 public abstract class AbstractIntegrationTest extends TestCase {
 
     static {
