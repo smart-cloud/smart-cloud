@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import junit.framework.TestCase;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.runner.RunWith;
+import org.smartframework.cloud.starter.test.Constants;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.SerializingUtil;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -34,6 +36,13 @@ public abstract class AbstractIntegrationTest extends TestCase {
         System.setProperty("spring.cloud.sentinel.enabled", closeTag);
     }
 
+    protected abstract ApplicationContext getApplicationContext();
+
+
+    private Boolean enableRpcProtostuff() {
+        return getApplicationContext().getEnvironment().getProperty(Constants.RPC_PROTOSTUFF_SWITCH, Boolean.class, true);
+    }
+
     /**
      * 序列化响应（主要处理rpc结果）
      *
@@ -50,7 +59,7 @@ public abstract class AbstractIntegrationTest extends TestCase {
             return null;
         }
 
-        if (url.contains("rpc")) {
+        if (url.contains("rpc") && enableRpcProtostuff()) {
             // 处理rpc返回结果（protostuff反序列化）
             Class c = null;
             if (typeReference.getType() instanceof ParameterizedType) {

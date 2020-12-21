@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,6 +47,10 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
         mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).addFilters(filters).build();
     }
 
+    @Override
+    protected ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
 
     /**
      * post请求

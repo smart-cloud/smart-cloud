@@ -1,5 +1,6 @@
 package org.smartframework.cloud.starter.core.business.autoconfigure;
 
+import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.core.business.filter.ServletFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -16,8 +17,9 @@ import javax.servlet.Filter;
 public class ServletFilterAutoConfigure {
 
     @Bean
-    public ServletFilter servletFilter() {
-        return new ServletFilter();
+    public ServletFilter servletFilter(final SmartProperties smartProperties) {
+        boolean enableRpcProtostuff = smartProperties.getRpc().isProtostuff();
+        return new ServletFilter(enableRpcProtostuff);
     }
 
     @Bean

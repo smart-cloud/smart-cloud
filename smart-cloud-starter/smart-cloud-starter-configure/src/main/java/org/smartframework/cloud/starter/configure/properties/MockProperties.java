@@ -5,25 +5,17 @@ import lombok.Setter;
 import org.smartframework.cloud.common.pojo.Base;
 
 /**
- * 切面配置
+ * mock配置
  *
- * @author liyulin
- * @date 2019-06-19
+ * @author collin
+ * @date 2020-12-21
  */
 @Getter
 @Setter
-public class AspectProperties extends Base {
+public class MockProperties extends Base {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * feign切面开关 （默认false）
-     */
-    private boolean rpclog = false;
-    /**
-     * 接口日志切面开关 （默认false）
-     */
-    private boolean apilog = false;
     /**
      * mock开关 （默认false）
      */

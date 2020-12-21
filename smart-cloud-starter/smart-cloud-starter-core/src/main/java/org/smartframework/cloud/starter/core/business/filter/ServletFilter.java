@@ -13,11 +13,19 @@ public class ServletFilter implements Filter {
 
     private static final String PROTOBUF_CONTENT_TYPE = ProtostuffConstant.PROTOBUF_MEDIA_TYPE.toString();
 
+    private boolean enableRpcProtostuff = true;
+
+    public ServletFilter(boolean enableRpcProtostuff) {
+        this.enableRpcProtostuff = enableRpcProtostuff;
+    }
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain)
             throws IOException, ServletException {
-        // feign protobuf content-type设置
-        processRpcContentType(servletRequest, servletResponse);
+        if (enableRpcProtostuff) {
+            // feign protobuf content-type设置
+            processRpcContentType(servletRequest, servletResponse);
+        }
 
         chain.doFilter(servletRequest, servletResponse);
     }

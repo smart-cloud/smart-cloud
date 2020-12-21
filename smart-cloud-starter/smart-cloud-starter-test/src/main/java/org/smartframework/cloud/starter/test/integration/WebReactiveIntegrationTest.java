@@ -36,6 +36,11 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
     }
 
     @Override
+    protected ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    @Override
     public <T> T post(String url, Object req, TypeReference<T> typeReference) throws Exception {
         String requestJsonStr = JacksonUtil.toJson(req);
         log.info("test.requestBody={}", requestJsonStr);

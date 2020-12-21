@@ -16,35 +16,41 @@ import reactor.core.publisher.Mono;
 
 public class ReactiveFilter implements WebFilter, Ordered {
 
-	@Override
-	public int getOrder() {
-		return OrderConstant.HTTP_FITLER;
-	}
+    @Override
+    public int getOrder() {
+        return OrderConstant.HTTP_FITLER;
+    }
 
-	@Override
-	public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-		// rpc 接口content-type设置
-		processRpcContentType(exchange.getRequest(), exchange.getResponse());
-		
-		// 缓存ServerWebExchange（request、response）
-		ReactiveRequestContextHolder.setServerWebExchange(exchange);
+    private boolean enableRpcProtostuff = true;
 
-		// local参数设置
-		return chain.filter(exchange).doFinally(signal -> {
-			ReactiveRequestContextHolder.removeServerWebExchange();
-		});
-	}
+    public ReactiveFilter(boolean enableRpcProtostuff) {
+        this.enableRpcProtostuff = enableRpcProtostuff;
+    }
 
-	private void processRpcContentType(ServerHttpRequest request, ServerHttpResponse response) {
-		String requestURI = request.getURI().getPath();
-		if (!requestURI.contains(ApiUseSideEnum.RPC.getPathSegment())) {
-			return;
-		}
-		HttpHeaders httpHeaders = response.getHeaders();
-		MediaType mediaType = httpHeaders.getContentType();
-		if (mediaType == null || StringUtils.isBlank(mediaType.getSubtype())) {
-			httpHeaders.setContentType(ProtostuffConstant.PROTOBUF_MEDIA_TYPE);
-		}
-	}
-	
+    @Override
+    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+        if (enableRpcProtostuff) {
+            // rpc 接口content-type设置
+            processRpcContentType(exchange.getRequest(), exchange.getResponse());
+        }
+
+        // 缓存ServerWebExchange（request、response）
+        ReactiveRequestContextHolder.setServerWebExchange(exchange);
+
+        // local参数设置
+        return chain.filter(exchange).doFinally(signal -> ReactiveRequestContextHolder.removeServerWebExchange());
+    }
+
+    private void processRpcContentType(ServerHttpRequest request, ServerHttpResponse response) {
+        String requestURI = request.getURI().getPath();
+        if (!requestURI.contains(ApiUseSideEnum.RPC.getPathSegment())) {
+            return;
+        }
+        HttpHeaders httpHeaders = response.getHeaders();
+        MediaType mediaType = httpHeaders.getContentType();
+        if (mediaType == null || StringUtils.isBlank(mediaType.getSubtype())) {
+            httpHeaders.setContentType(ProtostuffConstant.PROTOBUF_MEDIA_TYPE);
+        }
+    }
+
 }
