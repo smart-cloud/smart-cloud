@@ -145,7 +145,7 @@ public class HttpUtil {
      */
     public static String postWithRaw(String url, String stringEntity, Header[] headers, String charset, int socketTimeout,
                                      int connectTimeout) throws IOException {
-        log.info("stringEntity=>{}", stringEntity);
+        log.info("url={}|headers={}, stringEntity=>{}", url, JacksonUtil.toJson(headers), stringEntity);
 
         RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout);
 
@@ -208,8 +208,6 @@ public class HttpUtil {
      */
     public static String postWithUrlEncoded(String url, List<? extends NameValuePair> parameters, String charset,
                                             int socketTimeout, int connectTimeout) throws IOException {
-        log.info("parameters=>{}", JacksonUtil.toJson(parameters));
-
         RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout);
 
         HttpPost httpPost = new HttpPost(url);
@@ -224,9 +222,10 @@ public class HttpUtil {
             if (entity != null) {
                 result = EntityUtils.toString(entity, charset);
             }
+        } finally {
+            log.info("url={}|parameters=>{}, result=>{}", url, JacksonUtil.toJson(parameters), result);
         }
 
-        log.info("result=>{}", result);
         return result;
     }
 
