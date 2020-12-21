@@ -331,7 +331,7 @@ public class HttpUtil {
                     // 移除首尾的“[]”
                     builder.setParameter(entry.getKey(), jsonArrayStr.substring(1, jsonArrayStr.length() - 1));
                 } else if (!jsonNode.isNull()) {
-                    builder.setParameter(entry.getKey(), jsonNode.textValue());
+                    builder.setParameter(entry.getKey(), jsonNode.asText());
                 }
             }
         }

@@ -7,8 +7,18 @@ package org.smartframework.cloud.starter.configure.constants;
  * @date 2019-04-22
  */
 public interface SmartConstant {
-	
-	/** 公共配置属性前缀 */
-	String SMART_PROPERTIES_PREFIX = "smart";
+
+    /**
+     * 公共配置属性前缀
+     */
+    String SMART_PROPERTIES_PREFIX = "smart";
+    /**
+     * rpc 日志打印开关配置name
+     */
+    String FEIGN_LOG_CONDITION_PROPERTY = "smart.log.rpclog";
+    /**
+     * api 日志打印开关配置name
+     */
+    String API_LOG_CONDITION_PROPERTY = "smart.log.apilog";
 
 }

@@ -1,5 +1,6 @@
 package org.smartframework.cloud.starter.web.autoconfigure;
 
+import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.web.aspect.interceptor.ApiLogInterceptor;
@@ -23,11 +24,10 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnClass(name = {"javax.servlet.Filter"})
 public class ApiAspectAutoConfigure {
 
-    private static final String API_LOG_CONDITION_PROPERTY = "smart.aspect.apilog";
     /**
      * api切面生效条件
      */
-    public static final String API_ASPECT_CONDITION = "${" + API_LOG_CONDITION_PROPERTY + ":false}";
+    public static final String API_ASPECT_CONDITION = "${" + SmartConstant.API_LOG_CONDITION_PROPERTY + ":false}";
 
     @Bean
     public AspectJExpressionPointcut apiPointcut() {
@@ -44,7 +44,7 @@ public class ApiAspectAutoConfigure {
      * @date 2019年7月3日 下午3:58:27
      */
     @Configuration
-    @ConditionalOnProperty(name = API_LOG_CONDITION_PROPERTY, havingValue = "true")
+    @ConditionalOnProperty(name = SmartConstant.API_LOG_CONDITION_PROPERTY, havingValue = "true")
     class ApiLogAutoConfigure {
 
         @Bean
