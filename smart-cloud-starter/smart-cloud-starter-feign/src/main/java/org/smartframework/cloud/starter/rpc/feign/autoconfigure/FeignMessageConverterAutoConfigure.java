@@ -43,9 +43,6 @@ public class FeignMessageConverterAutoConfigure {
     }
 
     private ObjectFactory<HttpMessageConverters> getMessageConverters(ApplicationContext context) {
-        if (messageConverters != null) {
-            return messageConverters;
-        }
         Map<String, HttpMessageConverters> httpMessageConvertersMap = context.getBeansOfType(HttpMessageConverters.class);
         final HttpMessageConverters httpMessageConverters = MapUtils.isEmpty(httpMessageConvertersMap) ?
                 new HttpMessageConverters(new MappingJackson2HttpMessageConverter()) : context.getBean(HttpMessageConverters.class);
