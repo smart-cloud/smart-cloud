@@ -1,8 +1,8 @@
 package org.smartframework.cloud.utility.spring;
 
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.ApplicationContextAware;
 
 /**
  * Spring工具类
@@ -10,14 +10,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * @author liyulin
  * @date 2019-04-03
  */
-public class SpringContextUtil implements ApplicationListener<ContextRefreshedEvent> {
+public class SpringContextUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
-
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        SpringContextUtil.applicationContext = event.getApplicationContext();
-    }
 
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
@@ -34,6 +29,11 @@ public class SpringContextUtil implements ApplicationListener<ContextRefreshedEv
             return null;
         }
         return applicationContext.getBean(requiredType);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        SpringContextUtil.applicationContext = applicationContext;
     }
 
 }

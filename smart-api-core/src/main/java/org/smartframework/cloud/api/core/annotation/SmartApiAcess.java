@@ -16,7 +16,7 @@ import org.smartframework.cloud.api.core.enums.SignType;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface SmartApiAC {
+public @interface SmartApiAcess {
 
 	/** 是否需要token校验 */
 	boolean tokenCheck() default true;
