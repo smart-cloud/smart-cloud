@@ -7,7 +7,7 @@ import org.smartframework.cloud.common.pojo.Base;
 /**
  * mock配置
  *
- * @author collin
+ * @author liyulin
  * @date 2020-12-21
  */
 @Getter

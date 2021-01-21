@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.test;
 
 /**
- * @author collin
+ * @author liyulin
  * @date 2020-12-21
  */
 public final class Constants {

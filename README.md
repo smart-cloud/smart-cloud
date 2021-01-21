@@ -34,6 +34,7 @@ smart-cloud
      ├── smart-cloud-starter-log -- 日志封装（log4j2封装，支持日志敏感数据脱敏）
      ├── smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
      ├── smart-cloud-starter-mybatis -- mybatis封装（支持多数据源、分库分表、分布式事务；通用mapper封装，mapper工具类等;支持通用mapper、mybatis plus）
+     ├── smart-cloud-starter-rabbitmq -- rabbitmq封装
      ├── smart-cloud-starter-redis -- redis封装
      ├── smart-cloud-starter-test -- test封装
      └── smart-cloud-starter-web -- web封装（切面、异常处理、参数校验）
@@ -54,7 +55,7 @@ smart-cloud
 [sentinel](https://github.com/alibaba/Sentinel) | 限流、熔断降级
 [sharding jdbc](https://github.com/apache/incubator-shardingsphere) | 分库分表
 [redis](https://redis.io/)、[embedded-redis](https://github.com/kstyrc/embedded-redis) | 缓存、集成测试 
-[rocketmq](https://github.com/apache/rocketmq) | 消息队列 
+[rabbitmq](https://www.rabbitmq.com/) | 消息队列 
 [fastdfs](https://github.com/happyfish100/fastdfs) | 文件存储 
 [xxl-job](https://github.com/xuxueli/xxl-job)| 定时任务 
 [easyexcel](https://github.com/alibaba/easyexcel) | excel导入导出
