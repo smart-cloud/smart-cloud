@@ -42,13 +42,12 @@ public class FeignInterceptor implements MethodInterceptor, RequestInterceptor {
         logDO.setClassMethod(classMethod);
 
         logDO.setReqParams(WebUtil.getRequestArgs(invocation.getArguments()));
-        logDO.setReqHeaders(FEIGN_HEADER_THREAD_LOCAL.get());
-
         // 2、rpc
         Object result = null;
         try {
             result = invocation.proceed();
             logDO.setRespData(result);
+            logDO.setReqHeaders(FEIGN_HEADER_THREAD_LOCAL.get());
         } finally {
             logDO.setCost(System.currentTimeMillis() - startTime);
 
@@ -84,8 +83,11 @@ public class FeignInterceptor implements MethodInterceptor, RequestInterceptor {
         if (httpHeaders == null) {
             return;
         }
-
-        httpHeaders.forEach(template::header);
+        httpHeaders.forEach((name, value) -> {
+            if (needCopy(name)) {
+                template.header(name, value);
+            }
+        });
     }
 
     private void fillServletHeader(RequestTemplate template) {
@@ -98,8 +100,15 @@ public class FeignInterceptor implements MethodInterceptor, RequestInterceptor {
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String name = headerNames.nextElement();
-            template.header(name, request.getHeader(name));
+            if (needCopy(name)) {
+                template.header(name, request.getHeader(name));
+            }
         }
+    }
+
+    private boolean needCopy(String name) {
+        // 过滤掉“Content-Length”，否则rpc用“protobuf”序列化会报错
+        return !HttpHeaders.CONTENT_LENGTH.equalsIgnoreCase(name);
     }
 
 }
