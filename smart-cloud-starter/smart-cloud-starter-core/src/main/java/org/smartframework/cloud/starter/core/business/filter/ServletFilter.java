@@ -7,7 +7,6 @@ import org.smartframework.cloud.starter.core.constants.ProtostuffConstant;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class ServletFilter implements Filter {
 
@@ -40,7 +39,6 @@ public class ServletFilter implements Filter {
         String defaultContentType = servletResponse.getContentType();
         if (StringUtils.isBlank(defaultContentType)) {
             servletResponse.setContentType(PROTOBUF_CONTENT_TYPE);
-            servletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
         }
     }
 

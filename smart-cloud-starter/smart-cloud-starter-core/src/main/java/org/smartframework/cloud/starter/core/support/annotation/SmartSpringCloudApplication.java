@@ -1,12 +1,5 @@
 package org.smartframework.cloud.starter.core.support.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import org.smartframework.cloud.starter.core.support.bean.UniqueBeanNameGenerator;
 import org.smartframework.cloud.starter.core.support.condition.SmartSpringCloudApplicationCondition;
 import org.springframework.boot.SpringBootConfiguration;
@@ -23,6 +16,8 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import java.lang.annotation.*;
+
 /**
  * 服务启动类注解
  *
@@ -36,8 +31,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootConfiguration
 @EnableAutoConfiguration
 @ComponentScan(nameGenerator = UniqueBeanNameGenerator.class, excludeFilters = {
-		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
-		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
+        @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
+        @Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class)})
 @EnableFeignClients
 @EnableDiscoveryClient
 @EnableCircuitBreaker
@@ -45,17 +40,16 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Conditional(SmartSpringCloudApplicationCondition.class)
 public @interface SmartSpringCloudApplication {
 
-	@AliasFor(annotation = ComponentScan.class, attribute = "basePackages")
-	String[] componentBasePackages() default { "${smart.component.basePackages:}" };
+    @AliasFor(annotation = ComponentScan.class, attribute = "basePackages")
+    String[] componentBasePackages() default {"${smart.component.basePackages:}"};
 
-	@AliasFor(annotation = EnableFeignClients.class, attribute = "basePackages")
-	String[] feignClientBasePackages() default { "${smart.feign.basePackages:}" };
+    @AliasFor(annotation = EnableFeignClients.class, attribute = "basePackages")
+    String[] feignClientBasePackages() default {"${smart.feign.basePackages:}"};
 
-	@AliasFor(annotation = EnableAutoConfiguration.class)
-	Class<?>[] exclude() default {};
-	
-	@AliasFor(annotation = EnableAutoConfiguration.class)
-	String[] excludeName() default { "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration",
-			"org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration" };
+    @AliasFor(annotation = EnableAutoConfiguration.class)
+    Class<?>[] exclude() default {};
+
+    @AliasFor(annotation = EnableAutoConfiguration.class)
+    String[] excludeName() default {};
 
 }

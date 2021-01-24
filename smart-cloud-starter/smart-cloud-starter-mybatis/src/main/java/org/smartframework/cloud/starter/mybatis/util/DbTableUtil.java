@@ -1,19 +1,13 @@
 package org.smartframework.cloud.starter.mybatis.util;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.sql.DataSource;
-
-import com.alibaba.fastjson.JSON;
-
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.smartframework.cloud.utility.JacksonUtil;
+
+import javax.sql.DataSource;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 数据库表工具类
@@ -30,7 +24,7 @@ public class DbTableUtil {
 	 * 
 	 * @param sourceTableName   被复制的表名
 	 * @param targetTableName   复制后的表名
-	 * @param sqlSessionFactory
+	 * @param dataSource
 	 */
 	public static void copyTableSchema(String sourceTableName, String targetTableName, DataSource dataSource) {
 		String copyTableSql = "CREATE TABLE " + targetTableName + " LIKE " + sourceTableName;
@@ -109,7 +103,7 @@ public class DbTableUtil {
 		} catch (SQLException e) {
 			log.error(e.getMessage(), e);
 		} finally {
-			log.info("查询相关表tableName={}; result={}", tableName, JSON.toJSONString(tablesWithPrefix));
+			log.info("查询相关表tableName={}; result={}", tableName, JacksonUtil.toJson(tablesWithPrefix));
 		}
 		return tablesWithPrefix;
 	}

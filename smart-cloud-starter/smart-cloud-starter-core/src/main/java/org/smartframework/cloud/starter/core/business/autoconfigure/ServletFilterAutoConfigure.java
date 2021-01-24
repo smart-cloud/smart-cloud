@@ -2,7 +2,6 @@ package org.smartframework.cloud.starter.core.business.autoconfigure;
 
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.core.business.filter.ServletFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -23,7 +22,7 @@ public class ServletFilterAutoConfigure {
     }
 
     @Bean
-    public FilterRegistrationBean<Filter> registFilter(@Autowired ServletFilter servletFilter) {
+    public FilterRegistrationBean<Filter> registFilter(final ServletFilter servletFilter) {
         FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
         registration.setFilter(servletFilter);
         registration.addUrlPatterns("/*");

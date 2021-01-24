@@ -6,15 +6,13 @@ import com.google.common.net.MediaType;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
+import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -145,18 +143,15 @@ public class HttpUtil {
      */
     public static String postWithRaw(String url, String stringEntity, Header[] headers, String charset, int socketTimeout,
                                      int connectTimeout) throws IOException {
-        log.info("url={}|headers={}, stringEntity=>{}", url, JacksonUtil.toJson(headers), stringEntity);
-
         RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout);
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
-        httpPost.setHeader("Content-Type", MediaType.JSON_UTF_8.toString());
+        httpPost.setEntity(new StringEntity(stringEntity, ContentType.APPLICATION_JSON));
+        httpPost.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
         if (headers != null) {
             httpPost.setHeaders(headers);
         }
-
-        httpPost.setEntity(new StringEntity(stringEntity, charset));
         String result = null;
         try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
             HttpResponse response = client.execute(httpPost);
@@ -164,9 +159,10 @@ public class HttpUtil {
             if (entity != null) {
                 result = EntityUtils.toString(entity, charset);
             }
+        } finally {
+            log.info("{} | headers=>{}, stringEntity=>{}, result=>{}", url, JacksonUtil.toJson(headers), stringEntity, result);
         }
 
-        log.info("result=>{}", result);
         return result;
     }
 
@@ -212,8 +208,8 @@ public class HttpUtil {
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
-        httpPost.setHeader("Content-Type", MediaType.FORM_DATA.toString());
         httpPost.setEntity(new UrlEncodedFormEntity(parameters, charset));
+        httpPost.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.FORM_DATA.toString());
 
         String result = null;
         try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
@@ -223,7 +219,7 @@ public class HttpUtil {
                 result = EntityUtils.toString(entity, charset);
             }
         } finally {
-            log.info("url={}|parameters=>{}, result=>{}", url, JacksonUtil.toJson(parameters), result);
+            log.info("{} | parameters=>{}, result=>{}", url, JacksonUtil.toJson(parameters), result);
         }
 
         return result;
@@ -315,9 +311,6 @@ public class HttpUtil {
      */
     public static String get(String url, Header[] headers, Object req, String charset, int socketTimeout, int connectTimeout) throws IOException {
         String requestJsonStr = (req == null) ? null : JacksonUtil.toJson(req);
-
-        log.info("url=>{}, requestJsonStr={}", url, requestJsonStr);
-
         URIBuilder builder = new URIBuilder(URI.create(url));
         builder.setCharset(StandardCharsets.UTF_8);
         if (StringUtils.isNotBlank(requestJsonStr)) {
@@ -338,7 +331,7 @@ public class HttpUtil {
 
         HttpGet httpGet = new HttpGet(builder.toString());
         httpGet.setConfig(createRequestConfig(socketTimeout, connectTimeout));
-        httpGet.setHeader("Content-Type", MediaType.JSON_UTF_8.toString());
+        httpGet.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
         if (headers != null) {
             httpGet.setHeaders(headers);
         }
@@ -350,9 +343,10 @@ public class HttpUtil {
             if (entity != null) {
                 result = EntityUtils.toString(entity, charset);
             }
+        } finally {
+            log.info("{} | requestJsonStr={}, result=>{}", url, requestJsonStr, result);
         }
 
-        log.info("result=>{}", result);
         return result;
     }
 
