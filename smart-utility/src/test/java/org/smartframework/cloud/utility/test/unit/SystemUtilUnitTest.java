@@ -1,22 +1,24 @@
 package org.smartframework.cloud.utility.test.unit;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.utility.SystemUtil;
 
-import junit.framework.TestCase;
+public class SystemUtilUnitTest {
 
-public class SystemUtilUnitTest extends TestCase {
+    @Test
+    public void testIsWindows() {
+        Assertions.assertThat(SystemUtil.isWindows()).isTrue();
+    }
 
-	public void testIsWindows() {
-		Assertions.assertThat(SystemUtil.isWindows()).isTrue();
-	}
+    @Test
+    public void testIsLinux() {
+        Assertions.assertThat(SystemUtil.isLinux()).isFalse();
+    }
 
-	public void testIsLinux() {
-		Assertions.assertThat(SystemUtil.isLinux()).isFalse();
-	}
+    @Test
+    public void testGetUserDir() {
+        Assertions.assertThat(SystemUtil.getUserDir()).isNotBlank();
+    }
 
-	public void testGetUserDir() {
-		Assertions.assertThat(SystemUtil.getUserDir()).isNotBlank();
-	}
-	
 }

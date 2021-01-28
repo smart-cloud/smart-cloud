@@ -18,7 +18,7 @@ import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
  */
 @Configuration
 @ConditionalOnProperty(name = "smart.xxlJob.enabled", havingValue = "true", matchIfMissing = true)
-public class XxlJobAutoConfigure {
+public class XxlJobAutoConfiguration {
 
 	@Value("${spring.application.name}")
 	private String appName;

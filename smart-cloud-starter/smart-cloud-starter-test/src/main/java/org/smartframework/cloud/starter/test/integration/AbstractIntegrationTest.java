@@ -1,15 +1,14 @@
 package org.smartframework.cloud.starter.test.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import junit.framework.TestCase;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.starter.test.Constants;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.SerializingUtil;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -21,9 +20,9 @@ import java.lang.reflect.ParameterizedType;
  * @date 2019-04-22
  */
 @Slf4j
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
-public abstract class AbstractIntegrationTest extends TestCase {
+public abstract class AbstractIntegrationTest {
 
     static {
         String closeTag = Boolean.FALSE.toString();

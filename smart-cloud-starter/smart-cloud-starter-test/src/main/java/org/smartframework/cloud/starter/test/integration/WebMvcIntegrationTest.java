@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -34,7 +34,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
     protected WebApplicationContext applicationContext;
     protected MockMvc mockMvc = null;
 
-    @Before
+    @BeforeEach
     public void initMock() {
         // 添加过滤器
         Map<String, Filter> filterMap = applicationContext.getBeansOfType(Filter.class);

@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @ConditionalOnProperty(prefix = "smart", name = "async", havingValue = "true", matchIfMissing = true)
 @Slf4j
-public class AsyncAutoConfigure extends AsyncConfigurerSupport {
+public class AsyncAutoConfiguration extends AsyncConfigurerSupport {
 
 	private static final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
 	/** 池大小 = ((核心数 * 2) + 有效磁盘数) */

@@ -1,10 +1,9 @@
 package org.smartframework.cloud.utility.test.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import junit.framework.TestCase;
 import org.apache.http.message.BasicNameValuePair;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.utility.HttpUtil;
 import org.smartframework.cloud.utility.test.integration.vo.GetPageReqVO;
 import org.smartframework.cloud.utility.test.integration.vo.GetPageRespVO;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-public class HttpUtilIntegrationTest extends TestCase {
+public class HttpUtilIntegrationTest {
     /**
      * 服务启动端口
      */

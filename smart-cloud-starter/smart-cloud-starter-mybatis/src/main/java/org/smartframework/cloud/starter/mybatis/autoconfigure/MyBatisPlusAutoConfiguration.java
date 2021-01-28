@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020-09-28
  */
 @Configuration
-public class MyBatisPlusAutoConfigure {
+public class MyBatisPlusAutoConfiguration {
 
     /**
      * 分页插件

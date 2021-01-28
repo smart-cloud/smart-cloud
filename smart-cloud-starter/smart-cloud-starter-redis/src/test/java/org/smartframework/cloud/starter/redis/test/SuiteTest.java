@@ -1,12 +1,11 @@
 package org.smartframework.cloud.starter.redis.test;
 
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.smartframework.cloud.starter.redis.test.integration.RedisComponentIntegrationTest;
-import org.smartframework.cloud.starter.redis.test.unit.RedisKeyUtilUnitTest;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({ RedisComponentIntegrationTest.class, RedisKeyUtilUnitTest.class})
+@RunWith(JUnitPlatform.class)
+@SelectPackages({"org.smartframework.cloud.starter.redis.test"})
 public class SuiteTest {
 
 }

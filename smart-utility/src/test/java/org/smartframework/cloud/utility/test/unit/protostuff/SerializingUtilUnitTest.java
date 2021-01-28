@@ -1,8 +1,7 @@
 package org.smartframework.cloud.utility.test.unit.protostuff;
 
-import junit.framework.TestCase;
 import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.utility.SerializingUtil;
 import org.smartframework.cloud.utility.test.unit.protostuff.vo.OrderVO;
 import org.smartframework.cloud.utility.test.unit.protostuff.vo.ProductVO;
@@ -11,10 +10,9 @@ import org.smartframework.cloud.utility.test.unit.protostuff.vo.RespVO;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-public class SerializingUtilUnitTest extends TestCase {
+public class SerializingUtilUnitTest {
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testDeserialize() throws IOException {
         RespVO<OrderVO> ordeRespVO = new RespVO<>();
         ordeRespVO.setBody(OrderVO.builder().orderNo("1234123").build());

@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Configuration
 @Slf4j
-public class LocaleAutoConfigure {
+public class LocaleAutoConfiguration {
 
 	@Bean
 	public MessageSource messageSource(final SmartProperties smartProperties) {

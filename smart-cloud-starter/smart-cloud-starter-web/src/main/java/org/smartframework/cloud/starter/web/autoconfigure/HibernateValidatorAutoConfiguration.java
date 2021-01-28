@@ -15,7 +15,7 @@ import javax.validation.Validator;
  * @date 2019-03-29
  */
 @Configuration
-public class HibernateValidatorAutoConfigure {
+public class HibernateValidatorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean

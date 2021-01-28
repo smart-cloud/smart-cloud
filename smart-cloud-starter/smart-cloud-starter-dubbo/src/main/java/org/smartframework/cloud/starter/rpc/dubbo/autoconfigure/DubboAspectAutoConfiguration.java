@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnProperty(name="smart.aspect.dubbolog", havingValue = "true")
-public class DubboAspectAutoConfigure {
+public class DubboAspectAutoConfiguration {
 
 	/**
 	 * dubbo切面

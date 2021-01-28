@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.smartframework.cloud.starter.mock.autoconfigure.MockAspectAutoConfigure
+org.smartframework.cloud.starter.mock.autoconfigure.MockAspectAutoConfiguration

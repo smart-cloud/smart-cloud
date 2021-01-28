@@ -20,9 +20,9 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019-07-03
  */
 @Configuration
-@ConditionalOnExpression(ApiAspectAutoConfigure.API_ASPECT_CONDITION)
+@ConditionalOnExpression(ApiAspectAutoConfiguration.API_ASPECT_CONDITION)
 @ConditionalOnClass(name = {"javax.servlet.Filter"})
-public class ApiAspectAutoConfigure {
+public class ApiAspectAutoConfiguration {
 
     /**
      * api切面生效条件

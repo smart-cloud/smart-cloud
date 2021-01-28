@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnProperty(name = "smart.aspect.mock", havingValue = "true")
-public class MockAspectAutoConfigure {
+public class MockAspectAutoConfiguration {
 
 	@Bean
 	public MockInterceptor mockInterceptor() {

@@ -1,5 +1,14 @@
 package org.smartframework.cloud.utility.test.unit;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.smartframework.cloud.utility.security.RsaUtil;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -9,92 +18,84 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+public class RsaUtilUnitTest {
 
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.api.Assertions;
-import org.smartframework.cloud.utility.security.RsaUtil;
+    /**
+     * 加密、解密
+     *
+     * @throws NoSuchAlgorithmException
+     * @throws BadPaddingException
+     * @throws IllegalBlockSizeException
+     * @throws NoSuchPaddingException
+     * @throws InvalidKeyException
+     * @throws DecoderException
+     * @throws InvalidKeySpecException
+     * @throws Exception
+     */
+    @Test
+    public void testEncryptAndDecrypt() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
+            IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, DecoderException {
+        KeyPair keyPair = RsaUtil.generateKeyPair();
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 
-import junit.framework.TestCase;
+        String plainText = "hello world!";
+        // 加密后的文本
+        String encryptText = RsaUtil.encryptString(publicKey, plainText);
 
-public class RsaUtilUnitTest extends TestCase {
+        String modulus = RsaUtil.getModulus(keyPair);
+        String privateExponent = RsaUtil.getPrivateExponent(keyPair);
+        RSAPrivateKey decryptPrivateKey = RsaUtil.getRSAPrivateKey(modulus, privateExponent);
 
-	/**
-	 * 加密、解密
-	 * 
-	 * @throws NoSuchAlgorithmException
-	 * @throws BadPaddingException
-	 * @throws IllegalBlockSizeException
-	 * @throws NoSuchPaddingException
-	 * @throws InvalidKeyException
-	 * @throws DecoderException
-	 * @throws InvalidKeySpecException
-	 * 
-	 * @throws Exception
-	 */
-	public void testEncryptAndDecrypt() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
-			IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, DecoderException {
-		KeyPair keyPair = RsaUtil.generateKeyPair();
-		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        // 解密后的文本
+        String decryptText = RsaUtil.decryptString(decryptPrivateKey, encryptText);
 
-		String plainText = "hello world!";
-		// 加密后的文本
-		String encryptText = RsaUtil.encryptString(publicKey, plainText);
+        Assertions.assertThat(plainText).isEqualTo(decryptText);
+    }
 
-		String modulus = RsaUtil.getModulus(keyPair);
-		String privateExponent = RsaUtil.getPrivateExponent(keyPair);
-		RSAPrivateKey decryptPrivateKey = RsaUtil.getRSAPrivateKey(modulus, privateExponent);
+    /**
+     * 签名
+     *
+     * @throws NoSuchAlgorithmException
+     * @throws UnsupportedEncodingException
+     * @throws SignatureException
+     * @throws InvalidKeySpecException
+     * @throws InvalidKeyException
+     * @throws DecoderException
+     */
+    @Test
+    public void testSign() throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException,
+            SignatureException, UnsupportedEncodingException, DecoderException {
+        KeyPair keyPair = RsaUtil.generateKeyPair();
+        RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
 
-		// 解密后的文本
-		String decryptText = RsaUtil.decryptString(decryptPrivateKey, encryptText);
+        String content = "hello world!";
+        String sign = RsaUtil.sign(content, rsaPrivateKey);
+        boolean result = RsaUtil.checkSign(content, sign, rsaPublicKey);
+        Assertions.assertThat(result).isTrue();
+    }
 
-		Assertions.assertThat(plainText).isEqualTo(decryptText);
-	}
+    @Test
+    public void testGenerateRSAPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException, DecoderException {
+        KeyPair keyPair = RsaUtil.generateKeyPair();
+        String publicExponent = RsaUtil.getPublicExponent(keyPair);
+        String modulus = RsaUtil.getModulus(keyPair);
+        RsaUtil.getRSAPublidKey(modulus, publicExponent);
+    }
 
-	/**
-	 * 签名
-	 * 
-	 * @throws NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException
-	 * @throws SignatureException
-	 * @throws InvalidKeySpecException
-	 * @throws InvalidKeyException
-	 * @throws DecoderException
-	 */
-	public void testSign() throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException,
-			SignatureException, UnsupportedEncodingException, DecoderException {
-		KeyPair keyPair = RsaUtil.generateKeyPair();
-		RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
-		RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
+    @Test
+    public void testDecryptStringByJs() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
+            IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, DecoderException {
+        KeyPair keyPair = RsaUtil.generateKeyPair();
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 
-		String content = "hello world!";
-		String sign = RsaUtil.sign(content, rsaPrivateKey);
-		boolean result = RsaUtil.checkSign(content, sign, rsaPublicKey);
-		Assertions.assertThat(result).isTrue();
-	}
+        String plainText = "hello world!";
+        // 加密后的文本
+        String encryptText = RsaUtil.encryptString(publicKey, plainText);
+        // 解密后的文本
+        String decryptPrivateKey = RsaUtil.decryptStringByJs(keyPair.getPrivate(), encryptText);
 
-	public void testGenerateRSAPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException, DecoderException {
-		KeyPair keyPair = RsaUtil.generateKeyPair();
-		String publicExponent = RsaUtil.getPublicExponent(keyPair);
-		String modulus = RsaUtil.getModulus(keyPair);
-		RsaUtil.getRSAPublidKey(modulus, publicExponent);
-	}
-
-	public void testDecryptStringByJs() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
-			IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, DecoderException {
-		KeyPair keyPair = RsaUtil.generateKeyPair();
-		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-
-		String plainText = "hello world!";
-		// 加密后的文本
-		String encryptText = RsaUtil.encryptString(publicKey, plainText);
-		// 解密后的文本
-		String decryptPrivateKey = RsaUtil.decryptStringByJs(keyPair.getPrivate(), encryptText);
-
-		Assertions.assertThat(StringUtils.reverse(decryptPrivateKey)).isEqualTo(plainText);
-	}
+        Assertions.assertThat(StringUtils.reverse(decryptPrivateKey)).isEqualTo(plainText);
+    }
 
 }

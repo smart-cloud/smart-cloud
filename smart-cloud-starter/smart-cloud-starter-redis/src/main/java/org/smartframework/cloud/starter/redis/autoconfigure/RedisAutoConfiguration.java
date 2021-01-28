@@ -25,7 +25,7 @@ import java.io.Serializable;
 @Configuration
 @ConditionalOnClass({Redisson.class, RedisOperations.class})
 @EnableCaching
-public class RedisAutoConfigure {
+public class RedisAutoConfiguration {
 
     @Primary
     @Bean

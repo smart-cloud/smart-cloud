@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
-public class ReactiveFilterAutoConfigure {
+public class ReactiveFilterAutoConfiguration {
 
     @Bean
     public ReactiveFilter reactiveFilter(final SmartProperties smartProperties) {

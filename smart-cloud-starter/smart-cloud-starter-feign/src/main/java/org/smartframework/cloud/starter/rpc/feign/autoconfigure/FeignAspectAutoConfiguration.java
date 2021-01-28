@@ -22,8 +22,8 @@ import java.util.Arrays;
  * @date 2019-07-03
  */
 @Configuration
-@ConditionalOnExpression(FeignAspectAutoConfigure.FEIGN_ASPECT_CONDITION)
-public class FeignAspectAutoConfigure {
+@ConditionalOnExpression(FeignAspectAutoConfiguration.FEIGN_ASPECT_CONDITION)
+public class FeignAspectAutoConfiguration {
 
     /**
      * rpc切面生效条件

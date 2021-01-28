@@ -13,7 +13,7 @@ import javax.servlet.Filter;
 @Configuration
 @ConditionalOnClass(name = {"javax.servlet.Filter"})
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class ServletFilterAutoConfigure {
+public class ServletFilterAutoConfiguration {
 
     @Bean
     public ServletFilter servletFilter(final SmartProperties smartProperties) {

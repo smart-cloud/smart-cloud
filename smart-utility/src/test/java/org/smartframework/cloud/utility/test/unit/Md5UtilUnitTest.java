@@ -1,20 +1,20 @@
 package org.smartframework.cloud.utility.test.unit;
 
-import java.io.IOException;
-
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.utility.security.Md5Util;
 
-import junit.framework.TestCase;
+import java.io.IOException;
 
-public class Md5UtilUnitTest extends TestCase {
+public class Md5UtilUnitTest {
 
-	public void testGenerateFileMd5() throws IOException {
-		String path = Md5UtilUnitTest.class.getResource("").getFile() + Md5UtilUnitTest.class.getSimpleName()
-				+ ".class";
+    @Test
+    public void testGenerateFileMd5() throws IOException {
+        String path = Md5UtilUnitTest.class.getResource("").getFile() + Md5UtilUnitTest.class.getSimpleName()
+                + ".class";
 
-		String md5 = Md5Util.generateFileMd5(path);
-		Assertions.assertThat(md5).isNotBlank();
-	}
+        String md5 = Md5Util.generateFileMd5(path);
+        Assertions.assertThat(md5).isNotBlank();
+    }
 
 }

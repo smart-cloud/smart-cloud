@@ -23,7 +23,7 @@ import java.util.Map;
  * @date 2019/12/2
  */
 @Configuration
-public class FeignMessageConverterAutoConfigure {
+public class FeignMessageConverterAutoConfiguration {
 
     private ObjectFactory<HttpMessageConverters> messageConverters = null;
 

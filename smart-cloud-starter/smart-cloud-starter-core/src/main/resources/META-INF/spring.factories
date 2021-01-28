@@ -2,6 +2,6 @@ org.springframework.boot.env.EnvironmentPostProcessor=\
 org.smartframework.cloud.starter.core.business.autoconfigure.BootstrapAnnotationEnvironmentPostProcessor
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.smartframework.cloud.starter.core.business.autoconfigure.AsyncAutoConfigure,\
-org.smartframework.cloud.starter.core.business.autoconfigure.ReactiveFilterAutoConfigure,\
-org.smartframework.cloud.starter.core.business.autoconfigure.ServletFilterAutoConfigure
+org.smartframework.cloud.starter.core.business.autoconfigure.AsyncAutoConfiguration,\
+org.smartframework.cloud.starter.core.business.autoconfigure.ReactiveFilterAutoConfiguration,\
+org.smartframework.cloud.starter.core.business.autoconfigure.ServletFilterAutoConfiguration
