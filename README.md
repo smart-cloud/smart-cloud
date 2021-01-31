@@ -122,3 +122,28 @@ smart-cloud
 
 #### 详情
 ![](docs/images/yapi_docs_detail.png)
+
+# 六、错误码说明
+所属模块 | code | message
+---| ---|---
+smart-common-pojo | 200 | 成功
+smart-common-pojo | 101 | 校验失败
+smart-common-pojo | 102 | 数据不存在
+smart-common-pojo | 103 | 数据已存在
+smart-common-pojo | 400 | 签名错误
+smart-common-pojo | 401 | 无权限访问
+smart-common-pojo | 404 | 请求url错误
+smart-common-pojo | 408 | 请求超时
+smart-common-pojo | 409 | 重复提交
+smart-common-pojo | 412 | 参数不全
+smart-common-pojo | 415 | 请求方式不支持
+smart-common-pojo | 416 | 请求类型不支持
+smart-common-pojo | 417 | 获取锁失败
+smart-common-pojo | 418 | 上传文件大小超过限制
+smart-common-pojo | 419 | 当前会话已失效，请重新登陆
+smart-common-pojo | 500 | 服务器异常
+smart-common-pojo | 501 | 获取Request失败
+smart-common-pojo | 502 | 获取Response失败
+smart-cloud-starter-core | 1001 | rpc请求失败
+smart-cloud-starter-core | 1002 | 返回结果异常
+smart-cloud-starter-web | 2001 | 待校验参数object不能为null

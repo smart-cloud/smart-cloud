@@ -47,7 +47,7 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
         long startTime = System.currentTimeMillis();
         HttpServletRequest request = WebServletUtil.getHttpServletRequest();
         LogAspectDO logAspectDO = LogAspectDO.builder()
-                .url(request.getServletPath())
+                .url(request.getPathInfo())
                 .method(request.getMethod())
                 .head(getHeaders(request))
                 .args(getRequestArgs(invocation.getArguments()))

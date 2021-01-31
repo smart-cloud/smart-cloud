@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.core.business.exception;
 
-import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 
 /**
  * 未登陆异常
@@ -13,7 +13,7 @@ public class NotLoggedInException extends BaseException {
 	private static final long serialVersionUID = 1L;
 	
 	public NotLoggedInException() {
-		super(ReturnCodeEnum.NOT_LOGGED_IN);
+		super(CommonReturnCodes.NOT_LOGGED_IN);
 	}
 
 }

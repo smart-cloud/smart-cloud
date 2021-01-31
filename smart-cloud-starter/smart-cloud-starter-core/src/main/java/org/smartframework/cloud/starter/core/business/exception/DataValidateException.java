@@ -1,6 +1,7 @@
 package org.smartframework.cloud.starter.core.business.exception;
 
-import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 
 /**
  * 数据校验错误
@@ -10,11 +11,14 @@ import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
  */
 public class DataValidateException extends BaseException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public DataValidateException(String message) {
-		setCode(ReturnCodeEnum.DATA_MISSING.getCode());
-		setMessage(message);
-	}
+    public DataValidateException() {
+        setCode(CommonReturnCodes.DATA_MISSING.getCode());
+    }
+
+    public DataValidateException(IBaseReturnCodes returnCodes) {
+        setCode(returnCodes.getCode());
+    }
 
 }

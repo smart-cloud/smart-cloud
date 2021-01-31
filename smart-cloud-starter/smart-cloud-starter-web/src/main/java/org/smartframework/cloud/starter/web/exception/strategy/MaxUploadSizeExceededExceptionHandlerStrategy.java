@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.web.exception.strategy;
 
-import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.web.exception.AbstractExceptionHandlerStrategy;
@@ -20,7 +20,7 @@ public class MaxUploadSizeExceededExceptionHandlerStrategy extends AbstractExcep
 
     @Override
     public RespHeadVO transRespHead(Throwable e) {
-        return RespHeadUtil.ofI18n(ReturnCodeEnum.UPLOAD_FILE_SIZE_EXCEEDED);
+        return RespHeadUtil.ofI18n(CommonReturnCodes.UPLOAD_FILE_SIZE_EXCEEDED);
     }
 
 }

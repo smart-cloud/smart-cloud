@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.core.business.exception;
 
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 
 /**
  * 业务异常
@@ -12,7 +12,7 @@ public class BusinessException extends BaseException {
 
     private static final long serialVersionUID = 1L;
 
-    public BusinessException(IBaseReturnCode baseReturnCode) {
+    public BusinessException(IBaseReturnCodes baseReturnCode) {
         super(baseReturnCode);
     }
 

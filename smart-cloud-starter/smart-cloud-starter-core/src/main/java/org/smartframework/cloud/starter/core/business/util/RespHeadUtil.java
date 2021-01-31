@@ -1,8 +1,8 @@
 package org.smartframework.cloud.starter.core.business.util;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
-import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.utility.NonceUtil;
 
@@ -24,7 +24,7 @@ public class RespHeadUtil {
 	 * @return 默认返回状态码{@code ReturnCodeEnum.SUCCESS}
 	 */
 	public static RespHeadVO of() {
-		return of(ReturnCodeEnum.SUCCESS, null);
+		return of(CommonReturnCodes.SUCCESS, null);
 	}
 
 	/**
@@ -45,12 +45,12 @@ public class RespHeadUtil {
 	/**
 	 * 构造RespHead对象
 	 * 
-	 * @param returnCode
+	 * @param returnCodes
 	 * @param message
 	 * @return
 	 */
-	public static RespHeadVO of(IBaseReturnCode returnCode, String message) {
-		RespHeadVO respHeadVO = new RespHeadVO(returnCode);
+	public static RespHeadVO of(IBaseReturnCodes returnCodes, String message) {
+		RespHeadVO respHeadVO = new RespHeadVO(returnCodes);
 		respHeadVO.setTimestamp(System.currentTimeMillis());
 		respHeadVO.setNonce(NonceUtil.getInstance().nextId());
 		if (StringUtils.isNotBlank(message)) {
@@ -63,14 +63,14 @@ public class RespHeadUtil {
 	/**
 	 * 构造RespHead对象（i18n message）
 	 *
-	 * @param returnCode
+	 * @param returnCodes
 	 * @return
 	 */
-	public static RespHeadVO ofI18n(IBaseReturnCode returnCode) {
-		RespHeadVO respHeadVO = new RespHeadVO(returnCode);
+	public static RespHeadVO ofI18n(IBaseReturnCodes returnCodes) {
+		RespHeadVO respHeadVO = new RespHeadVO(returnCodes);
 		respHeadVO.setTimestamp(System.currentTimeMillis());
 		respHeadVO.setNonce(NonceUtil.getInstance().nextId());
-		respHeadVO.setMessage(I18NUtil.getMessage(returnCode.getMessage()));
+		respHeadVO.setMessage(I18NUtil.getMessage(returnCodes.getCode()));
 
 		return respHeadVO;
 	}

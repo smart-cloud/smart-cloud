@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.smartframework.cloud.common.pojo.Base;
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 import uk.co.jemos.podam.common.PodamStringValue;
 
 /**
@@ -30,7 +30,7 @@ public class RespHeadVO extends Base {
     /**
      * 响应状态码
      */
-    @PodamStringValue(strValue = "100200")
+    @PodamStringValue(strValue = "200")
     private String code;
 
     /**
@@ -43,8 +43,8 @@ public class RespHeadVO extends Base {
      */
     private long timestamp;
 
-    public RespHeadVO(IBaseReturnCode returnCode) {
-        setReturnCode(returnCode);
+    public RespHeadVO(IBaseReturnCodes returnCodes) {
+        setReturnCode(returnCodes);
     }
 
     public RespHeadVO(String code, String message) {
@@ -52,20 +52,12 @@ public class RespHeadVO extends Base {
         this.message = message;
     }
 
-    public RespHeadVO(IBaseReturnCode returnCode, String message) {
-        if (returnCode != null) {
-            this.code = returnCode.getCode();
-        }
-        this.message = message;
-    }
-
-    public void setReturnCode(IBaseReturnCode returnCode) {
-        if (returnCode == null) {
+    public void setReturnCode(IBaseReturnCodes returnCodes) {
+        if (returnCodes == null) {
             return;
         }
 
-        this.code = returnCode.getCode();
-        this.message = returnCode.getMessage();
+        this.code = returnCodes.getCode();
     }
 
 }

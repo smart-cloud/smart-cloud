@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.smartframework.cloud.common.pojo.Base;
-import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 
 /**
  * 响应对象
@@ -41,7 +41,7 @@ public class RespVO<T> extends Base {
     }
 
     public RespVO(T body) {
-        this.head = new RespHeadVO(ReturnCodeEnum.SUCCESS);
+        this.head = new RespHeadVO(CommonReturnCodes.SUCCESS);
         this.body = body;
     }
 

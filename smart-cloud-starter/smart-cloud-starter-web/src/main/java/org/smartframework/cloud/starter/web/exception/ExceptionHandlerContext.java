@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.web.exception;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.core.constants.SymbolConstant;
@@ -41,10 +41,10 @@ public class ExceptionHandlerContext {
 				}
 			}
 
-			return RespHeadUtil.of(ReturnCodeEnum.SERVER_ERROR, message);
+			return RespHeadUtil.of(CommonReturnCodes.SERVER_ERROR, message);
 		}
 
-		return RespHeadUtil.of(ReturnCodeEnum.SERVER_ERROR, null);
+		return RespHeadUtil.of(CommonReturnCodes.SERVER_ERROR, null);
 	}
 
 }

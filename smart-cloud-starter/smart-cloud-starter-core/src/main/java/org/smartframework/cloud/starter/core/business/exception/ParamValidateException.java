@@ -1,6 +1,7 @@
 package org.smartframework.cloud.starter.core.business.exception;
 
-import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 
 /**
  * 参数校验错误
@@ -10,11 +11,15 @@ import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
  */
 public class ParamValidateException extends BaseException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public ParamValidateException(String message) {
-		setCode(ReturnCodeEnum.PARAMETERS_MISSING.getCode());
-		setMessage(message);
-	}
+    public ParamValidateException(IBaseReturnCodes returnCodes) {
+        setCode(returnCodes.getCode());
+    }
+
+    public ParamValidateException(String message) {
+        setCode(CommonReturnCodes.PARAMETERS_MISSING.getCode());
+        setMessage(message);
+    }
 
 }

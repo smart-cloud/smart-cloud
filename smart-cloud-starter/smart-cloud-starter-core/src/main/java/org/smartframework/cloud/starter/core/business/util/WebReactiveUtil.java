@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.core.business.util;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.starter.core.business.exception.ServerException;
 import org.smartframework.cloud.starter.core.business.filter.ReactiveRequestContextHolder;
 import org.springframework.http.HttpHeaders;
@@ -129,7 +129,7 @@ public class WebReactiveUtil {
             return request;
         }
 
-        throw new ServerException(ReturnCodeEnum.GET_REQUEST_FAIL);
+        throw new ServerException(CommonReturnCodes.GET_REQUEST_FAIL);
     }
 
 
@@ -144,7 +144,7 @@ public class WebReactiveUtil {
             return response;
         }
 
-        throw new ServerException(ReturnCodeEnum.GET_RESPONSE_FAIL);
+        throw new ServerException(CommonReturnCodes.GET_RESPONSE_FAIL);
     }
 
 }

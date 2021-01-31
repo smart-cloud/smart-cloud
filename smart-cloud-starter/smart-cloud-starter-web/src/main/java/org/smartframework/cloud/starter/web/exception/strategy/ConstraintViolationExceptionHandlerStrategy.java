@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.web.exception.strategy;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.web.exception.AbstractExceptionHandlerStrategy;
@@ -30,10 +30,10 @@ public class ConstraintViolationExceptionHandlerStrategy extends AbstractExcepti
         Set<ConstraintViolation<?>> constraintViolationSet = constraintViolationException.getConstraintViolations();
         if (CollectionUtils.isNotEmpty(constraintViolationSet)) {
             String errorMsg = ExceptionUtil.getErrorMsg(constraintViolationSet);
-            return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, errorMsg);
+            return RespHeadUtil.of(CommonReturnCodes.VALIDATE_FAIL, errorMsg);
         }
 
-        return RespHeadUtil.of(ReturnCodeEnum.VALIDATE_FAIL, e.getMessage());
+        return RespHeadUtil.of(CommonReturnCodes.VALIDATE_FAIL, e.getMessage());
     }
 
 }

@@ -1,11 +1,13 @@
 package org.smartframework.cloud.starter.core.business.util;
 
 import lombok.experimental.UtilityClass;
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCode;
-import org.smartframework.cloud.common.pojo.enums.ReturnCodeEnum;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
 import org.smartframework.cloud.common.pojo.vo.RespVO;
+import org.smartframework.cloud.starter.core.business.enums.CoreReturnCodes;
 import org.smartframework.cloud.utility.ObjectUtil;
+import org.smartframework.cloud.utility.spring.I18NUtil;
 
 /**
  * {@link RespVO}工具类
@@ -22,7 +24,7 @@ public class RespUtil {
      * @return
      */
     public static <R> RespVO<R> success() {
-        return new RespVO<>(new RespHeadVO(ReturnCodeEnum.SUCCESS));
+        return new RespVO<>(new RespHeadVO(CommonReturnCodes.SUCCESS));
     }
 
     /**
@@ -38,11 +40,11 @@ public class RespUtil {
     /**
      * 构造响应错误对象
      *
-     * @param returnCode
+     * @param returnCodes
      * @return
      */
-    public static <R> RespVO<R> error(IBaseReturnCode returnCode) {
-        return new RespVO<>(new RespHeadVO(returnCode));
+    public static <R> RespVO<R> error(IBaseReturnCodes returnCodes) {
+        return new RespVO<>(new RespHeadVO(returnCodes));
     }
 
     /**
@@ -62,7 +64,7 @@ public class RespUtil {
      * @return
      */
     public static <R> RespVO<R> error(String msg) {
-        return new RespVO<>(new RespHeadVO(ReturnCodeEnum.SERVER_ERROR.getCode(), msg));
+        return new RespVO<>(new RespHeadVO(CommonReturnCodes.SERVER_ERROR.getCode(), msg));
     }
 
     /**
@@ -73,7 +75,7 @@ public class RespUtil {
      */
     public static <R> boolean isSuccess(RespVO<R> resp) {
         return ObjectUtil.isNotNull(resp) && ObjectUtil.isNotNull(resp.getHead())
-                && ObjectUtil.equals(ReturnCodeEnum.SUCCESS.getCode(), resp.getHead().getCode());
+                && ObjectUtil.equals(CommonReturnCodes.SUCCESS.getCode(), resp.getHead().getCode());
     }
 
     /**
@@ -84,11 +86,11 @@ public class RespUtil {
      */
     public static <R> String getFailMsg(RespVO<R> resp) {
         if (ObjectUtil.isNull(resp)) {
-            return "rpc请求失败";
+            return I18NUtil.getMessage(CoreReturnCodes.RPC_REQUEST_FAIL.getCode());
         }
 
         if (ObjectUtil.isNull(resp.getHead())) {
-            return "返回结果异常";
+            return I18NUtil.getMessage(CoreReturnCodes.RPC_RESULT_EXCEPTION.getCode());
         }
 
         return resp.getHead().getMessage();

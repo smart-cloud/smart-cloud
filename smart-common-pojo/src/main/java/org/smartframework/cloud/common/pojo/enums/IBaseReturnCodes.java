@@ -14,7 +14,7 @@ package org.smartframework.cloud.common.pojo.enums;
  * @author liyulin
  * @date 2019-03-27
  */
-public interface IBaseReturnCode {
+public interface IBaseReturnCodes {
 
 	/**
 	 * 状态码
@@ -22,12 +22,5 @@ public interface IBaseReturnCode {
 	 * @return
 	 */
 	public String getCode();
-
-	/**
-	 * 提示信息
-	 * 
-	 * @return
-	 */
-	public String getMessage();
 
 }
