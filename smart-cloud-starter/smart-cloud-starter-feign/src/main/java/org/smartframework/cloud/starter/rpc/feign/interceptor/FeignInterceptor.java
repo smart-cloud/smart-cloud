@@ -47,8 +47,8 @@ public class FeignInterceptor implements MethodInterceptor, RequestInterceptor {
         try {
             result = invocation.proceed();
             logDO.setRespData(result);
-            logDO.setReqHeaders(FEIGN_HEADER_THREAD_LOCAL.get());
         } finally {
+            logDO.setReqHeaders(FEIGN_HEADER_THREAD_LOCAL.get());
             logDO.setCost(System.currentTimeMillis() - startTime);
 
             // 3、打印日志

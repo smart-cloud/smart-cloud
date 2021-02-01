@@ -1,12 +1,11 @@
 package org.smartframework.cloud.mask.test;
 
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.smartframework.cloud.mask.test.unit.MaskSerializeTest;
-import org.smartframework.cloud.mask.test.unit.MaskUtilTest;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({ MaskSerializeTest.class, MaskUtilTest.class })
+@RunWith(JUnitPlatform.class)
+@SelectPackages({"org.smartframework.cloud.mask.test"})
 public class SuiteTest {
 
 }

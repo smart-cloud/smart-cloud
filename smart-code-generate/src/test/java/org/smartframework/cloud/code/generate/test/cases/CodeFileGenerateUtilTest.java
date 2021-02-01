@@ -1,16 +1,16 @@
 package org.smartframework.cloud.code.generate.test.cases;
 
+import org.junit.jupiter.api.Test;
+import org.smartframework.cloud.code.generate.core.CodeGenerateUtil;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
-import org.smartframework.cloud.code.generate.core.CodeGenerateUtil;
+public class CodeFileGenerateUtilTest {
 
-import junit.framework.TestCase;
+    @Test
+    public void testInit() throws ClassNotFoundException, SQLException, IOException {
+        CodeGenerateUtil.init();
+    }
 
-public class CodeFileGenerateUtilTest extends TestCase {
-
-	public void testInit() throws ClassNotFoundException, SQLException, IOException {
-		CodeGenerateUtil.init();
-	}
-	
 }

@@ -1,11 +1,11 @@
 package org.smartframework.cloud.mask.test.unit;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import junit.framework.TestCase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.mask.MaskLog;
 import org.smartframework.cloud.mask.MaskRule;
 import org.smartframework.cloud.mask.util.JacksonMaskUtil;
@@ -16,9 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class MaskSerializeTest extends TestCase {
+public class MaskSerializeTest {
 
     // 手动设置mask属性
+    @Test
     public void testMaskSerializeSetMaskAttribute() {
         LoginVO loginVO = new LoginVO();
         loginVO.setName("名字测试");
@@ -32,6 +33,7 @@ public class MaskSerializeTest extends TestCase {
     }
 
     // 普通对象
+    @Test
     public void testMaskSerializeObject() {
         User user = new User();
         user.setId(9L);
@@ -50,6 +52,7 @@ public class MaskSerializeTest extends TestCase {
     }
 
     // 子类对象
+    @Test
     public void testMaskSerializeSubClass() {
         Student student = new Student();
         student.setId(9L);
@@ -77,6 +80,7 @@ public class MaskSerializeTest extends TestCase {
     }
 
     // 数组对象
+    @Test
     public void testMaskSerializeArray() {
         User user = new User();
         user.setId(9L);
@@ -101,6 +105,7 @@ public class MaskSerializeTest extends TestCase {
     }
 
     // 嵌套对象
+    @Test
     public void testMaskSerializeNestedObject() {
         User user = new User();
         user.setId(9L);
@@ -131,6 +136,7 @@ public class MaskSerializeTest extends TestCase {
     }
 
     // 泛型对象
+    @Test
     public void testMaskSerializeGeneric() {
         User user = new User();
         user.setId(9L);
@@ -168,6 +174,7 @@ public class MaskSerializeTest extends TestCase {
     }
 
     // 泛型对象（外部字段无mask注解）
+    @Test
     public void testMaskSerializeGeneric2() {
         User user = new User();
         user.setId(9L);

@@ -15,17 +15,18 @@ package org.smartframework.cloud.starter.core.business.util;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import java.lang.annotation.Annotation;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+
+import java.lang.annotation.Annotation;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Utility class to find a class annotated with a particular annotation in a hierarchy.

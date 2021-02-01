@@ -1,11 +1,10 @@
 package org.smartframework.cloud.starter.core.business.util;
 
-import java.security.NoSuchAlgorithmException;
-
+import lombok.experimental.UtilityClass;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.smartframework.cloud.utility.SecureRandomUtil;
 
-import lombok.experimental.UtilityClass;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * 密码安全处理工具类

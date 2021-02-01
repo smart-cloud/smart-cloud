@@ -1,11 +1,11 @@
 package org.smartframework.cloud.starter.mock.test.unit;
 
-import junit.framework.TestCase;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.starter.mock.util.MockUtil;
 import org.smartframework.cloud.starter.mock.util.TypeReference;
@@ -20,84 +20,90 @@ import java.util.List;
 import java.util.Set;
 
 @Slf4j
-public class PodamTest extends TestCase {
+public class PodamTest {
 
-	/**
-	 * 普通非泛型对象
-	 */
-	public void testMockObject() {
-		Product product = MockUtil.mock(Product.class);
-		log.info("普通对象head=>{}", product);
-		
-		Assertions.assertThat(product).isNotNull();
-		Assertions.assertThat(product.getName()).isNotBlank();
-		Assertions.assertThat(product.getPrice()).isNotNull();
-	}
+    /**
+     * 普通非泛型对象
+     */
+    @Test
+    public void testMockObject() {
+        Product product = MockUtil.mock(Product.class);
+        log.info("普通对象head=>{}", product);
 
-	/**
-	 * 单层泛型对象
-	 */
-	@SuppressWarnings("unchecked")
-	public void testMockSimpleGenericObject() {
-		// mock方式1
-		List<Product> list = MockUtil.mock(List.class, Product.class);
-		log.info("单层泛型对象resp1=>{}", JacksonUtil.toJson(list));
-		
-		Assertions.assertThat(list).isNotEmpty();
+        Assertions.assertThat(product).isNotNull();
+        Assertions.assertThat(product.getName()).isNotBlank();
+        Assertions.assertThat(product.getPrice()).isNotNull();
+    }
 
-		// mock方式2
-		Set<Product> set = MockUtil.mock(new TypeReference<Set<Product>>() {
-		});
-		log.info("单层泛型对象resp2=>{}", JacksonUtil.toJson(set));
+    /**
+     * 单层泛型对象
+     */
+    @Test
+    public void testMockSimpleGenericObject() {
+        // mock方式1
+        List<Product> list = MockUtil.mock(List.class, Product.class);
+        log.info("单层泛型对象resp1=>{}", JacksonUtil.toJson(list));
 
-		Assertions.assertThat(set).isNotEmpty();
-	}
+        Assertions.assertThat(list).isNotEmpty();
 
-	public void testMockCustomizeStrategy() {
-		OrderReqBody orderReqBody = MockUtil.mock(OrderReqBody.class);
-		log.info("自定义mock策略orderReqBody=>{}", orderReqBody);
+        // mock方式2
+        Set<Product> set = MockUtil.mock(new TypeReference<Set<Product>>() {
+        });
+        log.info("单层泛型对象resp2=>{}", JacksonUtil.toJson(set));
 
-		Assertions.assertThat(orderReqBody).isNotNull();
-		Assertions.assertThat(orderReqBody.getMobile().length()).isEqualTo(11);
-		Assertions.assertThat(StringUtils.isNumeric(orderReqBody.getMobile())).isTrue();
-		Assertions.assertThat(orderReqBody.getName()).isEqualTo("小米手机");
-		Assertions.assertThat(orderReqBody.getPrice()).isBetween(100L, 200L);
-		Assertions.assertThat(orderReqBody.getStock()).isEqualTo(50L);
-	}
+        Assertions.assertThat(set).isNotEmpty();
+    }
 
-	@Getter
-	@Setter
-	public class Product extends Base {
-		private static final long serialVersionUID = 1L;
+    @Test
+    public void testMockCustomizeStrategy() {
+        OrderReqBody orderReqBody = MockUtil.mock(OrderReqBody.class);
+        log.info("自定义mock策略orderReqBody=>{}", orderReqBody);
 
-		private String name;
-		private Long price;
-	}
+        Assertions.assertThat(orderReqBody).isNotNull();
+        Assertions.assertThat(orderReqBody.getMobile().length()).isEqualTo(11);
+        Assertions.assertThat(StringUtils.isNumeric(orderReqBody.getMobile())).isTrue();
+        Assertions.assertThat(orderReqBody.getName()).isEqualTo("小米手机");
+        Assertions.assertThat(orderReqBody.getPrice()).isBetween(100L, 200L);
+        Assertions.assertThat(orderReqBody.getStock()).isEqualTo(50L);
+    }
 
-	@Getter
-	@Setter
-	public class OrderReqBody extends Base {
-		private static final long serialVersionUID = 1L;
+    @Getter
+    @Setter
+    public class Product extends Base {
+        private static final long serialVersionUID = 1L;
 
-		@PodamStrategyValue(value = MobileAttributeStrategy.class)
-		private String mobile;
-		@PodamStringValue(strValue = "小米手机")
-		private String name;
-		@PodamLongValue(minValue = 100, maxValue = 200)
-		private Long price;
-		/** 库存 */
-		@PodamLongValue(numValue = "50")
-		private Long stock;
-	}
+        private String name;
+        private Long price;
+    }
 
-	/** 手机号码mock生成策略 */
-	public static class MobileAttributeStrategy implements AttributeStrategy<String> {
+    @Getter
+    @Setter
+    public class OrderReqBody extends Base {
+        private static final long serialVersionUID = 1L;
 
-		@Override
-		public String getValue(Class<?> attrType, List<Annotation> attrAnnotations) {
-			return "13112341234";
-		}
+        @PodamStrategyValue(value = MobileAttributeStrategy.class)
+        private String mobile;
+        @PodamStringValue(strValue = "小米手机")
+        private String name;
+        @PodamLongValue(minValue = 100, maxValue = 200)
+        private Long price;
+        /**
+         * 库存
+         */
+        @PodamLongValue(numValue = "50")
+        private Long stock;
+    }
 
-	}
+    /**
+     * 手机号码mock生成策略
+     */
+    public static class MobileAttributeStrategy implements AttributeStrategy<String> {
+
+        @Override
+        public String getValue(Class<?> attrType, List<Annotation> attrAnnotations) {
+            return "13112341234";
+        }
+
+    }
 
 }

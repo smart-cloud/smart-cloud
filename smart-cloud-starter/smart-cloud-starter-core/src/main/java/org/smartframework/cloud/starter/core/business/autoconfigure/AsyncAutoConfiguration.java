@@ -1,7 +1,6 @@
 package org.smartframework.cloud.starter.core.business.autoconfigure;
 
-import java.util.concurrent.Executor;
-
+import lombok.extern.slf4j.Slf4j;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -10,7 +9,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.concurrent.Executor;
 
 @Configuration
 @ConditionalOnProperty(prefix = "smart", name = "async", havingValue = "true", matchIfMissing = true)

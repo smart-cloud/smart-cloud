@@ -1,12 +1,5 @@
 package org.smartframework.cloud.starter.core.business.autoconfigure;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-
 import org.apache.commons.lang3.ArrayUtils;
 import org.smartframework.cloud.starter.core.support.annotation.YamlScan;
 import org.springframework.boot.env.YamlPropertySourceLoader;
@@ -16,6 +9,9 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @desc yaml文件加载

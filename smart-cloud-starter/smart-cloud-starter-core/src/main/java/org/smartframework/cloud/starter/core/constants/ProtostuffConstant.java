@@ -1,8 +1,8 @@
 package org.smartframework.cloud.starter.core.constants;
 
-import java.nio.charset.StandardCharsets;
-
 import org.springframework.http.MediaType;
+
+import java.nio.charset.StandardCharsets;
 
 public interface ProtostuffConstant {
 

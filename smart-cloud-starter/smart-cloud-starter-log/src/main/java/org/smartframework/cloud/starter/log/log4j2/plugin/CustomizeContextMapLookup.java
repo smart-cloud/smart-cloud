@@ -35,7 +35,7 @@ public class CustomizeContextMapLookup implements StrLookup {
 	/** yaml文件中的应用名key */
 	private static final String APP_NAME_KEY = "spring.application.name";
 	/** 存储设置的变量 */
-	private static final Map<String, String> DATA = new HashMap<>();
+	private static final Map<String, String> DATA = new HashMap<>(1);
 
 	static {
 		// 解析yaml

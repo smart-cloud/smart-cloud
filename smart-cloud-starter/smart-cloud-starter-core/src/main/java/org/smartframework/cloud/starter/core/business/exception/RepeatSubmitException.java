@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.core.business.exception;
 
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 
 /**
  * 重复提交校验异常
