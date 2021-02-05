@@ -28,6 +28,7 @@
         <spring-cloud>2020.0.1</spring-cloud>
         <spring-cloud-gateway>3.0.1</spring-cloud-gateway>
         <spring-cloud-netflix>3.0.1</spring-cloud-netflix>
+        <spring.boot.openfeign>3.0.1</spring.boot.openfeign>
         <junit-platform-runner>1.7.0</junit-platform-runner>
         <spring.boot.admin>2.3.1</spring.boot.admin>
         <protostuff>1.7.2</protostuff>
@@ -50,6 +51,7 @@
         <servlet>4.0.1</servlet>
         <xxl-job>2.2.0</xxl-job>
         <commons-collections4>4.4</commons-collections4>
+        <log4j-layout-template-json>2.14.0</log4j-layout-template-json>
     </properties>
 
     <dependencyManagement>
@@ -123,6 +125,12 @@
 
             <dependency>
                 <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-rabbitmq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
                 <artifactId>smart-cloud-starter-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -189,6 +197,18 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
                 <version>${spring-cloud-netflix}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-openfeign-core</artifactId>
+                <version>${spring.boot.openfeign}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework.boot</groupId>
@@ -422,6 +442,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-layout-template-json</artifactId>
+                <version>${log4j-layout-template-json}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,0 +1,25 @@
+{
+  "timestamp": {
+    "$resolver": "timestamp",
+    "pattern": {
+      "format": "yyyy-MM-dd'T'HH:mm:ss.SSS",
+      "timeZone": "UTC"
+    }
+  },
+  "level": {
+    "$resolver": "level",
+    "field": "name"
+  },
+  "message": {
+    "$resolver": "pattern",
+    "pattern": "[${project}][%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}][%thread] (%F:%line)[%method] -> %mm",
+    "stackTraceEnabled": false
+  },
+  "exception": {
+    "stacktrace": {
+      "$resolver": "exception",
+      "field": "stackTrace",
+      "stringified": true
+    }
+  }
+}

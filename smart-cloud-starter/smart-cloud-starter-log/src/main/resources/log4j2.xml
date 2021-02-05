@@ -8,15 +8,15 @@
 	<!-- 变量配置 -->
 	<Properties>
 		<Property name="project">${cctx:appName}</Property>
-		<Property name="log_path">c:/logs/${project}</Property>
-		<!-- 
-			%level 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL 
-			%m 输出代码中指定的消息 
-			%n 输出一个回车换行符，Windows平台为“/r/n”，Unix平台为“/n” 
+		<Property name="log_path">${cctx:logPath}</Property>
+		<!--
+			%level 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL
+			%m 输出代码中指定的消息
+			%n 输出一个回车换行符，Windows平台为“/r/n”，Unix平台为“/n”
 			%thread 输出产生该日志事件的线程名
-			%line 代码调用位置 
-			%method 执行的方法 
-			
+			%line 代码调用位置
+			%method 执行的方法
+
 			sleuth相关参数：
 			TraceId为此次调用链共享id；SpanId本应用唯一id；ParentSpanId为上级应用唯一id；X-Span-Export是否是发送给Zipkin
 			-->
@@ -28,10 +28,11 @@
 			<PatternLayout pattern="${log_format}" />
 		</Console>
 		<RollingRandomAccessFile immediateFlush="true"
-			name="dailyRollingRandomAccessFile" 
+			name="dailyRollingRandomAccessFile"
 			fileName="${log_path}/${project}.log"
 			filePattern="${log_path}/${project}.%d{yyyy-MM-dd-HH}.log.gz">
-			<PatternLayout pattern="${log_format}" />
+			<!--参考http://logging.apache.org/log4j/2.x/manual/json-template-layout.html-->
+			<JsonTemplateLayout eventTemplateUri="classpath:logTemplate.json" charset="UTF-8"/>
 			<Policies>
 				<!-- 如果启用此配置，则日志会按文件名生成新压缩文件，
 				                即如果filePattern配置的日期格式为 %d{yyyy-MM-dd HH} ，则每小时生成一个压缩文件，
@@ -41,12 +42,21 @@
 				<!-- <SizeBasedTriggeringPolicy size="10 MB" /> -->
 			</Policies>
 		</RollingRandomAccessFile>
+
+		<Async name="asyncConsle" includeLocation="true">
+			<AppenderRef ref="console"/>
+			<LinkedTransferQueue/>
+		</Async>
+		<Async name="asyncFile" includeLocation="true">
+			<AppenderRef ref="dailyRollingRandomAccessFile"/>
+			<LinkedTransferQueue/>
+		</Async>
 	</Appenders>
-	
+
 	<Loggers>
 		<Root level="info">
-			<AppenderRef ref="console" />
-			<AppenderRef ref="dailyRollingRandomAccessFile" />
+			<AppenderRef ref="asyncConsle" />
+			<AppenderRef ref="asyncFile" />
 		</Root>
 		 <!-- 第三方日志系统 -->
         <logger name="org.apache.logging.log4j" level="debug"/>

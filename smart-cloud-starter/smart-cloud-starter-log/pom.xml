@@ -17,6 +17,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-layout-template-json</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.smartframework.cloud</groupId>
             <artifactId>smart-mask</artifactId>
         </dependency>
