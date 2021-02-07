@@ -1,25 +1,23 @@
 package org.smartframework.cloud.code.generate.util;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.mysql.cj.MysqlType;
+import lombok.experimental.UtilityClass;
+import net.sf.jsqlparser.JSQLParserException;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
+import net.sf.jsqlparser.statement.create.table.CreateTable;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.config.Config;
-import org.smartframework.cloud.code.generate.enums.DefaultColumnEnum;
 import org.smartframework.cloud.code.generate.enums.GenerateTypeEnum;
 import org.smartframework.cloud.code.generate.properties.CodeProperties;
 import org.smartframework.cloud.code.generate.properties.DbProperties;
 
-import lombok.experimental.UtilityClass;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 数据库操作工具类
@@ -30,110 +28,151 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class DbUtil {
 
-	/**
-	 * 获取数据库连接
-	 * 
-	 * @param db
-	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 */
-	public static Connection getConnection(DbProperties db) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		return DriverManager.getConnection(db.getUrl(), db.getUsername(), db.getPassword());
-	}
+    /**
+     * 表字段转义符
+     */
+    private static final String TABLE_FIELD_ESCAPES = "`";
+    /**
+     * 表字段备注转义符
+     */
+    private static final String TABLE_FIELD_COMMENT_ESCAPES = "'";
 
-	/**
-	 * 获取表信息
-	 * 
-	 * @param connnection
-	 * @param code
-	 * @return
-	 * @throws SQLException
-	 */
-	public static Map<String, TableMetaDataBO> getTablesMetaData(Connection connnection, CodeProperties code)
-			throws SQLException {
-		String qryTableMetaDataSql = getQueryTableMetaDataSql(connnection.getCatalog(), code.getType(),
-				code.getSpecifiedTables());
+    /**
+     * 获取数据库连接
+     *
+     * @param db
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public static Connection getConnection(DbProperties db) throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        return DriverManager.getConnection(db.getUrl(), db.getUsername(), db.getPassword());
+    }
 
-		Map<String, TableMetaDataBO> tableMetaDataBOs = new HashMap<>();
-		try (PreparedStatement preparedStatement = connnection.prepareStatement(qryTableMetaDataSql);
-				ResultSet resultSet = preparedStatement.executeQuery();) {
-			while (resultSet.next()) {
-				TableMetaDataBO tableBO = new TableMetaDataBO();
-				tableBO.setName(resultSet.getString(1));
-				tableBO.setComment(resultSet.getString(2));
+    /**
+     * 获取表信息
+     *
+     * @param connnection
+     * @param code
+     * @return
+     * @throws SQLException
+     */
+    public static Map<String, TableMetaDataBO> getTablesMetaData(Connection connnection, CodeProperties code)
+            throws SQLException {
+        Map<String, TableMetaDataBO> tableMetaDataBOs = new HashMap<>();
+        try (PreparedStatement preparedStatement = connnection.prepareStatement(String.format("SHOW TABLE STATUS FROM `%s`", connnection.getCatalog()));
+             ResultSet resultSet = preparedStatement.executeQuery();) {
+            while (resultSet.next()) {
+                String tableName = resultSet.getString("Name");
+                if (filterTable(code, tableName)) {
+                    continue;
+                }
+                TableMetaDataBO tableBO = new TableMetaDataBO();
+                tableBO.setName(tableName);
+                tableBO.setComment(resultSet.getString("Comment"));
 
-				tableMetaDataBOs.put(tableBO.getName(), tableBO);
-			}
-		}
+                tableMetaDataBOs.put(tableBO.getName(), tableBO);
+            }
+        }
+        return tableMetaDataBOs;
+    }
 
-		return tableMetaDataBOs;
-	}
+    private boolean filterTable(CodeProperties code, String tableName) {
+        if (GenerateTypeEnum.ALL.getType().compareTo(code.getType()) == 0) {
+            return false;
+        }
 
-	/**
-	 * 获取查询表信息的sql
-	 * 
-	 * @param dbName
-	 * @param generateType
-	 * @param tableNameStr
-	 * @return
-	 */
-	private static String getQueryTableMetaDataSql(String dbName, Integer generateType, String tableNameStr) {
-		StringBuilder qryTableMetaDataSql = new StringBuilder();
-		qryTableMetaDataSql
-				.append("SELECT TABLE_NAME, TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '");
-		qryTableMetaDataSql.append(dbName);
-		qryTableMetaDataSql.append("' ");
-		if (GenerateTypeEnum.ALL.getType().compareTo(generateType) != 0) {
-			String[] tableNames = tableNameStr.split(Config.TABLES_SEPARATOR);
-			qryTableMetaDataSql.append("AND table_name ");
-			if (GenerateTypeEnum.EXCLUDE.getType().compareTo(generateType) == 0) {
-				qryTableMetaDataSql.append("NOT ");
-			}
-			qryTableMetaDataSql.append("IN(");
-			for (int i = 0; i < tableNames.length; i++) {
-				qryTableMetaDataSql.append("'");
-				qryTableMetaDataSql.append(tableNames[i]);
-				qryTableMetaDataSql.append("'");
-				if (i < tableNames.length - 1) {
-					qryTableMetaDataSql.append(",");
-				}
-			}
-			qryTableMetaDataSql.append(")");
-		}
-		return qryTableMetaDataSql.toString();
-	}
+        if (GenerateTypeEnum.INCLUDE.getType().compareTo(code.getType()) == 0) {
+            String[] specifiedTables = code.getSpecifiedTables().split(Config.TABLES_SEPARATOR);
+            for (String specifiedTable : specifiedTables) {
+                if (specifiedTable.equals(tableName)) {
+                    return false;
+                }
+            }
+            return true;
+        }
 
-	/**
-	 * 获取表字段信息
-	 * 
-	 * @param metaData
-	 * @param database
-	 * @param tableName
-	 * @return
-	 * @throws SQLException
-	 */
-	public static List<ColumnMetaDataBO> getTableColumnMetaDatas(DatabaseMetaData metaData, String database,
-			String tableName) throws SQLException {
-		List<ColumnMetaDataBO> columnMetaDatas = new ArrayList<>();
-		try (ResultSet resultSet = metaData.getColumns(database, "", tableName, null);) {
-			while (resultSet.next()) {
-				String name = resultSet.getString("COLUMN_NAME");
-				if (DefaultColumnEnum.contains(name)) {
-					continue;
-				}
-				ColumnMetaDataBO columnMetaData = new ColumnMetaDataBO();
-				columnMetaData.setName(name);
-				columnMetaData.setComment(resultSet.getString("REMARKS"));
-				columnMetaData.setJdbcType(resultSet.getInt("DATA_TYPE"));
-				columnMetaData.setLength(resultSet.getInt("COLUMN_SIZE"));
+        if (GenerateTypeEnum.EXCLUDE.getType().compareTo(code.getType()) == 0) {
+            String[] specifiedTables = code.getSpecifiedTables().split(Config.TABLES_SEPARATOR);
+            for (String specifiedTable : specifiedTables) {
+                if (specifiedTable.equals(tableName)) {
+                    return true;
+                }
+            }
+            return false;
+        }
 
-				columnMetaDatas.add(columnMetaData);
-			}
-		}
+        return true;
+    }
 
-		return columnMetaDatas;
-	}
+    /**
+     * 获取表字段信息
+     *
+     * @param connnection
+     * @param database
+     * @param tableName
+     * @return
+     * @throws SQLException
+     * @throws JSQLParserException
+     */
+    public static List<ColumnMetaDataBO> getTableColumnMetaDatas(Connection connnection, String database,
+                                                                 String tableName) throws SQLException, JSQLParserException {
+        String createTableSql = null;
+        try (PreparedStatement preparedStatement = connnection.prepareStatement(String.format("SHOW CREATE TABLE `%s`.`%s`", database, tableName));
+             ResultSet resultSet = preparedStatement.executeQuery();) {
+            while (resultSet.next()) {
+                createTableSql = resultSet.getString(2);
+                break;
+            }
+        }
+
+        CreateTable createTable = (CreateTable) CCJSqlParserUtil.parse(createTableSql);
+        List<ColumnDefinition> columnDefinitions = createTable.getColumnDefinitions();
+
+        List<ColumnMetaDataBO> columnMetaDatas = new ArrayList<>();
+        for (ColumnDefinition columnDefinition : columnDefinitions) {
+            ColumnMetaDataBO columnMetaData = new ColumnMetaDataBO();
+            columnMetaData.setName(wrapTableFieldName(columnDefinition.getColumnName()));
+
+            String comment = columnDefinition.getColumnSpecs().get(columnDefinition.getColumnSpecs().size() - 1);
+            columnMetaData.setComment(wrapTableFieldComment(comment));
+
+            int jdbcType = MysqlType.getByName(columnDefinition.getColDataType().getDataType()).getJdbcType();
+            columnMetaData.setJdbcType(jdbcType);
+
+            List<String> dataTypeArguments = columnDefinition.getColDataType().getArgumentsStringList();
+            if (dataTypeArguments != null && dataTypeArguments.size() > 0) {
+                columnMetaData.setLength(Integer.valueOf(dataTypeArguments.get(0)));
+            }
+
+            columnMetaDatas.add(columnMetaData);
+        }
+
+        return columnMetaDatas;
+    }
+
+    /**
+     * 去除表字段名前后的转义符"`"
+     *
+     * @param name
+     * @return
+     */
+    private String wrapTableFieldName(String name) {
+        if (name.startsWith(TABLE_FIELD_ESCAPES) && name.endsWith(TABLE_FIELD_ESCAPES)) {
+            return name.substring(1, name.length() - 1);
+        }
+        return name;
+    }
+
+    private String wrapTableFieldComment(String comment) {
+        if (comment.startsWith(TABLE_FIELD_COMMENT_ESCAPES) && comment.endsWith(TABLE_FIELD_COMMENT_ESCAPES)) {
+            return comment.substring(1, comment.length() - 1);
+        }
+        if ("NULL".equals(comment)) {
+            return null;
+        }
+        return comment;
+    }
 
 }

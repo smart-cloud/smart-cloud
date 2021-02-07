@@ -1,6 +1,7 @@
 package org.smartframework.cloud.code.generate.core;
 
 import lombok.experimental.UtilityClass;
+import net.sf.jsqlparser.JSQLParserException;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
@@ -14,7 +15,6 @@ import org.smartframework.cloud.code.generate.util.*;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +34,9 @@ public class CodeGenerateUtil {
      * @throws ClassNotFoundException
      * @throws SQLException
      * @throws IOException
+     * @throws JSQLParserException
      */
-    public static void init() throws ClassNotFoundException, SQLException, IOException {
+    public static void init() throws ClassNotFoundException, SQLException, IOException, JSQLParserException {
         YamlProperties yamlProperties = YamlUtil.readYamlProperties();
         YamlPropertiesCheckUtil.check(yamlProperties);
 
@@ -44,9 +45,8 @@ public class CodeGenerateUtil {
             Map<String, TableMetaDataBO> tableMetaDataMap = DbUtil.getTablesMetaData(connnection, codeProperties);
             ClassCommentBO classComment = TemplateBOUtil.getClassCommentBO(codeProperties.getAuthor());
 
-            DatabaseMetaData metaData = connnection.getMetaData();
             for (Map.Entry<String, TableMetaDataBO> entry : tableMetaDataMap.entrySet()) {
-                generateSingleTable(connnection.getCatalog(), entry.getValue(), metaData, classComment, codeProperties);
+                generateSingleTable(connnection.getCatalog(), entry.getValue(), connnection, classComment, codeProperties);
             }
         }
     }
@@ -56,15 +56,16 @@ public class CodeGenerateUtil {
      *
      * @param database      数据库名
      * @param tableMetaData
-     * @param metaData
+     * @param connnection
      * @param classComment  公共信息
      * @param code
      * @throws SQLException
      * @throws IOException
+     * @throws JSQLParserException
      */
-    private static void generateSingleTable(String database, TableMetaDataBO tableMetaData, DatabaseMetaData metaData,
-                                            ClassCommentBO classComment, CodeProperties code) throws SQLException, IOException {
-        List<ColumnMetaDataBO> columnMetaDatas = DbUtil.getTableColumnMetaDatas(metaData, database,
+    private static void generateSingleTable(String database, TableMetaDataBO tableMetaData, Connection connnection,
+                                            ClassCommentBO classComment, CodeProperties code) throws SQLException, IOException, JSQLParserException {
+        List<ColumnMetaDataBO> columnMetaDatas = DbUtil.getTableColumnMetaDatas(connnection, database,
                 tableMetaData.getName());
         String mainClassPackage = code.getMainClassPackage();
         PathProperties pathProperties = code.getProject().getPath();
@@ -80,7 +81,7 @@ public class CodeGenerateUtil {
         CodeFileGenerateUtil.generateBaseRespVO(baseRespVOBO, rpcPath);
 
         BaseMapperBO baseMapperBO = TemplateBOUtil.getBaseMapperBO(tableMetaData, entityBO, baseRespVOBO,
-                classComment, mainClassPackage);
+                classComment, mainClassPackage, code.getDatasource());
         CodeFileGenerateUtil.generateBaseMapper(baseMapperBO, servicePath);
     }
 

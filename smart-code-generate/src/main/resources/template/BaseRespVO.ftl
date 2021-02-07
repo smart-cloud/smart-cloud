@@ -25,7 +25,7 @@ public class ${className} extends BaseEntityRespVO {
 	private static final long serialVersionUID = 1L;
 
 <#list attributes as attribute>
-	<#if attribute.comment!="">
+	<#if attribute.comment?? && attribute.comment!="">
     /** ${attribute.comment} */
 	</#if>
 	<#if attribute.maskRule??>

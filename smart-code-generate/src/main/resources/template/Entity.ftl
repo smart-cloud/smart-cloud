@@ -1,18 +1,15 @@
 package ${packageName};
 
-<#list importPackages as package>
-import ${package};
-
-</#list>
-import javax.persistence.Column;
-import javax.persistence.Table;
-
-import org.smartframework.cloud.starter.mybatis.common.mapper.entity.BaseEntity;
-
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+<#list importPackages as package>
+import ${package};
+</#list>
+import org.smartframework.cloud.starter.mybatis.common.mapper.entity.BaseEntity;
 
 /**
  * ${tableComment}
@@ -24,30 +21,20 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-@Table(name = "${tableName}")
+@TableName("${tableName}")
 public class ${className} extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 <#list attributes as attribute>
-	<#if attribute.comment!="">
+	<#if attribute.comment?? && attribute.comment!="">
     /** ${attribute.comment} */
 	</#if>
 	<#if attribute.maskRule??>
     @MaskLog(MaskRule.${attribute.maskRule})
 	</#if>
-    @Column(name = "${attribute.columnName}")     
+    @TableField(value = "${attribute.columnName}")
 	private ${attribute.javaType} ${attribute.name};
 	
 </#list>
-	/** 表字段名 */
-	public enum Columns {
-		<#list attributes as attribute>
-		<#if attribute.comment!="">
-	    /** ${attribute.comment} */
-		</#if>
-		${attribute.name}<#if attribute_has_next>,<#else>;</#if>
-		</#list>
-	}
-
 }

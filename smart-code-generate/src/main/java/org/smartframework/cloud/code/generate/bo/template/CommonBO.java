@@ -1,10 +1,10 @@
 package org.smartframework.cloud.code.generate.bo.template;
 
-import java.util.List;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.Set;
 
 /**
  * 公共信息
@@ -20,7 +20,7 @@ public class CommonBO {
 	/** 包名 */
 	private String packageName;
 	/** 需要导入的包名 */
-	private List<String> importPackages;
+	private Set<String> importPackages;
 	/** 类名 */
 	private String className;
 	/** 表备注 */

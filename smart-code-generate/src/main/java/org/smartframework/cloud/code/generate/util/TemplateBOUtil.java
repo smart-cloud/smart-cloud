@@ -5,12 +5,10 @@ import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.template.*;
 import org.smartframework.cloud.code.generate.config.Config;
+import org.smartframework.cloud.code.generate.properties.DatasourceProperties;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 模板BO工具类
@@ -40,7 +38,6 @@ public class TemplateBOUtil {
      * @param tableMetaData
      * @param columnMetaDatas
      * @param classComment
-     * @param mainClassPackage
      * @param mask
      * @return
      */
@@ -55,7 +52,7 @@ public class TemplateBOUtil {
 
         List<EntityAttributeBO> attributes = new ArrayList<>();
         entityBO.setAttributes(attributes);
-        List<String> importPackages = new ArrayList<>();
+        Set<String> importPackages = new HashSet<>(2);
         entityBO.setImportPackages(importPackages);
         for (ColumnMetaDataBO columnMetaData : columnMetaDatas) {
             EntityAttributeBO entityAttribute = new EntityAttributeBO();
@@ -69,8 +66,7 @@ public class TemplateBOUtil {
                 importPackages.add(Config.MaskPackage.MASK_LOG);
             }
 
-            entityAttribute
-                    .setJavaType(JavaTypeUtil.getByJdbcType(columnMetaData.getJdbcType(), columnMetaData.getLength()));
+            entityAttribute.setJavaType(JavaTypeUtil.getByJdbcType(columnMetaData.getJdbcType(), columnMetaData.getLength()));
             String importPackage = JavaTypeUtil.getImportPackage(columnMetaData.getJdbcType());
             if (importPackage != null) {
                 importPackages.add(importPackage);
@@ -104,7 +100,7 @@ public class TemplateBOUtil {
      * @return
      */
     public static BaseRespVOBO getBaseRespBodyBO(TableMetaDataBO tableMetaData, List<ColumnMetaDataBO> columnMetaDatas, ClassCommentBO classComment,
-                                                 String mainClassPackage, List<String> importPackages, Map<String, Map<String, String>> mask) {
+                                                 String mainClassPackage, Set<String> importPackages, Map<String, Map<String, String>> mask) {
         BaseRespVOBO baseRespVOBO = new BaseRespVOBO();
         baseRespVOBO.setClassComment(classComment);
         baseRespVOBO.setTableComment(tableMetaData.getComment());
@@ -149,21 +145,24 @@ public class TemplateBOUtil {
      * @param baseRespVOBO
      * @param classComment
      * @param mainClassPackage
+     * @param datasource
      * @return
      */
     public static BaseMapperBO getBaseMapperBO(TableMetaDataBO tableMetaData, EntityBO entityBO,
-                                               BaseRespVOBO baseRespVOBO, ClassCommentBO classComment, String mainClassPackage) {
+                                               BaseRespVOBO baseRespVOBO, ClassCommentBO classComment, String mainClassPackage, DatasourceProperties datasource) {
         BaseMapperBO baseMapperBO = new BaseMapperBO();
         baseMapperBO.setClassComment(classComment);
         baseMapperBO.setTableComment(tableMetaData.getComment());
         baseMapperBO.setPackageName(mainClassPackage + Config.MAPPER_PACKAGE_SUFFIX);
         baseMapperBO.setClassName(JavaTypeUtil.getMapperName(tableMetaData.getName()));
 
-        List<String> importPackages = new ArrayList<>();
+        Set<String> importPackages = new HashSet<>(2);
         // entity package
         importPackages.add(entityBO.getPackageName() + "." + entityBO.getClassName());
-        // baseRespBody package
-        importPackages.add(baseRespVOBO.getPackageName() + "." + baseRespVOBO.getClassName());
+        if (datasource != null) {
+            importPackages.add(datasource.getDatasourceNamePackage());
+            baseMapperBO.setDsValue(datasource.getValue());
+        }
         baseMapperBO.setImportPackages(importPackages);
 
         baseMapperBO.setEntityClassName(entityBO.getClassName());

@@ -52,6 +52,7 @@
         <xxl-job>2.2.0</xxl-job>
         <commons-collections4>4.4</commons-collections4>
         <log4j-layout-template-json>2.14.0</log4j-layout-template-json>
+        <jsqlparser>4.0</jsqlparser>
     </properties>
 
     <dependencyManagement>
@@ -447,6 +448,11 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-layout-template-json</artifactId>
                 <version>${log4j-layout-template-json}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.jsqlparser</groupId>
+                <artifactId>jsqlparser</artifactId>
+                <version>${jsqlparser}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
