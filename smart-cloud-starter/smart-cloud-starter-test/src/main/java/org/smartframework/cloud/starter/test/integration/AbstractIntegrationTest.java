@@ -2,7 +2,10 @@ package org.smartframework.cloud.starter.test.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.smartframework.cloud.api.core.user.AbstractUserContext;
+import org.smartframework.cloud.api.core.user.ParentUserBO;
 import org.smartframework.cloud.starter.test.Constants;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.SerializingUtil;
@@ -37,6 +40,22 @@ public abstract class AbstractIntegrationTest {
 
     protected abstract ApplicationContext getApplicationContext();
 
+    @Before
+    public void beforeTestMethod() {
+        fillMockUserToContext();
+    }
+
+    /**
+     * 填充当前线程上下文需要的用户信息
+     */
+    private static void fillMockUserToContext() {
+        ParentUserBO authUserMock = new ParentUserBO();
+        authUserMock.setId(1L);
+        authUserMock.setUsername("collin");
+        authUserMock.setRealName("Collin.Lee");
+        authUserMock.setMobile("13112341234");
+        AbstractUserContext.setContext(authUserMock);
+    }
 
     private Boolean enableRpcProtostuff() {
         return getApplicationContext().getEnvironment().getProperty(Constants.RPC_PROTOSTUFF_SWITCH, Boolean.class, true);
