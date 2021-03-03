@@ -129,4 +129,32 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
         return deserializeResponse(response.getContentAsByteArray(), typeReference, url);
     }
 
+    /**
+     * get请求，通过body传参
+     *
+     * @param url           请求mapping的地址
+     * @param req           请求参数
+     * @param typeReference 返回对象类型
+     * @return
+     * @throws Exception
+     */
+    public <T> T getByBody(String url, Object req, TypeReference<T> typeReference)
+            throws Exception {
+        String requestJsonStr = (req == null) ? null : JacksonUtil.toJson(req);
+        log.info("test.requestBody={}", requestJsonStr);
+
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(url)
+                .content(requestJsonStr)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE);
+
+        MockHttpServletResponse response = mockMvc.perform(mockHttpServletRequestBuilder)
+                .andReturn()
+                .getResponse();
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+
+        return deserializeResponse(response.getContentAsByteArray(), typeReference, url);
+    }
+
 }
