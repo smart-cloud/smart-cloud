@@ -5,6 +5,7 @@ import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.template.*;
 import org.smartframework.cloud.code.generate.config.Config;
+import org.smartframework.cloud.code.generate.enums.DefaultColumnEnum;
 import org.smartframework.cloud.code.generate.properties.DatasourceProperties;
 
 import java.text.SimpleDateFormat;
@@ -45,7 +46,7 @@ public class TemplateBOUtil {
                                        ClassCommentBO classComment, String mainClassPackage, Map<String, Map<String, String>> mask) {
         EntityBO entityBO = new EntityBO();
         entityBO.setClassComment(classComment);
-        entityBO.setTableName(tableMetaData.getName());
+        entityBO.setTableName(TableUtil.getTableName(tableMetaData.getName()));
         entityBO.setTableComment(tableMetaData.getComment());
         entityBO.setPackageName(mainClassPackage + Config.ENTITY_PACKAGE_SUFFIX);
         entityBO.setClassName(JavaTypeUtil.getEntityName(tableMetaData.getName()));
@@ -55,6 +56,9 @@ public class TemplateBOUtil {
         Set<String> importPackages = new HashSet<>(2);
         entityBO.setImportPackages(importPackages);
         for (ColumnMetaDataBO columnMetaData : columnMetaDatas) {
+            if (DefaultColumnEnum.contains(columnMetaData.getName())) {
+                continue;
+            }
             EntityAttributeBO entityAttribute = new EntityAttributeBO();
             entityAttribute.setName(TableUtil.getAttibuteName(columnMetaData.getName()));
             entityAttribute.setColumnName(columnMetaData.getName());
@@ -68,7 +72,7 @@ public class TemplateBOUtil {
 
             entityAttribute.setJavaType(JavaTypeUtil.getByJdbcType(columnMetaData.getJdbcType(), columnMetaData.getLength()));
             entityAttribute.setPrimaryKey(columnMetaData.isPrimaryKey());
-            if(columnMetaData.isPrimaryKey()){
+            if (columnMetaData.isPrimaryKey()) {
                 importPackages.add("com.baomidou.mybatisplus.annotation.TableId");
             }
             String importPackage = JavaTypeUtil.getImportPackage(columnMetaData.getJdbcType());
@@ -115,6 +119,9 @@ public class TemplateBOUtil {
         List<EntityAttributeBO> attributes = new ArrayList<>();
         baseRespVOBO.setAttributes(attributes);
         for (ColumnMetaDataBO columnMetaData : columnMetaDatas) {
+            if (DefaultColumnEnum.contains(columnMetaData.getName())) {
+                continue;
+            }
             EntityAttributeBO entityAttribute = new EntityAttributeBO();
             entityAttribute.setComment(columnMetaData.getComment());
             entityAttribute.setMaskRule(getMaskRule(mask, tableMetaData.getName(), columnMetaData.getName()));
