@@ -2,7 +2,7 @@ package org.smartframework.cloud.starter.test.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.api.core.user.AbstractUserContext;
 import org.smartframework.cloud.api.core.user.ParentUserBO;
@@ -28,6 +28,9 @@ import java.lang.reflect.ParameterizedType;
 public abstract class AbstractIntegrationTest {
 
     static {
+        // 单元测试标志
+        System.setProperty("smart.env.unittest", Boolean.TRUE.toString());
+
         String closeTag = Boolean.FALSE.toString();
         // 单元测试环境下，关闭依赖
         // 1.关闭api元数据上传
@@ -40,7 +43,7 @@ public abstract class AbstractIntegrationTest {
 
     protected abstract ApplicationContext getApplicationContext();
 
-    @Before
+    @BeforeEach
     public void beforeTestMethod() {
         fillMockUserToContext();
     }
