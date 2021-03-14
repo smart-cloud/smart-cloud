@@ -15,6 +15,10 @@ import lombok.ToString;
 @ToString
 public class EntityAttributeBO {
 
+	/**
+	 * 是否为主键
+	 */
+	private boolean primaryKey;
 	/** 表字段对应的java属性名 */
 	private String name;
 	/** 表字段名称 */

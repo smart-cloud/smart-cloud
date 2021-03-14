@@ -33,7 +33,11 @@ public class ${className} extends BaseEntity {
 	<#if attribute.maskRule??>
     @MaskLog(MaskRule.${attribute.maskRule})
 	</#if>
+    <#if attribute.primaryKey>
+    @TableId(value = "${attribute.columnName}")
+    <#else>
     @TableField(value = "${attribute.columnName}")
+    </#if>
 	private ${attribute.javaType} ${attribute.name};
 	
 </#list>

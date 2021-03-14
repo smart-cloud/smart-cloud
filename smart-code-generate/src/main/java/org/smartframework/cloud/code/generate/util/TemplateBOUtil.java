@@ -67,6 +67,10 @@ public class TemplateBOUtil {
             }
 
             entityAttribute.setJavaType(JavaTypeUtil.getByJdbcType(columnMetaData.getJdbcType(), columnMetaData.getLength()));
+            entityAttribute.setPrimaryKey(columnMetaData.isPrimaryKey());
+            if(columnMetaData.isPrimaryKey()){
+                importPackages.add("com.baomidou.mybatisplus.annotation.TableId");
+            }
             String importPackage = JavaTypeUtil.getImportPackage(columnMetaData.getJdbcType());
             if (importPackage != null) {
                 importPackages.add(importPackage);

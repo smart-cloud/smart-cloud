@@ -6,6 +6,7 @@ import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
+import net.sf.jsqlparser.statement.create.table.Index;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.config.Config;
@@ -128,13 +129,13 @@ public class DbUtil {
         }
 
         CreateTable createTable = (CreateTable) CCJSqlParserUtil.parse(createTableSql);
+        List<String> primaryKeyColumnNames = getPrimaryKeyColumnNames(createTable);
         List<ColumnDefinition> columnDefinitions = createTable.getColumnDefinitions();
 
         List<ColumnMetaDataBO> columnMetaDatas = new ArrayList<>();
         for (ColumnDefinition columnDefinition : columnDefinitions) {
             ColumnMetaDataBO columnMetaData = new ColumnMetaDataBO();
             columnMetaData.setName(wrapTableFieldName(columnDefinition.getColumnName()));
-
             String comment = columnDefinition.getColumnSpecs().get(columnDefinition.getColumnSpecs().size() - 1);
             columnMetaData.setComment(wrapTableFieldComment(comment));
 
@@ -145,11 +146,32 @@ public class DbUtil {
             if (dataTypeArguments != null && dataTypeArguments.size() > 0) {
                 columnMetaData.setLength(Integer.valueOf(dataTypeArguments.get(0)));
             }
+            columnMetaData.setPrimaryKey(primaryKeyColumnNames != null && !primaryKeyColumnNames.isEmpty() && primaryKeyColumnNames.contains(columnDefinition.getColumnName()));
 
             columnMetaDatas.add(columnMetaData);
         }
 
         return columnMetaDatas;
+    }
+
+    /**
+     * 获取主键字段名
+     *
+     * @param createTable
+     * @return
+     */
+    private static List<String> getPrimaryKeyColumnNames(CreateTable createTable) {
+        List<Index> indexs = createTable.getIndexes();
+        if (indexs == null || indexs.isEmpty()) {
+            return null;
+        }
+
+        for (Index index : indexs) {
+            if (index.getType().equals("PRIMARY KEY")) {
+                return index.getColumnsNames();
+            }
+        }
+        return null;
     }
 
     /**
