@@ -27,9 +27,7 @@ import java.util.Set;
  * @date 2021-01-28
  */
 @Configuration
-@ConditionalOnBean(MapperScannerConfigurer.class)
 @AutoConfigureAfter(MapperScannerConfigurer.class)
-@ConditionalOnMissingBean({MapperFactoryBean.class})
 public class MapperScannerConfigurerBeanDefinitionRegistryPostProcessor implements BeanDefinitionRegistryPostProcessor, Ordered {
 
     /**

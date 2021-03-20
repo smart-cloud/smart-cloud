@@ -37,7 +37,7 @@
         <redisson>3.15.0</redisson>
         <mybatis-spring-boot-starter>2.1.4</mybatis-spring-boot-starter>
         <mybatis-plus>3.4.2</mybatis-plus>
-        <dynamic-datasource>3.3.1</dynamic-datasource>
+        <dynamic-datasource>3.3.2</dynamic-datasource>
         <sharding-jdbc>4.1.1</sharding-jdbc>
         <seata>1.4.1</seata>
         <mysql>8.0.23</mysql>
