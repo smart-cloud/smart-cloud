@@ -25,8 +25,8 @@ public class BaseEntity extends Base {
     /**
      * 创建时间
      */
-    @TableField(value = "f_sys_add_time")
-    private Date addTime;
+    @TableField(value = "f_sys_insert_time")
+    private Date insertTime;
 
     /**
      * 更新时间
@@ -43,8 +43,8 @@ public class BaseEntity extends Base {
     /**
      * 新增者
      */
-    @TableField(value = "f_sys_add_user")
-    private Long addUser;
+    @TableField(value = "f_sys_insert_user")
+    private Long insertUser;
 
     /**
      * 更新者

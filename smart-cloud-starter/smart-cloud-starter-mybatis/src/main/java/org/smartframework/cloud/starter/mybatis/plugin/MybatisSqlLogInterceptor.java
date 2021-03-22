@@ -45,7 +45,6 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         long start = System.currentTimeMillis();
         try {
             returnValue = invocation.proceed();
-            return returnValue;
         } finally {
             long end = System.currentTimeMillis();
             long time = (end - start);
@@ -61,6 +60,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
             Configuration configuration = mappedStatement.getConfiguration();
             showSql(configuration, boundSql, sqlId, time, returnValue);
         }
+        return returnValue;
     }
 
     @Override

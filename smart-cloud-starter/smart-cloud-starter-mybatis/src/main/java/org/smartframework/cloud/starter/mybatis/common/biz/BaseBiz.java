@@ -23,7 +23,7 @@ public class BaseBiz<T extends BaseEntity> {
 		Class<T> clazz = ClassUtil.getActualTypeArgumentFromSuperGenericClass(getClass(), 0);
 		T entity = BeanUtils.instantiateClass(clazz);
 		entity.setId(SnowFlakeIdUtil.getInstance().nextId());
-		entity.setAddTime(new Date());
+		entity.setInsertTime(new Date());
 		entity.setDelState(DelStateEnum.NORMAL.getDelState());
 		return entity;
 	}
