@@ -6,7 +6,6 @@ import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.template.*;
 import org.smartframework.cloud.code.generate.config.Config;
 import org.smartframework.cloud.code.generate.enums.DefaultColumnEnum;
-import org.smartframework.cloud.code.generate.properties.DatasourceProperties;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -156,11 +155,10 @@ public class TemplateBOUtil {
      * @param baseRespVOBO
      * @param classComment
      * @param mainClassPackage
-     * @param datasource
      * @return
      */
     public static BaseMapperBO getBaseMapperBO(TableMetaDataBO tableMetaData, EntityBO entityBO,
-                                               BaseRespVOBO baseRespVOBO, ClassCommentBO classComment, String mainClassPackage, DatasourceProperties datasource) {
+                                               BaseRespVOBO baseRespVOBO, ClassCommentBO classComment, String mainClassPackage) {
         BaseMapperBO baseMapperBO = new BaseMapperBO();
         baseMapperBO.setClassComment(classComment);
         baseMapperBO.setTableComment(tableMetaData.getComment());
@@ -170,10 +168,6 @@ public class TemplateBOUtil {
         Set<String> importPackages = new HashSet<>(2);
         // entity package
         importPackages.add(entityBO.getPackageName() + "." + entityBO.getClassName());
-        if (datasource != null) {
-            importPackages.add(datasource.getDatasourceNamePackage());
-            baseMapperBO.setDsValue(datasource.getValue());
-        }
         baseMapperBO.setImportPackages(importPackages);
 
         baseMapperBO.setEntityClassName(entityBO.getClassName());

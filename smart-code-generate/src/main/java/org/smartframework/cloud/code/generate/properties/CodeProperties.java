@@ -29,10 +29,6 @@ public class CodeProperties {
      */
     private String specifiedTables;
     /**
-     * 多数据源配置
-     */
-    private DatasourceProperties datasource;
-    /**
      * 表字段脱敏规则
      */
     private Map<String, Map<String, String>> mask;

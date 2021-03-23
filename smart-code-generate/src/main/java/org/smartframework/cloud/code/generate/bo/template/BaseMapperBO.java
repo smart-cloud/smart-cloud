@@ -17,9 +17,5 @@ public class BaseMapperBO extends CommonBO {
      * baseRespBody类名
      */
     private String baseRespBodyClassName;
-    /**
-     * 注解DS的value属性值
-     */
-    private String dsValue;
 
 }

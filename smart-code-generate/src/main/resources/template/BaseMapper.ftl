@@ -1,11 +1,10 @@
 package ${packageName};
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 <#list importPackages as package>
 import ${package};
 </#list>
+import org.smartframework.cloud.starter.mybatis.common.mapper.SmartMapper;
 
 /**
  * ${tableComment}base mapper
@@ -13,10 +12,7 @@ import ${package};
  * @author ${classComment.author}
  * @date ${classComment.createDate}
  */
-<#if dsValue!="">
-@DS(${dsValue})
-</#if>
 @Mapper
-public interface ${className} extends BaseMapper<${entityClassName}> {
+public interface ${className} extends SmartMapper<${entityClassName}> {
 
 }

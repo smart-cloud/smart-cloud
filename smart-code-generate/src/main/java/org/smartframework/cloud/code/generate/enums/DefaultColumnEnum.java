@@ -11,13 +11,13 @@ public enum DefaultColumnEnum {
 	/** 主键id */
 	f_id,
 	/** 新增时间 */
-	f_sys_add_time,
+	f_sys_insert_time,
 	/** 修改时间 */
 	f_sys_upd_time,
 	/** 删除时间 */
 	f_sys_del_time,
 	/** 新增人 */
-	f_sys_add_user,
+	f_sys_insert_user,
 	/** 修改人 */
 	f_sys_upd_user,
 	/** 删除人 */

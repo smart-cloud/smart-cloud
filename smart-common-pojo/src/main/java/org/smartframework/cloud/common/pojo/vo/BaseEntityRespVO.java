@@ -33,7 +33,7 @@ public class BaseEntityRespVO extends Base {
      * 创建时间
      */
     @JsonFormat(pattern = DateConstant.DEFAULT_DATE_FORMAT)
-    private Date addTime;
+    private Date insertTime;
 
     /**
      * 更新时间
@@ -50,7 +50,7 @@ public class BaseEntityRespVO extends Base {
     /**
      * 新增者
      */
-    private Long addUser;
+    private Long insertUser;
 
     /**
      * 更新者
