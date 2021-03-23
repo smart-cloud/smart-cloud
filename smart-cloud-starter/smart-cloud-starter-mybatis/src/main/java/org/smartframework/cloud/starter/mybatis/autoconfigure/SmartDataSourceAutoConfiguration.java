@@ -15,6 +15,7 @@ import org.apache.shardingsphere.core.rule.ShardingRule;
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.context.ShardingRuntimeContext;
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
 import org.smartframework.cloud.starter.core.constants.SymbolConstant;
+import org.smartframework.cloud.starter.mybatis.constants.ShardingJdbcConstants;
 import org.smartframework.cloud.starter.mybatis.constants.ShardingJdbcDS;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +48,6 @@ public class SmartDataSourceAutoConfiguration {
 
     @Autowired
     private DynamicDataSourceProperties dynamicDataSourceProperties;
-    /**
-     * 从库数据库名字关键字
-     */
-    private String slaveKey = "slave";
 
     @Primary
     @Bean
@@ -116,11 +113,11 @@ public class SmartDataSourceAutoConfiguration {
     }
 
     private boolean isSlave(String name) {
-        return name.contains(slaveKey);
+        return name.contains(ShardingJdbcConstants.SLAVE_KEY);
     }
 
     private boolean isMaster(String name) {
-        return !name.contains(slaveKey);
+        return !name.contains(ShardingJdbcConstants.SLAVE_KEY);
     }
 
     @Primary

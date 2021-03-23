@@ -6,7 +6,7 @@ package org.smartframework.cloud.starter.mybatis.constants;
  * @author collin
  * @date 2021-02-25
  */
-public final class ShardingJdbcDS {
+public class ShardingJdbcDS {
 
     /**
      * master

@@ -1,6 +1,7 @@
 package org.smartframework.cloud.starter.mybatis.autoconfigure;
 
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import org.smartframework.cloud.starter.mybatis.injector.SmartSqlInjector;
 import org.smartframework.cloud.starter.mybatis.plugin.MybatisSqlLogInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -31,6 +32,11 @@ public class MyBatisPlusAutoConfiguration {
     @ConditionalOnProperty(prefix = "smart.cloud.mybatis.log", name = "enabled", havingValue = "true", matchIfMissing = true)
     public MybatisSqlLogInterceptor mybatisSqlLogInterceptor() {
         return new MybatisSqlLogInterceptor();
+    }
+
+    @Bean
+    public SmartSqlInjector smartSqlInjector(){
+        return new SmartSqlInjector();
     }
 
 }
