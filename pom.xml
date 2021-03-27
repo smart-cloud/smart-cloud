@@ -49,7 +49,7 @@
         <commons-codec>1.15</commons-codec>
         <commons-io>2.8.0</commons-io>
         <servlet>4.0.1</servlet>
-        <xxl-job>2.2.0</xxl-job>
+        <xxl-job>2.3.0</xxl-job>
         <commons-collections4>4.4</commons-collections4>
         <log4j-layout-template-json>2.14.0</log4j-layout-template-json>
         <jsqlparser>4.0</jsqlparser>
