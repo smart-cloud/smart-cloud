@@ -10,7 +10,7 @@
 - 支持多语言（国际化）
 - 敏感配置信息支持加密
 - [日志敏感数据脱敏](https://github.com/smart-cloud/smart-cloud#%E4%BA%8C%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F)
-- 单体服务开发接阶段测试不依赖其他服务（挡板测试、关闭eureka、sentinel等）
+- 单体服务开发接阶段测试不依赖其他服务（mock test、关闭eureka、sentinel等）
 - 技术栈稳定、实用、易用
 
 示例工程见[smart-cloud-examples](https://github.com/smart-cloud/smart-cloud-examples)
@@ -69,7 +69,8 @@ smart-cloud
 # 四、服务合并原理
 ![](docs/images/service_merge.png)
 
-合并服务只需修改pom.xml，将待合并的服务import进去即可。
+- 合并服务只需修改pom.xml，将待合并的服务import进去即可。
+- rpc接口通过自定义注解[SmartFeignClient](https://github.com/smart-cloud/smart-cloud/blob/dev/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/org/smartframework/cloud/starter/rpc/feign/annotation/SmartFeignClient.java)实现。单个服务独自部署时，FeignClient会生效；当服务提供者和服务消费者合并部署时，FeignClient注解会失效，此时rpc接口将通过实现类对象直接调用。具体逻辑见[SmartFeignClientCondition](https://github.com/smart-cloud/smart-cloud/blob/463cc09b6c2f8a0b947f0a2fcc157ee037ba419d/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/org/smartframework/cloud/starter/rpc/feign/condition/SmartFeignClientCondition.java#L32)。
 # 五、相关说明
 ## （一）服务合并遇到的问题
 单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
