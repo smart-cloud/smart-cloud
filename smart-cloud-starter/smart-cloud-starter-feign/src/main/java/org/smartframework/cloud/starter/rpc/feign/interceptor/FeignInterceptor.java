@@ -52,7 +52,7 @@ public class FeignInterceptor implements MethodInterceptor, RequestInterceptor {
             logDO.setCost(System.currentTimeMillis() - startTime);
 
             // 3、打印日志
-            log.info(LogUtil.truncate("rpc.logDO=>{}", logDO));
+            log.info(LogUtil.truncate("rpc.log=>{}", logDO));
 
             // 方法调用顺序：apply（初始化值） ——> invoke（获取值，并清除）
             // 防止内存泄漏

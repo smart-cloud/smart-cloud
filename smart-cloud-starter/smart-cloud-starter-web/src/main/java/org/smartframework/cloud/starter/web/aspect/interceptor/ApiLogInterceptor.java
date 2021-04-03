@@ -62,12 +62,12 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
 
             logAspectDO.setResult(resultJson);
             logAspectDO.setCost(endTime - startTime);
-            log.info(LogUtil.truncate("api.logDO.info=>{}", logAspectDO));
+            log.info(LogUtil.truncate("api.info=>{}", logAspectDO));
             return result;
         } catch (Exception e) {
             logAspectDO.setCost(System.currentTimeMillis() - startTime);
 
-            log.error(LogUtil.truncate("api.logDO.error=>{}", logAspectDO), e);
+            log.error(LogUtil.truncate("api.error=>{}", logAspectDO), e);
 
             RespHeadVO head = ExceptionHandlerContext.transRespHead(e);
             return new RespVO<>(head);
