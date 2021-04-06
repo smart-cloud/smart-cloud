@@ -81,6 +81,27 @@ public class RedisComponent {
     }
 
     /**
+     * 异步删除k-v对
+     *
+     * @param key
+     * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
+     */
+    public Boolean unlink(String key) {
+        return stringRedisTemplate.unlink(key);
+    }
+
+    /**
+     * 异步批量删除k-v对
+     *
+     * @param keys
+     * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
+     */
+    public Boolean unlink(Collection<String> keys) {
+        Long count = stringRedisTemplate.unlink(keys);
+        return count != null && count == keys.size();
+    }
+
+    /**
      * 设置k-v对
      *
      * @param key
