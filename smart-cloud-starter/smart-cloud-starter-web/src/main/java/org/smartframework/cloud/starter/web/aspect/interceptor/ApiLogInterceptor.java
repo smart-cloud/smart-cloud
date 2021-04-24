@@ -13,6 +13,7 @@ import org.smartframework.cloud.starter.web.aspect.pojo.LogAspectDO;
 import org.smartframework.cloud.starter.web.exception.ExceptionHandlerContext;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.core.Ordered;
+import org.springframework.core.io.InputStreamSource;
 import org.springframework.validation.DataBinder;
 import org.springframework.web.context.request.RequestContextHolder;
 
@@ -131,7 +132,10 @@ public class ApiLogInterceptor implements MethodInterceptor, Ordered {
      * @return
      */
     private static boolean needFilter(Object object) {
-        return object instanceof ServletRequest || object instanceof ServletResponse || object instanceof DataBinder;
+        return object instanceof ServletRequest
+                || object instanceof ServletResponse
+                || object instanceof DataBinder
+                || object instanceof InputStreamSource;
     }
 
     /**
