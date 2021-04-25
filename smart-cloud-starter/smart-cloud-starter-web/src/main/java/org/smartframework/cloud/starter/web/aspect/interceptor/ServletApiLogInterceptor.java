@@ -32,7 +32,7 @@ import java.util.stream.Stream;
  * @date 2019-04-08
  */
 @Slf4j
-public class ApiLogInterceptor implements MethodInterceptor, Ordered {
+public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
 
     @Override
     public int getOrder() {

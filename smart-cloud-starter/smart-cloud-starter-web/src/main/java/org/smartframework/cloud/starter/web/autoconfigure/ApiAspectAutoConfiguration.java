@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.web.autoconfigure;
 import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
-import org.smartframework.cloud.starter.web.aspect.interceptor.ApiLogInterceptor;
+import org.smartframework.cloud.starter.web.aspect.interceptor.ServletApiLogInterceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
@@ -48,8 +48,8 @@ public class ApiAspectAutoConfiguration {
     class ApiLogAutoConfigure {
 
         @Bean
-        public ApiLogInterceptor apiLogInterceptor() {
-            return new ApiLogInterceptor();
+        public ServletApiLogInterceptor apiLogInterceptor() {
+            return new ServletApiLogInterceptor();
         }
 
         /**
@@ -60,7 +60,7 @@ public class ApiAspectAutoConfiguration {
          * @return
          */
         @Bean
-        public Advisor apiLogAdvisor(final ApiLogInterceptor apiLogInterceptor,
+        public Advisor apiLogAdvisor(final ServletApiLogInterceptor apiLogInterceptor,
                                      final AspectJExpressionPointcut apiPointcut) {
             DefaultBeanFactoryPointcutAdvisor apiLogAdvisor = new DefaultBeanFactoryPointcutAdvisor();
             apiLogAdvisor.setAdvice(apiLogInterceptor);
