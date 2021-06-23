@@ -3,22 +3,30 @@ package org.smartframework.cloud.starter.test.integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.smartframework.cloud.starter.test.vo.FileVO;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.Filter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -155,6 +163,63 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
         return deserializeResponse(response.getContentAsByteArray(), typeReference, url);
+    }
+
+    public <T> T uploadFiles(String url, MultiValueMap<String, String> params, List<FileVO> files,
+                             TypeReference<T> typeReference) throws Exception {
+        MockMultipartHttpServletRequestBuilder mockMultipartHttpServletRequestBuilder = MockMvcRequestBuilders
+                .multipart(url);
+        for (FileVO fileVO : files) {
+            File file = fileVO.getFile();
+            MockMultipartFile mockMultipartFile = new MockMultipartFile(fileVO.getName(), file.getCanonicalPath(),
+                    MediaType.MULTIPART_FORM_DATA_VALUE, new FileInputStream(file));
+            mockMultipartHttpServletRequestBuilder.file(mockMultipartFile);
+        }
+        if (null != params && params.size() > 0) {
+            mockMultipartHttpServletRequestBuilder.params(params);
+        }
+
+        MockHttpServletResponse response = mockMvc.perform(mockMultipartHttpServletRequestBuilder)
+                .andReturn()
+                .getResponse();
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        String content = response.getContentAsString();
+
+        log.info("test.result={}", content);
+
+        return JacksonUtil.parseObject(content, typeReference);
+    }
+
+    /**
+     * 下载文件
+     *
+     * @param url
+     * @param req
+     * @param dest
+     * @return
+     * @throws Exception
+     */
+    public File download(String url, Object req, String dest) throws Exception {
+        String requestJsonStr = JacksonUtil.toJson(req);
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(url)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        Map<String, String> requestMap = (Map) JacksonUtil.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {
+        });
+        if (requestMap != null) {
+            requestMap.forEach((k, v) -> {
+                mockHttpServletRequestBuilder.param(k, v);
+            });
+        }
+
+        MockHttpServletResponse response = this.mockMvc.perform(mockHttpServletRequestBuilder)
+                .andReturn()
+                .getResponse();
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        File destFile = new File(dest);
+        FileUtils.writeByteArrayToFile(destFile, response.getContentAsByteArray());
+        return destFile;
     }
 
 }
