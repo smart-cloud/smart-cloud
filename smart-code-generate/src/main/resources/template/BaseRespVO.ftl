@@ -3,7 +3,7 @@ package ${packageName};
 <#list importPackages as package>
 import ${package};
 </#list>
-import org.smartframework.cloud.common.pojo.vo.BaseEntityRespVO;
+import org.smartframework.cloud.common.pojo.BaseEntityResponse;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder
-public class ${className} extends BaseEntityRespVO {
+public class ${className} extends BaseEntityResponse {
 
 	private static final long serialVersionUID = 1L;
 

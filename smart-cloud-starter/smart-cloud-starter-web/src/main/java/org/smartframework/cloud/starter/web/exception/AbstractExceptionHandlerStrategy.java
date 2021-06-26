@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.web.exception;
 
-import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
+import org.smartframework.cloud.common.pojo.ResponseHead;
 
 /**
  * @author liyulin
@@ -27,6 +27,6 @@ public abstract class AbstractExceptionHandlerStrategy {
      * @param e
      * @return
      */
-    public abstract RespHeadVO transRespHead(Throwable e);
+    public abstract ResponseHead transRespHead(Throwable e);
 
 }

@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.web.aspect;
 
 import org.smartframework.cloud.common.pojo.Base;
-import org.smartframework.cloud.common.pojo.vo.RespVO;
+import org.smartframework.cloud.common.pojo.Response;
 import org.smartframework.cloud.starter.web.exception.ExceptionHandlerContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -30,10 +30,10 @@ public class ExceptionControllerAdvice {
 
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public RespVO<Base> handleException(Exception e) {
+	public Response<Base> handleException(Exception e) {
 		log.error("global.error", e);
 
-		return new RespVO<>(ExceptionHandlerContext.transRespHead(e));
+		return new Response<>(ExceptionHandlerContext.transRespHead(e));
 	}
 
 }

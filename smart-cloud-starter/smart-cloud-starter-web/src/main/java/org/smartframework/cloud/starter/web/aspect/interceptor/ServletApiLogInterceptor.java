@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
-import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
-import org.smartframework.cloud.common.pojo.vo.RespVO;
+import org.smartframework.cloud.common.pojo.ResponseHead;
+import org.smartframework.cloud.common.pojo.Response;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.starter.core.business.util.WebServletUtil;
 import org.smartframework.cloud.starter.log.util.LogUtil;
@@ -70,8 +70,8 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
 
             log.error(LogUtil.truncate("api.error=>{}", logAspectDO), e);
 
-            RespHeadVO head = ExceptionHandlerContext.transRespHead(e);
-            return new RespVO<>(head);
+            ResponseHead head = ExceptionHandlerContext.transRespHead(e);
+            return new Response<>(head);
         }
     }
 

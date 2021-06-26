@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface SmartRequiresRoles {
+public @interface RequireRoles {
 
     String[] value();
 

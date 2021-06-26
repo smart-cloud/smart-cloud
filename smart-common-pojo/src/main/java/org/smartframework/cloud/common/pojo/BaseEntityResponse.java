@@ -1,4 +1,4 @@
-package org.smartframework.cloud.common.pojo.vo;
+package org.smartframework.cloud.common.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @SuperBuilder
-public class BaseEntityRespVO extends Base {
+public class BaseEntityResponse extends Base {
 
     private static final long serialVersionUID = 1L;
 

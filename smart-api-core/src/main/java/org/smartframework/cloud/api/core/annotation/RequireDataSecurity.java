@@ -13,7 +13,7 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface SmartRequiresDataSecurity {
+public @interface RequireDataSecurity {
 
     /**
      * 请求参数是否需要解密

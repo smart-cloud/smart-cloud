@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface SmartRequiresPermissions {
+public @interface RequirePermissions {
 
     /**
      * 权限编码

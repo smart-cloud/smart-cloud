@@ -1,4 +1,4 @@
-package org.smartframework.cloud.common.pojo.vo;
+package org.smartframework.cloud.common.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasePageReqVO extends Base {
+public class BasePageRequest extends Base {
 
     private static final long serialVersionUID = 1L;
 

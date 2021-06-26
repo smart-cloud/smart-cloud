@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.web.exception.strategy;
 
-import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
+import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.starter.core.business.exception.BaseException;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.web.exception.AbstractExceptionHandlerStrategy;
@@ -19,7 +19,7 @@ public class BaseExceptionHandlerStrategy extends AbstractExceptionHandlerStrate
     }
 
     @Override
-    public RespHeadVO transRespHead(Throwable e) {
+    public ResponseHead transRespHead(Throwable e) {
         BaseException ex = (BaseException) e;
         return RespHeadUtil.of(ex.getCode(), I18NUtil.getMessage(ex.getMessage()));
     }

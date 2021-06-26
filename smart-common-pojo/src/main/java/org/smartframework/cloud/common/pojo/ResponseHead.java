@@ -1,4 +1,4 @@
-package org.smartframework.cloud.common.pojo.vo;
+package org.smartframework.cloud.common.pojo;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import uk.co.jemos.podam.common.PodamStringValue;
 @Setter
 @NoArgsConstructor
 @SuperBuilder
-public class RespHeadVO extends Base {
+public class ResponseHead extends Base {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,11 +43,11 @@ public class RespHeadVO extends Base {
      */
     private long timestamp;
 
-    public RespHeadVO(IBaseReturnCodes returnCodes) {
+    public ResponseHead(IBaseReturnCodes returnCodes) {
         setReturnCode(returnCodes);
     }
 
-    public RespHeadVO(String code, String message) {
+    public ResponseHead(String code, String message) {
         this.code = code;
         this.message = message;
     }

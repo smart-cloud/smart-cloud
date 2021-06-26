@@ -3,14 +3,14 @@ package org.smartframework.cloud.starter.core.business.util;
 import lombok.experimental.UtilityClass;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
-import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
-import org.smartframework.cloud.common.pojo.vo.RespVO;
+import org.smartframework.cloud.common.pojo.ResponseHead;
+import org.smartframework.cloud.common.pojo.Response;
 import org.smartframework.cloud.starter.core.business.enums.CoreReturnCodes;
 import org.smartframework.cloud.utility.ObjectUtil;
 import org.smartframework.cloud.utility.spring.I18NUtil;
 
 /**
- * {@link RespVO}工具类
+ * {@link Response}工具类
  *
  * @author liyulin
  * @date 2019-04-06
@@ -23,8 +23,8 @@ public class RespUtil {
      *
      * @return
      */
-    public static <R> RespVO<R> success() {
-        return new RespVO<>(new RespHeadVO(CommonReturnCodes.SUCCESS));
+    public static <R> Response<R> success() {
+        return new Response<>(new ResponseHead(CommonReturnCodes.SUCCESS));
     }
 
     /**
@@ -33,8 +33,8 @@ public class RespUtil {
      * @param r
      * @return
      */
-    public static <R> RespVO<R> success(R r) {
-        return new RespVO<>(r);
+    public static <R> Response<R> success(R r) {
+        return new Response<>(r);
     }
 
     /**
@@ -43,8 +43,8 @@ public class RespUtil {
      * @param returnCodes
      * @return
      */
-    public static <R> RespVO<R> error(IBaseReturnCodes returnCodes) {
-        return new RespVO<>(new RespHeadVO(returnCodes));
+    public static <R> Response<R> error(IBaseReturnCodes returnCodes) {
+        return new Response<>(new ResponseHead(returnCodes));
     }
 
     /**
@@ -53,7 +53,7 @@ public class RespUtil {
      * @param resp
      * @return
      */
-    public static <R, T> RespVO<T> error(RespVO<R> resp) {
+    public static <R, T> Response<T> error(Response<R> resp) {
         return error(getFailMsg(resp));
     }
 
@@ -63,8 +63,8 @@ public class RespUtil {
      * @param msg
      * @return
      */
-    public static <R> RespVO<R> error(String msg) {
-        return new RespVO<>(new RespHeadVO(CommonReturnCodes.SERVER_ERROR.getCode(), msg));
+    public static <R> Response<R> error(String msg) {
+        return new Response<>(new ResponseHead(CommonReturnCodes.SERVER_ERROR.getCode(), msg));
     }
 
     /**
@@ -73,7 +73,7 @@ public class RespUtil {
      * @param resp
      * @return
      */
-    public static <R> boolean isSuccess(RespVO<R> resp) {
+    public static <R> boolean isSuccess(Response<R> resp) {
         return ObjectUtil.isNotNull(resp) && ObjectUtil.isNotNull(resp.getHead())
                 && ObjectUtil.equals(CommonReturnCodes.SUCCESS.getCode(), resp.getHead().getCode());
     }
@@ -84,7 +84,7 @@ public class RespUtil {
      * @param resp
      * @return
      */
-    public static <R> String getFailMsg(RespVO<R> resp) {
+    public static <R> String getFailMsg(Response<R> resp) {
         if (ObjectUtil.isNull(resp)) {
             return I18NUtil.getMessage(CoreReturnCodes.RPC_REQUEST_FAIL.getCode());
         }

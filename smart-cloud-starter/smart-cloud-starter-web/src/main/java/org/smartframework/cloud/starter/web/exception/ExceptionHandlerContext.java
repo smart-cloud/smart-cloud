@@ -2,7 +2,7 @@ package org.smartframework.cloud.starter.web.exception;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
-import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
+import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.core.constants.SymbolConstant;
 
@@ -12,19 +12,19 @@ import lombok.experimental.UtilityClass;
 public class ExceptionHandlerContext {
 
 	/**
-	 * 将{@link Throwable}解析构造{@link RespHeadVO}
+	 * 将{@link Throwable}解析构造{@link ResponseHead}
 	 * 
 	 * @param e
 	 * @return
 	 */
-	public static RespHeadVO transRespHead(Throwable e) {
+	public static ResponseHead transRespHead(Throwable e) {
 		for (AbstractExceptionHandlerStrategy exceptionHandler : ExceptionHandlerStrategyFactory
 				.getExceptionHandlerStrategys()) {
 			if (!exceptionHandler.match(e)) {
 				continue;
 			}
 
-			RespHeadVO respHeadVO = exceptionHandler.transRespHead(e);
+			ResponseHead respHeadVO = exceptionHandler.transRespHead(e);
 			if (respHeadVO != null) {
 				return respHeadVO;
 			}

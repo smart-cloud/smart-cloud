@@ -39,6 +39,10 @@ public class SmartProperties extends Base {
      */
     private XxlJobProperties xxlJob = new XxlJobProperties();
     /**
+     * mq配置
+     */
+    private MqProperties mq = new MqProperties();
+    /**
      * 多语言配置
      */
     private LocaleProperties locale = new LocaleProperties();

@@ -11,18 +11,18 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface SmartRequiresRepeatSubmitCheck {
+public @interface RequireRepeatSubmitCheck {
 
     /**
-     * 永久有效
+     * 执行完后30秒内有效
      */
-    public static final long FOREVER = -1;
+    long TEN_SECONDS_AFTER_DONE = 30 * 1000L;
 
     /**
-     * 重复提交校验有效期（默认为10秒；-1为永久有效）
+     * 重复提交校验有效期（默认为执行完后30秒内不允许重复提交。单位：毫秒）
      *
      * @return
      */
-    long expireMillis() default 10000L;
+    long expireMillis() default TEN_SECONDS_AFTER_DONE;
 
 }

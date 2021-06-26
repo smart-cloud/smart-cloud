@@ -1,10 +1,9 @@
-package org.smartframework.cloud.common.pojo.vo;
+package org.smartframework.cloud.common.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 
 /**
@@ -17,14 +16,14 @@ import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RespVO<T> extends Base {
+public class Response<T> extends Base {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * 响应头部
      */
-    private RespHeadVO head = null;
+    private ResponseHead head = null;
 
     /**
      * 响应体
@@ -36,12 +35,12 @@ public class RespVO<T> extends Base {
      */
     private String sign;
 
-    public RespVO(RespHeadVO head) {
+    public Response(ResponseHead head) {
         this.head = head;
     }
 
-    public RespVO(T body) {
-        this.head = new RespHeadVO(CommonReturnCodes.SUCCESS);
+    public Response(T body) {
+        this.head = new ResponseHead(CommonReturnCodes.SUCCESS);
         this.body = body;
     }
 

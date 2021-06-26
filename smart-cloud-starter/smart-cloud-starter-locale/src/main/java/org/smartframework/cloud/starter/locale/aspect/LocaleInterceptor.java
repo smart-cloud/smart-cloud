@@ -3,8 +3,8 @@ package org.smartframework.cloud.starter.locale.aspect;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.common.pojo.vo.RespHeadVO;
-import org.smartframework.cloud.common.pojo.vo.RespVO;
+import org.smartframework.cloud.common.pojo.ResponseHead;
+import org.smartframework.cloud.common.pojo.Response;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -28,9 +28,9 @@ public class LocaleInterceptor implements MethodInterceptor, Ordered {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Object result = invocation.proceed();
-        if (result instanceof RespVO) {
-            RespVO<?> resp = (RespVO<?>) result;
-            RespHeadVO respHeadVO = resp.getHead();
+        if (result instanceof Response) {
+            Response<?> resp = (Response<?>) result;
+            ResponseHead respHeadVO = resp.getHead();
             if (respHeadVO == null) {
                 return result;
             }

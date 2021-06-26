@@ -1,4 +1,4 @@
-package org.smartframework.cloud.common.pojo.vo;
+package org.smartframework.cloud.common.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasePageRespVO<T> extends Base {
+public class BasePageResponse<T> extends Base {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,7 @@ public class BasePageRespVO<T> extends Base {
 
     public List<T> getDatas() {
         if (Objects.isNull(datas)) {
-            datas = new ArrayList<>();
+            datas = new ArrayList<>(0);
         }
 
         return datas;
