@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.core.business.autoconfigure;
 import org.apache.commons.lang3.ArrayUtils;
 import org.smartframework.cloud.starter.core.business.util.AnnotatedClassFinder;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
-import org.smartframework.cloud.starter.core.support.annotation.SmartSpringCloudApplication;
+import org.smartframework.cloud.starter.core.support.annotation.SmartBootApplication;
 import org.smartframework.cloud.starter.core.support.annotation.YamlScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -28,32 +28,38 @@ import java.util.*;
  */
 public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
+    private boolean isInit = false;
+
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+        if (isInit) {
+            return;
+        }
         if (isRegisterShutdownHook(application)) {
             Class<?> mainApplicationClass = application.getMainApplicationClass();
             // 1、获取启动类、启动类注解
-            SmartSpringCloudApplication smartSpringCloudApplication = AnnotationUtils
-                    .findAnnotation(mainApplicationClass, SmartSpringCloudApplication.class);
-            if (smartSpringCloudApplication == null) {
+            SmartBootApplication smartBootApplication = AnnotationUtils
+                    .findAnnotation(mainApplicationClass, SmartBootApplication.class);
+            if (smartBootApplication == null) {
                 // 此处findFromClass的参数为测试启动类
-                mainApplicationClass = new AnnotatedClassFinder(SmartSpringCloudApplication.class)
+                mainApplicationClass = new AnnotatedClassFinder(SmartBootApplication.class)
                         .findFromClass(mainApplicationClass);
                 if (mainApplicationClass == null) {
                     return;
                 }
-                smartSpringCloudApplication = AnnotationUtils.findAnnotation(mainApplicationClass,
-                        SmartSpringCloudApplication.class);
+                smartBootApplication = AnnotationUtils.findAnnotation(mainApplicationClass,
+                        SmartBootApplication.class);
             }
-            if (smartSpringCloudApplication == null) {
+            if (smartBootApplication == null) {
                 return;
             }
 
             // 2、设置{@link ComponentScan}的{@code basePackages}
-            BasePackagesInitializer.init(smartSpringCloudApplication);
+            BasePackagesInitializer.init(mainApplicationClass, smartBootApplication);
 
             // 3、加载yml
             YamlLoader.loadYaml(environment, mainApplicationClass);
+            isInit = true;
         }
     }
 
@@ -80,11 +86,18 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
         /**
          * 设置{@link ComponentScan}的{@code basePackages}
          *
-         * @param smartSpringCloudApplication
+         * @param mainApplicationClass
+         * @param smartBootApplication
          */
-        public static void init(SmartSpringCloudApplication smartSpringCloudApplication) {
-            String[] componentBasePackages = smartSpringCloudApplication.componentBasePackages();
-            PackageConfig.setBasePackages(componentBasePackages);
+        public static void init(Class<?> mainApplicationClass, SmartBootApplication smartBootApplication) {
+            String[] componentBasePackages = smartBootApplication.componentBasePackages();
+            String[] basePackages = null;
+            if (componentBasePackages == null || componentBasePackages.length == 0) {
+                basePackages = new String[]{mainApplicationClass.getPackage().getName()};
+            } else {
+                basePackages = componentBasePackages;
+            }
+            PackageConfig.setBasePackages(basePackages);
         }
 
     }

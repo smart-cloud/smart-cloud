@@ -1,0 +1,19 @@
+spring:
+  rabbitmq:
+    host: 192.168.15.67
+    password: welcome123
+    port: 5672
+    username: wandao
+    virtualHost: dev_activity_vhost
+  redis:
+    database: 1
+    host: 192.168.15.67
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+    password: welcome123
+    port: 6379
+    timeout: 10000ms

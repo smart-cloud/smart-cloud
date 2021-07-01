@@ -9,6 +9,7 @@
 - [支持多数据源、分表分库、分布式事务](https://github.com/smart-cloud/smart-cloud#1%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%86%B2%E7%AA%81)
 - 支持多语言（国际化）
 - 敏感配置信息支持加密
+- mq（rabbitmq）消费失败，通过自定义注解实现重试（放入延迟队列重新消费）
 - [日志敏感数据脱敏](https://github.com/smart-cloud/smart-cloud#%E4%BA%8C%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F)
 - 单体服务开发接阶段测试不依赖其他服务（mock test、关闭eureka、sentinel等）
 - 技术栈稳定、实用、易用
@@ -34,10 +35,10 @@ smart-cloud
      ├── smart-cloud-starter-log -- 日志封装（log4j2封装，支持日志敏感数据脱敏）
      ├── smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
      ├── smart-cloud-starter-mybatis -- mybatis封装（支持多数据源、分库分表、分布式事务；通用mapper封装，mapper工具类等;支持通用mapper、mybatis plus）
-     ├── smart-cloud-starter-rabbitmq -- rabbitmq封装
+     ├── smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）
      ├── smart-cloud-starter-redis -- redis封装
      ├── smart-cloud-starter-test -- test封装
-     └── smart-cloud-starter-web -- web封装（切面、异常处理、参数校验）
+     └── smart-cloud-starter-web -- web封装（日志切面、异常处理、参数校验）
 ```
 
 # 三、技术栈
