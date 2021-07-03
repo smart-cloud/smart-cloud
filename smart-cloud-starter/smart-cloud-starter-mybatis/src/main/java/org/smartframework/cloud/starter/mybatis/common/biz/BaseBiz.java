@@ -22,6 +22,11 @@ public class BaseBiz<T extends BaseEntity> extends ServiceImpl<SmartMapper<T>, T
         return SnowFlakeIdUtil.getInstance().nextId();
     }
 
+    /**
+     * 创建待插入数据的实体对象
+     *
+     * @return
+     */
     public T create() {
         Class<T> clazz = ClassUtil.getActualTypeArgumentFromSuperGenericClass(getClass(), 0);
         T entity = BeanUtils.instantiateClass(clazz);
@@ -40,6 +45,23 @@ public class BaseBiz<T extends BaseEntity> extends ServiceImpl<SmartMapper<T>, T
      */
     public Integer insertBatchSomeColumn(Collection<T> entityList) {
         return baseMapper.insertBatchSomeColumn(entityList);
+    }
+
+    /**
+     * 逻辑删除
+     *
+     * @param id
+     * @param uid
+     * @return
+     */
+    public Boolean logicDelete(Long id, Long uid) {
+        Class<T> clazz = ClassUtil.getActualTypeArgumentFromSuperGenericClass(getClass(), 0);
+        T entity = BeanUtils.instantiateClass(clazz);
+        entity.setId(id);
+        entity.setDelUser(uid);
+        entity.setDelTime(new Date());
+        entity.setDelState(DelStateEnum.DELETED.getDelState());
+        return baseMapper.updateById(entity) == 1;
     }
 
 }
