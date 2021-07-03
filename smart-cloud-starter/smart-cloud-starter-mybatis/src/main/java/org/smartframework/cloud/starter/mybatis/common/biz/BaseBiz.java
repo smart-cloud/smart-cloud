@@ -1,15 +1,22 @@
 package org.smartframework.cloud.starter.mybatis.common.biz;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.smartframework.cloud.common.pojo.BaseEntityResponse;
+import org.smartframework.cloud.common.pojo.BasePageRequest;
+import org.smartframework.cloud.common.pojo.BasePageResponse;
 import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.mybatis.common.mapper.SmartMapper;
 import org.smartframework.cloud.starter.mybatis.common.mapper.entity.BaseEntity;
 import org.smartframework.cloud.starter.mybatis.common.mapper.enums.DelStateEnum;
-import org.smartframework.cloud.starter.mybatis.util.ClassUtil;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BaseBiz<T extends BaseEntity> extends ServiceImpl<SmartMapper<T>, T> {
 
@@ -28,8 +35,7 @@ public class BaseBiz<T extends BaseEntity> extends ServiceImpl<SmartMapper<T>, T
      * @return
      */
     public T create() {
-        Class<T> clazz = ClassUtil.getActualTypeArgumentFromSuperGenericClass(getClass(), 0);
-        T entity = BeanUtils.instantiateClass(clazz);
+        T entity = BeanUtils.instantiateClass(entityClass);
         entity.setId(SnowFlakeIdUtil.getInstance().nextId());
         entity.setInsertTime(new Date());
         entity.setDelState(DelStateEnum.NORMAL.getDelState());
@@ -55,13 +61,40 @@ public class BaseBiz<T extends BaseEntity> extends ServiceImpl<SmartMapper<T>, T
      * @return
      */
     public Boolean logicDelete(Long id, Long uid) {
-        Class<T> clazz = ClassUtil.getActualTypeArgumentFromSuperGenericClass(getClass(), 0);
-        T entity = BeanUtils.instantiateClass(clazz);
+        T entity = BeanUtils.instantiateClass(entityClass);
         entity.setId(id);
         entity.setDelUser(uid);
         entity.setDelTime(new Date());
         entity.setDelState(DelStateEnum.DELETED.getDelState());
         return baseMapper.updateById(entity) == 1;
+    }
+
+    /**
+     * 分页查询表字段信息
+     *
+     * @param q
+     * @param wrapper
+     * @param pageItemClass
+     * @param <R>
+     * @param <Q>
+     * @return
+     */
+    public <R extends BaseEntityResponse, Q extends BasePageRequest> BasePageResponse<R> page(Q q, Wrapper<T> wrapper, Class<R> pageItemClass) {
+        IPage<T> page = super.page(new Page<>(q.getPageNum(), q.getPageSize(), true), wrapper);
+        List<T> entityDatas = page.getRecords();
+
+        if (entityDatas == null || entityDatas.size() == 0) {
+            return new BasePageResponse<>(null, q.getPageNum(), q.getPageSize(), 0);
+        }
+
+        List<R> pageDatas = entityDatas.stream()
+                .map(entity -> {
+                    R r = BeanUtils.instantiateClass(pageItemClass);
+                    BeanUtils.copyProperties(entity, r);
+                    return r;
+                }).collect(Collectors.toList());
+
+        return new BasePageResponse<>(pageDatas, q.getPageNum(), q.getPageSize(), page.getTotal());
     }
 
 }
