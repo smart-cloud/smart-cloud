@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BaseBiz<T extends BaseEntity> extends ServiceImpl<SmartMapper<T>, T> {
+public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> {
 
     /**
      * 生成id
