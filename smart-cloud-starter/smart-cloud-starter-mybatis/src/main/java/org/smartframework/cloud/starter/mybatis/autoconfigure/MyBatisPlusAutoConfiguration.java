@@ -1,5 +1,8 @@
 package org.smartframework.cloud.starter.mybatis.autoconfigure;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.smartframework.cloud.starter.mybatis.injector.SmartSqlInjector;
 import org.smartframework.cloud.starter.mybatis.plugin.MybatisSqlLogInterceptor;
@@ -23,9 +26,16 @@ public class MyBatisPlusAutoConfiguration {
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean(PaginationInnerInterceptor.class)
-    public PaginationInnerInterceptor paginationInnerInterceptor() {
-        return new PaginationInnerInterceptor();
+    @ConditionalOnMissingBean(MybatisPlusInterceptor.class)
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return interceptor;
+    }
+
+    @Bean
+    public ConfigurationCustomizer configurationCustomizer() {
+        return configuration -> configuration.setUseDeprecatedExecutor(false);
     }
 
     @Bean
@@ -35,7 +45,7 @@ public class MyBatisPlusAutoConfiguration {
     }
 
     @Bean
-    public SmartSqlInjector smartSqlInjector(){
+    public SmartSqlInjector smartSqlInjector() {
         return new SmartSqlInjector();
     }
 
