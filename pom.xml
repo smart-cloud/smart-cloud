@@ -43,7 +43,7 @@
         <mysql>8.0.23</mysql>
         <podam>7.2.6.RELEASE</podam>
         <guava>30.1-jre</guava>
-        <reflections>0.9.12</reflections>
+        <reflections>0.9.11</reflections>
         <!-- jasypt2.1.2会导致mall-service-order启动时一直卡住 -->
         <jasypt>3.0.3</jasypt>
         <commons-codec>1.15</commons-codec>

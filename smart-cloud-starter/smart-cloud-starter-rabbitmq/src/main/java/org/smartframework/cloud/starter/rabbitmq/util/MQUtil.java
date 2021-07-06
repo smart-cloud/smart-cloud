@@ -34,22 +34,22 @@ public final class MQUtil {
      * @param routingKey
      * @param object
      * @param retriedTimes
-     * @param delayTime
+     * @param delayMillis
      * @param <T>
      */
-    public static <T> void send(RabbitTemplate rabbitTemplate, String exchange, String routingKey, T object, Integer retriedTimes, String delayTime) {
+    public static <T> void send(RabbitTemplate rabbitTemplate, String exchange, String routingKey, T object, Integer retriedTimes, String delayMillis) {
         String json = JacksonUtil.toJson(object);
         byte[] body = json.getBytes(StandardCharsets.UTF_8);
         MessageBuilder messageBuilder = MessageBuilder.withBody(body);
-        if (StringUtils.isNotBlank(delayTime)) {
-            messageBuilder.setExpiration(delayTime);
+        if (StringUtils.isNotBlank(delayMillis)) {
+            messageBuilder.setExpiration(delayMillis);
         }
         if (retriedTimes != null) {
             messageBuilder.setHeader(MQConstants.CONSUMER_RETRIED_TIMES, retriedTimes);
         }
 
         if (log.isInfoEnabled()) {
-            log.info("mq.send|exchange={}, routingKey={}, delayTime={}, retriedTimes={}, msg={}", exchange, routingKey, delayTime, retriedTimes, json);
+            log.info("mq.send|exchange={}, routingKey={}, delayMillis={}, retriedTimes={}, msg={}", exchange, routingKey, delayMillis, retriedTimes, json);
         }
         rabbitTemplate.send(exchange, routingKey, messageBuilder.build());
     }

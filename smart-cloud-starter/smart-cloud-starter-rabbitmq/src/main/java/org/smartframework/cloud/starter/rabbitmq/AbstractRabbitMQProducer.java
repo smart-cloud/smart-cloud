@@ -37,11 +37,11 @@ public abstract class AbstractRabbitMQProducer {
      * @param exchange
      * @param routingKey
      * @param object
-     * @param delayTime  延迟时间（单位：秒）
+     * @param delayMillis 延迟时间（单位：毫秒）
      * @param <T>
      */
-    protected <T> void send(String exchange, String routingKey, T object, String delayTime) {
-        MQUtil.send(rabbitTemplate, exchange, routingKey, object, null, delayTime);
+    protected <T> void send(String exchange, String routingKey, T object, String delayMillis) {
+        MQUtil.send(rabbitTemplate, exchange, routingKey, object, null, delayMillis);
     }
 
 }

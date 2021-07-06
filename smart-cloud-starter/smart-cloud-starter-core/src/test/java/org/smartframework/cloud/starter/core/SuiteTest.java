@@ -5,7 +5,7 @@ import org.junit.platform.suite.api.SelectPackages;
 import org.junit.runner.RunWith;
 
 @RunWith(JUnitPlatform.class)
-@SelectPackages({"org.smartframework.cloud.starter.common"})
+@SelectPackages({"org.smartframework.cloud.starter.core.test"})
 public class SuiteTest {
 
 }
