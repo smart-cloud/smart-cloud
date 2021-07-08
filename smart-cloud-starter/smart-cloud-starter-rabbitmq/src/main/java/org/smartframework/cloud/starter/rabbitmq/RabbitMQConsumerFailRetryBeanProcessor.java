@@ -44,31 +44,32 @@ public class RabbitMQConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
         }
 
         for (Class<? extends AbstractRabbitMQConsumer> mqConsumerClass : mqConsumerClasses) {
-            RabbitListener rabbitListener = AnnotationUtils.findAnnotation(mqConsumerClass, RabbitListener.class);
-            if (rabbitListener == null) {
-                log.warn("RabbitListener[{}] not found", mqConsumerClass.getSimpleName());
-                continue;
-            }
-
-            registerDelayMQBean(rabbitListener, mqConsumerClass, beanFactory);
+            registerDelayMQBean(mqConsumerClass, beanFactory);
         }
     }
 
     /**
      * 注册单个延迟队列bean
      *
-     * @param rabbitListener
      * @param mqConsumerClass
      * @param beanFactory
      */
-    private void registerDelayMQBean(RabbitListener rabbitListener, Class<?> mqConsumerClass, ConfigurableListableBeanFactory beanFactory) {
+    private void registerDelayMQBean(Class<?> mqConsumerClass, ConfigurableListableBeanFactory beanFactory) {
+        MQConsumerFailRetry mqConsumerFailRetry = AnnotationUtils.findAnnotation(mqConsumerClass, MQConsumerFailRetry.class);
+        if (mqConsumerFailRetry == null) {
+            return;
+        }
+        RabbitListener rabbitListener = AnnotationUtils.findAnnotation(mqConsumerClass, RabbitListener.class);
+        if (rabbitListener == null) {
+            log.warn("RabbitListener[{}] not found", mqConsumerClass.getSimpleName());
+            return;
+        }
+
         // 队列的名称
         String retryQueueName = rabbitListener.queues()[0];
         if (!retryQueueName.endsWith(MQConstants.QUEUE_SUFFIX)) {
             throw new UnsupportedOperationException(String.format("The suffix of the queue[%s] name that needs to be retried must be %s", mqConsumerClass, MQConstants.QUEUE_SUFFIX));
         }
-
-        MQConsumerFailRetry mqConsumerFailRetry = AnnotationUtils.findAnnotation(mqConsumerClass, MQConsumerFailRetry.class);
         String retryQueuePrefix = MQNameUtil.getQueuePrefix(retryQueueName);
         //交换机名称
         String retryExchangeName = MQNameUtil.getRetryExchangeName(retryQueuePrefix, mqConsumerFailRetry);
