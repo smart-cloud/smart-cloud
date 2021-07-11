@@ -4,10 +4,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.utility.NonceUtil;
 
-public class NonceUtilUnitTest {
+class NonceUtilUnitTest {
 
     @Test
-    public void test() {
+    void test() {
         String id1 = NonceUtil.getInstance().nextId();
         Assertions.assertThat(id1).isNotBlank();
 

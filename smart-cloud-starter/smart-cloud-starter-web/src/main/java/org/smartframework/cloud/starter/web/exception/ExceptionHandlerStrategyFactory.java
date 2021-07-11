@@ -13,18 +13,18 @@ import java.util.Set;
 @UtilityClass
 public class ExceptionHandlerStrategyFactory {
 
-    private static final Set<AbstractExceptionHandlerStrategy> EXCEPTION_HANDLER_STRATEGIES = new HashSet<>();
+    private static final Set<IExceptionHandlerStrategy> EXCEPTION_HANDLER_STRATEGIES = new HashSet<>();
 
     static {
-        Reflections reflections = new Reflections(AbstractExceptionHandlerStrategy.class.getPackage().getName());
-        Set<Class<? extends AbstractExceptionHandlerStrategy>> exceptionHandlerStrategySet = reflections
-                .getSubTypesOf(AbstractExceptionHandlerStrategy.class);
+        Reflections reflections = new Reflections(IExceptionHandlerStrategy.class.getPackage().getName());
+        Set<Class<? extends IExceptionHandlerStrategy>> exceptionHandlerStrategySet = reflections
+                .getSubTypesOf(IExceptionHandlerStrategy.class);
         if (CollectionUtils.isNotEmpty(exceptionHandlerStrategySet)) {
             final String servletClassName = "javax.servlet.ServletException";
             boolean isServletEnv = ClassUtils.isPresent(servletClassName, ExceptionHandlerStrategyFactory.class.getClassLoader());
             for (Class<?> c : exceptionHandlerStrategySet) {
                 try {
-                    AbstractExceptionHandlerStrategy exceptionHandlerStrategy = (AbstractExceptionHandlerStrategy) c.newInstance();
+                    IExceptionHandlerStrategy exceptionHandlerStrategy = (IExceptionHandlerStrategy) c.newInstance();
                     if (!isServletEnv && exceptionHandlerStrategy.isNeedServletEnv()) {
                         continue;
                     }
@@ -36,7 +36,7 @@ public class ExceptionHandlerStrategyFactory {
         }
     }
 
-    public static Set<AbstractExceptionHandlerStrategy> getExceptionHandlerStrategys() {
+    public static Set<IExceptionHandlerStrategy> getExceptionHandlerStrategys() {
         return EXCEPTION_HANDLER_STRATEGIES;
     }
 

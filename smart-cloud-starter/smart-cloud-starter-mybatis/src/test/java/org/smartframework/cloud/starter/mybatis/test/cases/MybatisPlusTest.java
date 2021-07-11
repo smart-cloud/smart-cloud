@@ -7,10 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
-public class MybatisPlusTest {
+class MybatisPlusTest {
 
     @Test
-    public void test() {
+    void test() {
         PackageConfig.setBasePackages(new String[]{"org.smartframework.cloud.starter.mybatis.test.cases"});
 
         ConfigurableApplicationContext context = SpringApplication.run(getClass(),

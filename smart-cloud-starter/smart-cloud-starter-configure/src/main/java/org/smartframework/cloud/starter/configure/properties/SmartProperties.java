@@ -47,8 +47,8 @@ public class SmartProperties extends Base {
      */
     private MockProperties mock = new MockProperties();
 
-    public static final class PropertiesName {
-        public static final String DATA_MACHINE_ID = "dataMachineId";
+    public interface PropertiesName {
+        String DATA_MACHINE_ID = "dataMachineId";
     }
 
 }

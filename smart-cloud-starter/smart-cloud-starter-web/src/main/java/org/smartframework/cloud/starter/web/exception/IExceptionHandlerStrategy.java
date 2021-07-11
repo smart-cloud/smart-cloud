@@ -3,13 +3,14 @@ package org.smartframework.cloud.starter.web.exception;
 import org.smartframework.cloud.common.pojo.ResponseHead;
 
 /**
+ * 接口异常转换
+ *
  * @author liyulin
- * @desc 接口异常转换
  * @date 2019/10/29
  */
-public abstract class AbstractExceptionHandlerStrategy {
+public interface IExceptionHandlerStrategy {
 
-    public boolean isNeedServletEnv() {
+    default boolean isNeedServletEnv() {
         return false;
     }
 
@@ -19,7 +20,7 @@ public abstract class AbstractExceptionHandlerStrategy {
      * @param e
      * @return
      */
-    public abstract boolean match(Throwable e);
+    boolean match(Throwable e);
 
     /**
      * 将异常转化为响应体
@@ -27,6 +28,6 @@ public abstract class AbstractExceptionHandlerStrategy {
      * @param e
      * @return
      */
-    public abstract ResponseHead transRespHead(Throwable e);
+    ResponseHead transRespHead(Throwable e);
 
 }

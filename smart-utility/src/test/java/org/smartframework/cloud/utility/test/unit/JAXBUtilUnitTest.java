@@ -11,10 +11,10 @@ import org.smartframework.cloud.utility.test.unit.jaxb.ReqHeaderDto;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
-public class JAXBUtilUnitTest {
+class JAXBUtilUnitTest {
 
     @Test
-    public void test() throws JAXBException, IOException {
+    void test() throws JAXBException, IOException {
         ReqDto reqDto = new ReqDto(new ReqHeaderDto("123", System.currentTimeMillis()), new ReqBodyDto(123L, 456L));
         String xml = JAXBUtil.beanToXml(reqDto);
         ReqDto bean = JAXBUtil.xmlToBean(xml, ReqDto.class);

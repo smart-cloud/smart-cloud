@@ -65,7 +65,7 @@ public final class SerializingUtil {
      * @return
      * @throws IOException
      */
-    public static <T> T deserialize(byte[] input, Class<T> typeClass) throws IOException {
+    public static <T> T deserialize(byte[] input, Class<T> typeClass) {
         Schema<T> schema = RuntimeSchema.getSchema(typeClass);
         T newInstance = schema.newMessage();
         ProtostuffIOUtil.mergeFrom(input, newInstance, schema);

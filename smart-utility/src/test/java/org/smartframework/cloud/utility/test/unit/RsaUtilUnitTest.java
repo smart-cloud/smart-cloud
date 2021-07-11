@@ -18,7 +18,7 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 
-public class RsaUtilUnitTest {
+class RsaUtilUnitTest {
 
     /**
      * 加密、解密
@@ -33,7 +33,7 @@ public class RsaUtilUnitTest {
      * @throws Exception
      */
     @Test
-    public void testEncryptAndDecrypt() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
+    void testEncryptAndDecrypt() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
             IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, DecoderException {
         KeyPair keyPair = RsaUtil.generateKeyPair();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
@@ -63,7 +63,7 @@ public class RsaUtilUnitTest {
      * @throws DecoderException
      */
     @Test
-    public void testSign() throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException,
+    void testSign() throws NoSuchAlgorithmException, InvalidKeyException, InvalidKeySpecException,
             SignatureException, UnsupportedEncodingException, DecoderException {
         KeyPair keyPair = RsaUtil.generateKeyPair();
         RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
@@ -76,7 +76,7 @@ public class RsaUtilUnitTest {
     }
 
     @Test
-    public void testGenerateRSAPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException, DecoderException {
+    void testGenerateRSAPublicKey() throws NoSuchAlgorithmException, InvalidKeySpecException, DecoderException {
         KeyPair keyPair = RsaUtil.generateKeyPair();
         String publicExponent = RsaUtil.getPublicExponent(keyPair);
         String modulus = RsaUtil.getModulus(keyPair);
@@ -84,7 +84,7 @@ public class RsaUtilUnitTest {
     }
 
     @Test
-    public void testDecryptStringByJs() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
+    void testDecryptStringByJs() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
             IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, DecoderException {
         KeyPair keyPair = RsaUtil.generateKeyPair();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();

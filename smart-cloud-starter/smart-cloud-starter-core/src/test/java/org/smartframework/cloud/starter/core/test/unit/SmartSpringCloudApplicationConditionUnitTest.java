@@ -6,10 +6,10 @@ import org.smartframework.cloud.starter.core.support.annotation.SmartBootApplica
 import org.smartframework.cloud.starter.core.support.condition.SmartBootApplicationCondition;
 import org.springframework.core.type.AnnotationMetadata;
 
-public class SmartSpringCloudApplicationConditionUnitTest {
+class SmartSpringCloudApplicationConditionUnitTest {
 
     @Test
-    public void test() {
+    void test() {
         SmartBootApplicationCondition smartBootApplicationCondition = new SmartBootApplicationCondition();
         AnnotationMetadata annotationMetadata = AnnotationMetadata.introspect(ApplicationTest.class);
         boolean result = smartBootApplicationCondition.matches(null, annotationMetadata);

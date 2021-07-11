@@ -4,10 +4,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.utility.security.AesUtil;
 
-public class AesUtilUnitTest {
+class AesUtilUnitTest {
 
 	@Test
-	public void testEncryptAndDecrypt() {
+	void testEncryptAndDecrypt() {
 		String password = "123456";
 		String plainText = "hello world!";
 		String encryptText = AesUtil.encrypt(plainText, password);

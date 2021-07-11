@@ -81,7 +81,7 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
      * @desc BasePackages初始化
      * @date 2020/02/23
      */
-    static class BasePackagesInitializer {
+    private static class BasePackagesInitializer {
 
         /**
          * 设置{@link ComponentScan}的{@code basePackages}
@@ -107,7 +107,7 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
      * @desc yaml文件加载
      * @date 2020/02/23
      */
-    static class YamlLoader {
+    private static class YamlLoader {
 
         /**
          * 将启动类注解上配置的yaml文件加到environment中

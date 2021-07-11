@@ -4,10 +4,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.starter.redis.RedisKeyUtil;
 
-public class RedisKeyUtilUnitTest {
+class RedisKeyUtilUnitTest {
 
     @Test
-    public void testBuildKey() {
+    void testBuildKey() {
         //--------count=1
         Assertions.assertThat(RedisKeyUtil.buildKey("1")).isEqualTo("1");
         Assertions.assertThat(RedisKeyUtil.buildKey(":1")).isEqualTo("1");

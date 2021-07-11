@@ -20,7 +20,7 @@ import java.io.Serializable;
 @Slf4j
 public final class JacksonMaskUtil {
 
-    private final static ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     static {
         objectMapper.setAnnotationIntrospector(new EnableMaskLogIntrospector());

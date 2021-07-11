@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.web.exception.strategy;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
-import org.smartframework.cloud.starter.web.exception.AbstractExceptionHandlerStrategy;
+import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 
 /**
@@ -11,7 +11,7 @@ import org.springframework.web.HttpMediaTypeNotSupportedException;
  * @desc http请求数据格式不支持异常转换
  * @date 2019/10/29
  */
-public class HttpMediaTypeNotSupportedExceptionHandlerStrategy extends AbstractExceptionHandlerStrategy {
+public class HttpMediaTypeNotSupportedExceptionHandlerStrategy implements IExceptionHandlerStrategy {
 
     @Override
     public boolean isNeedServletEnv() {

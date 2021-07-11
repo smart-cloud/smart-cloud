@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.smartframework.cloud.common.pojo.Base;
 
 import java.util.ArrayList;
 import java.util.List;

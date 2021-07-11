@@ -4,7 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
-import org.smartframework.cloud.starter.web.exception.AbstractExceptionHandlerStrategy;
+import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.smartframework.cloud.starter.web.exception.util.ExceptionUtil;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -16,7 +16,7 @@ import java.util.List;
  * @desc 参数检验异常转换
  * @date 2019/10/29
  */
-public class BindExceptionHandlerStrategy extends AbstractExceptionHandlerStrategy {
+public class BindExceptionHandlerStrategy implements IExceptionHandlerStrategy {
 
     @Override
     public boolean match(Throwable e) {

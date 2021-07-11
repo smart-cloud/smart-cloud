@@ -1,8 +1,6 @@
 package org.smartframework.cloud.starter.rpc.dubbo.autoconfigure;
 
-import java.util.Arrays;
-
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.rpc.dubbo.interceptor.DubboLogInterceptor;
 import org.springframework.aop.Advisor;
@@ -11,6 +9,8 @@ import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Arrays;
 
 /**
  * dubbo切面配置
@@ -31,7 +31,7 @@ public class DubboAspectAutoConfiguration {
 	public AspectJExpressionPointcut dubboServicePointcut() {
 		AspectJExpressionPointcut dubboServicePointcut = new AspectJExpressionPointcut();
 		String dubboExpression = AspectInterceptorUtil
-				.getWithinExpression(Arrays.asList(Service.class));
+				.getWithinExpression(Arrays.asList(DubboService.class));
 		dubboServicePointcut.setExpression(dubboExpression);
 		return dubboServicePointcut;
 	}

@@ -4,7 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
-import org.smartframework.cloud.starter.web.exception.AbstractExceptionHandlerStrategy;
+import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.smartframework.cloud.starter.web.exception.util.ExceptionUtil;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,7 +16,7 @@ import java.util.List;
  * @desc 方法参数不合法异常转换
  * @date 2019/10/29
  */
-public class MethodArgumentNotValidExceptionHandlerStrategy extends AbstractExceptionHandlerStrategy {
+public class MethodArgumentNotValidExceptionHandlerStrategy implements IExceptionHandlerStrategy {
 
     @Override
     public boolean match(Throwable e) {

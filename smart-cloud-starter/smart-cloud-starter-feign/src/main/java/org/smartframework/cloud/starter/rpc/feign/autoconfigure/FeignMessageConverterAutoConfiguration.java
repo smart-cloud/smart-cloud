@@ -25,8 +25,6 @@ import java.util.Map;
 @Configuration
 public class FeignMessageConverterAutoConfiguration {
 
-    private ObjectFactory<HttpMessageConverters> messageConverters = null;
-
     @Bean
     public ProtostuffHttpMessageConverter protobufHttpMessageConverter() {
         return new ProtostuffHttpMessageConverter();
@@ -47,7 +45,7 @@ public class FeignMessageConverterAutoConfiguration {
         final HttpMessageConverters httpMessageConverters = MapUtils.isEmpty(httpMessageConvertersMap) ?
                 new HttpMessageConverters(new MappingJackson2HttpMessageConverter()) : context.getBean(HttpMessageConverters.class);
 
-        messageConverters = new ObjectFactory<HttpMessageConverters>() {
+        ObjectFactory<HttpMessageConverters> messageConverters = new ObjectFactory<HttpMessageConverters>() {
             @Override
             public HttpMessageConverters getObject() throws BeansException {
                 return httpMessageConverters;

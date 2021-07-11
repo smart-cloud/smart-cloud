@@ -23,44 +23,44 @@ import com.fasterxml.jackson.databind.ser.ContextualSerializer;
  */
 public class MaskJsonSerializer extends JsonSerializer<Object> implements ContextualSerializer {
 
-	private MaskLog maskLog;
+    private MaskLog maskLog;
 
-	@Override
-	public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property)
-			throws JsonMappingException {
-		if (property != null) {
-			maskLog = property.getAnnotation(MaskLog.class);
-		}
-		return this;
-	}
+    @Override
+    public JsonSerializer<?> createContextual(SerializerProvider prov, BeanProperty property)
+            throws JsonMappingException {
+        if (property != null) {
+            maskLog = property.getAnnotation(MaskLog.class);
+        }
+        return this;
+    }
 
-	@Override
-	public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers)
-			throws IOException, JsonProcessingException {
-		if (maskLog == null || value == null) {
-			gen.writeObject(value);
-			return;
-		}
+    @Override
+    public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers)
+            throws IOException {
+        if (maskLog == null || value == null) {
+            gen.writeObject(value);
+            return;
+        }
 
-		int startLen, endLen;
-		String mask;
-		if (isSetMaskAttributes(maskLog)) {
-			startLen = maskLog.startLen();
-			endLen = maskLog.endLen();
-			mask = maskLog.mask();
-		} else {
-			MaskRule maskRule = maskLog.value();
-			startLen = maskRule.getStartLen();
-			endLen = maskRule.getEndLen();
-			mask = maskRule.getMask();
-		}
+        int startLen, endLen;
+        String mask;
+        if (isSetMaskAttributes(maskLog)) {
+            startLen = maskLog.startLen();
+            endLen = maskLog.endLen();
+            mask = maskLog.mask();
+        } else {
+            MaskRule maskRule = maskLog.value();
+            startLen = maskRule.getStartLen();
+            endLen = maskRule.getEndLen();
+            mask = maskRule.getMask();
+        }
 
-		gen.writeObject(MaskUtil.mask(value, startLen, endLen, mask));
-	}
+        gen.writeObject(MaskUtil.mask(value, startLen, endLen, mask));
+    }
 
-	private boolean isSetMaskAttributes(MaskLog maskLog) {
-		return maskLog.startLen() != DefaultMaskConfig.START_LEN || maskLog.endLen() != DefaultMaskConfig.END_LEN
-				|| !DefaultMaskConfig.MASK_TEXT.equals(maskLog.mask());
-	}
+    private boolean isSetMaskAttributes(MaskLog maskLog) {
+        return maskLog.startLen() != DefaultMaskConfig.START_LEN || maskLog.endLen() != DefaultMaskConfig.END_LEN
+                || !DefaultMaskConfig.MASK_TEXT.equals(maskLog.mask());
+    }
 
 }

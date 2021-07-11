@@ -11,13 +11,13 @@ import java.util.concurrent.TimeUnit;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class MQIntegrationTest {
+class MQIntegrationTest {
 
     @Autowired
     private Producer producer;
 
     @Test
-    public void testRetry() throws InterruptedException {
+    void testRetry() throws InterruptedException {
         producer.send(200L);
         TimeUnit.SECONDS.sleep(120);
     }

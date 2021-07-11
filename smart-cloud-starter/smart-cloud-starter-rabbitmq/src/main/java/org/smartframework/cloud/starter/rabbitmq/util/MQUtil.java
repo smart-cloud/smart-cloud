@@ -73,7 +73,9 @@ public final class MQUtil {
         }
 
         RabbitListener rabbitListener = AnnotationUtils.findAnnotation(consumerClass, RabbitListener.class);
-        ;
+        if (rabbitListener == null) {
+            return;
+        }
         // 队列的名称
         String retryQueueName = rabbitListener.queues()[0];
         String retryQueuePrefix = MQNameUtil.getQueuePrefix(retryQueueName);

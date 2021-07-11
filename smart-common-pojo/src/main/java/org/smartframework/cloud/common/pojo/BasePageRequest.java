@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.smartframework.cloud.common.pojo.Base;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;

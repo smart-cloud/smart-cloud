@@ -6,10 +6,10 @@ import org.smartframework.cloud.utility.security.Md5Util;
 
 import java.io.IOException;
 
-public class Md5UtilUnitTest {
+class Md5UtilUnitTest {
 
     @Test
-    public void testGenerateFileMd5() throws IOException {
+    void testGenerateFileMd5() throws IOException {
         String path = Md5UtilUnitTest.class.getResource("").getFile() + Md5UtilUnitTest.class.getSimpleName()
                 + ".class";
 

@@ -6,15 +6,15 @@ package org.smartframework.cloud.starter.mybatis.constants;
  * @author collin
  * @date 2021-02-25
  */
-public class ShardingJdbcDS {
+public interface ShardingJdbcDS {
 
     /**
      * master
      */
-    public static final String MASTER = "sharding";
+    String MASTER = "sharding";
     /**
      * slave
      */
-    public static final String SLAVE = "slaveSharding";
+    String SLAVE = "slaveSharding";
 
 }

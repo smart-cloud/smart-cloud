@@ -287,7 +287,7 @@ public class SqlMapper {
 		private void newSelectMappedStatement(String msId, SqlSource sqlSource, final Class<?> resultType) {
 			MappedStatement ms = new MappedStatement.Builder(configuration, msId, sqlSource, SqlCommandType.SELECT)
 					.resultMaps(Arrays.asList(new ResultMap.Builder(configuration, "defaultResultMap", resultType,
-							new ArrayList<ResultMapping>(0)).build()))
+							new ArrayList<>(0)).build()))
 					.build();
 			// 缓存
 			configuration.addMappedStatement(ms);
@@ -303,7 +303,7 @@ public class SqlMapper {
 		private void newUpdateMappedStatement(String msId, SqlSource sqlSource, SqlCommandType sqlCommandType) {
 			MappedStatement ms = new MappedStatement.Builder(configuration, msId, sqlSource, sqlCommandType)
 					.resultMaps(Arrays.asList(new ResultMap.Builder(configuration, "defaultResultMap", int.class,
-							new ArrayList<ResultMapping>(0)).build()))
+							new ArrayList<>(0)).build()))
 					.build();
 			// 缓存
 			configuration.addMappedStatement(ms);

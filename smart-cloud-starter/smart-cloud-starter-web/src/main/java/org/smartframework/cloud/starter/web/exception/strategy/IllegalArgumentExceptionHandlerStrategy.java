@@ -3,14 +3,14 @@ package org.smartframework.cloud.starter.web.exception.strategy;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
-import org.smartframework.cloud.starter.web.exception.AbstractExceptionHandlerStrategy;
+import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 
 /**
  * @author liyulin
  * @desc 参数不合法异常转换
  * @date 2019/10/29
  */
-public class IllegalArgumentExceptionHandlerStrategy extends AbstractExceptionHandlerStrategy {
+public class IllegalArgumentExceptionHandlerStrategy implements IExceptionHandlerStrategy {
 
     @Override
     public boolean match(Throwable e) {

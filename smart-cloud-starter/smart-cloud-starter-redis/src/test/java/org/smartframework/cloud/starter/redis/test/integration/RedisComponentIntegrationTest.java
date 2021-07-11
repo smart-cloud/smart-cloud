@@ -20,7 +20,7 @@ import java.util.Set;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class RedisComponentIntegrationTest {
+class RedisComponentIntegrationTest {
 
     @Autowired
     private RedisComponent redisComponent;
@@ -28,13 +28,13 @@ public class RedisComponentIntegrationTest {
     private StringRedisTemplate stringRedisTemplate;
 
     @BeforeEach
-    public void beforeTest() {
+    void beforeTest() {
         Set<String> keys = stringRedisTemplate.keys("*");
         stringRedisTemplate.delete(keys);
     }
 
     @Test
-    public void testSetString() {
+    void testSetString() {
         String key = "SetStringkey";
         String value = "SetStringvalue";
         redisComponent.setString(key, value, null);
@@ -44,7 +44,7 @@ public class RedisComponentIntegrationTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         String key = "deletekey";
         String value = "deletevalue";
         redisComponent.setString(key, value, null);
@@ -62,7 +62,7 @@ public class RedisComponentIntegrationTest {
     }
 
     @Test
-    public void testBatchDelete() {
+    void testBatchDelete() {
         String key1 = "batchdeletekey1";
         String value1 = "batchdeletevalue1";
         redisComponent.setString(key1, value1, null);
@@ -88,7 +88,7 @@ public class RedisComponentIntegrationTest {
     }
 
     @Test
-    public void testSetObject() {
+    void testSetObject() {
         String key = "SetObjectkey";
         SetObject setObject = new SetObject("test");
         redisComponent.setObject(key, setObject, null);
@@ -98,7 +98,7 @@ public class RedisComponentIntegrationTest {
     }
 
     @Test
-    public void testSetNX() {
+    void testSetNX() {
         String key = "SetNXkey";
         String value = "SetNXvalue";
         Boolean result1 = redisComponent.setNx(key, value, 1000 * 60L);

@@ -50,7 +50,7 @@ public abstract class AbstractRabbitMQConsumer<T> {
                 if (isInfoEnabled) {
                     log.info("receive.msg={}", msg);
                 }
-                object = (T) JacksonUtil.parseObject(msg, getBodyClass());
+                object = JacksonUtil.parseObject(msg, getBodyClass());
                 doProcess(object);
             } else {
                 log.warn("idempotent.check.fail|msg={}", msg);

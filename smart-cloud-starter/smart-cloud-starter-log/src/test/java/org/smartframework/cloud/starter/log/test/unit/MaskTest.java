@@ -11,10 +11,10 @@ import org.smartframework.cloud.mask.MaskRule;
 import java.io.Serializable;
 
 @Slf4j
-public class MaskTest {
+class MaskTest {
 
     @Test
-    public void testMask() {
+    void testMask() {
         User user = new User();
         user.setId(9L);
         user.setName("名字");
@@ -25,7 +25,7 @@ public class MaskTest {
     @Getter
     @Setter
     @ToString
-    public static class User implements Serializable {
+    static class User implements Serializable {
         private Long id;
         @MaskLog(MaskRule.NAME)
         private String name;

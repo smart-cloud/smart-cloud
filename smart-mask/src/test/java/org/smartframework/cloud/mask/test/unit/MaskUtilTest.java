@@ -4,10 +4,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.mask.util.MaskUtil;
 
-public class MaskUtilTest {
+class MaskUtilTest {
 
     @Test
-    public void testMask() {
+    void testMask() {
         Assertions.assertThat(MaskUtil.mask(null, 3, 3, "***")).isEqualTo("***");
         Assertions.assertThat(MaskUtil.mask("", 3, 3, "***")).isEqualTo("***");
         Assertions.assertThat(MaskUtil.mask("13112345678", 11, 3, "***")).isEqualTo("***");

@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class MaskSerializeTest {
+class MaskSerializeTest {
 
     // 手动设置mask属性
     @Test
-    public void testMaskSerializeSetMaskAttribute() {
+    void testMaskSerializeSetMaskAttribute() {
         LoginVO loginVO = new LoginVO();
         loginVO.setName("名字测试");
         loginVO.setPassword("13112345678");
@@ -34,7 +34,7 @@ public class MaskSerializeTest {
 
     // 普通对象
     @Test
-    public void testMaskSerializeObject() {
+    void testMaskSerializeObject() {
         User user = new User();
         user.setId(9L);
         user.setName("名字");
@@ -53,7 +53,7 @@ public class MaskSerializeTest {
 
     // 子类对象
     @Test
-    public void testMaskSerializeSubClass() {
+    void testMaskSerializeSubClass() {
         Student student = new Student();
         student.setId(9L);
         student.setName("名字");
@@ -81,7 +81,7 @@ public class MaskSerializeTest {
 
     // 数组对象
     @Test
-    public void testMaskSerializeArray() {
+    void testMaskSerializeArray() {
         User user = new User();
         user.setId(9L);
         user.setName("名字");
@@ -106,7 +106,7 @@ public class MaskSerializeTest {
 
     // 嵌套对象
     @Test
-    public void testMaskSerializeNestedObject() {
+    void testMaskSerializeNestedObject() {
         User user = new User();
         user.setId(9L);
         user.setName("名字");
@@ -137,7 +137,7 @@ public class MaskSerializeTest {
 
     // 泛型对象
     @Test
-    public void testMaskSerializeGeneric() {
+    void testMaskSerializeGeneric() {
         User user = new User();
         user.setId(9L);
         user.setName("名字");
@@ -175,7 +175,7 @@ public class MaskSerializeTest {
 
     // 泛型对象（外部字段无mask注解）
     @Test
-    public void testMaskSerializeGeneric2() {
+    void testMaskSerializeGeneric2() {
         User user = new User();
         user.setId(9L);
         user.setName("名字");
@@ -214,7 +214,7 @@ public class MaskSerializeTest {
     @Getter
     @Setter
     @ToString
-    public static class LoginVO implements Serializable {
+    static class LoginVO implements Serializable {
         @MaskLog(startLen = 1, endLen = 1, mask = "###")
         private String name;
         @MaskLog(startLen = 2)
@@ -224,7 +224,7 @@ public class MaskSerializeTest {
     @Getter
     @Setter
     @ToString
-    public static class User implements Serializable {
+    static class User implements Serializable {
         @MaskLog
         private Long id;
         @MaskLog(MaskRule.NAME)
@@ -236,7 +236,7 @@ public class MaskSerializeTest {
     @Getter
     @Setter
     @ToString
-    public static class Student extends User {
+    static class Student extends User {
         private int age;
         @MaskLog(MaskRule.NAME)
         private String className;
@@ -245,7 +245,7 @@ public class MaskSerializeTest {
     @Getter
     @Setter
     @ToString
-    public static class Source implements Serializable {
+    static class Source implements Serializable {
         @MaskLog(MaskRule.IP)
         private String ip;
         private List<User> users;
@@ -254,7 +254,7 @@ public class MaskSerializeTest {
     @Getter
     @Setter
     @ToString
-    public static class Req<T> implements Serializable {
+    static class Req<T> implements Serializable {
         @MaskLog
         private String token;
         private T t;
@@ -263,7 +263,7 @@ public class MaskSerializeTest {
     @Getter
     @Setter
     @ToString
-    public static class Req2<T> implements Serializable {
+    static class Req2<T> implements Serializable {
         private String token;
         private T t;
     }

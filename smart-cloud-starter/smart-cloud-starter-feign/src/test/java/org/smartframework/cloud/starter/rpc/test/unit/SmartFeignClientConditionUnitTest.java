@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-public class SmartFeignClientConditionUnitTest {
+class SmartFeignClientConditionUnitTest {
 
     @Test
-    public void test() {
+    void test() {
         PackageConfig.setBasePackages(new String[]{SuiteTest.class.getPackage().getName()});
         SmartFeignClientCondition smartFeignClientCondition = new SmartFeignClientCondition();
 

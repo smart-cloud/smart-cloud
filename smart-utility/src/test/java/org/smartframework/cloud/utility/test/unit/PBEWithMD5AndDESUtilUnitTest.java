@@ -12,10 +12,10 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-public class PBEWithMD5AndDESUtilUnitTest {
+class PBEWithMD5AndDESUtilUnitTest {
 
     @Test
-    public void testPBEWithMD5AndDES() throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException,
+    void testPBEWithMD5AndDES() throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException,
             NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
         String password = "123456";
         String word = "test";

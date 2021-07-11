@@ -115,7 +115,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
     }
 
     private static boolean canMask(Object object) {
-        return object != null && object instanceof Serializable && !(object instanceof Map);
+        return object instanceof Serializable && !(object instanceof Map);
     }
 
     /**

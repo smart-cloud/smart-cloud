@@ -34,19 +34,19 @@ import org.smartframework.cloud.utility.spring.SpringContextUtil;
  */
 public final class SnowFlakeIdUtil {
 	/** 起始的时间戳 */
-	private final static long START_STAMP = 1480166465631L;
+	private static final long START_STAMP = 1480166465631L;
 
 	/** 每一部分占用的位数 */
-	private final static long SEQUENCE_BIT = 12; // 序列号占用的位数
-	private final static long DATE_MACHINE_BIT = 10; // 数据机器位
+	private static final long SEQUENCE_BIT = 12; // 序列号占用的位数
+	private static final long DATE_MACHINE_BIT = 10; // 数据机器位
 
 	/** 每一部分的最大值 */
-	private final static long MAX_DATE_MACHINE_NUM = -1L ^ (-1L << DATE_MACHINE_BIT);
-	private final static long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
+	private static final long MAX_DATE_MACHINE_NUM = -1L ^ (-1L << DATE_MACHINE_BIT);
+	private static final long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
 
 	/** 每一部分向左的位移 */
-	private final static long DATE_MACHINE_LEFT = SEQUENCE_BIT;
-	private final static long TIMESTAMP_LEFT = DATE_MACHINE_LEFT + DATE_MACHINE_BIT;
+	private static final long DATE_MACHINE_LEFT = SEQUENCE_BIT;
+	private static final long TIMESTAMP_LEFT = DATE_MACHINE_LEFT + DATE_MACHINE_BIT;
 
 	/** 数据机器标识（通过分布式配置中心配置，默认为0）  */
 	private long dataMachineId;

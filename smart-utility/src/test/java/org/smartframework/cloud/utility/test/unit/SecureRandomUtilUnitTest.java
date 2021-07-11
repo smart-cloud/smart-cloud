@@ -6,10 +6,10 @@ import org.smartframework.cloud.utility.SecureRandomUtil;
 
 import java.security.NoSuchAlgorithmException;
 
-public class SecureRandomUtilUnitTest {
+class SecureRandomUtilUnitTest {
 
     @Test
-    public void testGenerateRandom() throws NoSuchAlgorithmException {
+    void testGenerateRandom() throws NoSuchAlgorithmException {
         String random1 = SecureRandomUtil.generateRandom(true, 10);
         String random2 = SecureRandomUtil.generateRandom(false, 10);
         Assertions.assertThat(random1.length()).isEqualTo(10);
@@ -17,7 +17,7 @@ public class SecureRandomUtilUnitTest {
     }
 
     @Test
-    public void testGenerateRangeRandom() throws NoSuchAlgorithmException {
+    void testGenerateRangeRandom() throws NoSuchAlgorithmException {
         int random1 = SecureRandomUtil.generateRangeRandom(10, 100);
         Assertions.assertThat(random1).isBetween(10, 100);
     }

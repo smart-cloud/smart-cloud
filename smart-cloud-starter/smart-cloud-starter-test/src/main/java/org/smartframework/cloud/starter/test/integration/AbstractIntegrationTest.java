@@ -60,7 +60,7 @@ public abstract class AbstractIntegrationTest {
         AbstractUserContext.setContext(authUserMock);
     }
 
-    private Boolean enableRpcProtostuff() {
+    private boolean enableRpcProtostuff() {
         return getApplicationContext().getEnvironment().getProperty(Constants.RPC_PROTOSTUFF_SWITCH, Boolean.class, true);
     }
 

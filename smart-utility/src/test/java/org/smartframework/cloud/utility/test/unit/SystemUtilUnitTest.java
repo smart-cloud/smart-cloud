@@ -4,20 +4,20 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.utility.SystemUtil;
 
-public class SystemUtilUnitTest {
+class SystemUtilUnitTest {
 
     @Test
-    public void testIsWindows() {
+    void testIsWindows() {
         Assertions.assertThat(SystemUtil.isWindows()).isTrue();
     }
 
     @Test
-    public void testIsLinux() {
+    void testIsLinux() {
         Assertions.assertThat(SystemUtil.isLinux()).isFalse();
     }
 
     @Test
-    public void testGetUserDir() {
+    void testGetUserDir() {
         Assertions.assertThat(SystemUtil.getUserDir()).isNotBlank();
     }
 

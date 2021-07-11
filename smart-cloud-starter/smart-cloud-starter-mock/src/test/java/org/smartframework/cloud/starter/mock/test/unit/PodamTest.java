@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.Set;
 
 @Slf4j
-public class PodamTest {
+class PodamTest {
 
     /**
      * 普通非泛型对象
      */
     @Test
-    public void testMockObject() {
+    void testMockObject() {
         Product product = MockUtil.mock(Product.class);
         log.info("普通对象head=>{}", product);
 
@@ -39,7 +39,7 @@ public class PodamTest {
      * 单层泛型对象
      */
     @Test
-    public void testMockSimpleGenericObject() {
+    void testMockSimpleGenericObject() {
         // mock方式1
         List<Product> list = MockUtil.mock(List.class, Product.class);
         log.info("单层泛型对象resp1=>{}", JacksonUtil.toJson(list));
@@ -55,7 +55,7 @@ public class PodamTest {
     }
 
     @Test
-    public void testMockCustomizeStrategy() {
+    void testMockCustomizeStrategy() {
         OrderReqBody orderReqBody = MockUtil.mock(OrderReqBody.class);
         log.info("自定义mock策略orderReqBody=>{}", orderReqBody);
 
@@ -69,7 +69,7 @@ public class PodamTest {
 
     @Getter
     @Setter
-    public class Product extends Base {
+    class Product extends Base {
         private static final long serialVersionUID = 1L;
 
         private String name;
@@ -78,7 +78,7 @@ public class PodamTest {
 
     @Getter
     @Setter
-    public class OrderReqBody extends Base {
+    class OrderReqBody extends Base {
         private static final long serialVersionUID = 1L;
 
         @PodamStrategyValue(value = MobileAttributeStrategy.class)
@@ -97,7 +97,7 @@ public class PodamTest {
     /**
      * 手机号码mock生成策略
      */
-    public static class MobileAttributeStrategy implements AttributeStrategy<String> {
+    static class MobileAttributeStrategy implements AttributeStrategy<String> {
 
         @Override
         public String getValue(Class<?> attrType, List<Annotation> attrAnnotations) {

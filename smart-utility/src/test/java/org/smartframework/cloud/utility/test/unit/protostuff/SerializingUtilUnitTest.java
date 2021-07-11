@@ -10,10 +10,10 @@ import org.smartframework.cloud.utility.test.unit.protostuff.vo.RespVO;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-public class SerializingUtilUnitTest {
+class SerializingUtilUnitTest {
 
     @Test
-    public void testDeserialize() throws IOException {
+    void testDeserialize() throws IOException {
         RespVO<OrderVO> ordeRespVO = new RespVO<>();
         ordeRespVO.setBody(OrderVO.builder().orderNo("1234123").build());
 

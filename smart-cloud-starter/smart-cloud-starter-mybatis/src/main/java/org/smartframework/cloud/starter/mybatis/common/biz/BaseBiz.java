@@ -4,13 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.collections4.CollectionUtils;
 import org.smartframework.cloud.common.pojo.BaseEntityResponse;
 import org.smartframework.cloud.common.pojo.BasePageRequest;
 import org.smartframework.cloud.common.pojo.BasePageResponse;
 import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.mybatis.common.mapper.SmartMapper;
+import org.smartframework.cloud.starter.mybatis.common.mapper.constants.DelState;
 import org.smartframework.cloud.starter.mybatis.common.mapper.entity.BaseEntity;
-import org.smartframework.cloud.starter.mybatis.common.mapper.enums.DelStateEnum;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Collection;
@@ -38,7 +39,7 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
         T entity = BeanUtils.instantiateClass(entityClass);
         entity.setId(SnowFlakeIdUtil.getInstance().nextId());
         entity.setInsertTime(new Date());
-        entity.setDelState(DelStateEnum.NORMAL.getDelState());
+        entity.setDelState(DelState.NORMAL);
         return entity;
     }
 
@@ -65,7 +66,7 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
         entity.setId(id);
         entity.setDelUser(uid);
         entity.setDelTime(new Date());
-        entity.setDelState(DelStateEnum.DELETED.getDelState());
+        entity.setDelState(DelState.DELETED);
         return baseMapper.updateById(entity) == 1;
     }
 
@@ -82,8 +83,7 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
     public <R extends BaseEntityResponse, Q extends BasePageRequest> BasePageResponse<R> page(Q q, Wrapper<T> wrapper, Class<R> pageItemClass) {
         IPage<T> page = super.page(new Page<>(q.getPageNum(), q.getPageSize(), true), wrapper);
         List<T> entityDatas = page.getRecords();
-
-        if (entityDatas == null || entityDatas.size() == 0) {
+        if (CollectionUtils.isEmpty(entityDatas)) {
             return new BasePageResponse<>(null, q.getPageNum(), q.getPageSize(), 0);
         }
 

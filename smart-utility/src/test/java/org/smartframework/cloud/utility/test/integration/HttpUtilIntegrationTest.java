@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-public class HttpUtilIntegrationTest {
+class HttpUtilIntegrationTest {
     /**
      * 服务启动端口
      */
@@ -25,14 +25,14 @@ public class HttpUtilIntegrationTest {
     private static boolean bootstrap = false;
 
     @Test
-    public void testGet() throws IOException {
+    void testGet() throws IOException {
         startService();
         String result = HttpUtil.get(REQUEST_URL_PREFIX + "?str=test", null);
         Assertions.assertThat(result).isEqualTo("test");
     }
 
     @Test
-    public void testGetReturnType() throws IOException {
+    void testGetReturnType() throws IOException {
         startService();
 
         GetPageReqVO reqVO = new GetPageReqVO();
@@ -47,14 +47,14 @@ public class HttpUtilIntegrationTest {
     }
 
     @Test
-    public void testPostWithRaw() throws IOException {
+    void testPostWithRaw() throws IOException {
         startService();
         String result = HttpUtil.postWithRaw(REQUEST_URL_PREFIX, "test");
         Assertions.assertThat(result).isEqualTo("test");
     }
 
     @Test
-    public void testPostWithRawReturnType() throws IOException {
+    void testPostWithRawReturnType() throws IOException {
         startService();
         List<String> result = HttpUtil.postWithRaw(REQUEST_URL_PREFIX + "/list", "test",
                 new TypeReference<List<String>>() {
@@ -63,7 +63,7 @@ public class HttpUtilIntegrationTest {
     }
 
     @Test
-    public void testPostWithUrlEncoded() throws IOException {
+    void testPostWithUrlEncoded() throws IOException {
         startService();
         List<BasicNameValuePair> parameters = new ArrayList<>();
         String id = "100";
