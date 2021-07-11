@@ -116,15 +116,17 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
             while (jsonNodeIterator.hasNext()) {
                 Map.Entry<String, JsonNode> entry = jsonNodeIterator.next();
                 JsonNode jsonNode = entry.getValue();
+                if (jsonNode == null) {
+                    continue;
+                }
                 if (jsonNode.isArray()) {
                     String[] values = new String[jsonNode.size()];
                     for (int i = 0; i < values.length; i++) {
-                        String value = jsonNode.get(i).isNull() ? null : String.valueOf(jsonNode.get(i));
-                        values[i] = value;
+                        values[i] = convert(jsonNode.get(i));
                     }
                     mockHttpServletRequestBuilder.param(entry.getKey(), values);
                 } else if (!jsonNode.isNull()) {
-                    mockHttpServletRequestBuilder.param(entry.getKey(), String.valueOf(jsonNode));
+                    mockHttpServletRequestBuilder.param(entry.getKey(), convert(jsonNode));
                 }
             }
         }
@@ -135,6 +137,13 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
         return deserializeResponse(response.getContentAsByteArray(), typeReference, url);
+    }
+
+    private String convert(JsonNode jsonNode) {
+        if (jsonNode == null) {
+            return null;
+        }
+        return jsonNode.asText();
     }
 
     /**
@@ -205,12 +214,10 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .characterEncoding(StandardCharsets.UTF_8.name())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-        Map<String, String> requestMap = (Map) JacksonUtil.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {
+        Map<String, String> requestMap = JacksonUtil.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {
         });
         if (requestMap != null) {
-            requestMap.forEach((k, v) -> {
-                mockHttpServletRequestBuilder.param(k, v);
-            });
+            requestMap.forEach(mockHttpServletRequestBuilder::param);
         }
 
         MockHttpServletResponse response = this.mockMvc.perform(mockHttpServletRequestBuilder)
