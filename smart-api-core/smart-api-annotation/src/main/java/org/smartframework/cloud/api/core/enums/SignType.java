@@ -1,9 +1,8 @@
 package org.smartframework.cloud.api.core.enums;
 
-import lombok.Getter;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * @desc 签名类型

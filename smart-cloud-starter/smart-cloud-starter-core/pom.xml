@@ -38,6 +38,11 @@
 
 		<dependency>
 			<groupId>org.smartframework.cloud</groupId>
+			<artifactId>smart-exception</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.smartframework.cloud</groupId>
 			<artifactId>smart-utility</artifactId>
 		</dependency>
 

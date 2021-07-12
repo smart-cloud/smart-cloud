@@ -19,6 +19,7 @@
         <module>smart-utility</module>
         <module>smart-mask</module>
         <module>smart-api-core</module>
+        <module>smart-exception</module>
     </modules>
 
     <properties>
@@ -66,6 +67,18 @@
 
             <dependency>
                 <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-api-annotation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-user-context</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
                 <artifactId>smart-mask</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -79,6 +92,12 @@
             <dependency>
                 <groupId>org.smartframework.cloud</groupId>
                 <artifactId>smart-common-pojo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-exception</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

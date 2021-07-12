@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.core.business.exception;
+package org.smartframework.cloud.exception;
 
 import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 

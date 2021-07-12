@@ -35,7 +35,7 @@
 
         <dependency>
             <groupId>org.smartframework.cloud</groupId>
-            <artifactId>smart-api-core</artifactId>
+            <artifactId>smart-user-context</artifactId>
         </dependency>
 
         <dependency>

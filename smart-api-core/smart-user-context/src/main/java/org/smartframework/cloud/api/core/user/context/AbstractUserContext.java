@@ -1,4 +1,4 @@
-package org.smartframework.cloud.api.core.user;
+package org.smartframework.cloud.api.core.user.context;
 
 /**
  * 用户上下文
