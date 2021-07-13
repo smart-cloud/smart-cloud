@@ -1,5 +1,7 @@
 package org.smartframework.cloud.starter.configure.constants;
 
+import org.springframework.core.Ordered;
+
 /**
  * bean执行顺序
  *
@@ -7,6 +9,15 @@ package org.smartframework.cloud.starter.configure.constants;
  * @date 2019-06-28
  */
 public interface OrderConstant {
+
+    /**
+     * 用户上下文清理过滤器
+     */
+    int CLEAN_USER_CONTEXT_FILTER = Ordered.HIGHEST_PRECEDENCE;
+    /**
+     * http filter
+     */
+    int HTTP_FITLER = CLEAN_USER_CONTEXT_FILTER + 1;
     /**
      * 接口日志
      */
@@ -23,9 +34,5 @@ public interface OrderConstant {
      * mybatis plus拦截器（MybatisSqlLogInterceptor的优先级必须在高于MybatisPlusInterceptor，否则分页查询时，sql打印不全）
      */
     int MYBATIS_PLUS_INTERCEPTOR = MYBATIS_SQL_LOG_INTERCEPTOR + 1;
-    /**
-     * http filter
-     */
-    int HTTP_FITLER = Integer.MIN_VALUE;
 
 }

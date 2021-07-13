@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.core.business.enums;
+package org.smartframework.cloud.common.web.enums;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

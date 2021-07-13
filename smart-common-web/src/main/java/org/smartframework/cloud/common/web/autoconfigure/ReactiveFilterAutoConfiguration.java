@@ -1,7 +1,7 @@
-package org.smartframework.cloud.starter.core.business.autoconfigure;
+package org.smartframework.cloud.common.web.autoconfigure;
 
+import org.smartframework.cloud.common.web.filter.ReactiveFilter;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
-import org.smartframework.cloud.starter.core.business.filter.ReactiveFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

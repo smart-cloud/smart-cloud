@@ -17,6 +17,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.smartframework.cloud</groupId>
+            <artifactId>smart-cloud-starter-log</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>

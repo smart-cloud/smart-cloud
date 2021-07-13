@@ -1,9 +1,9 @@
-package org.smartframework.cloud.starter.core.business.filter;
+package org.smartframework.cloud.common.web.filter;
 
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
-import org.smartframework.cloud.starter.core.business.enums.ApiUseSideEnum;
-import org.smartframework.cloud.starter.core.constants.ProtostuffConstant;
+import org.smartframework.cloud.common.web.constants.ProtostuffConstant;
+import org.smartframework.cloud.common.web.enums.ApiUseSideEnum;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

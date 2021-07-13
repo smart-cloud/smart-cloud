@@ -16,6 +16,7 @@
         <module>smart-cloud-starter</module>
         <module>smart-code-generate</module>
         <module>smart-common-pojo</module>
+        <module>smart-common-web</module>
         <module>smart-utility</module>
         <module>smart-mask</module>
         <module>smart-api-core</module>
@@ -92,6 +93,12 @@
             <dependency>
                 <groupId>org.smartframework.cloud</groupId>
                 <artifactId>smart-common-pojo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-common-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

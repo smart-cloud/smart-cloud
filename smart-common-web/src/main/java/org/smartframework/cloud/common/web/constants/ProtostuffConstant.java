@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.core.constants;
+package org.smartframework.cloud.common.web.constants;
 
 import org.springframework.http.MediaType;
 

@@ -4,28 +4,35 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.smartframework.cloud</groupId>
-        <artifactId>smart-api-core</artifactId>
+        <artifactId>smart-cloud</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
-    <artifactId>smart-user-context</artifactId>
+    <artifactId>smart-common-web</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>org.smartframework.cloud</groupId>
             <artifactId>smart-cloud-starter-configure</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.smartframework.cloud</groupId>
+            <artifactId>smart-exception</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-core</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
     </dependencies>

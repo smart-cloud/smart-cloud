@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.core.business.filter;
+package org.smartframework.cloud.common.web.filter;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.core.NamedThreadLocal;
