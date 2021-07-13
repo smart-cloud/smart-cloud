@@ -54,28 +54,29 @@ public final class MQUtil {
         rabbitTemplate.send(exchange, routingKey, messageBuilder.build());
     }
 
-    public static <T> void retryAfterConsumerFail(RabbitTemplate rabbitTemplate, T object, Message message, Class<?> consumerClass) {
+    public static <T> boolean retryAfterConsumerFail(RabbitTemplate rabbitTemplate, T object, Message message, Class<?> consumerClass) {
         if (object == null) {
-            return;
+            return false;
+        }
+
+        RabbitListener rabbitListener = AnnotationUtils.findAnnotation(consumerClass, RabbitListener.class);
+        if (rabbitListener == null) {
+            return false;
         }
 
         // 失败后，发送延迟消息重试
         MQConsumerFailRetry mqConsumerFailRetry = AnnotationUtils.findAnnotation(consumerClass, MQConsumerFailRetry.class);
         if (mqConsumerFailRetry == null) {
             log.warn("MQConsumerFailRetry not found, retry is skipped!");
-            return;
+            return false;
         }
         Integer retriedTimes = message.getMessageProperties().getHeader(MQConstants.CONSUMER_RETRIED_TIMES);
         retriedTimes = (retriedTimes == null) ? 0 : (retriedTimes + 1);
         if (retriedTimes >= mqConsumerFailRetry.maxRetryTimes()) {
             log.warn("Maximum times of retries reached");
-            return;
+            return true;
         }
 
-        RabbitListener rabbitListener = AnnotationUtils.findAnnotation(consumerClass, RabbitListener.class);
-        if (rabbitListener == null) {
-            return;
-        }
         // 队列的名称
         String retryQueueName = rabbitListener.queues()[0];
         String retryQueuePrefix = MQNameUtil.getQueuePrefix(retryQueueName);
@@ -84,6 +85,7 @@ public final class MQUtil {
         //延迟路由键
         String delayRouteKeyName = MQNameUtil.getDelayRouteKeyName(retryQueuePrefix, mqConsumerFailRetry);
         send(rabbitTemplate, retryExchangeName, delayRouteKeyName, object, retriedTimes, String.valueOf(TimeUnit.SECONDS.toMillis(RetryTimeUtil.getNextExecuteTime(retriedTimes))));
+        return true;
     }
 
 }

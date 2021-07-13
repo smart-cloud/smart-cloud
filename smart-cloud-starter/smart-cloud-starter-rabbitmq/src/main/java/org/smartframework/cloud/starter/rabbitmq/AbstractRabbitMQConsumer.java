@@ -57,7 +57,9 @@ public abstract class AbstractRabbitMQConsumer<T> {
             }
         } catch (Exception e) {
             log.error("consumer mq exception", e);
-            MQUtil.retryAfterConsumerFail(rabbitTemplate, object, message, getClass());
+            if (!MQUtil.retryAfterConsumerFail(rabbitTemplate, object, message, getClass())) {
+                throw e;
+            }
         } finally {
             if (lockState) {
                 lock.unlock();

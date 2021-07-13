@@ -54,15 +54,15 @@ public class RabbitMQConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
      * @param mqConsumerClass
      * @param beanFactory
      */
-    private void registerDelayMQBean(Class<?> mqConsumerClass, ConfigurableListableBeanFactory beanFactory) {
+    private boolean registerDelayMQBean(Class<?> mqConsumerClass, ConfigurableListableBeanFactory beanFactory) {
         MQConsumerFailRetry mqConsumerFailRetry = AnnotationUtils.findAnnotation(mqConsumerClass, MQConsumerFailRetry.class);
         if (mqConsumerFailRetry == null) {
-            return;
+            return false;
         }
         RabbitListener rabbitListener = AnnotationUtils.findAnnotation(mqConsumerClass, RabbitListener.class);
         if (rabbitListener == null) {
             log.warn("RabbitListener[{}] not found", mqConsumerClass.getSimpleName());
-            return;
+            return false;
         }
 
         // 队列的名称
@@ -92,6 +92,8 @@ public class RabbitMQConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
 
         log.info("retryQueueInfo|retryQueueName={},retryExchangeName={},retryRouteKeyName={},delayQueueName={},delayRouteKeyName={}", retryQueueName,
                 retryExchangeName, retryRouteKeyName, delayQueueName, delayRouteKeyName);
+
+        return true;
     }
 
     /**
