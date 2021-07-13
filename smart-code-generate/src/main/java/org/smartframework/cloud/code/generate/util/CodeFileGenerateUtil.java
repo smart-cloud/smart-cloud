@@ -129,7 +129,7 @@ public class CodeFileGenerateUtil {
 		String codeAfterRemoveDate = null;
 		if (codeDateIndex != -1) {
 			// 需要移除的字符串长度
-			int removeLength = DATE_ANNOTATION_TAG.length() + Config.CREATEDATE_FORMAT.length() + 1;
+			int removeLength = DATE_ANNOTATION_TAG.length() + Config.CODE_CREATE_DATE_FORMAT.length() + 1;
 			codeAfterRemoveDate = code.substring(0, codeDateIndex)
 					+ code.substring(codeDateIndex + removeLength, code.length());
 		} else {

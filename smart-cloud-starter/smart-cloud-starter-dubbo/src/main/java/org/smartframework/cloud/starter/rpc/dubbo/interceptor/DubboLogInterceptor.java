@@ -3,10 +3,10 @@ package org.smartframework.cloud.starter.rpc.dubbo.interceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.smartframework.cloud.common.web.util.WebUtil;
 import org.smartframework.cloud.starter.core.constants.SymbolConstant;
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.starter.rpc.dubbo.pojo.DubboLogAspectDO;
-import org.smartframework.cloud.common.web.util.WebUtil;
 
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -30,14 +30,17 @@ public class DubboLogInterceptor implements MethodInterceptor {
         logDO.setReqParams(WebUtil.getRequestArgs(invocation.getArguments()));
 
         // 2、rpc
-        Object result = invocation.proceed();
+        Object result = null;
+        try {
+            result = invocation.proceed();
+        } finally {
+            logDO.setReqEndTime(new Date());
+            logDO.setReqDealTime((int) (logDO.getReqEndTime().getTime() - logDO.getReqStartTime().getTime()));
+            logDO.setRespData(result);
 
-        logDO.setReqEndTime(new Date());
-        logDO.setReqDealTime((int) (logDO.getReqEndTime().getTime() - logDO.getReqStartTime().getTime()));
-        logDO.setRespData(result);
-
-        // 3、打印日志
-        log.info(LogUtil.truncate("rpc.logDO=>{}", logDO));
+            // 3、打印日志
+            log.info(LogUtil.truncate("rpc.logDO=>{}", logDO));
+        }
 
         return result;
     }

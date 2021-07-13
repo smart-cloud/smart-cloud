@@ -10,6 +10,7 @@ import net.sf.jsqlparser.statement.create.table.Index;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.config.Config;
+import org.smartframework.cloud.code.generate.constants.GenerateCodeConstants;
 import org.smartframework.cloud.code.generate.enums.GenerateTypeEnum;
 import org.smartframework.cloud.code.generate.properties.CodeProperties;
 import org.smartframework.cloud.code.generate.properties.DbProperties;
@@ -167,7 +168,7 @@ public class DbUtil {
         }
 
         for (Index index : indexs) {
-            if (index.getType().equals("PRIMARY KEY")) {
+            if (GenerateCodeConstants.PRIMARY_KEY_TAG.equals(index.getType())) {
                 return index.getColumnsNames();
             }
         }

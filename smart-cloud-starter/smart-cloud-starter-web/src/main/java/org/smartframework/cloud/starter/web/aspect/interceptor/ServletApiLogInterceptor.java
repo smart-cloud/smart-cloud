@@ -8,7 +8,7 @@ import org.smartframework.cloud.common.pojo.Response;
 import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.starter.log.util.LogUtil;
-import org.smartframework.cloud.starter.web.aspect.pojo.LogAspectDO;
+import org.smartframework.cloud.common.web.pojo.LogAspectDO;
 import org.smartframework.cloud.starter.web.exception.ExceptionHandlerContext;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.common.web.util.WebServletUtil;

@@ -10,19 +10,19 @@ import org.springframework.web.server.ServerWebExchange;
 @UtilityClass
 public class ReactiveRequestContextHolder {
 
-	private static final ThreadLocal<ServerWebExchange> serverWebExchangeHolder = new NamedThreadLocal<>(
+	private static final ThreadLocal<ServerWebExchange> SERVER_WEB_EXCHANGE_HOLDER = new NamedThreadLocal<>(
 			"ServerWebExchange context");
 
 	public static ServerWebExchange getServerWebExchange() {
-		return serverWebExchangeHolder.get();
+		return SERVER_WEB_EXCHANGE_HOLDER.get();
 	}
 
 	public static void setServerWebExchange(ServerWebExchange exchange) {
-		serverWebExchangeHolder.set(exchange);
+		SERVER_WEB_EXCHANGE_HOLDER.set(exchange);
 	}
 
 	public static void removeServerWebExchange() {
-		serverWebExchangeHolder.remove();
+		SERVER_WEB_EXCHANGE_HOLDER.remove();
 	}
 
 	public static HttpHeaders getHttpHeaders() {
@@ -34,7 +34,7 @@ public class ReactiveRequestContextHolder {
 	}
 
 	public static ServerHttpRequest getServerHttpRequest() {
-		ServerWebExchange exchange = serverWebExchangeHolder.get();
+		ServerWebExchange exchange = SERVER_WEB_EXCHANGE_HOLDER.get();
 		if (exchange == null) {
 			return null;
 		}
@@ -42,7 +42,7 @@ public class ReactiveRequestContextHolder {
 	}
 
 	public static ServerHttpResponse getServerHttpResponse() {
-		ServerWebExchange exchange = serverWebExchangeHolder.get();
+		ServerWebExchange exchange = SERVER_WEB_EXCHANGE_HOLDER.get();
 		if (exchange == null) {
 			return null;
 		}

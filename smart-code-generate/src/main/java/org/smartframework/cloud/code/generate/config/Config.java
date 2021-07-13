@@ -20,7 +20,7 @@ public interface Config {
     /**
      * 代码生成日期格式
      */
-    String CREATEDATE_FORMAT = "yyyy-MM-dd";
+    String CODE_CREATE_DATE_FORMAT = "yyyy-MM-dd";
     /**
      * 配置文件所在路径
      */

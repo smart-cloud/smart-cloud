@@ -20,12 +20,12 @@ import java.io.Serializable;
 @Slf4j
 public final class JacksonMaskUtil {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     static {
-        objectMapper.setAnnotationIntrospector(new EnableMaskLogIntrospector());
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        OBJECT_MAPPER.setAnnotationIntrospector(new EnableMaskLogIntrospector());
+        OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        OBJECT_MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     }
 
     /**
@@ -41,7 +41,7 @@ public final class JacksonMaskUtil {
         String result = null;
         if (value instanceof Serializable) {
             try {
-                result = objectMapper.writeValueAsString(value);
+                result = OBJECT_MAPPER.writeValueAsString(value);
             } catch (JsonProcessingException e) {
                 log.error("mask error", e);
             }
@@ -62,7 +62,7 @@ public final class JacksonMaskUtil {
     public static <T> T parseObject(String content, Class<T> valueType) {
         T t = null;
         try {
-            t = objectMapper.readValue(content, valueType);
+            t = OBJECT_MAPPER.readValue(content, valueType);
         } catch (JsonProcessingException e) {
             log.error("parse object error", e);
         }
@@ -80,7 +80,7 @@ public final class JacksonMaskUtil {
     public static <T> T parseObject(String content, TypeReference<T> valueTypeRef) {
         T t = null;
         try {
-            t = objectMapper.readValue(content, valueTypeRef);
+            t = OBJECT_MAPPER.readValue(content, valueTypeRef);
         } catch (JsonProcessingException e) {
             log.error("parse object error", e);
         }
@@ -91,7 +91,7 @@ public final class JacksonMaskUtil {
     public static JsonNode parseObject(String content) {
         JsonNode t = null;
         try {
-            t = objectMapper.readTree(content);
+            t = OBJECT_MAPPER.readTree(content);
         } catch (JsonProcessingException e) {
             log.error("parse object error", e);
         }

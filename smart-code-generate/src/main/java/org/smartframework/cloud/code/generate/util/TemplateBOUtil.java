@@ -27,7 +27,7 @@ public class TemplateBOUtil {
      */
     public static ClassCommentBO getClassCommentBO(String author) {
         ClassCommentBO classComment = new ClassCommentBO();
-        classComment.setCreateDate(new SimpleDateFormat(Config.CREATEDATE_FORMAT).format(new Date()));
+        classComment.setCreateDate(new SimpleDateFormat(Config.CODE_CREATE_DATE_FORMAT).format(new Date()));
         classComment.setAuthor(author);
         return classComment;
     }

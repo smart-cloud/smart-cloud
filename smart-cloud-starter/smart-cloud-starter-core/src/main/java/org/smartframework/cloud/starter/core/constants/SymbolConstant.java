@@ -1,35 +1,56 @@
 package org.smartframework.cloud.starter.core.constants;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * 符号常量
  *
  * @author liyulin
  * @date 2019-04-27
  */
-@UtilityClass
-public class SymbolConstant {
+public interface SymbolConstant {
 
-	/** 点（.） */
-	public static final String DOT = ".";
-	/** 逗号（,） */
-	public static final String COMMA = ",";
-	/** 问号（?） */
-	public static final String QUESTION_MARK = "?";
-	/** 冒号（:） */
-	public static final String COLON = ":";
-	/** 分号（;） */
-	public static final String SEMICOLON = ";";
-	/** 竖线（|） */
-	public static final String VERTICAL_BAR = "|";
-	/** 双线号（||） */
-	public static final String PARALLEL = "||";
-	/** 连字号（-） */
-	public static final String HYPHEN = "-";
-	/** 破折号（——） */
-	public static final String DASH = "——";
-	/** 省略号（...） */
-	public static final String ELLIPSIS = "...";
+    /**
+     * 点（.）
+     */
+    String DOT = ".";
+    /**
+     * 逗号（,）
+     */
+    String COMMA = ",";
+    /**
+     * 问号（?）
+     */
+    String QUESTION_MARK = "?";
+    /**
+     * 冒号（:）
+     */
+    String COLON = ":";
+    /**
+     * 分号（;）
+     */
+    String SEMICOLON = ";";
+    /**
+     * 竖线（|）
+     */
+    String VERTICAL_BAR = "|";
+    /**
+     * 双线号（||）
+     */
+    String PARALLEL = "||";
+    /**
+     * 连字号（-）
+     */
+    String HYPHEN = "-";
+    /**
+     * 破折号（——）
+     */
+    String DASH = "——";
+    /**
+     * 省略号（...）
+     */
+    String ELLIPSIS = "...";
+    /**
+     * 斜杆（/）
+     */
+    String DIAGONAL_BAR = "/";
 
 }

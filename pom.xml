@@ -35,7 +35,7 @@
         <spring.boot.admin>2.3.1</spring.boot.admin>
         <protostuff>1.7.2</protostuff>
         <hystrix>2.2.6.RELEASE</hystrix>
-        <dubbo>2.7.8</dubbo>
+        <dubbo>3.0.1</dubbo>
         <redisson>3.15.0</redisson>
         <mybatis-spring-boot-starter>2.1.4</mybatis-spring-boot-starter>
         <mybatis-plus>3.4.2</mybatis-plus>
