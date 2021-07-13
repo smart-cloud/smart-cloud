@@ -20,9 +20,13 @@
 
 ```
 smart-cloud
-├── smart-api-core -- 接口权限、加解密、签名等注解
+├── smart-api-core -- 接口权限、加解密、签名等注解 && 用户上下文
+│    ├──smart-api-annotation -- 接口权限、加解密、签名等注解
+│    └──smart-user-context -- 用户上下文
 ├── smart-code-generate -- 代码生成
 ├── smart-common-pojo -- 公共对象
+├── smart-common-web -- web模块公共处理
+├── smart-exception -- 异常模块
 ├── smart-mask -- 敏感数据混淆
 ├── smart-utility -- 工具类
 └── smart-could-starter -- 框架封装
