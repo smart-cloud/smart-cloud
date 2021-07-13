@@ -14,7 +14,6 @@ import org.smartframework.cloud.starter.mybatis.common.mapper.constants.DelState
 import org.smartframework.cloud.starter.mybatis.common.mapper.entity.BaseEntity;
 import org.springframework.beans.BeanUtils;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,7 +49,7 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
      * @param entityList
      * @return
      */
-    public Integer insertBatchSomeColumn(Collection<T> entityList) {
+    public Integer insertBatchSomeColumn(List<T> entityList) {
         return baseMapper.insertBatchSomeColumn(entityList);
     }
 

@@ -21,7 +21,7 @@ public class CleanUserContextServletFilterAutoConfiguration {
     }
 
     @Bean
-    public FilterRegistrationBean<Filter> registFilter(final CleanUserContextServletFilter cleanUserContextServletFilter) {
+    public FilterRegistrationBean<Filter> registCleanUserContextServletFilter(final CleanUserContextServletFilter cleanUserContextServletFilter) {
         FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
         registration.setFilter(cleanUserContextServletFilter);
         registration.addUrlPatterns("/*");

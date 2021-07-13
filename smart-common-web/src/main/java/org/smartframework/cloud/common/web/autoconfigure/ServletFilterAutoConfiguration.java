@@ -23,7 +23,7 @@ public class ServletFilterAutoConfiguration {
     }
 
     @Bean
-    public FilterRegistrationBean<Filter> registFilter(final ServletFilter servletFilter) {
+    public FilterRegistrationBean<Filter> registServletFilter(final ServletFilter servletFilter) {
         FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
         registration.setFilter(servletFilter);
         registration.addUrlPatterns("/*");

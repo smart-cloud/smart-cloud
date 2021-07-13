@@ -1,8 +1,9 @@
 package org.smartframework.cloud.starter.mybatis.common.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * smart cloud BaseMapper
@@ -18,6 +19,6 @@ public interface SmartMapper<T> extends BaseMapper<T> {
      * @param entityList
      * @return
      */
-    Integer insertBatchSomeColumn(Collection<T> entityList);
+    Integer insertBatchSomeColumn(@Param("list") List<T> entityList);
 
 }
