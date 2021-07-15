@@ -150,6 +150,6 @@ smart-common-pojo | 419 | 当前会话已失效，请重新登陆
 smart-common-pojo | 500 | 服务器异常
 smart-common-pojo | 501 | 获取Request失败
 smart-common-pojo | 502 | 获取Response失败
-smart-cloud-starter-core | 1001 | rpc请求失败
-smart-cloud-starter-core | 1002 | 返回结果异常
+smart-common-pojo | 503 | rpc请求失败
+smart-common-pojo | 504 | rpc返回结果异常
 smart-cloud-starter-web | 2001 | 待校验参数object不能为null

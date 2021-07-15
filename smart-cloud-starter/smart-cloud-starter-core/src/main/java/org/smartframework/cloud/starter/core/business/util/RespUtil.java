@@ -1,11 +1,10 @@
 package org.smartframework.cloud.starter.core.business.util;
 
 import lombok.experimental.UtilityClass;
+import org.smartframework.cloud.common.pojo.Response;
+import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
-import org.smartframework.cloud.common.pojo.ResponseHead;
-import org.smartframework.cloud.common.pojo.Response;
-import org.smartframework.cloud.starter.core.business.enums.CoreReturnCodes;
 import org.smartframework.cloud.utility.ObjectUtil;
 import org.smartframework.cloud.utility.spring.I18NUtil;
 
@@ -86,11 +85,11 @@ public class RespUtil {
      */
     public static <R> String getFailMsg(Response<R> resp) {
         if (ObjectUtil.isNull(resp)) {
-            return I18NUtil.getMessage(CoreReturnCodes.RPC_REQUEST_FAIL.getCode());
+            return I18NUtil.getMessage(CommonReturnCodes.RPC_REQUEST_FAIL.getCode());
         }
 
         if (ObjectUtil.isNull(resp.getHead())) {
-            return I18NUtil.getMessage(CoreReturnCodes.RPC_RESULT_EXCEPTION.getCode());
+            return I18NUtil.getMessage(CommonReturnCodes.RPC_RESULT_EXCEPTION.getCode());
         }
 
         return resp.getHead().getMessage();
