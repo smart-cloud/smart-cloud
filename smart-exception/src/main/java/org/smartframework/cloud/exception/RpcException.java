@@ -14,8 +14,8 @@ public class RpcException extends BaseException {
         super(CommonReturnCodes.RPC_REQUEST_FAIL);
     }
 
-    public RpcException(String message) {
-        super.setCode(CommonReturnCodes.RPC_REQUEST_FAIL.getCode());
+    public RpcException(String code, String message) {
+        super.setCode(code);
         super.setMessage(message);
     }
 
