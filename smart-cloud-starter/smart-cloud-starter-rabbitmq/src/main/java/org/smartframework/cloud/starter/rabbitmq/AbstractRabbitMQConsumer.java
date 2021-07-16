@@ -25,7 +25,7 @@ import java.util.UUID;
  * @date 2020-08-12
  */
 @Slf4j
-public abstract class AbstractRabbitMQConsumer<T> {
+public abstract class AbstractRabbitMQConsumer<T> implements AbstractRabbitMQConsumerMarker {
 
     @Autowired
     private RedissonClient redissonClient;
