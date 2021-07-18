@@ -1,4 +1,4 @@
-package org.smartframework.cloud.api.core.enums;
+package org.smartframework.cloud.api.core.annotation.enums;
 
 /**
  * 常用角色

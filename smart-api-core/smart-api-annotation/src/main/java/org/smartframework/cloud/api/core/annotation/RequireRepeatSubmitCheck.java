@@ -1,5 +1,7 @@
 package org.smartframework.cloud.api.core.annotation;
 
+import org.smartframework.cloud.api.core.annotation.constants.ApiAnnotationConstants;
+
 import java.lang.annotation.*;
 
 /**
@@ -14,15 +16,10 @@ import java.lang.annotation.*;
 public @interface RequireRepeatSubmitCheck {
 
     /**
-     * 执行完后30秒内有效
-     */
-    long TEN_SECONDS_AFTER_DONE = 30 * 1000L;
-
-    /**
-     * 重复提交校验有效期（默认为执行完后30秒内不允许重复提交。单位：毫秒）
+     * 重复提交校验有效期（如果大于0，表示执行完后expireMillis毫秒内不允许重复提交。单位：毫秒）
      *
      * @return
      */
-    long expireMillis() default TEN_SECONDS_AFTER_DONE;
+    long expireMillis() default ApiAnnotationConstants.DEFAULT_EXPIRE_MILLIS_OF_REPEAT_SUBMIT;
 
 }

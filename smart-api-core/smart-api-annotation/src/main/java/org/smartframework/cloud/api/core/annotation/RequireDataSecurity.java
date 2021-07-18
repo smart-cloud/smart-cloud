@@ -1,6 +1,6 @@
 package org.smartframework.cloud.api.core.annotation;
 
-import org.smartframework.cloud.api.core.enums.SignType;
+import org.smartframework.cloud.api.core.annotation.enums.SignType;
 
 import java.lang.annotation.*;
 
