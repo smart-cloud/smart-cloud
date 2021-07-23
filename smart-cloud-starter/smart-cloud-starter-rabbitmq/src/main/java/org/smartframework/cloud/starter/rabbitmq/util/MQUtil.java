@@ -1,5 +1,6 @@
 package org.smartframework.cloud.starter.rabbitmq.util;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.starter.rabbitmq.MQConstants;
@@ -23,6 +24,12 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 public final class MQUtil {
+
+    /**
+     * 消费失败后是否能重试
+     */
+    @Setter
+    private static boolean enableRetryAfterConsumerFail = false;
 
     /**
      * 发送消息
@@ -55,6 +62,9 @@ public final class MQUtil {
     }
 
     public static <T> boolean retryAfterConsumerFail(RabbitTemplate rabbitTemplate, T object, Message message, Class<?> consumerClass) {
+        if (!MQUtil.enableRetryAfterConsumerFail) {
+            return false;
+        }
         if (object == null) {
             return false;
         }
@@ -74,7 +84,7 @@ public final class MQUtil {
         retriedTimes = (retriedTimes == null) ? 0 : (retriedTimes + 1);
         if (retriedTimes >= mqConsumerFailRetry.maxRetryTimes()) {
             log.warn("Maximum times of retries reached");
-            return true;
+            return false;
         }
 
         // 队列的名称

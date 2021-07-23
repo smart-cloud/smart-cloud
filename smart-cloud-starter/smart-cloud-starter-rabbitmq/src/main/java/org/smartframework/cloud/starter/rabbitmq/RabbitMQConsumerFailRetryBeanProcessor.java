@@ -6,6 +6,7 @@ import org.reflections.Reflections;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.rabbitmq.annotation.MQConsumerFailRetry;
 import org.smartframework.cloud.starter.rabbitmq.util.MQNameUtil;
+import org.smartframework.cloud.starter.rabbitmq.util.MQUtil;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeansException;
@@ -44,7 +45,9 @@ public class RabbitMQConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
         }
 
         for (Class<? extends AbstractRabbitMQConsumerMarker> mqConsumerClass : mqConsumerClasses) {
-            registerDelayMQBean(mqConsumerClass, beanFactory);
+            if (registerDelayMQBean(mqConsumerClass, beanFactory)) {
+                MQUtil.setEnableRetryAfterConsumerFail(true);
+            }
         }
     }
 

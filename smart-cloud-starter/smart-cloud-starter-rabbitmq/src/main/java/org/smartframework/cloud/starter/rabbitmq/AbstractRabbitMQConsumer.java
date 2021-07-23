@@ -31,9 +31,23 @@ public abstract class AbstractRabbitMQConsumer<T> implements AbstractRabbitMQCon
     private RedissonClient redissonClient;
     @Autowired
     private RabbitTemplate rabbitTemplate;
-    private boolean isInfoEnabled = log.isInfoEnabled();
 
-    protected abstract void doProcess(T t);
+    /**
+     * 消费者具体执行的业务逻辑
+     *
+     * @param object
+     */
+    protected abstract void doProcess(T object);
+
+    /**
+     * 重试失败后执行
+     *
+     * @param object
+     * @return
+     */
+    protected boolean executeAfterRetryConsumerFail(T object) {
+        return false;
+    }
 
     @RabbitHandler
     public void consumer(@Payload byte[] bytes, @Headers Map<String, Object> headers) {
@@ -47,9 +61,7 @@ public abstract class AbstractRabbitMQConsumer<T> implements AbstractRabbitMQCon
             lockState = lock.tryLock();
             String msg = new String(message.getBody(), StandardCharsets.UTF_8);
             if (lockState) {
-                if (isInfoEnabled) {
-                    log.info("receive.msg={}", msg);
-                }
+                log.info("receive.msg={}", msg);
                 object = JacksonUtil.parseObject(msg, getBodyClass());
                 doProcess(object);
             } else {
@@ -58,7 +70,9 @@ public abstract class AbstractRabbitMQConsumer<T> implements AbstractRabbitMQCon
         } catch (Exception e) {
             log.error("consumer mq exception", e);
             if (!MQUtil.retryAfterConsumerFail(rabbitTemplate, object, message, getClass())) {
-                throw e;
+                if (executeAfterRetryConsumerFail(object)) {
+                    log.warn("execute fail after retry consumer");
+                }
             }
         } finally {
             if (lockState) {
