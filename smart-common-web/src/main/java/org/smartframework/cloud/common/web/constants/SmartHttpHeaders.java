@@ -17,8 +17,12 @@ public interface SmartHttpHeaders {
      */
     String NONCE = "smart-nonce";
     /**
-     * http header token
+     * 请求token
      */
     String TOKEN = "smart-token";
+    /**
+     * 请求参数签名
+     */
+    String SIGN = "smart-sign";
 
 }
