@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.api.core.user.context.AbstractUserContext;
-import org.smartframework.cloud.api.core.user.context.ParentUserBO;
+import org.smartframework.cloud.api.core.user.context.SmartUser;
 import org.smartframework.cloud.starter.test.Constants;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.SerializingUtil;
@@ -52,12 +52,12 @@ public abstract class AbstractIntegrationTest {
      * 填充当前线程上下文需要的用户信息
      */
     private static void fillMockUserToContext() {
-        ParentUserBO authUserMock = new ParentUserBO();
-        authUserMock.setId(1L);
-        authUserMock.setUsername("collin");
-        authUserMock.setRealName("Collin.Lee");
-        authUserMock.setMobile("13112341234");
-        AbstractUserContext.setContext(authUserMock);
+        SmartUser smartUserMock = new SmartUser();
+        smartUserMock.setId(1L);
+        smartUserMock.setUsername("collin");
+        smartUserMock.setRealName("Collin.Lee");
+        smartUserMock.setMobile("13112341234");
+        AbstractUserContext.setContext(smartUserMock);
     }
 
     private boolean enableRpcProtostuff() {

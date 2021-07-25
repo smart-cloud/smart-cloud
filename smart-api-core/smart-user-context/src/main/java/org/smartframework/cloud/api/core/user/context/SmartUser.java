@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class ParentUserBO implements Serializable {
+public class SmartUser implements Serializable {
 
     /**
      * 用户id

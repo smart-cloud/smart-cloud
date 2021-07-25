@@ -8,10 +8,10 @@ package org.smartframework.cloud.api.core.user.context;
  */
 public abstract class AbstractUserContext {
 
-    protected static final ThreadLocal<ParentUserBO> USER_THREAD_LOCAL = new InheritableThreadLocal<>();
+    protected static final ThreadLocal<SmartUser> USER_THREAD_LOCAL = new InheritableThreadLocal<>();
 
-    public static void setContext(ParentUserBO userBO) {
-        USER_THREAD_LOCAL.set(userBO);
+    public static void setContext(SmartUser smartUser) {
+        USER_THREAD_LOCAL.set(smartUser);
     }
 
     public static void remove() {
