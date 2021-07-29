@@ -52,5 +52,13 @@ public interface SymbolConstant {
      * 斜杆（/）
      */
     String DIAGONAL_BAR = "/";
+    /**
+     * &
+     */
+    String AND = "&";
+    /**
+     * =
+     */
+    String EQUAL = "=";
 
 }
