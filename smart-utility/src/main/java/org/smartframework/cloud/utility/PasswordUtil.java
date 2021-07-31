@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.core.business.util;
+package org.smartframework.cloud.utility;
 
 import lombok.experimental.UtilityClass;
 import org.apache.commons.codec.digest.DigestUtils;

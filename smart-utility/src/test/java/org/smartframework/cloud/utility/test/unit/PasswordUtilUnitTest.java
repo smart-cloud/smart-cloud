@@ -1,9 +1,9 @@
-package org.smartframework.cloud.starter.core.test.unit;
+package org.smartframework.cloud.utility.test.unit;
 
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.smartframework.cloud.starter.core.business.util.PasswordUtil;
+import org.smartframework.cloud.utility.PasswordUtil;
 
 import java.security.NoSuchAlgorithmException;
 
