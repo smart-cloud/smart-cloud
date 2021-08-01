@@ -17,11 +17,6 @@
             <artifactId>smart-cloud-starter-log</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.smartframework.cloud</groupId>
-            <artifactId>smart-cloud-starter-mock</artifactId>
-        </dependency>
-
         <!--解决“使用@SpyBean时报 Mockito cannot mock/spy because : - final class”-->
         <dependency>
             <groupId>org.mockito</groupId>
