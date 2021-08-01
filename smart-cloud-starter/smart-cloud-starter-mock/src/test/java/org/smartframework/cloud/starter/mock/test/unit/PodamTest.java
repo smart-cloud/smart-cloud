@@ -7,15 +7,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.common.pojo.Base;
+import org.smartframework.cloud.starter.mock.strategy.MobileAttributeStrategy;
+import org.smartframework.cloud.starter.mock.strategy.MoneyAttributeStrategy;
 import org.smartframework.cloud.starter.mock.util.MockUtil;
 import org.smartframework.cloud.starter.mock.util.TypeReference;
 import org.smartframework.cloud.utility.JacksonUtil;
-import uk.co.jemos.podam.common.AttributeStrategy;
 import uk.co.jemos.podam.common.PodamLongValue;
 import uk.co.jemos.podam.common.PodamStrategyValue;
 import uk.co.jemos.podam.common.PodamStringValue;
 
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Set;
 
@@ -64,6 +64,7 @@ class PodamTest {
         Assertions.assertThat(StringUtils.isNumeric(orderReqBody.getMobile())).isTrue();
         Assertions.assertThat(orderReqBody.getName()).isEqualTo("小米手机");
         Assertions.assertThat(orderReqBody.getPrice()).isBetween(100L, 200L);
+        Assertions.assertThat(orderReqBody.getTotalMoney()).isBetween(100L, 1000000L);
         Assertions.assertThat(orderReqBody.getStock()).isEqualTo(50L);
     }
 
@@ -87,23 +88,10 @@ class PodamTest {
         private String name;
         @PodamLongValue(minValue = 100, maxValue = 200)
         private Long price;
-        /**
-         * 库存
-         */
+        @PodamStrategyValue(value = MoneyAttributeStrategy.class)
+        private Long totalMoney;
         @PodamLongValue(numValue = "50")
         private Long stock;
-    }
-
-    /**
-     * 手机号码mock生成策略
-     */
-    static class MobileAttributeStrategy implements AttributeStrategy<String> {
-
-        @Override
-        public String getValue(Class<?> attrType, List<Annotation> attrAnnotations) {
-            return "13112341234";
-        }
-
     }
 
 }
