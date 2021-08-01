@@ -1,0 +1,4 @@
+smart:
+  mock:
+    api: true
+    method: true

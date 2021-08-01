@@ -20,5 +20,13 @@ public interface SmartConstant {
      * api 日志打印开关配置name
      */
     String API_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".log.apilog";
+    /**
+     * api mock开关配置name
+     */
+    String MOCK_API_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".mock.api";
+    /**
+     * method mock开关配置name
+     */
+    String MOCK_METHOD_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".mock.method";
 
 }

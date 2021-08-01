@@ -19,11 +19,11 @@ public class MockProperties extends Base {
     /**
      * api mock开关 （默认false）
      */
-    private boolean apiMock = false;
+    private boolean api = false;
 
     /**
      * method mock开关（默认false）
      */
-    private boolean methodMock = false;
+    private boolean method = false;
 
 }
