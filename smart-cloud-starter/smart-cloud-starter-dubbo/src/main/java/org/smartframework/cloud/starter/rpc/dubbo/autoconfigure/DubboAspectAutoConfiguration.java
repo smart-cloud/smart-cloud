@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.rpc.dubbo.autoconfigure;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
+import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.rpc.dubbo.interceptor.DubboLogInterceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -14,41 +15,42 @@ import java.util.Arrays;
 
 /**
  * dubbo切面配置
- * 
+ *
  * @author liyulin
  * @date 2019-09-19
  */
 @Configuration
-@ConditionalOnProperty(name="smart.aspect.dubbolog", havingValue = "true")
+@ConditionalOnProperty(name = "smart.aspect.dubbolog", havingValue = "true")
 public class DubboAspectAutoConfiguration {
 
-	/**
-	 * dubbo切面
-	 * 
-	 * @return
-	 */
-	@Bean
-	public AspectJExpressionPointcut dubboServicePointcut() {
-		AspectJExpressionPointcut dubboServicePointcut = new AspectJExpressionPointcut();
-		String dubboExpression = AspectInterceptorUtil
-				.getWithinExpression(Arrays.asList(DubboService.class));
-		dubboServicePointcut.setExpression(dubboExpression);
-		return dubboServicePointcut;
-	}
+    /**
+     * dubbo切面
+     *
+     * @return
+     */
+    @Bean
+    public AspectJExpressionPointcut dubboServicePointcut() {
+        AspectJExpressionPointcut dubboServicePointcut = new AspectJExpressionPointcut();
 
-	@Bean
-	public DubboLogInterceptor dubboLogInterceptor() {
-		return new DubboLogInterceptor();
-	}
+        String dubboExpression = AspectInterceptorUtil.getFinalExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil
+                .getTypeExpression(Arrays.asList(DubboService.class)));
+        dubboServicePointcut.setExpression(dubboExpression);
+        return dubboServicePointcut;
+    }
 
-	@Bean
-	public Advisor dubboLogAdvisor(final DubboLogInterceptor dubboLogInterceptor,
-			final AspectJExpressionPointcut dubboServicePointcut) {
-		DefaultBeanFactoryPointcutAdvisor dubboAdvisor = new DefaultBeanFactoryPointcutAdvisor();
-		dubboAdvisor.setAdvice(dubboLogInterceptor);
-		dubboAdvisor.setPointcut(dubboServicePointcut);
+    @Bean
+    public DubboLogInterceptor dubboLogInterceptor() {
+        return new DubboLogInterceptor();
+    }
 
-		return dubboAdvisor;
-	}
+    @Bean
+    public Advisor dubboLogAdvisor(final DubboLogInterceptor dubboLogInterceptor,
+                                   final AspectJExpressionPointcut dubboServicePointcut) {
+        DefaultBeanFactoryPointcutAdvisor dubboAdvisor = new DefaultBeanFactoryPointcutAdvisor();
+        dubboAdvisor.setAdvice(dubboLogInterceptor);
+        dubboAdvisor.setPointcut(dubboServicePointcut);
+
+        return dubboAdvisor;
+    }
 
 }

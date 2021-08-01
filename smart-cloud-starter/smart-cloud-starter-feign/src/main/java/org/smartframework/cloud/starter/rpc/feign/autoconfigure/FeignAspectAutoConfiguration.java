@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.rpc.feign.autoconfigure;
 
 import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
+import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.rpc.feign.annotation.SmartFeignClient;
 import org.smartframework.cloud.starter.rpc.feign.interceptor.FeignInterceptor;
 import org.springframework.aop.Advisor;
@@ -38,8 +39,9 @@ public class FeignAspectAutoConfiguration {
     @Bean
     public AspectJExpressionPointcut feignClientPointcut() {
         AspectJExpressionPointcut feignClientPointcut = new AspectJExpressionPointcut();
-        String feignExpression = AspectInterceptorUtil
-                .getWithinExpression(Arrays.asList(FeignClient.class, SmartFeignClient.class));
+
+        String feignExpression = AspectInterceptorUtil.getFinalExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil
+                .getTypeExpression(Arrays.asList(FeignClient.class, SmartFeignClient.class)));
         feignClientPointcut.setExpression(feignExpression);
         return feignClientPointcut;
     }

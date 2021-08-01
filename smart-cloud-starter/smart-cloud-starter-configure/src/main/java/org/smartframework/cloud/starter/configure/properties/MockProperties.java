@@ -17,8 +17,13 @@ public class MockProperties extends Base {
     private static final long serialVersionUID = 1L;
 
     /**
-     * mock开关 （默认false）
+     * api mock开关 （默认false）
      */
-    private boolean mock = false;
+    private boolean apiMock = false;
+
+    /**
+     * method mock开关（默认false）
+     */
+    private boolean methodMock = false;
 
 }

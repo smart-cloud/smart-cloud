@@ -15,10 +15,10 @@ public interface SmartConstant {
     /**
      * rpc 日志打印开关配置name
      */
-    String FEIGN_LOG_CONDITION_PROPERTY = "smart.log.rpclog";
+    String FEIGN_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".log.rpclog";
     /**
      * api 日志打印开关配置name
      */
-    String API_LOG_CONDITION_PROPERTY = "smart.log.apilog";
+    String API_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".log.apilog";
 
 }
