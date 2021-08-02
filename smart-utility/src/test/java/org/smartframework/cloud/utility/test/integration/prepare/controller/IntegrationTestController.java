@@ -1,9 +1,9 @@
-package org.smartframework.cloud.utility.test.integration;
+package org.smartframework.cloud.utility.test.integration.prepare.controller;
 
-import org.smartframework.cloud.utility.test.integration.vo.GetPageReqVO;
-import org.smartframework.cloud.utility.test.integration.vo.GetPageRespVO;
-import org.smartframework.cloud.utility.test.integration.vo.PostUrlEncodedReqVO;
-import org.smartframework.cloud.utility.test.integration.vo.PostUrlEncodedRespVO;
+import org.smartframework.cloud.utility.test.integration.prepare.vo.GetPageReqVO;
+import org.smartframework.cloud.utility.test.integration.prepare.vo.GetPageRespVO;
+import org.smartframework.cloud.utility.test.integration.prepare.vo.PostUrlEncodedReqVO;
+import org.smartframework.cloud.utility.test.integration.prepare.vo.PostUrlEncodedRespVO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

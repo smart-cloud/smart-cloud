@@ -1,4 +1,4 @@
-package org.smartframework.cloud.utility.test.integration.vo;
+package org.smartframework.cloud.utility.test.integration.prepare.vo;
 
 import lombok.Getter;
 import lombok.Setter;
