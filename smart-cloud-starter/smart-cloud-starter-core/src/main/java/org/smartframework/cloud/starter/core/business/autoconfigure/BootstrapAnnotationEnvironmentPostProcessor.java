@@ -8,6 +8,7 @@ import org.smartframework.cloud.starter.core.support.annotation.YamlScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.env.YamlPropertySourceLoader;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -41,11 +42,16 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
             SmartBootApplication smartBootApplication = AnnotationUtils
                     .findAnnotation(mainApplicationClass, SmartBootApplication.class);
             if (smartBootApplication == null) {
-                // 此处findFromClass的参数为测试启动类
-                mainApplicationClass = new AnnotatedClassFinder(SmartBootApplication.class)
-                        .findFromClass(mainApplicationClass);
-                if (mainApplicationClass == null) {
-                    return;
+                SpringBootTest springBootTest = AnnotationUtils.findAnnotation(mainApplicationClass, SpringBootTest.class);
+                if (springBootTest != null && ArrayUtils.isNotEmpty(springBootTest.classes())) {
+                    mainApplicationClass = springBootTest.classes()[0];
+                } else {
+                    // 此处findFromClass的参数为测试启动类
+                    mainApplicationClass = new AnnotatedClassFinder(SmartBootApplication.class)
+                            .findFromClass(mainApplicationClass);
+                    if (mainApplicationClass == null) {
+                        return;
+                    }
                 }
                 smartBootApplication = AnnotationUtils.findAnnotation(mainApplicationClass,
                         SmartBootApplication.class);

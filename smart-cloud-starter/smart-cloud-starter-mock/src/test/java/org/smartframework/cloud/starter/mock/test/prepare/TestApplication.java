@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.mock.test;
+package org.smartframework.cloud.starter.mock.test.prepare;
 
 import org.smartframework.cloud.starter.core.support.annotation.SmartBootApplication;
 import org.springframework.boot.SpringApplication;
