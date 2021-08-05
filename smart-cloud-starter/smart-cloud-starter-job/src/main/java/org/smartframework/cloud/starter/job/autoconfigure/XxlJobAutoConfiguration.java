@@ -1,9 +1,11 @@
 package org.smartframework.cloud.starter.job.autoconfigure;
 
 import org.apache.commons.lang3.StringUtils;
+import org.smartframework.cloud.starter.configure.SmartAutoConfiguration;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.configure.properties.XxlJobProperties;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,7 @@ import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
  * @date 2019-07-11
  */
 @Configuration
+@AutoConfigureAfter(SmartAutoConfiguration.class)
 @ConditionalOnProperty(name = "smart.xxlJob.enabled", havingValue = "true", matchIfMissing = true)
 public class XxlJobAutoConfiguration {
 

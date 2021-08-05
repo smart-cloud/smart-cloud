@@ -9,9 +9,9 @@ package org.smartframework.cloud.utility;
 public class RetryTimeUtil {
 
     /**
-     * 默认当前已执行次数
+     * 重试间隔时间
      */
-    public static final int DEFAULT_CURRENT_TIMES = 1;
+    public static final long[] NEXT_EXECUTE_TIMES = {30L, 60L, 120L, 300L, 600L, 1800L, 3600L, 3600 * 4L, 3600 * 12L, 3600 * 24L};
 
     /**
      * 获取下次执行延迟时间（单位：秒）
@@ -34,35 +34,13 @@ public class RetryTimeUtil {
      * @return
      */
     public static final long getNextExecuteTime(int retriedTimes) {
-        int consumerTimes = retriedTimes + 1;
-        if (consumerTimes == 1) {
-            return 30L;
+        int consumerTimes = retriedTimes;
+        int nextExecuteTimeMaxIndex = NEXT_EXECUTE_TIMES.length - 1;
+        if (consumerTimes > nextExecuteTimeMaxIndex) {
+            return NEXT_EXECUTE_TIMES[nextExecuteTimeMaxIndex];
         }
-        if (consumerTimes == 2) {
-            return 60L;
-        }
-        if (consumerTimes == 03) {
-            return 120L;
-        }
-        if (consumerTimes == 4) {
-            return 300L;
-        }
-        if (consumerTimes == 5) {
-            return 600L;
-        }
-        if (consumerTimes == 6) {
-            return 1800L;
-        }
-        if (consumerTimes == 7) {
-            return 3600L;
-        }
-        if (consumerTimes == 8) {
-            return 3600 * 4L;
-        }
-        if (consumerTimes == 9) {
-            return 3600 * 12L;
-        }
-        return 3600 * 24L;
+
+        return NEXT_EXECUTE_TIMES[consumerTimes];
     }
 
 }

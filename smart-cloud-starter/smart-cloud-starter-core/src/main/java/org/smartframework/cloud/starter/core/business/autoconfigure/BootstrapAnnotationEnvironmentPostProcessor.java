@@ -1,13 +1,13 @@
 package org.smartframework.cloud.starter.core.business.autoconfigure;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.smartframework.cloud.starter.core.business.util.AnnotatedClassFinder;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.core.support.annotation.SmartBootApplication;
 import org.smartframework.cloud.starter.core.support.annotation.YamlScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.env.YamlPropertySourceLoader;
+import org.springframework.boot.test.context.AnnotatedClassFinder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.AnnotationUtils;

@@ -1,14 +1,13 @@
 package org.smartframework.cloud.starter.mock.condition;
 
 import org.smartframework.cloud.starter.configure.constants.SmartConstant;
-import org.smartframework.cloud.starter.core.support.annotation.SmartBootApplication;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
- * 判断注解{@link SmartBootApplication}是否生效
+ * 判断mock配置是否生效
  *
  * @author liyulin
  * @date 2019-04-27

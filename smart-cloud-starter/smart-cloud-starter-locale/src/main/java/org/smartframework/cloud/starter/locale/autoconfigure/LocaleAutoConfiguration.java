@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.locale.autoconfigure;
 
 import java.io.IOException;
 
+import org.smartframework.cloud.starter.configure.SmartAutoConfiguration;
 import org.smartframework.cloud.starter.configure.properties.LocaleProperties;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.locale.aspect.LocaleInterceptor;
@@ -9,6 +10,7 @@ import org.smartframework.cloud.starter.locale.constant.LocaleConstant;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,8 +27,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author liyulin
  * @date 2019-07-15
  */
-@Configuration
 @Slf4j
+@Configuration
+@AutoConfigureAfter(SmartAutoConfiguration.class)
 public class LocaleAutoConfiguration {
 
 	@Bean
