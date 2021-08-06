@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.smartframework.cloud.common.pojo.Base;
 
+import java.util.Set;
+
 /**
  * mock配置
  *
@@ -25,5 +27,10 @@ public class MockProperties extends Base {
      * method mock开关（默认false）
      */
     private boolean method = false;
+
+    /**
+     * 白名单（不走mock）
+     */
+    private Set<String> whilelist;
 
 }

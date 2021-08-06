@@ -26,8 +26,8 @@ import java.util.List;
 public class MockAspectAutoConfiguration {
 
     @Bean
-    public MockInterceptor mockInterceptor() {
-        return new MockInterceptor();
+    public MockInterceptor mockInterceptor(final SmartProperties smartProperties) {
+        return new MockInterceptor(smartProperties.getMock());
     }
 
     @Bean
