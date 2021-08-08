@@ -1,12 +1,12 @@
-package org.smartframework.cloud.utility.test.unit.jaxb;
+package org.smartframework.cloud.utility.test.unit.jaxb.vo;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 /**
  * UIP请求报文节点SvcInfo——Header
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Header")
-public class ReqHeaderDto {
+public class ReqHeaderVO {
 
 	@XmlElement(name = "TOKEN")
 	private String token;

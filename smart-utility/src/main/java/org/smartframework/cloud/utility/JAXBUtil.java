@@ -2,7 +2,6 @@ package org.smartframework.cloud.utility;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import lombok.experimental.UtilityClass;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -28,7 +27,6 @@ import java.util.concurrent.TimeUnit;
  * @author liyulin
  * @date 2019-04-17
  */
-@UtilityClass
 public final class JAXBUtil {
 
     /**
@@ -44,6 +42,9 @@ public final class JAXBUtil {
             // 使用弱引用
             .weakValues()
             .build();
+
+    private JAXBUtil() {
+    }
 
     /**
      * bean转xml

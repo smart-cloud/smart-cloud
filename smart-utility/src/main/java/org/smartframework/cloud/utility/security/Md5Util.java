@@ -1,6 +1,5 @@
 package org.smartframework.cloud.utility.security;
 
-import lombok.experimental.UtilityClass;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
@@ -13,7 +12,6 @@ import java.io.IOException;
  * @author liyulin
  * @date 2019-07-12
  */
-@UtilityClass
 public class Md5Util extends DigestUtils {
 
     /**
@@ -23,7 +21,7 @@ public class Md5Util extends DigestUtils {
      * @return
      * @throws IOException
      */
-    public String generateFileMd5(String path) throws IOException {
+    public static String generateFileMd5(String path) throws IOException {
         return generateFileMd5(new File(path));
     }
 
@@ -34,7 +32,7 @@ public class Md5Util extends DigestUtils {
      * @return
      * @throws IOException
      */
-    public String generateFileMd5(File file) throws IOException {
+    public static String generateFileMd5(File file) throws IOException {
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             return DigestUtils.md5Hex(fileInputStream);
         }

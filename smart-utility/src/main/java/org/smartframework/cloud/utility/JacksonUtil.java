@@ -24,6 +24,9 @@ public final class JacksonUtil {
         OBJECT_MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
     }
 
+    private JacksonUtil() {
+    }
+
     /**
      * 对象转json
      *
@@ -35,7 +38,7 @@ public final class JacksonUtil {
         try {
             result = OBJECT_MAPPER.writeValueAsString(value);
         } catch (JsonProcessingException e) {
-            log.error("mask error", e);
+            log.error("write.String.error", e);
         }
         return result;
     }
@@ -47,13 +50,13 @@ public final class JacksonUtil {
      * @return
      */
     public static final byte[] toBytes(Object value) {
-        byte[] result = null;
+        byte[] bytes = null;
         try {
-            result = OBJECT_MAPPER.writeValueAsBytes(value);
+            bytes = OBJECT_MAPPER.writeValueAsBytes(value);
         } catch (JsonProcessingException e) {
-            log.error("write to bytes error", e);
+            log.error("write.byte[].error", e);
         }
-        return result;
+        return bytes;
     }
 
     /**
@@ -92,7 +95,7 @@ public final class JacksonUtil {
         return t;
     }
 
-    public static JsonNode parseObject(String content) {
+    public static JsonNode parse(String content) {
         JsonNode t = null;
         try {
             t = OBJECT_MAPPER.readTree(content);

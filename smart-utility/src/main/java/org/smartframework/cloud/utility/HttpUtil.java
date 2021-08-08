@@ -3,7 +3,6 @@ package org.smartframework.cloud.utility;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.net.MediaType;
-import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;
@@ -31,7 +30,6 @@ import java.util.Map;
  * @author liyulin
  * @date 2019-05-03
  */
-@UtilityClass
 @Slf4j
 public class HttpUtil {
 
@@ -51,6 +49,9 @@ public class HttpUtil {
      * 从连接池中获取连接的超时时间（单位毫秒，默认2秒）
      */
     private static final int CONNECTION_REQUEST_TIMEOUT = 2000;
+
+    private HttpUtil() {
+    }
 
     /**
      * post（raw）方式请求（编码为UTF-8，超时时间10秒）
@@ -314,7 +315,7 @@ public class HttpUtil {
         URIBuilder builder = new URIBuilder(URI.create(url));
         builder.setCharset(StandardCharsets.UTF_8);
         if (StringUtils.isNotBlank(requestJsonStr)) {
-            JsonNode jsonNodeElements = JacksonUtil.parseObject(requestJsonStr);
+            JsonNode jsonNodeElements = JacksonUtil.parse(requestJsonStr);
             Iterator<Map.Entry<String, JsonNode>> jsonNodeIterator = jsonNodeElements.fields();
             while (jsonNodeIterator.hasNext()) {
                 Map.Entry<String, JsonNode> entry = jsonNodeIterator.next();

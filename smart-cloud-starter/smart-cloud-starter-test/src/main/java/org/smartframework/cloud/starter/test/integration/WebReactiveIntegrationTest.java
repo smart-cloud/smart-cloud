@@ -66,7 +66,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
         Map<String, Object> params = null;
         if (StringUtils.isNotBlank(requestJsonStr)) {
             params = new LinkedHashMap<>();
-            JsonNode jsonNodeElements = JacksonUtil.parseObject(requestJsonStr);
+            JsonNode jsonNodeElements = JacksonUtil.parse(requestJsonStr);
             Iterator<Map.Entry<String, JsonNode>> jsonNodeIterator = jsonNodeElements.fields();
             while (jsonNodeIterator.hasNext()) {
                 Map.Entry<String, JsonNode> entry = jsonNodeIterator.next();

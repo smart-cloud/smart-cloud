@@ -111,7 +111,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .accept(MediaType.APPLICATION_JSON_VALUE);
 
         if (StringUtils.isNotBlank(requestJsonStr)) {
-            JsonNode jsonNodeElements = JacksonUtil.parseObject(requestJsonStr);
+            JsonNode jsonNodeElements = JacksonUtil.parse(requestJsonStr);
             Iterator<Map.Entry<String, JsonNode>> jsonNodeIterator = jsonNodeElements.fields();
             while (jsonNodeIterator.hasNext()) {
                 Map.Entry<String, JsonNode> entry = jsonNodeIterator.next();
