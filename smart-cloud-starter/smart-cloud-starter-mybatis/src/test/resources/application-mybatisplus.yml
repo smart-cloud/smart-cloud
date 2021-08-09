@@ -1,11 +1,18 @@
+smart:
+  dataMachineId: 1
+
 spring:
+  flyway:
+    clean-on-validation-error: false
+    locations:
+      - classpath:db/migration/mybatisplus
   datasource:
     dynamic:
       primary: mall-product
       strict: true
       datasource:
         mall-product:
-          url: jdbc:mysql://127.0.0.1:3306/demo_product?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          url: jdbc:mysql://127.0.0.1:3306/test_mybatis_plus?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
           username: root
           password: 123456
           driver-class-name: com.mysql.cj.jdbc.Driver

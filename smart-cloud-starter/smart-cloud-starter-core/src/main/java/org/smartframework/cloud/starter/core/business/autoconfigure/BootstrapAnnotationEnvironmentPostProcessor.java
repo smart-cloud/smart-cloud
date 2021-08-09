@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.core.business.autoconfigure;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
+import org.smartframework.cloud.starter.core.constants.SmartEnv;
 import org.smartframework.cloud.starter.core.support.annotation.SmartBootApplication;
 import org.smartframework.cloud.starter.core.support.annotation.YamlScan;
 import org.springframework.boot.SpringApplication;
@@ -55,6 +56,9 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
                 }
                 smartBootApplication = AnnotationUtils.findAnnotation(mainApplicationClass,
                         SmartBootApplication.class);
+                if (smartBootApplication != null) {
+                    SmartEnv.setUnitTest(true);
+                }
             }
             if (smartBootApplication == null) {
                 return;

@@ -1,0 +1,24 @@
+smart:
+  dataMachineId: 1
+
+spring:
+  flyway:
+    clean-on-validation-error: false
+    locations:
+      - classpath:db/migration/dynamicdatasource
+  datasource:
+    dynamic:
+      primary: product
+      strict: true
+      datasource:
+        product:
+          url: jdbc:mysql://127.0.0.1:3306/test_dynamic_datasource_product?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        auth:
+          url: jdbc:mysql://127.0.0.1:3306/test_dynamic_datasource_auth?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          type: com.zaxxer.hikari.HikariDataSource

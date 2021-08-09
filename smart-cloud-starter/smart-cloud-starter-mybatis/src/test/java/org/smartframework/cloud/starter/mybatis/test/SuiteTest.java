@@ -5,7 +5,7 @@ import org.junit.platform.suite.api.SelectPackages;
 import org.junit.runner.RunWith;
 
 @RunWith(JUnitPlatform.class)
-@SelectPackages({"org.smartframework.cloud.starter.mybatis.test"})
+@SelectPackages("org.smartframework.cloud.starter.mybatis.test.cases")
 public class SuiteTest {
 
 }

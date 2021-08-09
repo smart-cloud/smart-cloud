@@ -1,0 +1,35 @@
+smart:
+  dataMachineId: 1
+
+spring:
+  flyway:
+    clean-on-validation-error: false
+    locations:
+      - classpath:db/migration/dynamicdatasourcemasterslave
+  datasource:
+    dynamic:
+      primary: productMaster
+      strict: true
+      datasource:
+        productMaster:
+          url: jdbc:mysql://127.0.0.1:3306/test_dynamicdatasourcemasterslave?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        # 以下划线 _ 分割的数据源 首部 即为组的名称，相同组名称的数据源会放在一个组下
+        # 切换数据源可以是组名，也可以是具体数据源名称。组名则切换时采用负载均衡算法切换。
+        productSlave_1:
+          url: jdbc:mysql://127.0.0.1:3306/test_dynamicdatasourcemasterslave?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        productSlave_2:
+          url: jdbc:mysql://127.0.0.1:3306/test_dynamicdatasourcemasterslave?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        productSlave_3:
+          url: jdbc:mysql://127.0.0.1:3306/test_dynamicdatasourcemasterslave?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver

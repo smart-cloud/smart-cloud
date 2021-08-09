@@ -1,6 +1,5 @@
 package org.smartframework.cloud.starter.mybatis.autoconfigure;
 
-import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.provider.AbstractDataSourceProvider;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
@@ -21,10 +20,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -42,16 +43,21 @@ import java.util.stream.Stream;
  */
 @Configuration
 @ConditionalOnClass(ShardingDataSource.class)
+@ConditionalOnProperty(SmartDataSourceAutoConfiguration.SHARDING_DATASOURCE_PREFIX)
 @AutoConfigureBefore(DynamicDataSourceAutoConfiguration.class)
 @Slf4j
 public class SmartDataSourceAutoConfiguration {
 
+    /**
+     * sharding jdbc数据源配置前缀
+     */
+    protected static final String SHARDING_DATASOURCE_PREFIX = "spring.shardingsphere.datasource";
     @Autowired
     private DynamicDataSourceProperties dynamicDataSourceProperties;
 
     @Primary
     @Bean
-    @DependsOn("shardingDataSource")
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     public DynamicDataSourceProvider smartDynamicDataSourceProvider(final ShardingDataSource shardingDataSource) {
         Map<String, DataSourceProperty> dynamicDataSourcePropertiesMap = dynamicDataSourceProperties.getDatasource();
         return new AbstractDataSourceProvider() {
@@ -118,28 +124,6 @@ public class SmartDataSourceAutoConfiguration {
 
     private boolean isMaster(String name) {
         return !name.contains(ShardingJdbcConstants.SLAVE_KEY);
-    }
-
-    @Primary
-    @Bean
-    @DependsOn("smartDynamicDataSourceProvider")
-    public DataSource dataSource(final DynamicDataSourceProvider smartDynamicDataSourceProvider) {
-        DynamicRoutingDataSource dataSource = new DynamicRoutingDataSource();
-
-        // 如果动态数据源没有配置，则primary设置为sharding jdbc master的数据源
-        Map<String, DataSourceProperty> dataSourcePropertyMap = dynamicDataSourceProperties.getDatasource();
-        String primary = dynamicDataSourceProperties.getPrimary();
-        if (dataSourcePropertyMap == null || dataSourcePropertyMap.size() == 0) {
-            primary = ShardingJdbcDS.MASTER;
-        }
-        dataSource.setPrimary(primary);
-
-        dataSource.setStrict(dynamicDataSourceProperties.getStrict());
-        dataSource.setStrategy(dynamicDataSourceProperties.getStrategy());
-        dataSource.setProvider(smartDynamicDataSourceProvider);
-        dataSource.setP6spy(dynamicDataSourceProperties.getP6spy());
-        dataSource.setSeata(dynamicDataSourceProperties.getSeata());
-        return dataSource;
     }
 
 }

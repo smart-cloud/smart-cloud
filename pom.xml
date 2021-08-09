@@ -37,8 +37,8 @@
         <hystrix>2.2.6.RELEASE</hystrix>
         <dubbo>3.0.1</dubbo>
         <redisson>3.15.0</redisson>
-        <mybatis-plus>3.4.2</mybatis-plus>
-        <dynamic-datasource>3.3.2</dynamic-datasource>
+        <mybatis-plus>3.4.3.1</mybatis-plus>
+        <dynamic-datasource>3.4.1</dynamic-datasource>
         <sharding-jdbc>4.1.1</sharding-jdbc>
         <seata>1.4.1</seata>
         <mysql>8.0.23</mysql>

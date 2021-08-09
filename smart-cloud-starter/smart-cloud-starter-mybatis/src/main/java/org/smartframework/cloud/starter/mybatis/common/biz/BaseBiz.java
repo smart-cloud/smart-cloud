@@ -36,7 +36,7 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
      */
     public T create() {
         T entity = BeanUtils.instantiateClass(entityClass);
-        entity.setId(SnowFlakeIdUtil.getInstance().nextId());
+        entity.setId(generateId());
         entity.setInsertTime(new Date());
         entity.setDelState(DelState.NORMAL);
         return entity;
