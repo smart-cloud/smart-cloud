@@ -37,7 +37,6 @@
         <hystrix>2.2.6.RELEASE</hystrix>
         <dubbo>3.0.1</dubbo>
         <redisson>3.15.0</redisson>
-        <mybatis-spring-boot-starter>2.1.4</mybatis-spring-boot-starter>
         <mybatis-plus>3.4.2</mybatis-plus>
         <dynamic-datasource>3.3.2</dynamic-datasource>
         <sharding-jdbc>4.1.1</sharding-jdbc>
@@ -365,18 +364,6 @@
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis-spring-boot-starter}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-logging</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
