@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 <#list importPackages as package>
 import ${package};
 </#list>
-import org.smartframework.cloud.starter.mybatis.common.mapper.SmartMapper;
+import org.smartframework.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
 
 /**
  * ${tableComment}base mapper

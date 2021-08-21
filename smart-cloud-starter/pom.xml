@@ -18,7 +18,8 @@
 		<module>smart-cloud-starter-locale</module>
 		<module>smart-cloud-starter-log</module>
 		<module>smart-cloud-starter-mock</module>
-		<module>smart-cloud-starter-mybatis</module>
+		<module>smart-cloud-starter-mp-shardingjdbc</module>
+		<module>smart-cloud-starter-mybatis-plus</module>
 		<module>smart-cloud-starter-rabbitmq</module>
 		<module>smart-cloud-starter-redis</module>
 		<module>smart-cloud-starter-test</module>

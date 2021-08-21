@@ -38,7 +38,8 @@ smart-cloud
      ├── smart-cloud-starter-locale -- 国际化封装
      ├── smart-cloud-starter-log -- 日志封装（log4j2封装，支持日志敏感数据脱敏）
      ├── smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
-     ├── smart-cloud-starter-mybatis -- mybatis封装（支持多数据源、分库分表、分布式事务；通用mapper封装，mapper工具类等;支持通用mapper、mybatis plus）
+     ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表、分布式事务；mapper工具类）
+     ├── smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类等）
      ├── smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）
      ├── smart-cloud-starter-redis -- redis封装
      ├── smart-cloud-starter-test -- test封装

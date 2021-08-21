@@ -145,7 +145,13 @@
 
             <dependency>
                 <groupId>org.smartframework.cloud</groupId>
-                <artifactId>smart-cloud-starter-mybatis</artifactId>
+                <artifactId>smart-cloud-starter-mp-shardingjdbc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-mybatis-plus</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

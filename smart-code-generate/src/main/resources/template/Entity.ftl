@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 <#list importPackages as package>
 import ${package};
 </#list>
-import org.smartframework.cloud.starter.mybatis.common.mapper.entity.BaseEntity;
+import org.smartframework.cloud.starter.mybatis.plus.common.mapper.entity.BaseEntity;
 
 /**
  * ${tableComment}
