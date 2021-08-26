@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.smartframework.cloud.common.pojo.BasePageResponse;
+import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.mybatis.plus.common.mapper.constants.DelState;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.DynamicDatasourceApp;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.biz.ProductInfoOmsBiz;
@@ -21,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -105,10 +107,14 @@ public class DynamicDatasourceTest {
 
         @Test
         public void testSave() {
-            RoleInfoEntity roleInfoEntity = roleInfoOmsBiz.create();
-            roleInfoEntity.setCode(String.format("query%s", UUID.randomUUID().toString().replaceAll("-", "")));
-            roleInfoEntity.setDescription("查询");
-            roleInfoEntity.setInsertUser(1L);
+            RoleInfoEntity roleInfoEntity = RoleInfoEntity.builder()
+                    .id(SnowFlakeIdUtil.getInstance().nextId())
+                    .code(String.format("query%s", UUID.randomUUID().toString().replaceAll("-", "")))
+                    .description("查询")
+                    .insertTime(new Date())
+                    .insertUser(1L)
+                    .delState(DelState.NORMAL)
+                    .build();
 
             roleInfoOmsBiz.save(roleInfoEntity);
         }

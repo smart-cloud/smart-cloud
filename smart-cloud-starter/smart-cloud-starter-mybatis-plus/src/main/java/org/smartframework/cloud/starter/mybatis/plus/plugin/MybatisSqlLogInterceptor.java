@@ -155,7 +155,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
 
         String sql = cleanSql(boundSql.getSql());
-        if (CollectionUtils.isEmpty(parameterMappings) || Objects.isNull(parameterObject)) {
+        if (CollectionUtils.isEmpty(parameterMappings) || parameterObject == null) {
             return sql;
         }
 
