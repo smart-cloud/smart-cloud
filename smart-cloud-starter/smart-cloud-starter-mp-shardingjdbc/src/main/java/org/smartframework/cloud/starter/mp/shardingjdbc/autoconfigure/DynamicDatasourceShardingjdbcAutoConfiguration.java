@@ -7,10 +7,10 @@ import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.MasterSlaveDa
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShadowDataSource;
 import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
 import org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
-import org.smartframework.cloud.starter.mp.shardingjdbc.provider.EncryptDataSourceProvider;
-import org.smartframework.cloud.starter.mp.shardingjdbc.provider.MasterSlaveDataSourceProvider;
-import org.smartframework.cloud.starter.mp.shardingjdbc.provider.ShadowDataSourceProvider;
-import org.smartframework.cloud.starter.mp.shardingjdbc.provider.ShardingDataSourceProvider;
+import org.smartframework.cloud.starter.mp.shardingjdbc.provider.impl.EncryptDataSourceProvider;
+import org.smartframework.cloud.starter.mp.shardingjdbc.provider.impl.MasterSlaveDataSourceProvider;
+import org.smartframework.cloud.starter.mp.shardingjdbc.provider.impl.ShadowDataSourceProvider;
+import org.smartframework.cloud.starter.mp.shardingjdbc.provider.impl.ShardingDataSourceProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
