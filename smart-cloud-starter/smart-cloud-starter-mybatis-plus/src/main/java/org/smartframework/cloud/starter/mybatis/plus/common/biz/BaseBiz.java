@@ -34,7 +34,7 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
      *
      * @return
      */
-    public T create() {
+    public T buildEntity() {
         T entity = BeanUtils.instantiateClass(entityClass);
         entity.setId(generateId());
         entity.setInsertTime(new Date());

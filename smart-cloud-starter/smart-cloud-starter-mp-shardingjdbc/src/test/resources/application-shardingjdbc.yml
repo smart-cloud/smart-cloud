@@ -1,18 +1,45 @@
 smart:
   dataMachineId: 1
-
 spring:
-  flyway:
-    clean-on-validation-error: false
-    locations:
-      - classpath:db/migration/shardingjdbc
   datasource:
     dynamic:
-      primary: mall-product
+      primary: datasource-log
       strict: true
       datasource:
-        mall-product:
-          url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbc?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        datasource-log:
+          url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbc_datasource_log?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
           username: root
           password: 123456
           driver-class-name: com.mysql.cj.jdbc.Driver
+  shardingsphere:
+    datasource:
+      names: sharding-order,sharding-product
+      sharding-order:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbc_order?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+      sharding-product:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbc_product?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+    sharding:
+      tables:
+        t_order:
+          actual-data-nodes: sharding-order.t_order_bill_$->{0..19}
+          table-strategy:
+            inline:
+              algorithm-expression: t_order_bill_$->{f_id % 20}
+              sharding-column: f_id
+        t_product:
+          actual-data-nodes: sharding-product.t_product_info_$->{0..19}
+          table-strategy:
+            inline:
+              algorithm-expression: t_product_info_$->{f_id % 20}
+              sharding-column: f_id
+    props:
+      sql:
+        show: true

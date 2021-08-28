@@ -88,7 +88,7 @@ public class DynamicDatasourceTest {
         }
 
         private ProductInfoEntity create(String name) {
-            ProductInfoEntity entity = productInfoOmsBiz.create();
+            ProductInfoEntity entity = productInfoOmsBiz.buildEntity();
             entity.setName(name);
             entity.setSellPrice(100L);
             entity.setStock(10L);
