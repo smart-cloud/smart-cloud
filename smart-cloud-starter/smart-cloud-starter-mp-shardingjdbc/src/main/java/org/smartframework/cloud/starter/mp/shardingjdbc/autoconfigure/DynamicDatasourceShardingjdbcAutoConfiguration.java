@@ -18,14 +18,24 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
+import javax.annotation.Resource;
+
 @Configuration
 @AutoConfigureBefore(DynamicDataSourceAutoConfiguration.class)
 //@AutoConfigureAfter(SpringBootConfiguration.class)
 public class DynamicDatasourceShardingjdbcAutoConfiguration {
+    /**
+     * 未使用分片, 脱敏的名称(默认): shardingDataSource
+     * 使用了主从: masterSlaveDataSource
+     * 根据自己场景修改注入
+     */
+    @Resource(name = "shardingDataSource")
+    @Lazy
+    private ShardingDataSource shardingDataSource;
 
     @Bean
     @Conditional(ShardingRuleCondition.class)
-    public DynamicDataSourceProvider dynamicShardingDataSourceProvider(@Lazy ShardingDataSource shardingDataSource) {
+    public DynamicDataSourceProvider dynamicShardingDataSourceProvider() {
         return new ShardingDataSourceProvider(shardingDataSource);
     }
 
