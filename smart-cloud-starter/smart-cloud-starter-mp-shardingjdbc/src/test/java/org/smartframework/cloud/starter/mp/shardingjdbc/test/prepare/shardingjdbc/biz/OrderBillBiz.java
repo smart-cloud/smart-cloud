@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @date 2019-04-08
  */
 @Repository
-@DS(DatasourceName.ORDER)
+@DS(DatasourceName.SHARDING_DATASOURCE)
 public class OrderBillBiz extends BaseBiz<OrderBillBaseMapper, OrderBillEntity> {
 
 }

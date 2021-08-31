@@ -1,9 +1,9 @@
 package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbc.constants;
 
-public interface DatasourceName {
+import org.smartframework.cloud.starter.mp.shardingjdbc.constants.ShardingjdbcDatasourceNames;
 
-    String ORDER = "sharding-order";
-    String PRODUCT = "sharding-product";
+public interface DatasourceName extends ShardingjdbcDatasourceNames {
+
     String LOG = "datasource-log";
 
 }
