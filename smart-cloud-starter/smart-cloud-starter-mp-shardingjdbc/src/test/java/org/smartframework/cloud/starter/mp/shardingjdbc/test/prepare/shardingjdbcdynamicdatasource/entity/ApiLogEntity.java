@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbc.entity;
+package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;

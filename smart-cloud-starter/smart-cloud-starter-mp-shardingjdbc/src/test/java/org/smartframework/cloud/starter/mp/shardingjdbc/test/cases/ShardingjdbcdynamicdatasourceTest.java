@@ -3,27 +3,42 @@ package org.smartframework.cloud.starter.mp.shardingjdbc.test.cases;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbc.ShardingJdbcApp;
-import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbc.biz.OrderBillBiz;
-import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbc.biz.ProductInfoBiz;
-import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbc.entity.OrderBillEntity;
-import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbc.entity.ProductInfoEntity;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.ShardingJdbcDynamicDatasourceApp;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.biz.ApiLogBiz;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.biz.OrderBillBiz;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.biz.ProductInfoBiz;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.ApiLogEntity;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.OrderBillEntity;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.ProductInfoEntity;
 import org.smartframework.cloud.utility.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
- * 分片数据源集成测试
+ * 分片数据源+动态数据源集成测试
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = ShardingJdbcApp.class, args = "--spring.profiles.active=shardingjdbc")
-class ShardingJdbcTest {
+@SpringBootTest(classes = ShardingJdbcDynamicDatasourceApp.class, args = "--spring.profiles.active=shardingjdbcdynamicdatasource")
+class ShardingjdbcdynamicdatasourceTest {
 
+    @Autowired
+    private ApiLogBiz apiLogBiz;
     @Autowired
     private OrderBillBiz orderBillBiz;
     @Autowired
     private ProductInfoBiz productInfoBiz;
+
+    @Test
+    void testDynamicDatasource() {
+        ApiLogEntity apiLogEntity = apiLogBiz.buildEntity();
+        apiLogEntity.setApiDesc("test");
+        boolean saveResult = apiLogBiz.save(apiLogEntity);
+        Assertions.assertThat(saveResult).isTrue();
+
+        ApiLogEntity entity = apiLogBiz.getById(apiLogEntity.getId());
+        Assertions.assertThat(entity).isNotNull();
+    }
 
     @Test
     void testShardingJdbcOrder() {

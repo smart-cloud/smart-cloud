@@ -1,16 +1,6 @@
 smart:
   dataMachineId: 1
 spring:
-  datasource:
-    dynamic:
-      primary: datasource-log
-      strict: true
-      datasource:
-        datasource-log:
-          url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbc_datasource_log?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
-          username: root
-          password: 123456
-          driver-class-name: com.mysql.cj.jdbc.Driver
   shardingsphere:
     datasource:
       names: sharding-order,sharding-product

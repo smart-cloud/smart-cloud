@@ -1,4 +1,3 @@
-USE test_shardingjdbc_datasource_log;
 CREATE TABLE `t_api_log` (
   `f_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `f_api_desc` varchar(64) DEFAULT NULL COMMENT '接口描述',
