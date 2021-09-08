@@ -1,7 +1,7 @@
-package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcmasterslave.mapper;
+package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcmasterslave.entity.ProductInfoEntity;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.ProductInfoEntity;
 import org.smartframework.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
 
 /**

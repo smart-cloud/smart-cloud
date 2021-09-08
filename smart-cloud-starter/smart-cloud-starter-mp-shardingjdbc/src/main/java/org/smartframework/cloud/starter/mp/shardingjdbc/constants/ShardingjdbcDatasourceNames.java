@@ -1,7 +1,16 @@
 package org.smartframework.cloud.starter.mp.shardingjdbc.constants;
 
+import org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
+
 /**
  * sharding jdbc数据源名称
+ *
+ * @author collin
+ * @date 2021-09-08
+ * @see SpringBootConfiguration#shardingDataSource()
+ * @see SpringBootConfiguration#masterSlaveDataSource()
+ * @see SpringBootConfiguration#encryptDataSource()
+ * @see SpringBootConfiguration#shadowDataSource()
  */
 public interface ShardingjdbcDatasourceNames {
 

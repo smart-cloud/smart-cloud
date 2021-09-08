@@ -1,7 +1,7 @@
-package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.mapper;
+package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.ApiLogEntity;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.ApiLogEntity;
 import org.smartframework.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
 
 /**

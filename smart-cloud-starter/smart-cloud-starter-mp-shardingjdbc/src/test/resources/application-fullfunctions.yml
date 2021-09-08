@@ -1,0 +1,62 @@
+smart:
+  dataMachineId: 1
+spring:
+  datasource:
+    dynamic:
+      primary: datasource-log
+      strict: true
+      datasource:
+        datasource-log:
+          url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_dynamicdatasource_log?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+  shardingsphere:
+    datasource:
+      names: shardingordermaster,shardingorderslave-0,shardingorderslave-1,shardingproduct
+      shardingordermaster:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_master_order?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+      shardingorderslave-0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_slave_order0?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+      shardingorderslave-1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_slave_order1?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+      shardingproduct:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_product?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+    sharding:
+      binding-tables: t_order_bill,t_product_info
+      master-slave-rules:
+        sharding-order:
+          master-data-source-name: shardingordermaster
+          slave-data-source-names: shardingorderslave-0, shardingorderslave-1
+      tables:
+        t_order_bill:
+          actual-data-nodes: sharding-order.t_order_bill_$->{0..19}
+          table-strategy:
+            inline:
+              algorithm-expression: t_order_bill_$->{f_id % 20}
+              sharding-column: f_id
+        t_product_info:
+          actual-data-nodes: shardingproduct.t_product_info_$->{0..19}
+          table-strategy:
+            inline:
+              algorithm-expression: t_product_info_$->{f_id % 20}
+              sharding-column: f_id
+    props:
+      sql:
+        show: true

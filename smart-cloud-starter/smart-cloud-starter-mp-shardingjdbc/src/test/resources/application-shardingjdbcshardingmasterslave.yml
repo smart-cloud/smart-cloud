@@ -3,37 +3,37 @@ smart:
 spring:
   shardingsphere:
     datasource:
-      names: sharding-order-master,sharding-order-slave0,sharding-order-slave1,sharding-product
-      sharding-order-master:
+      names: shardingordermaster,shardingorderslave-0,shardingorderslave-1,shardingproduct
+      shardingordermaster:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_order?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcshardingmasterslave_order?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
         username: root
         password: 123456
-      sharding-order-slave0:
+      shardingorderslave-0:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_order0?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcshardingmasterslave_order0?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
         username: root
         password: 123456
-      sharding-order-slave1:
+      shardingorderslave-1:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_order1?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcshardingmasterslave_order1?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
         username: root
         password: 123456
-      sharding-product:
+      shardingproduct:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_product?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcshardingmasterslave_product?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
         username: root
         password: 123456
     sharding:
       binding-tables: t_order_bill,t_product_info
       master-slave-rules:
         sharding-order:
-          master-data-source-name: sharding-order-master
-          slave-data-source-names: sharding-order-slave0, sharding-order-slave1
+          master-data-source-name: shardingordermaster
+          slave-data-source-names: shardingorderslave-0, shardingorderslave-1
       tables:
         t_order_bill:
           actual-data-nodes: sharding-order.t_order_bill_$->{0..19}
@@ -42,7 +42,7 @@ spring:
               algorithm-expression: t_order_bill_$->{f_id % 20}
               sharding-column: f_id
         t_product_info:
-          actual-data-nodes: sharding-product.t_product_info_$->{0..19}
+          actual-data-nodes: shardingproduct.t_product_info_$->{0..19}
           table-strategy:
             inline:
               algorithm-expression: t_product_info_$->{f_id % 20}

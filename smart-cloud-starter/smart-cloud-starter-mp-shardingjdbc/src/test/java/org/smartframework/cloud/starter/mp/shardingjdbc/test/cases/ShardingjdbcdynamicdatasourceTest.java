@@ -7,9 +7,11 @@ import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdb
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.biz.ApiLogBiz;
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.biz.OrderBillBiz;
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.biz.ProductInfoBiz;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.biz.RpcLogBiz;
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.ApiLogEntity;
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.OrderBillEntity;
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.ProductInfoEntity;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.RpcLogEntity;
 import org.smartframework.cloud.utility.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,8 +29,13 @@ class ShardingjdbcdynamicdatasourceTest {
     @Autowired
     private OrderBillBiz orderBillBiz;
     @Autowired
+    private RpcLogBiz rpcLogBiz;
+    @Autowired
     private ProductInfoBiz productInfoBiz;
 
+    /**
+     * 普通数据源
+     */
     @Test
     void testDynamicDatasource() {
         ApiLogEntity apiLogEntity = apiLogBiz.buildEntity();
@@ -40,6 +47,9 @@ class ShardingjdbcdynamicdatasourceTest {
         Assertions.assertThat(entity).isNotNull();
     }
 
+    /**
+     * 分表
+     */
     @Test
     void testShardingJdbcOrder() {
         OrderBillEntity orderBillEntity = orderBillBiz.buildEntity();
@@ -56,6 +66,23 @@ class ShardingjdbcdynamicdatasourceTest {
         Assertions.assertThat(entity).isNotNull();
     }
 
+    /**
+     * 分表库中非分表表
+     */
+    @Test
+    void testShardingJdbcRpcLog() {
+        RpcLogEntity rpcLogEntity = rpcLogBiz.buildEntity();
+        rpcLogEntity.setApiDesc("test");
+        boolean saveResult = rpcLogBiz.save(rpcLogEntity);
+        Assertions.assertThat(saveResult).isTrue();
+
+        RpcLogEntity entity = rpcLogBiz.getById(rpcLogEntity.getId());
+        Assertions.assertThat(entity).isNotNull();
+    }
+
+    /**
+     * 分表
+     */
     @Test
     void testShardingJdbcProduct() {
         ProductInfoEntity productInfoEntity = productInfoBiz.buildEntity();

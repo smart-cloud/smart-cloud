@@ -1,9 +1,7 @@
-package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcmasterslave.biz;
+package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcshardingmasterslave.biz;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import org.smartframework.cloud.starter.mp.shardingjdbc.constants.ShardingjdbcDatasourceNames;
-import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcmasterslave.entity.ProductInfoEntity;
-import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcmasterslave.mapper.ProductInfoBaseMapper;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcshardingmasterslave.entity.ProductInfoEntity;
+import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcshardingmasterslave.mapper.ProductInfoBaseMapper;
 import org.smartframework.cloud.starter.mybatis.plus.common.biz.BaseBiz;
 import org.smartframework.cloud.utility.RandomUtil;
 import org.springframework.stereotype.Repository;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Repository;
  * @date 2019-03-31
  */
 @Repository
-@DS(ShardingjdbcDatasourceNames.SHARDING_DATASOURCE)
 public class ProductInfoBiz extends BaseBiz<ProductInfoBaseMapper, ProductInfoEntity> {
 
     public Long create() {
