@@ -1,0 +1,31 @@
+smart:
+  dataMachineId: 1
+spring:
+  shardingsphere:
+    datasource:
+      names: shardingordermaster,shardingorderslave-0,shardingorderslave-1
+      shardingordermaster:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_order?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+      shardingorderslave-0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_order0?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+      shardingorderslave-1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_order1?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+    masterslave:
+      name: shardingorder
+      master-data-source-name: shardingordermaster
+      slave-data-source-names: shardingorderslave-0, shardingorderslave-1
+    props:
+      sql:
+        show: true
