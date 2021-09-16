@@ -56,11 +56,12 @@ smart-cloud
 [spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 
 [openfeign](https://spring.io/projects/spring-cloud-openfeign)、[protostuff](https://github.com/protostuff/protostuff) | 声明式服务调用 
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
-[mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM 
+[mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM
+[dynamic-datasource](https://mp.baomidou.com/guide/dynamic-datasource.html)| 多数据源
 [seata](https://github.com/seata/seata) | 分布式事务
-[sentinel](https://github.com/alibaba/Sentinel) | 限流、熔断降级
 [sharding jdbc](https://github.com/apache/incubator-shardingsphere) | 分库分表
-[redis](https://redis.io/)、[embedded-redis](https://github.com/kstyrc/embedded-redis) | 缓存、集成测试 
+[redis](https://redis.io/)、[embedded-redis](https://github.com/kstyrc/embedded-redis) | 缓存、集成测试
+[sentinel](https://github.com/alibaba/Sentinel) | 限流、熔断降级
 [rabbitmq](https://www.rabbitmq.com/) | 消息队列 
 [fastdfs](https://github.com/happyfish100/fastdfs) | 文件存储 
 [xxl-job](https://github.com/xuxueli/xxl-job)| 定时任务 
