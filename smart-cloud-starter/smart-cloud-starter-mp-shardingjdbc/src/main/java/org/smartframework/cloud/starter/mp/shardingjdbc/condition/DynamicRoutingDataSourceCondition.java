@@ -14,12 +14,7 @@ public class DynamicRoutingDataSourceCondition implements Condition {
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         BindResult<DynamicDataSourceProperties> dynamicDataSourcePropertiesBindResult = Binder.get(context.getEnvironment())
                 .bind(DynamicDataSourceProperties.PREFIX, DynamicDataSourceProperties.class);
-        boolean isBound = dynamicDataSourcePropertiesBindResult.isBound();
-        if (!isBound) {
-            return false;
-        }
-
-        return MapUtils.isNotEmpty(dynamicDataSourcePropertiesBindResult.get().getDatasource());
+        return dynamicDataSourcePropertiesBindResult.isBound() && MapUtils.isNotEmpty(dynamicDataSourcePropertiesBindResult.get().getDatasource());
     }
 
 }

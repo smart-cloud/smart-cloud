@@ -18,14 +18,14 @@ import org.springframework.context.annotation.Configuration;
  * @see DynamicDataSourceAutoConfiguration#dataSource()
  */
 @Configuration
-@AutoConfigureAfter(DynamicDatasourceShardingjdbcAutoConfiguration.class)
+@AutoConfigureAfter(ShardingjdbcDynamicDataSourceProviderAutoConfiguration.class)
 @Conditional(DynamicRoutingDataSourceCondition.class)
 public class DynamicRoutingDataSourceAutoConfiguration {
 
     /**
      * 核心动态数据源组件
      *
-     * @param properties
+     * @param properties 动态数据源配置属性
      * @return
      */
     @Bean
