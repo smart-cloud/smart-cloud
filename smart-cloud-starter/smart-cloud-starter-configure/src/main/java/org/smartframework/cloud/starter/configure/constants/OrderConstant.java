@@ -19,13 +19,21 @@ public interface OrderConstant {
      */
     int HTTP_FITLER = CLEAN_USER_CONTEXT_FILTER + 1;
     /**
-     * 接口日志
+     * api接口日志
      */
     int API_LOG = 1;
     /**
+     * feign header参数
+     */
+    int FEIGN_SESSION = API_LOG + 1;
+    /**
+     * feign接口日志
+     */
+    int FEIGN_LOG = FEIGN_SESSION + 1;
+    /**
      * 多语言切面
      */
-    int LOCALE = API_LOG + 1;
+    int LOCALE = FEIGN_LOG + 1;
     /**
      * 自定义sql日志拦截器（MybatisSqlLogInterceptor的优先级必须在高于MybatisPlusInterceptor，否则分页查询时，sql打印不全）
      */

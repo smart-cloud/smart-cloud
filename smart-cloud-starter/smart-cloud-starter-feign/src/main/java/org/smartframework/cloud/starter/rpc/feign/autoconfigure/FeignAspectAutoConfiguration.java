@@ -4,7 +4,8 @@ import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.rpc.feign.annotation.SmartFeignClient;
-import org.smartframework.cloud.starter.rpc.feign.interceptor.FeignInterceptor;
+import org.smartframework.cloud.starter.rpc.feign.interceptor.FeignLogInterceptor;
+import org.smartframework.cloud.utility.spring.condition.ConditionEnableLogInfo;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
@@ -24,6 +26,7 @@ import java.util.Arrays;
  */
 @Configuration
 @ConditionalOnExpression(FeignAspectAutoConfiguration.FEIGN_ASPECT_CONDITION)
+@Conditional(ConditionEnableLogInfo.class)
 public class FeignAspectAutoConfiguration {
 
     /**
@@ -57,12 +60,12 @@ public class FeignAspectAutoConfiguration {
     class FeignLogAutoConfigure {
 
         @Bean
-        public FeignInterceptor feignInterceptor() {
-            return new FeignInterceptor();
+        public FeignLogInterceptor feignInterceptor() {
+            return new FeignLogInterceptor();
         }
 
         @Bean
-        public Advisor feignLogAdvisor(final FeignInterceptor feignInterceptor,
+        public Advisor feignLogAdvisor(final FeignLogInterceptor feignInterceptor,
                                        final AspectJExpressionPointcut feignClientPointcut) {
             DefaultBeanFactoryPointcutAdvisor feignAdvisor = new DefaultBeanFactoryPointcutAdvisor();
             feignAdvisor.setAdvice(feignInterceptor);
