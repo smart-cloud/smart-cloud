@@ -161,7 +161,9 @@ public class HttpUtil {
                 result = EntityUtils.toString(entity, charset);
             }
         } finally {
-            log.info("{} | headers=>{}, stringEntity=>{}, result=>{}", url, JacksonUtil.toJson(headers), stringEntity, result);
+            if (log.isInfoEnabled()) {
+                log.info("{} | headers=>{}, stringEntity=>{}, result=>{}", url, JacksonUtil.toJson(headers), stringEntity, result);
+            }
         }
 
         return result;
@@ -220,7 +222,9 @@ public class HttpUtil {
                 result = EntityUtils.toString(entity, charset);
             }
         } finally {
-            log.info("{} | parameters=>{}, result=>{}", url, JacksonUtil.toJson(parameters), result);
+            if (log.isInfoEnabled()) {
+                log.info("{} | parameters=>{}, result=>{}", url, JacksonUtil.toJson(parameters), result);
+            }
         }
 
         return result;
@@ -345,7 +349,9 @@ public class HttpUtil {
                 result = EntityUtils.toString(entity, charset);
             }
         } finally {
-            log.info("{} | requestJsonStr={}, result=>{}", url, requestJsonStr, result);
+            if (log.isInfoEnabled()) {
+                log.info("{} | requestJsonStr={}, result=>{}", url, requestJsonStr, result);
+            }
         }
 
         return result;

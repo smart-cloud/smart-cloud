@@ -27,7 +27,7 @@
 		<Console name="console" target="SYSTEM_OUT">
 			<PatternLayout pattern="${log_format}" />
 		</Console>
-		<RollingRandomAccessFile immediateFlush="true"
+		<RollingRandomAccessFile immediateFlush="false"
 			name="dailyRollingRandomAccessFile"
 			fileName="${log_path}/${project}.log"
 			filePattern="${log_path}/${project}.%d{yyyy-MM-dd-HH}.log.gz">

@@ -2,10 +2,12 @@ package org.smartframework.cloud.starter.core.business.autoconfigure;
 
 import org.smartframework.cloud.starter.core.business.log.MethodLog;
 import org.smartframework.cloud.starter.core.business.log.MethodLogInterceptor;
+import org.smartframework.cloud.utility.spring.condition.ConditionEnableLogInfo;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -15,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020-03-14
  */
 @Configuration
+@Conditional(ConditionEnableLogInfo.class)
 public class MethodLogInterceptorAutoConfiguration {
 
     @Bean
@@ -32,7 +35,7 @@ public class MethodLogInterceptorAutoConfiguration {
 
     @Bean
     public Advisor methodLogAdvisor(final MethodLogInterceptor methodLogInterceptor,
-                                 final AspectJExpressionPointcut methodPointcut) {
+                                    final AspectJExpressionPointcut methodPointcut) {
         DefaultBeanFactoryPointcutAdvisor apiLogAdvisor = new DefaultBeanFactoryPointcutAdvisor();
         apiLogAdvisor.setAdvice(methodLogInterceptor);
         apiLogAdvisor.setPointcut(methodPointcut);
