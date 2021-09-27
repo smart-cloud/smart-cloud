@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.starter.mybatis.plus.injector.SmartSqlInjector;
 import org.smartframework.cloud.starter.mybatis.plus.plugin.MybatisSqlLogInterceptor;
+import org.smartframework.cloud.utility.spring.condition.ConditionEnableLogInfo;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
@@ -22,6 +24,7 @@ public class MyBatisPlusAutoConfiguration {
 
     @Bean
     @Order(OrderConstant.MYBATIS_SQL_LOG_INTERCEPTOR)
+    @Conditional(ConditionEnableLogInfo.class)
     @ConditionalOnProperty(prefix = "smart.cloud.mybatis.log", name = "enabled", havingValue = "true", matchIfMissing = true)
     public MybatisSqlLogInterceptor mybatisSqlLogInterceptor() {
         return new MybatisSqlLogInterceptor();
