@@ -38,7 +38,7 @@
         <redisson>3.16.2</redisson>
         <mybatis-plus>3.4.3.3</mybatis-plus>
         <dynamic-datasource>3.4.1</dynamic-datasource>
-        <sharding-jdbc>4.1.1</sharding-jdbc>
+        <shardingsphere-jdbc>5.0.0-beta</shardingsphere-jdbc>
         <seata>1.4.2</seata>
         <mysql>8.0.26</mysql>
         <podam>7.2.7.RELEASE</podam>
@@ -385,19 +385,8 @@
 
             <dependency>
                 <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>sharding-jdbc-core</artifactId>
-                <version>${sharding-jdbc}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
-                <version>${sharding-jdbc}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>sharding-jdbc-spring-namespace</artifactId>
-                <version>${sharding-jdbc}</version>
+                <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
+                <version>${shardingsphere-jdbc}</version>
             </dependency>
 
             <dependency>

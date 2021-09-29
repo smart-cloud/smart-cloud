@@ -1,28 +1,22 @@
 package org.smartframework.cloud.starter.mp.shardingjdbc.autoconfigure;
 
+import com.baomidou.dynamic.datasource.provider.AbstractDataSourceProvider;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration;
-import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.EncryptDataSource;
-import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.MasterSlaveDataSource;
-import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShadowDataSource;
-import org.apache.shardingsphere.shardingjdbc.jdbc.core.datasource.ShardingDataSource;
-import org.apache.shardingsphere.shardingjdbc.spring.boot.SpringBootConfiguration;
-import org.apache.shardingsphere.shardingjdbc.spring.boot.encrypt.EncryptRuleCondition;
-import org.apache.shardingsphere.shardingjdbc.spring.boot.masterslave.MasterSlaveRuleCondition;
-import org.apache.shardingsphere.shardingjdbc.spring.boot.shadow.ShadowRuleCondition;
-import org.apache.shardingsphere.shardingjdbc.spring.boot.sharding.ShardingRuleCondition;
+import org.apache.shardingsphere.driver.jdbc.core.datasource.ShardingSphereDataSource;
+import org.apache.shardingsphere.spring.boot.ShardingSphereAutoConfiguration;
 import org.smartframework.cloud.starter.mp.shardingjdbc.condition.DynamicRoutingDataSourceCondition;
 import org.smartframework.cloud.starter.mp.shardingjdbc.constants.ShardingjdbcDatasourceNames;
-import org.smartframework.cloud.starter.mp.shardingjdbc.provider.impl.EncryptDataSourceProvider;
-import org.smartframework.cloud.starter.mp.shardingjdbc.provider.impl.MasterSlaveDataSourceProvider;
-import org.smartframework.cloud.starter.mp.shardingjdbc.provider.impl.ShadowDataSourceProvider;
-import org.smartframework.cloud.starter.mp.shardingjdbc.provider.impl.ShardingDataSourceProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+
+import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 动态数据源Provider与sharding jdbc数据源集成配置
@@ -32,60 +26,29 @@ import org.springframework.context.annotation.DependsOn;
  */
 @Configuration
 @AutoConfigureBefore(DynamicDataSourceAutoConfiguration.class)
-@AutoConfigureAfter(SpringBootConfiguration.class)
+@AutoConfigureAfter(ShardingSphereAutoConfiguration.class)
 @Conditional(DynamicRoutingDataSourceCondition.class)
 public class ShardingjdbcDynamicDataSourceProviderAutoConfiguration {
 
     /**
-     * 分片数据源
+     * sharding jdbc数据源
      *
      * @param shardingDataSource
      * @return
      */
     @Bean
-    @Conditional(ShardingRuleCondition.class)
-    @DependsOn(ShardingjdbcDatasourceNames.SHARDING_DATASOURCE)
-    public DynamicDataSourceProvider dynamicShardingDataSourceProvider(final ShardingDataSource shardingDataSource) {
-        return new ShardingDataSourceProvider(shardingDataSource);
-    }
-
-    /**
-     * 主从数据源
-     *
-     * @param masterSlaveDataSource
-     * @return
-     */
-    @Bean
-    @Conditional(MasterSlaveRuleCondition.class)
-    @DependsOn(ShardingjdbcDatasourceNames.MASTER_SLAVE_DATASOURCE)
-    public DynamicDataSourceProvider dynamicMasterSlaveDataSourceProvider(final MasterSlaveDataSource masterSlaveDataSource) {
-        return new MasterSlaveDataSourceProvider(masterSlaveDataSource);
-    }
-
-    /**
-     * 脱敏数据源
-     *
-     * @param encryptDataSource
-     * @return
-     */
-    @Bean
-    @Conditional(EncryptRuleCondition.class)
-    @DependsOn(ShardingjdbcDatasourceNames.ENCRYPT_DATASOURCE)
-    public DynamicDataSourceProvider dynamicEncryptDataSourceProvider(final EncryptDataSource encryptDataSource) {
-        return new EncryptDataSourceProvider(encryptDataSource);
-    }
-
-    /**
-     * 影子数据源
-     *
-     * @param shadowDataSource
-     * @return
-     */
-    @Bean
-    @Conditional(ShadowRuleCondition.class)
-    @DependsOn(ShardingjdbcDatasourceNames.SHADOW_DATASOURCE)
-    public DynamicDataSourceProvider dynamicShadowDataSourceProvider(final ShadowDataSource shadowDataSource) {
-        return new ShadowDataSourceProvider(shadowDataSource);
+    @DependsOn(ShardingjdbcDatasourceNames.DATASOURCE)
+    public DynamicDataSourceProvider dynamicShardingDataSourceProvider(final ShardingSphereDataSource shardingDataSource) {
+        return new AbstractDataSourceProvider() {
+            @Override
+            public Map<String, DataSource> loadDataSources() {
+                // 多数据源集合
+                Map<String, DataSource> dynamicDataSourceMap = new HashMap<>(1);
+                // 普通数据源
+                dynamicDataSourceMap.put(ShardingjdbcDatasourceNames.DATASOURCE, shardingDataSource);
+                return dynamicDataSourceMap;
+            }
+        };
     }
 
 }

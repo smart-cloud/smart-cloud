@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  * @date 2019-03-31
  */
 @Repository
-@DS(DatasourceName.SHARDING_DATASOURCE)
+@DS(DatasourceName.DATASOURCE)
 public class ProductInfoBiz extends BaseBiz<ProductInfoBaseMapper, ProductInfoEntity> {
 
 }

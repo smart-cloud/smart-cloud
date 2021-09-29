@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.mp.shardingjdbc.test.cases;
 
-import org.apache.shardingsphere.api.hint.HintManager;
+import org.apache.shardingsphere.infra.hint.HintManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -66,7 +66,7 @@ public class FullFunctionsTest {
 
         // 强制查主库
         try (HintManager hintManager = HintManager.getInstance();) {
-            hintManager.setMasterRouteOnly();
+            hintManager.setWriteRouteOnly();
             OrderBillEntity masterEntity = orderBillBiz.getById(orderBillEntity.getId());
             Assertions.assertThat(masterEntity).isNotNull();
         }
@@ -85,7 +85,7 @@ public class FullFunctionsTest {
 
         // 强制查主库
         try (HintManager hintManager = HintManager.getInstance();) {
-            hintManager.setMasterRouteOnly();
+            hintManager.setWriteRouteOnly();
             RpcLogEntity masterEntity = rpcLogBiz.getFromMaster(rpcLogEntity.getId());
             Assertions.assertThat(masterEntity).isNotNull();
         }

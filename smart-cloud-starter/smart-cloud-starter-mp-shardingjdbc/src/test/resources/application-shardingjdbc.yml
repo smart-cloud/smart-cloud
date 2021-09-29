@@ -16,20 +16,21 @@ spring:
         jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbc_product?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
         username: root
         password: 123456
-    sharding:
-      tables:
-        t_order_bill:
-          actual-data-nodes: shardingorder.t_order_bill_$->{0..19}
-          table-strategy:
-            inline:
-              algorithm-expression: t_order_bill_$->{f_id % 20}
-              sharding-column: f_id
-        t_product_info:
-          actual-data-nodes: shardingproduct.t_product_info_$->{0..19}
-          table-strategy:
-            inline:
-              algorithm-expression: t_product_info_$->{f_id % 20}
-              sharding-column: f_id
+    rules:
+      sharding:
+        binding-tables: t_order_bill,t_product_info
+        tables:
+          t_order_bill:
+            actual-data-nodes: shardingorder.t_order_bill_$->{0..19}
+            table-strategy:
+              inline:
+                algorithm-expression: t_order_bill_$->{f_id % 20}
+                sharding-column: f_id
+          t_product_info:
+            actual-data-nodes: shardingproduct.t_product_info_$->{0..19}
+            table-strategy:
+              inline:
+                algorithm-expression: t_product_info_$->{f_id % 20}
+                sharding-column: f_id
     props:
-      sql:
-        show: true
+      sql-show: true
