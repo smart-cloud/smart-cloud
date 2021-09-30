@@ -21,4 +21,11 @@ public interface SmartMapper<T> extends BaseMapper<T> {
      */
     Integer insertBatchSomeColumn(@Param("list") List<T> entityList);
 
+    /**
+     * 清空表数据
+     *
+     * @return
+     */
+    void truncate();
+
 }

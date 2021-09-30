@@ -36,7 +36,7 @@
         <hystrix>2.2.9.RELEASE</hystrix>
         <dubbo>3.0.2.1</dubbo>
         <redisson>3.16.2</redisson>
-        <mybatis-plus>3.4.3.3</mybatis-plus>
+        <mybatis-plus>3.4.3.4</mybatis-plus>
         <dynamic-datasource>3.4.1</dynamic-datasource>
         <shardingsphere-jdbc>5.0.0-beta</shardingsphere-jdbc>
         <seata>1.4.2</seata>

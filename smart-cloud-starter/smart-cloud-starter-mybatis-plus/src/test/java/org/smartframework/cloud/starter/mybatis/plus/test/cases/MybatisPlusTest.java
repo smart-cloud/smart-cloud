@@ -6,24 +6,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.common.pojo.BasePageResponse;
 import org.smartframework.cloud.starter.mybatis.plus.common.mapper.constants.DelState;
+import org.smartframework.cloud.starter.mybatis.plus.test.prepare.mybatisplus.MybatisplusApp;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.mybatisplus.biz.ProductInfoOmsBiz;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.mybatisplus.entity.ProductInfoEntity;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.mybatisplus.vo.PageProductReqVO;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.mybatisplus.vo.ProductInfoBaseRespVO;
-import org.smartframework.cloud.starter.mybatis.plus.test.prepare.mybatisplus.MybatisplusApp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MybatisplusApp.class, args = "--spring.profiles.active=mybatisplus")
-@Transactional
-@Rollback
 class MybatisPlusTest {
 
     @Autowired
@@ -33,6 +29,12 @@ class MybatisPlusTest {
     void testCreate() {
         boolean success = productInfoOmsBiz.save(create("test"));
         Assertions.assertThat(success).isTrue();
+    }
+
+    @Test
+    void testTruncate() {
+        testCreate();
+        productInfoOmsBiz.getBaseMapper().truncate();
     }
 
     @Test
