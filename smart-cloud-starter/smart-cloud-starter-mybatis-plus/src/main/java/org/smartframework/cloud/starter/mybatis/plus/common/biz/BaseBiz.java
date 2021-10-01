@@ -70,6 +70,13 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
     }
 
     /**
+     * 清空表数据
+     */
+    public void truncate() {
+        baseMapper.truncate();
+    }
+
+    /**
      * 分页查询表字段信息
      *
      * @param q

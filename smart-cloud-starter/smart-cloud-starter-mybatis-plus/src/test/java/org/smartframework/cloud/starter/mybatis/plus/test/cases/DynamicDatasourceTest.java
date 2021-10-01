@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.mybatis.plus.test.cases;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +37,11 @@ public class DynamicDatasourceTest {
 
         @Autowired
         private ProductInfoOmsBiz productInfoOmsBiz;
+
+        @BeforeEach
+        void cleanData() {
+            productInfoOmsBiz.truncate();
+        }
 
         @Test
         void testCreate() {
@@ -104,6 +110,11 @@ public class DynamicDatasourceTest {
 
         @Autowired
         private RoleInfoOmsBiz roleInfoOmsBiz;
+
+        @BeforeEach
+        void cleanData() {
+            roleInfoOmsBiz.truncate();
+        }
 
         @Test
         public void testSave() {

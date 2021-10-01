@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.mybatis.plus.test.cases;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.common.pojo.BasePageResponse;
@@ -25,16 +26,15 @@ class MybatisPlusTest {
     @Autowired
     private ProductInfoOmsBiz productInfoOmsBiz;
 
+    @BeforeEach
+    void cleanData() {
+        productInfoOmsBiz.truncate();
+    }
+
     @Test
     void testCreate() {
         boolean success = productInfoOmsBiz.save(create("test"));
         Assertions.assertThat(success).isTrue();
-    }
-
-    @Test
-    void testTruncate() {
-        testCreate();
-        productInfoOmsBiz.getBaseMapper().truncate();
     }
 
     @Test
