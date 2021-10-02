@@ -1,6 +1,7 @@
 package org.smartframework.cloud.starter.mp.shardingjdbc.test.cases;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbc.ShardingJdbcApp;
@@ -24,6 +25,12 @@ class ShardingJdbcTest {
     private OrderBillBiz orderBillBiz;
     @Autowired
     private ProductInfoBiz productInfoBiz;
+
+    @BeforeEach
+    void cleanData() {
+        orderBillBiz.truncate();
+        productInfoBiz.truncate();
+    }
 
     @Test
     void testShardingJdbcOrder() {

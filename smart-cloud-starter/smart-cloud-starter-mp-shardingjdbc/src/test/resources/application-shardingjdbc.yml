@@ -19,18 +19,28 @@ spring:
     rules:
       sharding:
         binding-tables: t_order_bill,t_product_info
+        sharding-algorithms:
+          #sharding-algorithm-name: order-bill-inline 命名不能使用’_’,不然会报错，找不到分片规则
+          order-bill-inline:
+            props:
+              algorithm-expression: t_order_bill_$->{f_id % 20}
+            type: INLINE
+          product-info-inline:
+            props:
+              algorithm-expression: t_product_info_$->{f_id % 20}
+            type: INLINE
         tables:
           t_order_bill:
             actual-data-nodes: shardingorder.t_order_bill_$->{0..19}
             table-strategy:
-              inline:
-                algorithm-expression: t_order_bill_$->{f_id % 20}
+              standard:
+                sharding-algorithm-name: order-bill-inline
                 sharding-column: f_id
           t_product_info:
             actual-data-nodes: shardingproduct.t_product_info_$->{0..19}
             table-strategy:
-              inline:
-                algorithm-expression: t_product_info_$->{f_id % 20}
+              standard:
+                sharding-algorithm-name: product-info-inline
                 sharding-column: f_id
     props:
       sql-show: true
