@@ -15,12 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
 /**
- * feign上下文参数传递
+ * feign http header参数传递
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-21
  */
-public class FeignSessionInterceptor implements RequestInterceptor, Ordered {
+public class FeignHttpHeaderParameterInterceptor implements RequestInterceptor, Ordered {
 
     @Override
     public void apply(RequestTemplate template) {

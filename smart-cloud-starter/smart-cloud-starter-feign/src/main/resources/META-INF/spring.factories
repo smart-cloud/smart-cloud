@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.smartframework.cloud.starter.rpc.feign.autoconfigure.FeignAspectAutoConfiguration,\
 org.smartframework.cloud.starter.rpc.feign.autoconfigure.FeignMessageConverterAutoConfiguration,\
-org.smartframework.cloud.starter.rpc.feign.autoconfigure.FeignSessionAutoConfiguration
+org.smartframework.cloud.starter.rpc.feign.autoconfigure.FeignHttpHeaderParameterInterceptorAutoConfiguration
