@@ -18,7 +18,6 @@ spring:
         password: 123456
     rules:
       sharding:
-        binding-tables: t_order_bill,t_product_info
         sharding-algorithms:
           #sharding-algorithm-name: order-bill-inline 命名不能使用’_’,不然会报错，找不到分片规则
           order-bill-inline:

@@ -38,25 +38,41 @@ spring:
         jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_product?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
         username: root
         password: 123456
-    sharding:
-      binding-tables: t_order_bill,t_product_info
-      master-slave-rules:
-        sharding-order:
-          master-data-source-name: shardingordermaster
-          slave-data-source-names: shardingorderslave-0, shardingorderslave-1
-      tables:
-        t_order_bill:
-          actual-data-nodes: sharding-order.t_order_bill_$->{0..19}
-          table-strategy:
-            inline:
+    rules:
+      readwrite-splitting:
+        data-sources:
+          sharding-order:
+            load-balancer-name: round_robin
+            write-data-source-name: shardingordermaster
+            read-data-source-names: shardingorderslave-0, shardingorderslave-1
+        load-balancers:
+          round_robin:
+            type: ROUND_ROBIN
+      sharding:
+        sharding-algorithms:
+          #sharding-algorithm-name: order-bill-inline 命名不能使用’_’,不然会报错，找不到分片规则
+          order-bill-inline:
+            props:
               algorithm-expression: t_order_bill_$->{f_id % 20}
-              sharding-column: f_id
-        t_product_info:
-          actual-data-nodes: shardingproduct.t_product_info_$->{0..19}
-          table-strategy:
-            inline:
+            type: INLINE
+          product-info-inline:
+            props:
               algorithm-expression: t_product_info_$->{f_id % 20}
-              sharding-column: f_id
+            type: INLINE
+        tables:
+          t_order_bill:
+            actual-data-nodes: sharding-order.t_order_bill_$->{0..19}
+            table-strategy:
+              standard:
+                sharding-algorithm-name: order-bill-inline
+                sharding-column: f_id
+          t_rpc_log:
+            actual-data-nodes: sharding-order.t_rpc_log
+          t_product_info:
+            actual-data-nodes: shardingproduct.t_product_info_$->{0..19}
+            table-strategy:
+              standard:
+                sharding-algorithm-name: product-info-inline
+                sharding-column: f_id
     props:
-      sql:
-        show: true
+      sql-show: true

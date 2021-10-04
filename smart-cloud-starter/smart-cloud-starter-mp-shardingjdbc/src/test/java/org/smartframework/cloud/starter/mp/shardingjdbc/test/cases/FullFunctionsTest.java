@@ -84,11 +84,8 @@ public class FullFunctionsTest {
         Assertions.assertThat(slaveEntity).isNull();
 
         // 强制查主库
-        try (HintManager hintManager = HintManager.getInstance();) {
-            hintManager.setWriteRouteOnly();
-            RpcLogEntity masterEntity = rpcLogBiz.getFromMaster(rpcLogEntity.getId());
-            Assertions.assertThat(masterEntity).isNotNull();
-        }
+        RpcLogEntity masterEntity = rpcLogBiz.getFromMaster(rpcLogEntity.getId());
+        Assertions.assertThat(masterEntity).isNotNull();
     }
 
     @Test

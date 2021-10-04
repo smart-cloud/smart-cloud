@@ -22,10 +22,15 @@ spring:
         jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_order1?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
         username: root
         password: 123456
-    masterslave:
-      name: shardingorder
-      master-data-source-name: shardingordermaster
-      slave-data-source-names: shardingorderslave-0, shardingorderslave-1
+    rules:
+      readwrite-splitting:
+        data-sources:
+          shardingorder:
+            load-balancer-name: round_robin
+            write-data-source-name: shardingordermaster
+            read-data-source-names: shardingorderslave-0, shardingorderslave-1
+        load-balancers:
+          round_robin:
+            type: ROUND_ROBIN
     props:
-      sql:
-        show: true
+      sql-show: true

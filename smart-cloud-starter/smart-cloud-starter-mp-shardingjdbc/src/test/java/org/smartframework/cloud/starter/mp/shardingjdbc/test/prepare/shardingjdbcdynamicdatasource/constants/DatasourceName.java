@@ -1,10 +1,9 @@
 package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.constants;
 
-import org.smartframework.cloud.starter.mp.shardingjdbc.constants.ShardingjdbcDatasourceNames;
+import org.smartframework.cloud.starter.mp.shardingjdbc.constants.ShardingSphereDataSourceName;
 
-public interface DatasourceName extends ShardingjdbcDatasourceNames {
+public interface DatasourceName extends ShardingSphereDataSourceName {
 
     String LOG = "datasource-log";
-    String ORDER = "shardingorder";
 
 }

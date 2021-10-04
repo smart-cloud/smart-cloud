@@ -1,6 +1,7 @@
 package org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.biz;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import org.apache.shardingsphere.infra.hint.HintManager;
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.constants.DatasourceName;
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.RpcLogEntity;
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.mapper.RpcLogBaseMapper;
@@ -14,9 +15,8 @@ import org.springframework.stereotype.Repository;
  * @date 2019-04-08
  */
 @Repository
-@DS(DatasourceName.ORDER_MASTER)
+@DS(DatasourceName.SHARDING_DATASOURCE)
 public class RpcLogBiz extends BaseBiz<RpcLogBaseMapper, RpcLogEntity> {
-
 
     public RpcLogEntity insert(String apiDesc) {
         RpcLogEntity rpcLogEntity = super.buildEntity();
@@ -27,10 +27,12 @@ public class RpcLogBiz extends BaseBiz<RpcLogBaseMapper, RpcLogEntity> {
     }
 
     public RpcLogEntity getFromMaster(Long id) {
-        return super.getById(id);
+        try (HintManager hintManager = HintManager.getInstance();) {
+            hintManager.setWriteRouteOnly();
+            return super.getById(id);
+        }
     }
 
-    @DS(DatasourceName.ORDER_SLAVE)
     public RpcLogEntity getFromSlave(Long id) {
         return super.getById(id);
     }

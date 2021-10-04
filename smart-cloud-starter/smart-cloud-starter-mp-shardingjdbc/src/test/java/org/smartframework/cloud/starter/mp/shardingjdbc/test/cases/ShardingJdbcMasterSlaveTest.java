@@ -2,6 +2,7 @@ package org.smartframework.cloud.starter.mp.shardingjdbc.test.cases;
 
 import org.apache.shardingsphere.infra.hint.HintManager;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcmasterslave.ShardingJdbcMasterSlaveApp;
@@ -21,6 +22,17 @@ public class ShardingJdbcMasterSlaveTest {
 
     @Autowired
     private OrderBillBiz orderBillBiz;
+
+    @BeforeEach
+    void cleanData() {
+        // truncate从库
+        orderBillBiz.truncate();
+        // truncate主库
+        try (HintManager hintManager = HintManager.getInstance();) {
+            hintManager.setWriteRouteOnly();
+            orderBillBiz.truncate();
+        }
+    }
 
     @Test
     void testShardingJdbcMasterSlaveOrder() {

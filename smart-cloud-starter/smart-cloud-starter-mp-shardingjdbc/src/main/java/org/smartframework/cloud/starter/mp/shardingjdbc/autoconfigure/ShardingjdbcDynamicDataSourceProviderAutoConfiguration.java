@@ -6,7 +6,7 @@ import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSour
 import org.apache.shardingsphere.driver.jdbc.core.datasource.ShardingSphereDataSource;
 import org.apache.shardingsphere.spring.boot.ShardingSphereAutoConfiguration;
 import org.smartframework.cloud.starter.mp.shardingjdbc.condition.DynamicRoutingDataSourceCondition;
-import org.smartframework.cloud.starter.mp.shardingjdbc.constants.ShardingjdbcDatasourceNames;
+import org.smartframework.cloud.starter.mp.shardingjdbc.constants.ShardingSphereDataSourceName;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.context.annotation.Bean;
@@ -37,15 +37,14 @@ public class ShardingjdbcDynamicDataSourceProviderAutoConfiguration {
      * @return
      */
     @Bean
-    @DependsOn(ShardingjdbcDatasourceNames.DATASOURCE)
-    public DynamicDataSourceProvider dynamicShardingDataSourceProvider(final ShardingSphereDataSource shardingDataSource) {
+    @DependsOn(ShardingSphereDataSourceName.SHARDING_DATASOURCE)
+    public DynamicDataSourceProvider dynamicShardingSphereDataSourceProvider(final ShardingSphereDataSource shardingDataSource) {
         return new AbstractDataSourceProvider() {
             @Override
             public Map<String, DataSource> loadDataSources() {
                 // 多数据源集合
                 Map<String, DataSource> dynamicDataSourceMap = new HashMap<>(1);
-                // 普通数据源
-                dynamicDataSourceMap.put(ShardingjdbcDatasourceNames.DATASOURCE, shardingDataSource);
+                dynamicDataSourceMap.put(ShardingSphereDataSourceName.SHARDING_DATASOURCE, shardingDataSource);
                 return dynamicDataSourceMap;
             }
         };
