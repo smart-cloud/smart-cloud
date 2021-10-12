@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.smartframework.cloud.common.pojo.BasePageResponse;
 import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.mybatis.plus.common.mapper.constants.DelState;
+import org.smartframework.cloud.starter.mybatis.plus.enums.DeleteState;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.DynamicDatasourceApp;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.biz.ProductInfoOmsBiz;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.biz.RoleInfoOmsBiz;
@@ -124,7 +125,7 @@ public class DynamicDatasourceTest {
                     .description("查询")
                     .insertTime(new Date())
                     .insertUser(1L)
-                    .delState(DelState.NORMAL)
+                    .delState(DeleteState.NORMAL)
                     .build();
 
             roleInfoOmsBiz.save(roleInfoEntity);

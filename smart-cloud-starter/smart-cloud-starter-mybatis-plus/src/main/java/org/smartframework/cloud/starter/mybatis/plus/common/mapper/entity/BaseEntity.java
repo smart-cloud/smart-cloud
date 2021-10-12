@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.smartframework.cloud.common.pojo.Base;
+import org.smartframework.cloud.starter.mybatis.plus.enums.DeleteState;
 
 import java.util.Date;
 
@@ -63,6 +64,6 @@ public class BaseEntity extends Base {
      */
     @TableField(value = "f_sys_del_state")
     @TableLogic(value = "1", delval = "2")
-    private Byte delState;
+    private DeleteState delState;
 
 }

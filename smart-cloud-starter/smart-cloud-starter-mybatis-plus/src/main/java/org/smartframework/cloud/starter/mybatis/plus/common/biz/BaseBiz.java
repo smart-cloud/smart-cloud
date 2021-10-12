@@ -12,6 +12,7 @@ import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
 import org.smartframework.cloud.starter.mybatis.plus.common.mapper.constants.DelState;
 import org.smartframework.cloud.starter.mybatis.plus.common.mapper.entity.BaseEntity;
+import org.smartframework.cloud.starter.mybatis.plus.enums.DeleteState;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
@@ -38,7 +39,7 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
         T entity = BeanUtils.instantiateClass(entityClass);
         entity.setId(generateId());
         entity.setInsertTime(new Date());
-        entity.setDelState(DelState.NORMAL);
+        entity.setDelState(DeleteState.NORMAL);
         return entity;
     }
 
@@ -65,7 +66,7 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
         entity.setId(id);
         entity.setDelUser(uid);
         entity.setDelTime(new Date());
-        entity.setDelState(DelState.DELETED);
+        entity.setDelState(DeleteState.DELETED);
         return baseMapper.updateById(entity) == 1;
     }
 

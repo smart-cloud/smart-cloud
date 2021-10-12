@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.smartframework.cloud.starter.mybatis.plus.autoconfigure.MyBatisPlusAutoConfiguration,\
-org.smartframework.cloud.starter.mybatis.plus.autoconfigure.MapperScannerConfigurerBeanDefinitionRegistryPostProcessor
+org.smartframework.cloud.starter.mybatis.plus.autoconfigure.MapperScannerConfigurerBeanDefinitionRegistryPostProcessor,\
+org.smartframework.cloud.starter.mybatis.plus.autoconfigure.MybatisPlusPropertiesBeanPostProcessor
