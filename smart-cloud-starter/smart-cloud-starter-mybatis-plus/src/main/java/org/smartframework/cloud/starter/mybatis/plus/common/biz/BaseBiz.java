@@ -10,7 +10,6 @@ import org.smartframework.cloud.common.pojo.BasePageRequest;
 import org.smartframework.cloud.common.pojo.BasePageResponse;
 import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
-import org.smartframework.cloud.starter.mybatis.plus.common.mapper.constants.DelState;
 import org.smartframework.cloud.starter.mybatis.plus.common.mapper.entity.BaseEntity;
 import org.smartframework.cloud.starter.mybatis.plus.enums.DeleteState;
 import org.springframework.beans.BeanUtils;

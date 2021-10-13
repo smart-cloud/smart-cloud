@@ -10,7 +10,6 @@ import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.smartframework.cloud.common.pojo.BasePageResponse;
 import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
-import org.smartframework.cloud.starter.mybatis.plus.common.mapper.constants.DelState;
 import org.smartframework.cloud.starter.mybatis.plus.enums.DeleteState;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.DynamicDatasourceApp;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.biz.ProductInfoOmsBiz;
@@ -84,7 +83,7 @@ public class DynamicDatasourceTest {
 
             LambdaQueryWrapper<ProductInfoEntity> wrapper = new LambdaQueryWrapper<>();
             wrapper.like(ProductInfoEntity::getName, reqVO.getName());
-            wrapper.eq(ProductInfoEntity::getDelState, DelState.NORMAL);
+            wrapper.eq(ProductInfoEntity::getDelState, DeleteState.NORMAL);
             wrapper.orderByDesc(ProductInfoEntity::getInsertTime);
             BasePageResponse<ProductInfoBaseRespVO> response = productInfoOmsBiz.page(reqVO, wrapper, ProductInfoBaseRespVO.class);
 

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.common.pojo.BasePageResponse;
-import org.smartframework.cloud.starter.mybatis.plus.common.mapper.constants.DelState;
+import org.smartframework.cloud.starter.mybatis.plus.enums.DeleteState;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.mybatisplus.MybatisplusApp;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.mybatisplus.biz.ProductInfoOmsBiz;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.mybatisplus.entity.ProductInfoEntity;
@@ -80,7 +80,7 @@ class MybatisPlusTest {
 
         LambdaQueryWrapper<ProductInfoEntity> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(ProductInfoEntity::getName, reqVO.getName());
-        wrapper.eq(ProductInfoEntity::getDelState, DelState.NORMAL);
+        wrapper.eq(ProductInfoEntity::getDelState, DeleteState.NORMAL);
         wrapper.orderByDesc(ProductInfoEntity::getInsertTime);
         BasePageResponse<ProductInfoBaseRespVO> response = productInfoOmsBiz.page(reqVO, wrapper, ProductInfoBaseRespVO.class);
 

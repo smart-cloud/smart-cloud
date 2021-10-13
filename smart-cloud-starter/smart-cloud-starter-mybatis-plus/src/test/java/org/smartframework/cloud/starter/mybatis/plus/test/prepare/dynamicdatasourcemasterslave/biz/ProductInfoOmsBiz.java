@@ -4,7 +4,7 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.smartframework.cloud.common.pojo.BasePageResponse;
 import org.smartframework.cloud.starter.mybatis.plus.common.biz.BaseBiz;
-import org.smartframework.cloud.starter.mybatis.plus.common.mapper.constants.DelState;
+import org.smartframework.cloud.starter.mybatis.plus.enums.DeleteState;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasourcemasterslave.constants.DatasourceNames;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasourcemasterslave.entity.ProductInfoEntity;
 import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasourcemasterslave.mapper.ProductInfoBaseMapper;
@@ -25,7 +25,7 @@ public class ProductInfoOmsBiz extends BaseBiz<ProductInfoBaseMapper, ProductInf
     public BasePageResponse<ProductInfoBaseRespVO> selectPage(PageProductReqVO reqVO) {
         LambdaQueryWrapper<ProductInfoEntity> wrapper = new LambdaQueryWrapper<>();
         wrapper.like(ProductInfoEntity::getName, reqVO.getName());
-        wrapper.eq(ProductInfoEntity::getDelState, DelState.NORMAL);
+        wrapper.eq(ProductInfoEntity::getDelState, DeleteState.NORMAL);
         wrapper.orderByDesc(ProductInfoEntity::getInsertTime);
         return super.page(reqVO, wrapper, ProductInfoBaseRespVO.class);
     }
