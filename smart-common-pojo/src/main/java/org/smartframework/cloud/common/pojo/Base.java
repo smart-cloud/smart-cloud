@@ -1,11 +1,10 @@
 package org.smartframework.cloud.common.pojo;
 
-import java.io.Serializable;
-
-import org.smartframework.cloud.utility.JacksonUtil;
-
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
+import java.io.Serializable;
 
 /**
  * pojo基类
@@ -17,11 +16,11 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Base implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public String toString() {
-		return JacksonUtil.toJson(this);
-	}
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
 
 }

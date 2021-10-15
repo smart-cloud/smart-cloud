@@ -13,11 +13,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.smartframework.cloud</groupId>
-			<artifactId>smart-utility</artifactId>
-		</dependency>
-		
-		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 		</dependency>
@@ -25,6 +20,11 @@
 		<dependency>
 			<groupId>uk.co.jemos.podam</groupId>
 			<artifactId>podam</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
 		</dependency>
 	</dependencies>
 </project>
