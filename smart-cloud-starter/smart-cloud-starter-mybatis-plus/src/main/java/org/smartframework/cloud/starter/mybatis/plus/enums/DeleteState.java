@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.mybatis.plus.enums;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public enum DeleteState {
+public enum DeleteState implements IEnum<Byte> {
 
     /**
      * 未删除
@@ -27,7 +27,11 @@ public enum DeleteState {
     /**
      * 删除状态
      */
-    @EnumValue
     private byte state;
+
+    @Override
+    public Byte getValue() {
+        return state;
+    }
 
 }
