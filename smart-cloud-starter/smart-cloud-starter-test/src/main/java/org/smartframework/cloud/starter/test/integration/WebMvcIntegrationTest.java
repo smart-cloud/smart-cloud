@@ -3,6 +3,7 @@ package org.smartframework.cloud.starter.test.integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,6 +72,11 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
      */
     @Override
     public <T> T post(String url, Object req, TypeReference<T> typeReference) throws Exception {
+        return post(url, null, req, typeReference);
+    }
+
+    @Override
+    public <T> T post(String url, Map<String, String> headers, Object req, TypeReference<T> typeReference) throws Exception {
         String requestBody = JacksonUtil.toJson(req);
         log.info("test.requestBody={}", requestBody);
 
@@ -78,6 +84,9 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .characterEncoding(StandardCharsets.UTF_8.name())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE);
+        if (MapUtils.isNotEmpty(headers)) {
+            headers.forEach(mockHttpServletRequestBuilder::header);
+        }
         if (requestBody != null) {
             mockHttpServletRequestBuilder.content(requestBody);
         }
@@ -102,6 +111,11 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
     @Override
     public <T> T get(String url, Object req, TypeReference<T> typeReference)
             throws Exception {
+        return get(url, null, req, typeReference);
+    }
+
+    @Override
+    public <T> T get(String url, Map<String, String> headers, Object req, TypeReference<T> typeReference) throws Exception {
         String requestJsonStr = (req == null) ? null : JacksonUtil.toJson(req);
         log.info("test.requestBody={}", requestJsonStr);
 
@@ -109,6 +123,10 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .characterEncoding(StandardCharsets.UTF_8.name())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE);
+
+        if (MapUtils.isNotEmpty(headers)) {
+            headers.forEach(mockHttpServletRequestBuilder::header);
+        }
 
         if (StringUtils.isNotBlank(requestJsonStr)) {
             JsonNode jsonNodeElements = JacksonUtil.parse(requestJsonStr);

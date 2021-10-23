@@ -3,6 +3,7 @@ package org.smartframework.cloud.starter.test.integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.smartframework.cloud.utility.JacksonUtil;
@@ -42,9 +43,18 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
 
     @Override
     public <T> T post(String url, Object req, TypeReference<T> typeReference) throws Exception {
+        return post(url, null, req, typeReference);
+    }
+
+    @Override
+    public <T> T post(String url, Map<String, String> headers, Object req, TypeReference<T> typeReference) throws Exception {
         String requestJsonStr = JacksonUtil.toJson(req);
         log.info("test.requestBody={}", requestJsonStr);
-        WebTestClient.RequestBodySpec requestBodySpec = webTestClient.post().uri(url)
+        WebTestClient.RequestBodyUriSpec requestBodyUriSpec = webTestClient.post();
+        if (MapUtils.isNotEmpty(headers)) {
+            headers.forEach(requestBodyUriSpec::header);
+        }
+        WebTestClient.RequestBodySpec requestBodySpec = requestBodyUriSpec.uri(url)
                 .contentType(MediaType.APPLICATION_JSON);
         if (req != null) {
             requestBodySpec.bodyValue(req);
@@ -61,6 +71,11 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
 
     @Override
     public <T> T get(String url, Object req, TypeReference<T> typeReference) throws Exception {
+        return get(url, null, req, typeReference);
+    }
+
+    @Override
+    public <T> T get(String url, Map<String, String> headers, Object req, TypeReference<T> typeReference) throws Exception {
         String requestJsonStr = (req == null) ? null : JacksonUtil.toJson(req);
         log.info("test.requestBody={}", requestJsonStr);
         Map<String, Object> params = null;
@@ -84,7 +99,11 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
             }
         }
 
-        byte[] resultBytes = webTestClient.get().uri(url, params)
+        WebTestClient.RequestHeadersSpec requestHeadersSpec = webTestClient.get().uri(url, params);
+        if (MapUtils.isNotEmpty(headers)) {
+            headers.forEach(requestHeadersSpec::header);
+        }
+        byte[] resultBytes = requestHeadersSpec
                 .acceptCharset(StandardCharsets.UTF_8)
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
