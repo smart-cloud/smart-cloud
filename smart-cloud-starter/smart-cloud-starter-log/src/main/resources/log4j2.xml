@@ -58,7 +58,5 @@
 			<AppenderRef ref="asyncConsle" />
 			<AppenderRef ref="asyncFile" />
 		</Root>
-		 <!-- 第三方日志系统 -->
-        <logger name="org.apache.logging.log4j" level="debug"/>
 	</Loggers>
 </Configuration>

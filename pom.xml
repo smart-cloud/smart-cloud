@@ -138,6 +138,12 @@
 
             <dependency>
                 <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-cloud-starter-method-log</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
                 <artifactId>smart-cloud-starter-mock</artifactId>
                 <version>${project.version}</version>
             </dependency>
