@@ -1,6 +1,5 @@
 package org.smartframework.cloud.starter.core.method.log.test.cases;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
@@ -20,7 +19,6 @@ import java.nio.charset.StandardCharsets;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
-@Slf4j
 class MethodLogInterceptorTest {
 
     @Autowired
