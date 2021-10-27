@@ -1,3 +1,13 @@
+smart cloud
+---
+![](https://img.shields.io/badge/build-passing-brightgreen)
+[![license](https://img.shields.io/badge/license-Apache%202-green)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![jdk version](https://img.shields.io/badge/jdk-1.8+-blue.svg)](https://docs.oracle.com/javase/8/docs/api/)
+![](https://img.shields.io/badge/spring--boot-2.5.4.RELEASE-blue.svg)
+![](https://img.shields.io/badge/spring--cloud-2020.0.3-blue.svg)
+![](https://img.shields.io/github/stars/smart-cloud/smart-cloud?label=Star&color=brightgreen)
+![](https://img.shields.io/github/forks/smart-cloud/smart-cloud?label=Fork&color=brightgreen)
+
 # 一、功能特征
 **一个基于spring cloud实现的脚手架。所实现功能如下：**
 - [接口文档自动生成（利用idea yapi插件上传到yapi server）](https://github.com/smart-cloud/smart-cloud#%E4%BA%94%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)
@@ -37,6 +47,7 @@ smart-cloud
      ├── smart-cloud-starter-job -- 定时任务封装
      ├── smart-cloud-starter-locale -- 国际化封装
      ├── smart-cloud-starter-log -- 日志封装（log4j2封装，支持日志敏感数据脱敏）
+     ├── smart-cloud-starter-method-log -- 方法切面日志封装
      ├── smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
      ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表、分布式事务；mapper工具类）
      ├── smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类等）
