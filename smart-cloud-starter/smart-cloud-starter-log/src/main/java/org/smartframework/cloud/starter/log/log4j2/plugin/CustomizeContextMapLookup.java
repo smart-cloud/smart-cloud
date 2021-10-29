@@ -66,9 +66,9 @@ public class CustomizeContextMapLookup implements StrLookup {
     public static String getLogPath(String appName) {
         // 当前为windows系统
         if (System.getProperty("os.name").toLowerCase().indexOf("windows") != -1) {
-            return "C:/data/log/" + appName;
+            return String.format("C:/data/log/%s", appName);
         }
-        return "/data/log" + appName;
+        return String.format("/data/log/%s", appName);
     }
 
     /**

@@ -1,6 +1,6 @@
 smart cloud
 ---
-![](https://img.shields.io/badge/build-passing-brightgreen)
+[![build](https://github.com/smart-cloud/smart-cloud/actions/workflows/build.yml/badge.svg?branch=dev)](https://github.com/smart-cloud/smart-cloud/actions/workflows/build.yml)
 [![license](https://img.shields.io/badge/license-Apache%202-green)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![jdk version](https://img.shields.io/badge/jdk-1.8+-blue.svg)](https://docs.oracle.com/javase/8/docs/api/)
 ![](https://img.shields.io/badge/spring--boot-2.5.4.RELEASE-blue.svg)
