@@ -281,7 +281,7 @@ public class RsaUtil {
      * 签名
      *
      * @param content
-     * @param privateKey
+     * @param rsaPrivateKey
      * @return
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
@@ -306,7 +306,7 @@ public class RsaUtil {
      *
      * @param content
      * @param sign
-     * @param publicKey
+     * @param rsaPublicKey
      * @return
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
