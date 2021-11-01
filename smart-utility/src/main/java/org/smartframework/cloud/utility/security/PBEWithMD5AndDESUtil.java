@@ -3,6 +3,7 @@ package org.smartframework.cloud.utility.security;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 import java.security.*;
@@ -14,14 +15,14 @@ import java.security.spec.InvalidKeySpecException;
  * @date 2020/02/20
  */
 public class PBEWithMD5AndDESUtil {
-    private static String ALGORITHM = "PBEWITHMD5andDES";
-    private static PBEParameterSpec parameterSpec;
+    private static String ALGORITHM = "PBEWithHmacSHA256AndAES_128";
+    private static PBEParameterSpec parameterSpec = null;
 
     static {
         // 初始化盐
         SecureRandom random = new SecureRandom();
         byte[] salt = random.generateSeed(8);
-        parameterSpec = new PBEParameterSpec(salt, 128);
+        parameterSpec = new PBEParameterSpec(salt, 256, new IvParameterSpec(new byte[16]));
     }
 
     private PBEWithMD5AndDESUtil() {
@@ -51,6 +52,7 @@ public class PBEWithMD5AndDESUtil {
 
         // 加密
         Cipher cipher = Cipher.getInstance(ALGORITHM);
+
         cipher.init(Cipher.ENCRYPT_MODE, key, parameterSpec);
         byte[] encryptWord = cipher.doFinal(word.getBytes());
         return Base64.encodeBase64String(encryptWord);
