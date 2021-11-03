@@ -44,7 +44,7 @@ class RsaUtilUnitTest {
 
         String modulus = RsaUtil.getModulus(keyPair);
         String privateExponent = RsaUtil.getPrivateExponent(keyPair);
-        RSAPrivateKey decryptPrivateKey = RsaUtil.getRSAPrivateKey(modulus, privateExponent);
+        RSAPrivateKey decryptPrivateKey = RsaUtil.getRsaPrivateKey(modulus, privateExponent);
 
         // 解密后的文本
         String decryptText = RsaUtil.decryptString(decryptPrivateKey, encryptText);
@@ -80,7 +80,7 @@ class RsaUtilUnitTest {
         KeyPair keyPair = RsaUtil.generateKeyPair();
         String publicExponent = RsaUtil.getPublicExponent(keyPair);
         String modulus = RsaUtil.getModulus(keyPair);
-        RsaUtil.getRSAPublidKey(modulus, publicExponent);
+        RsaUtil.getRsaPublidKey(modulus, publicExponent);
     }
 
     @Test

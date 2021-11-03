@@ -37,7 +37,7 @@ public class WebUtil {
 	 * @return
 	 * @throws UnknownHostException
 	 */
-	public static String getLocalIP() throws UnknownHostException {
+	public static String getLocalIp() throws UnknownHostException {
 		return InetAddress.getLocalHost().getHostAddress();
 	}
 
@@ -46,12 +46,12 @@ public class WebUtil {
 	 *
 	 * @return ip地址
 	 */
-	public static String getRealIP() {
+	public static String getRealIp() {
 		if (isWebFlux()) {
-			return WebReactiveUtil.getRealIP();
+			return WebReactiveUtil.getRealIp();
 		}
 
-		return WebServletUtil.getRealIP();
+		return WebServletUtil.getRealIp();
 	}
 
 	public static String getMappingPath() {

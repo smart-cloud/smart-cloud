@@ -12,6 +12,12 @@ import org.smartframework.cloud.starter.mybatis.plus.enums.DeleteState;
 
 import java.util.Date;
 
+/**
+ * entity基类
+ *
+ * @author collin
+ * @date 2021-10-31
+ */
 @Setter
 @Getter
 @NoArgsConstructor

@@ -1,6 +1,6 @@
 package org.smartframework.cloud.starter.rabbitmq.annotation;
 
-import org.smartframework.cloud.starter.rabbitmq.MQConstants;
+import org.smartframework.cloud.starter.rabbitmq.MqConstants;
 
 import java.lang.annotation.*;
 
@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-public @interface MQConsumerFailRetry {
+public @interface MqConsumerFailRetry {
 
     /**
      * 重试交换机名字
@@ -31,6 +31,6 @@ public @interface MQConsumerFailRetry {
      *
      * @return
      */
-    int maxRetryTimes() default MQConstants.DEFAULT_MAX_RETRY_TIMES_WHEN_FAIL;
+    int maxRetryTimes() default MqConstants.DEFAULT_MAX_RETRY_TIMES_WHEN_FAIL;
 
 }

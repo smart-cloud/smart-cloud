@@ -19,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcShardingMasterSlaveApp.class, args = "--spring.profiles.active=shardingjdbcshardingmasterslave")
-public class ShardingJdbcShardingMasterSlaveTest {
+class ShardingJdbcShardingMasterSlaveTest {
 
     @Autowired
     private OrderBillBiz orderBillBiz;

@@ -4,8 +4,8 @@ import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.exception.ServerException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -29,7 +29,7 @@ public class WebServletUtil {
 	 *
 	 * @return ip地址
 	 */
-	public static String getRealIP() {
+	public static String getRealIp() {
 		HttpServletRequest request = getHttpServletRequest();
 		String ip = request.getHeader("x-forwarded-for");
 		String unknown = "unknown";
@@ -50,8 +50,8 @@ public class WebServletUtil {
 		}
 
 		// 如果是多级代理，那么取第一个ip为客户ip
-		if (ip != null && ip.contains(",")) {
-			ip = ip.substring(ip.lastIndexOf(',') + 1, ip.length()).trim();
+		if (ip != null && ip.contains(SymbolConstant.COMMA)) {
+			ip = ip.substring(ip.lastIndexOf(SymbolConstant.COMMA) + 1, ip.length()).trim();
 		}
 		return ip;
 	}

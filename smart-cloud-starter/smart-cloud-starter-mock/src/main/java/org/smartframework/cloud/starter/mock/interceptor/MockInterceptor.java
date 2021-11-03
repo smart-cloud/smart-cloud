@@ -3,8 +3,8 @@ package org.smartframework.cloud.starter.mock.interceptor;
 import lombok.AllArgsConstructor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.starter.configure.properties.MockProperties;
-import org.smartframework.cloud.starter.core.constants.SymbolConstant;
 import org.smartframework.cloud.starter.mock.util.MockUtil;
 
 import java.lang.reflect.Method;

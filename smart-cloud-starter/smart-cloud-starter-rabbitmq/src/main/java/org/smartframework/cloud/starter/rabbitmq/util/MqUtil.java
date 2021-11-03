@@ -3,8 +3,8 @@ package org.smartframework.cloud.starter.rabbitmq.util;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.starter.rabbitmq.MQConstants;
-import org.smartframework.cloud.starter.rabbitmq.annotation.MQConsumerFailRetry;
+import org.smartframework.cloud.starter.rabbitmq.MqConstants;
+import org.smartframework.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.RetryTimeUtil;
 import org.springframework.amqp.core.Message;
@@ -23,13 +23,16 @@ import java.util.concurrent.TimeUnit;
  * @date 2021-06-30
  */
 @Slf4j
-public final class MQUtil {
+public final class MqUtil {
 
     /**
      * 消费失败后是否能重试
      */
     @Setter
     private static boolean enableRetryAfterConsumerFail = false;
+
+    private MqUtil() {
+    }
 
     /**
      * 发送消息
@@ -52,7 +55,7 @@ public final class MQUtil {
             messageBuilder.setExpiration(delayMillis);
         }
         if (retriedTimes != null) {
-            messageBuilder.setHeader(MQConstants.CONSUMER_RETRIED_TIMES, retriedTimes);
+            messageBuilder.setHeader(MqConstants.CONSUMER_RETRIED_TIMES, retriedTimes);
         }
 
         if (log.isInfoEnabled()) {
@@ -62,7 +65,7 @@ public final class MQUtil {
     }
 
     public static <T> boolean retryAfterConsumerFail(RabbitTemplate rabbitTemplate, T object, Message message, Class<?> consumerClass) {
-        if (!MQUtil.enableRetryAfterConsumerFail) {
+        if (!MqUtil.enableRetryAfterConsumerFail) {
             return false;
         }
         if (object == null) {
@@ -75,12 +78,12 @@ public final class MQUtil {
         }
 
         // 失败后，发送延迟消息重试
-        MQConsumerFailRetry mqConsumerFailRetry = AnnotationUtils.findAnnotation(consumerClass, MQConsumerFailRetry.class);
+        MqConsumerFailRetry mqConsumerFailRetry = AnnotationUtils.findAnnotation(consumerClass, MqConsumerFailRetry.class);
         if (mqConsumerFailRetry == null) {
-            log.warn("MQConsumerFailRetry not found, retry is skipped!");
+            log.warn("MqConsumerFailRetry not found, retry is skipped!");
             return false;
         }
-        Integer retriedTimes = message.getMessageProperties().getHeader(MQConstants.CONSUMER_RETRIED_TIMES);
+        Integer retriedTimes = message.getMessageProperties().getHeader(MqConstants.CONSUMER_RETRIED_TIMES);
         retriedTimes = (retriedTimes == null) ? 0 : (retriedTimes + 1);
         if (retriedTimes >= mqConsumerFailRetry.maxRetryTimes()) {
             log.warn("Maximum times of retries reached");
@@ -89,11 +92,11 @@ public final class MQUtil {
 
         // 队列的名称
         String retryQueueName = rabbitListener.queues()[0];
-        String retryQueuePrefix = MQNameUtil.getQueuePrefix(retryQueueName);
+        String retryQueuePrefix = MqNameUtil.getQueuePrefix(retryQueueName);
         //延迟交换机名称
-        String retryExchangeName = MQNameUtil.getRetryExchangeName(retryQueuePrefix, mqConsumerFailRetry);
+        String retryExchangeName = MqNameUtil.getRetryExchangeName(retryQueuePrefix, mqConsumerFailRetry);
         //延迟路由键
-        String delayRouteKeyName = MQNameUtil.getDelayRouteKeyName(retryQueuePrefix, mqConsumerFailRetry);
+        String delayRouteKeyName = MqNameUtil.getDelayRouteKeyName(retryQueuePrefix, mqConsumerFailRetry);
         send(rabbitTemplate, retryExchangeName, delayRouteKeyName, object, retriedTimes, String.valueOf(TimeUnit.SECONDS.toMillis(RetryTimeUtil.getNextExecuteTime(retriedTimes))));
         return true;
     }

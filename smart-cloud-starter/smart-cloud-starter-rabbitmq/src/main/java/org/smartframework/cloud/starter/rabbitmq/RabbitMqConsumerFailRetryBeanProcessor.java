@@ -4,9 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.reflections.Reflections;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
-import org.smartframework.cloud.starter.rabbitmq.annotation.MQConsumerFailRetry;
-import org.smartframework.cloud.starter.rabbitmq.util.MQNameUtil;
-import org.smartframework.cloud.starter.rabbitmq.util.MQUtil;
+import org.smartframework.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
+import org.smartframework.cloud.starter.rabbitmq.util.MqNameUtil;
+import org.smartframework.cloud.starter.rabbitmq.util.MqUtil;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeansException;
@@ -25,11 +25,11 @@ import java.util.Set;
  * @date 2021-07-03
  */
 @Slf4j
-public class RabbitMQConsumerFailRetryBeanProcessor implements BeanFactoryPostProcessor {
+public class RabbitMqConsumerFailRetryBeanProcessor implements BeanFactoryPostProcessor {
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        registerDelayMQBeans(beanFactory);
+        registerDelayMqBeans(beanFactory);
     }
 
     /**
@@ -37,16 +37,16 @@ public class RabbitMQConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
      *
      * @param beanFactory
      */
-    private void registerDelayMQBeans(ConfigurableListableBeanFactory beanFactory) {
+    private void registerDelayMqBeans(ConfigurableListableBeanFactory beanFactory) {
         Reflections reflections = new Reflections(PackageConfig.getBasePackages());
-        Set<Class<? extends AbstractRabbitMQConsumerMarker>> mqConsumerClasses = reflections.getSubTypesOf(AbstractRabbitMQConsumerMarker.class);
+        Set<Class<? extends AbstractRabbitMqConsumerMarker>> mqConsumerClasses = reflections.getSubTypesOf(AbstractRabbitMqConsumerMarker.class);
         if (CollectionUtils.isEmpty(mqConsumerClasses)) {
             return;
         }
 
-        for (Class<? extends AbstractRabbitMQConsumerMarker> mqConsumerClass : mqConsumerClasses) {
-            if (registerDelayMQBean(mqConsumerClass, beanFactory)) {
-                MQUtil.setEnableRetryAfterConsumerFail(true);
+        for (Class<? extends AbstractRabbitMqConsumerMarker> mqConsumerClass : mqConsumerClasses) {
+            if (registerDelayMqBean(mqConsumerClass, beanFactory)) {
+                MqUtil.setEnableRetryAfterConsumerFail(true);
             }
         }
     }
@@ -57,8 +57,8 @@ public class RabbitMQConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
      * @param mqConsumerClass
      * @param beanFactory
      */
-    private boolean registerDelayMQBean(Class<?> mqConsumerClass, ConfigurableListableBeanFactory beanFactory) {
-        MQConsumerFailRetry mqConsumerFailRetry = AnnotationUtils.findAnnotation(mqConsumerClass, MQConsumerFailRetry.class);
+    private boolean registerDelayMqBean(Class<?> mqConsumerClass, ConfigurableListableBeanFactory beanFactory) {
+        MqConsumerFailRetry mqConsumerFailRetry = AnnotationUtils.findAnnotation(mqConsumerClass, MqConsumerFailRetry.class);
         if (mqConsumerFailRetry == null) {
             return false;
         }
@@ -70,19 +70,19 @@ public class RabbitMQConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
 
         // 队列的名称
         String retryQueueName = rabbitListener.queues()[0];
-        if (!retryQueueName.endsWith(MQConstants.QUEUE_SUFFIX)) {
-            throw new UnsupportedOperationException(String.format("The suffix of the queue[%s] name that needs to be retried must be %s", mqConsumerClass, MQConstants.QUEUE_SUFFIX));
+        if (!retryQueueName.endsWith(MqConstants.QUEUE_SUFFIX)) {
+            throw new UnsupportedOperationException(String.format("The suffix of the queue[%s] name that needs to be retried must be %s", mqConsumerClass, MqConstants.QUEUE_SUFFIX));
         }
-        String retryQueuePrefix = MQNameUtil.getQueuePrefix(retryQueueName);
+        String retryQueuePrefix = MqNameUtil.getQueuePrefix(retryQueueName);
         //交换机名称
-        String retryExchangeName = MQNameUtil.getRetryExchangeName(retryQueuePrefix, mqConsumerFailRetry);
+        String retryExchangeName = MqNameUtil.getRetryExchangeName(retryQueuePrefix, mqConsumerFailRetry);
         //路由键
-        String retryRouteKeyName = MQNameUtil.getRetryRouteKeyName(retryQueuePrefix);
+        String retryRouteKeyName = MqNameUtil.getRetryRouteKeyName(retryQueuePrefix);
 
         //延迟队列名称
-        String delayQueueName = MQNameUtil.getDelayQueueName(retryQueuePrefix);
+        String delayQueueName = MqNameUtil.getDelayQueueName(retryQueuePrefix);
         //延迟路由键
-        String delayRouteKeyName = MQNameUtil.getDelayRouteKeyName(retryQueuePrefix, mqConsumerFailRetry);
+        String delayRouteKeyName = MqNameUtil.getDelayRouteKeyName(retryQueuePrefix, mqConsumerFailRetry);
         // exchange已存在，不用注入IOC
         Exchange retryExchange = ExchangeBuilder.directExchange(retryExchangeName).durable(true).build();
         Queue delayQueue = buildDelayQueue(delayQueueName, retryExchangeName, retryRouteKeyName);
@@ -90,7 +90,7 @@ public class RabbitMQConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
 
         // queue、binding需要注入IOC
         beanFactory.registerSingleton(delayQueueName, delayQueue);
-        String delayBindingBeanName = String.format(MQConstants.DELAY_MQ_PATTERN, retryQueuePrefix, Binding.class.getSimpleName());
+        String delayBindingBeanName = String.format(MqConstants.DELAY_MQ_PATTERN, retryQueuePrefix, Binding.class.getSimpleName());
         beanFactory.registerSingleton(delayBindingBeanName, delayBinding);
 
         log.info("retryQueueInfo|retryQueueName={},retryExchangeName={},retryRouteKeyName={},delayQueueName={},delayRouteKeyName={}", retryQueueName,
@@ -110,9 +110,9 @@ public class RabbitMQConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
     private Queue buildDelayQueue(String delayQueue, String retryExchange, String retryRouteKey) {
         Map<String, Object> args = new HashMap<>(2);
         // 声明死信交换机：x-dead-letter-exchange
-        args.put(MQConstants.DeadLetterQueueArgs.EXCHANGE, retryExchange);
+        args.put(MqConstants.DeadLetterQueueArgs.EXCHANGE, retryExchange);
         // 声明死信路由键：x-dead-letter-routing-key
-        args.put(MQConstants.DeadLetterQueueArgs.ROUTING_KEY, retryRouteKey);
+        args.put(MqConstants.DeadLetterQueueArgs.ROUTING_KEY, retryRouteKey);
         return QueueBuilder.durable(delayQueue).withArguments(args).build();
     }
 

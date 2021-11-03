@@ -10,6 +10,12 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
 
+/**
+ * 清除用户上下文过滤器配置
+ *
+ * @author collin
+ * @date 2021-10-31
+ */
 @Configuration
 @ConditionalOnClass(name = {"javax.servlet.Filter"})
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)

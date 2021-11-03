@@ -20,6 +20,12 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * mock切面配置
+ *
+ * @author collin
+ * @date 2021-11-13
+ */
 @Configuration
 @AutoConfigureAfter(SmartAutoConfiguration.class)
 @Conditional(MockCondition.class)

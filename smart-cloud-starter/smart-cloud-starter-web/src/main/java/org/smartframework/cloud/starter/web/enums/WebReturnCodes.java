@@ -5,6 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 
+/**
+ * starter-web模块返回码
+ *
+ * @author collin
+ * @date 2021-10-31
+ */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum WebReturnCodes implements IBaseReturnCodes {

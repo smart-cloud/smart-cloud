@@ -8,6 +8,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * reactive过滤器配置
+ *
+ * @author collin
+ * @date 2021-11-11
+ */
 @Configuration
 @AutoConfigureAfter(SmartAutoConfiguration.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)

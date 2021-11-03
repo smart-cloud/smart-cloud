@@ -10,6 +10,11 @@ import org.smartframework.cloud.common.pojo.ResponseHead;
  */
 public interface IExceptionHandlerStrategy {
 
+    /**
+     * 是否需要servlet环境
+     *
+     * @return
+     */
     default boolean isNeedServletEnv() {
         return false;
     }

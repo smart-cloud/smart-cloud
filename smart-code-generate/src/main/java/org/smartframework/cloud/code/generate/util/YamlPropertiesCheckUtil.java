@@ -71,9 +71,7 @@ public class YamlPropertiesCheckUtil {
         checkGenerateType(codeProperties.getType());
 
         // specifiedTables
-        if ((codeProperties.getType().compareTo(GenerateTypeEnum.EXCLUDE.getType()) == 0
-                || codeProperties.getType().compareTo(GenerateTypeEnum.INCLUDE.getType()) == 0)
-                && isBlank(codeProperties.getSpecifiedTables())) {
+        if (isCodeSpecifiedTablesEmpty(codeProperties)) {
             throw new IllegalArgumentException("code.specifiedTables未配置");
         }
 
@@ -87,6 +85,12 @@ public class YamlPropertiesCheckUtil {
 
         // project
         checkProject(codeProperties.getProject());
+    }
+
+    private static boolean isCodeSpecifiedTablesEmpty(CodeProperties codeProperties) {
+        return (codeProperties.getType().compareTo(GenerateTypeEnum.EXCLUDE.getType()) == 0
+                || codeProperties.getType().compareTo(GenerateTypeEnum.INCLUDE.getType()) == 0)
+                && isBlank(codeProperties.getSpecifiedTables());
     }
 
     private static void checkGenerateType(Integer generateType) {

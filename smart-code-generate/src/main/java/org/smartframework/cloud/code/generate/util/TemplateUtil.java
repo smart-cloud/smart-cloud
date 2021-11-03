@@ -17,7 +17,7 @@ import java.util.*;
  * @date 2019-07-15
  */
 @UtilityClass
-public class TemplateBOUtil {
+public class TemplateUtil {
 
     /**
      * 获取公共信息（如生成时间、作者等）
@@ -70,8 +70,8 @@ public class TemplateBOUtil {
             }
 
             entityAttribute.setJavaType(JavaTypeUtil.getByJdbcType(columnMetaData.getJdbcType(), columnMetaData.getLength()));
-            entityAttribute.setPrimaryKey(columnMetaData.isPrimaryKey());
-            if (columnMetaData.isPrimaryKey()) {
+            entityAttribute.setPrimaryKey(columnMetaData.getPrimaryKey());
+            if (columnMetaData.getPrimaryKey()) {
                 importPackages.add("com.baomidou.mybatisplus.annotation.TableId");
             }
             String importPackage = JavaTypeUtil.getImportPackage(columnMetaData.getJdbcType());
@@ -106,17 +106,17 @@ public class TemplateBOUtil {
      * @param mask
      * @return
      */
-    public static BaseRespVOBO getBaseRespBodyBO(TableMetaDataBO tableMetaData, List<ColumnMetaDataBO> columnMetaDatas, ClassCommentBO classComment,
-                                                 String mainClassPackage, Set<String> importPackages, Map<String, Map<String, String>> mask) {
-        BaseRespVOBO baseRespVOBO = new BaseRespVOBO();
-        baseRespVOBO.setClassComment(classComment);
-        baseRespVOBO.setTableComment(tableMetaData.getComment());
-        baseRespVOBO.setPackageName(getBaseRespBodyPackage(mainClassPackage));
-        baseRespVOBO.setClassName(JavaTypeUtil.getBaseRespBodyName(tableMetaData.getName()));
-        baseRespVOBO.setImportPackages(importPackages);
+    public static BaseRespBO getBaseRespBodyBO(TableMetaDataBO tableMetaData, List<ColumnMetaDataBO> columnMetaDatas, ClassCommentBO classComment,
+                                               String mainClassPackage, Set<String> importPackages, Map<String, Map<String, String>> mask) {
+        BaseRespBO baseResp = new BaseRespBO();
+        baseResp.setClassComment(classComment);
+        baseResp.setTableComment(tableMetaData.getComment());
+        baseResp.setPackageName(getBaseRespBodyPackage(mainClassPackage));
+        baseResp.setClassName(JavaTypeUtil.getBaseRespBodyName(tableMetaData.getName()));
+        baseResp.setImportPackages(importPackages);
 
         List<EntityAttributeBO> attributes = new ArrayList<>();
-        baseRespVOBO.setAttributes(attributes);
+        baseResp.setAttributes(attributes);
         for (ColumnMetaDataBO columnMetaData : columnMetaDatas) {
             if (DefaultColumnEnum.contains(columnMetaData.getName())) {
                 continue;
@@ -131,7 +131,7 @@ public class TemplateBOUtil {
 
             attributes.add(entityAttribute);
         }
-        return baseRespVOBO;
+        return baseResp;
     }
 
     /**
@@ -152,13 +152,13 @@ public class TemplateBOUtil {
      *
      * @param tableMetaData
      * @param entityBO
-     * @param baseRespVOBO
+     * @param baseResp
      * @param classComment
      * @param mainClassPackage
      * @return
      */
     public static BaseMapperBO getBaseMapperBO(TableMetaDataBO tableMetaData, EntityBO entityBO,
-                                               BaseRespVOBO baseRespVOBO, ClassCommentBO classComment, String mainClassPackage) {
+                                               BaseRespBO baseResp, ClassCommentBO classComment, String mainClassPackage) {
         BaseMapperBO baseMapperBO = new BaseMapperBO();
         baseMapperBO.setClassComment(classComment);
         baseMapperBO.setTableComment(tableMetaData.getComment());
@@ -171,7 +171,7 @@ public class TemplateBOUtil {
         baseMapperBO.setImportPackages(importPackages);
 
         baseMapperBO.setEntityClassName(entityBO.getClassName());
-        baseMapperBO.setBaseRespBodyClassName(baseRespVOBO.getClassName());
+        baseMapperBO.setBaseRespBodyClassName(baseResp.getClassName());
         return baseMapperBO;
     }
 

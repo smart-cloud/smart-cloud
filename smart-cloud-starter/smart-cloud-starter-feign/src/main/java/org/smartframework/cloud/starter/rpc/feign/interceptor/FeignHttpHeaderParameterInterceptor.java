@@ -43,9 +43,6 @@ public class FeignHttpHeaderParameterInterceptor implements RequestInterceptor, 
             return;
         }
         HttpHeaders httpHeaders = serverHttpRequest.getHeaders();
-        if (httpHeaders == null) {
-            return;
-        }
         httpHeaders.forEach((name, value) -> {
             if (needCopy(name)) {
                 template.header(name, value);

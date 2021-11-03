@@ -114,10 +114,14 @@ public final class NonceUtil {
         }
 
         lastStmp = currStmp;
-        long id = (currStmp - START_STMP) << TIMESTMP_LEFT // 时间戳部分
-                | ip << IP_LEFT // 数据中心部分
-                | pid << PID_LEFT // 机器标识部分
-                | sequence; // 序列号部分
+        long id = // 时间戳部分
+                (currStmp - START_STMP) << TIMESTMP_LEFT
+                        // 数据中心部分
+                        | ip << IP_LEFT
+                        // 机器标识部分
+                        | pid << PID_LEFT
+                        // 序列号部分
+                        | sequence;
 
         return Long.toHexString(id);
     }

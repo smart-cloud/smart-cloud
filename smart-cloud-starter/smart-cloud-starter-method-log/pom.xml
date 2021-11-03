@@ -18,6 +18,11 @@
 
         <dependency>
             <groupId>org.smartframework.cloud</groupId>
+            <artifactId>smart-constants</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.smartframework.cloud</groupId>
             <artifactId>smart-mask</artifactId>
         </dependency>
 

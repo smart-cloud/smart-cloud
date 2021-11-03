@@ -4,8 +4,9 @@ import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
-import org.smartframework.cloud.exception.ServerException;
 import org.smartframework.cloud.common.web.filter.ReactiveRequestContextHolder;
+import org.smartframework.cloud.constants.SymbolConstant;
+import org.smartframework.cloud.exception.ServerException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -28,7 +29,7 @@ public class WebReactiveUtil {
      *
      * @return ip地址
      */
-    public static String getRealIP() {
+    public static String getRealIp() {
         HttpHeaders httpHeaders = ReactiveRequestContextHolder.getHttpHeaders();
         if (httpHeaders == null) {
             return null;
@@ -55,8 +56,8 @@ public class WebReactiveUtil {
         }
 
         // 如果是多级代理，那么取第一个ip为客户ip
-        if (ip != null && ip.contains(",")) {
-            ip = ip.substring(ip.lastIndexOf(',') + 1, ip.length()).trim();
+        if (ip != null && ip.contains(SymbolConstant.COMMA)) {
+            ip = ip.substring(ip.lastIndexOf(SymbolConstant.COMMA) + 1, ip.length()).trim();
         }
         return ip;
     }

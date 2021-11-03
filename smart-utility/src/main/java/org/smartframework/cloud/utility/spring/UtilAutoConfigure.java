@@ -18,8 +18,8 @@ public class UtilAutoConfigure {
 	}
 
 	@Bean
-	public I18NUtil i18NUtil() {
-		return new I18NUtil();
+	public I18nUtil i18nUtil() {
+		return new I18nUtil();
 	}
 	
 }

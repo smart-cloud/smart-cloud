@@ -13,6 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * servlet过滤器
+ *
+ * @author collin
+ * @date 2021-10-31
+ */
 public class ServletFilter extends OncePerRequestFilter implements Ordered {
 
     private static final String PROTOBUF_CONTENT_TYPE = ProtostuffConstant.PROTOBUF_MEDIA_TYPE.toString();
@@ -39,8 +45,8 @@ public class ServletFilter extends OncePerRequestFilter implements Ordered {
     }
 
     private void processRpcContentType(HttpServletRequest request, HttpServletResponse response) {
-        String requestURI = request.getRequestURI();
-        if (!requestURI.contains(ApiUseSideEnum.RPC.getPathSegment())) {
+        String requestUri = request.getRequestURI();
+        if (!requestUri.contains(ApiUseSideEnum.RPC.getPathSegment())) {
             return;
         }
 

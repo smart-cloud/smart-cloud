@@ -6,5 +6,5 @@ package org.smartframework.cloud.starter.rabbitmq;
  * @author collin
  * @date 2021-07-16
  */
-public interface AbstractRabbitMQConsumerMarker {
+public interface AbstractRabbitMqConsumerMarker {
 }

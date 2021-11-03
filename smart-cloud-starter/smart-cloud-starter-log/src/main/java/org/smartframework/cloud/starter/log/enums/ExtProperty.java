@@ -6,6 +6,9 @@ import lombok.Getter;
 
 /**
  * 扩展属性
+ *
+ * @author collin
+ * @date 2021-10-30
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

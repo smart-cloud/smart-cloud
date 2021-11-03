@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
-public class ServletApiLogInterceptorTest {
+class ServletApiLogInterceptorTest {
 
     @Autowired
     private ProductController productController;

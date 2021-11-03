@@ -10,16 +10,13 @@ import net.sf.jsqlparser.statement.create.table.Index;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.config.Config;
-import org.smartframework.cloud.code.generate.constants.GenerateCodeConstants;
+import org.smartframework.cloud.code.generate.constants.TableMetaFields;
 import org.smartframework.cloud.code.generate.enums.GenerateTypeEnum;
 import org.smartframework.cloud.code.generate.properties.CodeProperties;
 import org.smartframework.cloud.code.generate.properties.DbProperties;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 数据库操作工具类
@@ -62,22 +59,22 @@ public class DbUtil {
      */
     public static Map<String, TableMetaDataBO> getTablesMetaData(Connection connnection, CodeProperties code)
             throws SQLException {
-        Map<String, TableMetaDataBO> tableMetaDataBOs = new HashMap<>();
+        Map<String, TableMetaDataBO> tableMetaDataMap = new HashMap<>(16);
         try (PreparedStatement preparedStatement = connnection.prepareStatement(String.format("SHOW TABLE STATUS FROM `%s`", connnection.getCatalog()));
              ResultSet resultSet = preparedStatement.executeQuery();) {
             while (resultSet.next()) {
-                String tableName = resultSet.getString("Name");
+                String tableName = resultSet.getString(TableMetaFields.NAME);
                 if (filterTable(code, tableName)) {
                     continue;
                 }
                 TableMetaDataBO tableBO = new TableMetaDataBO();
                 tableBO.setName(tableName);
-                tableBO.setComment(resultSet.getString("Comment"));
+                tableBO.setComment(resultSet.getString(TableMetaFields.COMMENT));
 
-                tableMetaDataBOs.put(tableBO.getName(), tableBO);
+                tableMetaDataMap.put(tableBO.getName(), tableBO);
             }
         }
-        return tableMetaDataBOs;
+        return tableMetaDataMap;
     }
 
     private boolean filterTable(CodeProperties code, String tableName) {
@@ -164,15 +161,15 @@ public class DbUtil {
     private static List<String> getPrimaryKeyColumnNames(CreateTable createTable) {
         List<Index> indexs = createTable.getIndexes();
         if (indexs == null || indexs.isEmpty()) {
-            return null;
+            return Collections.emptyList();
         }
 
         for (Index index : indexs) {
-            if (GenerateCodeConstants.PRIMARY_KEY_TAG.equals(index.getType())) {
+            if (TableMetaFields.PRIMARY_KEY_TAG.equals(index.getType())) {
                 return index.getColumnsNames();
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -192,7 +189,7 @@ public class DbUtil {
         if (comment.startsWith(TABLE_FIELD_COMMENT_ESCAPES) && comment.endsWith(TABLE_FIELD_COMMENT_ESCAPES)) {
             return comment.substring(1, comment.length() - 1);
         }
-        if ("NULL".equals(comment)) {
+        if (TableMetaFields.NULL.equals(comment)) {
             return null;
         }
         return comment;

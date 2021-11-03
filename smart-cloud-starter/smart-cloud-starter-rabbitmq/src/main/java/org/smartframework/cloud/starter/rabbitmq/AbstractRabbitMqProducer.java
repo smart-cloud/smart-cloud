@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.rabbitmq;
 
 import lombok.extern.slf4j.Slf4j;
-import org.smartframework.cloud.starter.rabbitmq.util.MQUtil;
+import org.smartframework.cloud.starter.rabbitmq.util.MqUtil;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @date 2020-08-13
  */
 @Slf4j
-public abstract class AbstractRabbitMQProducer {
+public abstract class AbstractRabbitMqProducer {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -41,7 +41,7 @@ public abstract class AbstractRabbitMQProducer {
      * @param <T>
      */
     protected <T> void send(String exchange, String routingKey, T object, String delayMillis) {
-        MQUtil.send(rabbitTemplate, exchange, routingKey, object, null, delayMillis);
+        MqUtil.send(rabbitTemplate, exchange, routingKey, object, null, delayMillis);
     }
 
 }

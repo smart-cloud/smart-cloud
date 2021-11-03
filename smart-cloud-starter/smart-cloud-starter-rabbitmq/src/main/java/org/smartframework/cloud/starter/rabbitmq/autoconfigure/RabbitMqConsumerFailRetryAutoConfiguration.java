@@ -1,7 +1,7 @@
 package org.smartframework.cloud.starter.rabbitmq.autoconfigure;
 
 import lombok.extern.slf4j.Slf4j;
-import org.smartframework.cloud.starter.rabbitmq.RabbitMQConsumerFailRetryBeanProcessor;
+import org.smartframework.cloud.starter.rabbitmq.RabbitMqConsumerFailRetryBeanProcessor;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -16,11 +16,11 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @AutoConfigureBefore(RabbitAutoConfiguration.class)
-public class RabbitMQConsumerFailRetryAutoConfiguration {
+public class RabbitMqConsumerFailRetryAutoConfiguration {
 
     @Bean
-    public RabbitMQConsumerFailRetryBeanProcessor rabbitMQConsumerFailRetryBeanProcessor() {
-        return new RabbitMQConsumerFailRetryBeanProcessor();
+    public RabbitMqConsumerFailRetryBeanProcessor rabbitMqConsumerFailRetryBeanProcessor() {
+        return new RabbitMqConsumerFailRetryBeanProcessor();
     }
 
 }

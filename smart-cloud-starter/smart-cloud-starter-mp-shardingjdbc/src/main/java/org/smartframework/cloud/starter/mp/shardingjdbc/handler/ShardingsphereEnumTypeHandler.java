@@ -14,6 +14,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 
+/**
+ * shardingsphere处理枚举
+ *
+ * @param <E>
+ * @author collin
+ * @date 2021-11-13
+ */
 public class ShardingsphereEnumTypeHandler<E extends Enum<E>> extends MybatisEnumTypeHandler<E> {
 
     private static final ReflectorFactory REFLECTOR_FACTORY = new DefaultReflectorFactory();

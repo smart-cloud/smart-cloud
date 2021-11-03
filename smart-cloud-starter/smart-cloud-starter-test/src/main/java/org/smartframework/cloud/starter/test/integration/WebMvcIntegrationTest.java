@@ -9,8 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.smartframework.cloud.starter.test.vo.FileVO;
 import org.smartframework.cloud.utility.JacksonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
@@ -20,7 +18,6 @@ import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequ
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.Filter;
 import java.io.File;
@@ -39,8 +36,6 @@ import java.util.Map;
 @Slf4j
 public class WebMvcIntegrationTest extends AbstractIntegrationTest implements IIntegrationTest {
 
-    @Autowired
-    protected WebApplicationContext applicationContext;
     protected MockMvc mockMvc = null;
 
     @BeforeEach
@@ -54,11 +49,6 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
         }
 
         mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).addFilters(filters).build();
-    }
-
-    @Override
-    protected ApplicationContext getApplicationContext() {
-        return applicationContext;
     }
 
     /**

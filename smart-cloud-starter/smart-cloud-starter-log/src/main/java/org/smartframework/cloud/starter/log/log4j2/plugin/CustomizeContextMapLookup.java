@@ -41,6 +41,14 @@ public class CustomizeContextMapLookup implements StrLookup {
      */
     private static final String APP_NAME_KEY = "spring.application.name";
     /**
+     * windows系统标签
+     */
+    private static final String WINDOWS_TAG = "windows";
+    /**
+     * 操作系统名称属性
+     */
+    private static final String OS_NAME = "os.name";
+    /**
      * 存储设置的变量
      */
     private static final Map<String, String> DATA = new HashMap<>(1);
@@ -65,7 +73,7 @@ public class CustomizeContextMapLookup implements StrLookup {
 
     public static String getLogPath(String appName) {
         // 当前为windows系统
-        if (System.getProperty("os.name").toLowerCase().indexOf("windows") != -1) {
+        if (System.getProperty(OS_NAME).toLowerCase().indexOf(WINDOWS_TAG) != -1) {
             return String.format("C:/data/log/%s", appName);
         }
         return String.format("/data/log/%s", appName);

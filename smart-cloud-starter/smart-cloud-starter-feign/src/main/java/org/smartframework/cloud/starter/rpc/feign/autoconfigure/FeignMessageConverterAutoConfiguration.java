@@ -4,7 +4,6 @@ import feign.codec.Decoder;
 import feign.codec.Encoder;
 import org.apache.commons.collections4.MapUtils;
 import org.smartframework.cloud.starter.rpc.feign.converter.ProtostuffHttpMessageConverter;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
@@ -15,11 +14,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
-import java.util.Map;
-
 /**
+ * feign消息转换配置
+ *
  * @author liyulin
- * @desc feign消息转换配置
  * @date 2019/12/2
  */
 @Configuration
@@ -41,17 +39,8 @@ public class FeignMessageConverterAutoConfiguration {
     }
 
     private ObjectFactory<HttpMessageConverters> getMessageConverters(ApplicationContext context) {
-        Map<String, HttpMessageConverters> httpMessageConvertersMap = context.getBeansOfType(HttpMessageConverters.class);
-        final HttpMessageConverters httpMessageConverters = MapUtils.isEmpty(httpMessageConvertersMap) ?
+        return () -> MapUtils.isEmpty(context.getBeansOfType(HttpMessageConverters.class)) ?
                 new HttpMessageConverters(new MappingJackson2HttpMessageConverter()) : context.getBean(HttpMessageConverters.class);
-
-        ObjectFactory<HttpMessageConverters> messageConverters = new ObjectFactory<HttpMessageConverters>() {
-            @Override
-            public HttpMessageConverters getObject() throws BeansException {
-                return httpMessageConverters;
-            }
-        };
-        return messageConverters;
     }
 
 }

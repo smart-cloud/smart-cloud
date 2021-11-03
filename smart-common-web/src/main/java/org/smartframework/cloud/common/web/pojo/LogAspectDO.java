@@ -2,10 +2,7 @@ package org.smartframework.cloud.common.web.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.smartframework.cloud.common.pojo.Base;
 
@@ -19,6 +16,7 @@ import org.smartframework.cloud.common.pojo.Base;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"url", "method", "cost", "head", "queryParams", "args", "result"})
@@ -53,6 +51,6 @@ public class LogAspectDO extends Base {
     /**
      * 花费时间（毫秒）
      */
-    private long cost;
+    private Long cost;
 
 }

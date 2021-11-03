@@ -106,7 +106,7 @@ public class DynamicDatasourceTest {
     @ExtendWith(SpringExtension.class)
     @SpringBootTest(classes = DynamicDatasourceApp.class, args = "--spring.profiles.active=dynamicdatasource")
     @Nested
-    public class AuthTest {
+    class AuthTest {
 
         @Autowired
         private RoleInfoOmsBiz roleInfoOmsBiz;
@@ -117,7 +117,7 @@ public class DynamicDatasourceTest {
         }
 
         @Test
-        public void testSave() {
+        void testSave() {
             RoleInfoEntity roleInfoEntity = RoleInfoEntity.builder()
                     .id(SnowFlakeIdUtil.getInstance().nextId())
                     .code(String.format("query%s", UUID.randomUUID().toString().replaceAll("-", "")))

@@ -9,7 +9,6 @@ import org.apache.ibatis.builder.StaticSqlSource;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ResultMap;
-import org.apache.ibatis.mapping.ResultMapping;
 import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.scripting.LanguageDriver;
@@ -30,7 +29,7 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class SqlMapper {
 
-	private final MSUtils msUtils;
+	private final MsUtils msUtils;
 	private final SqlSession sqlSession;
 
 	/**
@@ -40,7 +39,7 @@ public class SqlMapper {
 	 */
 	public SqlMapper(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
-		this.msUtils = new MSUtils(sqlSession.getConfiguration());
+		this.msUtils = new MsUtils(sqlSession.getConfiguration());
 	}
 
 	/**
@@ -245,11 +244,11 @@ public class SqlMapper {
 		return sqlSession.delete(msId, value);
 	}
 
-	private class MSUtils {
+	private class MsUtils {
 		private Configuration configuration;
 		private LanguageDriver languageDriver;
 
-		private MSUtils(Configuration configuration) {
+		private MsUtils(Configuration configuration) {
 			this.configuration = configuration;
 			languageDriver = configuration.getDefaultScriptingLanguageInstance();
 		}

@@ -38,6 +38,10 @@ import java.util.regex.Matcher;
 public class MybatisSqlLogInterceptor implements Interceptor {
 
     private static final String QUOTE = "\\?";
+    /**
+     * 参数数组的长度
+     */
+    private final int ARGS_LENGTH = 6;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -50,8 +54,8 @@ public class MybatisSqlLogInterceptor implements Interceptor {
             long time = (end - start);
             MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
             BoundSql boundSql = null;
-            if (invocation.getArgs().length == 6) {
-                boundSql = (BoundSql) invocation.getArgs()[5];
+            if (invocation.getArgs().length == ARGS_LENGTH) {
+                boundSql = (BoundSql) invocation.getArgs()[ARGS_LENGTH - 1];
             } else {
                 Object parameter = invocation.getArgs()[1];
                 boundSql = mappedStatement.getBoundSql(parameter);

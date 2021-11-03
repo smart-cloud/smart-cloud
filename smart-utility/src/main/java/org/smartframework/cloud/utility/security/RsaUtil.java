@@ -76,7 +76,7 @@ public class RsaUtil {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      */
-    public static RSAPublicKey getRSAPublicKey(byte[] modulus, byte[] publicExponent)
+    public static RSAPublicKey getRsaPublicKey(byte[] modulus, byte[] publicExponent)
             throws NoSuchAlgorithmException, InvalidKeySpecException {
         RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(new BigInteger(modulus), new BigInteger(publicExponent));
         KeyFactory keyFactory = getKeyFactory();
@@ -92,7 +92,7 @@ public class RsaUtil {
      * @throws InvalidKeySpecException
      * @throws NoSuchAlgorithmException
      */
-    public static RSAPrivateKey generateRSAPrivateKey(byte[] modulus, byte[] privateExponent)
+    public static RSAPrivateKey generateRsaPrivateKey(byte[] modulus, byte[] privateExponent)
             throws InvalidKeySpecException, NoSuchAlgorithmException {
         RSAPrivateKeySpec privateKeySpec = new RSAPrivateKeySpec(new BigInteger(modulus),
                 new BigInteger(privateExponent));
@@ -110,7 +110,7 @@ public class RsaUtil {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      */
-    public static RSAPrivateKey getRSAPrivateKey(String hexModulus, String hexPrivateExponent)
+    public static RSAPrivateKey getRsaPrivateKey(String hexModulus, String hexPrivateExponent)
             throws DecoderException, InvalidKeySpecException, NoSuchAlgorithmException {
         if (StringUtils.isBlank(hexModulus) || StringUtils.isBlank(hexPrivateExponent)) {
             return null;
@@ -118,7 +118,7 @@ public class RsaUtil {
         byte[] modulus = Hex.decodeHex(hexModulus.toCharArray());
         byte[] privateExponent = Hex.decodeHex(hexPrivateExponent.toCharArray());
         if (modulus != null && privateExponent != null) {
-            return generateRSAPrivateKey(modulus, privateExponent);
+            return generateRsaPrivateKey(modulus, privateExponent);
         }
         return null;
     }
@@ -148,7 +148,7 @@ public class RsaUtil {
      * @throws InvalidKeySpecException
      * @throws NoSuchAlgorithmException
      */
-    public static RSAPublicKey getRSAPublidKey(String hexModulus, String hexPublicExponent)
+    public static RSAPublicKey getRsaPublidKey(String hexModulus, String hexPublicExponent)
             throws DecoderException, NoSuchAlgorithmException, InvalidKeySpecException {
         if (StringUtils.isBlank(hexModulus) || StringUtils.isBlank(hexPublicExponent)) {
             return null;
@@ -156,7 +156,7 @@ public class RsaUtil {
         byte[] modulus = Hex.decodeHex(hexModulus.toCharArray());
         byte[] publicExponent = Hex.decodeHex(hexPublicExponent.toCharArray());
         if (modulus != null && publicExponent != null) {
-            return getRSAPublicKey(modulus, publicExponent);
+            return getRsaPublicKey(modulus, publicExponent);
         }
         return null;
     }

@@ -28,17 +28,9 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
 
     protected WebTestClient webTestClient;
 
-    @Autowired
-    protected ApplicationContext applicationContext;
-
     @BeforeEach
     public void initMock() {
         webTestClient = WebTestClient.bindToApplicationContext(applicationContext).build();
-    }
-
-    @Override
-    protected ApplicationContext getApplicationContext() {
-        return applicationContext;
     }
 
     @Override

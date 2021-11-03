@@ -87,7 +87,7 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
             return null;
         }
 
-        Map<String, String> headers = new HashMap<>();
+        Map<String, String> headers = new HashMap<>(8);
         while (enumerations.hasMoreElements()) {
             String name = enumerations.nextElement();
             headers.put(name, request.getHeader(name));

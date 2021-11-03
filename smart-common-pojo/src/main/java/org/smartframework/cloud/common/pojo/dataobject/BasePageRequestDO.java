@@ -1,9 +1,6 @@
 package org.smartframework.cloud.common.pojo.dataobject;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.smartframework.cloud.common.pojo.Base;
 
 /**
@@ -16,6 +13,7 @@ import org.smartframework.cloud.common.pojo.Base;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class BasePageRequestDO extends Base {
 
     private static final long serialVersionUID = 1L;

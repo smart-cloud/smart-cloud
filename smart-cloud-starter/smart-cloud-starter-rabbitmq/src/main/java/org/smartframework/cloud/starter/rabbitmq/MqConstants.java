@@ -6,7 +6,7 @@ package org.smartframework.cloud.starter.rabbitmq;
  * @author collin
  * @date 2021-06-17
  */
-public interface MQConstants {
+public interface MqConstants {
 
     /**
      * rabbitmq header中的消息id

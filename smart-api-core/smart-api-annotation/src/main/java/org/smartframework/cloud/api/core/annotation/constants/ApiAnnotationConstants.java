@@ -1,5 +1,11 @@
 package org.smartframework.cloud.api.core.annotation.constants;
 
+/**
+ * 接口注解常量
+ *
+ * @author collin
+ * @date 2021-10-31
+ */
 public interface ApiAnnotationConstants {
 
     /**

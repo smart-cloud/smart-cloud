@@ -8,6 +8,12 @@ import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
+/**
+ * 动态数据源生效条件
+ *
+ * @author collin
+ * @date 2021-11-13
+ */
 public class DynamicRoutingDataSourceCondition implements Condition {
 
     @Override

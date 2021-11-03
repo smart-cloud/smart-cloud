@@ -5,7 +5,7 @@ import net.sf.jsqlparser.JSQLParserException;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
-import org.smartframework.cloud.code.generate.bo.template.BaseRespVOBO;
+import org.smartframework.cloud.code.generate.bo.template.BaseRespBO;
 import org.smartframework.cloud.code.generate.bo.template.ClassCommentBO;
 import org.smartframework.cloud.code.generate.bo.template.EntityBO;
 import org.smartframework.cloud.code.generate.properties.CodeProperties;
@@ -43,7 +43,7 @@ public class CodeGenerateUtil {
         CodeProperties codeProperties = yamlProperties.getCode();
         try (Connection connnection = DbUtil.getConnection(yamlProperties.getDb());) {
             Map<String, TableMetaDataBO> tableMetaDataMap = DbUtil.getTablesMetaData(connnection, codeProperties);
-            ClassCommentBO classComment = TemplateBOUtil.getClassCommentBO(codeProperties.getAuthor());
+            ClassCommentBO classComment = TemplateUtil.getClassCommentBO(codeProperties.getAuthor());
 
             for (Map.Entry<String, TableMetaDataBO> entry : tableMetaDataMap.entrySet()) {
                 generateSingleTable(connnection.getCatalog(), entry.getValue(), connnection, classComment, codeProperties);
@@ -72,15 +72,15 @@ public class CodeGenerateUtil {
         String rpcPath = pathProperties.getRpc();
         String servicePath = pathProperties.getService();
 
-        EntityBO entityBO = TemplateBOUtil.getEntityBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage,
+        EntityBO entityBO = TemplateUtil.getEntityBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage,
                 code.getMask());
         CodeFileGenerateUtil.generateEntity(entityBO, servicePath);
 
-        BaseRespVOBO baseRespVOBO = TemplateBOUtil.getBaseRespBodyBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage,
+        BaseRespBO baseResp = TemplateUtil.getBaseRespBodyBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage,
                 entityBO.getImportPackages(), code.getMask());
-        CodeFileGenerateUtil.generateBaseRespVO(baseRespVOBO, rpcPath);
+        CodeFileGenerateUtil.generateBaseRespVO(baseResp, rpcPath);
 
-        BaseMapperBO baseMapperBO = TemplateBOUtil.getBaseMapperBO(tableMetaData, entityBO, baseRespVOBO,
+        BaseMapperBO baseMapperBO = TemplateUtil.getBaseMapperBO(tableMetaData, entityBO, baseResp,
                 classComment, mainClassPackage);
         CodeFileGenerateUtil.generateBaseMapper(baseMapperBO, servicePath);
     }

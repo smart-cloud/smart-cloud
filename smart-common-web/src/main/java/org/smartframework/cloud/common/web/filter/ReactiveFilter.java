@@ -1,9 +1,9 @@
 package org.smartframework.cloud.common.web.filter;
 
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.common.web.constants.ProtostuffConstant;
 import org.smartframework.cloud.common.web.enums.ApiUseSideEnum;
+import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,6 +14,12 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
+/**
+ * reactive过滤器
+ *
+ * @author collin
+ * @date 2021-11-11
+ */
 public class ReactiveFilter implements WebFilter, Ordered {
 
     @Override
@@ -42,8 +48,8 @@ public class ReactiveFilter implements WebFilter, Ordered {
     }
 
     private void processRpcContentType(ServerHttpRequest request, ServerHttpResponse response) {
-        String requestURI = request.getURI().getPath();
-        if (!requestURI.contains(ApiUseSideEnum.RPC.getPathSegment())) {
+        String requestUri = request.getURI().getPath();
+        if (!requestUri.contains(ApiUseSideEnum.RPC.getPathSegment())) {
             return;
         }
         HttpHeaders httpHeaders = response.getHeaders();

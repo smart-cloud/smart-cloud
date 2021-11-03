@@ -11,8 +11,13 @@ import org.apache.logging.log4j.message.ParameterizedMessage;
 import org.apache.logging.log4j.util.PerformanceSensitive;
 import org.smartframework.cloud.mask.util.MaskUtil;
 
+/**
+ * 自定义log4j2模式匹配符
+ *
+ * @author collin
+ * @date 2021-10-30
+ */
 @Plugin(name = "MaskMessagePatternConverter", category = PatternConverter.CATEGORY)
-// mm: mask message
 @ConverterKeys({"mm"})
 @PerformanceSensitive("allocation")
 public class MaskMessagePatternConverter extends LogEventPatternConverter {

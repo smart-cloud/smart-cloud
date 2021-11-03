@@ -10,12 +10,13 @@ import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 
 /**
+ * PBEWithHmacSHA256AndAES_128加解密工具类
+ *
  * @author liyulin
- * @desc PBEWithMD5AndDES加解密工具类
  * @date 2020/02/20
  */
-public class PBEWithMD5AndDESUtil {
-    private static String ALGORITHM = "PBEWithHmacSHA256AndAES_128";
+public class PbeWithHmacSha256AndAes128Util {
+    private static final String ALGORITHM = "PBEWithHmacSHA256AndAES_128";
     private static PBEParameterSpec parameterSpec = null;
 
     static {
@@ -25,7 +26,7 @@ public class PBEWithMD5AndDESUtil {
         parameterSpec = new PBEParameterSpec(salt, 256, new IvParameterSpec(new byte[16]));
     }
 
-    private PBEWithMD5AndDESUtil() {
+    private PbeWithHmacSha256AndAes128Util() {
     }
 
     /**

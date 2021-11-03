@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import org.springframework.core.type.classreading.AnnotationMetadataReadingVisitor;
-import org.springframework.core.type.classreading.MethodMetadataReadingVisitor;
+import org.springframework.core.type.ClassMetadata;
+import org.springframework.core.type.MethodMetadata;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -28,11 +28,11 @@ public class DubboCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         // 修饰类
-        if (metadata instanceof AnnotationMetadataReadingVisitor) {
-            return classMatch(metadata);
-        } else if (metadata instanceof MethodMetadataReadingVisitor) {
+        if (metadata instanceof ClassMetadata) {
+            return classMatch((ClassMetadata) metadata);
+        } else if (metadata instanceof MethodMetadata) {
             // 修饰方法
-            return methodMatch(metadata);
+            return methodMatch((MethodMetadata) metadata);
         }
 
         throw new UnsupportedOperationException();
@@ -44,9 +44,8 @@ public class DubboCondition implements Condition {
      * @param metadata
      * @return
      */
-    private boolean classMatch(AnnotatedTypeMetadata metadata) {
-        AnnotationMetadataReadingVisitor classMetadata = (AnnotationMetadataReadingVisitor) metadata;
-        String className = classMetadata.getClassName();
+    private boolean classMatch(ClassMetadata metadata) {
+        String className = metadata.getClassName();
         Class<?> clazz = null;
         try {
             clazz = Class.forName(className);
@@ -73,9 +72,8 @@ public class DubboCondition implements Condition {
      * @param metadata
      * @return
      */
-    private boolean methodMatch(AnnotatedTypeMetadata metadata) {
-        MethodMetadataReadingVisitor methodMetadata = (MethodMetadataReadingVisitor) metadata;
-        String className = methodMetadata.getDeclaringClassName();
+    private boolean methodMatch(MethodMetadata metadata) {
+        String className = metadata.getDeclaringClassName();
         Class<?> declaringClass = null;
         try {
             declaringClass = Class.forName(className);
@@ -85,7 +83,7 @@ public class DubboCondition implements Condition {
 
         Method method = null;
         try {
-            method = declaringClass.getDeclaredMethod(methodMetadata.getMethodName());
+            method = declaringClass.getDeclaredMethod(metadata.getMethodName());
         } catch (NoSuchMethodException | SecurityException e) {
             log.error(e.getMessage(), e);
         }

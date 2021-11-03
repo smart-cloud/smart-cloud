@@ -3,7 +3,7 @@ package org.smartframework.cloud.starter.rabbitmq;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.smartframework.cloud.starter.rabbitmq.util.MQUtil;
+import org.smartframework.cloud.starter.rabbitmq.util.MqUtil;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -25,7 +25,7 @@ import java.util.UUID;
  * @date 2020-08-12
  */
 @Slf4j
-public abstract class AbstractRabbitMQConsumer<T> implements AbstractRabbitMQConsumerMarker {
+public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqConsumerMarker {
 
     @Autowired
     private RedissonClient redissonClient;
@@ -52,8 +52,8 @@ public abstract class AbstractRabbitMQConsumer<T> implements AbstractRabbitMQCon
     @RabbitHandler
     public void consumer(@Payload byte[] bytes, @Headers Map<String, Object> headers) {
         Message message = MessageBuilder.withBody(bytes).copyHeaders(headers).build();
-        UUID messageId = message.getMessageProperties().getHeader(MQConstants.MESSAGE_ID_NAME);
-        RLock lock = redissonClient.getLock(MQConstants.IDE_CKECK_LOCK_NAME_PREFIX + messageId);
+        UUID messageId = message.getMessageProperties().getHeader(MqConstants.MESSAGE_ID_NAME);
+        RLock lock = redissonClient.getLock(MqConstants.IDE_CKECK_LOCK_NAME_PREFIX + messageId);
         // 加锁状态（true：成功；false失败）
         boolean lockState = false;
         T object = null;
@@ -69,10 +69,8 @@ public abstract class AbstractRabbitMQConsumer<T> implements AbstractRabbitMQCon
             }
         } catch (Exception e) {
             log.error("consumer mq exception", e);
-            if (!MQUtil.retryAfterConsumerFail(rabbitTemplate, object, message, getClass())) {
-                if (executeAfterRetryConsumerFail(object)) {
-                    log.warn("execute fail after retry consumer");
-                }
+            if (!MqUtil.retryAfterConsumerFail(rabbitTemplate, object, message, getClass()) && executeAfterRetryConsumerFail(object)) {
+                log.warn("execute fail after retry consumer");
             }
         } finally {
             if (lockState) {

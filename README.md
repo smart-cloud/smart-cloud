@@ -35,6 +35,7 @@ smart-cloud
 ├── smart-code-generate -- 代码生成
 ├── smart-common-pojo -- 公共对象
 ├── smart-common-web -- web模块公共处理
+├── smart-constants -- 常量模块
 ├── smart-exception -- 异常模块
 ├── smart-mask -- 敏感数据混淆
 ├── smart-utility -- 工具类

@@ -9,9 +9,10 @@ import org.smartframework.cloud.api.core.user.context.SmartUser;
 import org.smartframework.cloud.starter.test.Constants;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.SerializingUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -41,7 +42,8 @@ public abstract class AbstractIntegrationTest {
         System.setProperty("spring.cloud.sentinel.enabled", closeTag);
     }
 
-    protected abstract ApplicationContext getApplicationContext();
+    @Autowired
+    protected WebApplicationContext applicationContext;
 
     @BeforeEach
     public void beforeTestMethod() {
@@ -61,7 +63,7 @@ public abstract class AbstractIntegrationTest {
     }
 
     private boolean enableRpcProtostuff() {
-        return getApplicationContext().getEnvironment().getProperty(Constants.RPC_PROTOSTUFF_SWITCH, Boolean.class, true);
+        return applicationContext.getEnvironment().getProperty(Constants.RPC_PROTOSTUFF_SWITCH, Boolean.class, true);
     }
 
     /**
@@ -80,7 +82,7 @@ public abstract class AbstractIntegrationTest {
             return null;
         }
 
-        if (url.contains("rpc") && enableRpcProtostuff()) {
+        if (url.contains(Constants.RPC_URL) && enableRpcProtostuff()) {
             // 处理rpc返回结果（protostuff反序列化）
             Class c = null;
             if (typeReference.getType() instanceof ParameterizedType) {

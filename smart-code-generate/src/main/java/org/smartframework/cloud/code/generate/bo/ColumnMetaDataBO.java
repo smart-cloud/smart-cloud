@@ -22,7 +22,7 @@ public class ColumnMetaDataBO {
     /**
      * 数据类型
      */
-    private int jdbcType;
+    private Integer jdbcType;
     /**
      * 字段备注
      */
@@ -30,10 +30,10 @@ public class ColumnMetaDataBO {
     /**
      * 字段长度
      */
-    private int length;
+    private Integer length;
     /**
      * 是否为主键
      */
-    private boolean primaryKey;
+    private Boolean primaryKey;
 
 }

@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcFullFunctionsApp.class, args = "--spring.profiles.active=fullfunctions")
-public class FullFunctionsTest {
+class FullFunctionsTest {
 
     @Autowired
     private ApiLogBiz apiLogBiz;

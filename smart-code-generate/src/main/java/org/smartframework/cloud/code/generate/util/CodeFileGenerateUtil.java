@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
-import org.smartframework.cloud.code.generate.bo.template.BaseRespVOBO;
+import org.smartframework.cloud.code.generate.bo.template.BaseRespBO;
 import org.smartframework.cloud.code.generate.bo.template.CommonBO;
 import org.smartframework.cloud.code.generate.bo.template.EntityBO;
 import org.smartframework.cloud.code.generate.config.Config;
@@ -56,12 +56,12 @@ public class CodeFileGenerateUtil {
 	/**
 	 * 生成RespBody
 	 * 
-	 * @param baseRespVOBO
+	 * @param baseResp
 	 * @param basePath
 	 * @throws IOException
 	 */
-	public static void generateBaseRespVO(BaseRespVOBO baseRespVOBO, String basePath) throws IOException {
-		generateCodeFile(baseRespVOBO, basePath, Config.Template.BASE_RESPBODY);
+	public static void generateBaseRespVO(BaseRespBO baseResp, String basePath) throws IOException {
+		generateCodeFile(baseResp, basePath, Config.Template.BASE_RESPBODY);
 	}
 
 	/**

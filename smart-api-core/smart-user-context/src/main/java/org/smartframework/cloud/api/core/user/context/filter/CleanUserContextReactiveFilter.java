@@ -8,6 +8,12 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
+/**
+ * 清除用户上下文过滤器
+ *
+ * @author collin
+ * @date 2021-10-31
+ */
 public class CleanUserContextReactiveFilter implements WebFilter, Ordered {
 
     @Override

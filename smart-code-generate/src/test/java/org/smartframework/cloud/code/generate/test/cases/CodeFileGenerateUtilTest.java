@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @Disabled
-public class CodeFileGenerateUtilTest {
+class CodeFileGenerateUtilTest {
 
     @Test
-    public void testInit() throws ClassNotFoundException, SQLException, IOException, JSQLParserException {
+    void testInit() throws ClassNotFoundException, SQLException, IOException, JSQLParserException {
         CodeGenerateUtil.init();
     }
 

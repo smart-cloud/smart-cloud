@@ -4,7 +4,7 @@ import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.exception.BaseException;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
-import org.smartframework.cloud.utility.spring.I18NUtil;
+import org.smartframework.cloud.utility.spring.I18nUtil;
 
 /**
  * @author liyulin
@@ -21,7 +21,7 @@ public class BaseExceptionHandlerStrategy implements IExceptionHandlerStrategy {
     @Override
     public ResponseHead transRespHead(Throwable e) {
         BaseException ex = (BaseException) e;
-        return RespHeadUtil.of(ex.getCode(), I18NUtil.getMessage(ex.getMessage()));
+        return RespHeadUtil.of(ex.getCode(), I18nUtil.getMessage(ex.getMessage()));
     }
 
 }

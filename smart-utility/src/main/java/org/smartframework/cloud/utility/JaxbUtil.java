@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @author liyulin
  * @date 2019-04-17
  */
-public final class JAXBUtil {
+public final class JaxbUtil {
 
     /**
      * cache JAXBContext
@@ -43,7 +43,7 @@ public final class JAXBUtil {
             .weakValues()
             .build();
 
-    private JAXBUtil() {
+    private JaxbUtil() {
     }
 
     /**
@@ -66,7 +66,7 @@ public final class JAXBUtil {
      * @throws JAXBException
      */
     public static String beanToXml(Object bean, String charsetName) throws JAXBException {
-        JAXBContext context = getJAXBContext(bean.getClass());
+        JAXBContext context = getJaxbContext(bean.getClass());
 
         Marshaller marshaller = context.createMarshaller();
         // 格式化生成的xml
@@ -88,14 +88,14 @@ public final class JAXBUtil {
      * @throws IOException
      */
     public static <T> T xmlToBean(String xml, Class<T> beanClass) throws JAXBException {
-        JAXBContext context = getJAXBContext(beanClass);
+        JAXBContext context = getJaxbContext(beanClass);
 
         Unmarshaller unmarshaller = context.createUnmarshaller();
         Object bean = unmarshaller.unmarshal(new StringReader(xml));
         return (T) bean;
     }
 
-    private static JAXBContext getJAXBContext(Class<?> beanClass) throws JAXBException {
+    private static JAXBContext getJaxbContext(Class<?> beanClass) throws JAXBException {
         JAXBContext context = jaxbContextCache.getIfPresent(beanClass);
         if (Objects.isNull(context)) {
             context = JAXBContext.newInstance(beanClass);

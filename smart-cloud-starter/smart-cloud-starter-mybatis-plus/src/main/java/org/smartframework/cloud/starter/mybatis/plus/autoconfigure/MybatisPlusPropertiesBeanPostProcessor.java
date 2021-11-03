@@ -2,7 +2,7 @@ package org.smartframework.cloud.starter.mybatis.plus.autoconfigure;
 
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.starter.core.constants.SymbolConstant;
+import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.starter.mybatis.plus.enums.DeleteState;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;

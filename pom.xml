@@ -13,14 +13,15 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>smart-api-core</module>
         <module>smart-cloud-starter</module>
         <module>smart-code-generate</module>
         <module>smart-common-pojo</module>
         <module>smart-common-web</module>
-        <module>smart-utility</module>
-        <module>smart-mask</module>
-        <module>smart-api-core</module>
+        <module>smart-constants</module>
         <module>smart-exception</module>
+        <module>smart-mask</module>
+        <module>smart-utility</module>
     </modules>
 
     <properties>
@@ -34,7 +35,7 @@
         <spring.boot.admin>2.5.1</spring.boot.admin>
         <protostuff>1.7.4</protostuff>
         <hystrix>2.2.9.RELEASE</hystrix>
-        <dubbo>3.0.2.1</dubbo>
+        <dubbo>3.0.4</dubbo>
         <redisson>3.16.2</redisson>
         <mybatis-plus>3.4.3.4</mybatis-plus>
         <dynamic-datasource>3.4.1</dynamic-datasource>
@@ -44,7 +45,6 @@
         <podam>7.2.7.RELEASE</podam>
         <guava>30.1.1-jre</guava>
         <reflections>0.9.12</reflections>
-        <!-- jasypt2.1.2会导致mall-service-order启动时一直卡住 -->
         <jasypt>3.0.4</jasypt>
         <commons-codec>1.15</commons-codec>
         <commons-io>2.11.0</commons-io>
@@ -53,6 +53,9 @@
         <commons-collections4>4.4</commons-collections4>
         <log4j-layout-template-json>2.14.1</log4j-layout-template-json>
         <jsqlparser>4.2</jsqlparser>
+        <maven-pmd-plugin>3.15.0</maven-pmd-plugin>
+        <p3c-pmd>2.1.1</p3c-pmd>
+        <jacoco-maven-plugin>0.8.7</jacoco-maven-plugin>
     </properties>
 
     <dependencyManagement>
@@ -97,6 +100,12 @@
             <dependency>
                 <groupId>org.smartframework.cloud</groupId>
                 <artifactId>smart-common-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-constants</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -516,11 +525,51 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${maven-pmd-plugin}</version>
+                <configuration>
+                    <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                    <!--扫描级别，小于等于这个级别的错误代码将不通过扫描。不配默认是5-->
+                    <minimumPriority>5</minimumPriority>
+                    <printFailingErrors>true</printFailingErrors>
+                    <linkXRef>true</linkXRef>
+                    <rulesets>
+                        <ruleset>rulesets/java/ali-comment.xml</ruleset>
+                        <ruleset>rulesets/java/ali-concurrent.xml</ruleset>
+                        <ruleset>rulesets/java/ali-constant.xml</ruleset>
+                        <ruleset>rulesets/java/ali-exception.xml</ruleset>
+                        <ruleset>rulesets/java/ali-flowcontrol.xml</ruleset>
+                        <ruleset>rulesets/java/ali-naming.xml</ruleset>
+                        <ruleset>rulesets/java/ali-oop.xml</ruleset>
+                        <ruleset>rulesets/java/ali-orm.xml</ruleset>
+                        <ruleset>rulesets/java/ali-other.xml</ruleset>
+                        <ruleset>rulesets/java/ali-set.xml</ruleset>
+                    </rulesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.alibaba.p3c</groupId>
+                        <artifactId>p3c-pmd</artifactId>
+                        <version>${p3c-pmd}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
             <!-- 检查代码覆盖率 -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.5</version>
+                <version>${jacoco-maven-plugin}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -563,6 +612,16 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${maven-pmd-plugin}</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <!-- 使用aliyun镜像 -->
     <repositories>

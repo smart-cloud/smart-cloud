@@ -74,7 +74,7 @@ public class RedisAutoConfiguration {
     }
 
     @Bean
-    public ZSetOperations<Serializable, Serializable> redisZSetOperations(
+    public ZSetOperations<Serializable, Serializable> redisZsetOperations(
             final RedisTemplate<Serializable, Serializable> redisTemplate) {
         return redisTemplate.opsForZSet();
     }

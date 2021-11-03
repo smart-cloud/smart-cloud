@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class MQIntegrationTest {
+class MqIntegrationTest {
 
     @Autowired
     private Producer producer;

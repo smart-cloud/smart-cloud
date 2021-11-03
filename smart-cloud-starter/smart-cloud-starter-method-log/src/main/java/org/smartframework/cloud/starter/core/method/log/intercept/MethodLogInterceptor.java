@@ -3,11 +3,9 @@ package org.smartframework.cloud.starter.core.method.log.intercept;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.mask.util.MaskUtil;
-import org.smartframework.cloud.starter.core.constants.SymbolConstant;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.lang.reflect.Method;
 
 /**
@@ -19,9 +17,8 @@ import java.lang.reflect.Method;
 @Slf4j
 public class MethodLogInterceptor implements MethodInterceptor {
 
-    @Nullable
     @Override
-    public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
+    public Object invoke(MethodInvocation invocation) throws Throwable {
         long startTime = System.currentTimeMillis();
         Method method = invocation.getMethod();
 

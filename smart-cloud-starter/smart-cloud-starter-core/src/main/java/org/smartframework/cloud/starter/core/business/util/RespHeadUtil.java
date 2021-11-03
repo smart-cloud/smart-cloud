@@ -6,7 +6,7 @@ import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.utility.NonceUtil;
-import org.smartframework.cloud.utility.spring.I18NUtil;
+import org.smartframework.cloud.utility.spring.I18nUtil;
 
 /**
  * {@link ResponseHead}工具类
@@ -69,7 +69,7 @@ public class RespHeadUtil {
 		ResponseHead respHeadVO = new ResponseHead(returnCodes);
 		respHeadVO.setTimestamp(System.currentTimeMillis());
 		respHeadVO.setNonce(NonceUtil.getInstance().nextId());
-		respHeadVO.setMessage(I18NUtil.getMessage(returnCodes.getCode()));
+		respHeadVO.setMessage(I18nUtil.getMessage(returnCodes.getCode()));
 
 		return respHeadVO;
 	}

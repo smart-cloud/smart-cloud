@@ -18,6 +18,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * biz基类
+ *
+ * @author collin
+ * @date 2021-10-31
+ */
 public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> {
 
     /**

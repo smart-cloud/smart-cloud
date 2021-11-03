@@ -4,6 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * mapper类参数信息
+ *
+ * @author collin
+ * @date 2021-11-02
+ */
 @Getter
 @Setter
 @ToString

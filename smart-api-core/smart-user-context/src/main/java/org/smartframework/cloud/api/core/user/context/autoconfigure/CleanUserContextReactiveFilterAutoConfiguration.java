@@ -5,6 +5,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * 清除用户上下文过滤器配置
+ *
+ * @author collin
+ * @date 2021-10-31
+ */
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class CleanUserContextReactiveFilterAutoConfiguration {

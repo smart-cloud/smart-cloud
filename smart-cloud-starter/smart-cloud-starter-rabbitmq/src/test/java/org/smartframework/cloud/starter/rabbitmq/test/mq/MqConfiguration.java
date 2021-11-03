@@ -5,21 +5,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MQConfiguration {
+public class MqConfiguration {
 
     @Bean
     public Queue sendCouponQueue() {
-        return new Queue(MQConstant.SendCoupon.QUEUE, true);
+        return new Queue(MqConstant.SendCoupon.QUEUE, true);
     }
 
     @Bean
     public Exchange sendCouponExchange() {
-        return ExchangeBuilder.directExchange(MQConstant.SendCoupon.EXCHANGE).durable(true).build();
+        return ExchangeBuilder.directExchange(MqConstant.SendCoupon.EXCHANGE).durable(true).build();
     }
 
     @Bean
     public Binding sendCouponBinding() {
-        return BindingBuilder.bind(sendCouponQueue()).to(sendCouponExchange()).with(MQConstant.SendCoupon.ROUTING).noargs();
+        return BindingBuilder.bind(sendCouponQueue()).to(sendCouponExchange()).with(MqConstant.SendCoupon.ROUTING).noargs();
     }
 
 }

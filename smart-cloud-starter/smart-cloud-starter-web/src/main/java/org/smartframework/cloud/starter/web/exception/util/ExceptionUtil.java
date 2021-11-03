@@ -2,8 +2,8 @@ package org.smartframework.cloud.starter.web.exception.util;
 
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
-import org.smartframework.cloud.starter.core.constants.SymbolConstant;
-import org.smartframework.cloud.utility.spring.I18NUtil;
+import org.smartframework.cloud.constants.SymbolConstant;
+import org.smartframework.cloud.utility.spring.I18nUtil;
 import org.springframework.validation.FieldError;
 
 import javax.validation.ConstraintViolation;
@@ -47,7 +47,7 @@ public class ExceptionUtil {
                 errorMsg.append(constraintViolation.getMessage());
             } else {
                 errorMsg.append(constraintViolation.getPropertyPath().toString()).append(SymbolConstant.HYPHEN)
-                        .append(I18NUtil.getMessage(constraintViolation.getMessage()));
+                        .append(I18nUtil.getMessage(constraintViolation.getMessage()));
             }
             if (size > 1 && i < size) {
                 errorMsg.append("; ");
@@ -65,7 +65,7 @@ public class ExceptionUtil {
             }
 
             String validateField = fieldErrors.get(i).getField();
-            errorMsg.append(validateField + SymbolConstant.HYPHEN + I18NUtil.getMessage(fieldErrors.get(i).getDefaultMessage()));
+            errorMsg.append(validateField + SymbolConstant.HYPHEN + I18nUtil.getMessage(fieldErrors.get(i).getDefaultMessage()));
             if (size > 1 && i < size - 1) {
                 errorMsg.append("; ");
             }

@@ -9,6 +9,12 @@ import org.springframework.util.ClassUtils;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 异常处理策略工厂
+ *
+ * @author collin
+ * @date 2021-11-13
+ */
 @Slf4j
 @UtilityClass
 public class ExceptionHandlerStrategyFactory {

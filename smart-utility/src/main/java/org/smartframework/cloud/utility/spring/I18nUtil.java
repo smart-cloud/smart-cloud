@@ -12,13 +12,13 @@ import java.util.Locale;
  * @desc 国际化工具类
  * @date 2020/04/26
  */
-public class I18NUtil implements ApplicationListener<ContextRefreshedEvent> {
+public class I18nUtil implements ApplicationListener<ContextRefreshedEvent> {
 
     private static MessageSource messageSource;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        I18NUtil.messageSource = event.getApplicationContext().getBean(MessageSource.class);
+        messageSource = event.getApplicationContext().getBean(MessageSource.class);
     }
 
     public static String getMessage(String message) {

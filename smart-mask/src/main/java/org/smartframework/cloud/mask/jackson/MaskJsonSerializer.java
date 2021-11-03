@@ -1,19 +1,17 @@
 package org.smartframework.cloud.mask.jackson;
 
-import java.io.IOException;
-
-import org.smartframework.cloud.mask.DefaultMaskConfig;
-import org.smartframework.cloud.mask.MaskLog;
-import org.smartframework.cloud.mask.MaskRule;
-import org.smartframework.cloud.mask.util.MaskUtil;
-
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
+import org.smartframework.cloud.mask.DefaultMaskConfig;
+import org.smartframework.cloud.mask.MaskLog;
+import org.smartframework.cloud.mask.MaskRule;
+import org.smartframework.cloud.mask.util.MaskUtil;
+
+import java.io.IOException;
 
 /**
  * {@link MaskLog}注解脱敏处理

@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.smartframework.cloud.common.web.util.WebUtil;
-import org.smartframework.cloud.starter.core.constants.SymbolConstant;
+import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.starter.rpc.dubbo.pojo.DubboLogAspectDO;
 
