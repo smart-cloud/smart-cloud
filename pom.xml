@@ -39,7 +39,7 @@
         <redisson>3.16.2</redisson>
         <mybatis-plus>3.4.3.4</mybatis-plus>
         <dynamic-datasource>3.4.1</dynamic-datasource>
-        <shardingsphere-jdbc>5.0.0-beta</shardingsphere-jdbc>
+        <shardingsphere-jdbc>5.0.0</shardingsphere-jdbc>
         <seata>1.4.2</seata>
         <mysql>8.0.26</mysql>
         <podam>7.2.7.RELEASE</podam>
