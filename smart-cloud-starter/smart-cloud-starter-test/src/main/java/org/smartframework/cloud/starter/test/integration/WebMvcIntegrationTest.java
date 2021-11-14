@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequ
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.Filter;
 import java.io.File;
@@ -48,7 +49,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
             filters[i++] = entry.getValue();
         }
 
-        mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).addFilters(filters).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup((WebApplicationContext) applicationContext).addFilters(filters).build();
     }
 
     /**

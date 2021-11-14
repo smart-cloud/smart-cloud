@@ -11,8 +11,8 @@ import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.SerializingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -43,7 +43,7 @@ public abstract class AbstractIntegrationTest {
     }
 
     @Autowired
-    protected WebApplicationContext applicationContext;
+    protected ApplicationContext applicationContext;
 
     @BeforeEach
     public void beforeTestMethod() {
