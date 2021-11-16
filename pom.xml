@@ -123,6 +123,13 @@
 
             <dependency>
                 <groupId>org.smartframework.cloud</groupId>
+                <artifactId>smart-code-generate</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.smartframework.cloud</groupId>
                 <artifactId>smart-cloud-starter-configure</artifactId>
                 <version>${project.version}</version>
             </dependency>
