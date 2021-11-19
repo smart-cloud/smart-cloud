@@ -1,0 +1,28 @@
+smart:
+  dataMachineId: 1
+spring:
+  shardingsphere:
+    datasource:
+      names: shardingalgorithm
+      shardingalgorithm:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbc_algorithm?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        username: root
+        password: 123456
+    rules:
+      sharding:
+        sharding-algorithms:
+          order_bill_table_complex:
+            type: ORDER_BILL_TABLE_TYPE
+        tables:
+          t_order_bill:
+            actual-data-nodes: shardingalgorithm.t_order_bill_$->{0..19}
+            table-strategy:
+              complex:
+                # 参考：https://github.com/apache/shardingsphere/blob/5.0.0/shardingsphere-features/shardingsphere-sharding/shardingsphere-sharding-core/src/test/resources/yaml/sharding-rule.yaml
+                # https://github.com/apache/shardingsphere/blob/5.0.0/shardingsphere-features/shardingsphere-sharding/shardingsphere-sharding-core/src/test/resources/META-INF/services/org.apache.shardingsphere.sharding.spi.ShardingAlgorithm
+                sharding-algorithm-name: order_bill_table_complex
+                sharding-columns: f_buyer,f_order_no
+    props:
+      sql-show: true
