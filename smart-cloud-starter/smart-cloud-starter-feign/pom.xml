@@ -19,7 +19,7 @@
 
 		<dependency>
 			<groupId>org.smartframework.cloud</groupId>
-			<artifactId>smart-cloud-starter-log</artifactId>
+			<artifactId>smart-mask</artifactId>
 		</dependency>
 
 		<dependency>

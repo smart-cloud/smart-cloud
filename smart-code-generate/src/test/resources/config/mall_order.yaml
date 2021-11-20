@@ -16,6 +16,6 @@ code:
   project:
     path: 
       #rpc生成路径
-      rpc: E:/code/github/smart-cloud-examples/application-module/rpc-module/mall-service-rpc
+      rpc: C:/test/smart-cloud-examples/application-module/rpc-module/mall-service-rpc
       #服务生成路径
-      service: E:/code/github/smart-cloud-examples/application-module/mall-module/mall-service-order
+      service: C:/test/smart-cloud-examples/application-module/mall-module/mall-service-order

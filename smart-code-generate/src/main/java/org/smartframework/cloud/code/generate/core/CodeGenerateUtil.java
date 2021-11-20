@@ -36,7 +36,7 @@ public class CodeGenerateUtil {
      * @throws IOException
      * @throws JSQLParserException
      */
-    public static void init() throws ClassNotFoundException, SQLException, IOException, JSQLParserException {
+    public static void init() throws Exception {
         YamlProperties yamlProperties = YamlUtil.readYamlProperties();
         YamlPropertiesCheckUtil.check(yamlProperties);
 
@@ -64,7 +64,7 @@ public class CodeGenerateUtil {
      * @throws JSQLParserException
      */
     private static void generateSingleTable(String database, TableMetaDataBO tableMetaData, Connection connnection,
-                                            ClassCommentBO classComment, CodeProperties code) throws SQLException, IOException, JSQLParserException {
+                                            ClassCommentBO classComment, CodeProperties code) throws Exception {
         List<ColumnMetaDataBO> columnMetaDatas = DbUtil.getTableColumnMetaDatas(connnection, database,
                 tableMetaData.getName());
         String mainClassPackage = code.getMainClassPackage();

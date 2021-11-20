@@ -16,6 +16,6 @@ code:
   project:
     path: 
       #rpc生成路径
-      rpc: D:/code/github/smart-cloud-examples/application-module/rpc-module/basic-service-rpc
+      rpc: C:/test/smart-cloud-examples/application-module/rpc-module/basic-service-rpc
       #服务生成路径
-      service: D:/code/github/smart-cloud-examples/application-module/basic-module/basic-service-auth
+      service: C:/test/smart-cloud-examples/application-module/basic-module/basic-service-auth

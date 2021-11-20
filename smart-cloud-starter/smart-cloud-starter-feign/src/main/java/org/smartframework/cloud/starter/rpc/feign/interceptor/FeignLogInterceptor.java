@@ -8,7 +8,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.smartframework.cloud.common.web.util.WebUtil;
 import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
-import org.smartframework.cloud.starter.log.util.LogUtil;
+import org.smartframework.cloud.mask.util.LogUtil;
 import org.smartframework.cloud.starter.rpc.feign.pojo.FeignLogAspectDO;
 import org.springframework.core.Ordered;
 

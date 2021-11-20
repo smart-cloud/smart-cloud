@@ -19,12 +19,12 @@
 
         <dependency>
             <groupId>org.smartframework.cloud</groupId>
-            <artifactId>smart-cloud-starter-log</artifactId>
+            <artifactId>smart-common-web</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.smartframework.cloud</groupId>
-            <artifactId>smart-common-web</artifactId>
+            <artifactId>smart-mask</artifactId>
         </dependency>
 
         <dependency>
@@ -75,6 +75,12 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.smartframework.cloud</groupId>
+            <artifactId>smart-cloud-starter-log4j2</artifactId>
             <scope>test</scope>
         </dependency>
         <!--test end-->

@@ -148,7 +148,7 @@
 
             <dependency>
                 <groupId>org.smartframework.cloud</groupId>
-                <artifactId>smart-cloud-starter-log</artifactId>
+                <artifactId>smart-cloud-starter-log4j2</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

@@ -1,14 +1,12 @@
 package org.smartframework.cloud.code.generate.util;
 
-import java.io.StringWriter;
-import java.io.Writer;
-
-import org.smartframework.cloud.code.generate.config.Config;
-
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
+import org.smartframework.cloud.code.generate.config.Config;
+
+import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * FreeMarker 工具类
@@ -17,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2019-07-13
  */
 @UtilityClass
-@Slf4j
 public class FreeMarkerUtil {
 
 	private static Configuration freemarkerCfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
@@ -32,16 +29,13 @@ public class FreeMarkerUtil {
 	 * @param templateName
 	 * @return
 	 */
-	public static String freeMarkerRender(Object data, String templateName) {
+	public static String freeMarkerRender(Object data, String templateName) throws Exception {
 		try (Writer out = new StringWriter();) {
 			Template template = freemarkerCfg.getTemplate(templateName, Config.DEFAULT_ENCODING);
 			template.process(data, out);
 			out.flush();
 			return out.toString();
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
 		}
-		return null;
 	}
 
 }

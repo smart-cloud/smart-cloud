@@ -29,7 +29,7 @@
 			fileName="${log_path}/${project}.log"
 			filePattern="${log_path}/${project}.%d{yyyy-MM-dd-HH}.log.gz">
 			<!--参考http://logging.apache.org/log4j/2.x/manual/json-template-layout.html-->
-			<JsonTemplateLayout eventTemplateUri="classpath:logTemplate.json" charset="UTF-8"/>
+			<JsonTemplateLayout eventTemplateUri="classpath:log4j2Template.json" charset="UTF-8"/>
 			<Policies>
 				<!-- 如果启用此配置，则日志会按文件名生成新压缩文件，
 				                即如果filePattern配置的日期格式为 %d{yyyy-MM-dd HH} ，则每小时生成一个压缩文件，

@@ -13,8 +13,8 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+import org.smartframework.cloud.mask.util.LogUtil;
 import org.smartframework.cloud.mask.util.MaskUtil;
-import org.smartframework.cloud.starter.log.util.LogUtil;
 import org.smartframework.cloud.utility.DateUtil;
 
 import java.io.Serializable;
@@ -88,8 +88,8 @@ public class MybatisSqlLogInterceptor implements Interceptor {
      * @param time
      * @param returnValue
      */
-    public static void showSql(Configuration configuration, BoundSql boundSql, String sqlId, long time,
-                               Object returnValue) {
+    public void showSql(Configuration configuration, BoundSql boundSql, String sqlId, long time,
+                        Object returnValue) {
         String separator = "==>";
         StringBuilder str = new StringBuilder(64);
         String shortSqlId = getShortSqlId(sqlId);
@@ -118,7 +118,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         log.info(LogUtil.truncate(str.toString()));
     }
 
-    private static boolean canMask(Object object) {
+    private boolean canMask(Object object) {
         return object instanceof Serializable && !(object instanceof Map);
     }
 
@@ -128,7 +128,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
      * @param sqlId
      * @return
      */
-    public static String getShortSqlId(String sqlId) {
+    public String getShortSqlId(String sqlId) {
         for (int i = sqlId.length() - 1, times = 0; i >= 0; i--) {
             if (sqlId.charAt(i) == '.' && (++times) == 2) {
                 return sqlId.substring(i + 1);
@@ -138,7 +138,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         return sqlId;
     }
 
-    private static String getParameterValue(Object obj) {
+    private String getParameterValue(Object obj) {
         String params = "";
         if (obj instanceof String) {
             params = "'" + obj + "'";
@@ -154,7 +154,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         return Matcher.quoteReplacement(params);
     }
 
-    public static String getSql(Configuration configuration, BoundSql boundSql) {
+    private String getSql(Configuration configuration, BoundSql boundSql) {
         Object parameterObject = boundSql.getParameterObject();
         List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
 
@@ -183,7 +183,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         return sql;
     }
 
-    private static String cleanSql(String sql) {
+    private String cleanSql(String sql) {
         return sql.replaceAll("[\\s]+", " ");
     }
 
