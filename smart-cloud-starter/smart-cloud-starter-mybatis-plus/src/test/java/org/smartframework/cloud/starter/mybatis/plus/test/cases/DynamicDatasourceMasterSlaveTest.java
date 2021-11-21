@@ -78,16 +78,29 @@ public class DynamicDatasourceMasterSlaveTest {
         reqVO.setPageNum(1);
         reqVO.setPageSize(10);
 
-        LambdaQueryWrapper<ProductInfoEntity> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(ProductInfoEntity::getName, reqVO.getName());
-        wrapper.eq(ProductInfoEntity::getDelState, DeleteState.NORMAL);
-        wrapper.orderByDesc(ProductInfoEntity::getInsertTime);
-        BasePageResponse<ProductInfoBaseRespVO> response = productInfoOmsBiz.page(reqVO, wrapper, ProductInfoBaseRespVO.class);
+        // master--start
+        LambdaQueryWrapper<ProductInfoEntity> wrapperFromMaster = new LambdaQueryWrapper<>();
+        wrapperFromMaster.like(ProductInfoEntity::getName, reqVO.getName());
+        wrapperFromMaster.eq(ProductInfoEntity::getDelState, DeleteState.NORMAL);
+        wrapperFromMaster.orderByDesc(ProductInfoEntity::getInsertTime);
+        BasePageResponse<ProductInfoBaseRespVO> responseOfMaster = productInfoOmsBiz.page(reqVO, wrapperFromMaster, ProductInfoBaseRespVO.class);
 
-        Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getDatas()).isNotEmpty();
-        Assertions.assertThat(response.getPageSize()).isEqualTo(reqVO.getPageSize());
-        Assertions.assertThat(response.getPageIndex()).isEqualTo(reqVO.getPageNum());
+        Assertions.assertThat(responseOfMaster).isNotNull();
+        Assertions.assertThat(responseOfMaster.getDatas()).isNotEmpty();
+        Assertions.assertThat(responseOfMaster.getPageSize()).isEqualTo(reqVO.getPageSize());
+        Assertions.assertThat(responseOfMaster.getPageIndex()).isEqualTo(reqVO.getPageNum());
+        Assertions.assertThat(responseOfMaster.getPageTotal()).isEqualTo(1);
+        // master--end
+
+        // master--start
+        BasePageResponse<ProductInfoBaseRespVO> responseOfSlave = productInfoOmsBiz.selectPage(reqVO);
+
+        Assertions.assertThat(responseOfSlave).isNotNull();
+        Assertions.assertThat(responseOfSlave.getDatas()).isEmpty();
+        Assertions.assertThat(responseOfSlave.getPageSize()).isEqualTo(reqVO.getPageSize());
+        Assertions.assertThat(responseOfSlave.getPageIndex()).isEqualTo(reqVO.getPageNum());
+        Assertions.assertThat(responseOfSlave.getPageTotal()).isEqualTo(0);
+        // master--end
     }
 
     private ProductInfoEntity create(String name) {

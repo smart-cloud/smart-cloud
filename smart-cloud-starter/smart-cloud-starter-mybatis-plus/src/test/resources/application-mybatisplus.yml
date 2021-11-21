@@ -1,18 +1,15 @@
 smart:
   dataMachineId: 1
-
 spring:
-  flyway:
-    clean-on-validation-error: false
-    locations:
-      - classpath:db/migration/mybatisplus
   datasource:
     dynamic:
       primary: mall-product
       strict: true
       datasource:
         mall-product:
-          url: jdbc:mysql://127.0.0.1:3306/test_mybatis_plus?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          url: jdbc:h2:mem:test_mybatis_plus;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL
           username: root
           password: 123456
-          driver-class-name: com.mysql.cj.jdbc.Driver
+          driver-class-name: org.h2.Driver
+          type: com.zaxxer.hikari.HikariDataSource
+          schema: classpath:sql/mybatisplus/V1.0.0__collin_test.sql

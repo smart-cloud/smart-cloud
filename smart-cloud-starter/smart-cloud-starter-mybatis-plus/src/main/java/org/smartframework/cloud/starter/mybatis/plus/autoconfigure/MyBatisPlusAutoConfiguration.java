@@ -1,6 +1,5 @@
 package org.smartframework.cloud.starter.mybatis.plus.autoconfigure;
 
-import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
@@ -39,7 +38,7 @@ public class MyBatisPlusAutoConfiguration {
     @Order(OrderConstant.MYBATIS_PLUS_INTERCEPTOR)
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         return interceptor;
     }
 

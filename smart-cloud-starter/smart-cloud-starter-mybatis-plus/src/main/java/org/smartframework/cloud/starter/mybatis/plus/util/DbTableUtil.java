@@ -28,7 +28,7 @@ public class DbTableUtil {
      */
     public static boolean copyTableSchema(String sourceTableName, String targetTableName, DataSource dataSource) {
         boolean result = false;
-        String copyTableSql = "CREATE TABLE " + targetTableName + " LIKE " + sourceTableName;
+        String copyTableSql = String.format("CREATE TABLE %s LIKE %s", targetTableName, sourceTableName);
         try (Connection connection = dataSource.getConnection();
              PreparedStatement pstat = connection.prepareStatement(copyTableSql);) {
             pstat.executeUpdate();
