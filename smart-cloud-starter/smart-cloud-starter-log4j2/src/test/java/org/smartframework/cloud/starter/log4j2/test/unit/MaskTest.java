@@ -4,17 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
-import org.apache.logging.log4j.core.appender.RollingRandomAccessFileAppender;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.mask.MaskLog;
 import org.smartframework.cloud.mask.MaskRule;
 import org.smartframework.cloud.mask.util.MaskUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
@@ -35,10 +33,9 @@ class MaskTest {
         TimeUnit.SECONDS.sleep(2);
         // 判断日志中是否脱敏
         LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        String fileAppenderName = "dailyRollingRandomAccessFile";
-        RollingRandomAccessFileAppender appender = ctx.getConfiguration().getAppender(fileAppenderName);
-        String fileName = appender.getFileName();
-        String logContent = FileUtils.readFileToString(new File(fileName), StandardCharsets.UTF_8);
+        String appenderName = "console";
+        ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
+        String logContent = StandardCharsets.UTF_8.decode(appender.getManager().getByteBuffer()).toString();
 
         String maskName = MaskUtil.mask(user.getName(), MaskRule.NAME);
         String maskMobile = MaskUtil.mask(user.getMobile(), MaskRule.MOBILE);
