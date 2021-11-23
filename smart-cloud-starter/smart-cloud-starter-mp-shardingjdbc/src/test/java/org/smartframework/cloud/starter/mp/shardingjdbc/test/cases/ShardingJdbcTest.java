@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.sql.SQLException;
+
 /**
  * 分片数据源集成测试
  */
@@ -27,7 +29,7 @@ class ShardingJdbcTest {
     private ProductInfoBiz productInfoBiz;
 
     @BeforeEach
-    void cleanData() {
+    void cleanData() throws SQLException {
         orderBillBiz.truncate();
         productInfoBiz.truncate();
     }

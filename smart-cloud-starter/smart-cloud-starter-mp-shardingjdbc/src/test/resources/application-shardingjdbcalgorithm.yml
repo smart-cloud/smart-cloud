@@ -6,8 +6,8 @@ spring:
       names: shardingalgorithm
       shardingalgorithm:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbc_algorithm?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:test_shardingjdbc_algorithm;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL;INIT=runscript from 'classpath:sql/shardingjdbcalgorithm/V1.0.1__collin_test_shardingjdbc_algorithm.sql'
         username: root
         password: 123456
     rules:

@@ -7,35 +7,36 @@ spring:
       strict: true
       datasource:
         datasource-log:
-          url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_dynamicdatasource_log?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+          url: jdbc:h2:mem:test_shardingjdbcfullfunctions_dynamicdatasource_log;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL
           username: root
           password: 123456
-          driver-class-name: com.mysql.cj.jdbc.Driver
+          driver-class-name: org.h2.Driver
+          schema: classpath:sql/fullfunctions/V1.0.2__collin_test_shardingjdbcfullfunctions_dynamicdatasource_log.sql
   shardingsphere:
     datasource:
       names: shardingordermaster,shardingorderslave-0,shardingorderslave-1,shardingproduct
       shardingordermaster:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_master_order?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:test_shardingjdbcfullfunctions_master_order;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL;INIT=runscript from 'classpath:sql/fullfunctions/V1.0.1__collin_test_shardingjdbcfullfunctions_master_order.sql'
         username: root
         password: 123456
       shardingorderslave-0:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_slave_order0?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:test_shardingjdbcfullfunctions_slave_order0;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL;INIT=runscript from 'classpath:sql/fullfunctions/V1.0.1.1__collin_test_shardingjdbcfullfunctions_slave_order0.sql'
         username: root
         password: 123456
       shardingorderslave-1:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_slave_order1?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:test_shardingjdbcfullfunctions_slave_order1;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL;INIT=runscript from 'classpath:sql/fullfunctions/V1.0.1.2__collin_test_shardingjdbcfullfunctions_slave_order1.sql'
         username: root
         password: 123456
       shardingproduct:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcfullfunctions_product?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:test_shardingjdbcfullfunctions_product;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL;INIT=runscript from 'classpath:sql/fullfunctions/V1.0.0__collin_test_shardingjdbcfullfunctions_product.sql'
         username: root
         password: 123456
     rules:

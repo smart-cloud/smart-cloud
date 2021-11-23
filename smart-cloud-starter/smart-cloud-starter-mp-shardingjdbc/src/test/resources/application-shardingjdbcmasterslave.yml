@@ -6,20 +6,20 @@ spring:
       names: shardingordermaster,shardingorderslave-0,shardingorderslave-1
       shardingordermaster:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_order?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:test_shardingjdbcmasterslave_order;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL;INIT=runscript from 'classpath:sql/shardingjdbcmasterslave/V1.0.1__collin_test_shardingjdbcmasterslave_order.sql'
         username: root
         password: 123456
       shardingorderslave-0:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_order0?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:test_shardingjdbcmasterslave_order0;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL;INIT=runscript from 'classpath:sql/shardingjdbcmasterslave/V1.0.2__collin_test_shardingjdbcmasterslave_order0.sql'
         username: root
         password: 123456
       shardingorderslave-1:
         type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/test_shardingjdbcmasterslave_order1?serverTimezone=Asia/Shanghai&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+        driver-class-name: org.h2.Driver
+        jdbc-url: jdbc:h2:mem:test_shardingjdbcmasterslave_order1;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL;INIT=runscript from 'classpath:sql/shardingjdbcmasterslave/V1.0.3__collin_test_shardingjdbcmasterslave_order1.sql'
         username: root
         password: 123456
     rules:

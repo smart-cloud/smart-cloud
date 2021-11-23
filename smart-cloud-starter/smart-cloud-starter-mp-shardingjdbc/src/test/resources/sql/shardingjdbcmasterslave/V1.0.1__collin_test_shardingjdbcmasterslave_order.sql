@@ -13,5 +13,5 @@ CREATE TABLE `t_order_bill` (
   `f_sys_del_user` bigint(20) unsigned DEFAULT NULL COMMENT '删除者',
   `f_sys_del_state` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '删除状态=={1:正常, 2:已删除}',
   PRIMARY KEY (`f_id`),
-  KEY `uk_order_no` (`f_order_no`)
+  KEY `idx_order_no` (`f_order_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单信息';
