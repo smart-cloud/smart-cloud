@@ -17,7 +17,7 @@ import org.smartframework.cloud.common.pojo.Base;
 @AllArgsConstructor
 @ToString
 @SuperBuilder
-@JsonPropertyOrder({"classMethod", "cost", "reqParams", "reqHeaders", "respData"})
+@JsonPropertyOrder({"classMethod", "cost", "params", "headers", "result"})
 public class FeignLogAspectDO extends Base {
 
     private static final long serialVersionUID = 1L;
@@ -35,16 +35,16 @@ public class FeignLogAspectDO extends Base {
     /**
      * 请求的参数信息
      */
-    private Object reqParams;
+    private Object params;
 
     /**
      * 请求头
      */
-    private Object reqHeaders;
+    private Object headers;
 
     /**
      * 响应数据
      */
-    private Object respData;
+    private Object result;
 
 }

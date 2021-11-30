@@ -56,6 +56,8 @@
         <maven-pmd-plugin>3.15.0</maven-pmd-plugin>
         <p3c-pmd>2.1.1</p3c-pmd>
         <jacoco-maven-plugin>0.8.7</jacoco-maven-plugin>
+        <embedded-redis>0.7.3</embedded-redis>
+        <rabbitmq-mock>1.1.1</rabbitmq-mock>
     </properties>
 
     <dependencyManagement>
@@ -478,15 +480,31 @@
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-layout-template-json</artifactId>
                 <version>${log4j-layout-template-json}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.github.jsqlparser</groupId>
                 <artifactId>jsqlparser</artifactId>
                 <version>${jsqlparser}</version>
+            </dependency>
+
+            <!--用户redis集成测试-->
+            <dependency>
+                <groupId>it.ozimov</groupId>
+                <artifactId>embedded-redis</artifactId>
+                <version>${embedded-redis}</version>
+            </dependency>
+
+            <!--rabbitmq集成测试-->
+            <dependency>
+                <groupId>com.github.fridujo</groupId>
+                <artifactId>rabbitmq-mock</artifactId>
+                <version>${rabbitmq-mock}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -581,7 +599,12 @@
                     <execution>
                         <goals>
                             <goal>prepare-agent</goal>
-                            <!-- <goal>check</goal> -->
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
                             <goal>report</goal>
                         </goals>
                     </execution>

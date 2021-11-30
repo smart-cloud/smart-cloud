@@ -1,6 +1,5 @@
 package org.smartframework.cloud.mask.util;
 
-import lombok.experimental.UtilityClass;
 import org.slf4j.helpers.MessageFormatter;
 
 /**
@@ -9,13 +8,15 @@ import org.slf4j.helpers.MessageFormatter;
  * @author liyulin
  * @date 2019-03-23
  */
-@UtilityClass
 public class LogUtil {
 
     /**
      * 日志最大长度
      */
     private static final int LOG_MAX_LENGTH = 2048;
+
+    private LogUtil() {
+    }
 
     public static String truncate(String format, Object... args) {
         return truncate(LOG_MAX_LENGTH, format, args);

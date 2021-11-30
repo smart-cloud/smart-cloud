@@ -1,10 +1,10 @@
 package org.smartframework.cloud.starter.web.autoconfigure;
 
 import org.smartframework.cloud.starter.configure.constants.SmartConstant;
+import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.web.aspect.interceptor.ServletApiLogInterceptor;
-import org.smartframework.cloud.utility.spring.condition.ConditionEnableLogInfo;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -23,7 +22,6 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @ConditionalOnExpression(ApiAspectAutoConfiguration.API_ASPECT_CONDITION)
-@Conditional(ConditionEnableLogInfo.class)
 @ConditionalOnClass(name = {"javax.servlet.Filter"})
 public class ApiAspectAutoConfiguration {
 
@@ -51,8 +49,8 @@ public class ApiAspectAutoConfiguration {
     class ApiLogAutoConfigure {
 
         @Bean
-        public ServletApiLogInterceptor apiLogInterceptor() {
-            return new ServletApiLogInterceptor();
+        public ServletApiLogInterceptor apiLogInterceptor(final SmartProperties smartProperties) {
+            return new ServletApiLogInterceptor(smartProperties.getLog());
         }
 
         /**

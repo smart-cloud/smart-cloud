@@ -15,6 +15,7 @@ import org.smartframework.cloud.mask.util.MaskUtil;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
@@ -25,18 +26,17 @@ class MaskTest {
     void testMask() throws IOException, InterruptedException {
         User user = new User();
         user.setId(9L);
-        user.setName("名字");
+        user.setName("zhangsan");
         user.setMobile("13112345678");
         log.info("user={}", user);
 
-        // 因日志异步，所有休眠等待一会
-        TimeUnit.SECONDS.sleep(2);
         // 判断日志中是否脱敏
         LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
         String appenderName = "console";
         ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
-        String logContent = StandardCharsets.UTF_8.decode(appender.getManager().getByteBuffer()).toString();
-
+        ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
+        String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
+        byteBuffer.flip();
         String maskName = MaskUtil.mask(user.getName(), MaskRule.NAME);
         String maskMobile = MaskUtil.mask(user.getMobile(), MaskRule.MOBILE);
         Assertions.assertThat(logContent).contains(maskName);

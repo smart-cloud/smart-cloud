@@ -1,14 +1,11 @@
 package org.smartframework.cloud.starter.rpc.dubbo.pojo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.smartframework.cloud.utility.constant.DateFormartConst;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * dubbo切面日志
@@ -36,28 +33,26 @@ public class DubboLogAspectDO implements Serializable {
     /**
      * 请求发起时间
      */
-    @JsonFormat(pattern = DateFormartConst.DATETIME_SSS)
-    private Date reqStartTime;
+    private Long startTime;
 
     /**
      * 请求结束时间
      */
-    @JsonFormat(pattern = DateFormartConst.DATETIME_SSS)
-    private Date reqEndTime;
+    private Long endTime;
 
     /**
      * 请求处理时间,毫秒
      */
-    private Integer reqDealTime;
+    private Integer cost;
 
     /**
      * 请求的参数信息
      */
-    private Object reqParams;
+    private Object params;
 
     /**
      * 响应数据
      */
-    private Object respData;
+    private Object result;
 
 }

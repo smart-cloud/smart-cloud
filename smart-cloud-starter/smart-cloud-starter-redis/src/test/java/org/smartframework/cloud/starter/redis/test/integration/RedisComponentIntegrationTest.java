@@ -8,20 +8,14 @@ import lombok.Setter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.starter.redis.component.RedisComponent;
-import org.smartframework.cloud.starter.redis.test.prepare.App;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
 import java.util.Set;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = App.class)
-class RedisComponentIntegrationTest {
+class RedisComponentIntegrationTest extends AbstractRedisIntegrationTest {
 
     @Autowired
     private RedisComponent redisComponent;

@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.rabbitmq.test.mq;
+package org.smartframework.cloud.starter.rabbitmq.test.prepare.constants;
 
 import org.smartframework.cloud.starter.rabbitmq.MqConstants;
 

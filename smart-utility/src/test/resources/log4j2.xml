@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    status: 这个用于设置log4j2自身内部的信息输出,可以不设置,当设置成trace时,会看到log4j2内部各种详细输出
+    monitorInterval: Log4j能够自动检测修改配置文件和重新配置本身, 设置间隔秒数。
+    packages：以逗号隔开的包名列表，用于搜索插件，比如自定义filter、appender等。插件仅会加载一次，所以要想修改后生效必须重启项目
+-->
+<Configuration status="WARN" monitorInterval="600">
+    <!-- 变量配置 -->
+    <Properties>
+        <Property name="project">smart-utility</Property>
+        <!--
+            %level 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL
+            %m 输出代码中指定的消息
+            %n 输出一个回车换行符，Windows平台为“/r/n”，Unix平台为“/n”
+            %thread 输出产生该日志事件的线程名
+            %line 代码调用位置
+            %method 执行的方法
+            -->
+        <Property name="log_format">[%-5level][${project}][%date{MM-dd HH:mm:ss.SSS}][%thread] (%F:%line)[%method] ->
+            %m%n
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log_format}"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>

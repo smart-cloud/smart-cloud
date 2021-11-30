@@ -24,5 +24,9 @@ public class LogProperties extends Base {
      * 接口日志切面开关 （默认false）
      */
     private boolean apilog = false;
+    /**
+     * 慢接口时间（单位：毫秒，默认3秒）
+     */
+    private int slowApiMinCost = 3000;
 
 }

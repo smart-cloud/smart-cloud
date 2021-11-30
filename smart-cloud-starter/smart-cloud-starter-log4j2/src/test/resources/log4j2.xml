@@ -27,15 +27,11 @@
 		<Console name="console" target="SYSTEM_OUT">
 			<PatternLayout pattern="${log_format}" />
 		</Console>
-		<Async name="asyncConsle" includeLocation="true">
-			<AppenderRef ref="console"/>
-			<LinkedTransferQueue/>
-		</Async>
 	</Appenders>
 
 	<Loggers>
 		<Root level="info">
-			<AppenderRef ref="asyncConsle" />
+			<AppenderRef ref="console" />
 		</Root>
 	</Loggers>
 </Configuration>

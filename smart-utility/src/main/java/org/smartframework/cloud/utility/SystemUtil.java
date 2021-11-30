@@ -8,7 +8,6 @@ package org.smartframework.cloud.utility;
  */
 public class SystemUtil {
 
-    public static final String OS = System.getProperty("os.name").toLowerCase();
 
     private SystemUtil() {
     }
@@ -19,7 +18,7 @@ public class SystemUtil {
      * @return
      */
     public static boolean isWindows() {
-        return OS.indexOf("windows") >= 0;
+        return Holder.OS.indexOf("windows") >= 0;
     }
 
     /**
@@ -28,7 +27,7 @@ public class SystemUtil {
      * @return
      */
     public static boolean isLinux() {
-        return OS.indexOf("linux") >= 0;
+        return Holder.OS.indexOf("linux") >= 0;
     }
 
     /**
@@ -38,6 +37,10 @@ public class SystemUtil {
      */
     public static String getUserDir() {
         return System.getProperty("user.dir");
+    }
+
+    static class Holder {
+        private static final String OS = System.getProperty("os.name").toLowerCase();
     }
 
 }

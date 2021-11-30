@@ -1,16 +1,15 @@
 package org.smartframework.cloud.starter.rpc.dubbo.autoconfigure;
 
 import org.apache.dubbo.config.annotation.DubboService;
+import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.rpc.dubbo.interceptor.DubboLogInterceptor;
-import org.smartframework.cloud.utility.spring.condition.ConditionEnableLogInfo;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
@@ -23,7 +22,6 @@ import java.util.Arrays;
  */
 @Configuration
 @ConditionalOnProperty(name = "smart.aspect.dubbolog", havingValue = "true")
-@Conditional(ConditionEnableLogInfo.class)
 public class DubboAspectAutoConfiguration {
 
     /**
@@ -42,8 +40,8 @@ public class DubboAspectAutoConfiguration {
     }
 
     @Bean
-    public DubboLogInterceptor dubboLogInterceptor() {
-        return new DubboLogInterceptor();
+    public DubboLogInterceptor dubboLogInterceptor(final SmartProperties smartProperties) {
+        return new DubboLogInterceptor(smartProperties.getLog());
     }
 
     @Bean

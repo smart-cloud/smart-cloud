@@ -1,7 +1,6 @@
 package org.smartframework.cloud.mask.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,24 +62,6 @@ public final class JacksonMaskUtil {
         T t = null;
         try {
             t = OBJECT_MAPPER.readValue(content, valueType);
-        } catch (JsonProcessingException e) {
-            log.error("parse object error", e);
-        }
-
-        return t;
-    }
-
-    /**
-     * json转对象
-     *
-     * @param content
-     * @param valueTypeRef
-     * @return
-     */
-    public static <T> T parseObject(String content, TypeReference<T> valueTypeRef) {
-        T t = null;
-        try {
-            t = OBJECT_MAPPER.readValue(content, valueTypeRef);
         } catch (JsonProcessingException e) {
             log.error("parse object error", e);
         }

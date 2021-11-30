@@ -7,13 +7,11 @@ import org.smartframework.cloud.utility.SystemUtil;
 class SystemUtilUnitTest {
 
     @Test
-    void testIsWindows() {
-        Assertions.assertThat(SystemUtil.isWindows()).isTrue();
-    }
-
-    @Test
-    void testIsLinux() {
-        Assertions.assertThat(SystemUtil.isLinux()).isFalse();
+    void testOs() {
+        boolean isLinux = SystemUtil.isLinux();
+        boolean isWindows = SystemUtil.isWindows();
+        Assertions.assertThat(isLinux || isWindows).isTrue();
+        Assertions.assertThat(isLinux && isWindows).isFalse();
     }
 
     @Test

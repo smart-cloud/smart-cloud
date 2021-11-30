@@ -47,7 +47,7 @@ public class LogAspectDO extends Base {
     /**
      * 请求结果
      */
-    private String result;
+    private Object result;
     /**
      * 花费时间（毫秒）
      */

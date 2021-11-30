@@ -1,48 +1,58 @@
 package org.smartframework.cloud.starter.rpc.dubbo.interceptor;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.smartframework.cloud.common.web.util.WebUtil;
 import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.mask.util.LogUtil;
+import org.smartframework.cloud.starter.configure.properties.LogProperties;
 import org.smartframework.cloud.starter.rpc.dubbo.pojo.DubboLogAspectDO;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 
 /**
- * @author liyulin
- * @desc dubbo rpc接口日志切面
- * @date 2019/09/15
+ * dubbo rpc接口日志切面
+ *
+ * @author collin
+ * @date 2019-09-15
  */
 @Slf4j
+@AllArgsConstructor
 public class DubboLogInterceptor implements MethodInterceptor {
+
+    private LogProperties logProperties;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        DubboLogAspectDO logDO = new DubboLogAspectDO();
-        logDO.setReqStartTime(new Date());
-
-        Method method = invocation.getMethod();
-        String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstant.DOT + method.getName();
-        logDO.setClassMethod(classMethod);
-        logDO.setReqParams(WebUtil.getRequestArgs(invocation.getArguments()));
-
-        // 2、rpc
+        long startTime = System.currentTimeMillis();
         Object result = null;
         try {
             result = invocation.proceed();
         } finally {
-            logDO.setReqEndTime(new Date());
-            logDO.setReqDealTime((int) (logDO.getReqEndTime().getTime() - logDO.getReqStartTime().getTime()));
-            logDO.setRespData(result);
-
-            // 3、打印日志
-            log.info(LogUtil.truncate("rpc.logDO=>{}", logDO));
+            long cost = System.currentTimeMillis() - startTime;
+            if (cost >= logProperties.getSlowApiMinCost()) {
+                log.warn(LogUtil.truncate("rpc.slow=>{}", buildDubboLogAspectDO(startTime, invocation.getMethod(), invocation.getArguments(), result)));
+            } else if (log.isInfoEnabled()) {
+                log.info(LogUtil.truncate("rpc.info=>{}", buildDubboLogAspectDO(startTime, invocation.getMethod(), invocation.getArguments(), result)));
+            }
         }
 
         return result;
+    }
+
+    private DubboLogAspectDO buildDubboLogAspectDO(long startTime, Method method, Object[] args, Object result) {
+        DubboLogAspectDO logDO = new DubboLogAspectDO();
+        logDO.setStartTime(startTime);
+
+        String classMethod = method.getDeclaringClass().getTypeName() + SymbolConstant.DOT + method.getName();
+        logDO.setClassMethod(classMethod);
+        logDO.setParams(WebUtil.getRequestArgs(args));
+        logDO.setEndTime(System.currentTimeMillis());
+        logDO.setCost((int) (logDO.getEndTime() - logDO.getStartTime()));
+        logDO.setResult(result);
+        return logDO;
     }
 
 }

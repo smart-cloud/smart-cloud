@@ -1,4 +1,4 @@
-package org.smartframework.cloud.starter.rabbitmq.test;
+package org.smartframework.cloud.starter.rabbitmq.test.prepare;
 
 import org.smartframework.cloud.starter.core.support.annotation.SmartBootApplication;
 import org.springframework.boot.SpringApplication;

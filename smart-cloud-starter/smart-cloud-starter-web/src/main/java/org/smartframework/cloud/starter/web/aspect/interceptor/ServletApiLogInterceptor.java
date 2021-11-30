@@ -1,5 +1,6 @@
 package org.smartframework.cloud.starter.web.aspect.interceptor;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -10,8 +11,8 @@ import org.smartframework.cloud.common.web.pojo.LogAspectDO;
 import org.smartframework.cloud.common.web.util.WebServletUtil;
 import org.smartframework.cloud.mask.util.LogUtil;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
+import org.smartframework.cloud.starter.configure.properties.LogProperties;
 import org.smartframework.cloud.starter.web.exception.ExceptionHandlerContext;
-import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.validation.DataBinder;
@@ -32,7 +33,10 @@ import java.util.stream.Stream;
  * @date 2019-04-08
  */
 @Slf4j
+@AllArgsConstructor
 public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
+
+    private LogProperties logProperties;
 
     @Override
     public int getOrder() {
@@ -46,33 +50,35 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
         }
 
         long startTime = System.currentTimeMillis();
-        HttpServletRequest request = WebServletUtil.getHttpServletRequest();
-        LogAspectDO logAspectDO = LogAspectDO.builder()
-                .url(request.getPathInfo())
-                .method(request.getMethod())
-                .head(getHeaders(request))
-                .args(getRequestArgs(invocation.getArguments()))
-                .build();
         Object result = null;
         try {
             result = invocation.proceed();
-            long endTime = System.currentTimeMillis();
-            // 执行结果
-            String resultJson = JacksonUtil.toJson(result);
-            resultJson = LogUtil.truncate(resultJson);
-
-            logAspectDO.setResult(resultJson);
-            logAspectDO.setCost(endTime - startTime);
-            log.info(LogUtil.truncate("api.info=>{}", logAspectDO));
+            long cost = System.currentTimeMillis() - startTime;
+            if (cost >= logProperties.getSlowApiMinCost()) {
+                log.warn(LogUtil.truncate("api.slow=>{}", buildLogAspectDO(invocation.getArguments(), result, cost)));
+            } else if (log.isInfoEnabled()) {
+                log.info(LogUtil.truncate("api.info=>{}", buildLogAspectDO(invocation.getArguments(), result, cost)));
+            }
             return result;
         } catch (Exception e) {
-            logAspectDO.setCost(System.currentTimeMillis() - startTime);
-
-            log.error(LogUtil.truncate("api.error=>{}", logAspectDO), e);
+            long cost = System.currentTimeMillis() - startTime;
+            log.error(LogUtil.truncate("api.error=>{}", buildLogAspectDO(invocation.getArguments(), result, cost)), e);
 
             ResponseHead head = ExceptionHandlerContext.transRespHead(e);
             return new Response<>(head);
         }
+    }
+
+    private LogAspectDO buildLogAspectDO(Object[] args, Object result, long cost) {
+        HttpServletRequest request = WebServletUtil.getHttpServletRequest();
+        return LogAspectDO.builder()
+                .url(request.getPathInfo())
+                .method(request.getMethod())
+                .head(getHeaders(request))
+                .args(getRequestArgs(args))
+                .cost(cost)
+                .result(result)
+                .build();
     }
 
     /**

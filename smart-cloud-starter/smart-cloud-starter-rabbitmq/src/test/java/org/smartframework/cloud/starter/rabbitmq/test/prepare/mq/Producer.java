@@ -1,6 +1,7 @@
-package org.smartframework.cloud.starter.rabbitmq.test.mq;
+package org.smartframework.cloud.starter.rabbitmq.test.prepare.mq;
 
 import org.smartframework.cloud.starter.rabbitmq.AbstractRabbitMqProducer;
+import org.smartframework.cloud.starter.rabbitmq.test.prepare.constants.MqConstant;
 import org.springframework.stereotype.Component;
 
 @Component

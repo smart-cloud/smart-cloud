@@ -46,6 +46,18 @@
             <artifactId>junit-platform-runner</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>it.ozimov</groupId>
+            <artifactId>embedded-redis</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.fridujo</groupId>
+            <artifactId>rabbitmq-mock</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
