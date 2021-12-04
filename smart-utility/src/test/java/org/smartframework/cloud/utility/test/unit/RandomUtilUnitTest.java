@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.utility.RandomUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class RandomUtilUnitTest {
@@ -47,6 +48,8 @@ class RandomUtilUnitTest {
     void testRandomSortArray() {
         Integer[] data = {1, 3, 5, 7, 8, 9, 2, 3, 5};
         RandomUtil.randomSort(data);
+
+        Assertions.assertThat(RandomUtil.randomSort(new Integer[]{})).isEmpty();
     }
 
     @Test
@@ -58,6 +61,8 @@ class RandomUtilUnitTest {
         list.add(23);
         list.add(3);
         RandomUtil.randomSort(list);
+
+        Assertions.assertThat(RandomUtil.randomSort(Collections.emptyList())).isEmpty();
     }
 
 }

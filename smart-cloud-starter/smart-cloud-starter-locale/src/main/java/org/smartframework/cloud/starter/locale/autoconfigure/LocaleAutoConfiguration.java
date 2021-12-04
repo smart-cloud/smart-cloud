@@ -15,8 +15,7 @@
  */
 package org.smartframework.cloud.starter.locale.autoconfigure;
 
-import java.io.IOException;
-
+import lombok.extern.slf4j.Slf4j;
 import org.smartframework.cloud.starter.configure.SmartAutoConfiguration;
 import org.smartframework.cloud.starter.configure.properties.LocaleProperties;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
@@ -34,11 +33,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
 
 /**
  * 多语言配置
- * 
+ *
  * @author liyulin
  * @date 2019-07-15
  */
@@ -47,47 +46,58 @@ import lombok.extern.slf4j.Slf4j;
 @AutoConfigureAfter(SmartAutoConfiguration.class)
 public class LocaleAutoConfiguration {
 
-	@Bean
-	public MessageSource messageSource(final SmartProperties smartProperties) {
-		LocaleProperties localeProperties = smartProperties.getLocale();
-		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		Resource[] resources = null;
-		try {
-			resources = resolver.getResources(LocaleConstant.LOCALE_PATTERN);
-		} catch (IOException e) {
-			log.error(e.getMessage(), e);
-		}
-		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-		if (resources != null) {
-			String[] strResources = new String[resources.length];
-			for (int i = 0; i < resources.length; i++) {
-				Resource resource = resources[i];
-				strResources[i] = LocaleConstant.LOCALE_DIR
-						+ resource.getFilename().replace(LocaleConstant.LOCALE_PROPERTIES_SUFFIX, "");
-			}
-			messageSource.setBasenames(strResources);
-		}
-		messageSource.setDefaultEncoding(localeProperties.getEncodeing());
-		messageSource.setCacheSeconds(localeProperties.getCacheSeconds());
-		return messageSource;
-	}
+    @Bean
+    public MessageSource messageSource(final SmartProperties smartProperties) {
+        LocaleProperties localeProperties = smartProperties.getLocale();
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        Resource[] resources = null;
+        try {
+            resources = resolver.getResources(LocaleConstant.LOCALE_PATTERN);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        if (resources != null) {
+            String[] strResources = new String[resources.length];
+            for (int i = 0; i < resources.length; i++) {
+                Resource resource = resources[i];
+                strResources[i] = LocaleConstant.LOCALE_DIR
+                        + resource.getFilename().replace(LocaleConstant.LOCALE_PROPERTIES_SUFFIX, "");
+            }
+            messageSource.setBasenames(strResources);
+        }
+        messageSource.setDefaultEncoding(localeProperties.getEncoding());
+        messageSource.setCacheSeconds(localeProperties.getCacheSeconds());
+        return messageSource;
+    }
 
-	@Bean
-	public LocaleInterceptor localeInterceptor(final MessageSource messageSource) {
-		return new LocaleInterceptor(messageSource);
-	}
+    @Bean
+    public LocaleInterceptor localeInterceptor(final MessageSource messageSource) {
+        return new LocaleInterceptor(messageSource);
+    }
 
-	@Bean
-	public Advisor localeAdvisor(final LocaleInterceptor localeInterceptor) {
-		AspectJExpressionPointcut localePointcut = new AspectJExpressionPointcut();
-		localePointcut.setExpression(
-				"@within(org.springframework.stereotype.Controller) || @within(org.springframework.web.bind.annotation.RestController)");
+    @Bean
+    public Advisor localeAdvisor(final LocaleInterceptor localeInterceptor) {
+        StringBuilder expression = new StringBuilder(512);
+        expression.append("(@within(org.springframework.stereotype.Controller) || @within(org.springframework.web.bind.annotation.RestController))");
+        expression.append("&&");
+        expression.append("(");
+        expression.append("@annotation(org.springframework.web.bind.annotation.RequestMapping)");
+        expression.append("|| @annotation(org.springframework.web.bind.annotation.GetMapping)");
+        expression.append("|| @annotation(org.springframework.web.bind.annotation.PostMapping)");
+        expression.append("|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)");
+        expression.append("|| @annotation(org.springframework.web.bind.annotation.PutMapping)");
+        expression.append("|| @annotation(org.springframework.web.bind.annotation.PatchMapping)");
+        expression.append(")");
 
-		DefaultBeanFactoryPointcutAdvisor apiLogAdvisor = new DefaultBeanFactoryPointcutAdvisor();
-		apiLogAdvisor.setAdvice(localeInterceptor);
-		apiLogAdvisor.setPointcut(localePointcut);
+        AspectJExpressionPointcut localePointcut = new AspectJExpressionPointcut();
+        localePointcut.setExpression(expression.toString());
 
-		return apiLogAdvisor;
-	}
+        DefaultBeanFactoryPointcutAdvisor apiLogAdvisor = new DefaultBeanFactoryPointcutAdvisor();
+        apiLogAdvisor.setAdvice(localeInterceptor);
+        apiLogAdvisor.setPointcut(localePointcut);
+
+        return apiLogAdvisor;
+    }
 
 }

@@ -17,7 +17,6 @@ package org.smartframework.cloud.starter.core.business.util;
 
 import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
-import org.smartframework.cloud.utility.ObjectUtil;
 import org.smartframework.cloud.utility.spring.SpringContextUtil;
 
 /**
@@ -93,9 +92,9 @@ public final class SnowFlakeIdUtil {
     private static volatile SnowFlakeIdUtil idWorker = null;
 
     public static SnowFlakeIdUtil getInstance() {
-        if (ObjectUtil.isNull(idWorker)) {
+        if (idWorker == null) {
             synchronized (SnowFlakeIdUtil.class) {
-                if (ObjectUtil.isNull(idWorker)) {
+                if (idWorker == null) {
                     idWorker = new SnowFlakeIdUtil();
                 }
             }
@@ -105,14 +104,13 @@ public final class SnowFlakeIdUtil {
     }
 
     private SnowFlakeIdUtil() {
-        Long dataMachineIdL = SpringContextUtil.getBean(SmartProperties.class).getDataMachineId();
-        if (ObjectUtil.isNull(dataMachineIdL)) {
-            throw new IllegalArgumentException(SmartConstant.SMART_PROPERTIES_PREFIX + "."
-                    + SmartProperties.PropertiesName.DATA_MACHINE_ID + "未配置！");
+        Long dataMachineIdConfiged = SpringContextUtil.getBean(SmartProperties.class).getDataMachineId();
+        if (dataMachineIdConfiged == null) {
+            throw new IllegalArgumentException(String.format("%s.%s is not configured", SmartConstant.SMART_PROPERTIES_PREFIX, SmartProperties.PropertiesName.DATA_MACHINE_ID));
         }
-        dataMachineId = dataMachineIdL;
+        dataMachineId = dataMachineIdConfiged;
         if (dataMachineId > MAX_DATE_MACHINE_NUM || dataMachineId < 0) {
-            throw new IllegalArgumentException("dataMachineId 取值范围[0, " + MAX_DATE_MACHINE_NUM + "]");
+            throw new IllegalArgumentException(String.format("machineId can't be greater than MAX_MACHINE_NUM[%s] or less than 0", MAX_DATE_MACHINE_NUM));
         }
     }
 
@@ -124,7 +122,7 @@ public final class SnowFlakeIdUtil {
     public synchronized long nextId() {
         long currStamp = getNewStamp();
         if (currStamp < lastStamp) {
-            throw new RuntimeException("发生时钟回拨，拒绝生产id");
+            throw new RuntimeException("Clock moved backwards. Refusing to generate id");
         }
 
         if (currStamp == lastStamp) {

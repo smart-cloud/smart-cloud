@@ -1,8 +1,10 @@
 #db config
 db:
-  url: jdbc:mysql://127.0.0.1:3306/demo_auth?serverTimezone=Asia/Shanghai
+  url: jdbc:h2:mem:demo_auth;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL
   username: root
   password: 123456
+  driverClassName: org.h2.Driver
+  schema: sql/demo_auth.sql
   
 #code generate config  
 code:
@@ -13,9 +15,3 @@ code:
   specifiedTables: undo_log
   #启动类包名
   mainClassPackage: org.smartframework.cloud.examples.basic.auth
-  project:
-    path: 
-      #rpc生成路径
-      rpc: C:/test/smart-cloud-examples/application-module/rpc-module/basic-service-rpc
-      #服务生成路径
-      service: C:/test/smart-cloud-examples/application-module/basic-module/basic-service-auth

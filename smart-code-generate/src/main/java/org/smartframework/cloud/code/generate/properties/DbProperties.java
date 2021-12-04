@@ -20,18 +20,33 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * @desc 数据库连接配置
  * @author liyulin
+ * @desc 数据库连接配置
  * @date 2019/11/08
  */
 @Getter
 @Setter
 @ToString
 public class DbProperties {
-	/** 数据库连接url */
-	private String url;
-	/** 数据库用户名 */
-	private String username;
-	/** 用户库密码 */
-	private String password;
+    /**
+     * 数据库连接url（必填）
+     */
+    private String url;
+    /**
+     * 数据库用户名（必填）
+     */
+    private String username;
+    /**
+     * 用户库密码（必填）
+     */
+    private String password;
+    /**
+     * 数据库驱动（默认mysql驱动）
+     */
+    private String driverClassName = "com.mysql.cj.jdbc.Driver";
+    /**
+     * sql脚本文件全路径
+     */
+    private String schema;
+
 }

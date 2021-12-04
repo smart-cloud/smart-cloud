@@ -15,10 +15,16 @@
  */
 package org.smartframework.cloud.starter.rabbitmq.test.cases;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.starter.rabbitmq.test.prepare.mq.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 class MqIntegrationTest extends AbstractIntegrationTest {
@@ -29,7 +35,15 @@ class MqIntegrationTest extends AbstractIntegrationTest {
     @Test
     void testRetry() throws InterruptedException {
         producer.send(200L);
-        TimeUnit.SECONDS.sleep(100);
+        TimeUnit.SECONDS.sleep(95);
+
+        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+        String appenderName = "console";
+        ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
+        ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
+        String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
+        byteBuffer.flip();
+        Assertions.assertThat(logContent).contains("Maximum times of retries reached");
     }
 
 }

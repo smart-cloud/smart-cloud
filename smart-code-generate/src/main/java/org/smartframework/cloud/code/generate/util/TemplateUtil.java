@@ -15,7 +15,6 @@
  */
 package org.smartframework.cloud.code.generate.util;
 
-import lombok.experimental.UtilityClass;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.template.*;
@@ -31,8 +30,10 @@ import java.util.*;
  * @author liyulin
  * @date 2019-07-15
  */
-@UtilityClass
 public class TemplateUtil {
+
+    private TemplateUtil() {
+    }
 
     /**
      * 获取公共信息（如生成时间、作者等）
@@ -186,7 +187,6 @@ public class TemplateUtil {
         baseMapperBO.setImportPackages(importPackages);
 
         baseMapperBO.setEntityClassName(entityBO.getClassName());
-        baseMapperBO.setBaseRespBodyClassName(baseResp.getClassName());
         return baseMapperBO;
     }
 

@@ -20,14 +20,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * @desc 工程配置
  * @author liyulin
+ * @desc 工程配置
  * @date 2019/11/08
  */
 @Getter
 @Setter
 @ToString
 public class ProjectProperties {
-	/** 工程路径配置 */
-	private PathProperties path;
+    /**
+     * 工程路径配置
+     */
+    private PathProperties path = new PathProperties();
 }

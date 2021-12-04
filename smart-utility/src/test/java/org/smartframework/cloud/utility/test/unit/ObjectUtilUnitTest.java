@@ -35,6 +35,7 @@ class ObjectUtilUnitTest {
 
     @Test
     void testIsAllNull() {
+        Assertions.assertThat(ObjectUtil.isAllNull(null)).isTrue();
         Assertions.assertThat(ObjectUtil.isAllNull(null, null)).isTrue();
         Assertions.assertThat(ObjectUtil.isAllNull(null, "")).isFalse();
         Assertions.assertThat(ObjectUtil.isAllNull("", "")).isFalse();
@@ -42,6 +43,7 @@ class ObjectUtilUnitTest {
 
     @Test
     void testIsAllNotNull() {
+        Assertions.assertThat(ObjectUtil.isAllNotNull(null)).isFalse();
         Assertions.assertThat(ObjectUtil.isAllNotNull(null, null)).isFalse();
         Assertions.assertThat(ObjectUtil.isAllNotNull(null, "")).isFalse();
         Assertions.assertThat(ObjectUtil.isAllNotNull("", "")).isTrue();

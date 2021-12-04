@@ -28,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
@@ -40,7 +39,7 @@ class MethodLogInterceptorTest {
     private ProductService productService;
 
     @Test
-    void testQuery() throws IOException {
+    void testQuery() {
         productService.query(100L);
 
         // 日志包含切面日志
@@ -51,6 +50,20 @@ class MethodLogInterceptorTest {
         String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
         byteBuffer.flip();
         Assertions.assertThat(StringUtils.containsAny(logContent, "method.info=>", "method.slow=>")).isTrue();
+    }
+
+    @Test
+    void testQueryWithSlow() throws InterruptedException {
+        productService.queryWithSlow(100L);
+
+        // 日志包含切面日志
+        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+        String appenderName = "console";
+        ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
+        ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
+        String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
+        byteBuffer.flip();
+        Assertions.assertThat(logContent).contains("method.slow=>");
     }
 
 }

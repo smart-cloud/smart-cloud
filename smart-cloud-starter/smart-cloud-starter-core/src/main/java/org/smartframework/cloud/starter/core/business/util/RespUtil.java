@@ -15,7 +15,6 @@
  */
 package org.smartframework.cloud.starter.core.business.util;
 
-import lombok.experimental.UtilityClass;
 import org.smartframework.cloud.common.pojo.Response;
 import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
@@ -29,8 +28,10 @@ import org.smartframework.cloud.utility.spring.I18nUtil;
  * @author liyulin
  * @date 2019-04-06
  */
-@UtilityClass
 public class RespUtil {
+
+    private RespUtil() {
+    }
 
     /**
      * 构造响应成功对象

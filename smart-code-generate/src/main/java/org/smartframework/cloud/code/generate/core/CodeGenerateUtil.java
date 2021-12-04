@@ -15,8 +15,6 @@
  */
 package org.smartframework.cloud.code.generate.core;
 
-import lombok.experimental.UtilityClass;
-import net.sf.jsqlparser.JSQLParserException;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
@@ -28,9 +26,7 @@ import org.smartframework.cloud.code.generate.properties.PathProperties;
 import org.smartframework.cloud.code.generate.properties.YamlProperties;
 import org.smartframework.cloud.code.generate.util.*;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -40,19 +36,28 @@ import java.util.Map;
  * @author liyulin
  * @date 2019-07-15
  */
-@UtilityClass
 public class CodeGenerateUtil {
+
+    private CodeGenerateUtil() {
+    }
 
     /**
      * 生成代码
      *
-     * @throws ClassNotFoundException
-     * @throws SQLException
-     * @throws IOException
-     * @throws JSQLParserException
+     * @throws Exception
      */
     public static void init() throws Exception {
-        YamlProperties yamlProperties = YamlUtil.readYamlProperties();
+        init(YamlUtil.getYamlPath());
+    }
+
+    /**
+     * 生成代码
+     *
+     * @param yamlPath
+     * @throws Exception
+     */
+    public static void init(String yamlPath) throws Exception {
+        YamlProperties yamlProperties = YamlUtil.readYamlProperties(yamlPath);
         YamlPropertiesCheckUtil.check(yamlProperties);
 
         CodeProperties codeProperties = yamlProperties.getCode();
@@ -74,9 +79,7 @@ public class CodeGenerateUtil {
      * @param connnection
      * @param classComment  公共信息
      * @param code
-     * @throws SQLException
-     * @throws IOException
-     * @throws JSQLParserException
+     * @throws Exception
      */
     private static void generateSingleTable(String database, TableMetaDataBO tableMetaData, Connection connnection,
                                             ClassCommentBO classComment, CodeProperties code) throws Exception {

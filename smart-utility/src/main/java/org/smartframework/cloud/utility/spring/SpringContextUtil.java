@@ -18,7 +18,6 @@ package org.smartframework.cloud.utility.spring;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.core.Ordered;
 
 /**
  * Spring工具类
@@ -26,7 +25,7 @@ import org.springframework.core.Ordered;
  * @author liyulin
  * @date 2019-04-03
  */
-public class SpringContextUtil implements ApplicationContextAware, Ordered {
+public class SpringContextUtil implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
@@ -50,11 +49,6 @@ public class SpringContextUtil implements ApplicationContextAware, Ordered {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         SpringContextUtil.applicationContext = applicationContext;
-    }
-
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
     }
 
 }

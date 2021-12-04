@@ -15,21 +15,49 @@
  */
 package org.smartframework.cloud.code.generate.properties;
 
-import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 /**
- * @desc 工程路径配置
  * @author liyulin
+ * @desc 工程路径配置
  * @date 2019/11/08
  */
-@Getter
 @Setter
 @ToString
 public class PathProperties {
-	/** rpc工程路径 */
-	private String rpc;
-	/** 服务工程路径 */
-	private String service;
+
+    /**
+     * rpc工程路径
+     */
+    private String rpc;
+    /**
+     * 服务工程路径
+     */
+    private String service;
+
+    public String getRpc() {
+        if (rpc != null && rpc.trim().length() > 0) {
+            return rpc;
+        }
+        if (isWindowSystem()) {
+            return "c:/codegenerate/rpc-module/";
+        }
+        return "/tmp/codegenerate/rpc-module/";
+    }
+
+    public String getService() {
+        if (service != null && service.trim().length() > 0) {
+            return service;
+        }
+        if (isWindowSystem()) {
+            return "c:/codegenerate/service-module/";
+        }
+        return "/tmp/codegenerate/service-module/";
+    }
+
+    private boolean isWindowSystem() {
+        return System.getProperty("os.name").toLowerCase().indexOf("windows") >= 0;
+    }
+
 }

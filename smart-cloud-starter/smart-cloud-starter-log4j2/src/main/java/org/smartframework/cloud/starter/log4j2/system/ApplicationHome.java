@@ -30,6 +30,10 @@ package org.smartframework.cloud.starter.log4j2.system;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.JarURLConnection;
@@ -38,9 +42,6 @@ import java.net.URLConnection;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import java.util.jar.JarFile;
-
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * Provides access to the application home directory. Attempts to pick a sensible home for
@@ -52,90 +53,90 @@ import org.springframework.util.StringUtils;
  */
 public class ApplicationHome {
 
-	private final File source;
+    private final File source;
 
-	private final File dir;
+    private final File dir;
 
-	/**
-	 * Create a new {@link ApplicationHome} instance for the specified source class.
-	 * @param sourceClass the source class or {@code null}
-	 */
-	public ApplicationHome(Class<?> sourceClass) {
-		Assert.isTrue(sourceClass!=null, "sourceClass can not be null!");
-		
-		this.source = findSource(sourceClass);
-		this.dir = findHomeDir(this.source);
-	}
+    /**
+     * Create a new {@link ApplicationHome} instance for the specified source class.
+     *
+     * @param sourceClass the source class or {@code null}
+     */
+    public ApplicationHome(Class<?> sourceClass) {
+        Assert.isTrue(sourceClass != null, "sourceClass can not be null!");
 
-	private File findSource(Class<?> sourceClass) {
-		try {
-			ProtectionDomain domain = (sourceClass != null)
-					? sourceClass.getProtectionDomain() : null;
-			CodeSource codeSource = (domain != null) ? domain.getCodeSource() : null;
-			URL location = (codeSource != null) ? codeSource.getLocation() : null;
-			File source = (location != null) ? findSource(location) : null;
-			if (source != null && source.exists() && !isUnitTest()) {
-				return source.getAbsoluteFile();
-			}
-			return null;
-		}
-		catch (Exception ex) {
-			return null;
-		}
-	}
+        this.source = findSource(sourceClass);
+        this.dir = findHomeDir(this.source);
+    }
 
-	private boolean isUnitTest() {
-		try {
-			StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-			for (int i = stackTrace.length - 1; i >= 0; i--) {
-				if (stackTrace[i].getClassName().startsWith("org.junit.")) {
-					return true;
-				}
-			}
-		}
-		catch (Exception ex) {
-		}
-		return false;
-	}
+    private File findSource(Class<?> sourceClass) {
+        try {
+            ProtectionDomain domain = (sourceClass != null)
+                    ? sourceClass.getProtectionDomain() : null;
+            CodeSource codeSource = (domain != null) ? domain.getCodeSource() : null;
+            URL location = (codeSource != null) ? codeSource.getLocation() : null;
+            File source = (location != null) ? findSource(location) : null;
+            if (source != null && source.exists() && !isUnitTest()) {
+                return source.getAbsoluteFile();
+            }
+            return null;
+        } catch (Exception ex) {
+            return null;
+        }
+    }
 
-	private File findSource(URL location) throws IOException {
-		URLConnection connection = location.openConnection();
-		if (connection instanceof JarURLConnection) {
-			return getRootJarFile(((JarURLConnection) connection).getJarFile());
-		}
-		return new File(location.getPath());
-	}
+    private boolean isUnitTest() {
+        try {
+            StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+            for (int i = stackTrace.length - 1; i >= 0; i--) {
+                if (stackTrace[i].getClassName().startsWith("org.junit.")) {
+                    return true;
+                }
+            }
+        } catch (Exception ex) {
+        }
+        return false;
+    }
 
-	private File getRootJarFile(JarFile jarFile) {
-		String name = jarFile.getName();
-		int separator = name.indexOf("!/");
-		if (separator > 0) {
-			name = name.substring(0, separator);
-		}
-		return new File(name);
-	}
+    private File findSource(URL location) throws IOException {
+        URLConnection connection = location.openConnection();
+        if (connection instanceof JarURLConnection) {
+            return getRootJarFile(((JarURLConnection) connection).getJarFile());
+        }
+        return new File(location.getPath());
+    }
 
-	private File findHomeDir(File source) {
-		File homeDir = source;
-		homeDir = (homeDir != null) ? homeDir : findDefaultHomeDir();
-		if (homeDir.isFile()) {
-			homeDir = homeDir.getParentFile();
-		}
-		homeDir = homeDir.exists() ? homeDir : new File(".");
-		return homeDir.getAbsoluteFile();
-	}
+    private File getRootJarFile(JarFile jarFile) {
+        String name = jarFile.getName();
+        int separator = name.indexOf("!/");
+        if (separator > 0) {
+            name = name.substring(0, separator);
+        }
+        return new File(name);
+    }
 
-	private File findDefaultHomeDir() {
-		String userDir = System.getProperty("user.dir");
-		return new File(StringUtils.hasLength(userDir) ? userDir : ".");
-	}
+    private File findHomeDir(File source) {
+        File homeDir = source;
+        homeDir = (homeDir != null) ? homeDir : findDefaultHomeDir();
+        if (homeDir.isFile()) {
+            homeDir = homeDir.getParentFile();
+        }
+        homeDir = homeDir.exists() ? homeDir : new File(".");
+        return homeDir.getAbsoluteFile();
+    }
 
-	/**
-	 * Returns the application home directory.
-	 * @return the home directory (never {@code null})
-	 */
-	public File getDir() {
-		return this.dir;
-	}
+    private File findDefaultHomeDir() {
+        String userDir = System.getProperty("user.dir");
+        return new File(StringUtils.hasLength(userDir) ? userDir : ".");
+    }
+
+    /**
+     * Returns the application home directory.
+     *
+     * @return the home directory (never {@code null})
+     */
+    public File getDir() {
+        return this.dir;
+    }
 
 }

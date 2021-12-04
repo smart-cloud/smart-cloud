@@ -18,12 +18,16 @@ package org.smartframework.cloud.starter.mock.test.unit;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.smartframework.cloud.common.pojo.Response;
+import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 import org.smartframework.cloud.starter.mock.test.prepare.TestApplication;
 import org.smartframework.cloud.starter.mock.test.prepare.service.StockService;
 import org.smartframework.cloud.starter.mock.test.prepare.vo.DeductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplication.class)
@@ -37,6 +41,25 @@ class MethodMockTest {
         DeductDTO deductDTO = stockService.deduct();
         Assertions.assertThat(deductDTO).isNotNull();
         Assertions.assertThat(deductDTO.getResult()).isFalse();
+    }
+
+    @Test
+    void testList() {
+        Response<List<DeductDTO>> response = stockService.list();
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response.getHead()).isNotNull();
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS.getCode());
+        Assertions.assertThat(response.getBody()).isNotEmpty();
+    }
+
+    /**
+     * 白名单测试
+     */
+    @Test
+    void testQuery() {
+        DeductDTO deductDTO = stockService.query();
+        Assertions.assertThat(deductDTO).isNotNull();
+        Assertions.assertThat(deductDTO.getResult()).isTrue();
     }
 
 }

@@ -15,16 +15,16 @@
  */
 package org.smartframework.cloud.code.generate.util;
 
-import lombok.experimental.UtilityClass;
-
 /**
  * table工具类
  *
  * @author liyulin
  * @date 2019-07-15
  */
-@UtilityClass
 public class TableUtil {
+
+    private TableUtil() {
+    }
 
     /**
      * 表前缀

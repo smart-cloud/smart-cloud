@@ -25,7 +25,7 @@ codecov:
   if_not_found: success
   changes: no
   precision: 2
-  range: "35...100"
+  range: "47...100"
   ignore:
     - "test/.*"
     - "**/SqlMapper.java"

@@ -26,7 +26,7 @@ class LogUtilTest {
     @Test
     void testTruncateFormat() {
         StringBuilder context = new StringBuilder(4096);
-        for (int i = 0; i < 2048; i++) {
+        for (int i = 0; i < LOG_MAX_LENGTH; i++) {
             context.append("0");
         }
         Assertions.assertThat(LogUtil.truncate(context.append("{}").toString(), "xxxxx").length()).isLessThanOrEqualTo(LOG_MAX_LENGTH);
@@ -35,12 +35,24 @@ class LogUtilTest {
     @Test
     void testTruncate() {
         StringBuilder context = new StringBuilder(4096);
-        for (int i = 0; i < 2048; i++) {
+        for (int i = 0; i < LOG_MAX_LENGTH; i++) {
             context.append("0");
         }
         Assertions.assertThat(LogUtil.truncate(context.toString()).length()).isLessThanOrEqualTo(LOG_MAX_LENGTH);
         context.append("000000000");
         Assertions.assertThat(LogUtil.truncate(context.toString()).length()).isLessThanOrEqualTo(LOG_MAX_LENGTH);
+
+        Assertions.assertThat(LogUtil.truncate(null)).isNull();
+    }
+
+    /**
+     * 测试异常分支
+     */
+    @Test
+    void testTruncateWithException() {
+        Assertions.assertThatThrownBy(() -> {
+            LogUtil.truncate(-1, "");
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
 }

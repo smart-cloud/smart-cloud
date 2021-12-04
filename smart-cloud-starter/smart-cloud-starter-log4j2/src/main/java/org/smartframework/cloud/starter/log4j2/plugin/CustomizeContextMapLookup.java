@@ -18,6 +18,7 @@ package org.smartframework.cloud.starter.log4j2.plugin;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.lookup.StrLookup;
+import org.smartframework.cloud.starter.log4j2.constants.LogConstants;
 import org.smartframework.cloud.starter.log4j2.enums.ExtProperty;
 import org.smartframework.cloud.starter.log4j2.system.ApplicationHome;
 import org.springframework.core.io.ClassPathResource;
@@ -69,8 +70,12 @@ public class CustomizeContextMapLookup implements StrLookup {
     private static final Map<String, String> DATA = new HashMap<>(2);
 
     static {
+        DATA.putAll(init(YAML_FILE_NAME));
+    }
+
+    public static Map<String, String> init(String yamlFileName) {
         // 解析yaml
-        ClassPathResource resource = new ClassPathResource(YAML_FILE_NAME);
+        ClassPathResource resource = new ClassPathResource(yamlFileName);
         String appName = null;
         if (!resource.exists()) {
             // 不存在，则取当前工程名
@@ -82,16 +87,19 @@ public class CustomizeContextMapLookup implements StrLookup {
             }
         }
 
-        DATA.put(ExtProperty.APP_NAME.getName(), appName);
-        DATA.put(ExtProperty.LOG_PATH.getName(), getLogPath(appName));
+        Map<String, String> data = new HashMap<>(2);
+        data.put(ExtProperty.APP_NAME.getName(), appName);
+        data.put(ExtProperty.LOG_PATH.getName(), getLogPath(appName));
+
+        return data;
     }
 
-    public static String getLogPath(String appName) {
+    private static String getLogPath(String appName) {
         // 当前为windows系统
         if (System.getProperty(OS_NAME).toLowerCase().indexOf(WINDOWS_TAG) != -1) {
-            return String.format("C:/data/log/%s", appName);
+            return String.format("%s%s", LogConstants.WINDOWS_LOG_DIR, appName);
         }
-        return String.format("/data/log/%s", appName);
+        return String.format("%s%s", LogConstants.LINUX_LOG_DIR, appName);
     }
 
     /**
@@ -185,6 +193,9 @@ public class CustomizeContextMapLookup implements StrLookup {
      */
     @SuppressWarnings("unchecked")
     private static String getYamlValue(String name, Map<String, Object> yamlJson) {
+        if (yamlJson == null) {
+            return null;
+        }
         String[] keys = name.split(SPRING_YAML_KEY_SEPARATOR);
         if (Objects.isNull(keys) || keys.length == 0) {
             return null;

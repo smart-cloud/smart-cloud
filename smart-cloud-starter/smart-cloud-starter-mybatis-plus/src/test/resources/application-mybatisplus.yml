@@ -1,5 +1,7 @@
 smart:
   dataMachineId: 1
+logging:
+  config: classpath:log4j2-mybatis-sql-log-interceptor.xml
 spring:
   datasource:
     dynamic:

@@ -15,7 +15,6 @@
  */
 package org.smartframework.cloud.code.generate.util;
 
-import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 import org.smartframework.cloud.code.generate.bo.template.BaseMapperBO;
 import org.smartframework.cloud.code.generate.bo.template.BaseRespBO;
@@ -33,7 +32,6 @@ import java.util.Objects;
  * @author liyulin
  * @date 2019-07-15
  */
-@UtilityClass
 public class CodeFileGenerateUtil {
 
     /**
@@ -48,6 +46,9 @@ public class CodeFileGenerateUtil {
      * @date注释标记
      */
     private static final String DATE_ANNOTATION_TAG = "@date";
+
+    private CodeFileGenerateUtil() {
+    }
 
     /**
      * 生成Mapper

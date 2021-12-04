@@ -16,7 +16,6 @@
 package org.smartframework.cloud.code.generate.util;
 
 import com.mysql.cj.MysqlType;
-import lombok.experimental.UtilityClass;
 import org.smartframework.cloud.code.generate.config.Config;
 
 import java.util.Date;
@@ -27,8 +26,10 @@ import java.util.Date;
  * @author liyulin
  * @date 2019年7月15日 上午10:03:50
  */
-@UtilityClass
 public class JavaTypeUtil {
+
+    private JavaTypeUtil() {
+    }
 
     /**
      * 根据jdbc类型获取对应java类型
@@ -60,9 +61,9 @@ public class JavaTypeUtil {
     }
 
     private static boolean isByteType(MysqlType mysqlType, int length) {
-        return length <= 2 && (mysqlType == MysqlType.BIT || mysqlType == MysqlType.SMALLINT
-                || mysqlType == MysqlType.SMALLINT_UNSIGNED || mysqlType == MysqlType.INT
-                || mysqlType == MysqlType.INT_UNSIGNED || mysqlType == MysqlType.TINYINT
+        return (length <= 2 && (mysqlType == MysqlType.INT
+                || mysqlType == MysqlType.INT_UNSIGNED)) || (mysqlType == MysqlType.BIT || mysqlType == MysqlType.SMALLINT
+                || mysqlType == MysqlType.SMALLINT_UNSIGNED || mysqlType == MysqlType.TINYINT
                 || mysqlType == MysqlType.TINYINT_UNSIGNED);
     }
 

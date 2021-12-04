@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.AsyncConfigurerSupport;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
@@ -32,6 +33,7 @@ import java.util.concurrent.Executor;
  * @author collin
  * @date 2021-10-31
  */
+@EnableAsync
 @Configuration
 @ConditionalOnProperty(prefix = "smart", name = "async", havingValue = "true", matchIfMissing = true)
 @Slf4j
@@ -51,6 +53,7 @@ public class AsyncAutoConfiguration extends AsyncConfigurerSupport {
         threadPoolTaskExecutor.setKeepAliveSeconds(120);
         threadPoolTaskExecutor.setWaitForTasksToCompleteOnShutdown(true);
         threadPoolTaskExecutor.setAwaitTerminationSeconds(60);
+        threadPoolTaskExecutor.initialize();
 
         return threadPoolTaskExecutor;
     }

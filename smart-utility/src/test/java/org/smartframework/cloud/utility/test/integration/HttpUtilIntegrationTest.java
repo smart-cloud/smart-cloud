@@ -16,11 +16,15 @@
 package org.smartframework.cloud.utility.test.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.apache.http.HttpHeaders;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.utility.HttpUtil;
+import org.smartframework.cloud.utility.JacksonUtil;
+import org.smartframework.cloud.utility.security.Md5Util;
 import org.smartframework.cloud.utility.test.integration.prepare.TestApplication;
 import org.smartframework.cloud.utility.test.integration.prepare.vo.GetPageReqVO;
 import org.smartframework.cloud.utility.test.integration.prepare.vo.GetPageRespVO;
@@ -62,8 +66,31 @@ class HttpUtilIntegrationTest {
     }
 
     @Test
+    void testGetReturnTypeWithHeader() throws IOException {
+        GetPageReqVO reqVO = new GetPageReqVO();
+        reqVO.setStr("test");
+        reqVO.setIds(new long[]{1, 2, 3});
+
+        BasicHeader[] headers = new BasicHeader[1];
+        headers[0] = new BasicHeader(HttpHeaders.CONTENT_MD5, Md5Util.md5Hex(JacksonUtil.toJson(reqVO)));
+
+        GetPageRespVO result = HttpUtil.get(REQUEST_URL_PREFIX + "/page", headers, reqVO, new TypeReference<GetPageRespVO>() {
+        });
+        Assertions.assertThat(result.getStr()).isEqualTo("test");
+        Assertions.assertThat(result.getIds()).isNotEmpty();
+        Assertions.assertThat(result.getIds().length).isEqualTo(3);
+        Assertions.assertThat(result.getIds()[2]).isEqualTo(3);
+    }
+
+    @Test
     void testPostWithRaw() throws IOException {
         String result = HttpUtil.postWithRaw(REQUEST_URL_PREFIX, "test");
+        Assertions.assertThat(result).isEqualTo("test");
+    }
+
+    @Test
+    void testPostWithRaw2() throws IOException {
+        String result = HttpUtil.postWithRaw(REQUEST_URL_PREFIX, "test", 10000, 10000);
         Assertions.assertThat(result).isEqualTo("test");
     }
 

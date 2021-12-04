@@ -44,7 +44,7 @@ public class MockInterceptor implements MethodInterceptor {
         Method m = invocation.getMethod();
         Set<String> whitelist = mockProperties.getWhilelist();
         if (whitelist != null) {
-            String code = m.getDeclaringClass().getSimpleName() + SymbolConstant.DOT + m.getName();
+            String code = m.getDeclaringClass().getName() + SymbolConstant.DOT + m.getName();
             if (whitelist.contains(code)) {
                 return invocation.proceed();
             }

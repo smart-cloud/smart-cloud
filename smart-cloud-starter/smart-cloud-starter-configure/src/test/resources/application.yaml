@@ -1,0 +1,26 @@
+smart:
+  dataMachineId: 100
+  async: false
+  rpc:
+    protostuff: false
+  log:
+    rpclog: false
+    apilog: false
+    slow-api-min-cost: 4000
+  xxl-job:
+    admin-addresses: 192.168.1.15
+    app-name: yyy
+    ip: 127.0.0.1
+    port: 80
+    access-token: xxxx
+    log-path: /log
+    log-retention-days: 10
+  locale:
+    encoding: GBK
+    cache-seconds: 3600
+  mock:
+    api: true
+    method: true
+    whilelist:
+      - xxxx.query
+      - yyyy.submit

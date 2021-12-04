@@ -26,7 +26,6 @@ import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.core.annotation.AliasFor;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.lang.annotation.*;
 
@@ -45,7 +44,6 @@ import java.lang.annotation.*;
 @ComponentScan(nameGenerator = UniqueBeanNameGenerator.class, excludeFilters = {
         @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
         @Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class)})
-@EnableAsync
 @Conditional(SmartBootApplicationCondition.class)
 public @interface SmartBootApplication {
 

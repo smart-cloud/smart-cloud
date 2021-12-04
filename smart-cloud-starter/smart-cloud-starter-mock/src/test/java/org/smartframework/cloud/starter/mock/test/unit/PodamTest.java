@@ -67,6 +67,10 @@ class PodamTest {
         log.info("单层泛型对象resp2=>{}", JacksonUtil.toJson(set));
 
         Assertions.assertThat(set).isNotEmpty();
+
+        Product product = MockUtil.mock(new TypeReference<Product>() {
+        });
+        Assertions.assertThat(product).isNotNull();
     }
 
     @Test

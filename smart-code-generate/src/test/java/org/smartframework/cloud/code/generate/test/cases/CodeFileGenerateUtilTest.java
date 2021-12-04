@@ -15,16 +15,29 @@
  */
 package org.smartframework.cloud.code.generate.test.cases;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.code.generate.core.CodeGenerateUtil;
 
-@Disabled
 class CodeFileGenerateUtilTest {
 
     @Test
     void testInit() throws Exception {
         CodeGenerateUtil.init();
+    }
+
+    @Test
+    void testUser() throws Exception {
+        CodeGenerateUtil.init("config/basic_user.yaml");
+    }
+
+    @Test
+    void testOrder() throws Exception {
+        CodeGenerateUtil.init("config/mall_order.yaml");
+    }
+
+    @Test
+    void testProduct() throws Exception {
+        CodeGenerateUtil.init("config/mall_product.yaml");
     }
 
 }

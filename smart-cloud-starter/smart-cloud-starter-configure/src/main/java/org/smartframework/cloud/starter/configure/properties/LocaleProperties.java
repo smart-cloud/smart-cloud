@@ -34,7 +34,7 @@ public class LocaleProperties extends Base {
 
 	private static final long serialVersionUID = 1L;
 	/** 编码（默认utf-8） */
-	private String encodeing = StandardCharsets.UTF_8.name();
+	private String encoding = StandardCharsets.UTF_8.name();
 	/** 缓存时间（默认7天；单位秒） */
 	private int cacheSeconds = 60 * 60 * 24 * 7;
 

@@ -19,6 +19,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.MessageSource;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.util.Assert;
 
 import java.util.Locale;
 
@@ -41,6 +42,7 @@ public class I18nUtil implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     public static String getMessage(String message, Object[] args) {
+        Assert.notNull(messageSource, "MessageSource is not inited!");
         Locale locale = LocaleContextHolder.getLocale();
         return messageSource.getMessage(message, args, null, locale);
     }

@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.code.generate.constants;
+package org.smartframework.cloud.starter.locale.test;
 
-/**
- * 数据库表元数据字段信息
- *
- * @author collin
- * @date 2021-11-03
- */
-public interface TableMetaFields {
+import org.junit.jupiter.api.Disabled;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
 
-    String NULL = "NULL";
-    String NAME = "Name";
-    String COMMENT = "Comment";
-    String PRIMARY_KEY_TAG = "PRIMARY KEY";
+@Disabled
+@RunWith(JUnitPlatform.class)
+@SelectPackages({"org.smartframework.cloud.starter.locale.test"})
+public class SuiteTest {
 
 }

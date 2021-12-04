@@ -39,11 +39,12 @@ public final class YamlUtil {
     /**
      * 从yaml文件去读配置信息
      *
+     * @param yamlPath
      * @return
      */
-    public static YamlProperties readYamlProperties() throws IOException {
+    public static YamlProperties readYamlProperties(String yamlPath) throws IOException {
         // 获取yaml文件路径
-        ClassPathResource resource = new ClassPathResource(getYamlPath());
+        ClassPathResource resource = new ClassPathResource(yamlPath);
         // 创建Yaml对象
         Representer representer = new Representer();
         representer.getPropertyUtils().setSkipMissingProperties(true);
@@ -65,7 +66,7 @@ public final class YamlUtil {
      *
      * @return
      */
-    private static String getYamlPath() {
+    public static String getYamlPath() {
         ResourceBundle configResource = ResourceBundle.getBundle(Config.CONFIG_NAME);
         String configPath = configResource.getString(Config.PROPERTIES_KEY);
         if (!configPath.endsWith(YAML_SUFFIX)) {

@@ -2,3 +2,5 @@ smart:
   mock:
     api: true
     method: true
+    whilelist:
+      - org.smartframework.cloud.starter.mock.test.prepare.service.StockService.query

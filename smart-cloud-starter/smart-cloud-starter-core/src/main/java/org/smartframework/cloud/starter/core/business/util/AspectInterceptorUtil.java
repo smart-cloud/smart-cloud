@@ -15,7 +15,6 @@
  */
 package org.smartframework.cloud.starter.core.business.util;
 
-import lombok.experimental.UtilityClass;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.annotation.Annotation;
@@ -28,8 +27,10 @@ import java.util.List;
  * @author liyulin
  * @date 2019-04-21
  */
-@UtilityClass
 public class AspectInterceptorUtil {
+
+    private AspectInterceptorUtil() {
+    }
 
     /**
      * 获取被注解标记的类切面表达式

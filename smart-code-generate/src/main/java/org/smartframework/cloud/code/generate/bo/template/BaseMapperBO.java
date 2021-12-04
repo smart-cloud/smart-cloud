@@ -34,9 +34,5 @@ public class BaseMapperBO extends CommonBO {
      * entity类名
      */
     private String entityClassName;
-    /**
-     * baseRespBody类名
-     */
-    private String baseRespBodyClassName;
 
 }

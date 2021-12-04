@@ -64,6 +64,12 @@ class DbTableUtilTest {
     }
 
     @Test
+    void testExistTable() {
+        Assertions.assertThat(DbTableUtil.existTable("xxx", dynamicRoutingDataSource.determineDataSource())).isFalse();
+        Assertions.assertThat(DbTableUtil.existTable("t_product_info", dynamicRoutingDataSource.determineDataSource())).isTrue();
+    }
+
+    @Test
     void testQueryTablesByPrefix() {
         List<String> productInfoTables = DbTableUtil.queryTablesByPrefix("t_product_info", dynamicRoutingDataSource.determineDataSource());
         Assertions.assertThat(productInfoTables).isNotEmpty();

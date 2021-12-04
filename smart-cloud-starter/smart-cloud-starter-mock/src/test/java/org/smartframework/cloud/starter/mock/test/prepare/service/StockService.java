@@ -15,15 +15,43 @@
  */
 package org.smartframework.cloud.starter.mock.test.prepare.service;
 
+import org.smartframework.cloud.common.pojo.Response;
 import org.smartframework.cloud.starter.mock.annotation.Mock;
 import org.smartframework.cloud.starter.mock.test.prepare.vo.DeductDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class StockService {
 
+    /**
+     * 走mock
+     *
+     * @return
+     */
     @Mock
     public DeductDTO deduct() {
+        return new DeductDTO(true);
+    }
+
+    /**
+     * 泛型
+     *
+     * @return
+     */
+    @Mock
+    public Response<List<DeductDTO>> list() {
+        return null;
+    }
+
+    /**
+     * 白名单
+     *
+     * @return
+     */
+    @Mock
+    public DeductDTO query() {
         return new DeductDTO(true);
     }
 

@@ -16,20 +16,36 @@
 package org.smartframework.cloud.utility.test.unit;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.RepeatedTest;
 import org.smartframework.cloud.utility.NonceUtil;
+
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 
 class NonceUtilUnitTest {
 
-    @Test
-    void test() {
-        String id1 = NonceUtil.getInstance().nextId();
-        Assertions.assertThat(id1).isNotBlank();
+    @RepeatedTest(128)
+    void test() throws InterruptedException {
+        int parties = 128;
+        CountDownLatch latch = new CountDownLatch(parties);
+        CopyOnWriteArraySet<String> values = new CopyOnWriteArraySet<>();
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(parties);
+        for (int i = 0; i < parties; i++) {
+            new Thread(() -> {
+                try {
+                    cyclicBarrier.await();
+                    values.add(NonceUtil.getInstance().nextId());
+                    latch.countDown();
+                } catch (InterruptedException | BrokenBarrierException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
+        latch.await();
 
-        String id2 = NonceUtil.getInstance().nextId();
-        Assertions.assertThat(id2).isNotBlank();
-
-        Assertions.assertThat(id1).isNotEqualTo(id2);
+        Assertions.assertThat(values).hasSize(parties);
     }
 
 }

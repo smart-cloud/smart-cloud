@@ -30,19 +30,29 @@ import lombok.ToString;
 @ToString
 public class EntityAttributeBO {
 
-	/**
-	 * 是否为主键
-	 */
-	private Boolean primaryKey;
-	/** 表字段对应的java属性名 */
-	private String name;
-	/** 表字段名称 */
-	private String columnName;
-	/** 类型 */
-	private String javaType;
-	/** 备注 */
-	private String comment;
-	/** mask规则 */
-	private String maskRule;
+    /**
+     * 是否为主键
+     */
+    private Boolean primaryKey;
+    /**
+     * 表字段对应的java属性名
+     */
+    private String name;
+    /**
+     * 表字段名称
+     */
+    private String columnName;
+    /**
+     * 类型
+     */
+    private String javaType;
+    /**
+     * 备注
+     */
+    private String comment;
+    /**
+     * mask规则
+     */
+    private String maskRule;
 
 }

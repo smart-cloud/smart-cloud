@@ -16,20 +16,18 @@
 package org.smartframework.cloud.code.generate.util;
 
 import com.mysql.cj.MysqlType;
-import lombok.experimental.UtilityClass;
-import net.sf.jsqlparser.JSQLParserException;
-import net.sf.jsqlparser.parser.CCJSqlParserUtil;
-import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
-import net.sf.jsqlparser.statement.create.table.CreateTable;
-import net.sf.jsqlparser.statement.create.table.Index;
+import org.apache.commons.io.FileUtils;
 import org.smartframework.cloud.code.generate.bo.ColumnMetaDataBO;
 import org.smartframework.cloud.code.generate.bo.TableMetaDataBO;
 import org.smartframework.cloud.code.generate.config.Config;
-import org.smartframework.cloud.code.generate.constants.TableMetaFields;
+import org.smartframework.cloud.code.generate.constants.DbConstants;
 import org.smartframework.cloud.code.generate.enums.GenerateTypeEnum;
 import org.smartframework.cloud.code.generate.properties.CodeProperties;
 import org.smartframework.cloud.code.generate.properties.DbProperties;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
 
@@ -39,17 +37,10 @@ import java.util.*;
  * @author liyulin
  * @date 2019-07-13
  */
-@UtilityClass
 public class DbUtil {
 
-    /**
-     * 表字段转义符
-     */
-    private static final String TABLE_FIELD_ESCAPES = "`";
-    /**
-     * 表字段备注转义符
-     */
-    private static final String TABLE_FIELD_COMMENT_ESCAPES = "'";
+    private DbUtil() {
+    }
 
     /**
      * 获取数据库连接
@@ -59,9 +50,33 @@ public class DbUtil {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public static Connection getConnection(DbProperties db) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        return DriverManager.getConnection(db.getUrl(), db.getUsername(), db.getPassword());
+    public static Connection getConnection(DbProperties db) throws ClassNotFoundException, SQLException, IOException {
+        Class.forName(db.getDriverClassName());
+
+        Properties props = new Properties();
+        props.setProperty(DbConstants.ConnectionProperties.USER, db.getUsername());
+        props.setProperty(DbConstants.ConnectionProperties.PASSWORD, db.getPassword());
+        // 获取Oracle元数据 REMARKS信息
+        props.setProperty(DbConstants.ConnectionProperties.REMARKS_REPORTING, "true");
+        // 获取MySQL元数据 REMARKS信息
+        props.setProperty(DbConstants.ConnectionProperties.USE_INFORMATION_SCHEMA, "true");
+        Connection connection = DriverManager.getConnection(db.getUrl(), props);
+        String schema = db.getSchema();
+        if (schema != null && schema.trim().length() > 0) {
+            PreparedStatement preparedStatement = null;
+            try {
+                String fileContent = FileUtils.readFileToString(new ClassPathResource(schema).getFile(), StandardCharsets.UTF_8);
+                if (fileContent != null && fileContent.trim().length() > 0) {
+                    preparedStatement = connection.prepareStatement(fileContent.trim());
+                    preparedStatement.execute();
+                }
+            } finally {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            }
+        }
+        return connection;
     }
 
     /**
@@ -75,16 +90,15 @@ public class DbUtil {
     public static Map<String, TableMetaDataBO> getTablesMetaData(Connection connnection, CodeProperties code)
             throws SQLException {
         Map<String, TableMetaDataBO> tableMetaDataMap = new HashMap<>(16);
-        try (PreparedStatement preparedStatement = connnection.prepareStatement(String.format("SHOW TABLE STATUS FROM `%s`", connnection.getCatalog()));
-             ResultSet resultSet = preparedStatement.executeQuery();) {
+        try (ResultSet resultSet = connnection.getMetaData().getTables(connnection.getCatalog(), null, null, new String[]{DbConstants.TABLE_TYPE})) {
             while (resultSet.next()) {
-                String tableName = resultSet.getString(TableMetaFields.NAME);
+                String tableName = resultSet.getString(3);
                 if (filterTable(code, tableName)) {
                     continue;
                 }
                 TableMetaDataBO tableBO = new TableMetaDataBO();
                 tableBO.setName(tableName);
-                tableBO.setComment(resultSet.getString(TableMetaFields.COMMENT));
+                tableBO.setComment(resultSet.getString(5));
 
                 tableMetaDataMap.put(tableBO.getName(), tableBO);
             }
@@ -92,7 +106,7 @@ public class DbUtil {
         return tableMetaDataMap;
     }
 
-    private boolean filterTable(CodeProperties code, String tableName) {
+    private static boolean filterTable(CodeProperties code, String tableName) {
         if (GenerateTypeEnum.ALL.getType().compareTo(code.getType()) == 0) {
             return false;
         }
@@ -128,40 +142,32 @@ public class DbUtil {
      * @param tableName
      * @return
      * @throws SQLException
-     * @throws JSQLParserException
      */
     public static List<ColumnMetaDataBO> getTableColumnMetaDatas(Connection connnection, String database,
-                                                                 String tableName) throws SQLException, JSQLParserException {
-        String createTableSql = null;
-        try (PreparedStatement preparedStatement = connnection.prepareStatement(String.format("SHOW CREATE TABLE `%s`.`%s`", database, tableName));
-             ResultSet resultSet = preparedStatement.executeQuery();) {
-            while (resultSet.next()) {
-                createTableSql = resultSet.getString(2);
-                break;
+                                                                 String tableName) throws SQLException {
+        DatabaseMetaData metaData = connnection.getMetaData();
+        List<ColumnMetaDataBO> columnMetaDatas = new ArrayList<>();
+        try (ResultSet columnsResultSet = metaData.getColumns(database, null, tableName, null)) {
+            while (columnsResultSet.next()) {
+                ColumnMetaDataBO columnMetaData = new ColumnMetaDataBO();
+                columnMetaData.setName(columnsResultSet.getString(4));
+                columnMetaData.setComment(columnsResultSet.getString(12));
+                columnMetaData.setJdbcType(MysqlType.getByName(columnsResultSet.getString(6)).getJdbcType());
+
+                columnMetaData.setLength(columnsResultSet.getInt(7));
+                columnMetaData.setPrimaryKey(false);
+                columnMetaDatas.add(columnMetaData);
             }
         }
 
-        CreateTable createTable = (CreateTable) CCJSqlParserUtil.parse(createTableSql);
-        List<String> primaryKeyColumnNames = getPrimaryKeyColumnNames(createTable);
-        List<ColumnDefinition> columnDefinitions = createTable.getColumnDefinitions();
-
-        List<ColumnMetaDataBO> columnMetaDatas = new ArrayList<>();
-        for (ColumnDefinition columnDefinition : columnDefinitions) {
-            ColumnMetaDataBO columnMetaData = new ColumnMetaDataBO();
-            columnMetaData.setName(wrapTableFieldName(columnDefinition.getColumnName()));
-            String comment = columnDefinition.getColumnSpecs().get(columnDefinition.getColumnSpecs().size() - 1);
-            columnMetaData.setComment(wrapTableFieldComment(comment));
-
-            int jdbcType = MysqlType.getByName(columnDefinition.getColDataType().getDataType()).getJdbcType();
-            columnMetaData.setJdbcType(jdbcType);
-
-            List<String> dataTypeArguments = columnDefinition.getColDataType().getArgumentsStringList();
-            if (dataTypeArguments != null && dataTypeArguments.size() > 0) {
-                columnMetaData.setLength(Integer.valueOf(dataTypeArguments.get(0)));
-            }
-            columnMetaData.setPrimaryKey(primaryKeyColumnNames != null && !primaryKeyColumnNames.isEmpty() && primaryKeyColumnNames.contains(columnDefinition.getColumnName()));
-
-            columnMetaDatas.add(columnMetaData);
+        // 主键
+        String primaryKeyColumnName = getPrimaryKeyColumnName(metaData, database, tableName);
+        if (primaryKeyColumnName != null) {
+            columnMetaDatas.stream().filter(columnMetaData -> columnMetaData.getName().equals(primaryKeyColumnName))
+                    .findFirst()
+                    .ifPresent(columnMetaData -> {
+                        columnMetaData.setPrimaryKey(true);
+                    });
         }
 
         return columnMetaDatas;
@@ -170,44 +176,20 @@ public class DbUtil {
     /**
      * 获取主键字段名
      *
-     * @param createTable
-     * @return
+     * @param metaData
+     * @param database
+     * @param tableName
+     * @return 值为null则表示没有主键
+     * @throws SQLException
      */
-    private static List<String> getPrimaryKeyColumnNames(CreateTable createTable) {
-        List<Index> indexs = createTable.getIndexes();
-        if (indexs == null || indexs.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        for (Index index : indexs) {
-            if (TableMetaFields.PRIMARY_KEY_TAG.equals(index.getType())) {
-                return index.getColumnsNames();
+    private static String getPrimaryKeyColumnName(DatabaseMetaData metaData, String database,
+                                                  String tableName) throws SQLException {
+        try (ResultSet primaryKeyResultSet = metaData.getPrimaryKeys(database, null, tableName)) {
+            while (primaryKeyResultSet.next()) {
+                return primaryKeyResultSet.getString(4);
             }
         }
-        return Collections.emptyList();
-    }
-
-    /**
-     * 去除表字段名前后的转义符"`"
-     *
-     * @param name
-     * @return
-     */
-    private String wrapTableFieldName(String name) {
-        if (name.startsWith(TABLE_FIELD_ESCAPES) && name.endsWith(TABLE_FIELD_ESCAPES)) {
-            return name.substring(1, name.length() - 1);
-        }
-        return name;
-    }
-
-    private String wrapTableFieldComment(String comment) {
-        if (comment.startsWith(TABLE_FIELD_COMMENT_ESCAPES) && comment.endsWith(TABLE_FIELD_COMMENT_ESCAPES)) {
-            return comment.substring(1, comment.length() - 1);
-        }
-        if (TableMetaFields.NULL.equals(comment)) {
-            return null;
-        }
-        return comment;
+        return null;
     }
 
 }

@@ -16,7 +16,9 @@
 package org.smartframework.cloud.code.generate.util;
 
 import org.smartframework.cloud.code.generate.enums.GenerateTypeEnum;
-import org.smartframework.cloud.code.generate.properties.*;
+import org.smartframework.cloud.code.generate.properties.CodeProperties;
+import org.smartframework.cloud.code.generate.properties.DbProperties;
+import org.smartframework.cloud.code.generate.properties.YamlProperties;
 import org.smartframework.cloud.mask.MaskRule;
 
 import java.util.Map;
@@ -97,9 +99,6 @@ public class YamlPropertiesCheckUtil {
         if (isBlank(codeProperties.getMainClassPackage())) {
             throw new IllegalArgumentException("code.mainClassPackage未配置");
         }
-
-        // project
-        checkProject(codeProperties.getProject());
     }
 
     private static boolean isCodeSpecifiedTablesEmpty(CodeProperties codeProperties) {
@@ -150,25 +149,6 @@ public class YamlPropertiesCheckUtil {
         }
 
         throw new IllegalArgumentException(String.format("不支持的mask规则【%s】", maskRule));
-    }
-
-    private static void checkProject(ProjectProperties project) {
-        if (project == null) {
-            throw new IllegalArgumentException("code.project未配置");
-        }
-
-        PathProperties pathProperties = project.getPath();
-        if (pathProperties == null) {
-            throw new IllegalArgumentException("code.project.path未配置");
-        }
-
-        if (isBlank(pathProperties.getRpc())) {
-            throw new IllegalArgumentException("code.project.path.rpc未配置");
-        }
-
-        if (isBlank(pathProperties.getService())) {
-            throw new IllegalArgumentException("code.project.path.service未配置");
-        }
     }
 
     /**

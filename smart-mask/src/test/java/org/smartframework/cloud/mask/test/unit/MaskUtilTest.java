@@ -23,6 +23,7 @@ class MaskUtilTest {
 
     @Test
     void testMask() {
+        Assertions.assertThat(MaskUtil.mask((Object) null, 3, 3, "***")).isEqualTo("***");
         Assertions.assertThat(MaskUtil.mask(null, 3, 3, "***")).isEqualTo("***");
         Assertions.assertThat(MaskUtil.mask("", 3, 3, "***")).isEqualTo("***");
         Assertions.assertThat(MaskUtil.mask("13112345678", 11, 3, "***")).isEqualTo("***");

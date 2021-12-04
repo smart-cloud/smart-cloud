@@ -20,12 +20,28 @@ import org.junit.jupiter.api.Test;
 import org.smartframework.cloud.starter.log4j2.enums.ExtProperty;
 import org.smartframework.cloud.starter.log4j2.plugin.CustomizeContextMapLookup;
 
+import java.util.Map;
+
 class CustomizeContextMapLookupUnitTest {
 
+    private String projectName = "smart-cloud-starter-log4j2";
+
     @Test
-    void testReadAppName() {
+    void testReadAppNameFromProject() {
         CustomizeContextMapLookup customizeContextMapLookup = new CustomizeContextMapLookup();
-        Assertions.assertThat(customizeContextMapLookup.lookup(ExtProperty.APP_NAME.getName())).isEqualTo("smart-cloud-starter-log4j2");
+        Assertions.assertThat(customizeContextMapLookup.lookup(ExtProperty.APP_NAME.getName())).isEqualTo(projectName);
+    }
+
+    @Test
+    void testReadAppNameFromYaml() {
+        Map<String, String> data = CustomizeContextMapLookup.init("name_test.yaml");
+        Assertions.assertThat(data.get(ExtProperty.APP_NAME.getName())).isEqualTo("unit_test");
+    }
+
+    @Test
+    void testReadAppNameFromYamlAndProjectName() {
+        Map<String, String> data = CustomizeContextMapLookup.init("name_test_project.yaml");
+        Assertions.assertThat(data.get(ExtProperty.APP_NAME.getName())).isEqualTo(projectName);
     }
 
 }

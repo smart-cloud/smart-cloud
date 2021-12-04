@@ -16,14 +16,14 @@
 package org.smartframework.cloud.utility.test.unit;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.RepeatedTest;
 import org.smartframework.cloud.utility.SecureRandomUtil;
 
 import java.security.NoSuchAlgorithmException;
 
 class SecureRandomUtilUnitTest {
 
-    @Test
+    @RepeatedTest(16)
     void testGenerateRandom() throws NoSuchAlgorithmException {
         String random1 = SecureRandomUtil.generateRandom(true, 10);
         String random2 = SecureRandomUtil.generateRandom(false, 10);
@@ -31,7 +31,7 @@ class SecureRandomUtilUnitTest {
         Assertions.assertThat(random2.length()).isEqualTo(10);
     }
 
-    @Test
+    @RepeatedTest(16)
     void testGenerateRangeRandom() throws NoSuchAlgorithmException {
         int random1 = SecureRandomUtil.generateRangeRandom(10, 100);
         Assertions.assertThat(random1).isBetween(10, 100);

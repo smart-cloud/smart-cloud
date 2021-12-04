@@ -69,7 +69,6 @@
         <xxl-job>2.3.0</xxl-job>
         <commons-collections4>4.4</commons-collections4>
         <log4j-layout-template-json>2.14.1</log4j-layout-template-json>
-        <jsqlparser>4.2</jsqlparser>
         <maven-pmd-plugin>3.15.0</maven-pmd-plugin>
         <p3c-pmd>2.1.1</p3c-pmd>
         <jacoco-maven-plugin>0.8.7</jacoco-maven-plugin>
@@ -502,12 +501,6 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-layout-template-json</artifactId>
                 <version>${log4j-layout-template-json}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.jsqlparser</groupId>
-                <artifactId>jsqlparser</artifactId>
-                <version>${jsqlparser}</version>
             </dependency>
 
             <!--用户redis集成测试-->

@@ -54,5 +54,5 @@ public class CodeProperties {
     /**
      * 工程信息
      */
-    private ProjectProperties project;
+    private ProjectProperties project = new ProjectProperties();
 }

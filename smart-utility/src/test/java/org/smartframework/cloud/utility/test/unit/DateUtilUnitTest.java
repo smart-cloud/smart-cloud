@@ -24,8 +24,15 @@ import java.util.Date;
 
 class DateUtilUnitTest {
 
+    @Test
     void testNow() {
         Assertions.assertThat(DateUtil.now()).isNotNull();
+    }
+
+    @Test
+    void testCurrentMillis() {
+        long currentMillis = DateUtil.currentMillis();
+        Assertions.assertThat(DateUtil.currentMillis()).isGreaterThanOrEqualTo(currentMillis);
     }
 
     @Test
@@ -132,6 +139,7 @@ class DateUtilUnitTest {
 
     @Test
     void testToCurrentMillis() {
+        Assertions.assertThat(DateUtil.toCurrentMillis(null)).isNull();
         Assertions.assertThat(DateUtil.toCurrentMillis("2019")).isNotNull();
         Assertions.assertThat(DateUtil.toCurrentMillis("2019-01")).isNotNull();
         Assertions.assertThat(DateUtil.toCurrentMillis("2019-01-01")).isNotNull();
