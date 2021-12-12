@@ -25,7 +25,7 @@ import java.lang.reflect.Type;
 /**
  * mock工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-05-11
  */
 public class MockUtil {

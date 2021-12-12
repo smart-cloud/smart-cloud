@@ -27,7 +27,7 @@ import java.security.spec.InvalidKeySpecException;
 /**
  * PBEWithHmacSHA256AndAES_128加解密工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2020/02/20
  */
 public class PbeWithHmacSha256AndAes128Util {

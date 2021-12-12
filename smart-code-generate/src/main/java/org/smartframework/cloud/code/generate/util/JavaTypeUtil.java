@@ -23,7 +23,7 @@ import java.util.Date;
 /**
  * jdbc类型与java类型转化工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019年7月15日 上午10:03:50
  */
 public class JavaTypeUtil {

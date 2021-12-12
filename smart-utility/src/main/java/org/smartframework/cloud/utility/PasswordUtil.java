@@ -22,7 +22,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * 密码安全处理工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-01
  */
 public class PasswordUtil {

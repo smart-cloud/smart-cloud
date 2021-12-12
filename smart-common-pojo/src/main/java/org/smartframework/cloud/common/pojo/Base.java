@@ -24,7 +24,7 @@ import java.io.Serializable;
 /**
  * pojo基类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-22
  */
 @NoArgsConstructor

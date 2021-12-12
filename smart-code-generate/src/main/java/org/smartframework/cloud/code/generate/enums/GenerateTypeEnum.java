@@ -22,7 +22,7 @@ import lombok.Getter;
 /**
  * 表生成类型（1、数据库整个表全部生成；2、只生成指定的表；3、除了指定的表，全部生成）
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-14
  */
 @Getter

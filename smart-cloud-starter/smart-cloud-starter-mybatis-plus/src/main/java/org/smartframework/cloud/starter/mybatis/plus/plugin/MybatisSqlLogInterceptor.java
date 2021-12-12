@@ -39,7 +39,7 @@ import java.util.regex.Matcher;
 /**
  * mybatis sql日志打印
  *
- * @author liyulin
+ * @author collin
  * @date 2019-03-22
  */
 @Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),

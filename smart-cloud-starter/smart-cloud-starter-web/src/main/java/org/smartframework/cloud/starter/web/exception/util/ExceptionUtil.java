@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * 异常工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-09
  */
 @UtilityClass

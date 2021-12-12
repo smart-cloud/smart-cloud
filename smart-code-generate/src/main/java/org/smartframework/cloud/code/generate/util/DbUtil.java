@@ -34,7 +34,7 @@ import java.util.*;
 /**
  * 数据库操作工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-13
  */
 public class DbUtil {

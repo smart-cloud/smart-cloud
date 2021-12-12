@@ -38,7 +38,7 @@ import java.io.IOException;
 /**
  * 多语言配置
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-15
  */
 @Slf4j

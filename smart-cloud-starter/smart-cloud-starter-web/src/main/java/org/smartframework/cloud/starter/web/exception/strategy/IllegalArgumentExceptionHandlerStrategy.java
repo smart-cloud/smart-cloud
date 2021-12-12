@@ -21,7 +21,7 @@ import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc 参数不合法异常转换
  * @date 2019/10/29
  */

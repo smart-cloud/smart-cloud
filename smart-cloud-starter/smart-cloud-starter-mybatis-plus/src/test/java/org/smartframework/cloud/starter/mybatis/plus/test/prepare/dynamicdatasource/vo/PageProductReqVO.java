@@ -22,7 +22,7 @@ import org.smartframework.cloud.common.pojo.BasePageRequest;
 /**
  * 分页查询商品信息请求参数
  *
- * @author liyulin
+ * @author collin
  * @date 2020-09-10
  */
 @Getter

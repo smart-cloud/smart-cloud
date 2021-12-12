@@ -38,7 +38,7 @@ import java.util.Objects;
  * <p>
  * NOTE：需要在log4j2的配置文件中设置“packages”的属性值（即当前类的包名）
  *
- * @author liyulin
+ * @author collin
  * @date 2019-03-19
  */
 @Plugin(name = "cctx", category = StrLookup.CATEGORY)

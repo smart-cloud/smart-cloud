@@ -25,7 +25,7 @@ import java.io.Serializable;
 /**
  * 响应对象
  *
- * @author liyulin
+ * @author collin
  * @date 2020-05-07
  */
 @Setter

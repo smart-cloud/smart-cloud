@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
  * <li>xml转bean</li>
  * </ul>
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-17
  */
 public final class JaxbUtil {

@@ -11,9 +11,9 @@
 <a:Name>UML Sequence Diagram_1</a:Name>
 <a:Code>UMLSequenceDiagram_1</a:Code>
 <a:CreationDate>1570851915</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570861545</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <a:PackageOptionsText>[FolderOptions]
 
 [FolderOptions\Class Diagram Objects]
@@ -956,9 +956,9 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <a:Name>Java</a:Name>
 <a:Code>Java</a:Code>
 <a:CreationDate>1570851914</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570851914</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <a:TargetStereotype/>
 <a:TargetID>0DEDDB90-46E2-45A0-886E-411709DA0DC9</a:TargetID>
 <a:TargetClassID>1811206C-1A4B-11D1-83D9-444553540000</a:TargetClassID>
@@ -970,9 +970,9 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <a:Name>WSDL for Java</a:Name>
 <a:Code>WSDLJava</a:Code>
 <a:CreationDate>1570851915</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570851915</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <a:TargetStereotype/>
 <a:TargetID>C8F5F7B2-CF9D-4E98-8301-959BB6E86C8A</a:TargetID>
 <a:TargetClassID>186C8AC3-D3DC-11D3-881C-00508B03C75C</a:TargetClassID>
@@ -987,9 +987,9 @@ ColnFKNameUse=No</a:ModelOptionsText>
 <a:Name>接口加解密过程</a:Name>
 <a:Code>接口加解密过程</a:Code>
 <a:CreationDate>1570851915</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570862008</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <a:DisplayPreferences>[DisplayPreferences]
 
 [DisplayPreferences\SQD]
@@ -1840,18 +1840,18 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>客户端（C）</a:Name>
 <a:Code>客户端（C）</a:Code>
 <a:CreationDate>1570852068</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570861161</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 </o:UMLObject>
 <o:UMLObject Id="o41">
 <a:ObjectID>B070F726-0E79-4558-B4EF-6FA806FBD9EF</a:ObjectID>
 <a:Name>服务端（S）</a:Name>
 <a:Code>服务端（S）</a:Code>
 <a:CreationDate>1570852069</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570861170</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 </o:UMLObject>
 </c:Model.Objects>
 <c:Messages>
@@ -1860,9 +1860,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>获取rsa key</a:Name>
 <a:Code>获取rsakey</a:Code>
 <a:CreationDate>1570860705</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570860709</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <c:Object1>
 <o:UMLObject Ref="o41"/>
 </c:Object1>
@@ -1875,9 +1875,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>随机产生两对rsa公钥、私钥，以及token</a:Name>
 <a:Code>随机产生两对rsa公钥、私钥，以及token</a:Code>
 <a:CreationDate>1570860827</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570860847</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <a:ControlFlow>C</a:ControlFlow>
 <a:Delay>1</a:Delay>
 <c:Object1>
@@ -1892,9 +1892,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>token、clientPubKey、clientPriKey</a:Name>
 <a:Code>token、clientPubKey、clientPriKey</a:Code>
 <a:CreationDate>1570860882</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570860898</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <c:Object1>
 <o:UMLObject Ref="o39"/>
 </c:Object1>
@@ -1907,9 +1907,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>保存token、clientPubKey、clientPriKey</a:Name>
 <a:Code>保存token、clientPubKey、clientPriKey</a:Code>
 <a:CreationDate>1570860933</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570860947</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <a:ControlFlow>C</a:ControlFlow>
 <a:Delay>1</a:Delay>
 <c:Object1>
@@ -1924,9 +1924,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>随机生成aes加密的key</a:Name>
 <a:Code>随机生成aes加密的key</a:Code>
 <a:CreationDate>1570861029</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570861066</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <a:ControlFlow>C</a:ControlFlow>
 <a:Delay>1</a:Delay>
 <c:Object1>
@@ -1941,9 +1941,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>将aesKey用clientPubKey加密，用clientPriKey签名并发送给S端</a:Name>
 <a:Code>将aesKey用clientPubKey加密，用clientPriKey签名并发送给S端</a:Code>
 <a:CreationDate>1570861096</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570861134</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <c:Object1>
 <o:UMLObject Ref="o41"/>
 </c:Object1>
@@ -1956,9 +1956,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>S端校验签名并解密，保存aesKey</a:Name>
 <a:Code>S端校验签名并解密，保存aesKey</a:Code>
 <a:CreationDate>1570861198</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570861221</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <a:ControlFlow>C</a:ControlFlow>
 <a:Delay>1</a:Delay>
 <c:Object1>
@@ -1973,9 +1973,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>用aesKey加解密；用clientPriKey签名，用clientPubKey校验签名</a:Name>
 <a:Code>用aesKey加解密；用clientPriKey签名，用clientPubKey校验签名</a:Code>
 <a:CreationDate>1570861526</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570861533</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <c:Object1>
 <o:UMLObject Ref="o41"/>
 </c:Object1>
@@ -1988,9 +1988,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>用aesKey加解密；用serverPriKey签名，用serverPubKey校验签名</a:Name>
 <a:Code>用aesKey加解密；用serverPriKey签名，用serverPubKey校验签名</a:Code>
 <a:CreationDate>1570861545</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570861583</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <c:Object1>
 <o:UMLObject Ref="o39"/>
 </c:Object1>
@@ -2005,9 +2005,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>Java</a:Name>
 <a:Code>Java</a:Code>
 <a:CreationDate>1570851914</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570851914</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <a:TargetModelURL>file:///%_OBJLANG%/java5-j2ee14.xol</a:TargetModelURL>
 <a:TargetModelID>0DEDDB90-46E2-45A0-886E-411709DA0DC9</a:TargetModelID>
 <a:TargetModelClassID>1811206C-1A4B-11D1-83D9-444553540000</a:TargetModelClassID>
@@ -2021,9 +2021,9 @@ DISPNAME 0 新宋体,8,U</a:FontList>
 <a:Name>WSDL for Java</a:Name>
 <a:Code>WSDLJava</a:Code>
 <a:CreationDate>1570851915</a:CreationDate>
-<a:Creator>liyulin</a:Creator>
+<a:Creator>collin</a:Creator>
 <a:ModificationDate>1570851915</a:ModificationDate>
-<a:Modifier>liyulin</a:Modifier>
+<a:Modifier>collin</a:Modifier>
 <a:TargetModelURL>file:///%_XEM%/WSDLJ2EE.xem</a:TargetModelURL>
 <a:TargetModelID>C8F5F7B2-CF9D-4E98-8301-959BB6E86C8A</a:TargetModelID>
 <a:TargetModelClassID>186C8AC3-D3DC-11D3-881C-00508B03C75C</a:TargetModelClassID>

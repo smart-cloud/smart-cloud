@@ -24,7 +24,7 @@ import org.smartframework.cloud.common.pojo.BaseEntityResponse;
 /**
  * 商品信息
  *
- * @author liyulin
+ * @author collin
  * @date 2021-03-14
  */
 @Setter

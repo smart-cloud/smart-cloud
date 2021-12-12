@@ -26,7 +26,7 @@ package org.smartframework.cloud.common.pojo.enums;
  * <li>XXX5XX：服务器错误
  * </ul>
  *
- * @author liyulin
+ * @author collin
  * @date 2019-03-27
  */
 public interface IBaseReturnCodes {

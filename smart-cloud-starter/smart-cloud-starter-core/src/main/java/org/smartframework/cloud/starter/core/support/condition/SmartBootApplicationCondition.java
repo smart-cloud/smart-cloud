@@ -25,7 +25,7 @@ import org.springframework.core.type.ClassMetadata;
 /**
  * 判断注解{@link SmartBootApplication}是否生效
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-27
  */
 public class SmartBootApplicationCondition implements Condition {

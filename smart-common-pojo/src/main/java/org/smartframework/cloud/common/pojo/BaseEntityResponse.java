@@ -27,7 +27,7 @@ import java.util.Date;
 /**
  * 实体对象对应的响应对象基类
  *
- * @author liyulin
+ * @author collin
  * @date 2020-05-24
  */
 @Setter

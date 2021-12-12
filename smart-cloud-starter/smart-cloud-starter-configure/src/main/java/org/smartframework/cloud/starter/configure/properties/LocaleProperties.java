@@ -25,7 +25,7 @@ import lombok.Setter;
 /**
  * 多语言配置信息
  * 
- * @author liyulin
+ * @author collin
  * @date 2019-07-15
  */
 @Getter

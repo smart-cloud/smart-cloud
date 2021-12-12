@@ -35,7 +35,7 @@ import java.lang.reflect.ParameterizedType;
 /**
  * SpringBoot集成测试基类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-22
  */
 @Slf4j

@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * UIP请求报文节点SvcInfo——Header
  *
- * @author liyulin
+ * @author collin
  * @date 2018年12月13日下午10:12:37
  */
 @NoArgsConstructor

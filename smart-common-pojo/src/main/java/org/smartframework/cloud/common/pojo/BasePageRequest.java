@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 /**
  * 分页请求参数基类
  *
- * @author liyulin
+ * @author collin
  * @date 2020-05-07
  */
 @Getter

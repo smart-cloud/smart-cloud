@@ -36,7 +36,7 @@ import java.security.spec.*;
  * RSA非对称加密工具类
  * <p>注意：加密的文本长度<=秘钥长度/8</p>
  *
- * @author liyulin
+ * @author collin
  * @date 2019-06-24
  */
 public class RsaUtil {

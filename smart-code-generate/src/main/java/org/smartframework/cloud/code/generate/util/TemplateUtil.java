@@ -27,7 +27,7 @@ import java.util.*;
 /**
  * 模板BO工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-15
  */
 public class TemplateUtil {

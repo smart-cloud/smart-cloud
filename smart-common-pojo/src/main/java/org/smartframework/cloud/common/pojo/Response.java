@@ -24,7 +24,7 @@ import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 /**
  * 响应对象
  *
- * @author liyulin
+ * @author collin
  * @date 2020-05-07
  */
 @Setter

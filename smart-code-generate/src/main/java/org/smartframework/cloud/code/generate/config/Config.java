@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 配置常量
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-15
  */
 public interface Config {

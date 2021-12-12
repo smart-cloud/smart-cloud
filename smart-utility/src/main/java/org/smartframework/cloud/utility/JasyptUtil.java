@@ -21,7 +21,7 @@ import org.springframework.core.env.StandardEnvironment;
 /**
  * jasypt加解密工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-05-24
  */
 public class JasyptUtil {

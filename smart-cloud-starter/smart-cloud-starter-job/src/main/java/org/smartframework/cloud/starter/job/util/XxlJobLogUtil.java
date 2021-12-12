@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * xxl-job日志工具类（会在日志系统、xxl-job中同时写入）
  *
- * @author liyulin
+ * @author collin
  * @date 2019-7-11
  */
 @UtilityClass

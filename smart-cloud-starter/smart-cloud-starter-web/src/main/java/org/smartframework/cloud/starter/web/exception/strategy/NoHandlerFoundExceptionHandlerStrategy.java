@@ -22,7 +22,7 @@ import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc mapping url找不到异常转换
  * @date 2019/10/29
  */

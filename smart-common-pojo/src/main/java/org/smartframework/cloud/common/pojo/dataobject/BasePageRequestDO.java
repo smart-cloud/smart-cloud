@@ -21,7 +21,7 @@ import org.smartframework.cloud.common.pojo.Base;
 /**
  * （用于dao层）分页请求参数基类
  *
- * @author liyulin
+ * @author collin
  * @date 2020-05-07
  */
 @Getter

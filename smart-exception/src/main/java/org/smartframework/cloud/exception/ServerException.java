@@ -21,7 +21,7 @@ import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 /**
  * 服务器异常
  *
- * @author liyulin
+ * @author collin
  * @date 2019-06-29
  */
 public class ServerException extends BaseException {

@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * mq发送消息公共封装
  *
- * @author liyulin
+ * @author collin
  * @date 2020-08-13
  */
 @Slf4j

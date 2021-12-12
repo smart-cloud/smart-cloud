@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
 /**
  * 商品信息oms biz
  *
- * @author liyulin
+ * @author collin
  * @date 2019-03-31
  */
 @Repository

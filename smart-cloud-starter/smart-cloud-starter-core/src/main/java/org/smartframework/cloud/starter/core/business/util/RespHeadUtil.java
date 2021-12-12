@@ -25,7 +25,7 @@ import org.smartframework.cloud.utility.spring.I18nUtil;
 /**
  * {@link ResponseHead}工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-14
  */
 public class RespHeadUtil {

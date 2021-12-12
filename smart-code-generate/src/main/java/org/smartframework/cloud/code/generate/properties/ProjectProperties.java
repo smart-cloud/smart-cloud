@@ -20,7 +20,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc 工程配置
  * @date 2019/11/08
  */

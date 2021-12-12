@@ -16,7 +16,7 @@
 package org.smartframework.cloud.utility.constant;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc 日期格式
  * @date 2019/10/24
  */

@@ -25,7 +25,7 @@ import org.smartframework.cloud.utility.spring.I18nUtil;
 /**
  * {@link Response}工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-06
  */
 public class RespUtil {

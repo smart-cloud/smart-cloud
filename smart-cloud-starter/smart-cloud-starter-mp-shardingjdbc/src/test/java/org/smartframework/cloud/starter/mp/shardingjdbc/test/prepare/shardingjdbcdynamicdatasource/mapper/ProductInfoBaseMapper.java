@@ -22,7 +22,7 @@ import org.smartframework.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
 /**
  * 商品信息base mapper
  *
- * @author liyulin
+ * @author collin
  * @date 2021-03-23
  */
 @Mapper

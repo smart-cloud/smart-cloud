@@ -22,7 +22,7 @@ import lombok.ToString;
 /**
  * 类注释信息
  * 
- * @author liyulin
+ * @author collin
  * @date 2019-07-16
  */
 @Getter

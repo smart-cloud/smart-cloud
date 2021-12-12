@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * jackson工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2020-05-23
  */
 @Slf4j

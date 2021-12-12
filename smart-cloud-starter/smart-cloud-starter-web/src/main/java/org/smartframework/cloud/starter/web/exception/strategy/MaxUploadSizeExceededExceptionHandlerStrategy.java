@@ -22,7 +22,7 @@ import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc 上传文件大小超过限制异常转换
  * @date 2019/10/29
  */

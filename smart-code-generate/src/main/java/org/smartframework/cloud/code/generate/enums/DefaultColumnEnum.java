@@ -18,7 +18,7 @@ package org.smartframework.cloud.code.generate.enums;
 /**
  * 每张表默认的字段
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-13
  */
 public enum DefaultColumnEnum {

@@ -21,7 +21,7 @@ import lombok.Getter;
 
 /**
  * @desc 签名类型
- * @author liyulin
+ * @author collin
  * @date 2020/04/13
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

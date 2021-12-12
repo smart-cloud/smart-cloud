@@ -23,7 +23,7 @@ import org.smartframework.cloud.common.pojo.Base;
 /**
  * feign切面日志Dto
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-09
  */
 @Getter

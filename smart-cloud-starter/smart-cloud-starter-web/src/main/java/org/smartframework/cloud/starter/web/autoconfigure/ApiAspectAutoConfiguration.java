@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * api切面配置
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-03
  */
 @Configuration
@@ -56,7 +56,7 @@ public class ApiAspectAutoConfiguration {
     /**
      * 接口日志
      *
-     * @author liyulin
+     * @author collin
      * @date 2019年7月3日 下午3:58:27
      */
     @Configuration

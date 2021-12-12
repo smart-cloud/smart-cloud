@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * redis常用api封装
  *
- * @author liyulin
+ * @author collin
  * @date 2018-10-17
  */
 @AllArgsConstructor

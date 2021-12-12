@@ -22,7 +22,7 @@ import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc http请求数据格式不支持异常转换
  * @date 2019/10/29
  */

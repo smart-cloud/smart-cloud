@@ -22,7 +22,7 @@ import lombok.Getter;
 /**
  * 通用状态码
  *
- * @author liyulin
+ * @author collin
  * @date 2019-03-27
  * @see IBaseReturnCodes
  */

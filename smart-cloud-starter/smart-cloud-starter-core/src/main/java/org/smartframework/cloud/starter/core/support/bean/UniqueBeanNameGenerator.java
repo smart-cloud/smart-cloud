@@ -24,7 +24,7 @@ import org.springframework.util.StringUtils;
 /**
  * 生成bean名称的规则
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-22
  */
 public class UniqueBeanNameGenerator extends AnnotationBeanNameGenerator {

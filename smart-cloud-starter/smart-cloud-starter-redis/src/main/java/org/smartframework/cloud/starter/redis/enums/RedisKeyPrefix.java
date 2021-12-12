@@ -21,7 +21,7 @@ import lombok.Getter;
 
 /**
  * @desc redis key前缀
- * @author liyulin
+ * @author collin
  * @date 2020/04/15
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

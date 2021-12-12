@@ -22,7 +22,7 @@ import org.smartframework.cloud.common.pojo.Base;
 /**
  * rpc配置
  *
- * @author liyulin
+ * @author collin
  * @date 2020-12-21
  */
 @Getter

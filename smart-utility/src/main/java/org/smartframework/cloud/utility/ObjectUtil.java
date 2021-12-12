@@ -18,7 +18,7 @@ package org.smartframework.cloud.utility;
 /**
  * Object工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-07
  */
 public class ObjectUtil {

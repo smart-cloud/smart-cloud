@@ -23,7 +23,7 @@ import org.springframework.core.annotation.Order;
 /**
  * 工具类注入
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-12
  */
 @Configuration

@@ -21,7 +21,7 @@ import org.smartframework.cloud.common.pojo.Base;
 /**
  * boolean BO
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-05
  */
 @Getter

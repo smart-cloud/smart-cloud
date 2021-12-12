@@ -56,8 +56,10 @@ public class MybatisSqlLogInterceptorTest {
         Assertions.assertThat(success).isTrue();
 
         LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        String appenderName = "console";
-        ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
+        ConsoleAppender appender = ctx.getConfiguration().getAppender("console");
+        if(appender==null){
+            appender = ctx.getConfiguration().getAppender("Console");
+        }
         ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
         String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
         byteBuffer.flip();

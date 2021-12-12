@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 /**
  * web相关工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-03
  */
 @UtilityClass

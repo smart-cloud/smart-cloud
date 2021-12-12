@@ -31,7 +31,7 @@ import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc protostuff格式转换
  * @date 2019/12/2
  */

@@ -20,7 +20,7 @@ import org.smartframework.cloud.starter.redis.enums.RedisKeyPrefix;
 /**
  * redis key 工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2020/04/15
  */
 public final class RedisKeyUtil {

@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 /**
  * UIP请求报文
  *
- * @author liyulin
+ * @author collin
  * @date 2018年12月13日下午10:12:14
  */
 @NoArgsConstructor

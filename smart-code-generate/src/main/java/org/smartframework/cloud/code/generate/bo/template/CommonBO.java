@@ -24,7 +24,7 @@ import java.util.Set;
 /**
  * 公共信息
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-13
  */
 @Getter

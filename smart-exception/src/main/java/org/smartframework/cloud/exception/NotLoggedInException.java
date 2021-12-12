@@ -20,7 +20,7 @@ import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
 /**
  * 未登陆异常
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-06
  */
 public class NotLoggedInException extends BaseException {

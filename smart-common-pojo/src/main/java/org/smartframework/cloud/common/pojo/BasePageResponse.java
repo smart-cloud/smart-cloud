@@ -27,7 +27,7 @@ import java.util.Objects;
 /**
  * 分页请求响应信息
  *
- * @author liyulin
+ * @author collin
  * @date 2020-05-07
  */
 @Getter

@@ -24,7 +24,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * yml文件公共属性配置定义
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-14
  */
 @Getter

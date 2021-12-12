@@ -25,7 +25,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * 随机工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-08
  */
 public class RandomUtil extends AbstractRandomUtil {

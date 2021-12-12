@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 全局异常处理
  *
- * @author liyulin
+ * @author collin
  * @date 2019年4月8日下午9:05:25
  */
 @Configuration

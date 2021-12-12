@@ -34,7 +34,7 @@ import java.io.Serializable;
 /**
  * redis配置
  *
- * @author liyulin
+ * @author collin
  * @date 2018-10-17
  */
 @Configuration

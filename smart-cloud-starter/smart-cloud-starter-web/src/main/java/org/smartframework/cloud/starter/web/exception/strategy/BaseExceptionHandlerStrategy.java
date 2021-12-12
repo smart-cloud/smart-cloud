@@ -22,7 +22,7 @@ import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.smartframework.cloud.utility.spring.I18nUtil;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc 自定义异常转换
  * @date 2019/10/29
  */

@@ -18,7 +18,7 @@ package org.smartframework.cloud.mask.util;
 import org.smartframework.cloud.mask.MaskRule;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc mask工具类
  * @date 2019-11-05
  */

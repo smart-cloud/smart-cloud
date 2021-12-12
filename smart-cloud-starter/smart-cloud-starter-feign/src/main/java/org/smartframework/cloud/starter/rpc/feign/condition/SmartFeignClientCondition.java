@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
  * <li>4、如果存在，则{@link #matches(ConditionContext, AnnotatedTypeMetadata)}返回false，{@code FeignClient}不生效；否则，返回true，{@code FeignClient}生效。
  * </ul>
  *
- * @author liyulin
+ * @author collin
  * @date 2019-03-22
  */
 @Slf4j

@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 /**
  * yaml读取工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-15
  */
 public final class YamlUtil {

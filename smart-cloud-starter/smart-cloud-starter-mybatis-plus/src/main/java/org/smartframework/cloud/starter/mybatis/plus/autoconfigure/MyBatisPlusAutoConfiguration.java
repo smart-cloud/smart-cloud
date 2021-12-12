@@ -30,7 +30,7 @@ import org.springframework.core.annotation.Order;
 /**
  * mybatis plus配置
  *
- * @author liyulin
+ * @author collin
  * @date 2020-09-28
  */
 @Configuration

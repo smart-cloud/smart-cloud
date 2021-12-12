@@ -24,7 +24,7 @@ import org.springframework.util.Assert;
 import java.util.Locale;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc 国际化工具类
  * @date 2020/04/26
  */

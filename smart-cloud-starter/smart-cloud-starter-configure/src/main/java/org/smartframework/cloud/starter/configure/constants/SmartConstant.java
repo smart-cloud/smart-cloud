@@ -18,7 +18,7 @@ package org.smartframework.cloud.starter.configure.constants;
 /**
  * 公共常量定义
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-22
  */
 public interface SmartConstant {

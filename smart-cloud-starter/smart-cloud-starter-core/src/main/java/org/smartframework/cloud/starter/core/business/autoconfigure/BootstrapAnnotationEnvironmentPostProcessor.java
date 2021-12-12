@@ -40,7 +40,7 @@ import java.util.*;
 /**
  * 启动类注解值读取
  *
- * @author liyulin
+ * @author collin
  * @date 2019-06-21
  */
 public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentPostProcessor {

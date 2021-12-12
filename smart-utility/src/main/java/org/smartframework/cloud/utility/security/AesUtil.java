@@ -29,7 +29,7 @@ import java.security.SecureRandom;
 /**
  * AES对称加密工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-06-24
  */
 @Slf4j

@@ -26,7 +26,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * md5工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-12
  */
 public class Md5Util extends DigestUtils {

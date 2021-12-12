@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * 数据库表工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-06-04
  */
 @UtilityClass

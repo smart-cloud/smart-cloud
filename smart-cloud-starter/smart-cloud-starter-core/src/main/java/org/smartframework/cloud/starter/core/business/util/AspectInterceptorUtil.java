@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * 切面拦截器工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-21
  */
 public class AspectInterceptorUtil {

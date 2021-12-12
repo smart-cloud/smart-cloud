@@ -26,7 +26,7 @@ import javax.validation.Validator;
 /**
  * Hibernate Validator校验配置
  *
- * @author liyulin
+ * @author collin
  * @date 2019-03-29
  */
 @Configuration

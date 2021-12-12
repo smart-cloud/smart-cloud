@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * 代码生成工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-15
  */
 public class CodeGenerateUtil {

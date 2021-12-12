@@ -31,7 +31,7 @@ import java.io.IOException;
 /**
  * {@link MaskLog}注解脱敏处理
  *
- * @author liyulin
+ * @author collin
  * @date 2020-05-30
  */
 public class MaskJsonSerializer extends JsonSerializer<Object> implements ContextualSerializer {

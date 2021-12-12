@@ -25,7 +25,7 @@ import java.lang.annotation.*;
 /**
  * <code>FeignClient</code>自定义条件封装
  *
- * @author liyulin
+ * @author collin
  * @date 2019-03-22
  */
 @Target({ElementType.TYPE})

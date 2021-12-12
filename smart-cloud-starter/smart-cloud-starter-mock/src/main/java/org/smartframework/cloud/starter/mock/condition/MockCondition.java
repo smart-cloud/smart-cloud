@@ -24,7 +24,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 /**
  * 判断mock配置是否生效
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-27
  */
 public class MockCondition implements Condition {

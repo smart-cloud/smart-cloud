@@ -20,7 +20,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.Map;
 
 /**
- * @author liyulin
+ * @author collin
  * @date 2020-09-07
  */
 public interface IIntegrationTest {

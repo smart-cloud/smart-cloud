@@ -30,7 +30,7 @@ import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 /**
  * xxl-job自动配置
  * 
- * @author liyulin
+ * @author collin
  * @date 2019-07-11
  */
 @Configuration

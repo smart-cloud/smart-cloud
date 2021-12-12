@@ -26,7 +26,7 @@ import java.lang.annotation.*;
  * <p>
  * 此注解的解析不能通过<code>@Import</code>注解；否则，类似<code>@ConditionalOnProperty</code>这种条件注解将不会生效
  *
- * @author liyulin
+ * @author collin
  * @date 2019-05-11
  * @since YamlEnvironmentPostProcessor
  */

@@ -20,7 +20,7 @@ import org.slf4j.helpers.MessageFormatter;
 /**
  * 日志工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-03-23
  */
 public class LogUtil {

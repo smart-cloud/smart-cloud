@@ -21,7 +21,7 @@ import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 /**
  * 参数校验错误
  *
- * @author liyulin
+ * @author collin
  * @date 2019-05-01
  */
 public class ParamValidateException extends BaseException {

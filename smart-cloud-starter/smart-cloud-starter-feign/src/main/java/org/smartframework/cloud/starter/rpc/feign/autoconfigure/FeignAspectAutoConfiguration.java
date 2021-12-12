@@ -35,7 +35,7 @@ import java.util.Arrays;
 /**
  * feign切面配置
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-03
  */
 @Configuration
@@ -65,7 +65,7 @@ public class FeignAspectAutoConfiguration {
     /**
      * feign日志
      *
-     * @author liyulin
+     * @author collin
      * @date 2019年7月3日 下午3:58:48
      */
     @Configuration

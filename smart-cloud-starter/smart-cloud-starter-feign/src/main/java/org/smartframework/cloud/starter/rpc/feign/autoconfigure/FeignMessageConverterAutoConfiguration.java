@@ -32,7 +32,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 /**
  * feign消息转换配置
  *
- * @author liyulin
+ * @author collin
  * @date 2019/12/2
  */
 @Configuration

@@ -32,7 +32,7 @@ import java.lang.annotation.*;
 /**
  * 服务启动类注解
  *
- * @author liyulin
+ * @author collin
  * @date 2019-03-31
  */
 @Target(ElementType.TYPE)

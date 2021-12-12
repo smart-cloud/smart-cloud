@@ -21,7 +21,7 @@ import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 /**
  * 重复提交校验异常
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-03
  */
 public class RepeatSubmitException extends BaseException {

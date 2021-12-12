@@ -20,7 +20,7 @@ import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 /**
  * 自定义异常基类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-22
  */
 public abstract class BaseException extends RuntimeException {

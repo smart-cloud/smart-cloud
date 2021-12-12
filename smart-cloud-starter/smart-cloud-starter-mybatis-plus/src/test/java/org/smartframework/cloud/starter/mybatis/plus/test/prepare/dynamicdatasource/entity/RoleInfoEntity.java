@@ -26,7 +26,7 @@ import org.smartframework.cloud.starter.mybatis.plus.common.mapper.entity.BaseEn
 /**
  * 角色表
  *
- * @author liyulin
+ * @author collin
  * @date 2021-07-02
  */
 @Getter

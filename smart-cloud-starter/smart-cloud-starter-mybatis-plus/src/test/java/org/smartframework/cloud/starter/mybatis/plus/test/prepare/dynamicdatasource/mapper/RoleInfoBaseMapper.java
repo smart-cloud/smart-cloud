@@ -22,7 +22,7 @@ import org.smartframework.cloud.starter.mybatis.plus.test.prepare.dynamicdatasou
 /**
  * 角色表base mapper
  *
- * @author liyulin
+ * @author collin
  * @date 2021-07-02
  */
 @Mapper

@@ -21,7 +21,7 @@ import lombok.Getter;
 
 /**
  * @desc mask规则
- * @author liyulin
+ * @author collin
  * @date 2019/11/05
  */
 @Getter

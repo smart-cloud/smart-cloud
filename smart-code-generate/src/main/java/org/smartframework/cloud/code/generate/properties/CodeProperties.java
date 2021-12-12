@@ -23,7 +23,7 @@ import org.smartframework.cloud.code.generate.enums.GenerateTypeEnum;
 import java.util.Map;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc 待生成的代码信息
  * @date 2019/11/08
  */

@@ -24,7 +24,7 @@ import org.smartframework.cloud.mask.MaskRule;
 import java.util.Map;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc YamlProperties校验工具类
  * @date 2019/11/08
  */

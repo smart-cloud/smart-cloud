@@ -28,7 +28,7 @@ import java.io.Serializable;
 /**
  * jackson mask工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2020-05-30
  */
 @Slf4j

@@ -72,6 +72,20 @@
         </dependency>
         <!-- yaml文件属性提示 end -->
 
+        <!--test case class编译依赖 start-->
+        <dependency>
+            <groupId>org.smartframework.cloud</groupId>
+            <artifactId>smart-cloud-starter-mybatis-plus</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.smartframework.cloud</groupId>
+            <artifactId>smart-common-pojo</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--test case class编译依赖 end-->
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -87,6 +101,12 @@
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-runner</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

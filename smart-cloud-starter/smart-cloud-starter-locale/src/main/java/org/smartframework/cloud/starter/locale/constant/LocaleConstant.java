@@ -18,7 +18,7 @@ package org.smartframework.cloud.starter.locale.constant;
 /**
  * locale常量
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-15
  */
 public interface LocaleConstant {

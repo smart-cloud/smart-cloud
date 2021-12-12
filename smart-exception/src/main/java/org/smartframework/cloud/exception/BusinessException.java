@@ -20,7 +20,7 @@ import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
 /**
  * 业务异常
  *
- * @author liyulin
+ * @author collin
  * @date 2019-06-29
  */
 public class BusinessException extends BaseException {

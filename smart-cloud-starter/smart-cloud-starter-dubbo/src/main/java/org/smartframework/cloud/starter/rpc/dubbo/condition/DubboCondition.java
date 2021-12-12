@@ -33,7 +33,7 @@ import java.lang.reflect.Type;
 import java.util.Set;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc dubbo rpc实例化条件判断
  * @date 2019/09/18
  */

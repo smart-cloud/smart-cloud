@@ -27,7 +27,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import java.util.List;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc 方法参数不合法异常转换
  * @date 2019/10/29
  */

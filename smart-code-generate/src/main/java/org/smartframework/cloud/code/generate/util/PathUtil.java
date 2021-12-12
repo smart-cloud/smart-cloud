@@ -13,41 +13,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.starter.web.exception;
-
-import org.smartframework.cloud.common.pojo.ResponseHead;
+package org.smartframework.cloud.code.generate.util;
 
 /**
- * 接口异常转换
+ * 路径工具类
  *
  * @author collin
- * @date 2019/10/29
+ * @date 2021-12-12
  */
-public interface IExceptionHandlerStrategy {
+public class PathUtil {
 
-    /**
-     * 是否需要servlet环境
-     *
-     * @return
-     */
-    default boolean isNeedServletEnv() {
-        return false;
+    private PathUtil() {
     }
 
     /**
-     * 异常类型匹配
+     * 获取rpc默认路径
      *
-     * @param e
      * @return
      */
-    boolean match(Throwable e);
+    public static String getDefaultRpcDir() {
+        if (isWindowSystem()) {
+            return "c:/codegenerate/rpc-module/";
+        }
+        return "/tmp/codegenerate/rpc-module/";
+    }
 
     /**
-     * 将异常转化为响应体
+     * 获取服务默认路径
      *
-     * @param e
      * @return
      */
-    ResponseHead transRespHead(Throwable e);
+    public static String getDefaultServiceDir() {
+        if (isWindowSystem()) {
+            return "c:/codegenerate/service-module/";
+        }
+        return "/tmp/codegenerate/service-module/";
+    }
+
+    /**
+     * 是否是windows系统
+     *
+     * @return
+     */
+    private static boolean isWindowSystem() {
+        return System.getProperty("os.name").toLowerCase().indexOf("windows") >= 0;
+    }
 
 }

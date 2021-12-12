@@ -20,7 +20,7 @@ import lombok.experimental.UtilityClass;
 /**
  * 日期常量
  * 
- * @author liyulin
+ * @author collin
  * @date 2019-07-11
  */
 @UtilityClass

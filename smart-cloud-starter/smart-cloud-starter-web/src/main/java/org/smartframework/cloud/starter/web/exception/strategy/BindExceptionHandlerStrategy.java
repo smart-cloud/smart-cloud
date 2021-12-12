@@ -27,7 +27,7 @@ import org.springframework.validation.FieldError;
 import java.util.List;
 
 /**
- * @author liyulin
+ * @author collin
  * @desc 参数检验异常转换
  * @date 2019/10/29
  */

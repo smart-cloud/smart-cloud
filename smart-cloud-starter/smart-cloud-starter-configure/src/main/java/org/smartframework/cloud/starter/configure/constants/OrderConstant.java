@@ -20,7 +20,7 @@ import org.springframework.core.Ordered;
 /**
  * bean执行顺序
  *
- * @author liyulin
+ * @author collin
  * @date 2019-06-28
  */
 public interface OrderConstant {

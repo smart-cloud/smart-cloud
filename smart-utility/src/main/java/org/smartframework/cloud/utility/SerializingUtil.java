@@ -26,7 +26,7 @@ import java.io.InputStream;
 /**
  * protostuff序列化工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-12-02
  */
 public final class SerializingUtil {

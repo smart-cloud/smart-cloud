@@ -25,7 +25,7 @@ import uk.co.jemos.podam.common.AttributeStrategy;
 /**
  * 手机号码mock生成策略
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-17
  */
 public class MobileAttributeStrategy implements AttributeStrategy<String> {

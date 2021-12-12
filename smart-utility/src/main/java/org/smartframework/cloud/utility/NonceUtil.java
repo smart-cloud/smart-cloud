@@ -29,7 +29,7 @@ import java.net.UnknownHostException;
  * <p>
  * 改造雪花算法，将ip作为机器标志，进程号作为数据中心
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-06
  */
 @Slf4j

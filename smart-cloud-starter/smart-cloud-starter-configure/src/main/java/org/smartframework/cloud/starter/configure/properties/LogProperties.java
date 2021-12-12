@@ -22,7 +22,7 @@ import org.smartframework.cloud.common.pojo.Base;
 /**
  * 切面配置
  *
- * @author liyulin
+ * @author collin
  * @date 2019-06-19
  */
 @Getter

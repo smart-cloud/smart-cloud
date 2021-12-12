@@ -23,7 +23,7 @@ import java.security.SecureRandom;
 /**
  * 安全的随机生成工具类
  *
- * @author liyulin
+ * @author collin
  * @date 2019-07-01
  */
 public class SecureRandomUtil extends AbstractRandomUtil {

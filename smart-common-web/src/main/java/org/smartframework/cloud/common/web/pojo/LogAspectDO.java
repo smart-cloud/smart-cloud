@@ -24,7 +24,7 @@ import org.smartframework.cloud.common.pojo.Base;
 /**
  * 普通接口（除了feign以外的接口）切面日志DO
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-09
  */
 @Getter

@@ -17,7 +17,7 @@ package org.smartframework.cloud.mask;
 
 /**
  * @desc mask配置
- * @author liyulin
+ * @author collin
  * @date 2019/11/05
  */
 public interface DefaultMaskConfig {

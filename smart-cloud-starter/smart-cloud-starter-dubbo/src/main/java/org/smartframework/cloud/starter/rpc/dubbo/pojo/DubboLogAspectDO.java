@@ -25,7 +25,7 @@ import java.io.Serializable;
 /**
  * dubbo切面日志
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-09
  */
 @Getter

@@ -16,7 +16,7 @@
 package org.smartframework.cloud.starter.test;
 
 /**
- * @author liyulin
+ * @author collin
  * @date 2020-12-21
  */
 public interface Constants {

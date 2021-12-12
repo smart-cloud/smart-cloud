@@ -36,7 +36,7 @@ import java.util.UUID;
 /**
  * mq监听公共基础封装
  *
- * @author liyulin
+ * @author collin
  * @date 2020-08-12
  */
 @Slf4j

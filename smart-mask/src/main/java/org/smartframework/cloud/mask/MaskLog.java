@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * @desc mask日志标记注解
- * @author liyulin
+ * @author collin
  * @date 2019/11/05
  */
 @Documented

@@ -25,7 +25,7 @@ import org.springframework.stereotype.Repository;
 /**
  * 日志rpc biz
  *
- * @author liyulin
+ * @author collin
  * @date 2019-04-08
  */
 @Repository

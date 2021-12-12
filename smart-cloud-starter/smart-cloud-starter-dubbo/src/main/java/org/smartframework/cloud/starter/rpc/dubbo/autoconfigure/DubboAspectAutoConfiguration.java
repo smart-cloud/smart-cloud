@@ -32,7 +32,7 @@ import java.util.Arrays;
 /**
  * dubbo切面配置
  *
- * @author liyulin
+ * @author collin
  * @date 2019-09-19
  */
 @Configuration
