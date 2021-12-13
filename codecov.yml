@@ -32,7 +32,11 @@ codecov:
     - ".github/.*"
     - "docs/.*"
     - "*.md"
-      comment:
-      layout: "reach,diff,flags,tree"
-      behavior: default
-      require_changes: no
+    - "smart-api-core/smart-api-annotation/.*"
+    - "smart-common-pojo/.*"
+    - "smart-constants/.*"
+    - "smart-api-core/.*"
+  comment:
+    layout: "reach,diff,flags,tree"
+    behavior: default
+    require_changes: no
