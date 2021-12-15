@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.starter.redis.component;
+package org.smartframework.cloud.starter.redis.adapter.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.AllArgsConstructor;
+import org.smartframework.cloud.starter.redis.adapter.IRedisAdapter;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.RedisStringCommands.SetOption;
+import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
@@ -35,7 +36,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2018-10-17
  */
 @AllArgsConstructor
-public class RedisComponent {
+public class RedisAdapterImpl implements IRedisAdapter {
 
     private StringRedisTemplate stringRedisTemplate;
 
@@ -46,6 +47,7 @@ public class RedisComponent {
      * @param value
      * @param expireMillis 有效期（毫秒），为null表示不设置有效期
      */
+    @Override
     public void setString(String key, String value, Long expireMillis) {
         if (expireMillis == null) {
             stringRedisTemplate.opsForValue().set(key, value);
@@ -60,6 +62,7 @@ public class RedisComponent {
      * @param key
      * @return
      */
+    @Override
     public String getString(String key) {
         return stringRedisTemplate.opsForValue().get(key);
     }
@@ -70,6 +73,7 @@ public class RedisComponent {
      * @param key
      * @param expireMillis 有效期（毫秒）
      */
+    @Override
     public void expire(String key, Long expireMillis) {
         stringRedisTemplate.expire(key, expireMillis, TimeUnit.MILLISECONDS);
     }
@@ -80,6 +84,7 @@ public class RedisComponent {
      * @param key
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
+    @Override
     public Boolean delete(String key) {
         return stringRedisTemplate.delete(key);
     }
@@ -90,6 +95,7 @@ public class RedisComponent {
      * @param keys
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
+    @Override
     public Boolean delete(Collection<String> keys) {
         Long count = stringRedisTemplate.delete(keys);
         return count != null && count == keys.size();
@@ -101,6 +107,7 @@ public class RedisComponent {
      * @param key
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
+    @Override
     public Boolean unlink(String key) {
         return stringRedisTemplate.unlink(key);
     }
@@ -111,6 +118,7 @@ public class RedisComponent {
      * @param keys
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
+    @Override
     public Boolean unlink(Collection<String> keys) {
         Long count = stringRedisTemplate.unlink(keys);
         return count != null && count == keys.size();
@@ -123,6 +131,7 @@ public class RedisComponent {
      * @param value        对象
      * @param expireMillis 有效期（毫秒），为null表示不设置有效期
      */
+    @Override
     public void setObject(String key, Object value, Long expireMillis) {
         setString(key, JacksonUtil.toJson(value), expireMillis);
     }
@@ -135,6 +144,7 @@ public class RedisComponent {
      * @param <T> 返回对象类型
      * @return
      */
+    @Override
     public <T> T getObject(String key, TypeReference<T> t) {
         String value = getString(key);
         if (null == value) {
@@ -152,12 +162,13 @@ public class RedisComponent {
      * @param expireMillis 有效期（毫秒）
      * @return {@code true}表示成功；{@code false}表示失败
      */
+    @Override
     public boolean setNx(String key, String value, long expireMillis) {
         Boolean result = stringRedisTemplate.execute(new RedisCallback<Boolean>() {
             @Override
             public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
                 return connection.set(key.getBytes(), value.getBytes(), Expiration.milliseconds(expireMillis),
-                        SetOption.SET_IF_ABSENT);
+                        RedisStringCommands.SetOption.SET_IF_ABSENT);
             }
         }, true);
         return result != null && result;

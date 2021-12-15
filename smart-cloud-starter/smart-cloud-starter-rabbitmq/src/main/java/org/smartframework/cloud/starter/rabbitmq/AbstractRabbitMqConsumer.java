@@ -18,12 +18,12 @@ package org.smartframework.cloud.starter.rabbitmq;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.smartframework.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
 import org.smartframework.cloud.starter.rabbitmq.util.MqUtil;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -45,7 +45,7 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
     @Autowired
     private RedissonClient redissonClient;
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private IRabbitMqAdapter rabbitMqAdapter;
 
     /**
      * 消费者具体执行的业务逻辑
@@ -84,7 +84,7 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
             }
         } catch (Exception e) {
             log.error("consumer mq exception", e);
-            if (!MqUtil.retryAfterConsumerFail(rabbitTemplate, object, message, getClass()) && executeAfterRetryConsumerFail(object)) {
+            if (!MqUtil.retryAfterConsumerFail(rabbitMqAdapter, object, message, getClass()) && executeAfterRetryConsumerFail(object)) {
                 log.warn("execute fail after retry consumer");
             }
         } finally {

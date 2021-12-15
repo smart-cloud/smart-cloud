@@ -16,7 +16,8 @@
 package org.smartframework.cloud.starter.redis.autoconfigure;
 
 import org.redisson.Redisson;
-import org.smartframework.cloud.starter.redis.component.RedisComponent;
+import org.smartframework.cloud.starter.redis.adapter.IRedisAdapter;
+import org.smartframework.cloud.starter.redis.adapter.impl.RedisAdapterImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -101,8 +102,8 @@ public class RedisAutoConfiguration {
     }
 
     @Bean
-    public RedisComponent redisComponent(final StringRedisTemplate stringRedisTemplate) {
-        return new RedisComponent(stringRedisTemplate);
+    public IRedisAdapter redisAdapterImpl(final StringRedisTemplate stringRedisTemplate) {
+        return new RedisAdapterImpl(stringRedisTemplate);
     }
 
 }

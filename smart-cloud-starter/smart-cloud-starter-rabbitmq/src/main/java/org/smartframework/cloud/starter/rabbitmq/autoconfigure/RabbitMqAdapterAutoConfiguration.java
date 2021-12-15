@@ -15,25 +15,23 @@
  */
 package org.smartframework.cloud.starter.rabbitmq.autoconfigure;
 
-import org.smartframework.cloud.starter.rabbitmq.RabbitMqConsumerFailRetryBeanProcessor;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
+import org.smartframework.cloud.starter.rabbitmq.adapter.impl.RabbitMqAdapterImpl;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * mq消费失败重试配置
+ * rabbitmq防腐层配置
  *
  * @author collin
  * @date 2021-06-30
  */
 @Configuration
-@AutoConfigureBefore(RabbitAutoConfiguration.class)
-public class RabbitMqConsumerFailRetryAutoConfiguration {
+public class RabbitMqAdapterAutoConfiguration {
 
     @Bean
-    public RabbitMqConsumerFailRetryBeanProcessor rabbitMqConsumerFailRetryBeanProcessor() {
-        return new RabbitMqConsumerFailRetryBeanProcessor();
+    public RabbitMqAdapterImpl rabbitMqAdapterImpl(final RabbitTemplate rabbitTemplate) {
+        return new RabbitMqAdapterImpl(rabbitTemplate);
     }
 
 }

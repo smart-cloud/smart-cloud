@@ -23,17 +23,17 @@ import lombok.Setter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.smartframework.cloud.starter.redis.component.RedisComponent;
+import org.smartframework.cloud.starter.redis.adapter.IRedisAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.Arrays;
 import java.util.Set;
 
-class RedisComponentIntegrationTest extends AbstractRedisIntegrationTest {
+class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
 
     @Autowired
-    private RedisComponent redisComponent;
+    private IRedisAdapter redisAdapter;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -47,9 +47,9 @@ class RedisComponentIntegrationTest extends AbstractRedisIntegrationTest {
     void testSetString() {
         String key = "SetStringkey";
         String value = "SetStringvalue";
-        redisComponent.setString(key, value, null);
-        redisComponent.setString(key, value, 1000 * 60L);
-        String expectedValue = redisComponent.getString(key);
+        redisAdapter.setString(key, value, null);
+        redisAdapter.setString(key, value, 1000 * 60L);
+        String expectedValue = redisAdapter.getString(key);
         Assertions.assertThat(value).isEqualTo(expectedValue);
     }
 
@@ -57,17 +57,17 @@ class RedisComponentIntegrationTest extends AbstractRedisIntegrationTest {
     void testDelete() {
         String key = "deletekey";
         String value = "deletevalue";
-        redisComponent.setString(key, value, null);
-        String expectedValue1 = redisComponent.getString(key);
+        redisAdapter.setString(key, value, null);
+        String expectedValue1 = redisAdapter.getString(key);
         Assertions.assertThat(value).isEqualTo(expectedValue1);
 
-        Boolean result1 = redisComponent.delete(key);
+        Boolean result1 = redisAdapter.delete(key);
         Assertions.assertThat(result1).isTrue();
 
-        Boolean result2 = redisComponent.delete(key);
+        Boolean result2 = redisAdapter.delete(key);
         Assertions.assertThat(result2).isFalse();
 
-        String expectedValue2 = redisComponent.getString(key);
+        String expectedValue2 = redisAdapter.getString(key);
         Assertions.assertThat(expectedValue2).isNull();
     }
 
@@ -75,24 +75,24 @@ class RedisComponentIntegrationTest extends AbstractRedisIntegrationTest {
     void testBatchDelete() {
         String key1 = "batchdeletekey1";
         String value1 = "batchdeletevalue1";
-        redisComponent.setString(key1, value1, null);
-        String expectedValue1 = redisComponent.getString(key1);
+        redisAdapter.setString(key1, value1, null);
+        String expectedValue1 = redisAdapter.getString(key1);
         Assertions.assertThat(value1).isEqualTo(expectedValue1);
 
         String key2 = "batchdeletekey2";
         String value2 = "batchdeletevalue2";
-        redisComponent.setString(key2, value2, null);
-        String expectedValue2 = redisComponent.getString(key2);
+        redisAdapter.setString(key2, value2, null);
+        String expectedValue2 = redisAdapter.getString(key2);
         Assertions.assertThat(value2).isEqualTo(expectedValue2);
 
-        Boolean result1 = redisComponent.delete(Arrays.asList(key1, key2));
+        Boolean result1 = redisAdapter.delete(Arrays.asList(key1, key2));
         Assertions.assertThat(result1).isTrue();
 
-        Boolean result2 = redisComponent.delete(Arrays.asList(key1, key2));
+        Boolean result2 = redisAdapter.delete(Arrays.asList(key1, key2));
         Assertions.assertThat(result2).isFalse();
 
-        String expectedValue12 = redisComponent.getString(key1);
-        String expectedValue22 = redisComponent.getString(key2);
+        String expectedValue12 = redisAdapter.getString(key1);
+        String expectedValue22 = redisAdapter.getString(key2);
         Assertions.assertThat(expectedValue12).isNull();
         Assertions.assertThat(expectedValue22).isNull();
     }
@@ -101,8 +101,8 @@ class RedisComponentIntegrationTest extends AbstractRedisIntegrationTest {
     void testSetObject() {
         String key = "SetObjectkey";
         SetObject setObject = new SetObject("test");
-        redisComponent.setObject(key, setObject, null);
-        SetObject expectedValue = redisComponent.getObject(key, new TypeReference<SetObject>() {
+        redisAdapter.setObject(key, setObject, null);
+        SetObject expectedValue = redisAdapter.getObject(key, new TypeReference<SetObject>() {
         });
         Assertions.assertThat(setObject.getName()).isEqualTo(expectedValue.getName());
     }
@@ -111,10 +111,10 @@ class RedisComponentIntegrationTest extends AbstractRedisIntegrationTest {
     void testSetNX() {
         String key = "SetNXkey";
         String value = "SetNXvalue";
-        Boolean result1 = redisComponent.setNx(key, value, 1000 * 60L);
+        Boolean result1 = redisAdapter.setNx(key, value, 1000 * 60L);
         Assertions.assertThat(result1).isTrue();
 
-        Boolean result2 = redisComponent.setNx(key, value, 1000 * 60L);
+        Boolean result2 = redisAdapter.setNx(key, value, 1000 * 60L);
         Assertions.assertThat(result2).isFalse();
     }
 

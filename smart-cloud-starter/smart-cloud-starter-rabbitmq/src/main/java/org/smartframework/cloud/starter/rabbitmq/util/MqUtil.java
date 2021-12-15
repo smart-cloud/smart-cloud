@@ -19,6 +19,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.starter.rabbitmq.MqConstants;
+import org.smartframework.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
 import org.smartframework.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.smartframework.cloud.utility.RetryTimeUtil;
@@ -54,7 +55,7 @@ public final class MqUtil {
      *
      * <p>delayTime取值example：String.valueOf(TimeUnit.SECONDS.toMillis(delayMillis))</p>
      *
-     * @param rabbitTemplate
+     * @param rabbitMqAdapter
      * @param exchange
      * @param routingKey
      * @param object
@@ -62,7 +63,7 @@ public final class MqUtil {
      * @param delayMillis
      * @param <T>
      */
-    public static <T> void send(RabbitTemplate rabbitTemplate, String exchange, String routingKey, T object, Integer retriedTimes, String delayMillis) {
+    public static <T> void send(IRabbitMqAdapter rabbitMqAdapter, String exchange, String routingKey, T object, Integer retriedTimes, String delayMillis) {
         String json = JacksonUtil.toJson(object);
         byte[] body = json.getBytes(StandardCharsets.UTF_8);
         MessageBuilder messageBuilder = MessageBuilder.withBody(body);
@@ -76,10 +77,10 @@ public final class MqUtil {
         if (log.isInfoEnabled()) {
             log.info("mq.send|exchange={}, routingKey={}, delayMillis={}, retriedTimes={}, msg={}", exchange, routingKey, delayMillis, retriedTimes, json);
         }
-        rabbitTemplate.send(exchange, routingKey, messageBuilder.build());
+        rabbitMqAdapter.send(exchange, routingKey, messageBuilder.build());
     }
 
-    public static <T> boolean retryAfterConsumerFail(RabbitTemplate rabbitTemplate, T object, Message message, Class<?> consumerClass) {
+    public static <T> boolean retryAfterConsumerFail(IRabbitMqAdapter rabbitMqAdapter, T object, Message message, Class<?> consumerClass) {
         if (!MqUtil.enableRetryAfterConsumerFail) {
             return false;
         }
@@ -112,7 +113,7 @@ public final class MqUtil {
         String retryExchangeName = MqNameUtil.getRetryExchangeName(retryQueuePrefix, mqConsumerFailRetry);
         //延迟路由键
         String delayRouteKeyName = MqNameUtil.getDelayRouteKeyName(retryQueuePrefix, mqConsumerFailRetry);
-        send(rabbitTemplate, retryExchangeName, delayRouteKeyName, object, retriedTimes, String.valueOf(TimeUnit.SECONDS.toMillis(RetryTimeUtil.getNextExecuteTime(retriedTimes))));
+        send(rabbitMqAdapter, retryExchangeName, delayRouteKeyName, object, retriedTimes, String.valueOf(TimeUnit.SECONDS.toMillis(RetryTimeUtil.getNextExecuteTime(retriedTimes))));
         return true;
     }
 
