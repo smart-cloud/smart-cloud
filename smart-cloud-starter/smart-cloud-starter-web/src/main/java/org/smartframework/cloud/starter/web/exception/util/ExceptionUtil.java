@@ -15,7 +15,6 @@
  */
 package org.smartframework.cloud.starter.web.exception.util;
 
-import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.utility.spring.I18nUtil;
@@ -31,7 +30,6 @@ import java.util.Set;
  * @author collin
  * @date 2019-04-09
  */
-@UtilityClass
 public class ExceptionUtil {
 
     /**
@@ -39,18 +37,21 @@ public class ExceptionUtil {
      */
     private static final String ERROR_SEPARATOR = " | ";
 
+    private ExceptionUtil() {
+    }
+
     /**
      * 异常信息序列化
      *
      * @param t
      * @return
      */
-    public String toString(Throwable t) {
+    public static String toString(Throwable t) {
         StackTraceElement[] stackTraceElements = t.getStackTrace();
         return t.getClass().getTypeName() + ERROR_SEPARATOR + StringUtils.join(stackTraceElements, ERROR_SEPARATOR);
     }
 
-    public String getErrorMsg(Set<ConstraintViolation<?>> constraintViolationSet) {
+    public static String getErrorMsg(Set<ConstraintViolation<?>> constraintViolationSet) {
         StringBuilder errorMsg = new StringBuilder();
         int size = constraintViolationSet.size();
         int i = 0;
@@ -72,7 +73,7 @@ public class ExceptionUtil {
         return errorMsg.toString();
     }
 
-    public String getErrorMsg(List<FieldError> fieldErrors) {
+    public static String getErrorMsg(List<FieldError> fieldErrors) {
         StringBuilder errorMsg = new StringBuilder();
         for (int i = 0, size = fieldErrors.size(); i < size; i++) {
             if (size > 1) {

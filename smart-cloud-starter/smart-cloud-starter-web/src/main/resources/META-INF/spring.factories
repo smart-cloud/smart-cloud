@@ -1,5 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 org.smartframework.cloud.starter.web.autoconfigure.ApiAspectAutoConfiguration,\
-org.smartframework.cloud.starter.web.autoconfigure.HibernateValidatorAutoConfiguration,\
 org.smartframework.cloud.starter.web.aspect.ExceptionControllerAdvice

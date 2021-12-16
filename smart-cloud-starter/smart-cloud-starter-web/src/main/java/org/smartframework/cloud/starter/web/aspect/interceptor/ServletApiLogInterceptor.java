@@ -20,14 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
-import org.smartframework.cloud.common.pojo.Response;
-import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.common.web.pojo.LogAspectDO;
 import org.smartframework.cloud.common.web.util.WebServletUtil;
 import org.smartframework.cloud.mask.util.LogUtil;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.starter.configure.properties.LogProperties;
-import org.smartframework.cloud.starter.web.exception.ExceptionHandlerContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.validation.DataBinder;
@@ -78,9 +75,7 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
         } catch (Exception e) {
             long cost = System.currentTimeMillis() - startTime;
             log.error(LogUtil.truncate("api.error=>{}", buildLogAspectDO(invocation.getArguments(), result, cost)), e);
-
-            ResponseHead head = ExceptionHandlerContext.transRespHead(e);
-            return new Response<>(head);
+            throw e;
         }
     }
 

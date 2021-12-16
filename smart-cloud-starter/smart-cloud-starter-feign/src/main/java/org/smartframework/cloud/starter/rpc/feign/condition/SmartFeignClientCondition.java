@@ -78,8 +78,8 @@ public class SmartFeignClientCondition implements Condition {
 	}
 
 	private boolean isRpcImplementClass(Class<?> clazz) {
-		return ((AnnotationUtils.findAnnotation(clazz, Controller.class) != null)
-				|| (AnnotationUtils.findAnnotation(clazz, RestController.class) != null));
+		return (AnnotationUtils.findAnnotation(clazz, Controller.class) != null)
+				|| (AnnotationUtils.findAnnotation(clazz, RestController.class) != null);
 	}
 
 }

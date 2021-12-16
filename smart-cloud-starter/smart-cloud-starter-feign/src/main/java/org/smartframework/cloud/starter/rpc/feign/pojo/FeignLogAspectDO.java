@@ -16,7 +16,10 @@
 package org.smartframework.cloud.starter.rpc.feign.pojo;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.smartframework.cloud.common.pojo.Base;
 
@@ -29,7 +32,6 @@ import org.smartframework.cloud.common.pojo.Base;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 @SuperBuilder
 @JsonPropertyOrder({"classMethod", "cost", "params", "headers", "result"})

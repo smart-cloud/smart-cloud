@@ -17,7 +17,10 @@ package org.smartframework.cloud.common.web.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.smartframework.cloud.common.pojo.Base;
 
@@ -30,7 +33,6 @@ import org.smartframework.cloud.common.pojo.Base;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)

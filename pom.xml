@@ -61,7 +61,7 @@
         <mysql>8.0.26</mysql>
         <podam>7.2.7.RELEASE</podam>
         <guava>30.1.1-jre</guava>
-        <reflections>0.9.12</reflections>
+        <reflections>0.10.2</reflections>
         <jasypt>3.0.4</jasypt>
         <commons-codec>1.15</commons-codec>
         <commons-io>2.11.0</commons-io>

@@ -1,0 +1,3 @@
+smart:
+  log:
+    rpclog: true

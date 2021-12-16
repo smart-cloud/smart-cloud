@@ -15,7 +15,6 @@
  */
 package org.smartframework.cloud.starter.web.validation.util;
 
-import lombok.experimental.UtilityClass;
 import org.apache.commons.collections4.CollectionUtils;
 import org.smartframework.cloud.exception.ParamValidateException;
 import org.smartframework.cloud.starter.web.enums.WebReturnCodes;
@@ -33,8 +32,10 @@ import java.util.stream.Collectors;
  * @author collin
  * @date 2019-05-01
  */
-@UtilityClass
 public class ValidationUtil {
+
+    private ValidationUtil() {
+    }
 
     /**
      * 参数校验

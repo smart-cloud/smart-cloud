@@ -15,9 +15,11 @@
  */
 package org.smartframework.cloud.starter.rpc.dubbo.pojo;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
@@ -31,10 +33,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
 @SuperBuilder
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"classMethod", "reqStartTime", "reqEndTime", "reqDealTime", "reqParams", "respData"})
 public class DubboLogAspectDO implements Serializable {
 
