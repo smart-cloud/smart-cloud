@@ -29,7 +29,6 @@
 	<modules>
 		<module>smart-cloud-starter-configure</module>
 		<module>smart-cloud-starter-core</module>
-		<module>smart-cloud-starter-dubbo</module>
 		<module>smart-cloud-starter-feign</module>
 		<module>smart-cloud-starter-job</module>
 		<module>smart-cloud-starter-locale</module>

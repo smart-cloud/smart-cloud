@@ -43,7 +43,6 @@ smart-cloud
 └── smart-could-starter -- 框架封装
      ├── smart-cloud-starter-configure -- 框架配置属性封装
      ├── smart-cloud-starter-core -- 框架核心（自定义注解、异常封装、请求响应公共参数、业务相关工具类）
-     ├── smart-cloud-starter-dubbo -- dubbo封装
      ├── smart-cloud-starter-feign -- feign封装（可拆可合、切面处理）
      ├── smart-cloud-starter-job -- 定时任务封装
      ├── smart-cloud-starter-locale -- 国际化封装

@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.smartframework.cloud.starter.rpc.dubbo.autoconfigure.DubboAspectAutoConfiguration

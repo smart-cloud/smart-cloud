@@ -52,7 +52,6 @@
         <spring.boot.admin>2.5.1</spring.boot.admin>
         <protostuff>1.7.4</protostuff>
         <hystrix>2.2.9.RELEASE</hystrix>
-        <dubbo>3.0.4</dubbo>
         <redisson>3.16.2</redisson>
         <mybatis-plus>3.4.3.4</mybatis-plus>
         <dynamic-datasource>3.4.1</dynamic-datasource>
@@ -339,12 +338,6 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
                 <version>${hystrix}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-spring-boot-starter</artifactId>
-                <version>${dubbo}</version>
             </dependency>
 
             <dependency>
