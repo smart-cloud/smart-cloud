@@ -11,7 +11,8 @@ spring:
           username: root
           password: 123456
           driver-class-name: org.h2.Driver
-          schema: classpath:sql/fullfunctions/V1.0.2__collin_test_shardingjdbcfullfunctions_dynamicdatasource_log.sql
+          init:
+            schema: classpath:sql/fullfunctions/V1.0.2__collin_test_shardingjdbcfullfunctions_dynamicdatasource_log.sql
   shardingsphere:
     datasource:
       names: shardingordermaster,shardingorderslave-0,shardingorderslave-1,shardingproduct

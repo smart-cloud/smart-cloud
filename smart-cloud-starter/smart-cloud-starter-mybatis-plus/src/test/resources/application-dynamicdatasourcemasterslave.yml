@@ -13,7 +13,8 @@ spring:
           password: 123456
           driver-class-name: org.h2.Driver
           type: com.zaxxer.hikari.HikariDataSource
-          schema: classpath:sql/dynamicdatasourcemasterslave/V1.0.0__collin_test.sql
+          init:
+            schema: classpath:sql/dynamicdatasourcemasterslave/V1.0.0__collin_test.sql
         # 以下划线 _ 分割的数据源 首部 即为组的名称，相同组名称的数据源会放在一个组下
         # 切换数据源可以是组名，也可以是具体数据源名称。组名则切换时采用负载均衡算法切换。
         productSlave_1:
@@ -22,18 +23,21 @@ spring:
           password: 123456
           driver-class-name: org.h2.Driver
           type: com.zaxxer.hikari.HikariDataSource
-          schema: classpath:sql/dynamicdatasourcemasterslave/V1.0.0__collin_test.sql
+          init:
+            schema: classpath:sql/dynamicdatasourcemasterslave/V1.0.0__collin_test.sql
         productSlave_2:
           url: jdbc:h2:mem:test_dynamicdatasourceslave2;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL
           username: root
           password: 123456
           driver-class-name: org.h2.Driver
           type: com.zaxxer.hikari.HikariDataSource
-          schema: classpath:sql/dynamicdatasourcemasterslave/V1.0.0__collin_test.sql
+          init:
+            schema: classpath:sql/dynamicdatasourcemasterslave/V1.0.0__collin_test.sql
         productSlave_3:
           url: jdbc:h2:mem:test_dynamicdatasourceslave3;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL
           username: root
           password: 123456
           driver-class-name: org.h2.Driver
           type: com.zaxxer.hikari.HikariDataSource
-          schema: classpath:sql/dynamicdatasourcemasterslave/V1.0.0__collin_test.sql
+          init:
+            schema: classpath:sql/dynamicdatasourcemasterslave/V1.0.0__collin_test.sql

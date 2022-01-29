@@ -44,17 +44,17 @@ import java.lang.reflect.ParameterizedType;
 public abstract class AbstractIntegrationTest {
 
     static {
-        // 单元测试标志
-        System.setProperty("smart.env.unittest", Boolean.TRUE.toString());
-
-        String closeTag = Boolean.FALSE.toString();
+        String closeValue = Boolean.FALSE.toString();
         // 单元测试环境下，关闭依赖
         // 1.关闭api元数据上传
-        System.setProperty("smart.uploadApiMeta", closeTag);
-        // 2.关闭eureka
-        System.setProperty("eureka.client.enabled", closeTag);
+        System.setProperty("smart.uploadApiMeta", closeValue);
+
+        // 2.关闭nacos
+        System.setProperty("spring.cloud.nacos.discovery.enabled", closeValue);
+        System.setProperty("spring.cloud.nacos.config.enabled", closeValue);
+
         // 3.单元测试环境下，关闭Sentinel自动化配置
-        System.setProperty("spring.cloud.sentinel.enabled", closeTag);
+        System.setProperty("spring.cloud.sentinel.enabled", closeValue);
     }
 
     @Autowired

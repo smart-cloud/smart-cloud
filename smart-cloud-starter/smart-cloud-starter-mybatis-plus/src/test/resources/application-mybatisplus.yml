@@ -14,4 +14,5 @@ spring:
           password: 123456
           driver-class-name: org.h2.Driver
           type: com.zaxxer.hikari.HikariDataSource
-          schema: classpath:sql/mybatisplus/V1.0.0__collin_test.sql
+          init:
+            schema: classpath:sql/mybatisplus/V1.0.0__collin_test.sql

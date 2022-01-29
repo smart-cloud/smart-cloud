@@ -20,6 +20,7 @@ import lombok.Setter;
 import org.smartframework.cloud.common.pojo.Base;
 import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * yml文件公共属性配置定义
@@ -44,22 +45,27 @@ public class SmartProperties extends Base {
     /**
      * rpc配置
      */
+    @NestedConfigurationProperty
     private RpcProperties rpc = new RpcProperties();
     /**
      * 切面配置
      */
+    @NestedConfigurationProperty
     private LogProperties log = new LogProperties();
     /**
      * xxl-job配置
      */
+    @NestedConfigurationProperty
     private XxlJobProperties xxlJob = new XxlJobProperties();
     /**
      * 多语言配置
      */
+    @NestedConfigurationProperty
     private LocaleProperties locale = new LocaleProperties();
     /**
      * mock配置
      */
+    @NestedConfigurationProperty
     private MockProperties mock = new MockProperties();
 
     public interface PropertiesName {

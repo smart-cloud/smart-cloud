@@ -13,11 +13,13 @@ spring:
           password: 123456
           driver-class-name: org.h2.Driver
           type: com.zaxxer.hikari.HikariDataSource
-          schema: classpath:sql/dynamicdatasource/V1.0.0__collin_test_product.sql
+          init:
+            schema: classpath:sql/dynamicdatasource/V1.0.0__collin_test_product.sql
         auth:
           url: jdbc:h2:mem:test_dynamic_datasource_auth;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MYSQL
           username: root
           password: 123456
           driver-class-name: org.h2.Driver
           type: com.zaxxer.hikari.HikariDataSource
-          schema: classpath:sql/dynamicdatasource/V1.0.0__collin_test_auth.sql
+          init:
+            schema: classpath:sql/dynamicdatasource/V1.0.0__collin_test_auth.sql
