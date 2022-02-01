@@ -63,7 +63,7 @@ smart-cloud
 ---|---
 [spring boot](https://spring.io/projects/spring-boot/) | 手脚架 
 [spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关 
-[eureka](https://spring.io/projects/spring-cloud-netflix) | 服务注册 
+[nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html) | 服务注册、配置中心 
 [spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控 
 [openfeign](https://spring.io/projects/spring-cloud-openfeign)| 声明式服务调用 
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志 
