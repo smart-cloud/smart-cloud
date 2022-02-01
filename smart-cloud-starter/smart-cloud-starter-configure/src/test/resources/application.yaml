@@ -1,8 +1,6 @@
 smart:
   dataMachineId: 100
   async: false
-  rpc:
-    protostuff: false
   log:
     rpclog: false
     apilog: false

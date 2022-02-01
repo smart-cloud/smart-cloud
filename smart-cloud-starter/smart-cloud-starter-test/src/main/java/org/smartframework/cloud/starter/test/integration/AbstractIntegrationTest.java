@@ -21,16 +21,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.api.core.user.context.AbstractUserContext;
 import org.smartframework.cloud.api.core.user.context.SmartUser;
-import org.smartframework.cloud.starter.test.Constants;
 import org.smartframework.cloud.utility.JacksonUtil;
-import org.smartframework.cloud.utility.SerializingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
 
 /**
  * SpringBoot集成测试基类
@@ -77,10 +74,6 @@ public abstract class AbstractIntegrationTest {
         AbstractUserContext.setContext(smartUserMock);
     }
 
-    private boolean enableRpcProtostuff() {
-        return applicationContext.getEnvironment().getProperty(Constants.RPC_PROTOSTUFF_SWITCH, Boolean.class, true);
-    }
-
     /**
      * 序列化响应（主要处理rpc结果）
      *
@@ -97,24 +90,10 @@ public abstract class AbstractIntegrationTest {
             return null;
         }
 
-        if (url.contains(Constants.RPC_URL) && enableRpcProtostuff()) {
-            // 处理rpc返回结果（protostuff反序列化）
-            Class c = null;
-            if (typeReference.getType() instanceof ParameterizedType) {
-                c = (Class) ((ParameterizedType) typeReference.getType()).getRawType();
-            } else {
-                c = (Class) typeReference.getType();
-            }
+        String content = new String(resultBytes);
+        log.info("test.result={}", content);
 
-            T t = (T) SerializingUtil.deserialize(resultBytes, c);
-            log.info("test.result={}", JacksonUtil.toJson(t));
-            return t;
-        } else {
-            String content = new String(resultBytes);
-            log.info("test.result={}", content);
-
-            return JacksonUtil.parseObject(content, typeReference);
-        }
+        return JacksonUtil.parseObject(content, typeReference);
     }
 
 }

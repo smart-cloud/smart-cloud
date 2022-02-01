@@ -33,14 +33,14 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Arrays;
 
 /**
- * feign切面配置
+ * feign日志切面配置
  *
  * @author collin
  * @date 2019-07-03
  */
 @Configuration
-@ConditionalOnExpression(FeignAspectAutoConfiguration.FEIGN_ASPECT_CONDITION)
-public class FeignAspectAutoConfiguration {
+@ConditionalOnExpression(FeignLogAspectAutoConfiguration.FEIGN_ASPECT_CONDITION)
+public class FeignLogAspectAutoConfiguration {
 
     /**
      * rpc切面生效条件

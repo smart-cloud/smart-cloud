@@ -46,10 +46,6 @@ class SmartPropertiesTest {
         Assertions.assertThat(smartProperties.getDataMachineId()).isEqualTo(100L);
         Assertions.assertThat(smartProperties.isAsync()).isFalse();
 
-        // rpc
-        Assertions.assertThat(smartProperties.getRpc()).isNotNull();
-        Assertions.assertThat(smartProperties.getRpc().isProtostuff()).isFalse();
-
         // log
         Assertions.assertThat(smartProperties.getLog()).isNotNull();
         Assertions.assertThat(smartProperties.getLog().isRpclog()).isFalse();

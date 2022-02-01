@@ -43,11 +43,6 @@ public class SmartProperties extends Base {
      */
     private boolean async = true;
     /**
-     * rpc配置
-     */
-    @NestedConfigurationProperty
-    private RpcProperties rpc = new RpcProperties();
-    /**
      * 切面配置
      */
     @NestedConfigurationProperty

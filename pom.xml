@@ -50,7 +50,6 @@
         <spring-cloud-gateway>3.1.0</spring-cloud-gateway>
         <openfeign>3.1.0</openfeign>
         <spring.boot.admin>2.6.2</spring.boot.admin>
-        <protostuff>1.7.4</protostuff>
         <hystrix>2.2.10.RELEASE</hystrix>
         <redisson>3.16.8</redisson>
         <mybatis-plus>3.5.1</mybatis-plus>
@@ -279,17 +278,6 @@
                         <artifactId>spring-boot-starter-logging</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>io.protostuff</groupId>
-                <artifactId>protostuff-core</artifactId>
-                <version>${protostuff}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.protostuff</groupId>
-                <artifactId>protostuff-runtime</artifactId>
-                <version>${protostuff}</version>
             </dependency>
 
             <dependency>

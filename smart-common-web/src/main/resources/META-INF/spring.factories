@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.smartframework.cloud.common.web.autoconfigure.ReactiveFilterAutoConfiguration,\
-org.smartframework.cloud.common.web.autoconfigure.ServletFilterAutoConfiguration
+org.smartframework.cloud.common.web.autoconfigure.ReactiveFilterAutoConfiguration
