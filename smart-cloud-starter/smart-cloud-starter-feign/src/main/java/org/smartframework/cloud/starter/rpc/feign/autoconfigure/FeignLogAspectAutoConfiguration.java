@@ -22,6 +22,7 @@ import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.rpc.feign.annotation.SmartFeignClient;
 import org.smartframework.cloud.starter.rpc.feign.interceptor.FeignLogInterceptor;
 import org.springframework.aop.Advisor;
+import org.springframework.aop.Pointcut;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -53,7 +54,7 @@ public class FeignLogAspectAutoConfiguration {
      * @return
      */
     @Bean
-    public AspectJExpressionPointcut feignClientPointcut() {
+    public Pointcut feignClientPointcut() {
         AspectJExpressionPointcut feignClientPointcut = new AspectJExpressionPointcut();
 
         String feignExpression = AspectInterceptorUtil.getFinalExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil
@@ -78,8 +79,7 @@ public class FeignLogAspectAutoConfiguration {
         }
 
         @Bean
-        public Advisor feignLogAdvisor(final FeignLogInterceptor feignInterceptor,
-                                       final AspectJExpressionPointcut feignClientPointcut) {
+        public Advisor feignLogAdvisor(final FeignLogInterceptor feignInterceptor, final Pointcut feignClientPointcut) {
             DefaultBeanFactoryPointcutAdvisor feignAdvisor = new DefaultBeanFactoryPointcutAdvisor();
             feignAdvisor.setAdvice(feignInterceptor);
             feignAdvisor.setPointcut(feignClientPointcut);

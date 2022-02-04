@@ -21,6 +21,7 @@ import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
 import org.smartframework.cloud.starter.web.aspect.interceptor.ServletApiLogInterceptor;
 import org.springframework.aop.Advisor;
+import org.springframework.aop.Pointcut;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -36,9 +37,9 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019-07-03
  */
 @Configuration
-@ConditionalOnExpression(ApiAspectAutoConfiguration.API_ASPECT_CONDITION)
+@ConditionalOnExpression(ApiLogAspectAutoConfiguration.API_ASPECT_CONDITION)
 @ConditionalOnClass(name = {"javax.servlet.Filter"})
-public class ApiAspectAutoConfiguration {
+public class ApiLogAspectAutoConfiguration {
 
     /**
      * api切面生效条件
@@ -46,7 +47,7 @@ public class ApiAspectAutoConfiguration {
     public static final String API_ASPECT_CONDITION = "${" + SmartConstant.API_LOG_CONDITION_PROPERTY + ":false}";
 
     @Bean
-    public AspectJExpressionPointcut apiPointcut() {
+    public Pointcut apiPointcut() {
         AspectJExpressionPointcut apiPointcut = new AspectJExpressionPointcut();
         String logExpression = AspectInterceptorUtil.getApiExpression(PackageConfig.getBasePackages());
         apiPointcut.setExpression(logExpression);
@@ -77,7 +78,7 @@ public class ApiAspectAutoConfiguration {
          */
         @Bean
         public Advisor apiLogAdvisor(final ServletApiLogInterceptor apiLogInterceptor,
-                                     final AspectJExpressionPointcut apiPointcut) {
+                                     final Pointcut apiPointcut) {
             DefaultBeanFactoryPointcutAdvisor apiLogAdvisor = new DefaultBeanFactoryPointcutAdvisor();
             apiLogAdvisor.setAdvice(apiLogInterceptor);
             apiLogAdvisor.setPointcut(apiPointcut);

@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.smartframework.cloud.starter.redis.autoconfigure.RedisAutoConfiguration
+org.smartframework.cloud.starter.redis.autoconfigure.RedisAutoConfiguration,\
+org.smartframework.cloud.starter.redis.autoconfigure.RedisLockInterceptorAutoConfiguration

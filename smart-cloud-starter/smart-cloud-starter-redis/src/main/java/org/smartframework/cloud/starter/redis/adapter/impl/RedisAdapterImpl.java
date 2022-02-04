@@ -16,7 +16,7 @@
 package org.smartframework.cloud.starter.redis.adapter.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.smartframework.cloud.starter.redis.adapter.IRedisAdapter;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.dao.DataAccessException;
@@ -35,10 +35,10 @@ import java.util.concurrent.TimeUnit;
  * @author collin
  * @date 2018-10-17
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RedisAdapterImpl implements IRedisAdapter {
 
-    private StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
     /**
      * 设置k-v对

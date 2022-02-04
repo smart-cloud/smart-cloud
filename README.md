@@ -52,7 +52,7 @@ smart-cloud
      ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表、分布式事务；mapper工具类）
      ├── smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类等）
      ├── smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）
-     ├── smart-cloud-starter-redis -- redis封装
+     ├── smart-cloud-starter-redis -- redis封装、自定义分布式锁注解
      ├── smart-cloud-starter-test -- test封装
      └── smart-cloud-starter-web -- web封装（日志切面、异常处理、参数校验）
 ```

@@ -19,6 +19,7 @@ import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.core.method.log.annotation.MethodLog;
 import org.smartframework.cloud.starter.core.method.log.intercept.MethodLogInterceptor;
 import org.springframework.aop.Advisor;
+import org.springframework.aop.Pointcut;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
@@ -39,21 +40,18 @@ public class MethodLogInterceptorAutoConfiguration {
     }
 
     @Bean
-    public AspectJExpressionPointcut methodPointcut() {
-        AspectJExpressionPointcut apiPointcut = new AspectJExpressionPointcut();
-        String methodLogName = MethodLog.class.getTypeName();
-        apiPointcut.setExpression(String.format("@annotation(%s)", methodLogName));
-        return apiPointcut;
+    public Pointcut methodPointcut() {
+        AspectJExpressionPointcut methodLogPointcut = new AspectJExpressionPointcut();
+        methodLogPointcut.setExpression(String.format("@annotation(%s)", MethodLog.class.getTypeName()));
+        return methodLogPointcut;
     }
 
     @Bean
-    public Advisor methodLogAdvisor(final MethodLogInterceptor methodLogInterceptor,
-                                    final AspectJExpressionPointcut methodPointcut) {
-        DefaultBeanFactoryPointcutAdvisor apiLogAdvisor = new DefaultBeanFactoryPointcutAdvisor();
-        apiLogAdvisor.setAdvice(methodLogInterceptor);
-        apiLogAdvisor.setPointcut(methodPointcut);
-
-        return apiLogAdvisor;
+    public Advisor methodLogAdvisor(final MethodLogInterceptor methodLogInterceptor, final Pointcut methodPointcut) {
+        DefaultBeanFactoryPointcutAdvisor methodLogPointcutAdvisor = new DefaultBeanFactoryPointcutAdvisor();
+        methodLogPointcutAdvisor.setAdvice(methodLogInterceptor);
+        methodLogPointcutAdvisor.setPointcut(methodPointcut);
+        return methodLogPointcutAdvisor;
     }
 
 }
