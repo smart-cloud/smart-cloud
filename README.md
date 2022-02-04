@@ -19,6 +19,7 @@ smart cloud
 - [支持多数据源、分表分库、分布式事务](https://github.com/smart-cloud/smart-cloud#1%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%86%B2%E7%AA%81)
 - 支持多语言（国际化）
 - 敏感配置信息支持加密
+- 分布式锁注解 
 - mq（rabbitmq）消费失败，通过自定义注解实现重试（放入延迟队列重新消费）
 - [日志敏感数据脱敏](https://github.com/smart-cloud/smart-cloud#%E4%BA%8C%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F)
 - 单体服务开发接阶段测试不依赖其他服务（mock test、关闭nacos、sentinel等）
