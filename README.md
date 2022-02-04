@@ -5,8 +5,8 @@ smart cloud
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/smart-cloud/smart-cloud.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/smart-cloud/smart-cloud/context:java)
 [![license](https://img.shields.io/badge/license-Apache%202-green)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![jdk version](https://img.shields.io/badge/jdk-1.8+-blue.svg)](https://docs.oracle.com/javase/8/docs/api/)
-![](https://img.shields.io/badge/spring--boot-2.5.4.RELEASE-blue.svg)
-![](https://img.shields.io/badge/spring--cloud-2020.0.3-blue.svg)
+![](https://img.shields.io/badge/spring--boot-2.6.3.RELEASE-blue.svg)
+![](https://img.shields.io/badge/spring--cloud-2021.0.0-blue.svg)
 
 # 一、功能特征
 **一个基于spring cloud实现的脚手架。所实现功能如下：**
@@ -21,7 +21,7 @@ smart cloud
 - 敏感配置信息支持加密
 - mq（rabbitmq）消费失败，通过自定义注解实现重试（放入延迟队列重新消费）
 - [日志敏感数据脱敏](https://github.com/smart-cloud/smart-cloud#%E4%BA%8C%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F)
-- 单体服务开发接阶段测试不依赖其他服务（mock test、关闭eureka、sentinel等）
+- 单体服务开发接阶段测试不依赖其他服务（mock test、关闭nacos、sentinel等）
 - 技术栈稳定、实用、易用
 
 示例工程见[smart-cloud-examples](https://github.com/smart-cloud/smart-cloud-examples)
@@ -127,7 +127,7 @@ smart-cloud
 利用单元测试，提高测试覆盖率。
 
 ### 2、集成测试
->- 在集成测试下，关闭eureka，减少依赖。
+>- 在集成测试下，关闭nacos，减少依赖。
 >- 依赖的服务rpc接口，通过mockito走挡板。
 >- redis层使用embedded-redis做集成测试。
 >- rabbitmq层使用rabbitmq-mock做集成测试
