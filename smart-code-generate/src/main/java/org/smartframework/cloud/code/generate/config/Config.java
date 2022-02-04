@@ -61,7 +61,7 @@ public interface Config {
     String MAPPER_CLASS_SUFFIX = "BaseMapper";
     String BASE_RESPVO_CLASS_SUFFIX = "BaseRespVO";
 
-    String ENTITY_PACKAGE_SUFFIX = ".entity.base";
+    String ENTITY_PACKAGE_SUFFIX = ".entity";
     String MAPPER_PACKAGE_SUFFIX = ".mapper.base";
     String BASE_RESPVO_PACKAGE_SUFFIX = ".response.base";
 
