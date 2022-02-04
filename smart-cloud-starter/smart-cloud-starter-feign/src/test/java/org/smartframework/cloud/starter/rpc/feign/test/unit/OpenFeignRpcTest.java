@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.starter.rpc.test.unit;
+package org.smartframework.cloud.starter.rpc.feign.test.unit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -24,8 +24,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.common.pojo.Response;
 import org.smartframework.cloud.constants.CommonReturnCodes;
-import org.smartframework.cloud.starter.rpc.test.prepare.Application;
-import org.smartframework.cloud.starter.rpc.test.prepare.rpc.OrderRpc;
+import org.smartframework.cloud.starter.rpc.feign.test.prepare.Application;
+import org.smartframework.cloud.starter.rpc.feign.test.prepare.rpc.OrderRpc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

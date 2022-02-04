@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.starter.rpc.test.prepare.controller;
+package org.smartframework.cloud.starter.rpc.feign.test;
 
-import org.smartframework.cloud.starter.rpc.test.prepare.rpc.TestRpc3;
-import org.springframework.stereotype.Controller;
+import org.junit.jupiter.api.Disabled;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.platform.suite.api.Suite;
 
-@Controller
-public class TestRpc3Controller implements TestRpc3 {
-
-    @Override
-    public String get() {
-        return null;
-    }
+@Disabled
+@Suite
+@SelectPackages({"org.smartframework.cloud.starter.rpc.feign.test.unit"})
+public class SuiteTest {
 
 }

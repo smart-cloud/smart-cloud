@@ -17,6 +17,7 @@ package org.smartframework.cloud.starter.mybatis.plus.util;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.utility.JacksonUtil;
 
 import javax.sql.DataSource;
@@ -51,7 +52,7 @@ public class DbTableUtil {
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
         } finally {
-            log.info("execute sql==>{}", copyTableSql);
+            log.warn("execute sql==>{}", copyTableSql);
         }
         return result;
     }
@@ -112,7 +113,7 @@ public class DbTableUtil {
      */
     private static List<String> queryTables(String tableName, boolean prefix, DataSource dataSource) {
         if (prefix) {
-            tableName += "%";
+            tableName += SymbolConstant.PERCENT;
         }
         List<String> tablesWithPrefix = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
@@ -124,7 +125,7 @@ public class DbTableUtil {
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
         } finally {
-            log.info("查询相关表tableName={}; result={}", tableName, JacksonUtil.toJson(tablesWithPrefix));
+            log.warn("queryTables|tableName={}, result={}", tableName, JacksonUtil.toJson(tablesWithPrefix));
         }
         return tablesWithPrefix;
     }

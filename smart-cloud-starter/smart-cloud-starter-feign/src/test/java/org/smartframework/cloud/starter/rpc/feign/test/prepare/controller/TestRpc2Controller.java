@@ -13,26 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.starter.rpc.test.prepare.controller;
+package org.smartframework.cloud.starter.rpc.feign.test.prepare.controller;
 
-import org.smartframework.cloud.common.pojo.Response;
-import org.smartframework.cloud.starter.core.business.util.RespUtil;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.smartframework.cloud.starter.rpc.feign.test.prepare.rpc.TestRpc2;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("order")
-public class OrderRpcController {
+public class TestRpc2Controller implements TestRpc2 {
 
-    @GetMapping("queryWithJson")
-    public Response<String> queryWithJson(Long id) {
-        return RespUtil.success("ok");
-    }
-
-    @GetMapping("rpc/queryWithProtobuf")
-    public Response<String> queryWithProtobuf(Long id) {
-        return RespUtil.success("ok");
+    @Override
+    public String get() {
+        return null;
     }
 
 }

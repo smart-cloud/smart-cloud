@@ -13,17 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.starter.rpc.test.prepare.rpc;
+package org.smartframework.cloud.starter.rpc.feign.test.prepare.controller;
 
-import org.smartframework.cloud.starter.rpc.feign.annotation.SmartFeignClient;
+import org.smartframework.cloud.common.pojo.Response;
+import org.smartframework.cloud.starter.core.business.util.RespUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@SmartFeignClient(name = "orderRpc", contextId = "testRpc3")
-@RequestMapping("order/test3")
-public interface TestRpc3 {
+@RestController
+@RequestMapping("order")
+public class OrderRpcController {
 
-    @GetMapping
-    String get();
+    @GetMapping("queryWithJson")
+    public Response<String> queryWithJson(Long id) {
+        return RespUtil.success("ok");
+    }
+
+    @GetMapping("rpc/queryWithProtobuf")
+    public Response<String> queryWithProtobuf(Long id) {
+        return RespUtil.success("ok");
+    }
 
 }

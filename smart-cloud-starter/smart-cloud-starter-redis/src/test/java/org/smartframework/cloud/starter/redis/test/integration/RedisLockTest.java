@@ -15,10 +15,16 @@
  */
 package org.smartframework.cloud.starter.redis.test.integration;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.smartframework.cloud.exception.AcquiredLockFailException;
 import org.smartframework.cloud.starter.redis.test.prepare.controller.RedisLockController;
 import org.smartframework.cloud.starter.redis.test.prepare.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 
 class RedisLockTest extends AbstractRedisIntegrationTest {
 
@@ -26,11 +32,56 @@ class RedisLockTest extends AbstractRedisIntegrationTest {
     private RedisLockController redisLockController;
 
     @Test
-    void test() {
+    void testWithKeyPrefix() {
+        final String success = "ok";
+        FutureTask<String> normalFutureTask = new FutureTask<>(() -> {
+            User user = new User();
+            user.setId(100L);
+            user.setMobile("18700000000");
+            try {
+                redisLockController.testWithKeyPrefix(user, "13112341234");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return success;
+        });
+
+        FutureTask<String> acquireLockFailFutureTask = new FutureTask<>(() -> {
+            User user = new User();
+            user.setId(100L);
+            user.setMobile("18700000000");
+            try {
+                TimeUnit.MICROSECONDS.sleep(100);
+                redisLockController.testWithKeyPrefix(user, "13112341234");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return success;
+        });
+        new Thread(normalFutureTask).start();
+        new Thread(acquireLockFailFutureTask).start();
+        try {
+            Assertions.assertThat(normalFutureTask.get()).isEqualTo(success);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Throwable throwable = null;
+        try {
+            acquireLockFailFutureTask.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throwable = e.getCause();
+        }
+        Assertions.assertThat(throwable).isNotNull();
+        Assertions.assertThat(throwable instanceof AcquiredLockFailException).isTrue();
+    }
+
+    @Test
+    void testWithoutKeyPrefix() {
         User user = new User();
         user.setId(100L);
         user.setMobile("18700000000");
-        redisLockController.test(user, "13112341234");
+        redisLockController.testWithoutKeyPrefix(user, "13112341234");
     }
 
 }

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.starter.rpc.test.prepare;
+package org.smartframework.cloud.starter.rpc.feign.test.prepare;
 
 import org.smartframework.cloud.starter.core.support.annotation.SmartBootApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients(basePackages = "org.smartframework.cloud.starter.rpc.test.prepare.rpc")
+@EnableFeignClients(basePackages = "org.smartframework.cloud.starter.rpc.feign.test.prepare.rpc")
 @SmartBootApplication
 public class Application {
 

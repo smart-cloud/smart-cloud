@@ -16,6 +16,7 @@
 package org.smartframework.cloud.starter.redis.test.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,6 +52,19 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
         redisAdapter.setString(key, value, 1000 * 60L);
         String expectedValue = redisAdapter.getString(key);
         Assertions.assertThat(value).isEqualTo(expectedValue);
+    }
+
+    @Test
+    void testExpire() {
+        String key = "Expire";
+        String value = "Expire";
+        redisAdapter.setString(key, value, 1000 * 60L);
+        String expectedValue1 = redisAdapter.getString(key);
+        Assertions.assertThat(value).isEqualTo(expectedValue1);
+
+        redisAdapter.expire(key, 0L);
+        String expectedValue2 = redisAdapter.getString(key);
+        Assertions.assertThat(expectedValue2).isBlank();
     }
 
     @Test

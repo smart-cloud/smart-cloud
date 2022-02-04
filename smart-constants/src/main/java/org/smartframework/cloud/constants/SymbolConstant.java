@@ -75,5 +75,9 @@ public interface SymbolConstant {
      * =
      */
     String EQUAL = "=";
+    /**
+     * %
+     */
+    String PERCENT = "%";
 
 }

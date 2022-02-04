@@ -21,8 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 import org.smartframework.cloud.common.pojo.BasePageResponse;
 import org.smartframework.cloud.starter.core.business.util.SnowFlakeIdUtil;
 import org.smartframework.cloud.starter.mybatis.plus.enums.DeleteState;
@@ -42,7 +40,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-@RunWith(JUnitPlatform.class)
 public class DynamicDatasourceTest {
 
     @ExtendWith(SpringExtension.class)

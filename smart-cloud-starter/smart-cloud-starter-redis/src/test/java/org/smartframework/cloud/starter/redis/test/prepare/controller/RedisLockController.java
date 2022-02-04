@@ -19,11 +19,19 @@ import org.smartframework.cloud.starter.redis.annotation.RedisLock;
 import org.smartframework.cloud.starter.redis.test.prepare.vo.User;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class RedisLockController {
 
+    @RedisLock(keyPrefix = "test:testWithKeyPrefix:", expressions = {"#mobile", "#user.id"}, waitTime = 10)
+    public String testWithKeyPrefix(User user, String mobile) throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
+        return "ok";
+    }
+
     @RedisLock(expressions = {"#mobile", "#user.id"})
-    public String test(User user, String mobile) {
+    public String testWithoutKeyPrefix(User user, String mobile) {
         return "ok";
     }
 

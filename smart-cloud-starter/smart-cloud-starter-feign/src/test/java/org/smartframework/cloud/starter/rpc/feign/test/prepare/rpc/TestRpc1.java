@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.starter.rpc.test;
+package org.smartframework.cloud.starter.rpc.feign.test.prepare.rpc;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.platform.suite.api.SelectPackages;
-import org.junit.runner.RunWith;
+import org.smartframework.cloud.starter.rpc.feign.annotation.SmartFeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@Disabled
-@RunWith(JUnitPlatform.class)
-@SelectPackages({"org.smartframework.cloud.starter.rpc.test"})
-public class SuiteTest {
+@SmartFeignClient(name = "orderRpc", contextId = "testRpc1")
+public interface TestRpc1 {
+
+    @GetMapping
+    String get();
 
 }

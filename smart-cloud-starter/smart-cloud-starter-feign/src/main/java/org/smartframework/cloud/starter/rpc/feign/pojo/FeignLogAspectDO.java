@@ -17,10 +17,8 @@ package org.smartframework.cloud.starter.rpc.feign.pojo;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 import org.smartframework.cloud.common.pojo.Base;
 
 /**
@@ -31,10 +29,7 @@ import org.smartframework.cloud.common.pojo.Base;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString
-@SuperBuilder
-@JsonPropertyOrder({"classMethod", "cost", "params", "headers", "result"})
 public class FeignLogAspectDO extends Base {
 
     private static final long serialVersionUID = 1L;
@@ -42,26 +37,31 @@ public class FeignLogAspectDO extends Base {
     /**
      * 调用的类方法
      */
+    @JsonPropertyOrder(value = "0")
     private String classMethod;
 
     /**
      * 请求处理时间,毫秒
      */
+    @JsonPropertyOrder(value = "10")
     private Long cost;
 
     /**
      * 请求的参数信息
      */
+    @JsonPropertyOrder(value = "20")
     private Object params;
 
     /**
      * 请求头
      */
+    @JsonPropertyOrder(value = "30")
     private Object headers;
 
     /**
      * 响应数据
      */
+    @JsonPropertyOrder(value = "40")
     private Object result;
 
 }

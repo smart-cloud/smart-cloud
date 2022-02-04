@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.starter.rpc.test.prepare.rpc;
+package org.smartframework.cloud.starter.rpc.feign.test.prepare.controller;
 
-import org.smartframework.cloud.starter.rpc.feign.annotation.SmartFeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.smartframework.cloud.starter.rpc.feign.test.prepare.rpc.TestRpc3;
+import org.springframework.stereotype.Controller;
 
-@SmartFeignClient(name = "orderRpc", contextId = "testRpc1")
-public interface TestRpc1 {
+@Controller
+public class TestRpc3Controller implements TestRpc3 {
 
-    @GetMapping
-    String get();
+    @Override
+    public String get() {
+        return null;
+    }
 
 }

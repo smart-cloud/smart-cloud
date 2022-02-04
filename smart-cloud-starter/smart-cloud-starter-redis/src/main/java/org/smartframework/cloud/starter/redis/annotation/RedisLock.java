@@ -54,14 +54,14 @@ public @interface RedisLock {
     String acquiredFailCode() default RedisLockConstants.ACQUIRED_FAIL_CODE;
 
     /**
-     * 获取锁最大等待时间
+     * 获取锁最大等待时间（默认单位毫秒）
      *
      * @return
      */
     long waitTime() default RedisLockConstants.DEFAULT_WAIT_TIME;
 
     /**
-     * 成功获取锁后，锁的释放时间
+     * 成功获取锁后，锁的释放时间（默认单位毫秒）
      *
      * @return
      */
