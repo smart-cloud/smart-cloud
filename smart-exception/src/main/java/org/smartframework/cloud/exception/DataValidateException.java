@@ -15,8 +15,7 @@
  */
 package org.smartframework.cloud.exception;
 
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 
 /**
  * 数据校验错误
@@ -29,11 +28,11 @@ public class DataValidateException extends BaseException {
     private static final long serialVersionUID = 1L;
 
     public DataValidateException() {
-        setCode(CommonReturnCodes.DATA_MISSING.getCode());
+        setCode(CommonReturnCodes.DATA_MISSING);
     }
 
-    public DataValidateException(IBaseReturnCodes returnCodes) {
-        setCode(returnCodes.getCode());
+    public DataValidateException(String code) {
+        setCode(code);
     }
 
 }

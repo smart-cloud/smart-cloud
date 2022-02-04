@@ -15,8 +15,7 @@
  */
 package org.smartframework.cloud.exception;
 
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 
 /**
  * 重复提交校验异常
@@ -29,11 +28,11 @@ public class RepeatSubmitException extends BaseException {
     private static final long serialVersionUID = 1L;
 
     public RepeatSubmitException() {
-        setCode(CommonReturnCodes.REPEAT_SUBMIT.getCode());
+        setCode(CommonReturnCodes.REPEAT_SUBMIT);
     }
 
-    public RepeatSubmitException(IBaseReturnCodes returnCodes) {
-        setCode(returnCodes.getCode());
+    public RepeatSubmitException(String code) {
+        setCode(code);
     }
 
 }

@@ -15,8 +15,6 @@
  */
 package org.smartframework.cloud.exception;
 
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
-
 /**
  * 自定义异常基类
  *
@@ -40,8 +38,8 @@ public abstract class BaseException extends RuntimeException {
     public BaseException() {
     }
 
-    public BaseException(IBaseReturnCodes baseReturnCodes) {
-        setCode(baseReturnCodes.getCode());
+    public BaseException(String code) {
+        this.code = code;
     }
 
     public String getCode() {

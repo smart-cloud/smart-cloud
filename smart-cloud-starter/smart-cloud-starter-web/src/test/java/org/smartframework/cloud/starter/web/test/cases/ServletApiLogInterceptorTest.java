@@ -23,7 +23,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.common.pojo.Response;
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.smartframework.cloud.starter.web.test.prepare.Application;
 import org.smartframework.cloud.starter.web.test.prepare.controller.ProductController;
 import org.smartframework.cloud.starter.web.test.prepare.vo.ProductCreateReqVO;
@@ -47,7 +47,7 @@ class ServletApiLogInterceptorTest {
         Response<String> response = productController.query(100L);
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS.getCode());
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
         Assertions.assertThat(response.getBody()).isNotBlank();
 
         checkLog();
@@ -62,7 +62,7 @@ class ServletApiLogInterceptorTest {
         Response<Boolean> response = productController.create(reqVO);
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS.getCode());
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
         Assertions.assertThat(response.getBody()).isTrue();
 
         checkLog();

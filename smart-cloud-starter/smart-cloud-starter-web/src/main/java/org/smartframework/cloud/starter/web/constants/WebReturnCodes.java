@@ -13,29 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.common.pojo.enums;
+package org.smartframework.cloud.starter.web.constants;
 
 /**
- * 状态码格式接口类：XXXXXX（服务模块编码|类型）
- * 
- * <ul>
- * <li>XXX1XX：信息类
- * <li>XXX2XX：操作成功
- * <li>XXX3XX：重定向
- * <li>XXX4XX：客户端错误
- * <li>XXX5XX：服务器错误
- * </ul>
+ * starter-web模块返回码
  *
  * @author collin
- * @date 2019-03-27
+ * @date 2021-10-31
  */
-public interface IBaseReturnCodes {
+public interface WebReturnCodes {
 
-	/**
-	 * 状态码
-	 * 
-	 * @return
-	 */
-	public String getCode();
+    /**
+     * 待校验参数object不能为null
+     */
+    String VALIDATE_IN_PARAMS_NULL = "2001";
 
 }

@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import uk.co.jemos.podam.common.PodamStringValue;
 
 /**
@@ -44,7 +44,7 @@ public class ResponseHead extends Base {
     /**
      * 响应状态码
      */
-    @PodamStringValue(strValue = "200")
+    @PodamStringValue(strValue = CommonReturnCodes.SUCCESS)
     private String code;
 
     /**
@@ -57,21 +57,13 @@ public class ResponseHead extends Base {
      */
     private long timestamp;
 
-    public ResponseHead(IBaseReturnCodes returnCodes) {
-        setReturnCode(returnCodes);
+    public ResponseHead(String code) {
+        this.code = code;
     }
 
     public ResponseHead(String code, String message) {
         this.code = code;
         this.message = message;
-    }
-
-    public void setReturnCode(IBaseReturnCodes returnCodes) {
-        if (returnCodes == null) {
-            return;
-        }
-
-        this.code = returnCodes.getCode();
     }
 
 }

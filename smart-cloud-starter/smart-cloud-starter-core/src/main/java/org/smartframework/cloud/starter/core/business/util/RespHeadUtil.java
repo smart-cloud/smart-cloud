@@ -15,10 +15,8 @@
  */
 package org.smartframework.cloud.starter.core.business.util;
 
-import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.common.pojo.ResponseHead;
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.smartframework.cloud.utility.NonceUtil;
 import org.smartframework.cloud.utility.spring.I18nUtil;
 
@@ -53,40 +51,20 @@ public class RespHeadUtil {
         ResponseHead respHeadVO = new ResponseHead(code, message);
         respHeadVO.setTimestamp(System.currentTimeMillis());
         respHeadVO.setNonce(NonceUtil.getInstance().nextId());
-
-        return respHeadVO;
-    }
-
-    /**
-     * 构造RespHead对象
-     *
-     * @param returnCodes
-     * @param message
-     * @return
-     */
-    public static ResponseHead of(IBaseReturnCodes returnCodes, String message) {
-        ResponseHead respHeadVO = new ResponseHead(returnCodes);
-        respHeadVO.setTimestamp(System.currentTimeMillis());
-        respHeadVO.setNonce(NonceUtil.getInstance().nextId());
-        if (StringUtils.isNotBlank(message)) {
-            respHeadVO.setMessage(message);
-        }
-
         return respHeadVO;
     }
 
     /**
      * 构造RespHead对象（i18n message）
      *
-     * @param returnCodes
+     * @param code
      * @return
      */
-    public static ResponseHead ofI18n(IBaseReturnCodes returnCodes) {
-        ResponseHead respHeadVO = new ResponseHead(returnCodes);
+    public static ResponseHead ofI18n(String code) {
+        ResponseHead respHeadVO = new ResponseHead(code);
         respHeadVO.setTimestamp(System.currentTimeMillis());
         respHeadVO.setNonce(NonceUtil.getInstance().nextId());
-        respHeadVO.setMessage(I18nUtil.getMessage(returnCodes.getCode()));
-
+        respHeadVO.setMessage(I18nUtil.getMessage(code));
         return respHeadVO;
     }
 

@@ -23,7 +23,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.common.pojo.Response;
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.smartframework.cloud.starter.rpc.test.prepare.Application;
 import org.smartframework.cloud.starter.rpc.test.prepare.rpc.OrderRpc;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ class OpenFeignRpcTest {
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getHead()).isNotNull();
         Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS.getCode());
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
         Assertions.assertThat(response.getBody()).isNotBlank();
         Assertions.assertThat(response.getBody()).isEqualTo("ok");
     }
@@ -57,7 +57,7 @@ class OpenFeignRpcTest {
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getHead()).isNotNull();
         Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS.getCode());
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
         Assertions.assertThat(response.getBody()).isNotBlank();
         Assertions.assertThat(response.getBody()).isEqualTo("ok");
 

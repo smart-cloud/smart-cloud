@@ -17,7 +17,7 @@ package org.smartframework.cloud.starter.locale.test.prepare.controller;
 
 import org.smartframework.cloud.common.pojo.Response;
 import org.smartframework.cloud.common.pojo.ResponseHead;
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

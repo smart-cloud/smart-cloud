@@ -19,7 +19,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.common.pojo.ResponseHead;
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.core.test.unit.prepare.Application;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,7 +33,7 @@ class RespHeadUtilTest {
     void testOf() {
         ResponseHead responseHead = RespHeadUtil.of();
         Assertions.assertThat(responseHead).isNotNull();
-        Assertions.assertThat(responseHead.getCode()).isEqualTo(CommonReturnCodes.SUCCESS.getCode());
+        Assertions.assertThat(responseHead.getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
     }
 
     @Test
@@ -56,7 +56,7 @@ class RespHeadUtilTest {
         String msg = "xx";
         ResponseHead responseHeadWithNone = RespHeadUtil.of(CommonReturnCodes.GET_LOCK_FAIL, msg);
         Assertions.assertThat(responseHeadWithNone).isNotNull();
-        Assertions.assertThat(responseHeadWithNone.getCode()).isEqualTo(CommonReturnCodes.GET_LOCK_FAIL.getCode());
+        Assertions.assertThat(responseHeadWithNone.getCode()).isEqualTo(CommonReturnCodes.GET_LOCK_FAIL);
 
         Assertions.assertThat(responseHeadWithNone.getTimestamp()).isGreaterThan(0L);
         Assertions.assertThat(responseHeadWithNone.getNonce()).isNotBlank();
@@ -66,7 +66,7 @@ class RespHeadUtilTest {
         // null
         ResponseHead responseHeadWithNull = RespHeadUtil.of(CommonReturnCodes.GET_LOCK_FAIL, null);
         Assertions.assertThat(responseHeadWithNull).isNotNull();
-        Assertions.assertThat(responseHeadWithNull.getCode()).isEqualTo(CommonReturnCodes.GET_LOCK_FAIL.getCode());
+        Assertions.assertThat(responseHeadWithNull.getCode()).isEqualTo(CommonReturnCodes.GET_LOCK_FAIL);
 
         Assertions.assertThat(responseHeadWithNull.getTimestamp()).isGreaterThan(0L);
         Assertions.assertThat(responseHeadWithNull.getNonce()).isNotBlank();
@@ -78,7 +78,7 @@ class RespHeadUtilTest {
     void testOfI18n() {
         ResponseHead responseHead = RespHeadUtil.ofI18n(CommonReturnCodes.UPLOAD_FILE_SIZE_EXCEEDED);
         Assertions.assertThat(responseHead).isNotNull();
-        Assertions.assertThat(responseHead.getCode()).isEqualTo(CommonReturnCodes.UPLOAD_FILE_SIZE_EXCEEDED.getCode());
+        Assertions.assertThat(responseHead.getCode()).isEqualTo(CommonReturnCodes.UPLOAD_FILE_SIZE_EXCEEDED);
 
         Assertions.assertThat(responseHead.getTimestamp()).isGreaterThan(0L);
         Assertions.assertThat(responseHead.getNonce()).isNotBlank();

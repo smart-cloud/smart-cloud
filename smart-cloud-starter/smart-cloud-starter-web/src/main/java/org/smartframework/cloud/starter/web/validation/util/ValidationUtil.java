@@ -16,8 +16,9 @@
 package org.smartframework.cloud.starter.web.validation.util;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.smartframework.cloud.exception.ParamValidateException;
-import org.smartframework.cloud.starter.web.enums.WebReturnCodes;
+import org.smartframework.cloud.starter.web.constants.WebReturnCodes;
 import org.smartframework.cloud.starter.web.exception.util.ExceptionUtil;
 import org.smartframework.cloud.starter.web.validation.ValidatorSingleton;
 
@@ -55,7 +56,7 @@ public class ValidationUtil {
                     .map(item -> (ConstraintViolation<?>) (item)).collect(Collectors.toSet());
 
             String errorMsg = ExceptionUtil.getErrorMsg(constraintViolationSetTmp);
-            throw new ParamValidateException(errorMsg);
+            throw new ParamValidateException(CommonReturnCodes.VALIDATE_FAIL, errorMsg);
         }
     }
 

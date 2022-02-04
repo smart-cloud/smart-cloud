@@ -20,7 +20,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.common.pojo.Response;
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.smartframework.cloud.starter.web.test.prepare.Application;
 import org.smartframework.cloud.utility.JacksonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +78,7 @@ class ExceptionControllerAdviceTest {
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getHead()).isNotNull();
         Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL.getCode());
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL);
     }
 
 }

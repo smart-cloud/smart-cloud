@@ -13,107 +13,95 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.common.pojo.enums;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+package org.smartframework.cloud.constants;
 
 /**
  * 通用状态码
  *
  * @author collin
  * @date 2019-03-27
- * @see IBaseReturnCodes
  */
-@Getter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-public enum CommonReturnCodes implements IBaseReturnCodes {
+public interface CommonReturnCodes {
 
     /**
      * 成功
      */
-    SUCCESS("200"),
+    String SUCCESS = "200";
     /**
      * 校验失败
      */
-    VALIDATE_FAIL("101"),
+    String VALIDATE_FAIL = "101";
     /**
      * 数据不存在
      */
-    DATA_MISSING("102"),
+    String DATA_MISSING = "102";
     /**
      * 数据已存在
      */
-    DATA_EXISTED("103"),
+    String DATA_EXISTED = "103";
     /**
      * 签名错误
      */
-    SIGN_ERROR("400"),
+    String SIGN_ERROR = "400";
     /**
      * 无权限访问
      */
-    NO_ACCESS("401"),
+    String NO_ACCESS = "401";
     /**
      * 请求url错误
      */
-    REQUEST_URL_ERROR("404"),
+    String REQUEST_URL_ERROR = "404";
     /**
      * 请求超时
      */
-    REQUEST_TIMEOUT("408"),
+    String REQUEST_TIMEOUT = "408";
     /**
      * 重复提交
      */
-    REPEAT_SUBMIT("409"),
+    String REPEAT_SUBMIT = "409";
     /**
      * 参数不全
      */
-    PARAMETERS_MISSING("412"),
+    String PARAMETERS_MISSING = "412";
     /**
      * 请求方式不支持
      */
-    REQUEST_METHOD_NOT_SUPPORTED("415"),
+    String REQUEST_METHOD_NOT_SUPPORTED = "415";
     /**
      * 请求类型不支持
      */
-    UNSUPPORTED_MEDIA_TYPE("416"),
+    String UNSUPPORTED_MEDIA_TYPE = "416";
     /**
      * 获取锁失败
      */
-    GET_LOCK_FAIL("417"),
+    String GET_LOCK_FAIL = "417";
     /**
      * 上传文件大小超过限制
      */
-    UPLOAD_FILE_SIZE_EXCEEDED("418"),
+    String UPLOAD_FILE_SIZE_EXCEEDED = "418";
     /**
      * 当前会话已失效，请重新登陆
      */
-    NOT_LOGGED_IN("419"),
+    String NOT_LOGGED_IN = "419";
     /**
      * 服务器异常
      */
-    SERVER_ERROR("500"),
+    String SERVER_ERROR = "500";
     /**
      * 获取Request失败
      */
-    GET_REQUEST_FAIL("501"),
+    String GET_REQUEST_FAIL = "501";
     /**
      * 获取Response失败
      */
-    GET_RESPONSE_FAIL("502"),
+    String GET_RESPONSE_FAIL = "502";
     /**
      * rpc请求失败
      */
-    RPC_REQUEST_FAIL("503"),
+    String RPC_REQUEST_FAIL = "503";
     /**
      * rpc返回结果异常
      */
-    RPC_RESULT_EXCEPTION("504");
-
-    /**
-     * 状态码
-     */
-    private String code;
+    String RPC_RESULT_EXCEPTION = "504";
 
 }

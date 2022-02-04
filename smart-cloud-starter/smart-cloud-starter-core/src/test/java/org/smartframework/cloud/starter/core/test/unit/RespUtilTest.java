@@ -19,7 +19,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.common.pojo.Response;
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.smartframework.cloud.starter.core.business.util.RespUtil;
 import org.smartframework.cloud.starter.core.test.unit.prepare.Application;
 import org.smartframework.cloud.utility.spring.I18nUtil;
@@ -36,7 +36,7 @@ class RespUtilTest {
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getHead()).isNotNull();
         Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS.getCode());
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
     }
 
     @Test
@@ -45,41 +45,10 @@ class RespUtilTest {
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getHead()).isNotNull();
         Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS.getCode());
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
 
         Assertions.assertThat(response.getBody()).isNotNull();
         Assertions.assertThat(response.getBody()).isEqualTo(1L);
-    }
-
-    @Test
-    void testError() {
-        // 枚举
-        Response<Long> response1 = RespUtil.error(CommonReturnCodes.VALIDATE_FAIL);
-        Assertions.assertThat(response1).isNotNull();
-        Assertions.assertThat(response1.getHead()).isNotNull();
-        Assertions.assertThat(response1.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response1.getHead().getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL.getCode());
-
-        // Response
-        Response<Long> errorResponse = RespUtil.error(CommonReturnCodes.VALIDATE_FAIL);
-        String msg = "validate fail";
-        errorResponse.getHead().setMessage(msg);
-        Response<Long> response2 = RespUtil.error(errorResponse);
-        Assertions.assertThat(response2).isNotNull();
-        Assertions.assertThat(response2.getHead()).isNotNull();
-        Assertions.assertThat(response2.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response2.getHead().getCode()).isEqualTo(CommonReturnCodes.SERVER_ERROR.getCode());
-        Assertions.assertThat(response2.getHead().getMessage()).isEqualTo(msg);
-
-
-        // String
-        String errorMsg = "xxx";
-        Response<Long> strResponse = RespUtil.error(errorMsg);
-        Assertions.assertThat(strResponse).isNotNull();
-        Assertions.assertThat(strResponse.getHead()).isNotNull();
-        Assertions.assertThat(strResponse.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(strResponse.getHead().getCode()).isEqualTo(CommonReturnCodes.SERVER_ERROR.getCode());
-        Assertions.assertThat(strResponse.getHead().getMessage()).isEqualTo(errorMsg);
     }
 
     @Test
@@ -93,12 +62,12 @@ class RespUtilTest {
         // Response is null
         Response<Long> nullResponse = null;
         String nullMsg = RespUtil.getFailMsg(nullResponse);
-        Assertions.assertThat(nullMsg).isEqualTo(I18nUtil.getMessage(CommonReturnCodes.RPC_REQUEST_FAIL.getCode()));
+        Assertions.assertThat(nullMsg).isEqualTo(I18nUtil.getMessage(CommonReturnCodes.RPC_REQUEST_FAIL));
 
         // head is null
         Response<Long> headNullResponse = new Response<>();
         String headNullMsg = RespUtil.getFailMsg(headNullResponse);
-        Assertions.assertThat(headNullMsg).isEqualTo(I18nUtil.getMessage(CommonReturnCodes.RPC_RESULT_EXCEPTION.getCode()));
+        Assertions.assertThat(headNullMsg).isEqualTo(I18nUtil.getMessage(CommonReturnCodes.RPC_RESULT_EXCEPTION));
 
         // 正常分支
         Response<Long> errorResponse = RespUtil.error(CommonReturnCodes.VALIDATE_FAIL);

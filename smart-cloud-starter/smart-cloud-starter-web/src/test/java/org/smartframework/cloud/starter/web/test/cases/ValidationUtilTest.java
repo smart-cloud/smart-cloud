@@ -22,9 +22,9 @@ import org.hibernate.validator.constraints.Length;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.smartframework.cloud.common.pojo.Base;
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.smartframework.cloud.exception.ParamValidateException;
-import org.smartframework.cloud.starter.web.enums.WebReturnCodes;
+import org.smartframework.cloud.starter.web.constants.WebReturnCodes;
 import org.smartframework.cloud.starter.web.test.prepare.Application;
 import org.smartframework.cloud.starter.web.validation.util.ValidationUtil;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -50,7 +50,7 @@ class ValidationUtilTest {
 
         Assertions.assertThat(expectedException).isNotNull();
         Assertions.assertThat(expectedException instanceof ParamValidateException).isTrue();
-        Assertions.assertThat(((ParamValidateException) expectedException).getCode()).isEqualTo(WebReturnCodes.VALIDATE_IN_PARAMS_NULL.getCode());
+        Assertions.assertThat(((ParamValidateException) expectedException).getCode()).isEqualTo(WebReturnCodes.VALIDATE_IN_PARAMS_NULL);
     }
 
     /**
@@ -68,7 +68,7 @@ class ValidationUtilTest {
 
         Assertions.assertThat(expectedException).isNotNull();
         Assertions.assertThat(expectedException instanceof ParamValidateException).isTrue();
-        Assertions.assertThat(((ParamValidateException) expectedException).getCode()).isEqualTo(CommonReturnCodes.PARAMETERS_MISSING.getCode());
+        Assertions.assertThat(((ParamValidateException) expectedException).getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL);
     }
 
     /**

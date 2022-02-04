@@ -15,8 +15,7 @@
  */
 package org.smartframework.cloud.exception;
 
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
-import org.smartframework.cloud.common.pojo.enums.IBaseReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 
 /**
  * 服务器异常
@@ -28,12 +27,8 @@ public class ServerException extends BaseException {
 
     private static final long serialVersionUID = 1L;
 
-    public ServerException(IBaseReturnCodes baseReturnCode) {
-        super(baseReturnCode);
-    }
-
     public ServerException(String message) {
-        super.setCode(CommonReturnCodes.SERVER_ERROR.getCode());
+        super.setCode(CommonReturnCodes.SERVER_ERROR);
         super.setMessage(message);
     }
 

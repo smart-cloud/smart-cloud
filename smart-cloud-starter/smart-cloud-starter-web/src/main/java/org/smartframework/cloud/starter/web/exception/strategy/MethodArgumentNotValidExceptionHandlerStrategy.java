@@ -16,7 +16,7 @@
 package org.smartframework.cloud.starter.web.exception.strategy;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.smartframework.cloud.common.pojo.ResponseHead;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 import org.smartframework.cloud.starter.web.exception.IExceptionHandlerStrategy;

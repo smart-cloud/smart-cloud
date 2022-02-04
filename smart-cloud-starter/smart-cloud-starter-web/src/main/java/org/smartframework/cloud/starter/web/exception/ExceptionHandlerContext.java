@@ -18,7 +18,7 @@ package org.smartframework.cloud.starter.web.exception;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 import org.smartframework.cloud.common.pojo.ResponseHead;
-import org.smartframework.cloud.common.pojo.enums.CommonReturnCodes;
+import org.smartframework.cloud.constants.CommonReturnCodes;
 import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.starter.core.business.util.RespHeadUtil;
 

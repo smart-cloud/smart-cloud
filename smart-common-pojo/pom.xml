@@ -30,6 +30,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.smartframework.cloud</groupId>
+			<artifactId>smart-constants</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>uk.co.jemos.podam</groupId>
 			<artifactId>podam</artifactId>
 		</dependency>
