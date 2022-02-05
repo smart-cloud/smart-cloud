@@ -21,7 +21,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.smartframework.cloud.starter.mybatis.plus.common.mapper.entity.BaseEntity;
+import org.smartframework.cloud.starter.mybatis.plus.common.entity.BaseEntity;
 
 /**
  * 商品信息
