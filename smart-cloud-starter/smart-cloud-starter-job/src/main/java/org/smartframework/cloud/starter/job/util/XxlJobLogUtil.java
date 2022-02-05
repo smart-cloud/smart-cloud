@@ -16,7 +16,6 @@
 package org.smartframework.cloud.starter.job.util;
 
 import com.xxl.job.core.context.XxlJobHelper;
-import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -25,9 +24,8 @@ import lombok.extern.slf4j.Slf4j;
  * @author collin
  * @date 2019-7-11
  */
-@UtilityClass
 @Slf4j
-public class XxlJobLogUtil {
+public final class XxlJobLogUtil {
 
     public static void debug(String format, Object... arguments) {
         log.debug(format, arguments);
@@ -39,7 +37,7 @@ public class XxlJobLogUtil {
         XxlJobHelper.log(format, arguments);
     }
 
-    public static void warning(String format, Object... arguments) {
+    public static void warn(String format, Object... arguments) {
         log.warn(format, arguments);
         XxlJobHelper.log(format, arguments);
     }

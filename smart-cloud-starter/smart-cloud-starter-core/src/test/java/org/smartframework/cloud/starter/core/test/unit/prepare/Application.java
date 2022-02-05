@@ -16,9 +16,11 @@
 package org.smartframework.cloud.starter.core.test.unit.prepare;
 
 import org.smartframework.cloud.starter.core.support.annotation.SmartBootApplication;
+import org.smartframework.cloud.starter.core.support.annotation.YamlScan;
 import org.springframework.boot.SpringApplication;
 
 @SmartBootApplication
+@YamlScan(locationPatterns = "application-*.yml")
 public class Application {
 
     public static void main(String[] args) {

@@ -16,6 +16,7 @@
 package org.smartframework.cloud.starter.job.trace;
 
 import com.xxl.job.core.handler.IJobHandler;
+import lombok.RequiredArgsConstructor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.BeanFactory;
@@ -31,15 +32,11 @@ import java.lang.reflect.Method;
  * @author collin
  * @date 2021-04-11
  */
+@RequiredArgsConstructor
 public class XxlJobMethodInterceptor<T extends IJobHandler> implements MethodInterceptor {
 
     private final T delegate;
     private final BeanFactory beanFactory;
-
-    public XxlJobMethodInterceptor(T delegate, BeanFactory beanFactory) {
-        this.delegate = delegate;
-        this.beanFactory = beanFactory;
-    }
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {

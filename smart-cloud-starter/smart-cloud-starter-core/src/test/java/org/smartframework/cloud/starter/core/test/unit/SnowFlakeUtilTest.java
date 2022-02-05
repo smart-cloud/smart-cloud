@@ -29,7 +29,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Application.class, args = "--spring.profiles.active=common")
+@SpringBootTest(classes = Application.class)
 class SnowFlakeUtilTest {
 
     @RepeatedTest(128)

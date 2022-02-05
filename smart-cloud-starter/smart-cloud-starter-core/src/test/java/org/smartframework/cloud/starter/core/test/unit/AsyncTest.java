@@ -33,7 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Application.class, args = "--spring.profiles.active=common")
+@SpringBootTest(classes = Application.class)
 class AsyncTest {
 
     @Autowired

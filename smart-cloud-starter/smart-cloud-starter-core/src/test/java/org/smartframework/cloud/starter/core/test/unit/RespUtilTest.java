@@ -27,7 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Application.class, args = "--spring.profiles.active=common")
+@SpringBootTest(classes = Application.class)
 class RespUtilTest {
 
     @Test

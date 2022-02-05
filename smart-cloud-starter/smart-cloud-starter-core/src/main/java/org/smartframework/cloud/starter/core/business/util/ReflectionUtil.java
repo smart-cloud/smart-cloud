@@ -15,7 +15,6 @@
  */
 package org.smartframework.cloud.starter.core.business.util;
 
-import lombok.experimental.UtilityClass;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
@@ -29,13 +28,15 @@ import java.util.Set;
  * @author collin
  * @date 2019-04-27
  */
-@UtilityClass
 public class ReflectionUtil extends ReflectionUtils {
 
     private static Reflections reflections = null;
 
     static {
         reflections = new Reflections(PackageConfig.getBasePackages());
+    }
+
+    private ReflectionUtil() {
     }
 
     /**
