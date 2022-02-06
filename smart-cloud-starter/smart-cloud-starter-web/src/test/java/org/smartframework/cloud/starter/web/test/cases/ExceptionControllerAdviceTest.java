@@ -44,7 +44,6 @@ import java.util.Map;
 class ExceptionControllerAdviceTest {
 
     private MockMvc mockMvc = null;
-    ;
     @Autowired
     protected ApplicationContext applicationContext;
 

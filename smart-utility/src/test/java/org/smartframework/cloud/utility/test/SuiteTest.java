@@ -16,15 +16,13 @@
 package org.smartframework.cloud.utility.test;
 
 import org.junit.jupiter.api.Disabled;
+import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.suite.api.SelectPackages;
-import org.junit.platform.suite.api.Suite;
+import org.junit.runner.RunWith;
 
 @Disabled
-@Suite
-@SelectPackages({"org.smartframework.cloud.utility.test.integration",
-        "org.smartframework.cloud.utility.test.unit.jackson",
-        "org.smartframework.cloud.utility.test.unit.jaxb",
-        "org.smartframework.cloud.utility.test.unit"})
+@RunWith(JUnitPlatform.class)
+@SelectPackages({"org.smartframework.cloud.utility.test"})
 public class SuiteTest {
 
 }
