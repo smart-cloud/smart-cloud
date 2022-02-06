@@ -15,7 +15,6 @@
  */
 package org.smartframework.cloud.starter.mybatis.plus.test.cases;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;

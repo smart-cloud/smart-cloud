@@ -18,6 +18,7 @@ package org.smartframework.cloud.starter.mybatis.plus.autoconfigure;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
+import org.smartframework.cloud.starter.mybatis.plus.handler.CryptFieldHandler;
 import org.smartframework.cloud.starter.mybatis.plus.injector.SmartSqlInjector;
 import org.smartframework.cloud.starter.mybatis.plus.plugin.MybatisSqlLogInterceptor;
 import org.smartframework.cloud.utility.spring.condition.ConditionEnableLogInfo;
@@ -36,6 +37,21 @@ import org.springframework.core.annotation.Order;
 @Configuration
 public class MyBatisPlusAutoConfiguration {
 
+    /**
+     * entity字段加解密
+     *
+     * @return
+     */
+    @Bean
+    public CryptFieldHandler cryptFieldHandler() {
+        return new CryptFieldHandler();
+    }
+
+    /**
+     * mybatis日志
+     *
+     * @return
+     */
     @Bean
     @Order(OrderConstant.MYBATIS_SQL_LOG_INTERCEPTOR)
     @Conditional(ConditionEnableLogInfo.class)
@@ -57,6 +73,11 @@ public class MyBatisPlusAutoConfiguration {
         return interceptor;
     }
 
+    /**
+     * 自定义方法（truncat）
+     *
+     * @return
+     */
     @Bean
     public SmartSqlInjector smartSqlInjector() {
         return new SmartSqlInjector();
