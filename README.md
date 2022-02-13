@@ -7,194 +7,194 @@ smart cloud
 [![jdk version](https://img.shields.io/badge/jdk-1.8+-blue.svg)](https://docs.oracle.com/javase/8/docs/api/)
 ![](https://img.shields.io/badge/spring--boot-2.6.3.RELEASE-blue.svg)
 ![](https://img.shields.io/badge/spring--cloud-2021.0.0-blue.svg)
+[![EN doc](https://img.shields.io/badge/document-English-blue.svg)](https://github.com/smart-cloud/smart-cloud#readme)
+[![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](https://github.com/smart-cloud/smart-cloud/blob/dev/README_ZH.md)
 
-# 一、功能特征
+# features
 
-**一个基于spring cloud实现的脚手架。所实现功能如下：**
+**A scaffolding based on spring cloud implementation. The implemented functions are as follows:**
 
-- [接口文档自动生成（利用idea yapi插件上传到yapi server）](https://github.com/smart-cloud/smart-cloud#%E4%BA%94%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)
-- [可以生成mock数据，充分发挥前后端分离的作用](https://github.com/smart-cloud/smart-cloud#%E4%B8%89%E6%8E%A5%E5%8F%A3mock%E6%95%B0%E6%8D%AE)
-- [部署灵活，服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）部署，合并后也可拆分开部署](https://github.com/smart-cloud/smart-cloud#%E5%9B%9B%E6%9C%8D%E5%8A%A1%E5%90%88%E5%B9%B6%E5%8E%9F%E7%90%86)
-- 业务无关代码自动生成
-- [接口（加密+签名）安全保证](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
-- 业务无关功能（如日志打印、公共配置、常用工具类等）抽象为starter
-- [支持多数据源、分表分库、分布式事务](https://github.com/smart-cloud/smart-cloud#1%E5%A4%9A%E6%95%B0%E6%8D%AE%E6%BA%90%E5%86%B2%E7%AA%81)
-- 支持多语言（国际化）
-- 敏感配置信息支持加密，表隐私字段加解密
-- 分布式锁注解
-- mq（rabbitmq）消费失败，通过自定义注解实现重试（放入延迟队列重新消费）
-- [日志敏感数据脱敏](https://github.com/smart-cloud/smart-cloud#%E4%BA%8C%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F)
-- 单体服务开发接阶段测试不依赖其他服务（mock test、关闭nacos、sentinel等）
-- 技术栈稳定、实用、易用
+- [The interface document is automatically generated (use the idea yapi plugin to upload to the yapi server)](https://github.com/smart-cloud/smart-cloud#api-documentation)
+- [Mock data can be generated to give full play to the role of front-end and back-end separation](https://github.com/smart-cloud/smart-cloud#interface-mock-data)
+- [Flexible deployment, services can be merged (after the merged services communicate through internal processes; after separation, through RPC communication) deployment, and can also be deployed separately after merging](https://github.com/smart-cloud/smart-cloud#principles-of-service-merger)
+- Automatic generation of business-independent code
+- [Interface (encryption + signature) security assurance](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
+- Business-related functions (such as log printing, public configuration, common tool classes, etc.) are abstracted as starters
+- Support multiple data sources, sharding table and sharding database, distributed transactions
+- Supports multiple languages (internationalization)
+- Sensitive configuration information supports encryption, table privacy field encryption and decryption
+- Annotated distributed lock
+- mq (rabbitmq) consumption fails, retry through custom annotations (put into delayed queue for re-consumption)
+- [Log sensitive data desensitization](https://github.com/smart-cloud/smart-cloud#desensitization-of-log-data)
+- The testing of the single service development phase does not depend on other services (mock test, closing nacos, sentinel, etc.)
+- The technology stack is stable, practical and easy to use
 
-示例工程见[smart-cloud-examples](https://github.com/smart-cloud/smart-cloud-examples)
+See the example project: [smart-cloud-examples](https://github.com/smart-cloud/smart-cloud-examples)
 
-# 二、模块说明
+# Module description
 
 ```
 smart-cloud
-├── smart-api-core -- 接口权限、加解密、签名等注解 && 用户上下文
-│    ├──smart-api-annotation -- 接口权限、加解密、签名等注解
-│    └──smart-user-context -- 用户上下文
-├── smart-code-generate -- 代码生成
-├── smart-common-pojo -- 公共对象
-├── smart-common-web -- web模块公共处理
-├── smart-constants -- 常量模块
-├── smart-exception -- 异常模块
-├── smart-mask -- 敏感数据混淆
-├── smart-utility -- 工具类
-└── smart-could-starter -- 框架封装
-     ├── smart-cloud-starter-configure -- 框架配置属性封装
-     ├── smart-cloud-starter-core -- 框架核心（自定义注解、异常封装、请求响应公共参数、业务相关工具类）
-     ├── smart-cloud-starter-feign -- feign封装（可拆可合、切面处理）
-     ├── smart-cloud-starter-job -- 定时任务封装
-     ├── smart-cloud-starter-locale -- 国际化封装
-     ├── smart-cloud-starter-log4j2 -- 日志封装（log4j2封装，支持日志敏感数据脱敏）
-     ├── smart-cloud-starter-method-log -- 方法切面日志封装
-     ├── smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
-     ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表、分布式事务；mapper工具类）
-     ├── smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类、表隐私字段加解密等）
-     ├── smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）
-     ├── smart-cloud-starter-redis -- redis封装、自定义分布式锁注解
-     ├── smart-cloud-starter-test -- test封装
-     └── smart-cloud-starter-web -- web封装（日志切面、异常处理、参数校验）
+├── smart-api-core -- Interface permissions, encryption and decryption, signature and other annotations && user context
+│    ├──smart-api-annotation -- Annotation for interface permissions, encryption and decryption, signature, etc.
+│    └──smart-user-context -- user context
+├── smart-code-generate -- code generation
+├── smart-common-pojo -- public object( VO,DTO,BO,DO, etc.)
+├── smart-common-web -- web module public processing
+├── smart-constants -- constant module
+├── smart-exception -- exception module
+├── smart-mask -- Sensitive data obfuscation
+├── smart-utility -- Tools
+└── smart-could-starter -- frame encapsulation
+     ├── smart-cloud-starter-configure -- Framework configuration property encapsulation
+     ├── smart-cloud-starter-core -- Framework core (custom annotations, exception encapsulation, request and response public parameters, business-related tool classes)
+     ├── smart-cloud-starter-feign -- feign package (removable and reusable, faceted)
+     ├── smart-cloud-starter-job -- Scheduled task
+     ├── smart-cloud-starter-locale -- international
+     ├── smart-cloud-starter-log4j2 -- Log encapsulation (log4j2 encapsulation, support desensitization of log sensitive data)
+     ├── smart-cloud-starter-method-log -- 方Method Aspect Log Encapsulation
+     ├── smart-cloud-starter-mock -- Mock encapsulation (mock tool classes, common mock strategies, request interface mock interceptors)
+     ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus, dynamic-datasource, shardingjdbc package (supports multiple data sources, sub-database sub-tables, distributed transactions; mapper tool class)
+     ├── smart-cloud-starter-mybatis-plus -- mybatis plus, dynamic-datasource encapsulation (supports multiple data sources, distributed transactions; mapper tool class, table privacy field encryption and decryption, etc.)
+     ├── smart-cloud-starter-rabbitmq -- rabbitmq encapsulation (consumption failure, automatically put into the delayed queue for re-consumption)
+     ├── smart-cloud-starter-redis -- redis encapsulation, custom distributed lock annotation
+     ├── smart-cloud-starter-test -- test package
+     └── smart-cloud-starter-web -- web encapsulation (log aspect, exception handling, parameter verification)
 ```
 
-# 三、技术栈
+# technology stack
 
-名称 | 说明
+name | role description
 ---|---
-[spring boot](https://spring.io/projects/spring-boot/) | 手脚架
-[spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | 服务网关
-[nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html) | 服务注册、配置中心
-[spring boot admin](https://github.com/codecentric/spring-boot-admin) | 服务监控
-[openfeign](https://spring.io/projects/spring-cloud-openfeign)| 声明式服务调用
-[sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志
+[spring boot](https://spring.io/projects/spring-boot/) | scaffolding
+[spring cloud gateway](https://spring.io/projects/spring-cloud-gateway) | service gateway
+[nacos](https://nacos.io/zh-cn/docs/what-is-nacos.html) | Service registration and configuration center
+[spring boot admin](https://github.com/codecentric/spring-boot-admin) | service monitoring
+[openfeign](https://spring.io/projects/spring-cloud-openfeign)| Declarative service invocation(RPC)
+[sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | Link tracking, logs
 [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM
-[dynamic-datasource](https://mp.baomidou.com/guide/dynamic-datasource.html)| 多数据源
-[seata](https://github.com/seata/seata) | 分布式事务
-[sharding jdbc](https://github.com/apache/incubator-shardingsphere) | 分库分表
-[redis](https://redis.io/)、[embedded-redis](https://github.com/kstyrc/embedded-redis) | 缓存、集成测试
-[sentinel](https://github.com/alibaba/Sentinel) | 限流、熔断降级
-[rabbitmq](https://www.rabbitmq.com/) | 消息队列
-[fastdfs](https://github.com/happyfish100/fastdfs) | 文件存储
-[xxl-job](https://github.com/xuxueli/xxl-job)| 定时任务
-[easyexcel](https://github.com/alibaba/easyexcel) | excel导入导出
-[Hibernator-Validator](http://hibernate.org/validator/) | 参数校验
-[mockito](https://site.mockito.org/)、[podam](https://github.com/mtedone/podam) | 单元测试、数据mock
-[h2](http://www.h2database.com/html/tutorial.html) | 数据库集成测试
-[embedded-redis](https://github.com/ozimov/embedded-redis) | redis集成测试
-[rabbitmq-mock](https://github.com/fridujo/rabbitmq-mock) | rabbitmq集成测试
-[freemarker](https://freemarker.apache.org/) | 用于代码生成
-[yapi](https://github.com/YMFE/yapi)、[idea yapi upload plugin](https://github.com/smart-cloud/yapi_upload) | 接口文档
-[jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot) | 配置文件中敏感数据加解密
-[Lombok](https://www.projectlombok.org/) | 简化代码
+[dynamic-datasource](https://mp.baomidou.com/guide/dynamic-datasource.html)| Multiple data sources
+[seata](https://github.com/seata/seata) | Distributed transaction
+[sharding jdbc](https://github.com/apache/incubator-shardingsphere) | Sub-library and sub-table
+[redis](https://redis.io/)、[embedded-redis](https://github.com/kstyrc/embedded-redis) | Caching, Integration Testing
+[sentinel](https://github.com/alibaba/Sentinel) | Current limit, fuse, downgrade
+[rabbitmq](https://www.rabbitmq.com/) | message queue
+[fastdfs](https://github.com/happyfish100/fastdfs) | Distributed file storage
+[xxl-job](https://github.com/xuxueli/xxl-job)| Distributed timing tasks
+[easyexcel](https://github.com/alibaba/easyexcel) | excel import and export
+[Hibernator-Validator](http://hibernate.org/validator/) | parameter verification
+[mockito](https://site.mockito.org/)、[podam](https://github.com/mtedone/podam) | Unit testing, data mocking
+[h2](http://www.h2database.com/html/tutorial.html) | database integration test
+[embedded-redis](https://github.com/ozimov/embedded-redis) | redis integration test
+[rabbitmq-mock](https://github.com/fridujo/rabbitmq-mock) | rabbitmq integration test
+[freemarker](https://freemarker.apache.org/) | code template generation
+[yapi](https://github.com/YMFE/yapi)、[idea yapi upload plugin](https://github.com/smart-cloud/yapi_upload) | api documentation
+[jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot) | Encryption and decryption of sensitive data in configuration files
+[Lombok](https://www.projectlombok.org/) | Simplified code
 
-# 四、服务合并原理
+# Principles of Service Merger
 
 ![](docs/images/service_merge.png)
 
-- 合并服务只需修改pom.xml，将待合并的服务import进去即可。
--
+- To merge services, you only need to modify pom.xml and import the services to be merged.
+- rpc interface through custom annotation[SmartFeignClient](https://github.com/smart-cloud/smart-cloud/blob/dev/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/org/smartframework/cloud/starter/rpc/feign/annotation/SmartFeignClient.java)accomplish. When a single service is deployed alone, FeignClient will take effect; when the service provider and service consumer are deployed together, the FeignClient annotation will be invalid, and the rpc interface will be called directly through the implementation class object. For specific logic, see[SmartFeignClientCondition](https://github.com/smart-cloud/smart-cloud/blob/463cc09b6c2f8a0b947f0a2fcc157ee037ba419d/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/org/smartframework/cloud/starter/rpc/feign/condition/SmartFeignClientCondition.java#L32)。
 
-rpc接口通过自定义注解[SmartFeignClient](https://github.com/smart-cloud/smart-cloud/blob/dev/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/org/smartframework/cloud/starter/rpc/feign/annotation/SmartFeignClient.java)实现。单个服务独自部署时，FeignClient会生效；当服务提供者和服务消费者合并部署时，FeignClient注解会失效，此时rpc接口将通过实现类对象直接调用。具体逻辑见[SmartFeignClientCondition](https://github.com/smart-cloud/smart-cloud/blob/463cc09b6c2f8a0b947f0a2fcc157ee037ba419d/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/org/smartframework/cloud/starter/rpc/feign/condition/SmartFeignClientCondition.java#L32)。
+# Related instructions
 
-# 五、相关说明
+## Problems encountered with service mergers
 
-## （一）服务合并遇到的问题
+A single service is introduced into the merged service through maven in the form of a jar. In a single service, the feign interface requests through http; after the services are merged, the feign interface communicates through internal processes.
 
-单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
-
-### 1、rpc与rpc实现类冲突
+### rpc conflicts with rpc implementation class
 
 ```
-自定义条件注解封装FeignClient。使其在单体服务时，rpc走feign；在合体服务时，rpc走内部进程通信。
+Custom conditional annotations encapsulate FeignClient. When it is used as a single service, rpc uses feign; when it is combined service, rpc uses internal process communication.
 ```
 
-### 2、yaml文件的自动加载
+### Automatic loading of yaml files
 
 ```
-自定义注解YamlScan，用来加载配置的yaml文件（支持正则匹配）。通过SPI机制，在spring.factories文件中添加EnvironmentPostProcessor的实现类，通过其方法参数SpringApplication获取启动类的信息，从而获取YamlScan注解配置的yaml文件信息。然后将yaml文件加到ConfigurableEnvironment中。
+Custom annotation YamlScan, used to load the configured yaml file (supports regular matching). Through the SPI mechanism, the implementation class of EnvironmentPostProcessor is added to the spring.factories file, and the information of the startup class is obtained through its method parameter SpringApplication, thereby obtaining the information of the yaml file configured by the YamlScan annotation. Then add the yaml file to the ConfigurableEnvironment.
 ```
 
-### 3、启动类注解冲突
+### Startup class annotation conflict
 
 ```
-自定义条件注解SmartSpringCloudApplicationCondition，只会让启动类标记的启动注解生效。
+The custom condition annotation SmartSpringCloudApplicationCondition will only make the startup annotation marked by the startup class take effect.
 ```
 
-### 4、maven打包异常
+### maven packaging exception
 
 ```
-合体服务打包时，单体服务依赖的包也打进单体服务jar。通过maven profiles解决
+When the combined service is packaged, the packages that the single service depends on are also entered into the single service jar. Solved by maven profiles
 ```
 
-## （二）日志数据脱敏
+## Desensitization of log data
 
 ```
-1.从日志侧切入，自定义标签，打印日志时进行脱敏处理；
-2.自定义jackson的序列化器；打印日志时，采用自定义的序列化器；
-3.通过反射获取log传入参数的MaskRule注解信息，最终根据注解规则进行字符串的截取与替换。
+1. Cut in from the log side, customize the label, and perform desensitization processing when printing the log;
+2. Customize the serializer of jackson; when printing the log, use the customized serializer;
+3. Obtain the MaskRule annotation information of the log incoming parameters through reflection, and finally intercept and replace the string according to the annotation rules.
 ```
 
-## （三）接口mock数据
+## Interface mock data
 
-接口通过切面拦截的方式，通过反射可以获取返回对象的所有信息，然后根据对象的属性类型，可以随机生成数据；对于特定要求的数据，可以制定mock规则，生成指定格式的数据。
+The interface can obtain all the information of the returned object through reflection, and then randomly generate data according to the attribute type of the object; for the data required by specific requirements, you can formulate mock rules to generate data in a specified format.
 
-## （四）测试
+## Test
 
-### 1、单元测试
+### Unit Test
 
-利用单元测试，提高测试覆盖率。
+Improve test coverage with unit testing.
 
-### 2、集成测试
+### Integration Testing
 
-> - 在集成测试下，关闭nacos，减少依赖。
->- 依赖的服务rpc接口，通过mockito走挡板。
->- redis层使用embedded-redis做集成测试。
->- rabbitmq层使用rabbitmq-mock做集成测试
->- 数据库层使用h2做集成测试（另外两种方案：方案一通过事务回滚还原测试用例对DB的修改；方案二在测试用例执行前删除相关的表）。
+>- Under integration tests, turn off nacos to reduce dependencies.
+>- Depends on the service rpc interface, go baffle through mockito.
+>- The redis layer uses embedded-redis for integration testing.
+>- rabbitmq layer uses rabbitmq-mock for integration testing
+>- The database layer uses h2 for integration testing (there are two other schemes: scheme 1 restores the modification of the DB by the test case through transaction rollback; scheme 2 deletes the relevant table before the test case is executed).
 
-### 3、系统测试
+### System Test
 
-## （五）接口文档
+## api documentation
 
-### 1、接口文档由以下步骤自动生成：
+### The interface documentation is automatically generated by the following steps:
 
-通过[idea yapi upload plugin](https://github.com/smart-cloud/yapi_upload)插件，上传到[yapi server](https://github.com/YMFE/yapi)
+Through the [idea yapi upload plugin](https://github.com/smart-cloud/yapi_upload) plugin, upload to [yapi server](https://github.com/YMFE/yapi)
 
-### 2、接口文档效果图
+### Interface document renderings
 
-#### 概要
+#### summary
 
 ![](docs/images/yapi_docs.png)
 
-#### 详情
+#### Details
 
 ![](docs/images/yapi_docs_detail.png)
 
-# 六、错误码说明
+# Error code description
 
-所属模块 | code | message
+module | code | message
 ---| ---|---
-smart-constants | 200 | 成功
-smart-constants | 101 | 校验失败
-smart-constants | 102 | 数据不存在
-smart-constants | 103 | 数据已存在
-smart-constants | 400 | 签名错误
-smart-constants | 401 | 无权限访问
-smart-constants | 404 | 请求url错误
-smart-constants | 408 | 请求超时
-smart-constants | 409 | 重复提交
-smart-constants | 412 | 参数不全
-smart-constants | 415 | 请求方式不支持
-smart-constants | 416 | 请求类型不支持
-smart-constants | 417 | 获取锁失败
-smart-constants | 418 | 上传文件大小超过限制
-smart-constants | 419 | 当前会话已失效，请重新登陆
-smart-constants | 500 | 服务器异常
-smart-constants | 501 | 获取Request失败
-smart-constants | 502 | 获取Response失败
-smart-constants | 503 | rpc请求失败
-smart-constants | 504 | rpc返回结果异常
-smart-cloud-starter-web | 2001 | 待校验参数object不能为null
+smart-constants | 200 | success
+smart-constants | 101 | Verification failed
+smart-constants | 102 | Data does not exist
+smart-constants | 103 | Data already exists
+smart-constants | 400 | Signature error
+smart-constants | 401 | Unauthorized access
+smart-constants | 404 | request url error
+smart-constants | 408 | Request timed out
+smart-constants | 409 | duplicate commit
+smart-constants | 412 | Incomplete parameters
+smart-constants | 415 | Request method not supported
+smart-constants | 416 | Request type not supported
+smart-constants | 417 | Failed to acquire lock
+smart-constants | 418 | Upload file size exceeds limit
+smart-constants | 419 | The current session has expired, please log in again
+smart-constants | 500 | Server exception
+smart-constants | 501 | Failed to get Request
+smart-constants | 502 | Failed to get Response
+smart-constants | 503 | rpc request failed
+smart-constants | 504 | rpc returns abnormal results
+smart-cloud-starter-web | 2001 | The parameter object to be verified cannot be null
