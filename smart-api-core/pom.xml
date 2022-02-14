@@ -26,7 +26,7 @@
         <module>smart-user-context</module>
     </modules>
     <parent>
-        <groupId>org.smartframework.cloud</groupId>
+        <groupId>io.github.smart-cloud</groupId>
         <artifactId>smart-cloud</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>

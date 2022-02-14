@@ -24,7 +24,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.6.3</version>
     </parent>
-    <groupId>org.smartframework.cloud</groupId>
+    <groupId>io.github.smart-cloud</groupId>
     <artifactId>smart-cloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -78,147 +78,147 @@
         <dependencies>
             <!-- 私有jar start -->
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-api-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-api-annotation</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-user-context</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-mask</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-utility</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-common-pojo</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-common-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-constants</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-exception</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-code-generate</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-configure</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-job</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-locale</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-log4j2</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-method-log</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-mock</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-mp-shardingjdbc</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-mybatis-plus</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-rabbitmq</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-feign</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-test</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
-                <groupId>org.smartframework.cloud</groupId>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
