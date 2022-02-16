@@ -15,6 +15,8 @@
  */
 package org.smartframework.cloud.starter.core.method.log.annotation;
 
+import org.smartframework.cloud.starter.core.method.log.constants.LogLevel;
+
 import java.lang.annotation.*;
 
 /**
@@ -27,4 +29,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface MethodLog {
+
+    String level() default LogLevel.INFO;
+
 }

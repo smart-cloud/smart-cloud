@@ -15,7 +15,7 @@
  */
 package org.smartframework.cloud.starter.core.method.log.intercept;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -23,6 +23,8 @@ import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.mask.util.LogUtil;
 import org.smartframework.cloud.mask.util.MaskUtil;
 import org.smartframework.cloud.starter.configure.properties.LogProperties;
+import org.smartframework.cloud.starter.core.method.log.annotation.MethodLog;
+import org.smartframework.cloud.starter.core.method.log.constants.LogLevel;
 
 import java.lang.reflect.Method;
 
@@ -33,10 +35,18 @@ import java.lang.reflect.Method;
  * @date 2021-03-13
  */
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MethodLogInterceptor implements MethodInterceptor {
 
-    private LogProperties logProperties;
+    private final LogProperties logProperties;
+    /**
+     * 慢日志
+     */
+    private static final String SLOW_LOG_PATTERN = "method.slow=>{}({}ms)-->args={}, result={}";
+    /**
+     * 普通日志
+     */
+    private static final String LOG_PATTERN = "method.log=>{}({}ms)-->args={}, result={}";
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -48,10 +58,17 @@ public class MethodLogInterceptor implements MethodInterceptor {
             long cost = System.currentTimeMillis() - startTime;
             if (cost >= logProperties.getSlowApiMinCost()) {
                 String mastResult = (result instanceof String) ? (String) result : MaskUtil.mask(result);
-                log.warn("method.slow=>{}({}ms)-->args={}, result={}", getTag(invocation.getMethod()), cost, LogUtil.truncate(MaskUtil.mask(invocation.getArguments())), LogUtil.truncate(mastResult));
-            } else if (log.isInfoEnabled()) {
-                String mastResult = (result instanceof String) ? (String) result : MaskUtil.mask(result);
-                log.info("method.info=>{}({}ms)-->args={}, result={}", getTag(invocation.getMethod()), cost, LogUtil.truncate(MaskUtil.mask(invocation.getArguments())), LogUtil.truncate(mastResult));
+                log.warn(SLOW_LOG_PATTERN, getTag(invocation.getMethod()), cost, LogUtil.truncate(MaskUtil.mask(invocation.getArguments())), LogUtil.truncate(mastResult));
+            } else if (log.isWarnEnabled()) {
+                MethodLog methodLog = invocation.getMethod().getAnnotation(MethodLog.class);
+                String logLevel = methodLog.level();
+                if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
+                    log.debug(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result));
+                } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
+                    log.info(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result));
+                } else if (LogLevel.WARN.equals(logLevel) && log.isWarnEnabled()) {
+                    log.warn(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result));
+                }
             }
         }
         return result;
@@ -59,6 +76,27 @@ public class MethodLogInterceptor implements MethodInterceptor {
 
     private String getTag(Method method) {
         return method.getDeclaringClass().getSimpleName() + SymbolConstant.DOT + method.getName();
+    }
+
+    /**
+     * 获取参数
+     *
+     * @param arguments
+     * @return
+     */
+    private final String getArgs(Object[] arguments) {
+        return LogUtil.truncate(MaskUtil.mask(arguments));
+    }
+
+    /**
+     * 获取返回结果
+     *
+     * @param result
+     * @return
+     */
+    private final String getResult(Object result) {
+        String mastResult = (result instanceof String) ? (String) result : MaskUtil.mask(result);
+        return LogUtil.truncate(mastResult);
     }
 
 }

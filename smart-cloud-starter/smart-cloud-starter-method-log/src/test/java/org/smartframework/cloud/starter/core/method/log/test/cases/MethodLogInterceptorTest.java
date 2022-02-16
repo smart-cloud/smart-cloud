@@ -49,7 +49,7 @@ class MethodLogInterceptorTest {
         ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
         String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
         byteBuffer.flip();
-        Assertions.assertThat(StringUtils.containsAny(logContent, "method.info=>", "method.slow=>")).isTrue();
+        Assertions.assertThat(StringUtils.containsAny(logContent, "method.log=>")).isTrue();
     }
 
     @Test

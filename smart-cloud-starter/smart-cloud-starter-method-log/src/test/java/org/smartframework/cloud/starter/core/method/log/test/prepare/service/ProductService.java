@@ -17,6 +17,7 @@ package org.smartframework.cloud.starter.core.method.log.test.prepare.service;
 
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.core.method.log.annotation.MethodLog;
+import org.smartframework.cloud.starter.core.method.log.constants.LogLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class ProductService {
     @Autowired
     private SmartProperties smartProperties;
 
-    @MethodLog
+    @MethodLog(level = LogLevel.WARN)
     public String query(Long id) {
         return String.valueOf(id);
     }
