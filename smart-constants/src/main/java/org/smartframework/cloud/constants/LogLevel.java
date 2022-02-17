@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.smartframework.cloud.starter.core.method.log.constants;
+package org.smartframework.cloud.constants;
 
 /**
  * 日志级别

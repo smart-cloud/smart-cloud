@@ -15,7 +15,7 @@
  */
 package org.smartframework.cloud.starter.core.method.log.annotation;
 
-import org.smartframework.cloud.starter.core.method.log.constants.LogLevel;
+import org.smartframework.cloud.constants.LogLevel;
 
 import java.lang.annotation.*;
 
@@ -30,6 +30,11 @@ import java.lang.annotation.*;
 @Documented
 public @interface MethodLog {
 
+    /**
+     * 日志级别（默认info级别）
+     *
+     * @return
+     */
     String level() default LogLevel.INFO;
 
 }

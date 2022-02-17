@@ -19,12 +19,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.smartframework.cloud.constants.LogLevel;
 import org.smartframework.cloud.constants.SymbolConstant;
 import org.smartframework.cloud.mask.util.LogUtil;
 import org.smartframework.cloud.mask.util.MaskUtil;
 import org.smartframework.cloud.starter.configure.properties.LogProperties;
 import org.smartframework.cloud.starter.core.method.log.annotation.MethodLog;
-import org.smartframework.cloud.starter.core.method.log.constants.LogLevel;
 
 import java.lang.reflect.Method;
 

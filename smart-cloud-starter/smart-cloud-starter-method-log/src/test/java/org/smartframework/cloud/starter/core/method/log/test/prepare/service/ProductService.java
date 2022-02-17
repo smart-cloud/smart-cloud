@@ -15,9 +15,9 @@
  */
 package org.smartframework.cloud.starter.core.method.log.test.prepare.service;
 
+import org.smartframework.cloud.constants.LogLevel;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.core.method.log.annotation.MethodLog;
-import org.smartframework.cloud.starter.core.method.log.constants.LogLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
