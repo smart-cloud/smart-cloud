@@ -19,6 +19,7 @@ import org.smartframework.cloud.starter.configure.constants.SmartConstant;
 import org.smartframework.cloud.starter.configure.properties.SmartProperties;
 import org.smartframework.cloud.starter.core.business.util.AspectInterceptorUtil;
 import org.smartframework.cloud.starter.core.constants.PackageConfig;
+import org.smartframework.cloud.starter.web.annotation.ApiLog;
 import org.smartframework.cloud.starter.web.aspect.interceptor.ServletApiLogInterceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
@@ -29,6 +30,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * api切面配置
@@ -48,8 +53,12 @@ public class ApiLogAspectAutoConfiguration {
 
     @Bean
     public Pointcut apiPointcut() {
+        List<Class<? extends Annotation>> annotations = new ArrayList<>(8);
+        annotations.addAll(AspectInterceptorUtil.getApiAnnotations());
+        annotations.add(ApiLog.class);
+        String logExpression = AspectInterceptorUtil.getFinalExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil.getMethodExpression(annotations));
+
         AspectJExpressionPointcut apiPointcut = new AspectJExpressionPointcut();
-        String logExpression = AspectInterceptorUtil.getApiExpression(PackageConfig.getBasePackages());
         apiPointcut.setExpression(logExpression);
         return apiPointcut;
     }

@@ -22,9 +22,11 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.smartframework.cloud.common.web.pojo.LogAspectDO;
 import org.smartframework.cloud.common.web.util.WebServletUtil;
+import org.smartframework.cloud.constants.LogLevel;
 import org.smartframework.cloud.mask.util.LogUtil;
 import org.smartframework.cloud.starter.configure.constants.OrderConstant;
 import org.smartframework.cloud.starter.configure.properties.LogProperties;
+import org.smartframework.cloud.starter.web.annotation.ApiLog;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.validation.DataBinder;
@@ -49,6 +51,18 @@ import java.util.stream.Stream;
 public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
 
     private LogProperties logProperties;
+    /**
+     * 慢日志
+     */
+    private static final String SLOW_LOG_PATTERN = "api.slow=>{}";
+    /**
+     * 普通日志
+     */
+    private static final String LOG_PATTERN = "api.log=>{}";
+    /**
+     * 错误日志
+     */
+    private static final String ERROR_LOG_PATTERN = "api.error=>{}";
 
     @Override
     public int getOrder() {
@@ -67,14 +81,22 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
             result = invocation.proceed();
             long cost = System.currentTimeMillis() - startTime;
             if (cost >= logProperties.getSlowApiMinCost()) {
-                log.warn(LogUtil.truncate("api.slow=>{}", buildLogAspectDO(invocation.getArguments(), result, cost)));
-            } else if (log.isInfoEnabled()) {
-                log.info(LogUtil.truncate("api.info=>{}", buildLogAspectDO(invocation.getArguments(), result, cost)));
+                log.warn(LogUtil.truncate(SLOW_LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
+            } else if (log.isWarnEnabled()) {
+                ApiLog apiLog = invocation.getMethod().getAnnotation(ApiLog.class);
+                String logLevel = apiLog == null ? LogLevel.INFO : apiLog.level();
+                if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
+                    log.debug(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
+                } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
+                    log.info(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
+                } else if (LogLevel.WARN.equals(logLevel) && log.isWarnEnabled()) {
+                    log.warn(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
+                }
             }
             return result;
         } catch (Exception e) {
             long cost = System.currentTimeMillis() - startTime;
-            log.error(LogUtil.truncate("api.error=>{}", buildLogAspectDO(invocation.getArguments(), result, cost)), e);
+            log.error(LogUtil.truncate(ERROR_LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)), e);
             throw e;
         }
     }

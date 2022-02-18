@@ -15,6 +15,7 @@
  */
 package org.smartframework.cloud.starter.core.business.util;
 
+import org.aspectj.weaver.tools.PointcutPrimitive;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.annotation.Annotation;
@@ -39,7 +40,7 @@ public class AspectInterceptorUtil {
      * @return
      */
     public static String getTypeExpression(List<Class<? extends Annotation>> annotations) {
-        return getAnnotationExpression("@within", annotations);
+        return getAnnotationExpression(PointcutPrimitive.AT_WITHIN.getName(), annotations);
     }
 
     /**
@@ -49,7 +50,7 @@ public class AspectInterceptorUtil {
      * @return
      */
     public static String getMethodExpression(List<Class<? extends Annotation>> annotations) {
-        return getAnnotationExpression("@annotation", annotations);
+        return getAnnotationExpression(PointcutPrimitive.AT_ANNOTATION.getName(), annotations);
     }
 
     /**
@@ -87,7 +88,7 @@ public class AspectInterceptorUtil {
     public static String getFinalExpression(String[] basePackages, String expression) {
         StringBuilder executions = new StringBuilder();
         for (int i = 0; i < basePackages.length; i++) {
-            executions.append("execution( * " + basePackages[i] + "..*.*(..))");
+            executions.append(PointcutPrimitive.EXECUTION.getName()).append("( * " + basePackages[i] + "..*.*(..))");
             if (i != basePackages.length - 1) {
                 executions.append(" || ");
             }

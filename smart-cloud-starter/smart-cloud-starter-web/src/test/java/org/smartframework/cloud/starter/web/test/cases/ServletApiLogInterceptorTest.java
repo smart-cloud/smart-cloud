@@ -80,7 +80,7 @@ class ServletApiLogInterceptorTest {
         ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
         String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
         byteBuffer.flip();
-        Assertions.assertThat(StringUtils.containsAny(logContent, "api.info=>", "api.slow=>", "api.error=>")).isTrue();
+        Assertions.assertThat(StringUtils.containsAny(logContent, "api.log=>", "api.slow=>", "api.error=>")).isTrue();
     }
 
 }

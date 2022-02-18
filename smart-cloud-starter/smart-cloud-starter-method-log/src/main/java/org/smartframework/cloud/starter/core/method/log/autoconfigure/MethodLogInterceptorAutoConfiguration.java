@@ -42,7 +42,7 @@ public class MethodLogInterceptorAutoConfiguration {
     @Bean
     public Pointcut methodPointcut() {
         AspectJExpressionPointcut methodLogPointcut = new AspectJExpressionPointcut();
-        methodLogPointcut.setExpression(String.format("@annotation(%s)", MethodLog.class.getName()));
+        methodLogPointcut.setExpression(String.format("@annotation(%s)", MethodLog.class.getTypeName()));
         return methodLogPointcut;
     }
 
