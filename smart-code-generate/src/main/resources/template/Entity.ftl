@@ -24,7 +24,7 @@ import lombok.experimental.SuperBuilder;
 <#list importPackages as package>
 import ${package};
 </#list>
-import org.smartframework.cloud.starter.mybatis.plus.common.entity.BaseEntity;
+import io.github.smart.cloud.starter.mybatis.plus.common.entity.BaseEntity;
 
 /**
  * ${tableComment}

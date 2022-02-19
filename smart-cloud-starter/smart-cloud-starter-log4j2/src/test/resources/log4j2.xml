@@ -4,7 +4,7 @@
     monitorInterval: Log4j能够自动检测修改配置文件和重新配置本身, 设置间隔秒数。
     packages：以逗号隔开的包名列表，用于搜索插件，比如自定义filter、appender等。插件仅会加载一次，所以要想修改后生效必须重启项目
 -->
-<Configuration status="WARN" monitorInterval="600" packages="org.smartframework.cloud.starter.log4j2.plugin">
+<Configuration status="WARN" monitorInterval="600" packages="io.github.smart.cloud.starter.log4j2.plugin">
 	<!-- 变量配置 -->
 	<Properties>
 		<Property name="project">${cctx:appName}</Property>

@@ -3,4 +3,4 @@ smart:
     api: true
     method: true
     whilelist:
-      - org.smartframework.cloud.starter.mock.test.prepare.service.StockService.query
+      - io.github.smart.cloud.starter.mock.test.prepare.service.StockService.query

@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.smartframework.cloud.starter.mp.shardingjdbc.autoconfigure.DynamicRoutingDataSourceAutoConfiguration,\
-org.smartframework.cloud.starter.mp.shardingjdbc.autoconfigure.ShardingjdbcDynamicDataSourceProviderAutoConfiguration,\
-org.smartframework.cloud.starter.mp.shardingjdbc.autoconfigure.ShardingsphereEnumTypeHandlerAutoConfiguration
+io.github.smart.cloud.starter.mp.shardingjdbc.autoconfigure.DynamicRoutingDataSourceAutoConfiguration,\
+io.github.smart.cloud.starter.mp.shardingjdbc.autoconfigure.ShardingjdbcDynamicDataSourceProviderAutoConfiguration,\
+io.github.smart.cloud.starter.mp.shardingjdbc.autoconfigure.ShardingsphereEnumTypeHandlerAutoConfiguration

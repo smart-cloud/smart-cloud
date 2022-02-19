@@ -1,3 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-org.smartframework.cloud.api.core.user.context.autoconfigure.CleanUserContextReactiveFilterAutoConfiguration,\
-org.smartframework.cloud.api.core.user.context.autoconfigure.CleanUserContextServletFilterAutoConfiguration
+io.github.smart.cloud.api.core.user.context.autoconfigure.CleanUserContextReactiveFilterAutoConfiguration,\
+io.github.smart.cloud.api.core.user.context.autoconfigure.CleanUserContextServletFilterAutoConfiguration

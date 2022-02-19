@@ -19,7 +19,7 @@ import org.apache.ibatis.annotations.Mapper;
 <#list importPackages as package>
 import ${package};
 </#list>
-import org.smartframework.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
+import io.github.smart.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
 
 /**
  * ${tableComment}base mapper

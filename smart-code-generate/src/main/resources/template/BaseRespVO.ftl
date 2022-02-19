@@ -18,7 +18,7 @@ package ${packageName};
 <#list importPackages as package>
 import ${package};
 </#list>
-import org.smartframework.cloud.common.pojo.BaseEntityResponse;
+import io.github.smart.cloud.common.pojo.BaseEntityResponse;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
