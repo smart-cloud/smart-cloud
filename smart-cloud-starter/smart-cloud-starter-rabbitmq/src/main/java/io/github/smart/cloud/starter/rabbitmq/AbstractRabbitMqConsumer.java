@@ -17,10 +17,10 @@ package io.github.smart.cloud.starter.rabbitmq;
 
 import io.github.smart.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
 import io.github.smart.cloud.starter.rabbitmq.util.MqUtil;
+import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import io.github.smart.cloud.utility.JacksonUtil;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -77,7 +77,13 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
             String msg = new String(message.getBody(), StandardCharsets.UTF_8);
             if (lockState) {
                 log.info("receive.msg={}", msg);
-                object = JacksonUtil.parseObject(msg, getBodyClass());
+                Class<T> tClass = getBodyClass();
+                if (tClass == String.class) {
+                    object = (T) msg;
+                } else {
+                    object = JacksonUtil.parseObject(msg, tClass);
+                }
+
                 doProcess(object);
             } else {
                 log.warn("idempotent.check.fail|msg={}", msg);
