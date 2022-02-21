@@ -15,13 +15,13 @@
  */
 package io.github.smart.cloud.starter.rabbitmq;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.reflections.Reflections;
 import io.github.smart.cloud.starter.core.constants.PackageConfig;
 import io.github.smart.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
 import io.github.smart.cloud.starter.rabbitmq.util.MqNameUtil;
 import io.github.smart.cloud.starter.rabbitmq.util.MqUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.reflections.Reflections;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeansException;
@@ -84,51 +84,27 @@ public class RabbitMqConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
         }
 
         // 队列的名称
-        String retryQueueName = rabbitListener.queues()[0];
-        if (!retryQueueName.endsWith(MqConstants.QUEUE_SUFFIX)) {
-            throw new UnsupportedOperationException(String.format("The suffix of the queue[%s] name that needs to be retried must be %s", mqConsumerClass, MqConstants.QUEUE_SUFFIX));
-        }
-        String retryQueuePrefix = MqNameUtil.getQueuePrefix(retryQueueName);
-        //交换机名称
-        String retryExchangeName = MqNameUtil.getRetryExchangeName(retryQueuePrefix, mqConsumerFailRetry);
-        //路由键
-        String retryRouteKeyName = MqNameUtil.getRetryRouteKeyName(retryQueuePrefix);
+        String queueName = rabbitListener.queues()[0];
+        // 延迟路由键
+        String retryRouteKeyName = MqNameUtil.getRetryRouteKeyName(queueName, mqConsumerFailRetry);
+        // 延迟exchange
+        String retryExchangeName = MqNameUtil.getRetryExchangeName(queueName, mqConsumerFailRetry);
 
-        //延迟队列名称
-        String delayQueueName = MqNameUtil.getDelayQueueName(retryQueuePrefix);
-        //延迟路由键
-        String delayRouteKeyName = MqNameUtil.getDelayRouteKeyName(retryQueuePrefix, mqConsumerFailRetry);
-        // exchange已存在，不用注入IOC
-        Exchange retryExchange = ExchangeBuilder.directExchange(retryExchangeName).durable(true).build();
-        Queue delayQueue = buildDelayQueue(delayQueueName, retryExchangeName, retryRouteKeyName);
-        Binding delayBinding = BindingBuilder.bind(delayQueue).to(retryExchange).with(delayRouteKeyName).noargs();
+        Map<String, Object> args = new HashMap<>(1);
+        args.put(MqConstants.DELAY_EXCHANGE_TYPE_KEY, ExchangeTypes.DIRECT);
+        Exchange retryExchange = new CustomExchange(retryExchangeName, MqConstants.DELAY_MESSAGE_TYPE, true, false, args);
 
-        // queue、binding需要注入IOC
-        beanFactory.registerSingleton(delayQueueName, delayQueue);
-        String delayBindingBeanName = String.format(MqConstants.DELAY_MQ_PATTERN, retryQueuePrefix, Binding.class.getSimpleName());
-        beanFactory.registerSingleton(delayBindingBeanName, delayBinding);
+        Queue queue = new Queue(queueName);
+        Binding retryBinding = BindingBuilder.bind(queue).to(retryExchange).with(retryRouteKeyName).noargs();
 
-        log.info("retryQueueInfo|retryQueueName={},retryExchangeName={},retryRouteKeyName={},delayQueueName={},delayRouteKeyName={}", retryQueueName,
-                retryExchangeName, retryRouteKeyName, delayQueueName, delayRouteKeyName);
+        // exchange、binding需要注入IOC
+        String retryBindingBeanName = MqConstants.BINDING_BEAN_NAME_PREFIX + MqConstants.DELAY_PREFIX + queueName;
+        beanFactory.registerSingleton(retryBindingBeanName, retryBinding);
+        beanFactory.registerSingleton(retryExchangeName, retryExchange);
+
+        log.info("retryQueueInfo|queueName={},retryExchangeName={},retryRouteKeyName={}", queueName, retryExchangeName, retryRouteKeyName);
 
         return true;
-    }
-
-    /**
-     * 构造延迟队列
-     *
-     * @param delayQueue
-     * @param retryExchange
-     * @param retryRouteKey
-     * @return
-     */
-    private Queue buildDelayQueue(String delayQueue, String retryExchange, String retryRouteKey) {
-        Map<String, Object> args = new HashMap<>(2);
-        // 声明死信交换机：x-dead-letter-exchange
-        args.put(MqConstants.DeadLetterQueueArgs.EXCHANGE, retryExchange);
-        // 声明死信路由键：x-dead-letter-routing-key
-        args.put(MqConstants.DeadLetterQueueArgs.ROUTING_KEY, retryRouteKey);
-        return QueueBuilder.durable(delayQueue).withArguments(args).build();
     }
 
 }

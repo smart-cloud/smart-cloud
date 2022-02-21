@@ -37,9 +37,9 @@ public @interface MqConsumerFailRetry {
     String retryExchange() default "";
 
     /**
-     * 延迟路由键
+     * 重试路由键名字
      */
-    String delayRouteKey() default "";
+    String retryRouteKey() default "";
 
     /**
      * 消费失败后最大的重试次数

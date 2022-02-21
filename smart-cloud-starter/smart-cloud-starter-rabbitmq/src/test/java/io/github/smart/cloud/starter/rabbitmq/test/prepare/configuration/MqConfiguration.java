@@ -16,6 +16,8 @@
 package io.github.smart.cloud.starter.rabbitmq.test.prepare.configuration;
 
 import com.github.fridujo.rabbitmq.mock.MockConnectionFactory;
+import com.github.fridujo.rabbitmq.mock.exchange.MockExchangeCreator;
+import io.github.smart.cloud.starter.rabbitmq.MqConstants;
 import io.github.smart.cloud.starter.rabbitmq.test.prepare.constants.MqConstant;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -28,7 +30,9 @@ public class MqConfiguration {
 
     @Bean
     public ConnectionFactory connectionFactory() {
-        return new CachingConnectionFactory(new MockConnectionFactory());
+        MockConnectionFactory mockConnectionFactory = new MockConnectionFactory();
+        mockConnectionFactory.withAdditionalExchange(MockExchangeCreator.creatorWithExchangeType(MqConstants.DELAY_MESSAGE_TYPE, DelayExchange::new));
+        return new CachingConnectionFactory(mockConnectionFactory);
     }
 
     @Bean

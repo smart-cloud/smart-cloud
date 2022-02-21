@@ -55,7 +55,7 @@ public abstract class AbstractRabbitMqProducer {
      * @param delayMillis 延迟时间（单位：毫秒）
      * @param <T>
      */
-    protected <T> void send(String exchange, String routingKey, T object, String delayMillis) {
+    protected <T> void send(String exchange, String routingKey, T object, Long delayMillis) {
         MqUtil.send(rabbitMqAdapter, exchange, routingKey, object, null, delayMillis);
     }
 

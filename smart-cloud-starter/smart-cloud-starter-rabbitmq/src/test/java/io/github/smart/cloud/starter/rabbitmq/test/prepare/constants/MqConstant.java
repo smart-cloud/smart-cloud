@@ -24,9 +24,9 @@ public interface MqConstant {
      */
     interface SendCoupon {
         String BASE_PREFIX = "send_coupon";
-        String QUEUE = BASE_PREFIX + MqConstants.QUEUE_SUFFIX;
+        String QUEUE = BASE_PREFIX + "_queue";
         String EXCHANGE = BASE_PREFIX + MqConstants.EXCHANGE_SUFFIX;
-        String ROUTING = BASE_PREFIX + MqConstants.ROUTEKEY_SUFFIX;
+        String ROUTING = BASE_PREFIX + MqConstants.ROUTE_KEY_SUFFIX;
     }
 
 }

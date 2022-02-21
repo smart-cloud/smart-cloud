@@ -17,14 +17,14 @@ package io.github.smart.cloud.starter.rabbitmq.util;
 
 import io.github.smart.cloud.starter.rabbitmq.MqConstants;
 import io.github.smart.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import io.github.smart.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
 import io.github.smart.cloud.utility.JacksonUtil;
 import io.github.smart.cloud.utility.RetryTimeUtil;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.core.annotation.AnnotationUtils;
 
@@ -62,12 +62,12 @@ public final class MqUtil {
      * @param delayMillis
      * @param <T>
      */
-    public static <T> void send(IRabbitMqAdapter rabbitMqAdapter, String exchange, String routingKey, T object, Integer retriedTimes, String delayMillis) {
+    public static <T> void send(IRabbitMqAdapter rabbitMqAdapter, String exchange, String routingKey, T object, Integer retriedTimes, Long delayMillis) {
         String json = JacksonUtil.toJson(object);
         byte[] body = json.getBytes(StandardCharsets.UTF_8);
         MessageBuilder messageBuilder = MessageBuilder.withBody(body);
-        if (StringUtils.isNotBlank(delayMillis)) {
-            messageBuilder.setExpiration(delayMillis);
+        if (delayMillis != null && delayMillis > 0) {
+            messageBuilder.setHeader(MessageProperties.X_DELAY, delayMillis);
         }
         if (retriedTimes != null) {
             messageBuilder.setHeader(MqConstants.CONSUMER_RETRIED_TIMES, retriedTimes);
@@ -106,13 +106,12 @@ public final class MqUtil {
         }
 
         // 队列的名称
-        String retryQueueName = rabbitListener.queues()[0];
-        String retryQueuePrefix = MqNameUtil.getQueuePrefix(retryQueueName);
+        String queueName = rabbitListener.queues()[0];
         //延迟交换机名称
-        String retryExchangeName = MqNameUtil.getRetryExchangeName(retryQueuePrefix, mqConsumerFailRetry);
+        String retryExchangeName = MqNameUtil.getRetryExchangeName(queueName, mqConsumerFailRetry);
         //延迟路由键
-        String delayRouteKeyName = MqNameUtil.getDelayRouteKeyName(retryQueuePrefix, mqConsumerFailRetry);
-        send(rabbitMqAdapter, retryExchangeName, delayRouteKeyName, object, retriedTimes, String.valueOf(TimeUnit.SECONDS.toMillis(RetryTimeUtil.getNextExecuteTime(retriedTimes))));
+        String retryRouteKeyName = MqNameUtil.getRetryRouteKeyName(queueName, mqConsumerFailRetry);
+        send(rabbitMqAdapter, retryExchangeName, retryRouteKeyName, object, retriedTimes, TimeUnit.SECONDS.toMillis(RetryTimeUtil.getNextExecuteTime(retriedTimes)));
         return true;
     }
 

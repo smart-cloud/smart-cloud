@@ -35,39 +35,39 @@ public interface MqConstants {
      * 幂等校验锁名称前缀
      */
     String IDE_CKECK_LOCK_NAME_PREFIX = "lock:mq:idecheck:";
+
     /**
-     * 队列名后缀
+     * Binding bean名称前缀
      */
-    String QUEUE_SUFFIX = "_queue";
+    String BINDING_BEAN_NAME_PREFIX = "bind";
+
     /**
-     * 队列名后缀
+     * 延迟交换机类型key
+     */
+    String DELAY_EXCHANGE_TYPE_KEY = "x-delayed-type";
+
+    /**
+     * 延迟消息类型
+     */
+    String DELAY_MESSAGE_TYPE = "x-delayed-message";
+
+    /**
+     * 延迟队列（交换机、路由键等）名称前缀
+     */
+    String DELAY_PREFIX = "delay_";
+
+    /**
+     * 交换机后缀
      */
     String EXCHANGE_SUFFIX = "_exchange";
+
     /**
-     * 队列名后缀
+     * 路由键后缀
      */
-    String ROUTEKEY_SUFFIX = "_routekey";
-    /**
-     * 延迟队列模式
-     */
-    String DELAY_MQ_PATTERN = "%s_delay%s";
+    String ROUTE_KEY_SUFFIX = "_route_key";
     /**
      * mq消费失败后最大重试次数
      */
     int DEFAULT_MAX_RETRY_TIMES_WHEN_FAIL = 10;
-
-    /**
-     * 死信队列参数
-     */
-    interface DeadLetterQueueArgs {
-        /**
-         * 死信交换机
-         */
-        String EXCHANGE = "x-dead-letter-exchange";
-        /**
-         * 死信路由键
-         */
-        String ROUTING_KEY = "x-dead-letter-routing-key";
-    }
 
 }

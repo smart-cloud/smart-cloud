@@ -36,7 +36,7 @@ public class RabbitMqAdapterImpl implements IRabbitMqAdapter {
 
     @Override
     public void send(String exchange, String routingKey, Message message) throws AmqpException {
-        rabbitTemplate.send(exchange, routingKey, message, null);
+        rabbitTemplate.send(exchange, routingKey, message);
     }
 
 }
