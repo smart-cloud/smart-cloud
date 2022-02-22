@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.rabbitmq.test.prepare.configuration;
+package io.github.smart.cloud.starter.test.mock.rabbitmq.exchange;
 
 import com.github.fridujo.rabbitmq.mock.AmqArguments;
 import com.github.fridujo.rabbitmq.mock.ReceiverRegistry;
 import com.github.fridujo.rabbitmq.mock.exchange.MockDirectExchange;
 import com.rabbitmq.client.AMQP;
-import io.github.smart.cloud.starter.rabbitmq.MqConstants;
+import io.github.smart.cloud.starter.test.mock.rabbitmq.constants.MqConstants;
 import org.springframework.amqp.core.MessageProperties;
 
 import java.util.concurrent.TimeUnit;

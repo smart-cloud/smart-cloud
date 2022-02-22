@@ -44,6 +44,11 @@ smart-cloud
 ├── smart-constants -- 常量模块
 ├── smart-exception -- 异常模块
 ├── smart-mask -- 敏感数据混淆
+├── smart-test -- test封装
+│  ├──smart-cloud-starter-test -- test封装
+│  ├──smart-cloud-starter-test-mock-rabbitmq -- test rabbitmq模块封装
+│  ├──smart-cloud-starter-test-mock-redis -- test redis模块封装
+│  └──smart-cloud-test-core -- test 单元测试、集成测试封装
 ├── smart-utility -- 工具类
 └── smart-could-starter -- 框架封装
      ├── smart-cloud-starter-configure -- 框架配置属性封装
@@ -58,7 +63,6 @@ smart-cloud
      ├── smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类、表隐私字段加解密等）
      ├── smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）
      ├── smart-cloud-starter-redis -- redis封装、自定义分布式锁注解
-     ├── smart-cloud-starter-test -- test封装
      └── smart-cloud-starter-web -- web封装（日志切面、异常处理、参数校验）
 ```
 

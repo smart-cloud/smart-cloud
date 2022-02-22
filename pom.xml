@@ -38,6 +38,7 @@
         <module>smart-constants</module>
         <module>smart-exception</module>
         <module>smart-mask</module>
+        <module>smart-test</module>
         <module>smart-utility</module>
     </modules>
 
@@ -212,15 +213,29 @@
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
-                <artifactId>smart-cloud-starter-test</artifactId>
+                <artifactId>smart-cloud-starter-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.smart-cloud</groupId>
+                <artifactId>smart-cloud-test-core</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
-                <artifactId>smart-cloud-starter-web</artifactId>
+                <artifactId>smart-cloud-starter-test-mock-rabbitmq</artifactId>
                 <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.smart-cloud</groupId>
+                <artifactId>smart-cloud-starter-test-mock-redis</artifactId>
+                <version>${project.version}</version>
+                <scope>test</scope>
             </dependency>
             <!-- 私有jar end -->
 

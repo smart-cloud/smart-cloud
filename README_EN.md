@@ -44,6 +44,11 @@ smart-cloud
 ├── smart-constants -- constant module
 ├── smart-exception -- exception module
 ├── smart-mask -- Sensitive data obfuscation
+├── smart-test -- test package
+│  ├──smart-cloud-starter-test -- test package
+│  ├──smart-cloud-starter-test-mock-rabbitmq -- test rabbitmq module package
+│  ├──smart-cloud-starter-test-mock-redis -- test redis module package
+│  └──smart-cloud-test-core -- test unit test, integration test package
 ├── smart-utility -- Tools
 └── smart-could-starter -- frame encapsulation
      ├── smart-cloud-starter-configure -- Framework configuration property encapsulation
@@ -58,7 +63,6 @@ smart-cloud
      ├── smart-cloud-starter-mybatis-plus -- mybatis plus, dynamic-datasource encapsulation (supports multiple data sources, distributed transactions; mapper tool class, table privacy field encryption and decryption, etc.)
      ├── smart-cloud-starter-rabbitmq -- rabbitmq encapsulation (consumption failure, automatically put into the delayed queue for re-consumption)
      ├── smart-cloud-starter-redis -- redis encapsulation, custom distributed lock annotation
-     ├── smart-cloud-starter-test -- test package
      └── smart-cloud-starter-web -- web encapsulation (log aspect, exception handling, parameter verification)
 ```
 

@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.github.smart.cloud.starter.test.mock.redis.autoconfigure.RedisMockServerAutoConfiguration
