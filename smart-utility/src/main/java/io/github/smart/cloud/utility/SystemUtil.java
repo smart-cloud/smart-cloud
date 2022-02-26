@@ -23,7 +23,6 @@ package io.github.smart.cloud.utility;
  */
 public class SystemUtil {
 
-
     private SystemUtil() {
     }
 

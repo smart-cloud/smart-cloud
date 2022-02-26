@@ -28,6 +28,9 @@ public class RetryTimeUtil {
      */
     public static final long[] NEXT_EXECUTE_TIMES = {30L, 60L, 120L, 300L, 600L, 1800L, 3600L, 3600 * 4L, 3600 * 12L, 3600 * 24L};
 
+    private RetryTimeUtil() {
+    }
+
     /**
      * 获取下次执行延迟时间（单位：秒）
      * <p>
