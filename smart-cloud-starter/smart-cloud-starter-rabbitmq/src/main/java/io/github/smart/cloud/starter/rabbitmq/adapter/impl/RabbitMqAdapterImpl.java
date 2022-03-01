@@ -16,9 +16,8 @@
 package io.github.smart.cloud.starter.rabbitmq.adapter.impl;
 
 import io.github.smart.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import org.springframework.amqp.AmqpException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
@@ -28,14 +27,31 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
  * @author collin
  * @2021-12-15
  */
-@Getter
-@AllArgsConstructor
+@Slf4j
+@RequiredArgsConstructor
 public class RabbitMqAdapterImpl implements IRabbitMqAdapter {
 
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
+    private static final long DEFAULT_MAX_MESSAGE_COUNT = 128;
 
     @Override
-    public void send(String exchange, String routingKey, Message message) throws AmqpException {
+    public void send(String exchange, String routingKey, Message message) {
+        rabbitTemplate.send(exchange, routingKey, message);
+    }
+
+    @Override
+    public void checkAndSend(String exchange, String routingKey, String queue, Message message) {
+        checkAndSend(exchange, routingKey, queue, DEFAULT_MAX_MESSAGE_COUNT, message);
+    }
+
+    @Override
+    public void checkAndSend(String exchange, String routingKey, String queue, long maxMessageCount, Message message) {
+        long currentMessageCount = rabbitTemplate.execute(channel -> channel.messageCount(queue));
+        if (currentMessageCount >= maxMessageCount) {
+            log.warn("current message count[{}] had greater than maxMessageCount[{}]", currentMessageCount, maxMessageCount);
+            return;
+        }
+
         rabbitTemplate.send(exchange, routingKey, message);
     }
 

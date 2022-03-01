@@ -15,7 +15,6 @@
  */
 package io.github.smart.cloud.starter.rabbitmq.adapter;
 
-import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 
 /**
@@ -32,8 +31,28 @@ public interface IRabbitMqAdapter {
      * @param exchange   交换机名称
      * @param routingKey 路由键
      * @param message    要发送的消息
-     * @throws AmqpException
      */
-    void send(String exchange, String routingKey, Message message) throws AmqpException;
+    void send(String exchange, String routingKey, Message message);
+
+    /**
+     * 检查当前队列大小，满足条件则发送消息
+     *
+     * @param exchange
+     * @param routingKey
+     * @param queue
+     * @param message
+     */
+    void checkAndSend(String exchange, String routingKey, String queue, Message message);
+
+    /**
+     * 检查当前队列大小，满足条件则发送消息
+     *
+     * @param exchange
+     * @param routingKey
+     * @param queue
+     * @param maxMessageCount 队列允许的最大消息数，如果超过这个大小，将不再往队列中发送消息
+     * @param message
+     */
+    void checkAndSend(String exchange, String routingKey, String queue, long maxMessageCount, Message message);
 
 }
