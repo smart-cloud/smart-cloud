@@ -16,14 +16,8 @@
 package io.github.smart.cloud.starter.mybatis.plus.test.cases;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import io.github.smart.cloud.common.pojo.BasePageResponse;
-import io.github.smart.cloud.starter.core.business.util.SnowFlakeIdUtil;
+import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.DynamicDatasourceApp;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.biz.ProductInfoOmsBiz;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.biz.RoleInfoOmsBiz;
@@ -31,12 +25,16 @@ import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.entity.RoleInfoEntity;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.vo.PageProductReqVO;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.vo.ProductInfoBaseRespVO;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -130,14 +128,10 @@ public class DynamicDatasourceTest {
 
         @Test
         void testSave() {
-            RoleInfoEntity roleInfoEntity = RoleInfoEntity.builder()
-                    .id(SnowFlakeIdUtil.getInstance().nextId())
-                    .code(String.format("query%s", UUID.randomUUID().toString().replaceAll("-", "")))
-                    .description("查询")
-                    .insertTime(new Date())
-                    .insertUser(1L)
-                    .delState(DeleteState.NORMAL)
-                    .build();
+            RoleInfoEntity roleInfoEntity = roleInfoOmsBiz.buildEntity();
+            roleInfoEntity.setCode(String.format("query%s", UUID.randomUUID().toString().replaceAll("-", "")));
+            roleInfoEntity.setDescription("查询");
+            roleInfoEntity.setInsertUser(1L);
 
             roleInfoOmsBiz.save(roleInfoEntity);
         }
