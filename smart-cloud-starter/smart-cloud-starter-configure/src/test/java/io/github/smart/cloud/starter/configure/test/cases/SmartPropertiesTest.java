@@ -43,7 +43,6 @@ class SmartPropertiesTest {
 
         // check properties values
         SmartProperties smartProperties = applicationContext.getBean(SmartProperties.class);
-        Assertions.assertThat(smartProperties.getDataMachineId()).isEqualTo(100L);
         Assertions.assertThat(smartProperties.isAsync()).isFalse();
 
         // log

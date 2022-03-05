@@ -35,10 +35,6 @@ public class SmartProperties extends Base {
 
     private static final long serialVersionUID = 1L;
     /**
-     * id生成器数据机器标识配置
-     */
-    private Long dataMachineId;
-    /**
      * @Async配置开关
      */
     private boolean async = true;
