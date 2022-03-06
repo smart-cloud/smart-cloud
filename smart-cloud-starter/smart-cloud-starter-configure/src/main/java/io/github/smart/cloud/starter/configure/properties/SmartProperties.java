@@ -64,8 +64,4 @@ public class SmartProperties extends Base {
     @NestedConfigurationProperty
     private CryptFieldProperties cryptField = new CryptFieldProperties();
 
-    public interface PropertiesName {
-        String DATA_MACHINE_ID = "dataMachineId";
-    }
-
 }

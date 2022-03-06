@@ -1,5 +1,4 @@
 smart:
-  dataMachineId: 100
   async: false
   log:
     rpclog: false

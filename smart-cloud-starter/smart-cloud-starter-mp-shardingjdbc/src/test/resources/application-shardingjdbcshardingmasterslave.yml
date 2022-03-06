@@ -1,5 +1,3 @@
-smart:
-  dataMachineId: 1
 spring:
   shardingsphere:
     datasource:
