@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.mybatis.plus.test.cases;
 
+import io.github.smart.cloud.starter.mybatis.plus.test.prepare.RedisMockServerAutoConfiguration;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.mybatisplus.MybatisplusApp;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.mybatisplus.biz.ProductInfoOmsBiz;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.mybatisplus.entity.ProductInfoEntity;
@@ -27,11 +28,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
+@Import(RedisMockServerAutoConfiguration.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MybatisplusApp.class, args = "--spring.profiles.active=mybatisplus")
 public class MybatisSqlLogInterceptorTest {

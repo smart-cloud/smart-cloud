@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.mybatis.plus.test.cases;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.github.smart.cloud.common.pojo.BasePageResponse;
 import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
+import io.github.smart.cloud.starter.mybatis.plus.test.prepare.RedisMockServerAutoConfiguration;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.DynamicDatasourceApp;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.biz.ProductInfoOmsBiz;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.biz.RoleInfoOmsBiz;
@@ -32,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ import java.util.UUID;
 
 public class DynamicDatasourceTest {
 
+    @Import(RedisMockServerAutoConfiguration.class)
     @ExtendWith(SpringExtension.class)
     @SpringBootTest(classes = DynamicDatasourceApp.class, args = "--spring.profiles.active=dynamicdatasource")
     @Nested
@@ -113,6 +116,7 @@ public class DynamicDatasourceTest {
         }
     }
 
+    @Import(RedisMockServerAutoConfiguration.class)
     @ExtendWith(SpringExtension.class)
     @SpringBootTest(classes = DynamicDatasourceApp.class, args = "--spring.profiles.active=dynamicdatasource")
     @Nested

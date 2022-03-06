@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.test.mock.redis.autoconfigure;
+package io.github.smart.cloud.starter.mybatis.plus.test.prepare;
 
-import io.github.smart.cloud.starter.test.mock.redis.RedisMockServer;
-import io.github.smart.cloud.starter.test.mock.redis.constants.RedisPropertiesKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.EnvironmentAware;
@@ -44,9 +42,9 @@ public class RedisMockServerAutoConfiguration implements EnvironmentAware, Dispo
             log.warn("redis server is already running");
             return;
         }
-
-        String password = environment.getProperty(RedisPropertiesKey.PASSWORD);
-        Integer port = environment.getProperty(RedisPropertiesKey.PORT, Integer.class, 0);
+        
+        String password = environment.getProperty("spring.redis.password");
+        Integer port = environment.getProperty("spring.redis.port", Integer.class, 0);
         RedisMockServer.start(password, port);
     }
 

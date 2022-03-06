@@ -70,12 +70,12 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
         UUID messageId = message.getMessageProperties().getHeader(MqConstants.MESSAGE_ID_NAME);
         RLock lock = redissonClient.getLock(MqConstants.IDE_CKECK_LOCK_NAME_PREFIX + messageId);
         // 加锁状态（true：成功；false失败）
-        boolean lockState = false;
+        boolean isRequiredLock = false;
         T object = null;
         try {
-            lockState = lock.tryLock();
+            isRequiredLock = lock.tryLock();
             String msg = new String(message.getBody(), StandardCharsets.UTF_8);
-            if (lockState) {
+            if (isRequiredLock) {
                 log.info("receive.msg={}", msg);
                 Class<T> tClass = getBodyClass();
                 if (tClass == String.class) {
@@ -94,7 +94,7 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
                 log.warn("execute fail after retry consumer");
             }
         } finally {
-            if (lockState) {
+            if (isRequiredLock) {
                 lock.unlock();
             }
         }

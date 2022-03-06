@@ -1,7 +1,15 @@
-smart:
-  dataMachineId: 1
-
 spring:
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    timeout: 10000ms
+    lettuce:
+      pool:
+        max-active: 1000
+        min-idle: 0
+        max-idle: 100
+        max-wait: 10000ms
   datasource:
     dynamic:
       primary: product

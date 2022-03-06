@@ -15,16 +15,16 @@
  */
 package io.github.smart.cloud.starter.redis.intercept;
 
+import io.github.smart.cloud.constants.SymbolConstant;
+import io.github.smart.cloud.exception.AcquiredLockFailException;
+import io.github.smart.cloud.starter.redis.annotation.RedisLock;
+import io.github.smart.cloud.starter.redis.constants.RedisLockConstants;
 import lombok.RequiredArgsConstructor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import io.github.smart.cloud.constants.SymbolConstant;
-import io.github.smart.cloud.exception.AcquiredLockFailException;
-import io.github.smart.cloud.starter.redis.annotation.RedisLock;
-import io.github.smart.cloud.starter.redis.constants.RedisLockConstants;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
@@ -56,20 +56,20 @@ public class RedisLockInterceptor implements MethodInterceptor {
         EvaluationContext evaluationContext = getEvaluationContext(invocation.getMethod(), invocation.getArguments());
         String lockName = getLockName(redisLock, method.getName(), evaluationContext);
         RLock lock = redissonClient.getLock(lockName);
-        boolean lockState = false;
+        boolean isRequiredLock = false;
         try {
             if (redisLock.leaseTime() == RedisLockConstants.DEFAULT_LEASE_TIME) {
-                lockState = lock.tryLock(redisLock.waitTime(), redisLock.unit());
+                isRequiredLock = lock.tryLock(redisLock.waitTime(), redisLock.unit());
             } else {
-                lockState = lock.tryLock(redisLock.waitTime(), redisLock.leaseTime(), redisLock.unit());
+                isRequiredLock = lock.tryLock(redisLock.waitTime(), redisLock.leaseTime(), redisLock.unit());
             }
-            if (!lockState) {
+            if (!isRequiredLock) {
                 throw new AcquiredLockFailException(redisLock.acquiredFailCode());
             }
 
             return invocation.proceed();
         } finally {
-            if (lockState) {
+            if (isRequiredLock) {
                 lock.unlock();
             }
         }

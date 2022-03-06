@@ -43,6 +43,10 @@ public class IdWorkerAutoConfiguration implements InitializingBean {
      * 获取锁的最大等待时间（10秒）
      */
     private final long maxLockWaitSeconds = 10L;
+    /**
+     * 雪花算法workId、dataCenterId最大的值
+     */
+    private final long maxId = 32;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -53,10 +57,14 @@ public class IdWorkerAutoConfiguration implements InitializingBean {
         long dataCenterId = 0L;
         try {
             dataCenterId = dataCenterIdAtomicLong.incrementAndGet();
-        } catch (RedisException dataCenterIdIncrementException) {
+        }
+        // 当计数器递增至Long.MAX_VALUE时，会抛异常；此时从上一次的下一个余数开始继续计数
+        catch (RedisException dataCenterIdIncrementException) {
             RLock lock = redissonClient.getLock(RedisKey.IDWORKER);
+            boolean isRequiredLock = false;
             try {
-                if (!lock.tryLock(maxLockWaitSeconds, TimeUnit.SECONDS)) {
+                isRequiredLock = lock.tryLock(maxLockWaitSeconds, TimeUnit.SECONDS);
+                if (!isRequiredLock) {
                     throw new AcquiredLockFailException();
                 }
 
@@ -64,21 +72,25 @@ public class IdWorkerAutoConfiguration implements InitializingBean {
                 if (dataCenterId != Long.MAX_VALUE) {
                     dataCenterId = dataCenterIdAtomicLong.incrementAndGet();
                 } else {
+                    long currentStartId = (Long.MAX_VALUE % maxId) + 1;
                     try {
                         workId = workIdAtomicLong.incrementAndGet();
                     } catch (RedisException workIdIncrementException) {
-                        workId = 0L;
+                        workId = currentStartId;
                         workIdAtomicLong.set(workId);
                     }
-                    dataCenterId = 0L;
+                    dataCenterId = currentStartId;
                     dataCenterIdAtomicLong.set(dataCenterId);
                 }
             } finally {
-                lock.unlock();
+                if (isRequiredLock) {
+                    lock.unlock();
+                }
             }
         }
-        workId = workId % 32;
-        dataCenterId = dataCenterId % 32;
+
+        workId = workId % maxId;
+        dataCenterId = dataCenterId % maxId;
         IdWorker.getInstance().init(workId, dataCenterId);
     }
 

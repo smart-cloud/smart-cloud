@@ -16,9 +16,11 @@
 package io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt;
 
 import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
+import io.github.smart.cloud.starter.mybatis.plus.annotation.EnableIdWorker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+@EnableIdWorker
 @SmartBootApplication
 @EnableTransactionManagement
 public class CryptFieldApp {
