@@ -37,6 +37,12 @@
             <groupId>io.github.smart-cloud</groupId>
             <artifactId>smart-constants</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.smart-cloud</groupId>
+            <artifactId>smart-exception</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>io.github.smart-cloud</groupId>
             <artifactId>smart-mask</artifactId>
@@ -61,6 +67,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!--test start-->

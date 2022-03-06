@@ -201,4 +201,5 @@ smart-constants | 501 | 获取Request失败
 smart-constants | 502 | 获取Response失败
 smart-constants | 503 | rpc请求失败
 smart-constants | 504 | rpc返回结果异常
+smart-cloud-starter-mybatis-plus | 1001 | id生成器workId、dataCenterId未初始化
 smart-cloud-starter-web | 2001 | 待校验参数object不能为null

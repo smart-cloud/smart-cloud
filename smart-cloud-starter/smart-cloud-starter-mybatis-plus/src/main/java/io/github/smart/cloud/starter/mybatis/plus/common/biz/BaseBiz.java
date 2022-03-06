@@ -17,7 +17,6 @@ package io.github.smart.cloud.starter.mybatis.plus.common.biz;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.smart.cloud.common.pojo.BaseEntityResponse;
@@ -26,6 +25,7 @@ import io.github.smart.cloud.common.pojo.BasePageResponse;
 import io.github.smart.cloud.starter.mybatis.plus.common.entity.BaseEntity;
 import io.github.smart.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
 import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
+import io.github.smart.cloud.starter.mybatis.plus.util.IdWorker;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -47,7 +47,7 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
      * @return
      */
     protected long generateId() {
-        return IdWorker.getId();
+        return IdWorker.getInstance().nextId();
     }
 
     /**
