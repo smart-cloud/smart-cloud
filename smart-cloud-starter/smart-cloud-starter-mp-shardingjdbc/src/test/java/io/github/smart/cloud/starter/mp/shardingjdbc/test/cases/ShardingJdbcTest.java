@@ -36,7 +36,7 @@ import java.sql.SQLException;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcApp.class, args = "--spring.profiles.active=shardingjdbc")
-class ShardingJdbcTest {
+class ShardingJdbcTest extends AbstractIntegrationTest {
 
     @Autowired
     private OrderBillBiz orderBillBiz;

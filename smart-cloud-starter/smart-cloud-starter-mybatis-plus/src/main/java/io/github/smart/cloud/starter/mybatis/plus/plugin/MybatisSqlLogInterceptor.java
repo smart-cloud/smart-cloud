@@ -109,7 +109,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         StringBuilder str = new StringBuilder(64);
         String shortSqlId = getShortSqlId(sqlId);
         str.append(shortSqlId);
-        str.append("：");
+        str.append(":");
         Object parameterObject = boundSql.getParameterObject();
         // 过滤掉第三方定义的对象，避免循环引用时序列化报错
         if (canMask(parameterObject)) {
@@ -122,7 +122,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
             str.append(sql);
         }
         str.append(separator);
-        str.append("spend：");
+        str.append("spend:");
         str.append(time);
         str.append("ms");
         str.append(separator);

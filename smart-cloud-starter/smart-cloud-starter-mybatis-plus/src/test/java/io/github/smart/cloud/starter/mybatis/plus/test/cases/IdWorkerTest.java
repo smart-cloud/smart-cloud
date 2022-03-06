@@ -16,7 +16,6 @@
 package io.github.smart.cloud.starter.mybatis.plus.test.cases;
 
 import io.github.smart.cloud.starter.mybatis.plus.constants.RedisKey;
-import io.github.smart.cloud.starter.mybatis.plus.test.prepare.RedisMockServerAutoConfiguration;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.idworker.IdworkerApp;
 import io.github.smart.cloud.starter.mybatis.plus.util.IdWorker;
 import org.junit.jupiter.api.Test;
@@ -33,14 +32,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Import(IdWorkerTest.IdWorkerValueAutoConfiguration.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = IdworkerApp.class, args = "--spring.profiles.active=idworker")
-public class IdWorkerTest {
+public class IdWorkerTest extends AbstractIntegrationTest {
 
     @Test
     void test() {
         IdWorker.getInstance().nextId();
     }
 
-    public static class IdWorkerValueAutoConfiguration extends RedisMockServerAutoConfiguration implements ApplicationContextAware {
+    public static class IdWorkerValueAutoConfiguration implements ApplicationContextAware {
 
         @Override
         public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -50,6 +49,7 @@ public class IdWorkerTest {
             RAtomicLong dataCenterIdAtomicLong = redissonClient.getAtomicLong(RedisKey.IDWORKER_DATACENTERID);
             dataCenterIdAtomicLong.set(Long.MAX_VALUE);
         }
+        
     }
 
 }

@@ -33,7 +33,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcMasterSlaveApp.class, args = "--spring.profiles.active=shardingjdbcmasterslave")
-class ShardingJdbcMasterSlaveTest {
+class ShardingJdbcMasterSlaveTest extends AbstractIntegrationTest {
 
     @Autowired
     private OrderBillBiz orderBillBiz;

@@ -6,7 +6,7 @@ spring:
   redis:
     database: 1
     host: localhost
-    port: 6379
+    port: 6382
     lettuce:
       pool:
         max-active: 8

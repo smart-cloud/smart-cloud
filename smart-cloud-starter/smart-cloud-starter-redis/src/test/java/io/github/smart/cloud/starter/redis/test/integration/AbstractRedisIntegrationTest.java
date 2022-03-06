@@ -15,10 +15,10 @@
  */
 package io.github.smart.cloud.starter.redis.test.integration;
 
+import io.github.smart.cloud.starter.redis.test.prepare.App;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.smart.cloud.starter.redis.test.prepare.App;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import redis.embedded.RedisServer;
@@ -38,6 +38,10 @@ public abstract class AbstractRedisIntegrationTest {
      */
     @BeforeAll
     static void startRedis() {
+        if (redisServer != null && redisServer.isActive()) {
+            return;
+        }
+
         // https://github.com/kstyrc/embedded-redis/issues/51
         redisServer = RedisServer.builder()
                 .port(REDIS_SERVER_PORT)

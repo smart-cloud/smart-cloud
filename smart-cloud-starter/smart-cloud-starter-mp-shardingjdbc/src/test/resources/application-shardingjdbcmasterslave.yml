@@ -1,4 +1,15 @@
 spring:
+  redis:
+    host: localhost
+    port: 6380
+    database: 0
+    timeout: 10000ms
+    lettuce:
+      pool:
+        max-active: 1000
+        min-idle: 0
+        max-idle: 100
+        max-wait: 10000ms
   shardingsphere:
     datasource:
       names: shardingordermaster,shardingorderslave-0,shardingorderslave-1

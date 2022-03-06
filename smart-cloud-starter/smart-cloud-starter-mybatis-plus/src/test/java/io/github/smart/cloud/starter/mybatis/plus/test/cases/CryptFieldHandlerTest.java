@@ -17,7 +17,6 @@ package io.github.smart.cloud.starter.mybatis.plus.test.cases;
 
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import io.github.smart.cloud.starter.mybatis.plus.common.CryptField;
-import io.github.smart.cloud.starter.mybatis.plus.test.prepare.RedisMockServerAutoConfiguration;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.CryptFieldApp;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.biz.ProductInfoOmsBiz;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.entity.ProductInfoEntity;
@@ -27,7 +26,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.sql.PreparedStatement;
@@ -35,10 +33,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-@Import(RedisMockServerAutoConfiguration.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = CryptFieldApp.class, args = "--spring.profiles.active=crypt-field")
-class CryptFieldHandlerTest {
+class CryptFieldHandlerTest extends AbstractIntegrationTest {
 
     @Autowired
     private ProductInfoOmsBiz productInfoOmsBiz;

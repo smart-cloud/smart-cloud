@@ -6,7 +6,7 @@ logging:
 spring:
   redis:
     host: localhost
-    port: 6379
+    port: 6381
     database: 0
     timeout: 10000ms
     lettuce:

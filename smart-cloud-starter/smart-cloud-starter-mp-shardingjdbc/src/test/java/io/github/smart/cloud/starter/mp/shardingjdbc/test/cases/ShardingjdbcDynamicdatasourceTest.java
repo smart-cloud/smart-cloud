@@ -37,7 +37,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcDynamicDatasourceApp.class, args = "--spring.profiles.active=shardingjdbcdynamicdatasource")
-class ShardingjdbcDynamicdatasourceTest {
+class ShardingjdbcDynamicdatasourceTest extends AbstractIntegrationTest {
 
     @Autowired
     private ApiLogBiz apiLogBiz;

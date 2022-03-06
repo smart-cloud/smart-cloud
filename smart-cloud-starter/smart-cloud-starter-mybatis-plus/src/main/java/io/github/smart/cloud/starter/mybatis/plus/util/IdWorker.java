@@ -16,8 +16,6 @@
 package io.github.smart.cloud.starter.mybatis.plus.util;
 
 import com.baomidou.mybatisplus.core.toolkit.Sequence;
-import io.github.smart.cloud.exception.ParamValidateException;
-import io.github.smart.cloud.starter.mybatis.plus.enums.MybatisplusCodes;
 
 /**
  * 分布式id生成器
@@ -59,7 +57,7 @@ public class IdWorker {
      */
     public Long nextId() {
         if (sequence == null) {
-            throw new ParamValidateException(MybatisplusCodes.ID_WORKER_PARAMS_NOT_INIT);
+            throw new NullPointerException("IdWorker[workId,dataCenterId] is not initedid!");
         }
 
         return sequence.nextId();

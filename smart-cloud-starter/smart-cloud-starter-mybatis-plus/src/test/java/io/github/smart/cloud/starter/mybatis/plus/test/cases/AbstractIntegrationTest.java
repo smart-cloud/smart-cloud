@@ -13,25 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.rabbitmq.test.cases;
+package io.github.smart.cloud.starter.mybatis.plus.test.cases;
 
-import io.github.smart.cloud.starter.rabbitmq.test.prepare.Application;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import redis.embedded.RedisServer;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Application.class)
 public abstract class AbstractIntegrationTest {
 
     private static RedisServer redisServer = null;
     /**
      * redis server端口
      */
-    private static final int REDIS_SERVER_PORT = 6382;
+    private static final int REDIS_SERVER_PORT = 6381;
 
     /**
      * 启动Redis，并在6379端口监听

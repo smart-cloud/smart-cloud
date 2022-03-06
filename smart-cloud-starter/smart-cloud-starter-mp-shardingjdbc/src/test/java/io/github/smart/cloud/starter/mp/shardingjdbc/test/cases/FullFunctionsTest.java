@@ -15,20 +15,20 @@
  */
 package io.github.smart.cloud.starter.mp.shardingjdbc.test.cases;
 
-import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.ApiLogEntity;
-import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.ProductInfoEntity;
-import org.apache.shardingsphere.infra.hint.HintManager;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.ShardingJdbcFullFunctionsApp;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.biz.ApiLogBiz;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.biz.OrderBillBiz;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.biz.ProductInfoBiz;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.biz.RpcLogBiz;
+import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.ApiLogEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.OrderBillEntity;
+import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.ProductInfoEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.RpcLogEntity;
 import io.github.smart.cloud.utility.RandomUtil;
+import org.apache.shardingsphere.infra.hint.HintManager;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -38,7 +38,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcFullFunctionsApp.class, args = "--spring.profiles.active=fullfunctions")
-class FullFunctionsTest {
+class FullFunctionsTest extends AbstractIntegrationTest {
 
     @Autowired
     private ApiLogBiz apiLogBiz;

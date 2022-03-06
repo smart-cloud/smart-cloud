@@ -32,7 +32,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcAlgorithmApp.class, args = "--spring.profiles.active=shardingjdbcalgorithm")
-public class ShardingjdbcAlgorithmTest {
+public class ShardingjdbcAlgorithmTest extends AbstractIntegrationTest {
 
     @Autowired
     private OrderBillBiz orderBillBiz;
