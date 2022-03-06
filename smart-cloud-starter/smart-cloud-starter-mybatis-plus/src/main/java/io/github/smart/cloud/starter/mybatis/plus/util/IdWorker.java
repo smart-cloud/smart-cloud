@@ -30,6 +30,9 @@ public class IdWorker {
     private static final IdWorker INSTANCE = new IdWorker();
     private Sequence sequence;
 
+    private IdWorker() {
+    }
+
     /**
      * 获取实例
      *
