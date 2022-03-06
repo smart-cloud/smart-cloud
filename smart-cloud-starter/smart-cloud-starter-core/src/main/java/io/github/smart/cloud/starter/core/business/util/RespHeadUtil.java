@@ -50,7 +50,7 @@ public class RespHeadUtil {
     public static ResponseHead of(String code, String message) {
         ResponseHead respHeadVO = new ResponseHead(code, message);
         respHeadVO.setTimestamp(System.currentTimeMillis());
-        respHeadVO.setNonce(NonceUtil.getInstance().nextId());
+        respHeadVO.setNonce(String.valueOf(NonceUtil.nextId()));
         return respHeadVO;
     }
 
@@ -63,7 +63,7 @@ public class RespHeadUtil {
     public static ResponseHead ofI18n(String code) {
         ResponseHead respHeadVO = new ResponseHead(code);
         respHeadVO.setTimestamp(System.currentTimeMillis());
-        respHeadVO.setNonce(NonceUtil.getInstance().nextId());
+        respHeadVO.setNonce(String.valueOf(NonceUtil.nextId()));
         respHeadVO.setMessage(I18nUtil.getMessage(code));
         return respHeadVO;
     }

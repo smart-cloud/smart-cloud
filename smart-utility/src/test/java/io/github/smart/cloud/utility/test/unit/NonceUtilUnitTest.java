@@ -36,7 +36,7 @@ class NonceUtilUnitTest {
             new Thread(() -> {
                 try {
                     cyclicBarrier.await();
-                    values.add(NonceUtil.getInstance().nextId());
+                    values.add(String.valueOf(NonceUtil.nextId()));
                     latch.countDown();
                 } catch (InterruptedException | BrokenBarrierException e) {
                     e.printStackTrace();
