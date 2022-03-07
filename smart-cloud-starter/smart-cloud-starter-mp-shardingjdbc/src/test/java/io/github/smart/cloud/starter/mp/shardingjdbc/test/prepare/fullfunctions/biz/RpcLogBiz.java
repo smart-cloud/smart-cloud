@@ -19,9 +19,13 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.constants.DatasourceName;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.RpcLogEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.mapper.RpcLogBaseMapper;
-import org.apache.shardingsphere.infra.hint.HintManager;
 import io.github.smart.cloud.starter.mybatis.plus.common.biz.BaseBiz;
+import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
+import io.github.smart.cloud.utility.NonceUtil;
+import org.apache.shardingsphere.infra.hint.HintManager;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 
 /**
  * 日志rpc biz
@@ -34,7 +38,10 @@ import org.springframework.stereotype.Repository;
 public class RpcLogBiz extends BaseBiz<RpcLogBaseMapper, RpcLogEntity> {
 
     public RpcLogEntity insert(String apiDesc) {
-        RpcLogEntity rpcLogEntity = super.buildEntity();
+        RpcLogEntity rpcLogEntity = new RpcLogEntity();
+        rpcLogEntity.setId(NonceUtil.nextId());
+        rpcLogEntity.setInsertTime(new Date());
+        rpcLogEntity.setDelState(DeleteState.NORMAL);
         rpcLogEntity.setApiDesc(apiDesc);
         save(rpcLogEntity);
 

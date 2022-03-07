@@ -15,9 +15,6 @@
  */
 package io.github.smart.cloud.starter.mp.shardingjdbc.test.cases;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.ShardingJdbcDynamicDatasourceApp;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.biz.ApiLogBiz;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.biz.OrderBillBiz;
@@ -27,10 +24,17 @@ import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdy
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.OrderBillEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.ProductInfoEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.RpcLogEntity;
+import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
+import io.github.smart.cloud.utility.NonceUtil;
 import io.github.smart.cloud.utility.RandomUtil;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Date;
 
 /**
  * 分片数据源+动态数据源集成测试
@@ -53,7 +57,10 @@ class ShardingjdbcDynamicdatasourceTest extends AbstractIntegrationTest {
      */
     @Test
     void testDynamicDatasource() {
-        ApiLogEntity apiLogEntity = apiLogBiz.buildEntity();
+        ApiLogEntity apiLogEntity = new ApiLogEntity();
+        apiLogEntity.setId(NonceUtil.nextId());
+        apiLogEntity.setInsertTime(new Date());
+        apiLogEntity.setDelState(DeleteState.NORMAL);
         apiLogEntity.setApiDesc("test");
         boolean saveResult = apiLogBiz.save(apiLogEntity);
         Assertions.assertThat(saveResult).isTrue();
@@ -67,7 +74,10 @@ class ShardingjdbcDynamicdatasourceTest extends AbstractIntegrationTest {
      */
     @Test
     void testShardingJdbcOrder() {
-        OrderBillEntity orderBillEntity = orderBillBiz.buildEntity();
+        OrderBillEntity orderBillEntity = new OrderBillEntity();
+        orderBillEntity.setId(NonceUtil.nextId());
+        orderBillEntity.setInsertTime(new Date());
+        orderBillEntity.setDelState(DeleteState.NORMAL);
         orderBillEntity.setOrderNo(RandomUtil.generateRandom(false, 32));
         orderBillEntity.setAmount(100L);
         orderBillEntity.setStatus((byte) 1);
@@ -86,7 +96,10 @@ class ShardingjdbcDynamicdatasourceTest extends AbstractIntegrationTest {
      */
     @Test
     void testShardingJdbcRpcLog() {
-        RpcLogEntity rpcLogEntity = rpcLogBiz.buildEntity();
+        RpcLogEntity rpcLogEntity = new RpcLogEntity();
+        rpcLogEntity.setId(NonceUtil.nextId());
+        rpcLogEntity.setInsertTime(new Date());
+        rpcLogEntity.setDelState(DeleteState.NORMAL);
         rpcLogEntity.setApiDesc("test");
         boolean saveResult = rpcLogBiz.save(rpcLogEntity);
         Assertions.assertThat(saveResult).isTrue();
@@ -100,7 +113,10 @@ class ShardingjdbcDynamicdatasourceTest extends AbstractIntegrationTest {
      */
     @Test
     void testShardingJdbcProduct() {
-        ProductInfoEntity productInfoEntity = productInfoBiz.buildEntity();
+        ProductInfoEntity productInfoEntity = new ProductInfoEntity();
+        productInfoEntity.setId(NonceUtil.nextId());
+        productInfoEntity.setInsertTime(new Date());
+        productInfoEntity.setDelState(DeleteState.NORMAL);
         productInfoEntity.setName(RandomUtil.generateRandom(false, 6));
         productInfoEntity.setSellPrice(100L);
         productInfoEntity.setStock(100L);

@@ -24,6 +24,8 @@ import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.OrderBillEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.ProductInfoEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.RpcLogEntity;
+import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
+import io.github.smart.cloud.utility.NonceUtil;
 import io.github.smart.cloud.utility.RandomUtil;
 import org.apache.shardingsphere.infra.hint.HintManager;
 import org.assertj.core.api.Assertions;
@@ -32,6 +34,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Date;
 
 /**
  * 分片+主从数据源+多数据源集成测试
@@ -54,8 +58,11 @@ class FullFunctionsTest extends AbstractIntegrationTest {
      */
     @Test
     void testDynamicDatasource() {
-        ApiLogEntity apiLogEntity = apiLogBiz.buildEntity();
+        ApiLogEntity apiLogEntity = new ApiLogEntity();
+        apiLogEntity.setId(NonceUtil.nextId());
         apiLogEntity.setApiDesc("test");
+        apiLogEntity.setInsertTime(new Date());
+        apiLogEntity.setDelState(DeleteState.NORMAL);
         boolean saveResult = apiLogBiz.save(apiLogEntity);
         Assertions.assertThat(saveResult).isTrue();
 
@@ -65,7 +72,10 @@ class FullFunctionsTest extends AbstractIntegrationTest {
 
     @Test
     void testShardingJdbcMasterSlaveOrder() {
-        OrderBillEntity orderBillEntity = orderBillBiz.buildEntity();
+        OrderBillEntity orderBillEntity = new OrderBillEntity();
+        orderBillEntity.setId(NonceUtil.nextId());
+        orderBillEntity.setInsertTime(new Date());
+        orderBillEntity.setDelState(DeleteState.NORMAL);
         orderBillEntity.setOrderNo(RandomUtil.generateRandom(false, 32));
         orderBillEntity.setAmount(100L);
         orderBillEntity.setStatus((byte) 1);
@@ -105,7 +115,10 @@ class FullFunctionsTest extends AbstractIntegrationTest {
 
     @Test
     void testShardingJdbcProduct() {
-        ProductInfoEntity productInfoEntity = productInfoBiz.buildEntity();
+        ProductInfoEntity productInfoEntity = new ProductInfoEntity();
+        productInfoEntity.setId(NonceUtil.nextId());
+        productInfoEntity.setInsertTime(new Date());
+        productInfoEntity.setDelState(DeleteState.NORMAL);
         productInfoEntity.setName(RandomUtil.generateRandom(false, 6));
         productInfoEntity.setSellPrice(100L);
         productInfoEntity.setStock(100L);

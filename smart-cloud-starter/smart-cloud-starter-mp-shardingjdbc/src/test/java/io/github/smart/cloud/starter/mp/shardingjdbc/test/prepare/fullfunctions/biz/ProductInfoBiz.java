@@ -20,8 +20,12 @@ import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.ProductInfoEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.mapper.ProductInfoBaseMapper;
 import io.github.smart.cloud.starter.mybatis.plus.common.biz.BaseBiz;
+import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
+import io.github.smart.cloud.utility.NonceUtil;
 import io.github.smart.cloud.utility.RandomUtil;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 
 /**
  * 商品信息oms biz
@@ -34,7 +38,10 @@ import org.springframework.stereotype.Repository;
 public class ProductInfoBiz extends BaseBiz<ProductInfoBaseMapper, ProductInfoEntity> {
 
     public Long create() {
-        ProductInfoEntity entity = super.buildEntity();
+        ProductInfoEntity entity = new ProductInfoEntity();
+        entity.setId(NonceUtil.nextId());
+        entity.setInsertTime(new Date());
+        entity.setDelState(DeleteState.NORMAL);
         entity.setName(RandomUtil.generateRandom(false, 6));
         entity.setSellPrice(100L);
         entity.setStock(100L);

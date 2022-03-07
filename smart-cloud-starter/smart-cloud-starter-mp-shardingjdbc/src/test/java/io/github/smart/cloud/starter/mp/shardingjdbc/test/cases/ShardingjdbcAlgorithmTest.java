@@ -15,17 +15,21 @@
  */
 package io.github.smart.cloud.starter.mp.shardingjdbc.test.cases;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcalgorithm.ShardingJdbcAlgorithmApp;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcalgorithm.biz.OrderBillBiz;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcalgorithm.entity.OrderBillEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcalgorithm.util.OrderUtil;
+import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
+import io.github.smart.cloud.utility.NonceUtil;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Date;
 
 /**
  * 自定义分片算法测试
@@ -45,7 +49,10 @@ public class ShardingjdbcAlgorithmTest extends AbstractIntegrationTest {
     @Test
     void testShardingJdbcOrder() {
         Long uid = 100L;
-        OrderBillEntity orderBillEntity = orderBillBiz.buildEntity();
+        OrderBillEntity orderBillEntity = new OrderBillEntity();
+        orderBillEntity.setId(NonceUtil.nextId());
+        orderBillEntity.setInsertTime(new Date());
+        orderBillEntity.setDelState(DeleteState.NORMAL);
         orderBillEntity.setOrderNo(OrderUtil.generateOrderNo(uid));
         orderBillEntity.setAmount(100L);
         orderBillEntity.setStatus((byte) 1);

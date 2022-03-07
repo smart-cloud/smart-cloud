@@ -68,12 +68,6 @@
             <artifactId>embedded-redis</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson-spring-boot-starter</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!--test end-->
     </dependencies>
 
