@@ -23,6 +23,7 @@ import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasourcemasterslave.entity.ProductInfoEntity;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasourcemasterslave.vo.PageProductReqVO;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasourcemasterslave.vo.ProductInfoBaseRespVO;
+import io.github.smart.cloud.utility.NonceUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,11 +33,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DynamicDatasourceMasterSlaveApp.class, args = "--spring.profiles.active=dynamicdatasourcemasterslave")
-public class DynamicDatasourceMasterSlaveTest extends AbstractIntegrationTest {
+public class DynamicDatasourceMasterSlaveTest {
 
     @Autowired
     private ProductInfoOmsBiz productInfoOmsBiz;
@@ -119,7 +121,10 @@ public class DynamicDatasourceMasterSlaveTest extends AbstractIntegrationTest {
     }
 
     private ProductInfoEntity create(String name) {
-        ProductInfoEntity entity = productInfoOmsBiz.buildEntity();
+        ProductInfoEntity entity = new ProductInfoEntity();
+        entity.setId(NonceUtil.nextId());
+        entity.setInsertTime(new Date());
+        entity.setDelState(DeleteState.NORMAL);
         entity.setName(name);
         entity.setSellPrice(100L);
         entity.setStock(10L);

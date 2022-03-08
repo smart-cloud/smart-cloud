@@ -15,9 +15,11 @@
  */
 package io.github.smart.cloud.starter.mybatis.plus.test.cases;
 
+import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.mybatisplus.MybatisplusApp;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.mybatisplus.biz.ProductInfoOmsBiz;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.mybatisplus.entity.ProductInfoEntity;
+import io.github.smart.cloud.utility.NonceUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
@@ -31,10 +33,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MybatisplusApp.class, args = "--spring.profiles.active=mybatisplus")
-public class MybatisSqlLogInterceptorTest extends AbstractIntegrationTest {
+public class MybatisSqlLogInterceptorTest {
 
     @Autowired
     private ProductInfoOmsBiz productInfoOmsBiz;
@@ -46,7 +49,10 @@ public class MybatisSqlLogInterceptorTest extends AbstractIntegrationTest {
 
     @Test
     void testMybatisLog() {
-        ProductInfoEntity entity = productInfoOmsBiz.buildEntity();
+        ProductInfoEntity entity = new ProductInfoEntity();
+        entity.setId(NonceUtil.nextId());
+        entity.setInsertTime(new Date());
+        entity.setDelState(DeleteState.NORMAL);
         entity.setName("mobile");
         entity.setSellPrice(100L);
         entity.setStock(10L);

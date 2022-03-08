@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.mybatis.plus.annotation;
+package io.github.smart.cloud.starter.global.id.test.prepare;
 
-import io.github.smart.cloud.starter.mybatis.plus.autoconfigure.IdWorkerAutoConfiguration;
-import io.github.smart.cloud.starter.mybatis.plus.util.IdWorker;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.lang.annotation.*;
+@SpringBootApplication
+public class GlobalIdApp {
 
-/**
- * {@link IdWorker}生效注解
- *
- * @author collin
- * @date 2022-03-06
- */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@Import(IdWorkerAutoConfiguration.class)
-public @interface EnableIdWorker {
+    public static void main(String[] args) {
+        SpringApplication.run(GlobalIdApp.class, args);
+    }
+
 }

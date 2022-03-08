@@ -31,7 +31,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MybatisplusApp.class, args = "--spring.profiles.active=mybatisplus")
-class DbTableUtilTest extends AbstractIntegrationTest {
+class DbTableUtilTest {
 
     @Autowired
     private DynamicRoutingDataSource dynamicRoutingDataSource;

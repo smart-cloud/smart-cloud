@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.mybatis.plus.test.cases;
+package io.github.smart.cloud.starter.global.id.test.cases;
 
-import io.github.smart.cloud.starter.mybatis.plus.constants.RedisKey;
-import io.github.smart.cloud.starter.mybatis.plus.test.prepare.idworker.IdworkerApp;
-import io.github.smart.cloud.starter.mybatis.plus.util.IdWorker;
+import io.github.smart.cloud.starter.global.id.GlobalId;
+import io.github.smart.cloud.starter.global.id.constants.RedisKey;
+import io.github.smart.cloud.starter.global.id.test.prepare.GlobalIdApp;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.redisson.api.RAtomicLong;
@@ -29,25 +29,23 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@Import(IdWorkerTest.IdWorkerValueAutoConfiguration.class)
+@Import(GlobalIdTest.GlobalIdValueAutoConfiguration.class)
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = IdworkerApp.class, args = "--spring.profiles.active=idworker")
-public class IdWorkerTest extends AbstractIntegrationTest {
+@SpringBootTest(classes = GlobalIdApp.class, args = "--spring.profiles.active=globalid")
+public class GlobalIdTest extends AbstractIntegrationTest {
 
     @Test
     void test() {
-        IdWorker.getInstance().nextId();
+        GlobalId.nextId();
     }
 
-    public static class IdWorkerValueAutoConfiguration implements ApplicationContextAware {
+    public static class GlobalIdValueAutoConfiguration implements ApplicationContextAware {
 
         @Override
         public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
             RedissonClient redissonClient = applicationContext.getBean(RedissonClient.class);
-            RAtomicLong workIdAtomicLong = redissonClient.getAtomicLong(RedisKey.IDWORKER_WORKERID);
+            RAtomicLong workIdAtomicLong = redissonClient.getAtomicLong(RedisKey.GLOBALID_WORKERID);
             workIdAtomicLong.set(Long.MAX_VALUE);
-            RAtomicLong dataCenterIdAtomicLong = redissonClient.getAtomicLong(RedisKey.IDWORKER_DATACENTERID);
-            dataCenterIdAtomicLong.set(Long.MAX_VALUE);
         }
         
     }

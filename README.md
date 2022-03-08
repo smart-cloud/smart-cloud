@@ -54,6 +54,7 @@ smart-cloud
      ├── smart-cloud-starter-configure -- 框架配置属性封装
      ├── smart-cloud-starter-core -- 框架核心（自定义注解、异常封装、请求响应公共参数、业务相关工具类）
      ├── smart-cloud-starter-feign -- feign封装（可拆可合、切面处理）
+     ├── smart-cloud-starter-global-id -- 分布式id生成器
      ├── smart-cloud-starter-job -- 定时任务封装
      ├── smart-cloud-starter-locale -- 国际化封装
      ├── smart-cloud-starter-log4j2 -- 日志封装（log4j2封装，支持日志敏感数据脱敏）

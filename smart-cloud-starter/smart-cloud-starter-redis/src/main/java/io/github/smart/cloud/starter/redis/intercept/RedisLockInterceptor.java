@@ -54,7 +54,7 @@ public class RedisLockInterceptor implements MethodInterceptor {
         Method method = invocation.getMethod();
         RedisLock redisLock = method.getAnnotation(RedisLock.class);
         EvaluationContext evaluationContext = getEvaluationContext(invocation.getMethod(), invocation.getArguments());
-        String lockName = getLockName(redisLock, method.getName(), evaluationContext);
+        String lockName = getLockName(redisLock, method, evaluationContext);
         RLock lock = redissonClient.getLock(lockName);
         boolean isRequiredLock = false;
         try {
@@ -95,11 +95,11 @@ public class RedisLockInterceptor implements MethodInterceptor {
      * 获取锁名称
      *
      * @param redisLock
-     * @param methodName
+     * @param method
      * @param evaluationContext
      * @return
      */
-    private final String getLockName(RedisLock redisLock, String methodName, EvaluationContext evaluationContext) {
+    private final String getLockName(RedisLock redisLock, Method method, EvaluationContext evaluationContext) {
         StringBuilder lockName = new StringBuilder(32);
         lockName.append(RedisLockConstants.DEFAULT_KEY_PREFIX);
         if (StringUtils.isNotBlank(redisLock.keyPrefix())) {
@@ -108,7 +108,10 @@ public class RedisLockInterceptor implements MethodInterceptor {
                 lockName.delete(lockName.length() - 1, lockName.length());
             }
         } else {
-            lockName.append(methodName);
+            // 类名:方法名
+            lockName.append(method.getDeclaringClass().getName().toLowerCase());
+            lockName.append(SymbolConstant.COLON);
+            lockName.append(method.getName().toLowerCase());
         }
 
         String[] expressions = redisLock.expressions();

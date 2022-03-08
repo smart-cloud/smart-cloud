@@ -54,6 +54,7 @@ smart-cloud
      ├── smart-cloud-starter-configure -- Framework configuration property encapsulation
      ├── smart-cloud-starter-core -- Framework core (custom annotations, exception encapsulation, request and response public parameters, business-related tool classes)
      ├── smart-cloud-starter-feign -- feign package (removable and reusable, faceted)
+     ├── smart-cloud-starter-global-id -- distributed id generator
      ├── smart-cloud-starter-job -- Scheduled task
      ├── smart-cloud-starter-locale -- international
      ├── smart-cloud-starter-log4j2 -- Log encapsulation (log4j2 encapsulation, support desensitization of log sensitive data)

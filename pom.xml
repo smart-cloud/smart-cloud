@@ -213,6 +213,12 @@
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
+                <artifactId>smart-cloud-starter-global-id</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-web</artifactId>
                 <version>${project.version}</version>
             </dependency>

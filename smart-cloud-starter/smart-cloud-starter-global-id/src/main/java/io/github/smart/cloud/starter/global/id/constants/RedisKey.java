@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.mybatis.plus.constants;
+package io.github.smart.cloud.starter.global.id.constants;
 
 /**
  * redis key
@@ -24,16 +24,12 @@ package io.github.smart.cloud.starter.mybatis.plus.constants;
 public interface RedisKey {
 
     /**
-     * idworker锁key
+     * globalid锁key
      */
-    String IDWORKER = "smartcloud:lock:idworker";
+    String GLOBALID = "smartcloud:lock:globalid";
     /**
-     * idworker workerId计算器key
+     * globalid workerId计算器key
      */
-    String IDWORKER_WORKERID = "smartcloud:data:idworker:workerId";
-    /**
-     * idworker dataCenterId计算器key
-     */
-    String IDWORKER_DATACENTERID = "smartcloud:data:idworker:dataCenterId";
+    String GLOBALID_WORKERID = "smartcloud:data:globalid:workerId";
 
 }

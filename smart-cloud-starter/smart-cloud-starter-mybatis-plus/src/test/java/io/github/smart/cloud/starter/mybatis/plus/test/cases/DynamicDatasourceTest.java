@@ -25,6 +25,7 @@ import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.entity.RoleInfoEntity;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.vo.PageProductReqVO;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource.vo.ProductInfoBaseRespVO;
+import io.github.smart.cloud.utility.NonceUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -35,6 +36,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,7 +45,7 @@ public class DynamicDatasourceTest {
     @ExtendWith(SpringExtension.class)
     @SpringBootTest(classes = DynamicDatasourceApp.class, args = "--spring.profiles.active=dynamicdatasource")
     @Nested
-    class ProductTest extends AbstractIntegrationTest {
+    class ProductTest {
 
         @Autowired
         private ProductInfoOmsBiz productInfoOmsBiz;
@@ -104,7 +106,10 @@ public class DynamicDatasourceTest {
         }
 
         private ProductInfoEntity create(String name) {
-            ProductInfoEntity entity = productInfoOmsBiz.buildEntity();
+            ProductInfoEntity entity = new ProductInfoEntity();
+            entity.setId(NonceUtil.nextId());
+            entity.setInsertTime(new Date());
+            entity.setDelState(DeleteState.NORMAL);
             entity.setName(name);
             entity.setSellPrice(100L);
             entity.setStock(10L);
@@ -116,7 +121,7 @@ public class DynamicDatasourceTest {
     @ExtendWith(SpringExtension.class)
     @SpringBootTest(classes = DynamicDatasourceApp.class, args = "--spring.profiles.active=dynamicdatasource")
     @Nested
-    class AuthTest extends AbstractIntegrationTest {
+    class AuthTest {
 
         @Autowired
         private RoleInfoOmsBiz roleInfoOmsBiz;
@@ -128,7 +133,10 @@ public class DynamicDatasourceTest {
 
         @Test
         void testSave() {
-            RoleInfoEntity roleInfoEntity = roleInfoOmsBiz.buildEntity();
+            RoleInfoEntity roleInfoEntity = new RoleInfoEntity();
+            roleInfoEntity.setId(NonceUtil.nextId());
+            roleInfoEntity.setInsertTime(new Date());
+            roleInfoEntity.setDelState(DeleteState.NORMAL);
             roleInfoEntity.setCode(String.format("query%s", UUID.randomUUID().toString().replaceAll("-", "")));
             roleInfoEntity.setDescription("查询");
             roleInfoEntity.setInsertUser(1L);

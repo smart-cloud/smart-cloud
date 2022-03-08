@@ -13,18 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.mybatis.plus.test.prepare.idworker;
+package io.github.smart.cloud.starter.global.id;
 
-import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
-import io.github.smart.cloud.starter.mybatis.plus.annotation.EnableIdWorker;
-import org.springframework.boot.SpringApplication;
+import io.github.smart.cloud.utility.SnowflakeId;
 
-@EnableIdWorker
-@SmartBootApplication
-public class IdworkerApp {
+/**
+ * 全局id生成器
+ *
+ * @author collin
+ * @date 2022-03-08
+ */
+public class GlobalId {
 
-    public static void main(String[] args) {
-        SpringApplication.run(IdworkerApp.class, args);
+    private static SnowflakeId snowflakeId = null;
+
+    /**
+     * 初始化workerId
+     *
+     * @param workerId
+     */
+    public static void init(long workerId) {
+        snowflakeId = new SnowflakeId(workerId);
+    }
+
+    public static long nextId() {
+        if (snowflakeId == null) {
+            throw new NullPointerException("GlobalId[workId] is not initedid!");
+        }
+
+        return snowflakeId.nextId();
     }
 
 }

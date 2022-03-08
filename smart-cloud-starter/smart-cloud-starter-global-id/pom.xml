@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
     Copyright © 2019 collin (1634753825@qq.com)
@@ -16,26 +16,27 @@
     limitations under the License.
 
 -->
-<project
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-        xmlns="http://maven.apache.org/POM/4.0.0"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>io.github.smart-cloud</groupId>
         <artifactId>smart-cloud-starter</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>smart-cloud-starter-mybatis-plus</artifactId>
+    <artifactId>smart-cloud-starter-global-id</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>io.github.smart-cloud</groupId>
-            <artifactId>smart-cloud-starter-core</artifactId>
+            <artifactId>smart-utility</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.github.smart-cloud</groupId>
-            <artifactId>smart-constants</artifactId>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -43,39 +44,7 @@
             <artifactId>smart-exception</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>io.github.smart-cloud</groupId>
-            <artifactId>smart-mask</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
         <!--test start-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -95,10 +64,11 @@
         </dependency>
 
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>it.ozimov</groupId>
+            <artifactId>embedded-redis</artifactId>
             <scope>test</scope>
         </dependency>
         <!--test end-->
     </dependencies>
+
 </project>

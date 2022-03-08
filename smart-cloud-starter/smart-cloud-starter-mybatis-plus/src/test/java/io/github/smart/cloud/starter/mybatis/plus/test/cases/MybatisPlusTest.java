@@ -23,6 +23,7 @@ import io.github.smart.cloud.starter.mybatis.plus.test.prepare.mybatisplus.biz.P
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.mybatisplus.entity.ProductInfoEntity;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.mybatisplus.vo.PageProductReqVO;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.mybatisplus.vo.ProductInfoBaseRespVO;
+import io.github.smart.cloud.utility.NonceUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,11 +33,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MybatisplusApp.class, args = "--spring.profiles.active=mybatisplus")
-class MybatisPlusTest extends AbstractIntegrationTest {
+class MybatisPlusTest {
 
     @Autowired
     private ProductInfoOmsBiz productInfoOmsBiz;
@@ -106,7 +108,10 @@ class MybatisPlusTest extends AbstractIntegrationTest {
     }
 
     private ProductInfoEntity create(String name) {
-        ProductInfoEntity entity = productInfoOmsBiz.buildEntity();
+        ProductInfoEntity entity = new ProductInfoEntity();
+        entity.setId(NonceUtil.nextId());
+        entity.setInsertTime(new Date());
+        entity.setDelState(DeleteState.NORMAL);
         entity.setName(name);
         entity.setSellPrice(100L);
         entity.setStock(10L);

@@ -25,7 +25,6 @@ import io.github.smart.cloud.common.pojo.BasePageResponse;
 import io.github.smart.cloud.starter.mybatis.plus.common.entity.BaseEntity;
 import io.github.smart.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
 import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
-import io.github.smart.cloud.starter.mybatis.plus.util.IdWorker;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -40,28 +39,6 @@ import java.util.stream.Collectors;
  * @date 2021-10-31
  */
 public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends ServiceImpl<M, T> {
-
-    /**
-     * 生成id
-     *
-     * @return
-     */
-    protected long generateId() {
-        return IdWorker.getInstance().nextId();
-    }
-
-    /**
-     * 创建待插入数据的实体对象
-     *
-     * @return
-     */
-    public T buildEntity() {
-        T entity = BeanUtils.instantiateClass(entityClass);
-        entity.setId(generateId());
-        entity.setInsertTime(new Date());
-        entity.setDelState(DeleteState.NORMAL);
-        return entity;
-    }
 
     /**
      * in-line式批量插入

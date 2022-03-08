@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.mybatis.plus.test.prepare.dynamicdatasource;
+package io.github.smart.cloud.starter.global.id.test;
 
-import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
-import org.springframework.boot.SpringApplication;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.junit.jupiter.api.Disabled;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
 
-@SmartBootApplication
-@EnableTransactionManagement
-public class DynamicDatasourceApp {
-
-    public static void main(String[] args) {
-        SpringApplication.run(DynamicDatasourceApp.class, args);
-    }
+@Disabled
+@RunWith(JUnitPlatform.class)
+@SelectPackages("io.github.smart.cloud.starter.global.id.test")
+public class SuiteTest {
 
 }

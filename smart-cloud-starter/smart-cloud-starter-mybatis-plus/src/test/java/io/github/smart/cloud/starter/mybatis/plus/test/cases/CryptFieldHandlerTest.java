@@ -17,10 +17,12 @@ package io.github.smart.cloud.starter.mybatis.plus.test.cases;
 
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import io.github.smart.cloud.starter.mybatis.plus.common.CryptField;
+import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.CryptFieldApp;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.biz.ProductInfoOmsBiz;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.entity.ProductInfoEntity;
 import io.github.smart.cloud.starter.mybatis.plus.util.FieldCryptUtil;
+import io.github.smart.cloud.utility.NonceUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +37,7 @@ import java.util.Date;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = CryptFieldApp.class, args = "--spring.profiles.active=crypt-field")
-class CryptFieldHandlerTest extends AbstractIntegrationTest {
+class CryptFieldHandlerTest {
 
     @Autowired
     private ProductInfoOmsBiz productInfoOmsBiz;
@@ -45,7 +47,10 @@ class CryptFieldHandlerTest extends AbstractIntegrationTest {
 
     @Test
     void test() throws SQLException {
-        ProductInfoEntity entity = productInfoOmsBiz.buildEntity();
+        ProductInfoEntity entity = new ProductInfoEntity();
+        entity.setId(NonceUtil.nextId());
+        entity.setInsertTime(new Date());
+        entity.setDelState(DeleteState.NORMAL);
         entity.setName(CryptField.of(ORIGINAL_VALUE));
         entity.setSellPrice(10L);
         entity.setStock(10L);
