@@ -26,7 +26,13 @@ import java.io.Serializable;
 @ToString
 public class User implements Serializable {
 
+    /**
+     * 用户uid
+     */
     private Long id;
+    /**
+     * 手机号
+     */
     private String mobile;
 
 }

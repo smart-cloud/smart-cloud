@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.redis.annotation;
 
+import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.starter.redis.constants.RedisLockConstants;
 
 import java.lang.annotation.*;
@@ -37,7 +38,7 @@ public @interface RedisLock {
      *
      * @return
      */
-    String keyPrefix() default "";
+    String prefix() default "";
 
     /**
      * 锁的key片段
@@ -51,7 +52,7 @@ public @interface RedisLock {
      *
      * @return
      */
-    String acquiredFailCode() default RedisLockConstants.ACQUIRED_FAIL_CODE;
+    String acquiredFailCode() default CommonReturnCodes.GET_LOCK_FAIL;
 
     /**
      * 获取锁最大等待时间（默认单位毫秒）

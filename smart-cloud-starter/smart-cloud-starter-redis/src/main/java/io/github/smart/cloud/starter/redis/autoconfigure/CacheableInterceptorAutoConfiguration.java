@@ -15,8 +15,8 @@
  */
 package io.github.smart.cloud.starter.redis.autoconfigure;
 
-import io.github.smart.cloud.starter.redis.annotation.RedisLock;
-import io.github.smart.cloud.starter.redis.intercept.RedisLockInterceptor;
+import io.github.smart.cloud.starter.redis.annotation.Cacheable;
+import io.github.smart.cloud.starter.redis.intercept.CacheableInterceptor;
 import org.redisson.api.RedissonClient;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
@@ -26,34 +26,34 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 分布式锁拦截器配置
+ * 缓存拦截器配置
  *
  * @author collin
  * @date 2022-02-02
- * @see {@link RedisLock}
+ * @see Cacheable
  */
 @Configuration
-public class RedisLockInterceptorAutoConfiguration {
+public class CacheableInterceptorAutoConfiguration {
 
     @Bean
-    public RedisLockInterceptor redisLockInterceptor(final RedissonClient redissonClient) {
-        return new RedisLockInterceptor(redissonClient);
+    public CacheableInterceptor redisCacheableInterceptor(final RedissonClient redissonClient) {
+        return new CacheableInterceptor(redissonClient);
     }
 
     @Bean
-    public Pointcut redisLockPointcut() {
-        AspectJExpressionPointcut redisLockPointcut = new AspectJExpressionPointcut();
-        redisLockPointcut.setExpression(String.format("@annotation(%s)", RedisLock.class.getTypeName()));
-        return redisLockPointcut;
+    public Pointcut redisCacheablePointcut() {
+        AspectJExpressionPointcut redisCacheablePointcut = new AspectJExpressionPointcut();
+        redisCacheablePointcut.setExpression(String.format("@annotation(%s)", Cacheable.class.getTypeName()));
+        return redisCacheablePointcut;
     }
 
     @Bean
-    public Advisor redisLockAdvisor(final RedisLockInterceptor redisLockInterceptor, final Pointcut redisLockPointcut) {
-        DefaultBeanFactoryPointcutAdvisor redisLockAdvisor = new DefaultBeanFactoryPointcutAdvisor();
-        redisLockAdvisor.setAdvice(redisLockInterceptor);
-        redisLockAdvisor.setPointcut(redisLockPointcut);
+    public Advisor redisCacheAdvisor(final CacheableInterceptor redisCacheableInterceptor, final Pointcut redisCacheablePointcut) {
+        DefaultBeanFactoryPointcutAdvisor redisCacheableAdvisor = new DefaultBeanFactoryPointcutAdvisor();
+        redisCacheableAdvisor.setAdvice(redisCacheableInterceptor);
+        redisCacheableAdvisor.setPointcut(redisCacheablePointcut);
 
-        return redisLockAdvisor;
+        return redisCacheableAdvisor;
     }
 
 }

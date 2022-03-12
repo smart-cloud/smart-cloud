@@ -1,0 +1,91 @@
+package io.github.smart.cloud.starter.redis.intercept;
+
+import io.github.smart.cloud.constants.SymbolConstant;
+import lombok.RequiredArgsConstructor;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.apache.commons.lang3.StringUtils;
+import org.redisson.api.RedissonClient;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
+
+import java.lang.reflect.Method;
+
+/**
+ * redis拦截器父类
+ *
+ * @author collin
+ * @date 2022-03-11
+ */
+@RequiredArgsConstructor
+public abstract class AbstractRedisInterceptor implements MethodInterceptor {
+
+    private static final LocalVariableTableParameterNameDiscoverer DISCOVERER = new LocalVariableTableParameterNameDiscoverer();
+    private static final ExpressionParser PARSER = new SpelExpressionParser();
+    protected final RedissonClient redissonClient;
+
+    /**
+     * 获取缓存key前缀
+     *
+     * @param prefix
+     * @param name
+     * @param method
+     * @return
+     */
+    protected StringBuilder getPrefix(String prefix, String name, Method method) {
+        StringBuilder key = new StringBuilder(32);
+        key.append(prefix);
+        if (StringUtils.isBlank(name)) {
+            key.append(method.getDeclaringClass().getSimpleName().toLowerCase());
+            key.append(SymbolConstant.COLON);
+            key.append(method.getName().toLowerCase());
+        } else {
+            key.append(name);
+            if (name.endsWith(SymbolConstant.COLON)) {
+                key.delete(key.length() - 1, key.length());
+            }
+        }
+
+        return key;
+    }
+
+    /**
+     * 获取缓存key后缀
+     *
+     * @param expressions
+     * @param method
+     * @param arguments
+     * @return
+     */
+    protected StringBuilder getSuffix(String[] expressions, Method method, Object[] arguments) {
+        EvaluationContext evaluationContext = getEvaluationContext(method, arguments);
+        StringBuilder key = new StringBuilder();
+        for (int i = 0; i < expressions.length; i++) {
+            if (i > 0) {
+                key.append(SymbolConstant.COLON);
+            }
+            key.append(PARSER.parseExpression(expressions[i]).getValue(evaluationContext));
+        }
+
+        return key;
+    }
+
+    /**
+     * 获取EvaluationContext对象
+     *
+     * @param method
+     * @param arguments
+     * @return
+     */
+    protected final EvaluationContext getEvaluationContext(Method method, Object[] arguments) {
+        String[] parameterNames = DISCOVERER.getParameterNames(method);
+        EvaluationContext evaluationContext = new StandardEvaluationContext(method);
+        for (int i = 0; i < parameterNames.length; i++) {
+            evaluationContext.setVariable(parameterNames[i], arguments[i]);
+        }
+        return evaluationContext;
+    }
+
+}

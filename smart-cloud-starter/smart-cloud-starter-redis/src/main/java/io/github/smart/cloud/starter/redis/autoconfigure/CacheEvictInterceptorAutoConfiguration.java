@@ -15,8 +15,8 @@
  */
 package io.github.smart.cloud.starter.redis.autoconfigure;
 
-import io.github.smart.cloud.starter.redis.annotation.RedisLock;
-import io.github.smart.cloud.starter.redis.intercept.RedisLockInterceptor;
+import io.github.smart.cloud.starter.redis.annotation.CacheEvict;
+import io.github.smart.cloud.starter.redis.intercept.RedisEvictInterceptor;
 import org.redisson.api.RedissonClient;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
@@ -26,34 +26,34 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 分布式锁拦截器配置
+ * 缓存移除拦截器配置
  *
  * @author collin
  * @date 2022-02-02
- * @see {@link RedisLock}
+ * @see CacheEvict
  */
 @Configuration
-public class RedisLockInterceptorAutoConfiguration {
+public class CacheEvictInterceptorAutoConfiguration {
 
     @Bean
-    public RedisLockInterceptor redisLockInterceptor(final RedissonClient redissonClient) {
-        return new RedisLockInterceptor(redissonClient);
+    public RedisEvictInterceptor redisEvictInterceptor(final RedissonClient redissonClient) {
+        return new RedisEvictInterceptor(redissonClient);
     }
 
     @Bean
-    public Pointcut redisLockPointcut() {
-        AspectJExpressionPointcut redisLockPointcut = new AspectJExpressionPointcut();
-        redisLockPointcut.setExpression(String.format("@annotation(%s)", RedisLock.class.getTypeName()));
-        return redisLockPointcut;
+    public Pointcut redisEvictPointcut() {
+        AspectJExpressionPointcut redisEvictPointcut = new AspectJExpressionPointcut();
+        redisEvictPointcut.setExpression(String.format("@annotation(%s)", CacheEvict.class.getTypeName()));
+        return redisEvictPointcut;
     }
 
     @Bean
-    public Advisor redisLockAdvisor(final RedisLockInterceptor redisLockInterceptor, final Pointcut redisLockPointcut) {
-        DefaultBeanFactoryPointcutAdvisor redisLockAdvisor = new DefaultBeanFactoryPointcutAdvisor();
-        redisLockAdvisor.setAdvice(redisLockInterceptor);
-        redisLockAdvisor.setPointcut(redisLockPointcut);
+    public Advisor redisEvictAdvisor(final RedisEvictInterceptor redisEvictInterceptor, final Pointcut redisEvictPointcut) {
+        DefaultBeanFactoryPointcutAdvisor redisEvictAdvisor = new DefaultBeanFactoryPointcutAdvisor();
+        redisEvictAdvisor.setAdvice(redisEvictInterceptor);
+        redisEvictAdvisor.setPointcut(redisEvictPointcut);
 
-        return redisLockAdvisor;
+        return redisEvictAdvisor;
     }
 
 }

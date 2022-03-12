@@ -26,7 +26,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
-class RedisLockTest extends AbstractRedisIntegrationTest {
+class RedisLockIntegrationTest extends AbstractRedisIntegrationTest {
 
     @Autowired
     private RedisLockController redisLockController;

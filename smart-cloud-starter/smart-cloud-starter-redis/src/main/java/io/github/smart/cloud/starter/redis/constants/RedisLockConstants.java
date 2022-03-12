@@ -15,7 +15,6 @@
  */
 package io.github.smart.cloud.starter.redis.constants;
 
-import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.starter.redis.annotation.RedisLock;
 
 /**
@@ -25,16 +24,6 @@ import io.github.smart.cloud.starter.redis.annotation.RedisLock;
  * @date 2022-02-04
  */
 public interface RedisLockConstants {
-
-    /**
-     * key前缀默认值
-     */
-    String DEFAULT_KEY_PREFIX = "lock:";
-
-    /**
-     * 获取锁失败的code
-     */
-    String ACQUIRED_FAIL_CODE = CommonReturnCodes.GET_LOCK_FAIL;
 
     /**
      * 默认的获取锁等待时间（5000毫秒）

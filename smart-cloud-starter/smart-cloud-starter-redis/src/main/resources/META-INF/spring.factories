@@ -1,3 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.github.smart.cloud.starter.redis.autoconfigure.CacheableInterceptorAutoConfiguration,\
+io.github.smart.cloud.starter.redis.autoconfigure.CacheEvictInterceptorAutoConfiguration,\
 io.github.smart.cloud.starter.redis.autoconfigure.RedisAutoConfiguration,\
 io.github.smart.cloud.starter.redis.autoconfigure.RedisLockInterceptorAutoConfiguration
