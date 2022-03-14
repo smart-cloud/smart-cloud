@@ -16,6 +16,7 @@
 package io.github.smart.cloud.starter.rabbitmq;
 
 import io.github.smart.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
+import io.github.smart.cloud.starter.rabbitmq.enums.RetryResult;
 import io.github.smart.cloud.starter.rabbitmq.util.MqUtil;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +62,7 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
      * @return
      */
     protected boolean executeAfterRetryConsumerFail(T object) {
-        return false;
+        return true;
     }
 
     @RabbitHandler
@@ -90,8 +91,11 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
             }
         } catch (Exception e) {
             log.error("consumer mq exception", e);
-            if (!MqUtil.retryAfterConsumerFail(rabbitMqAdapter, object, message, getClass()) && executeAfterRetryConsumerFail(object)) {
-                log.warn("execute fail after retry consumer");
+            RetryResult retryResult = MqUtil.retryAfterConsumerFail(rabbitMqAdapter, object, message, getClass());
+            if (retryResult == RetryResult.NOT_SUPPORT) {
+                throw e;
+            } else if (retryResult == RetryResult.REACHED_RETRY_THRESHOLD && !executeAfterRetryConsumerFail(object)) {
+                throw e;
             }
         } finally {
             if (isRequiredLock) {

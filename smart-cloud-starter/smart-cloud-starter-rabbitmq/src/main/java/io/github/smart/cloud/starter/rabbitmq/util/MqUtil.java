@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.rabbitmq.util;
 import io.github.smart.cloud.starter.rabbitmq.MqConstants;
 import io.github.smart.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
 import io.github.smart.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
+import io.github.smart.cloud.starter.rabbitmq.enums.RetryResult;
 import io.github.smart.cloud.utility.JacksonUtil;
 import io.github.smart.cloud.utility.RetryTimeUtil;
 import lombok.Setter;
@@ -79,30 +80,40 @@ public final class MqUtil {
         rabbitMqAdapter.send(exchange, routingKey, messageBuilder.build());
     }
 
-    public static <T> boolean retryAfterConsumerFail(IRabbitMqAdapter rabbitMqAdapter, T object, Message message, Class<?> consumerClass) {
+    /**
+     * 消费失败重试
+     *
+     * @param rabbitMqAdapter
+     * @param object
+     * @param message
+     * @param consumerClass
+     * @param <T>
+     * @return
+     */
+    public static <T> RetryResult retryAfterConsumerFail(IRabbitMqAdapter rabbitMqAdapter, T object, Message message, Class<?> consumerClass) {
         if (!MqUtil.enableRetryAfterConsumerFail) {
-            return false;
+            return RetryResult.NOT_SUPPORT;
         }
         if (object == null) {
-            return false;
+            return RetryResult.NOT_SUPPORT;
         }
 
         RabbitListener rabbitListener = AnnotationUtils.findAnnotation(consumerClass, RabbitListener.class);
         if (rabbitListener == null) {
-            return false;
+            return RetryResult.NOT_SUPPORT;
         }
 
         // 失败后，发送延迟消息重试
         MqConsumerFailRetry mqConsumerFailRetry = AnnotationUtils.findAnnotation(consumerClass, MqConsumerFailRetry.class);
         if (mqConsumerFailRetry == null) {
             log.warn("MqConsumerFailRetry not found, retry is skipped!");
-            return false;
+            return RetryResult.NOT_SUPPORT;
         }
         Integer retriedTimes = message.getMessageProperties().getHeader(MqConstants.CONSUMER_RETRIED_TIMES);
         retriedTimes = (retriedTimes == null) ? 0 : (retriedTimes + 1);
         if (retriedTimes >= mqConsumerFailRetry.maxRetryTimes()) {
             log.warn("Maximum times of retries reached");
-            return false;
+            return RetryResult.REACHED_RETRY_THRESHOLD;
         }
 
         // 队列的名称
@@ -112,7 +123,7 @@ public final class MqUtil {
         //延迟路由键
         String retryRouteKeyName = MqNameUtil.getRetryRouteKeyName(queueName, mqConsumerFailRetry);
         send(rabbitMqAdapter, retryExchangeName, retryRouteKeyName, object, retriedTimes, TimeUnit.SECONDS.toMillis(RetryTimeUtil.getNextExecuteTime(retriedTimes)));
-        return true;
+        return RetryResult.SUCCESS;
     }
 
 }
