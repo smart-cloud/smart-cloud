@@ -17,7 +17,6 @@ package io.github.smart.cloud.starter.rabbitmq;
 
 import io.github.smart.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
 import io.github.smart.cloud.starter.rabbitmq.util.MqUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -26,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author collin
  * @date 2020-08-13
  */
-@Slf4j
 public abstract class AbstractRabbitMqProducer {
 
     @Autowired
