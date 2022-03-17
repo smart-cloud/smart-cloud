@@ -84,7 +84,7 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
                 log.warn(LogUtil.truncate(SLOW_LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
             } else if (log.isWarnEnabled()) {
                 ApiLog apiLog = invocation.getMethod().getAnnotation(ApiLog.class);
-                String logLevel = apiLog == null ? LogLevel.INFO : apiLog.level();
+                String logLevel = apiLog == null ? LogLevel.DEBUG : apiLog.level();
                 if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
                     log.debug(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
                 } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {

@@ -35,6 +35,6 @@ public @interface MethodLog {
      *
      * @return
      */
-    String level() default LogLevel.INFO;
+    String level() default LogLevel.DEBUG;
 
 }

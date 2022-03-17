@@ -59,8 +59,8 @@ public class FeignLogInterceptor implements MethodInterceptor, RequestIntercepto
             long cost = System.currentTimeMillis() - startTime;
             if (cost >= logProperties.getSlowApiMinCost()) {
                 log.warn(LogUtil.truncate("rpc.slow=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
-            } else if (log.isInfoEnabled()) {
-                log.info(LogUtil.truncate("rpc.info=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
+            } else if (log.isDebugEnabled()) {
+                log.debug(LogUtil.truncate("rpc.info=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
             }
 
             // 方法调用顺序：apply（初始化值） ——> invoke（获取值，并清除）
