@@ -43,7 +43,7 @@ class MqIntegrationTest extends AbstractIntegrationTest {
         ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
         String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
         byteBuffer.flip();
-        Assertions.assertThat(logContent).contains("Maximum times of retries reached");
+        Assertions.assertThat(logContent).contains("Maximum times[2] of retries reached");
     }
 
 }

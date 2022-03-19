@@ -7,7 +7,7 @@
 <Configuration status="WARN" monitorInterval="600">
 	<!-- 变量配置 -->
 	<Properties>
-		<Property name="project">smart-cloud-starter-mybatis-plus</Property>
+		<Property name="project">smart-cloud-starter-rabbitmq</Property>
 		<!--
 			%level 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL
 			%m 输出代码中指定的消息
@@ -21,13 +21,13 @@
 
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
-			<PatternLayout pattern="${log_format}" />
+			<PatternLayout pattern="${log_format}"/>
 		</Console>
 	</Appenders>
 
 	<Loggers>
-		<Root level="info">
-			<AppenderRef ref="console" />
-		</Root>
+		<Logger name="io.github.smart.cloud.starter.rabbitmq" level="debug">
+			<AppenderRef ref="console"/>
+		</Logger>
 	</Loggers>
 </Configuration>

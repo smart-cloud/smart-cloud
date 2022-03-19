@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.MessageConverter;
 
 /**
  * rabbitmq常用接口封装
@@ -32,7 +33,10 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 public class RabbitMqAdapterImpl implements IRabbitMqAdapter {
 
     private final RabbitTemplate rabbitTemplate;
-    private static final long DEFAULT_MAX_MESSAGE_COUNT = 128;
+    /**
+     * 默认的消息最大堆积数
+     */
+    private static final long DEFAULT_MAX_MESSAGE_COUNT = 128L;
 
     @Override
     public void send(String exchange, String routingKey, Message message) {
@@ -51,8 +55,12 @@ public class RabbitMqAdapterImpl implements IRabbitMqAdapter {
             log.warn("current message count[{}] had greater than maxMessageCount[{}]", currentMessageCount, maxMessageCount);
             return;
         }
-
         rabbitTemplate.send(exchange, routingKey, message);
+    }
+
+    @Override
+    public MessageConverter getMessageConverter() {
+        return rabbitTemplate.getMessageConverter();
     }
 
 }

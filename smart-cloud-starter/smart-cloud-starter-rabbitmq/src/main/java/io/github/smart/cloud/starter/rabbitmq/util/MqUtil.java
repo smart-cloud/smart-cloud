@@ -19,17 +19,14 @@ import io.github.smart.cloud.starter.rabbitmq.MqConstants;
 import io.github.smart.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
 import io.github.smart.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
 import io.github.smart.cloud.starter.rabbitmq.enums.RetryResult;
-import io.github.smart.cloud.utility.JacksonUtil;
-import io.github.smart.cloud.utility.RetryTimeUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.core.annotation.AnnotationUtils;
 
-import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -64,20 +61,25 @@ public final class MqUtil {
      * @param <T>
      */
     public static <T> void send(IRabbitMqAdapter rabbitMqAdapter, String exchange, String routingKey, T object, Integer retriedTimes, Long delayMillis) {
-        String json = JacksonUtil.toJson(object);
-        byte[] body = json.getBytes(StandardCharsets.UTF_8);
-        MessageBuilder messageBuilder = MessageBuilder.withBody(body);
-        if (delayMillis != null && delayMillis > 0) {
-            messageBuilder.setHeader(MessageProperties.X_DELAY, delayMillis);
-        }
-        if (retriedTimes != null) {
-            messageBuilder.setHeader(MqConstants.CONSUMER_RETRIED_TIMES, retriedTimes);
+        Message message = null;
+        if (object instanceof Message) {
+            message = (Message) object;
+        } else {
+            message = rabbitMqAdapter.getMessageConverter().toMessage(object, new MessageProperties());
         }
 
-        if (log.isInfoEnabled()) {
-            log.info("mq.send|exchange={}, routingKey={}, delayMillis={}, retriedTimes={}, msg={}", exchange, routingKey, delayMillis, retriedTimes, json);
+        MessageProperties messageProperties = message.getMessageProperties();
+        if (delayMillis != null && delayMillis > 0) {
+            messageProperties.setHeader(MessageProperties.X_DELAY, delayMillis);
         }
-        rabbitMqAdapter.send(exchange, routingKey, messageBuilder.build());
+        if (retriedTimes != null) {
+            messageProperties.setHeader(MqConstants.CONSUMER_RETRIED_TIMES, retriedTimes);
+        }
+        if (log.isInfoEnabled()) {
+            log.info("mq.send|exchange={}, routingKey={}, delayMillis={}, retriedTimes={}, msg={}", exchange, routingKey, delayMillis, retriedTimes, message);
+        }
+
+        rabbitMqAdapter.send(exchange, routingKey, message);
     }
 
     /**
@@ -85,12 +87,12 @@ public final class MqUtil {
      *
      * @param rabbitMqAdapter
      * @param object
-     * @param message
+     * @param headers
      * @param consumerClass
      * @param <T>
      * @return
      */
-    public static <T> RetryResult retryAfterConsumerFail(IRabbitMqAdapter rabbitMqAdapter, T object, Message message, Class<?> consumerClass) {
+    public static <T> RetryResult retryAfterConsumerFail(IRabbitMqAdapter rabbitMqAdapter, T object, Map<String, Object> headers, Class<?> consumerClass) {
         if (!MqUtil.enableRetryAfterConsumerFail) {
             return RetryResult.NOT_SUPPORT;
         }
@@ -109,10 +111,11 @@ public final class MqUtil {
             log.warn("MqConsumerFailRetry not found, retry is skipped!");
             return RetryResult.NOT_SUPPORT;
         }
-        Integer retriedTimes = message.getMessageProperties().getHeader(MqConstants.CONSUMER_RETRIED_TIMES);
-        retriedTimes = (retriedTimes == null) ? 0 : (retriedTimes + 1);
-        if (retriedTimes >= mqConsumerFailRetry.maxRetryTimes()) {
-            log.warn("Maximum times of retries reached");
+
+        Object currentRetriedTimes = headers.get(MqConstants.CONSUMER_RETRIED_TIMES);
+        int nextRetriedTimes = (currentRetriedTimes == null) ? 1 : ((int) currentRetriedTimes + 1);
+        if (nextRetriedTimes > mqConsumerFailRetry.maxRetryTimes()) {
+            log.warn("Maximum times[{}] of retries reached", mqConsumerFailRetry.maxRetryTimes());
             return RetryResult.REACHED_RETRY_THRESHOLD;
         }
 
@@ -122,8 +125,22 @@ public final class MqUtil {
         String retryExchangeName = MqNameUtil.getRetryExchangeName(queueName, mqConsumerFailRetry);
         //延迟路由键
         String retryRouteKeyName = MqNameUtil.getRetryRouteKeyName(queueName, mqConsumerFailRetry);
-        send(rabbitMqAdapter, retryExchangeName, retryRouteKeyName, object, retriedTimes, TimeUnit.SECONDS.toMillis(RetryTimeUtil.getNextExecuteTime(retriedTimes)));
+        long retryIntervalSeconds = getRetryIntervalSeconds(mqConsumerFailRetry, nextRetriedTimes);
+        send(rabbitMqAdapter, retryExchangeName, retryRouteKeyName, object, nextRetriedTimes, TimeUnit.SECONDS.toMillis(retryIntervalSeconds));
         return RetryResult.SUCCESS;
+    }
+
+    /**
+     * 获取重试的间隔时间（单位：秒）
+     *
+     * @param mqConsumerFailRetry
+     * @param nextRetriedTimes    nextRetriedTimes从1开始
+     * @return
+     */
+    private static long getRetryIntervalSeconds(MqConsumerFailRetry mqConsumerFailRetry, int nextRetriedTimes) {
+        long[] retryIntervalSeconds = mqConsumerFailRetry.retryIntervalSeconds();
+        int index = (nextRetriedTimes <= retryIntervalSeconds.length) ? (nextRetriedTimes - 1) : retryIntervalSeconds.length - 1;
+        return retryIntervalSeconds[index];
     }
 
 }

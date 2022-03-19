@@ -16,6 +16,7 @@
 package io.github.smart.cloud.starter.rabbitmq.adapter;
 
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.support.converter.MessageConverter;
 
 /**
  * rabbitmq防腐层
@@ -54,5 +55,12 @@ public interface IRabbitMqAdapter {
      * @param message
      */
     void checkAndSend(String exchange, String routingKey, String queue, long maxMessageCount, Message message);
+
+    /**
+     * 获取消息转换器
+     *
+     * @return
+     */
+    MessageConverter getMessageConverter();
 
 }

@@ -22,17 +22,12 @@ import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 
-import java.lang.reflect.ParameterizedType;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * mq监听公共基础封装
@@ -66,32 +61,24 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
     }
 
     @RabbitHandler
-    public void consumer(@Payload byte[] bytes, @Headers Map<String, Object> headers) {
-        Message message = MessageBuilder.withBody(bytes).copyHeaders(headers).build();
-        UUID messageId = message.getMessageProperties().getHeader(MqConstants.MESSAGE_ID_NAME);
+    public void consumer(@Payload T object, @Headers Map<String, Object> headers) {
+        Object messageId = headers.get(MqConstants.MESSAGE_ID_NAME);
         RLock lock = redissonClient.getLock(MqConstants.IDE_CKECK_LOCK_NAME_PREFIX + messageId);
         // 加锁状态（true：成功；false失败）
         boolean isRequiredLock = false;
-        T object = null;
         try {
             isRequiredLock = lock.tryLock();
-            String msg = new String(message.getBody(), StandardCharsets.UTF_8);
             if (isRequiredLock) {
-                log.info("receive.msg={}", msg);
-                Class<T> tClass = getBodyClass();
-                if (tClass == String.class) {
-                    object = (T) msg;
-                } else {
-                    object = JacksonUtil.parseObject(msg, tClass);
+                if (log.isDebugEnabled()) {
+                    log.debug("receive.msg={}", JacksonUtil.toJson(object));
                 }
-
                 doProcess(object);
             } else {
-                log.warn("idempotent.check.fail|msg={}", msg);
+                log.warn("idempotent.check.fail|msg={}", JacksonUtil.toJson(object));
             }
         } catch (Exception e) {
-            log.error("consumer mq exception", e);
-            RetryResult retryResult = MqUtil.retryAfterConsumerFail(rabbitMqAdapter, object, message, getClass());
+            log.error("consumer.mq.exception|object={}", JacksonUtil.toJson(object), e);
+            RetryResult retryResult = MqUtil.retryAfterConsumerFail(rabbitMqAdapter, object, headers, getClass());
             if (retryResult == RetryResult.NOT_SUPPORT) {
                 throw e;
             } else if (retryResult == RetryResult.REACHED_RETRY_THRESHOLD && !executeAfterRetryConsumerFail(object)) {
@@ -102,12 +89,6 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
                 lock.unlock();
             }
         }
-    }
-
-    private Class<T> getBodyClass() {
-        ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
-
-        return (Class<T>) pt.getActualTypeArguments()[0];
     }
 
 }
