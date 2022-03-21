@@ -41,7 +41,7 @@ import java.util.Date;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcDynamicDatasourceApp.class, args = "--spring.profiles.active=shardingjdbcdynamicdatasource")
-class ShardingjdbcDynamicdatasourceTest extends AbstractIntegrationTest {
+class ShardingjdbcDynamicdatasourceTest {
 
     @Autowired
     private ApiLogBiz apiLogBiz;

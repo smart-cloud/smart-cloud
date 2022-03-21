@@ -37,7 +37,7 @@ import java.util.Date;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcMasterSlaveApp.class, args = "--spring.profiles.active=shardingjdbcmasterslave")
-class ShardingJdbcMasterSlaveTest extends AbstractIntegrationTest {
+class ShardingJdbcMasterSlaveTest {
 
     @Autowired
     private OrderBillBiz orderBillBiz;

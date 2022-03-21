@@ -42,7 +42,7 @@ import java.util.Date;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcFullFunctionsApp.class, args = "--spring.profiles.active=fullfunctions")
-class FullFunctionsTest extends AbstractIntegrationTest {
+class FullFunctionsTest {
 
     @Autowired
     private ApiLogBiz apiLogBiz;
