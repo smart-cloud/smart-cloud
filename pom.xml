@@ -50,16 +50,16 @@
         <spring-cloud-alibaba>2021.1</spring-cloud-alibaba>
         <spring-cloud-gateway>3.1.0</spring-cloud-gateway>
         <openfeign>3.1.0</openfeign>
-        <spring.boot.admin>2.6.2</spring.boot.admin>
+        <spring.boot.admin>2.6.3</spring.boot.admin>
         <hystrix>2.2.10.RELEASE</hystrix>
-        <redisson>3.16.8</redisson>
+        <redisson>3.17.0</redisson>
         <mybatis-plus>3.5.1</mybatis-plus>
-        <dynamic-datasource>3.5.0</dynamic-datasource>
-        <shardingsphere-jdbc>5.0.0</shardingsphere-jdbc>
+        <dynamic-datasource>3.5.1</dynamic-datasource>
+        <shardingsphere-jdbc>5.1.0</shardingsphere-jdbc>
         <seata>1.4.2</seata>
-        <mysql>8.0.27</mysql>
+        <mysql>8.0.28</mysql>
         <podam>7.2.8.RELEASE</podam>
-        <guava>31.0.1-jre</guava>
+        <guava>31.1-jre</guava>
         <reflections>0.10.2</reflections>
         <jasypt>3.0.4</jasypt>
         <commons-codec>1.15</commons-codec>

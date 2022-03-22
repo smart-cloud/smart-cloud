@@ -42,9 +42,11 @@ spring:
       readwrite-splitting:
         data-sources:
           sharding-order:
+            type: Static
+            props:
+              write-data-source-name: shardingordermaster
+              read-data-source-names: shardingorderslave-0, shardingorderslave-1
             load-balancer-name: round_robin
-            write-data-source-name: shardingordermaster
-            read-data-source-names: shardingorderslave-0, shardingorderslave-1
         load-balancers:
           round_robin:
             type: ROUND_ROBIN
