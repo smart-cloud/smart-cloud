@@ -29,8 +29,6 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.annotation.AnnotationUtils;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -89,10 +87,7 @@ public class RabbitMqConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
         String retryRouteKeyName = MqNameUtil.getRetryRouteKeyName(queueName, mqConsumerFailRetry);
         // 延迟exchange
         String retryExchangeName = MqNameUtil.getRetryExchangeName(queueName, mqConsumerFailRetry);
-
-        Map<String, Object> args = new HashMap<>(1);
-        args.put(MqConstants.DELAY_EXCHANGE_TYPE_KEY, ExchangeTypes.DIRECT);
-        Exchange retryExchange = new CustomExchange(retryExchangeName, MqConstants.DELAY_MESSAGE_TYPE, true, false, args);
+        Exchange retryExchange = MqUtil.createDelayExchange(retryExchangeName);
 
         Queue queue = new Queue(queueName);
         Binding retryBinding = BindingBuilder.bind(queue).to(retryExchange).with(retryRouteKeyName).noargs();

@@ -21,11 +21,11 @@ import io.github.smart.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
 import io.github.smart.cloud.starter.rabbitmq.enums.RetryResult;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.core.annotation.AnnotationUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -45,6 +45,30 @@ public final class MqUtil {
     private static boolean enableRetryAfterConsumerFail = false;
 
     private MqUtil() {
+    }
+
+    /**
+     * 创建DIRECT类型延迟交换机
+     *
+     * @param exchangeName 交换机名称
+     * @return
+     */
+    public static Exchange createDelayExchange(String exchangeName) {
+        return createDelayExchange(exchangeName, ExchangeTypes.DIRECT);
+    }
+
+    /**
+     * 创建延迟交换机
+     *
+     * @param exchangeName 交换机名称
+     * @param exchangeType 交换机类型
+     * @return
+     * @see ExchangeTypes
+     */
+    public static Exchange createDelayExchange(String exchangeName, String exchangeType) {
+        Map<String, Object> args = new HashMap<>(1);
+        args.put(MqConstants.DELAY_EXCHANGE_TYPE_KEY, exchangeType);
+        return new CustomExchange(exchangeName, MqConstants.DELAY_MESSAGE_TYPE, true, false, args);
     }
 
     /**
