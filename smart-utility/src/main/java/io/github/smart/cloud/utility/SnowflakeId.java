@@ -16,10 +16,11 @@
 package io.github.smart.cloud.utility;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.net.NetworkInterface;
+import java.security.SecureRandom;
 import java.util.Enumeration;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -199,7 +200,31 @@ public final class SnowflakeId {
      * @return workerId
      */
     private long generateRandomWorkerId() {
-        return new Random().nextInt(maxWorkerId + 1);
+        return SecureRandomUtil.nextInt(maxWorkerId + 1);
+    }
+
+    /**
+     * {@link SecureRandom}工具类
+     *
+     * @author collin
+     * @date 2022-03-30
+     */
+    private static class SecureRandomUtil {
+
+        private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
+        /**
+         * 获取指定访问的随机数（不包含边界值）
+         *
+         * @param bound
+         * @return
+         */
+        public static long nextInt(int bound) {
+            synchronized (SECURE_RANDOM) {
+                return SECURE_RANDOM.nextInt(bound);
+            }
+        }
+
     }
 
 }

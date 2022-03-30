@@ -60,7 +60,7 @@ public class ShardingsphereEnumTypeHandler<E extends Enum<E>> extends MybatisEnu
 
     @Override
     public E getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        // TODO: 修改以便shardingsphere支持枚举----start
+        // 修改以便shardingsphere支持枚举----start
         if (rs instanceof ShardingSphereResultSet) {
             ShardingSphereResultSet shardingSphereResultSet = (ShardingSphereResultSet) rs;
             if (Byte.class.equals(propertyType)) {
@@ -85,7 +85,7 @@ public class ShardingsphereEnumTypeHandler<E extends Enum<E>> extends MybatisEnu
                 return this.valueOf(shardingSphereResultSet.getString(columnName));
             }
         }
-        // TODO: 修改以便shardingsphere支持枚举----end
+        // 修改以便shardingsphere支持枚举----end
 
         return super.getNullableResult(rs, columnName);
     }

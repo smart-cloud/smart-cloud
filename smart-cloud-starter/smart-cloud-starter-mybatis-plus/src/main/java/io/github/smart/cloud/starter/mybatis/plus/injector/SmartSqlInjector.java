@@ -34,7 +34,7 @@ public class SmartSqlInjector extends DefaultSqlInjector {
     /**
      * truncate操作对应的方法名称
      */
-    private final String TRUNCATE_METHOD_NAME = "truncate";
+    private static final String TRUNCATE_METHOD_NAME = "truncate";
 
     @Override
     public List<AbstractMethod> getMethodList(Class<?> mapperClass, TableInfo tableInfo) {

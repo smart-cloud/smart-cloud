@@ -26,6 +26,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -167,7 +168,7 @@ public class RedisAdapterImpl implements IRedisAdapter {
         Boolean result = stringRedisTemplate.execute(new RedisCallback<Boolean>() {
             @Override
             public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.set(key.getBytes(), value.getBytes(), Expiration.milliseconds(expireMillis),
+                return connection.set(key.getBytes(StandardCharsets.UTF_8), value.getBytes(StandardCharsets.UTF_8), Expiration.milliseconds(expireMillis),
                         RedisStringCommands.SetOption.SET_IF_ABSENT);
             }
         }, true);

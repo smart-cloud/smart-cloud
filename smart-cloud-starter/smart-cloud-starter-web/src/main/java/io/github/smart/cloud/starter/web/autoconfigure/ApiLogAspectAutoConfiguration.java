@@ -71,7 +71,7 @@ public class ApiLogAspectAutoConfiguration {
      */
     @Configuration
     @ConditionalOnProperty(name = SmartConstant.API_LOG_CONDITION_PROPERTY, havingValue = "true")
-    class ApiLogAutoConfigure {
+    public class ApiLogAutoConfigure {
 
         @Bean
         public ServletApiLogInterceptor apiLogInterceptor(final SmartProperties smartProperties) {

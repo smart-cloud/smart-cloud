@@ -28,6 +28,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * SpringBoot集成测试基类
@@ -90,7 +91,7 @@ public abstract class AbstractIntegrationTest {
             return null;
         }
 
-        String content = new String(resultBytes);
+        String content = new String(resultBytes, StandardCharsets.UTF_8);
         log.info("test.result={}", content);
 
         return JacksonUtil.parseObject(content, typeReference);

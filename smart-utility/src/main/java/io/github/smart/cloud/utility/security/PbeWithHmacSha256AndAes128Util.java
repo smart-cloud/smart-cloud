@@ -21,6 +21,7 @@ import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 
@@ -70,7 +71,7 @@ public class PbeWithHmacSha256AndAes128Util {
         Cipher cipher = Cipher.getInstance(ALGORITHM);
 
         cipher.init(Cipher.ENCRYPT_MODE, key, parameterSpec);
-        byte[] encryptWord = cipher.doFinal(word.getBytes());
+        byte[] encryptWord = cipher.doFinal(word.getBytes(StandardCharsets.UTF_8));
         return Base64.encodeBase64String(encryptWord);
     }
 
@@ -99,7 +100,7 @@ public class PbeWithHmacSha256AndAes128Util {
         Cipher cipher = Cipher.getInstance(ALGORITHM);
         cipher.init(Cipher.DECRYPT_MODE, key, parameterSpec);
         byte[] decryptWord = cipher.doFinal(Base64.decodeBase64(encryptWord));
-        return new String(decryptWord);
+        return new String(decryptWord, StandardCharsets.UTF_8);
     }
 
 }

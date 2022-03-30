@@ -236,7 +236,7 @@ public class RsaUtil {
         if (publicKey == null || plaintext == null) {
             return null;
         }
-        byte[] data = plaintext.getBytes();
+        byte[] data = plaintext.getBytes(StandardCharsets.UTF_8);
         byte[] encryptdata = encrypt(publicKey, data);
         return new String(Hex.encodeHex(encryptdata));
     }
@@ -266,7 +266,7 @@ public class RsaUtil {
         }
         byte[] encryptdata = Hex.decodeHex(encrypttext.toCharArray());
         byte[] data = decrypt(privateKey, encryptdata);
-        return new String(data);
+        return new String(data, StandardCharsets.UTF_8);
     }
 
     /**

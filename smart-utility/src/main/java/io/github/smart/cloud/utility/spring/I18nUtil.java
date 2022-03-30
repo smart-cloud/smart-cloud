@@ -34,7 +34,7 @@ public class I18nUtil implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        messageSource = event.getApplicationContext().getBean(MessageSource.class);
+        I18nUtil.messageSource = event.getApplicationContext().getBean(MessageSource.class);
     }
 
     public static String getMessage(String message) {

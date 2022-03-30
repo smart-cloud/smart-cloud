@@ -16,6 +16,7 @@
 package io.github.smart.cloud.starter.web.exception.strategy;
 
 import io.github.smart.cloud.common.pojo.ResponseHead;
+import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.exception.BaseException;
 import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
 import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
@@ -35,8 +36,12 @@ public class BaseExceptionHandlerStrategy implements IExceptionHandlerStrategy {
 
     @Override
     public ResponseHead transRespHead(Throwable e) {
-        BaseException ex = (BaseException) e;
-        return RespHeadUtil.of(ex.getCode(), I18nUtil.getMessage(ex.getMessage()));
+        if (e instanceof BaseException) {
+            BaseException ex = (BaseException) e;
+            return RespHeadUtil.of(ex.getCode(), I18nUtil.getMessage(ex.getMessage()));
+        }
+
+        return RespHeadUtil.of(CommonReturnCodes.SERVER_ERROR, e.getMessage());
     }
 
 }

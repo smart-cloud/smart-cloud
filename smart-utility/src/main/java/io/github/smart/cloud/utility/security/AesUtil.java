@@ -69,7 +69,7 @@ public class AesUtil {
         try {
             KeyGenerator generator = KeyGenerator.getInstance(SecurityConst.ENCRYPTION_ALGORITHM);
             SecureRandom random = SecureRandom.getInstance(SecurityConst.RNG_ALGORITHM);
-            random.setSeed(password.getBytes());
+            random.setSeed(password.getBytes(StandardCharsets.UTF_8));
             generator.init(128, random);
             SecretKey secretKey = generator.generateKey();
             byte[] enCodeFormat = secretKey.getEncoded();
@@ -81,7 +81,7 @@ public class AesUtil {
                 return ByteUtils.toHexString(cipher.doFinal(byteContent));
             } else {
                 byte[] byteContent = ByteUtils.fromHexString(content);
-                return new String(cipher.doFinal(byteContent));
+                return new String(cipher.doFinal(byteContent), StandardCharsets.UTF_8);
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);

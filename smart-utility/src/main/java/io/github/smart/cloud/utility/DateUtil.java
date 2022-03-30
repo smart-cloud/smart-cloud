@@ -16,10 +16,10 @@
 package io.github.smart.cloud.utility;
 
 import io.github.smart.cloud.utility.constant.DateFormartConst;
+import io.github.smart.cloud.utility.spring.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
-import io.github.smart.cloud.utility.spring.SpringContextUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.util.ClassUtils;
@@ -256,7 +256,9 @@ public class DateUtil {
                 } catch (IllegalArgumentException | IllegalAccessException e) {
                     log.error(e.getMessage(), e);
                 }
-                DATETIME_FORMATTER_ROUTER.put(format.length(), format);
+                if (format != null) {
+                    DATETIME_FORMATTER_ROUTER.put(format.length(), format);
+                }
             }
         }
 

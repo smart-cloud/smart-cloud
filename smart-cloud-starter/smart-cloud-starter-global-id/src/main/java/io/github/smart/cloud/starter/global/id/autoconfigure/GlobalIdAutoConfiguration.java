@@ -42,11 +42,11 @@ public class GlobalIdAutoConfiguration implements InitializingBean {
     /**
      * 获取锁的最大等待时间（10秒）
      */
-    private final long maxLockWaitSeconds = 10L;
+    private static final long MAX_LOCK_WAIT_SECONDS = 10L;
     /**
      * 雪花算法workId最大的值
      */
-    private final long maxWorkerId = 1024;
+    private static final long MAX_WORKER_ID = 1024;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -61,7 +61,7 @@ public class GlobalIdAutoConfiguration implements InitializingBean {
             RLock lock = redissonClient.getLock(RedisKey.GLOBALID);
             boolean isRequiredLock = false;
             try {
-                isRequiredLock = lock.tryLock(maxLockWaitSeconds, TimeUnit.SECONDS);
+                isRequiredLock = lock.tryLock(MAX_LOCK_WAIT_SECONDS, TimeUnit.SECONDS);
                 if (!isRequiredLock) {
                     throw new AcquiredLockFailException();
                 }
@@ -70,7 +70,7 @@ public class GlobalIdAutoConfiguration implements InitializingBean {
                 if (workId != Long.MAX_VALUE) {
                     workId = workIdAtomicLong.incrementAndGet();
                 } else {
-                    long currentStartId = (Long.MAX_VALUE % maxWorkerId) + 1;
+                    long currentStartId = (Long.MAX_VALUE % MAX_WORKER_ID) + 1;
                     workId = currentStartId;
                     workIdAtomicLong.set(workId);
                 }
@@ -81,7 +81,7 @@ public class GlobalIdAutoConfiguration implements InitializingBean {
             }
         }
 
-        workId = workId % maxWorkerId;
+        workId = workId % MAX_WORKER_ID;
         GlobalId.init(workId);
     }
 

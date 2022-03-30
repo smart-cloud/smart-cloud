@@ -71,7 +71,7 @@ public class FeignLogAspectAutoConfiguration {
      */
     @Configuration
     @ConditionalOnProperty(name = SmartConstant.FEIGN_LOG_CONDITION_PROPERTY, havingValue = "true")
-    class FeignLogAutoConfigure {
+    public class FeignLogAutoConfigure {
 
         @Bean
         public FeignLogInterceptor feignInterceptor(final SmartProperties smartProperties) {
