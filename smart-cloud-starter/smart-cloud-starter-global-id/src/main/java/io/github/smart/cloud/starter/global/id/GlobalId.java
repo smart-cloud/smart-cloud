@@ -27,6 +27,9 @@ public class GlobalId {
 
     private static SnowflakeId snowflakeId = null;
 
+    private GlobalId() {
+    }
+
     /**
      * 初始化workerId
      *

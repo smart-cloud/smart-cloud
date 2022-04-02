@@ -71,7 +71,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
                 .returnResult()
                 .getResponseBody();
 
-        return deserializeResponse(resultBytes, typeReference, url);
+        return deserializeResponse(resultBytes, typeReference);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
                 .returnResult()
                 .getResponseBody();
 
-        return deserializeResponse(resultBytes, typeReference, url);
+        return deserializeResponse(resultBytes, typeReference);
     }
 
 }

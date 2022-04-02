@@ -79,9 +79,9 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
         } catch (Exception e) {
             log.error("consumer.mq.exception|object={}", JacksonUtil.toJson(object), e);
             RetryResult retryResult = MqUtil.retryAfterConsumerFail(rabbitMqAdapter, object, headers, getClass());
-            if (retryResult == RetryResult.NOT_SUPPORT) {
-                throw e;
-            } else if (retryResult == RetryResult.REACHED_RETRY_THRESHOLD && !executeAfterRetryConsumerFail(object)) {
+            boolean isThrow = retryResult == RetryResult.NOT_SUPPORT
+                    || (retryResult == RetryResult.REACHED_RETRY_THRESHOLD && !executeAfterRetryConsumerFail(object));
+            if (isThrow) {
                 throw e;
             }
         } finally {

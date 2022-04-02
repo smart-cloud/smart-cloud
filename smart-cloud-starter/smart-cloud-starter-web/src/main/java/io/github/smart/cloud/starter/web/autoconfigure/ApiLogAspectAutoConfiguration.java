@@ -19,14 +19,13 @@ import io.github.smart.cloud.starter.configure.constants.SmartConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.core.business.util.AspectInterceptorUtil;
 import io.github.smart.cloud.starter.core.constants.PackageConfig;
-import io.github.smart.cloud.starter.web.aspect.interceptor.ServletApiLogInterceptor;
 import io.github.smart.cloud.starter.web.annotation.ApiLog;
+import io.github.smart.cloud.starter.web.aspect.interceptor.ServletApiLogInterceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,58 +41,42 @@ import java.util.List;
  * @date 2019-07-03
  */
 @Configuration
-@ConditionalOnExpression(ApiLogAspectAutoConfiguration.API_ASPECT_CONDITION)
+@ConditionalOnProperty(name = SmartConstant.API_LOG_CONDITION_PROPERTY, havingValue = "true")
 @ConditionalOnClass(name = {"javax.servlet.Filter"})
 public class ApiLogAspectAutoConfiguration {
 
-    /**
-     * api切面生效条件
-     */
-    public static final String API_ASPECT_CONDITION = "${" + SmartConstant.API_LOG_CONDITION_PROPERTY + ":false}";
-
     @Bean
-    public Pointcut apiPointcut() {
+    public Pointcut apiLogPointcut() {
         List<Class<? extends Annotation>> annotations = new ArrayList<>(8);
         annotations.addAll(AspectInterceptorUtil.getApiAnnotations());
         annotations.add(ApiLog.class);
         String logExpression = AspectInterceptorUtil.getFinalExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil.getMethodExpression(annotations));
 
-        AspectJExpressionPointcut apiPointcut = new AspectJExpressionPointcut();
-        apiPointcut.setExpression(logExpression);
-        return apiPointcut;
+        AspectJExpressionPointcut apiLogPointcut = new AspectJExpressionPointcut();
+        apiLogPointcut.setExpression(logExpression);
+        return apiLogPointcut;
+    }
+
+    @Bean
+    public ServletApiLogInterceptor apiLogInterceptor(final SmartProperties smartProperties) {
+        return new ServletApiLogInterceptor(smartProperties.getLog());
     }
 
     /**
-     * 接口日志
+     * api日志切面
      *
-     * @author collin
-     * @date 2019年7月3日 下午3:58:27
+     * @param apiLogInterceptor
+     * @param apiLogPointcut
+     * @return
      */
-    @Configuration
-    @ConditionalOnProperty(name = SmartConstant.API_LOG_CONDITION_PROPERTY, havingValue = "true")
-    public class ApiLogAutoConfigure {
+    @Bean
+    public Advisor apiLogAdvisor(final ServletApiLogInterceptor apiLogInterceptor,
+                                 final Pointcut apiLogPointcut) {
+        DefaultBeanFactoryPointcutAdvisor apiLogAdvisor = new DefaultBeanFactoryPointcutAdvisor();
+        apiLogAdvisor.setAdvice(apiLogInterceptor);
+        apiLogAdvisor.setPointcut(apiLogPointcut);
 
-        @Bean
-        public ServletApiLogInterceptor apiLogInterceptor(final SmartProperties smartProperties) {
-            return new ServletApiLogInterceptor(smartProperties.getLog());
-        }
-
-        /**
-         * api日志切面
-         *
-         * @param apiLogInterceptor
-         * @param apiPointcut
-         * @return
-         */
-        @Bean
-        public Advisor apiLogAdvisor(final ServletApiLogInterceptor apiLogInterceptor,
-                                     final Pointcut apiPointcut) {
-            DefaultBeanFactoryPointcutAdvisor apiLogAdvisor = new DefaultBeanFactoryPointcutAdvisor();
-            apiLogAdvisor.setAdvice(apiLogInterceptor);
-            apiLogAdvisor.setPointcut(apiPointcut);
-
-            return apiLogAdvisor;
-        }
+        return apiLogAdvisor;
     }
 
 }

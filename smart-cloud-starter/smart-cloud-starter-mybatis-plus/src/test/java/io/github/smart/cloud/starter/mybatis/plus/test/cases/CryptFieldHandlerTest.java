@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,14 +66,20 @@ class CryptFieldHandlerTest {
         Assertions.assertThat(dbEntity).isNotNull();
         Assertions.assertThat(dbEntity.getName().getValue()).isEqualTo(entity.getName().getValue());
 
-        PreparedStatement preparedStatement = dynamicRoutingDataSource.determineDataSource().getConnection()
-                .prepareStatement("select f_name from t_product_info where f_id=?");
-        preparedStatement.setLong(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        Assertions.assertThat(resultSet.next()).isTrue();
-        String name = resultSet.getString(1);
-        Assertions.assertThat(name).isNotBlank();
-        Assertions.assertThat(name).isEqualTo(FieldCryptUtil.encrypt(ORIGINAL_VALUE));
+        ResultSet resultSet = null;
+        try (Connection connection = dynamicRoutingDataSource.determineDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("select f_name from t_product_info where f_id=?")) {
+            preparedStatement.setLong(1, id);
+            resultSet = preparedStatement.executeQuery();
+            Assertions.assertThat(resultSet.next()).isTrue();
+            String name = resultSet.getString(1);
+            Assertions.assertThat(name).isNotBlank();
+            Assertions.assertThat(name).isEqualTo(FieldCryptUtil.encrypt(ORIGINAL_VALUE));
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+        }
     }
 
 }

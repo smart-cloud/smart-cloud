@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  */
 public abstract class AbstractCacheInterceptor extends AbstractRedisInterceptor {
 
-    public AbstractCacheInterceptor(RedissonClient redissonClient) {
+    protected AbstractCacheInterceptor(RedissonClient redissonClient) {
         super(redissonClient);
     }
 

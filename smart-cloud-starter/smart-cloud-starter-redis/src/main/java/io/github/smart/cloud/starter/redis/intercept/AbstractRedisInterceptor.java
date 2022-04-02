@@ -97,8 +97,10 @@ public abstract class AbstractRedisInterceptor implements MethodInterceptor {
     protected final EvaluationContext getEvaluationContext(Method method, Object[] arguments) {
         String[] parameterNames = DISCOVERER.getParameterNames(method);
         EvaluationContext evaluationContext = new StandardEvaluationContext(method);
-        for (int i = 0; i < parameterNames.length; i++) {
-            evaluationContext.setVariable(parameterNames[i], arguments[i]);
+        if (parameterNames != null) {
+            for (int i = 0; i < parameterNames.length; i++) {
+                evaluationContext.setVariable(parameterNames[i], arguments[i]);
+            }
         }
         return evaluationContext;
     }

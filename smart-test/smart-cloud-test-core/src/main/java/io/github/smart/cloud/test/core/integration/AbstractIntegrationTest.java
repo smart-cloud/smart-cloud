@@ -80,12 +80,11 @@ public abstract class AbstractIntegrationTest {
      *
      * @param resultBytes
      * @param typeReference
-     * @param url
      * @param <T>
      * @return
      * @throws IOException
      */
-    protected <T> T deserializeResponse(byte[] resultBytes, TypeReference<T> typeReference, String url) throws IOException {
+    protected <T> T deserializeResponse(byte[] resultBytes, TypeReference<T> typeReference) throws IOException {
         if (resultBytes == null) {
             log.warn("test.result=null");
             return null;

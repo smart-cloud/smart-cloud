@@ -21,6 +21,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.reflections.Reflections;
 import org.springframework.util.ClassUtils;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,7 +35,7 @@ import java.util.Set;
 @UtilityClass
 public class ExceptionHandlerStrategyFactory {
 
-    private static final Set<IExceptionHandlerStrategy> EXCEPTION_HANDLER_STRATEGIES = new HashSet<>();
+    private static Set<IExceptionHandlerStrategy> EXCEPTION_HANDLER_STRATEGIES = null;
 
     static {
         Reflections reflections = new Reflections(IExceptionHandlerStrategy.class.getPackage().getName());
@@ -43,20 +44,30 @@ public class ExceptionHandlerStrategyFactory {
         if (CollectionUtils.isNotEmpty(exceptionHandlerStrategySet)) {
             final String servletClassName = "javax.servlet.ServletException";
             boolean isServletEnv = ClassUtils.isPresent(servletClassName, ExceptionHandlerStrategyFactory.class.getClassLoader());
+            Set<IExceptionHandlerStrategy> exceptionHandlerStrategies = new HashSet<>(exceptionHandlerStrategySet.size());
             for (Class<?> c : exceptionHandlerStrategySet) {
                 try {
                     IExceptionHandlerStrategy exceptionHandlerStrategy = (IExceptionHandlerStrategy) c.newInstance();
                     if (!isServletEnv && exceptionHandlerStrategy.isNeedServletEnv()) {
                         continue;
                     }
-                    EXCEPTION_HANDLER_STRATEGIES.add(exceptionHandlerStrategy);
+                    exceptionHandlerStrategies.add(exceptionHandlerStrategy);
                 } catch (InstantiationException | IllegalAccessException e) {
                     log.error("IExceptionHandlerStrategy newInstance error", e);
                 }
             }
+
+            EXCEPTION_HANDLER_STRATEGIES = Collections.unmodifiableSet(exceptionHandlerStrategies);
+        } else {
+            EXCEPTION_HANDLER_STRATEGIES = Collections.unmodifiableSet(new HashSet<>(0));
         }
     }
 
+    /**
+     * 获取异常处理策略
+     *
+     * @return
+     */
     public static Set<IExceptionHandlerStrategy> getExceptionHandlerStrategys() {
         return EXCEPTION_HANDLER_STRATEGIES;
     }

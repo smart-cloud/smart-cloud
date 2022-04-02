@@ -35,10 +35,10 @@ public abstract class BaseException extends RuntimeException {
      */
     private String message;
 
-    public BaseException() {
+    protected BaseException() {
     }
 
-    public BaseException(String code) {
+    protected BaseException(String code) {
         this.code = code;
     }
 

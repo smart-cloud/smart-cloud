@@ -20,8 +20,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import lombok.extern.slf4j.Slf4j;
 import io.github.smart.cloud.mask.jackson.EnableMaskLogIntrospector;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
@@ -40,6 +40,9 @@ public final class JacksonMaskUtil {
         OBJECT_MAPPER.setAnnotationIntrospector(new EnableMaskLogIntrospector());
         OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         OBJECT_MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    }
+
+    private JacksonMaskUtil() {
     }
 
     /**

@@ -102,7 +102,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .getResponse();
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        return deserializeResponse(response.getContentAsByteArray(), typeReference, url);
+        return deserializeResponse(response.getContentAsByteArray(), typeReference);
     }
 
     /**
@@ -160,7 +160,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .getResponse();
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        return deserializeResponse(response.getContentAsByteArray(), typeReference, url);
+        return deserializeResponse(response.getContentAsByteArray(), typeReference);
     }
 
     private String convert(JsonNode jsonNode) {
@@ -195,7 +195,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .getResponse();
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 
-        return deserializeResponse(response.getContentAsByteArray(), typeReference, url);
+        return deserializeResponse(response.getContentAsByteArray(), typeReference);
     }
 
     public <T> T uploadFiles(String url, MultiValueMap<String, String> params, List<FileVO> files,
