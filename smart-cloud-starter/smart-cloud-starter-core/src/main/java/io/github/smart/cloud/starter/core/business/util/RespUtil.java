@@ -68,7 +68,7 @@ public class RespUtil {
      * @return
      */
     public static <R> boolean isSuccess(Response<R> resp) {
-        return ObjectUtil.isNotNull(resp) && ObjectUtil.isNotNull(resp.getHead())
+        return resp != null && resp.getHead() != null
                 && ObjectUtil.equals(CommonReturnCodes.SUCCESS, resp.getHead().getCode());
     }
 
@@ -79,11 +79,11 @@ public class RespUtil {
      * @return
      */
     public static <R> String getFailMsg(Response<R> resp) {
-        if (ObjectUtil.isNull(resp)) {
+        if (resp == null) {
             return I18nUtil.getMessage(CommonReturnCodes.RPC_REQUEST_FAIL);
         }
 
-        if (ObjectUtil.isNull(resp.getHead())) {
+        if (resp.getHead() == null) {
             return I18nUtil.getMessage(CommonReturnCodes.RPC_RESULT_EXCEPTION);
         }
 

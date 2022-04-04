@@ -22,18 +22,6 @@ import io.github.smart.cloud.utility.ObjectUtil;
 class ObjectUtilUnitTest {
 
     @Test
-    void testIsNull() {
-        Assertions.assertThat(ObjectUtil.isNull(null)).isTrue();
-        Assertions.assertThat(ObjectUtil.isNull("")).isFalse();
-    }
-
-    @Test
-    void testIsNotNull() {
-        Assertions.assertThat(ObjectUtil.isNotNull(null)).isFalse();
-        Assertions.assertThat(ObjectUtil.isNotNull("")).isTrue();
-    }
-
-    @Test
     void testIsAllNull() {
         Assertions.assertThat(ObjectUtil.isAllNull(null)).isTrue();
         Assertions.assertThat(ObjectUtil.isAllNull(null, null)).isTrue();

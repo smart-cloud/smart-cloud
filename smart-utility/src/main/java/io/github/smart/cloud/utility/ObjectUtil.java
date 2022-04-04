@@ -27,26 +27,6 @@ public class ObjectUtil {
     }
 
     /**
-     * 是否为null
-     *
-     * @param object
-     * @return
-     */
-    public static boolean isNull(Object object) {
-        return object == null;
-    }
-
-    /**
-     * 是否不为null
-     *
-     * @param object
-     * @return
-     */
-    public static boolean isNotNull(Object object) {
-        return object != null;
-    }
-
-    /**
      * objects是否都为null
      *
      * @param objects
