@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.3</version>
+        <version>2.6.7</version>
     </parent>
     <groupId>io.github.smart-cloud</groupId>
     <artifactId>smart-cloud</artifactId>
@@ -45,20 +45,20 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <spring.boot>2.6.3</spring.boot>
-        <spring-cloud>2021.0.0</spring-cloud>
-        <spring-cloud-alibaba>2021.1</spring-cloud-alibaba>
-        <spring-cloud-gateway>3.1.0</spring-cloud-gateway>
-        <openfeign>3.1.0</openfeign>
-        <spring.boot.admin>2.6.3</spring.boot.admin>
+        <spring.boot>2.6.7</spring.boot>
+        <spring-cloud>2021.0.2</spring-cloud>
+        <spring-cloud-alibaba>2021.0.1.0</spring-cloud-alibaba>
+        <spring-cloud-gateway>3.1.2</spring-cloud-gateway>
+        <openfeign>3.1.2</openfeign>
+        <spring.boot.admin>2.6.6</spring.boot.admin>
         <hystrix>2.2.10.RELEASE</hystrix>
-        <redisson>3.17.0</redisson>
+        <redisson>3.17.1</redisson>
         <mybatis-plus>3.5.1</mybatis-plus>
         <dynamic-datasource>3.5.1</dynamic-datasource>
         <shardingsphere-jdbc>5.1.0</shardingsphere-jdbc>
         <seata>1.4.2</seata>
         <mysql>8.0.28</mysql>
-        <podam>7.2.8.RELEASE</podam>
+        <podam>7.2.9.RELEASE</podam>
         <guava>31.1-jre</guava>
         <reflections>0.10.2</reflections>
         <jasypt>3.0.4</jasypt>
