@@ -5,8 +5,8 @@ smart cloud
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/smart-cloud/smart-cloud.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/smart-cloud/smart-cloud/context:java)
 [![license](https://img.shields.io/badge/license-Apache%202-green)](https://www.apache.org/licenses/LICENSE-2.0.html)
 [![jdk version](https://img.shields.io/badge/jdk-1.8+-blue.svg)](https://docs.oracle.com/javase/8/docs/api/)
-![](https://img.shields.io/badge/spring--boot-2.6.3.RELEASE-blue.svg)
-![](https://img.shields.io/badge/spring--cloud-2021.0.0-blue.svg)
+![](https://img.shields.io/badge/spring--boot-2.6.7.RELEASE-blue.svg)
+![](https://img.shields.io/badge/spring--cloud-2021.0.2-blue.svg)
 [![EN doc](https://img.shields.io/badge/document-English-blue.svg)](https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md)
 [![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](https://github.com/smart-cloud/smart-cloud#readme)
 
