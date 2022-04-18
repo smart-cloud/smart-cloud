@@ -69,7 +69,6 @@ class OpenFeignRpcTest {
         String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
         byteBuffer.flip();
         Assertions.assertThat(StringUtils.containsAny(logContent, "rpc.info=>", "rpc.slow=>")).isTrue();
-
     }
 
 }

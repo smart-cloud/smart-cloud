@@ -51,7 +51,6 @@
         <spring-cloud-gateway>3.1.2</spring-cloud-gateway>
         <openfeign>3.1.2</openfeign>
         <spring.boot.admin>2.6.6</spring.boot.admin>
-        <hystrix>2.2.10.RELEASE</hystrix>
         <redisson>3.17.1</redisson>
         <mybatis-plus>3.5.1</mybatis-plus>
         <dynamic-datasource>3.5.1</dynamic-datasource>
@@ -313,24 +312,6 @@
                         <artifactId>spring-boot-starter-tomcat</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-                <version>${hystrix}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
-                <version>${hystrix}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-netflix-hystrix</artifactId>
-                <version>${hystrix}</version>
             </dependency>
 
             <dependency>
