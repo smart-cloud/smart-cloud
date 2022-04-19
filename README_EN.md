@@ -14,9 +14,9 @@ smart cloud
 
 **A scaffolding based on spring cloud implementation. The implemented functions are as follows:**
 
-- [The interface document is automatically generated (use the idea yapi plugin to upload to the yapi server)](https://github.com/smart-cloud/smart-cloud/blob/dev#api-documentation)
-- [Mock data can be generated to give full play to the role of front-end and back-end separation](https://github.com/smart-cloud/smart-cloud/blob/dev#interface-mock-data)
-- [Flexible deployment, services can be merged (after the merged services communicate through internal processes; after separation, through RPC communication) deployment, and can also be deployed separately after merging](https://github.com/smart-cloud/smart-cloud#principles-of-service-merger)
+- [The interface document is automatically generated (use the idea yapi plugin to upload to the yapi server)](https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md#api-documentation)
+- [Mock data can be generated to give full play to the role of front-end and back-end separation](https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md#interface-mock-data)
+- [Flexible deployment, services can be merged (after the merged services communicate through internal processes; after separation, through RPC communication) deployment, and can also be deployed separately after merging](https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md#principles-of-service-merger)
 - Automatic generation of business-independent code
 - [Interface (encryption + signature) security assurance](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
 - Business-related functions (such as log printing, public configuration, common tool classes, etc.) are abstracted as starters
@@ -25,7 +25,7 @@ smart cloud
 - Sensitive configuration information supports encryption, table privacy field encryption and decryption
 - Annotated distributed lock, cache annotations
 - mq (rabbitmq) consumption fails, retry through custom annotations (put into delayed queue for re-consumption)
-- [Log sensitive data desensitization](https://github.com/smart-cloud/smart-cloud/blob/dev#desensitization-of-log-data)
+- [Log sensitive data desensitization](https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md#desensitization-of-log-data)
 - The testing of the single service development phase does not depend on other services (mock test, closing nacos, sentinel, etc.)
 - The technology stack is stable, practical and easy to use
 
@@ -109,6 +109,12 @@ name | role description
 ## Problems encountered with service mergers
 
 A single service is introduced into the merged service through maven in the form of a jar. In a single service, the feign interface requests through http; after the services are merged, the feign interface communicates through internal processes.
+
+### Bean name conflict
+
+````
+After different services are merged together, there will be a problem of bean name conflict. Resolved by custom bean name generation rules.
+````
 
 ### rpc conflicts with rpc implementation class
 

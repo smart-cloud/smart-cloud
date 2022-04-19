@@ -14,9 +14,9 @@ smart cloud
 
 **一个基于spring cloud实现的脚手架。所实现功能如下：**
 
-- [接口文档自动生成（利用idea yapi插件上传到yapi server）](https://github.com/smart-cloud/smart-cloud/README_ZH.md#%E4%BA%94%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)
-- [可以生成mock数据，充分发挥前后端分离的作用](https://github.com/smart-cloud/smart-cloud/README_ZH.md#%E4%B8%89%E6%8E%A5%E5%8F%A3mock%E6%95%B0%E6%8D%AE)
-- [部署灵活，服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）部署，合并后也可拆分开部署](https://github.com/smart-cloud/smart-cloud/README_ZH.md#%E5%9B%9B%E6%9C%8D%E5%8A%A1%E5%90%88%E5%B9%B6%E5%8E%9F%E7%90%86)
+- [接口文档自动生成（利用idea yapi插件上传到yapi server）](https://github.com/smart-cloud/smart-cloud#%E4%BA%94%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)
+- [可以生成mock数据，充分发挥前后端分离的作用](https://github.com/smart-cloud/smart-cloud#%E4%B8%89%E6%8E%A5%E5%8F%A3mock%E6%95%B0%E6%8D%AE)
+- [部署灵活，服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）部署，合并后也可拆分开部署](https://github.com/smart-cloud/smart-cloud#%E5%9B%9B%E6%9C%8D%E5%8A%A1%E5%90%88%E5%B9%B6%E5%8E%9F%E7%90%86)
 - 业务无关代码自动生成
 - [接口（加密+签名）安全保证](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
 - 业务无关功能（如日志打印、公共配置、常用工具类等）抽象为starter
@@ -25,7 +25,7 @@ smart cloud
 - 敏感配置信息支持加密，表隐私字段加解密
 - 分布式锁注解，缓存注解
 - mq（rabbitmq）消费失败，通过自定义注解实现重试（放入延迟队列重新消费）
-- [日志敏感数据脱敏](https://github.com/smart-cloud/smart-cloud/README_ZH.md#%E4%BA%8C%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F)
+- [日志敏感数据脱敏](https://github.com/smart-cloud/smart-cloud#%E4%BA%8C%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F)
 - 单体服务开发接阶段测试不依赖其他服务（mock test、关闭nacos、sentinel等）
 - 技术栈稳定、实用、易用
 
@@ -110,25 +110,31 @@ smart-cloud
 
 单个服务以jar的形式，通过maven引入合并服务中。在单体服务中，feign接口通过http请求；服务合并后，feign接口通过内部进程的方式通信。
 
-### 1、rpc与rpc实现类冲突
+### 1、bean名称冲突
+
+```
+不同服务合并打一起后，会存在bean名称冲突的问题。通过自定义bean名称生成规则解决。
+```
+
+### 2、rpc与rpc实现类冲突
 
 ```
 自定义条件注解封装FeignClient。使其在单体服务时，rpc走feign；在合体服务时，rpc走内部进程通信。
 ```
 
-### 2、yaml文件的自动加载
+### 3、yaml文件的自动加载
 
 ```
 自定义注解YamlScan，用来加载配置的yaml文件（支持正则匹配）。通过SPI机制，在spring.factories文件中添加EnvironmentPostProcessor的实现类，通过其方法参数SpringApplication获取启动类的信息，从而获取YamlScan注解配置的yaml文件信息。然后将yaml文件加到ConfigurableEnvironment中。
 ```
 
-### 3、启动类注解冲突
+### 4、启动类注解冲突
 
 ```
 自定义条件注解SmartSpringCloudApplicationCondition，只会让启动类标记的启动注解生效。
 ```
 
-### 4、maven打包异常
+### 5、maven打包异常
 
 ```
 合体服务打包时，单体服务依赖的包也打进单体服务jar。通过maven profiles解决
