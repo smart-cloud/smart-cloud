@@ -21,6 +21,7 @@ import io.github.smart.cloud.starter.web.test.prepare.vo.ProductCreateReqVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
@@ -30,7 +31,7 @@ import javax.validation.constraints.NotNull;
 public class ProductController {
 
     @GetMapping
-    public Response<String> query(@NotNull Long id) {
+    public Response<String> query(@NotNull Long id, HttpServletRequest request) {
         return RespUtil.success(String.format("iphone_%s", id));
     }
 

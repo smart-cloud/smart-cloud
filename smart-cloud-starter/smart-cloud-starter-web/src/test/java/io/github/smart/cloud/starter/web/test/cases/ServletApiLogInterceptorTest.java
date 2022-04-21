@@ -15,42 +15,53 @@
  */
 package io.github.smart.cloud.starter.web.test.cases;
 
-import io.github.smart.cloud.starter.web.test.prepare.Application;
+import com.fasterxml.jackson.core.type.TypeReference;
+import io.github.smart.cloud.common.pojo.Response;
+import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.starter.web.test.prepare.controller.ProductController;
 import io.github.smart.cloud.starter.web.test.prepare.vo.ProductCreateReqVO;
+import io.github.smart.cloud.utility.JacksonUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.smart.cloud.common.pojo.Response;
-import io.github.smart.cloud.constants.CommonReturnCodes;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Application.class)
-class ServletApiLogInterceptorTest {
+class ServletApiLogInterceptorTest extends AbstractTest {
 
     @Autowired
     private ProductController productController;
 
     @Test
-    void testQuery() throws IOException {
-        Response<String> response = productController.query(100L);
+    void testQuery() throws Exception {
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/product?id=100")
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE);
+
+        MockHttpServletResponse mockHttpServletResponse = mockMvc.perform(mockHttpServletRequestBuilder)
+                .andReturn()
+                .getResponse();
+        mockHttpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        String result = new String(mockHttpServletResponse.getContentAsByteArray(), StandardCharsets.UTF_8);
+        Assertions.assertThat(result).isNotBlank();
+        Response<String> response = JacksonUtil.parseObject(result, new TypeReference<Response>() {
+        });
+
         Assertions.assertThat(response).isNotNull();
         Assertions.assertThat(response.getHead()).isNotNull();
         Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
         Assertions.assertThat(response.getBody()).isNotBlank();
-
-        checkLog();
     }
 
 

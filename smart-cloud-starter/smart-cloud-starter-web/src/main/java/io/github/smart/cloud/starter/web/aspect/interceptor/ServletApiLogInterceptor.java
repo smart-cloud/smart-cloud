@@ -15,11 +15,6 @@
  */
 package io.github.smart.cloud.starter.web.aspect.interceptor;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.lang3.ArrayUtils;
 import io.github.smart.cloud.common.web.pojo.LogAspectDO;
 import io.github.smart.cloud.common.web.util.WebServletUtil;
 import io.github.smart.cloud.constants.LogLevel;
@@ -27,6 +22,11 @@ import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
 import io.github.smart.cloud.starter.configure.properties.LogProperties;
 import io.github.smart.cloud.starter.web.annotation.ApiLog;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.InputStreamSource;
 import org.springframework.validation.DataBinder;
@@ -146,21 +146,7 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
             return args;
         }
 
-        boolean needFilter = false;
-        for (Object arg : args) {
-            if (needFilter(arg)) {
-                needFilter = true;
-                break;
-            }
-        }
-
-        if (!needFilter) {
-            return args.length == 1 ? args[0] : args;
-        }
-
-        Object[] tempArgs = Stream.of(args).filter(arg -> !needFilter(arg)).toArray();
-
-        return getValidArgs(tempArgs);
+        return Stream.of(args).filter(arg -> !needFilter(arg)).toArray();
     }
 
     /**
@@ -174,25 +160,6 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
                 || object instanceof ServletResponse
                 || object instanceof DataBinder
                 || object instanceof InputStreamSource;
-    }
-
-    /**
-     * 获取有效的参数（如果是request对象，则优先从ParameterMap里取）
-     *
-     * @param args
-     * @return
-     */
-    private static Object getValidArgs(Object[] args) {
-        if (ArrayUtils.isEmpty(args)) {
-            return args;
-        }
-
-        if (args.length == 1 && args[0] instanceof HttpServletRequest) {
-            HttpServletRequest request = (HttpServletRequest) args[0];
-            return request.getParameterMap();
-        }
-
-        return args;
     }
 
 }

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -34,11 +35,22 @@ import javax.validation.constraints.NotNull;
  */
 @Validated
 @RestController
-@RequestMapping("npe")
-public class NpeController {
+@RequestMapping("exception")
+public class ExceptionController {
 
-    @GetMapping
-    public Response<Boolean> create(@Valid @NotNull ProductCreateReqVO reqVO) {
+    @GetMapping("bind")
+    public Response<Boolean> bind(@Valid @NotNull ProductCreateReqVO reqVO) {
+        return RespUtil.success(true);
+    }
+
+    @GetMapping("bind2")
+    public Response<Boolean> bind2(@NotBlank String name) {
+        return RespUtil.success(true);
+    }
+
+
+    @GetMapping(value = "mediaTypeNotSupported", consumes = "application/rss+xml")
+    public Response<Boolean> xml(@Valid @NotNull ProductCreateReqVO reqVO) {
         return RespUtil.success(true);
     }
 

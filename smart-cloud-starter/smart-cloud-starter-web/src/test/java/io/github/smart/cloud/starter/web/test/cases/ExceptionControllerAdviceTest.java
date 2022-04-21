@@ -15,54 +15,23 @@
  */
 package io.github.smart.cloud.starter.web.test.cases;
 
-import io.github.smart.cloud.starter.web.test.prepare.Application;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.utility.JacksonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import javax.servlet.Filter;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = Application.class)
-class ExceptionControllerAdviceTest {
-
-    private MockMvc mockMvc = null;
-    @Autowired
-    protected ApplicationContext applicationContext;
-
-    @BeforeEach
-    public void initMock() {
-        // 添加过滤器
-        Map<String, Filter> filterMap = applicationContext.getBeansOfType(Filter.class);
-        Filter[] filters = new Filter[filterMap.size()];
-        int i = 0;
-        for (Map.Entry<String, Filter> entry : filterMap.entrySet()) {
-            filters[i++] = entry.getValue();
-        }
-
-        mockMvc = MockMvcBuilders.webAppContextSetup((WebApplicationContext) applicationContext).addFilters(filters).build();
-    }
+class ExceptionControllerAdviceTest extends AbstractTest {
 
     @Test
-    void testNpe() throws Exception {
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/npe")
+    void testBind() throws Exception {
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/exception/bind")
                 .characterEncoding(StandardCharsets.UTF_8.name())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE);
@@ -78,6 +47,46 @@ class ExceptionControllerAdviceTest {
         Assertions.assertThat(response.getHead()).isNotNull();
         Assertions.assertThat(response.getHead().getCode()).isNotBlank();
         Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL);
+    }
+
+    @Test
+    void testBind2() throws Exception {
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/exception/bind2")
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE);
+
+        MockHttpServletResponse mockHttpServletResponse = mockMvc.perform(mockHttpServletRequestBuilder)
+                .andReturn()
+                .getResponse();
+        mockHttpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        String result = new String(mockHttpServletResponse.getContentAsByteArray(), StandardCharsets.UTF_8);
+        Assertions.assertThat(result).isNotBlank();
+        Response response = JacksonUtil.parseObject(result, Response.class);
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response.getHead()).isNotNull();
+        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL);
+    }
+
+    @Test
+    void testMediaTypeNotSupported() throws Exception {
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/exception/mediaTypeNotSupported")
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE);
+
+        MockHttpServletResponse mockHttpServletResponse = mockMvc.perform(mockHttpServletRequestBuilder)
+                .andReturn()
+                .getResponse();
+        mockHttpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        String result = new String(mockHttpServletResponse.getContentAsByteArray(), StandardCharsets.UTF_8);
+        Assertions.assertThat(result).isNotBlank();
+        Response response = JacksonUtil.parseObject(result, Response.class);
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response.getHead()).isNotNull();
+        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.UNSUPPORTED_MEDIA_TYPE);
     }
 
 }
