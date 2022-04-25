@@ -47,7 +47,7 @@ public class CustomizeContextMapLookup implements StrLookup {
     /**
      * yaml文件名
      */
-    private static final String YAML_FILE_NAME = "application.yml";
+    private static final String YAML_FILE_NAME = "application.yaml";
     /**
      * spring yaml文件中key的分隔符
      */

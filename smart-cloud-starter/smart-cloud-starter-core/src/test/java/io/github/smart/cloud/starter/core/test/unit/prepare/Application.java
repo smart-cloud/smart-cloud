@@ -20,7 +20,7 @@ import io.github.smart.cloud.starter.core.support.annotation.YamlScan;
 import org.springframework.boot.SpringApplication;
 
 @SmartBootApplication
-@YamlScan(locationPatterns = "application-*.yml")
+@YamlScan(locationPatterns = "application-*.yaml")
 public class Application {
 
     public static void main(String[] args) {
