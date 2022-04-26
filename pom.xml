@@ -45,7 +45,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <spring.boot>2.6.3</spring.boot>
+        <spring.boot>2.6.6</spring.boot>
         <spring-cloud>2021.0.0</spring-cloud>
         <spring-cloud-alibaba>2021.1</spring-cloud-alibaba>
         <spring-cloud-gateway>3.1.0</spring-cloud-gateway>
