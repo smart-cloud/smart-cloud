@@ -17,10 +17,10 @@ package io.github.smart.cloud.starter.log4j2.plugin;
 
 import io.github.smart.cloud.starter.log4j2.constants.LogConstants;
 import io.github.smart.cloud.starter.log4j2.enums.ExtProperty;
+import io.github.smart.cloud.starter.log4j2.system.ApplicationHome;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.lookup.StrLookup;
-import io.github.smart.cloud.starter.log4j2.system.ApplicationHome;
 import org.springframework.core.io.ClassPathResource;
 import org.yaml.snakeyaml.Yaml;
 
@@ -57,14 +57,6 @@ public class CustomizeContextMapLookup implements StrLookup {
      */
     private static final String APP_NAME_KEY = "spring.application.name";
     /**
-     * windows系统标签
-     */
-    private static final String WINDOWS_TAG = "windows";
-    /**
-     * 操作系统名称属性
-     */
-    private static final String OS_NAME = "os.name";
-    /**
      * 存储设置的变量
      */
     private static final Map<String, String> DATA = new HashMap<>(2);
@@ -89,17 +81,9 @@ public class CustomizeContextMapLookup implements StrLookup {
 
         Map<String, String> data = new HashMap<>(2);
         data.put(ExtProperty.APP_NAME.getName(), appName);
-        data.put(ExtProperty.LOG_PATH.getName(), getLogPath(appName));
+        data.put(ExtProperty.LOG_PATH.getName(), LogConstants.LOG_DIR + appName);
 
         return data;
-    }
-
-    private static String getLogPath(String appName) {
-        // 当前为windows系统
-        if (System.getProperty(OS_NAME).toLowerCase().indexOf(WINDOWS_TAG) != -1) {
-            return String.format("%s%s", LogConstants.WINDOWS_LOG_DIR, appName);
-        }
-        return String.format("%s%s", LogConstants.LINUX_LOG_DIR, appName);
     }
 
     /**

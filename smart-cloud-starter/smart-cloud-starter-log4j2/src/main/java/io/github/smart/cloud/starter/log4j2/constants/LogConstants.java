@@ -24,12 +24,8 @@ package io.github.smart.cloud.starter.log4j2.constants;
 public interface LogConstants {
 
     /**
-     * windows系统日志文件目录
+     * 日志文件目录
      */
-    String WINDOWS_LOG_DIR = "C:/data/log/";
-    /**
-     * linux系统日志文件目录
-     */
-    String LINUX_LOG_DIR = "/data/log/";
+    String LOG_DIR = "/data/log/";
 
 }
