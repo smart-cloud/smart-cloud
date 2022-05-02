@@ -26,7 +26,4 @@ public interface OrderRpc {
     @GetMapping("/order/queryWithJson")
     Response<String> queryWithJson(@RequestParam("id") Long id);
 
-    @GetMapping("/order/rpc/queryWithProtobuf")
-    Response<String> queryWithProtobuf(@RequestParam("id") Long id);
-
 }

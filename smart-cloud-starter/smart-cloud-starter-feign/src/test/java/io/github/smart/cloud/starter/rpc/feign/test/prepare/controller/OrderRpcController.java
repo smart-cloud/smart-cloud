@@ -30,9 +30,4 @@ public class OrderRpcController {
         return RespUtil.success("ok");
     }
 
-    @GetMapping("rpc/queryWithProtobuf")
-    public Response<String> queryWithProtobuf(Long id) {
-        return RespUtil.success("ok");
-    }
-
 }
