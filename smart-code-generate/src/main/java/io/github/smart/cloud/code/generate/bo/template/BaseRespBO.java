@@ -35,6 +35,6 @@ public class BaseRespBO extends CommonBO {
     /**
      * 表字段对应的java属性信息
      */
-    private List<EntityAttributeBO> attributes;
+    private List<FieldAttributeBO> attributes;
 
 }

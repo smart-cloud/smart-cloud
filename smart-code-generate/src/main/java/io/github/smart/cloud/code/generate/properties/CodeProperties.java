@@ -21,6 +21,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author collin
@@ -47,6 +48,10 @@ public class CodeProperties {
      * 表字段脱敏规则
      */
     private Map<String, Map<String, String>> mask;
+    /**
+     * 表字段加密配置
+     */
+    private Map<String, Set<String>> encrypts;
     /**
      * 启动类包名
      */

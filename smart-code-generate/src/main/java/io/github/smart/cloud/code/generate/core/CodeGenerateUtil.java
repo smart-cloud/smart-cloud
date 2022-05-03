@@ -29,6 +29,7 @@ import io.github.smart.cloud.code.generate.util.*;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 代码生成工具类
@@ -89,9 +90,10 @@ public class CodeGenerateUtil {
         PathProperties pathProperties = code.getProject().getPath();
         String rpcPath = pathProperties.getRpc();
         String servicePath = pathProperties.getService();
+        Set<String> encryptFields = TableUtil.getEncryptFields(tableMetaData.getName(), code);
 
         EntityBO entityBO = TemplateUtil.getEntityBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage,
-                code.getMask());
+                code.getMask(), encryptFields);
         CodeFileGenerateUtil.generateEntity(entityBO, servicePath);
 
         BaseRespBO baseResp = TemplateUtil.getBaseRespBodyBO(tableMetaData, columnMetaDatas, classComment, mainClassPackage,

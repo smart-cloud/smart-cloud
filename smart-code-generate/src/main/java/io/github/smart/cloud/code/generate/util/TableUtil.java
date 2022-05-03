@@ -15,6 +15,11 @@
  */
 package io.github.smart.cloud.code.generate.util;
 
+import io.github.smart.cloud.code.generate.properties.CodeProperties;
+
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * table工具类
  *
@@ -116,6 +121,25 @@ public class TableUtil {
             }
         }
         return name;
+    }
+
+    /**
+     * 获取需要加密的字段
+     *
+     * @param tableNames
+     * @param codeProperties
+     * @return
+     */
+    public static Set<String> getEncryptFields(String tableNames, CodeProperties codeProperties) {
+        if (codeProperties.getEncrypts() == null || codeProperties.getEncrypts().isEmpty()) {
+            return new HashSet<>(0);
+        }
+
+        Set<String> encryptFields = codeProperties.getEncrypts().get(tableNames);
+        if (encryptFields == null) {
+            return new HashSet<>(0);
+        }
+        return encryptFields;
     }
 
 }

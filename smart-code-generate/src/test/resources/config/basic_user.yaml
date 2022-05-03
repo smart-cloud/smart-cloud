@@ -21,5 +21,10 @@ code:
     t_user_info:
       f_mobile: MOBILE
       f_real_name: NAME
+  encrypts:
+    # 表名
+    t_user_info :
+     - f_mobile
+     - f_real_name
   #启动类包名
   mainClassPackage: org.smartframework.cloud.examples.basic.user

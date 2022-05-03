@@ -28,7 +28,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class EntityAttributeBO {
+public class FieldAttributeBO {
 
     /**
      * 是否为主键
