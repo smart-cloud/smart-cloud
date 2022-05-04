@@ -18,6 +18,7 @@ package io.github.smart.cloud.code.generate.util;
 import io.github.smart.cloud.code.generate.bo.ColumnMetaDataBO;
 import io.github.smart.cloud.code.generate.bo.TableMetaDataBO;
 import io.github.smart.cloud.code.generate.bo.template.*;
+import io.github.smart.cloud.code.generate.config.ClassConstants;
 import io.github.smart.cloud.code.generate.config.Config;
 import io.github.smart.cloud.code.generate.enums.DefaultColumnEnum;
 
@@ -83,7 +84,7 @@ public class TemplateUtil {
             // 主键
             entityAttribute.setPrimaryKey(columnMetaData.getPrimaryKey());
             if (columnMetaData.getPrimaryKey()) {
-                importPackages.add("com.baomidou.mybatisplus.annotation.TableId");
+                importPackages.add(ClassConstants.TABLEID_PACKAGE);
             }
 
             // mask信息
@@ -95,8 +96,8 @@ public class TemplateUtil {
 
             // 加密字段
             if (encryptFields.contains(columnMetaData.getName())) {
-                entityAttribute.setJavaType("CryptField");
-                importPackages.add("io.github.smart.cloud.starter.mybatis.plus.common.CryptField");
+                entityAttribute.setJavaType(ClassConstants.CRYPT_FIELD_CLASS_NAME);
+                importPackages.add(ClassConstants.CRYPT_FIELD_PACKAGE);
             } else {
                 entityAttribute.setJavaType(JavaTypeUtil.getByJdbcType(columnMetaData.getJdbcType(), columnMetaData.getLength()));
                 String importPackage = JavaTypeUtil.getImportPackage(columnMetaData.getJdbcType());
