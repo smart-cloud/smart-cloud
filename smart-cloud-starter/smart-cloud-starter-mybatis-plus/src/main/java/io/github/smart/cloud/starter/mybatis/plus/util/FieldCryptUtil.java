@@ -37,7 +37,7 @@ public final class FieldCryptUtil {
      *
      * @param content 待加密字符串
      */
-    public static final String encrypt(String content) {
+    public static String encrypt(String content) {
         return AesUtil.encrypt(content, getKey());
     }
 
@@ -46,7 +46,7 @@ public final class FieldCryptUtil {
      *
      * @param content 待解密字符串
      */
-    public static final String decrypt(String content) {
+    public static String decrypt(String content) {
         return AesUtil.decrypt(content, getKey());
     }
 
@@ -55,7 +55,7 @@ public final class FieldCryptUtil {
      *
      * @return
      */
-    private static final String getKey() {
+    private static String getKey() {
         SmartProperties smartProperties = SpringContextUtil.getBean(SmartProperties.class);
         CryptFieldProperties cryptFieldProperties = smartProperties.getCryptField();
         Assert.hasText(cryptFieldProperties.getKey(), "key not configured");
