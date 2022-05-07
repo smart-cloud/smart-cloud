@@ -50,7 +50,7 @@
         <spring-cloud-alibaba>2021.0.1.0</spring-cloud-alibaba>
         <spring-cloud-gateway>3.1.2</spring-cloud-gateway>
         <openfeign>3.1.2</openfeign>
-        <spring.boot.admin>2.6.6</spring.boot.admin>
+        <spring.boot.admin>2.6.7</spring.boot.admin>
         <redisson>3.17.1</redisson>
         <mybatis-plus>3.5.1</mybatis-plus>
         <dynamic-datasource>3.5.1</dynamic-datasource>
