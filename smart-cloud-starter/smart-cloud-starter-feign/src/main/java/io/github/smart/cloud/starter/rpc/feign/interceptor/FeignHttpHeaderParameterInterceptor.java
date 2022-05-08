@@ -21,7 +21,6 @@ import io.github.smart.cloud.common.web.filter.ReactiveRequestContextHolder;
 import io.github.smart.cloud.common.web.util.WebUtil;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -57,17 +56,11 @@ public class FeignHttpHeaderParameterInterceptor implements RequestInterceptor, 
         if (serverHttpRequest == null) {
             return;
         }
-        HttpHeaders httpHeaders = serverHttpRequest.getHeaders();
-        httpHeaders.forEach((name, value) -> {
-            if (needCopy(name)) {
-                template.header(name, value);
-            }
-        });
+        serverHttpRequest.getHeaders().forEach(template::header);
     }
 
     private void fillServletHeader(RequestTemplate template) {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder
-                .getRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             return;
         }
@@ -75,15 +68,8 @@ public class FeignHttpHeaderParameterInterceptor implements RequestInterceptor, 
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String name = headerNames.nextElement();
-            if (needCopy(name)) {
-                template.header(name, request.getHeader(name));
-            }
+            template.header(name, request.getHeader(name));
         }
-    }
-
-    private boolean needCopy(String name) {
-        // 过滤掉“Content-Length”，否则rpc用“protobuf”序列化会报错
-        return !HttpHeaders.CONTENT_LENGTH.equalsIgnoreCase(name);
     }
 
 }
