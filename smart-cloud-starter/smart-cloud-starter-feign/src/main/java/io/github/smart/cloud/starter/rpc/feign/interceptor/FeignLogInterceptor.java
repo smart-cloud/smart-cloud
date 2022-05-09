@@ -17,16 +17,16 @@ package io.github.smart.cloud.starter.rpc.feign.interceptor;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import io.github.smart.cloud.starter.rpc.feign.pojo.FeignLogAspectDO;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 import io.github.smart.cloud.common.web.util.WebUtil;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
 import io.github.smart.cloud.starter.configure.properties.LogProperties;
+import io.github.smart.cloud.starter.rpc.feign.pojo.FeignLogAspectDO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.core.Ordered;
 
 import java.lang.reflect.Method;
@@ -40,10 +40,10 @@ import java.util.Map;
  * @date 2019-04-21
  */
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class FeignLogInterceptor implements MethodInterceptor, RequestInterceptor, Ordered {
 
-    private LogProperties logProperties;
+    private final LogProperties logProperties;
     private static final ThreadLocal<Map<String, Collection<String>>> FEIGN_HEADER_THREAD_LOCAL = new ThreadLocal<>();
 
     @Override

@@ -15,12 +15,12 @@
  */
 package io.github.smart.cloud.starter.mock.interceptor;
 
-import lombok.AllArgsConstructor;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.starter.configure.properties.MockProperties;
 import io.github.smart.cloud.starter.mock.util.MockUtil;
+import lombok.RequiredArgsConstructor;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -33,10 +33,10 @@ import java.util.Set;
  * @author collin
  * @date 2019-04-21
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MockInterceptor implements MethodInterceptor {
 
-    private MockProperties mockProperties;
+    private final MockProperties mockProperties;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {

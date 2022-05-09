@@ -40,11 +40,11 @@ public interface OrderConstant {
     /**
      * feign header参数
      */
-    int FEIGN_SESSION = API_LOG + 1;
+    int FEIGN_HEADER = API_LOG + 1;
     /**
      * feign接口日志
      */
-    int FEIGN_LOG = FEIGN_SESSION + 1;
+    int FEIGN_LOG = FEIGN_HEADER + 1;
     /**
      * 多语言切面
      */

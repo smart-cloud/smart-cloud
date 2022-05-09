@@ -22,7 +22,7 @@ import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
 import io.github.smart.cloud.starter.configure.properties.LogProperties;
 import io.github.smart.cloud.starter.web.annotation.ApiLog;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -47,10 +47,10 @@ import java.util.stream.Stream;
  * @date 2019-04-08
  */
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
 
-    private LogProperties logProperties;
+    private final LogProperties logProperties;
     /**
      * 慢日志
      */

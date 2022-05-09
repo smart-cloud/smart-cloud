@@ -48,7 +48,7 @@ public class FeignHttpHeaderParameterInterceptor implements RequestInterceptor, 
 
     @Override
     public int getOrder() {
-        return OrderConstant.FEIGN_SESSION;
+        return OrderConstant.FEIGN_HEADER;
     }
 
     private void fillReactiveHeader(RequestTemplate template) {
