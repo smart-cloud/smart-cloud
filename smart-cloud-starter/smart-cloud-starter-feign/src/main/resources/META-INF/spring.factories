@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.github.smart.cloud.starter.rpc.feign.autoconfigure.FeignHttpHeaderParameterInterceptorAutoConfiguration,\
 io.github.smart.cloud.starter.rpc.feign.autoconfigure.FeignLogAspectAutoConfiguration,\
-io.github.smart.cloud.starter.rpc.feign.autoconfigure.FeignHttpHeaderParameterInterceptorAutoConfiguration
+io.github.smart.cloud.starter.rpc.feign.autoconfigure.SmartFeignAutoConfiguration
