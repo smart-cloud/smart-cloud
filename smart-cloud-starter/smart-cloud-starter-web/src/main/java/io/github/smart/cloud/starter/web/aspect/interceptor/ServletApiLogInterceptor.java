@@ -80,17 +80,19 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
         try {
             result = invocation.proceed();
             long cost = System.currentTimeMillis() - startTime;
-            if (cost >= logProperties.getSlowApiMinCost()) {
-                log.warn(LogUtil.truncate(SLOW_LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
-            } else if (log.isWarnEnabled()) {
-                ApiLog apiLog = invocation.getMethod().getAnnotation(ApiLog.class);
-                String logLevel = apiLog == null ? LogLevel.DEBUG : apiLog.level();
-                if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
-                    log.debug(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
-                } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
-                    log.info(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
-                } else if (LogLevel.WARN.equals(logLevel) && log.isWarnEnabled()) {
-                    log.warn(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
+            if (log.isWarnEnabled()) {
+                if (cost >= logProperties.getSlowApiMinCost()) {
+                    log.warn(LogUtil.truncate(SLOW_LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
+                } else {
+                    ApiLog apiLog = invocation.getMethod().getAnnotation(ApiLog.class);
+                    String logLevel = apiLog == null ? LogLevel.DEBUG : apiLog.level();
+                    if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
+                        log.debug(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
+                    } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
+                        log.info(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
+                    } else if (LogLevel.WARN.equals(logLevel)) {
+                        log.warn(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
+                    }
                 }
             }
             return result;

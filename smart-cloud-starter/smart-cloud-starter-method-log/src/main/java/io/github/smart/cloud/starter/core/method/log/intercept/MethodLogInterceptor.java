@@ -15,16 +15,16 @@
  */
 package io.github.smart.cloud.starter.core.method.log.intercept;
 
-import io.github.smart.cloud.starter.core.method.log.annotation.MethodLog;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.mask.util.MaskUtil;
 import io.github.smart.cloud.starter.configure.properties.LogProperties;
+import io.github.smart.cloud.starter.core.method.log.annotation.MethodLog;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 
 import java.lang.reflect.Method;
 
@@ -56,18 +56,20 @@ public class MethodLogInterceptor implements MethodInterceptor {
             result = invocation.proceed();
         } finally {
             long cost = System.currentTimeMillis() - startTime;
-            if (cost >= logProperties.getSlowApiMinCost()) {
-                String mastResult = (result instanceof String) ? (String) result : MaskUtil.mask(result);
-                log.warn(SLOW_LOG_PATTERN, getTag(invocation.getMethod()), cost, LogUtil.truncate(MaskUtil.mask(invocation.getArguments())), LogUtil.truncate(mastResult));
-            } else if (log.isWarnEnabled()) {
-                MethodLog methodLog = invocation.getMethod().getAnnotation(MethodLog.class);
-                String logLevel = methodLog.level();
-                if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
-                    log.debug(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result));
-                } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
-                    log.info(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result));
-                } else if (LogLevel.WARN.equals(logLevel) && log.isWarnEnabled()) {
-                    log.warn(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result));
+            if (log.isWarnEnabled()) {
+                if (cost >= logProperties.getSlowApiMinCost()) {
+                    String mastResult = (result instanceof String) ? (String) result : MaskUtil.mask(result);
+                    log.warn(SLOW_LOG_PATTERN, getTag(invocation.getMethod()), cost, LogUtil.truncate(MaskUtil.mask(invocation.getArguments())), LogUtil.truncate(mastResult));
+                } else {
+                    MethodLog methodLog = invocation.getMethod().getAnnotation(MethodLog.class);
+                    String logLevel = methodLog.level();
+                    if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
+                        log.debug(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result));
+                    } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
+                        log.info(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result));
+                    } else if (LogLevel.WARN.equals(logLevel)) {
+                        log.warn(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result));
+                    }
                 }
             }
         }

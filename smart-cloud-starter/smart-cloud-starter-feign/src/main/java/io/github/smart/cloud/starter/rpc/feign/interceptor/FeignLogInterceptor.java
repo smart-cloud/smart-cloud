@@ -57,7 +57,7 @@ public class FeignLogInterceptor implements MethodInterceptor, RequestIntercepto
         } finally {
             // 2、打印日志
             long cost = System.currentTimeMillis() - startTime;
-            if (cost >= logProperties.getSlowApiMinCost()) {
+            if (log.isWarnEnabled() && cost >= logProperties.getSlowApiMinCost()) {
                 log.warn(LogUtil.truncate("rpc.slow=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
             } else if (log.isDebugEnabled()) {
                 log.debug(LogUtil.truncate("rpc.info=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
@@ -82,7 +82,6 @@ public class FeignLogInterceptor implements MethodInterceptor, RequestIntercepto
         logDO.setCost(cost);
         return logDO;
     }
-
 
     @Override
     public void apply(RequestTemplate template) {
