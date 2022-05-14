@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.rpc.feign.autoconfigure;
 
+import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.rpc.feign.interceptor.FeignHttpHeaderParameterInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,8 +30,8 @@ import org.springframework.context.annotation.Configuration;
 public class FeignHttpHeaderParameterInterceptorAutoConfiguration {
 
     @Bean
-    public FeignHttpHeaderParameterInterceptor feignHttpHeaderParameterInterceptor() {
-        return new FeignHttpHeaderParameterInterceptor();
+    public FeignHttpHeaderParameterInterceptor feignHttpHeaderParameterInterceptor(final SmartProperties smartProperties) {
+        return new FeignHttpHeaderParameterInterceptor(smartProperties);
     }
 
 }

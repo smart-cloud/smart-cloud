@@ -13,35 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.common.web.constants;
+package io.github.smart.cloud.starter.configure.properties;
+
+import io.github.smart.cloud.common.pojo.Base;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Set;
 
 /**
- * smart cloud http header参数常量
+ * openfeign配置属性
  *
  * @author collin
- * @date 2021-07-17
+ * @date 2022-06-27
  */
-public interface SmartHttpHeaders {
+@Getter
+@Setter
+public class OpenFeignProperties extends Base {
 
     /**
-     * http header timestamp
+     * 需要往下一级请求传递的请求头参数名称
      */
-    String TIMESTAMP = "smart-timestamp";
-    /**
-     * http header nonce
-     */
-    String NONCE = "smart-nonce";
-    /**
-     * 请求token
-     */
-    String TOKEN = "smart-token";
-    /**
-     * 请求参数签名
-     */
-    String SIGN = "smart-sign";
-    /**
-     * http header中user信息参数名
-     */
-    String HEADER_USER = "smart-user";
+    private Set<String> transferHeaderNames;
 
 }

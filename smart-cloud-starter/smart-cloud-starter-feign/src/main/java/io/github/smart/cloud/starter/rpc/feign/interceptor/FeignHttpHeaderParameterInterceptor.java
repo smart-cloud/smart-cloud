@@ -17,16 +17,23 @@ package io.github.smart.cloud.starter.rpc.feign.interceptor;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import io.github.smart.cloud.common.web.constants.SmartHttpHeaders;
 import io.github.smart.cloud.common.web.filter.ReactiveRequestContextHolder;
 import io.github.smart.cloud.common.web.util.WebUtil;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
+import io.github.smart.cloud.starter.configure.properties.SmartProperties;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * feign http header参数传递
@@ -34,15 +41,32 @@ import java.util.Enumeration;
  * @author collin
  * @date 2019-04-21
  */
+@RequiredArgsConstructor
 public class FeignHttpHeaderParameterInterceptor implements RequestInterceptor, Ordered {
+
+    private final SmartProperties smartProperties;
+
+    /**
+     * 默认的需要传递的请求参数名称
+     */
+    public static final Set<String> DEFAULT_TRANSFER_HEADER_NAMES = new HashSet<>();
+
+    static {
+        DEFAULT_TRANSFER_HEADER_NAMES.add(SmartHttpHeaders.HEADER_USER);
+    }
 
     @Override
     public void apply(RequestTemplate template) {
+        Set<String> transferHeaderNames = smartProperties.getFeign().getTransferHeaderNames();
+        if (CollectionUtils.isEmpty(transferHeaderNames)) {
+            transferHeaderNames = DEFAULT_TRANSFER_HEADER_NAMES;
+        }
+
         // 填充header信息
         if (WebUtil.isWebFlux()) {
-            fillReactiveHeader(template);
+            fillReactiveHeader(template, transferHeaderNames);
         } else {
-            fillServletHeader(template);
+            fillServletHeader(template, transferHeaderNames);
         }
     }
 
@@ -51,24 +75,36 @@ public class FeignHttpHeaderParameterInterceptor implements RequestInterceptor, 
         return OrderConstant.FEIGN_HEADER;
     }
 
-    private void fillReactiveHeader(RequestTemplate template) {
+    private void fillReactiveHeader(RequestTemplate template, Set<String> transferHeaderNames) {
         ServerHttpRequest serverHttpRequest = ReactiveRequestContextHolder.getServerHttpRequest();
         if (serverHttpRequest == null) {
             return;
         }
-        serverHttpRequest.getHeaders().forEach(template::header);
+
+        HttpHeaders httpHeaders = serverHttpRequest.getHeaders();
+        if (MapUtils.isEmpty(httpHeaders)) {
+            return;
+        }
+
+        for (String transferHeaderName : transferHeaderNames) {
+            if (httpHeaders.containsKey(transferHeaderName)) {
+                template.header(transferHeaderName, httpHeaders.get(transferHeaderName));
+            }
+        }
     }
 
-    private void fillServletHeader(RequestTemplate template) {
+    private void fillServletHeader(RequestTemplate template, Set<String> transferHeaderNames) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             return;
         }
+
         HttpServletRequest request = attributes.getRequest();
-        Enumeration<String> headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String name = headerNames.nextElement();
-            template.header(name, request.getHeader(name));
+        for (String transferHeaderName : transferHeaderNames) {
+            String headerValue = request.getHeader(transferHeaderName);
+            if (headerValue != null) {
+                template.header(transferHeaderName, headerValue);
+            }
         }
     }
 

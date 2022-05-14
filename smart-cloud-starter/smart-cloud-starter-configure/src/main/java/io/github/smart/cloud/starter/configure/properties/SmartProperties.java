@@ -15,10 +15,10 @@
  */
 package io.github.smart.cloud.starter.configure.properties;
 
-import lombok.Getter;
-import lombok.Setter;
 import io.github.smart.cloud.common.pojo.Base;
 import io.github.smart.cloud.starter.configure.constants.SmartConstant;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
@@ -58,6 +58,11 @@ public class SmartProperties extends Base {
      */
     @NestedConfigurationProperty
     private MockProperties mock = new MockProperties();
+    /**
+     * openfeign配置
+     */
+    @NestedConfigurationProperty
+    private OpenFeignProperties feign = new OpenFeignProperties();
     /**
      * 表字段加解密相关配置
      */
