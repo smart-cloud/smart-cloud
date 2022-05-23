@@ -67,7 +67,7 @@ public class MockAspectAutoConfiguration {
         }
 
         AspectJExpressionPointcut mockPointcut = new AspectJExpressionPointcut();
-        String mockExpression = AspectInterceptorUtil.getFinalExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil.getMethodExpression(annotations));
+        String mockExpression = AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil.getMethodExpression(annotations));
         mockPointcut.setExpression(mockExpression);
 
         DefaultBeanFactoryPointcutAdvisor mockAdvisor = new DefaultBeanFactoryPointcutAdvisor();

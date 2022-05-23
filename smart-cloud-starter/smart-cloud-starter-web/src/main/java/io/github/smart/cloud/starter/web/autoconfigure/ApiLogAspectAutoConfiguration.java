@@ -17,22 +17,14 @@ package io.github.smart.cloud.starter.web.autoconfigure;
 
 import io.github.smart.cloud.starter.configure.constants.SmartConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
-import io.github.smart.cloud.starter.core.business.util.AspectInterceptorUtil;
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
-import io.github.smart.cloud.starter.web.annotation.ApiLog;
 import io.github.smart.cloud.starter.web.aspect.interceptor.ServletApiLogInterceptor;
+import io.github.smart.cloud.starter.web.aspect.pointcut.ApiLogPointCut;
 import org.springframework.aop.Advisor;
-import org.springframework.aop.Pointcut;
-import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * api切面配置
@@ -46,15 +38,8 @@ import java.util.List;
 public class ApiLogAspectAutoConfiguration {
 
     @Bean
-    public Pointcut apiLogPointcut() {
-        List<Class<? extends Annotation>> annotations = new ArrayList<>(8);
-        annotations.addAll(AspectInterceptorUtil.getApiAnnotations());
-        annotations.add(ApiLog.class);
-        String logExpression = AspectInterceptorUtil.getFinalExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil.getMethodExpression(annotations));
-
-        AspectJExpressionPointcut apiLogPointcut = new AspectJExpressionPointcut();
-        apiLogPointcut.setExpression(logExpression);
-        return apiLogPointcut;
+    public ApiLogPointCut apiLogPointCut() {
+        return new ApiLogPointCut();
     }
 
     @Bean
@@ -66,15 +51,14 @@ public class ApiLogAspectAutoConfiguration {
      * api日志切面
      *
      * @param apiLogInterceptor
-     * @param apiLogPointcut
+     * @param apiLogPointCut
      * @return
      */
     @Bean
-    public Advisor apiLogAdvisor(final ServletApiLogInterceptor apiLogInterceptor,
-                                 final Pointcut apiLogPointcut) {
+    public Advisor apiLogAdvisor(final ServletApiLogInterceptor apiLogInterceptor, final ApiLogPointCut apiLogPointCut) {
         DefaultBeanFactoryPointcutAdvisor apiLogAdvisor = new DefaultBeanFactoryPointcutAdvisor();
         apiLogAdvisor.setAdvice(apiLogInterceptor);
-        apiLogAdvisor.setPointcut(apiLogPointcut);
+        apiLogAdvisor.setPointcut(apiLogPointCut);
 
         return apiLogAdvisor;
     }

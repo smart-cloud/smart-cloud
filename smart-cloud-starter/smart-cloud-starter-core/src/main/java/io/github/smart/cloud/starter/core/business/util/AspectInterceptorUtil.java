@@ -76,16 +76,16 @@ public class AspectInterceptorUtil {
      * @return
      */
     public static String getApiExpression(String[] basePackages) {
-        return getFinalExpression(basePackages, getMethodExpression(getApiAnnotations()));
+        return buildExpression(basePackages, getMethodExpression(getApiAnnotations()));
     }
 
     /**
-     * 获取切面表达式
+     * 根据包名构建切面表达式
      *
      * @param basePackages
      * @return
      */
-    public static String getFinalExpression(String[] basePackages, String expression) {
+    public static String buildExpression(String[] basePackages) {
         StringBuilder executions = new StringBuilder();
         for (int i = 0; i < basePackages.length; i++) {
             executions.append(PointcutPrimitive.EXECUTION.getName()).append("( * " + basePackages[i] + "..*.*(..))");
@@ -94,7 +94,17 @@ public class AspectInterceptorUtil {
             }
         }
 
-        return "(" + executions + ") && (" + expression + ")";
+        return executions.toString();
+    }
+
+    /**
+     * 构建切面表达式
+     *
+     * @param basePackages
+     * @return
+     */
+    public static String buildExpression(String[] basePackages, String expression) {
+        return "(" + buildExpression(basePackages) + ") && (" + expression + ")";
     }
 
     /**

@@ -52,7 +52,7 @@ public class FeignLogAspectAutoConfiguration {
     public Pointcut feignClientPointcut() {
         AspectJExpressionPointcut feignClientPointcut = new AspectJExpressionPointcut();
 
-        String feignExpression = AspectInterceptorUtil.getFinalExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil
+        String feignExpression = AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil
                 .getTypeExpression(Arrays.asList(FeignClient.class, SmartFeignClient.class)));
         feignClientPointcut.setExpression(feignExpression);
         return feignClientPointcut;
