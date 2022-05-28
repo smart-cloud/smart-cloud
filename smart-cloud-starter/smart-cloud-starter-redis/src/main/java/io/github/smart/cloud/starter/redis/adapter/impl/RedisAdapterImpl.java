@@ -16,13 +16,10 @@
 package io.github.smart.cloud.starter.redis.adapter.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import lombok.RequiredArgsConstructor;
 import io.github.smart.cloud.starter.redis.adapter.IRedisAdapter;
 import io.github.smart.cloud.utility.JacksonUtil;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.connection.RedisStringCommands;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
 
@@ -165,13 +162,10 @@ public class RedisAdapterImpl implements IRedisAdapter {
      */
     @Override
     public boolean setNx(String key, String value, long expireMillis) {
-        Boolean result = stringRedisTemplate.execute(new RedisCallback<Boolean>() {
-            @Override
-            public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
-                return connection.set(key.getBytes(StandardCharsets.UTF_8), value.getBytes(StandardCharsets.UTF_8), Expiration.milliseconds(expireMillis),
-                        RedisStringCommands.SetOption.SET_IF_ABSENT);
-            }
-        }, true);
+        Boolean result = stringRedisTemplate.execute(connection -> connection.set(key.getBytes(StandardCharsets.UTF_8),
+                value.getBytes(StandardCharsets.UTF_8),
+                Expiration.milliseconds(expireMillis),
+                RedisStringCommands.SetOption.SET_IF_ABSENT), true);
         return result != null && result;
     }
 

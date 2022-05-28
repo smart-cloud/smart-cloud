@@ -36,13 +36,11 @@ public class ApiLogPointCut extends StaticMethodMatcherPointcut {
 
     @Override
     public boolean matches(Method method, Class<?> c) {
-        AspectJExpressionPointcut packageAspectJExpressionPointcut = PackageAspectJExpressionPointcut.getInstance();
-        return // package是否匹配
-                packageAspectJExpressionPointcut.matches(method, c) &&
+        AspectJExpressionPointcut packageExpressionPointcut = PackageAspectExpressionPointcut.getInstance();
+        return  // package是否匹配
+                packageExpressionPointcut.matches(method, c) &&
                         // 类
-                        (c.isAnnotationPresent(RestController.class)
-                                || c.isAnnotationPresent(Controller.class))
-                        &&
+                        (c.isAnnotationPresent(RestController.class) || c.isAnnotationPresent(Controller.class)) &&
                         // 方法
                         (AnnotatedElementUtils.hasAnnotation(method, RequestMapping.class)
                                 || AnnotatedElementUtils.hasAnnotation(method, GetMapping.class)
@@ -59,21 +57,21 @@ public class ApiLogPointCut extends StaticMethodMatcherPointcut {
      * @author collin
      * @date 2022-07-23
      */
-    private static class PackageAspectJExpressionPointcut {
+    private static class PackageAspectExpressionPointcut {
 
-        private static volatile AspectJExpressionPointcut packageAspectJExpressionPointcut = null;
+        private static volatile AspectJExpressionPointcut packageExpressionPointcut = null;
 
         protected static AspectJExpressionPointcut getInstance() {
-            if (packageAspectJExpressionPointcut == null) {
-                synchronized (PackageAspectJExpressionPointcut.class) {
-                    if (packageAspectJExpressionPointcut == null) {
-                        packageAspectJExpressionPointcut = new AspectJExpressionPointcut();
-                        packageAspectJExpressionPointcut.setExpression(AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages()));
+            if (packageExpressionPointcut == null) {
+                synchronized (PackageAspectExpressionPointcut.class) {
+                    if (packageExpressionPointcut == null) {
+                        packageExpressionPointcut = new AspectJExpressionPointcut();
+                        packageExpressionPointcut.setExpression(AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages()));
                     }
                 }
             }
 
-            return packageAspectJExpressionPointcut;
+            return packageExpressionPointcut;
         }
     }
 
