@@ -34,9 +34,14 @@ import java.lang.reflect.Method;
  */
 public class ApiLogPointCut extends StaticMethodMatcherPointcut {
 
+    private AspectJExpressionPointcut packageExpressionPointcut;
+
+    public ApiLogPointCut() {
+        this.packageExpressionPointcut.setExpression(AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages()));
+    }
+
     @Override
     public boolean matches(Method method, Class<?> c) {
-        AspectJExpressionPointcut packageExpressionPointcut = PackageAspectExpressionPointcut.getInstance();
         return  // package是否匹配
                 packageExpressionPointcut.matches(method, c) &&
                         // 类
@@ -49,30 +54,6 @@ public class ApiLogPointCut extends StaticMethodMatcherPointcut {
                                 || AnnotatedElementUtils.hasAnnotation(method, PutMapping.class)
                                 || AnnotatedElementUtils.hasAnnotation(method, PatchMapping.class)
                                 || AnnotatedElementUtils.hasAnnotation(method, ApiLog.class));
-    }
-
-    /**
-     * package匹配切面
-     *
-     * @author collin
-     * @date 2022-07-23
-     */
-    private static class PackageAspectExpressionPointcut {
-
-        private static volatile AspectJExpressionPointcut packageExpressionPointcut = null;
-
-        protected static AspectJExpressionPointcut getInstance() {
-            if (packageExpressionPointcut == null) {
-                synchronized (PackageAspectExpressionPointcut.class) {
-                    if (packageExpressionPointcut == null) {
-                        packageExpressionPointcut = new AspectJExpressionPointcut();
-                        packageExpressionPointcut.setExpression(AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages()));
-                    }
-                }
-            }
-
-            return packageExpressionPointcut;
-        }
     }
 
 }
