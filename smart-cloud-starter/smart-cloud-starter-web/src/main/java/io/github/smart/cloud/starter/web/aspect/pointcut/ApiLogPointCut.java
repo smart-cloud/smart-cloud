@@ -34,10 +34,11 @@ import java.lang.reflect.Method;
  */
 public class ApiLogPointCut extends StaticMethodMatcherPointcut {
 
-    private AspectJExpressionPointcut packageExpressionPointcut;
+    private final AspectJExpressionPointcut packageExpressionPointcut;
 
     public ApiLogPointCut() {
-        this.packageExpressionPointcut.setExpression(AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages()));
+        packageExpressionPointcut = new AspectJExpressionPointcut();
+        packageExpressionPointcut.setExpression(AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages()));
     }
 
     @Override
