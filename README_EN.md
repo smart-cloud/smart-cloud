@@ -53,6 +53,7 @@ smart-cloud
 └── smart-could-starter -- frame encapsulation
      ├── smart-cloud-starter-configure -- Framework configuration property encapsulation
      ├── smart-cloud-starter-core -- Framework core (custom annotations, exception encapsulation, request and response public parameters, business-related tool classes)
+     ├── smart-cloud-starter-elasticsearch-dynamic-datasource -- elasticsearch dynamic data source
      ├── smart-cloud-starter-feign -- feign package (removable and reusable, faceted)
      ├── smart-cloud-starter-global-id -- distributed id generator
      ├── smart-cloud-starter-job -- Scheduled task
