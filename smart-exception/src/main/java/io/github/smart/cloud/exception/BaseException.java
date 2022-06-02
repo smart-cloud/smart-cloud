@@ -34,6 +34,10 @@ public abstract class BaseException extends RuntimeException {
      * 提示信息
      */
     private String message;
+    /**
+     * 提示信息参数
+     */
+    private Object[] args;
 
     protected BaseException() {
     }
@@ -58,6 +62,14 @@ public abstract class BaseException extends RuntimeException {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public Object[] getArgs() {
+        return args;
+    }
+
+    public void setArgs(Object[] args) {
+        this.args = args;
     }
 
     @Override

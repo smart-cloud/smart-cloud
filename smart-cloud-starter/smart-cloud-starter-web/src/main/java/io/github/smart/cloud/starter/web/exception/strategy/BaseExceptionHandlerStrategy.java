@@ -21,6 +21,7 @@ import io.github.smart.cloud.exception.BaseException;
 import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
 import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import io.github.smart.cloud.utility.spring.I18nUtil;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author collin
@@ -38,7 +39,11 @@ public class BaseExceptionHandlerStrategy implements IExceptionHandlerStrategy {
     public ResponseHead transRespHead(Throwable e) {
         if (e instanceof BaseException) {
             BaseException ex = (BaseException) e;
-            return RespHeadUtil.of(ex.getCode(), I18nUtil.getMessage(ex.getMessage()));
+            String message = e.getMessage();
+            if (StringUtils.isBlank(message)) {
+                message = I18nUtil.getMessage(ex.getCode(), ex.getArgs());
+            }
+            return RespHeadUtil.of(ex.getCode(), message);
         }
 
         return RespHeadUtil.of(CommonReturnCodes.SERVER_ERROR, e.getMessage());
