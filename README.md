@@ -210,3 +210,6 @@ smart-constants | 502 | 获取Response失败
 smart-constants | 503 | rpc请求失败
 smart-constants | 504 | rpc返回结果异常
 smart-cloud-starter-web | 2001 | 待校验参数object不能为null
+smart-cloud-starter-elasticsearch-dynamic-datasource | 3001 | elasticsearch ds key不存在
+smart-cloud-starter-elasticsearch-dynamic-datasource | 3002 | elasticsearch 数据源未找到
+smart-cloud-starter-elasticsearch-dynamic-datasource | 3003 | elasticsearch 动态数据源属性未配置

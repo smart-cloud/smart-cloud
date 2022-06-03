@@ -210,3 +210,6 @@ smart-constants | 502 | Failed to get Response
 smart-constants | 503 | rpc request failed
 smart-constants | 504 | rpc returns abnormal results
 smart-cloud-starter-web | 2001 | The parameter object to be verified cannot be null
+smart-cloud-starter-elasticsearch-dynamic-datasource | 3001 | elasticsearch ds key does not exist
+smart-cloud-starter-elasticsearch-dynamic-datasource | 3002 | elasticsearch data source not found
+smart-cloud-starter-elasticsearch-dynamic-datasource | 3003 | elasticsearch dynamic data source properties are not configured
