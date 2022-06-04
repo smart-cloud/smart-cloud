@@ -21,7 +21,6 @@ import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.exception.
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.properties.DynamicElasticsearchProperties;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.properties.ElasticsearchProperties;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.elasticsearch.client.RestClient;
@@ -74,7 +73,7 @@ public class DynamicRestHighLevelClient implements InitializingBean, DisposableB
     @Override
     public void afterPropertiesSet() throws Exception {
         Map<String, ElasticsearchProperties> datasources = dynamicElasticsearchProperties.getDatasources();
-        if (MapUtils.isEmpty(datasources)) {
+        if (datasources == null || datasources.isEmpty()) {
             throw new DynamicElasticsearchPropertiesNotConfigException();
         }
 
@@ -100,21 +99,20 @@ public class DynamicRestHighLevelClient implements InitializingBean, DisposableB
     }
 
     private RestClientBuilder elasticsearchRestClientBuilder(RestClientBuilderCustomizer builderCustomizer, ElasticsearchProperties properties) {
-        Stream<RestClientBuilderCustomizer> builderCustomizers = Stream.of(builderCustomizer);
         HttpHost[] hosts = properties.getUris().stream().map(this::createHttpHost).toArray(HttpHost[]::new);
         RestClientBuilder builder = RestClient.builder(hosts);
         builder.setHttpClientConfigCallback(httpClientBuilder -> {
-            builderCustomizers.forEach(customizer -> customizer.customize(httpClientBuilder));
+            Stream.of(builderCustomizer).forEach(customizer -> customizer.customize(httpClientBuilder));
             return httpClientBuilder;
         });
         builder.setRequestConfigCallback(requestConfigBuilder -> {
-            builderCustomizers.forEach(customizer -> customizer.customize(requestConfigBuilder));
+            Stream.of(builderCustomizer).forEach(customizer -> customizer.customize(requestConfigBuilder));
             return requestConfigBuilder;
         });
         if (properties.getPathPrefix() != null) {
             builder.setPathPrefix(properties.getPathPrefix());
         }
-        builderCustomizers.forEach(customizer -> customizer.customize(builder));
+        Stream.of(builderCustomizer).forEach(customizer -> customizer.customize(builder));
         return builder;
     }
 

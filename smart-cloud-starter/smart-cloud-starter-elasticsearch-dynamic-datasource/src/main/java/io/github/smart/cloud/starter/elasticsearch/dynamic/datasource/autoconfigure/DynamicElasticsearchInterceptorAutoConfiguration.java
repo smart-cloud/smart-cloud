@@ -1,8 +1,5 @@
 package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.autoconfigure;
 
-import com.google.common.collect.Lists;
-import io.github.smart.cloud.starter.core.business.util.AspectInterceptorUtil;
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.annotation.ES;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.interceptor.DynamicElasticsearchInterceptor;
 import org.springframework.aop.Advisor;
@@ -27,10 +24,8 @@ public class DynamicElasticsearchInterceptorAutoConfiguration {
 
     @Bean
     public Advisor dynamicElasticsearchAdvisor(final DynamicElasticsearchInterceptor dynamicElasticsearchInterceptor) {
-        String dynamicElasticsearchExpression = AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages(),
-                AspectInterceptorUtil.getMethodExpression(Lists.newArrayList(ES.class)));
         AspectJExpressionPointcut dynamicElasticsearchPointcut = new AspectJExpressionPointcut();
-        dynamicElasticsearchPointcut.setExpression(dynamicElasticsearchExpression);
+        dynamicElasticsearchPointcut.setExpression(String.format("@annotation(%s)", ES.class.getName()));
 
         DefaultBeanFactoryPointcutAdvisor dynamicElasticsearchAdvisor = new DefaultBeanFactoryPointcutAdvisor();
         dynamicElasticsearchAdvisor.setAdvice(dynamicElasticsearchInterceptor);

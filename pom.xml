@@ -72,6 +72,7 @@
         <jacoco-maven-plugin>0.8.7</jacoco-maven-plugin>
         <embedded-redis>0.7.3</embedded-redis>
         <rabbitmq-mock>1.1.1</rabbitmq-mock>
+        <elasticsearch.mock>5.13.2</elasticsearch.mock>
     </properties>
 
     <dependencyManagement>
@@ -490,6 +491,13 @@
                 <groupId>com.github.fridujo</groupId>
                 <artifactId>rabbitmq-mock</artifactId>
                 <version>${rabbitmq-mock}</version>
+            </dependency>
+
+            <!--elasticsearch集成测试-->
+            <dependency>
+                <groupId>org.mock-server</groupId>
+                <artifactId>mockserver-netty-no-dependencies</artifactId>
+                <version>${elasticsearch.mock}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
