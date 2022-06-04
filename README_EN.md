@@ -93,6 +93,7 @@ name | role description
 [h2](http://www.h2database.com/html/tutorial.html) | database integration test
 [embedded-redis](https://github.com/ozimov/embedded-redis) | redis integration test
 [rabbitmq-mock](https://github.com/fridujo/rabbitmq-mock) | rabbitmq integration test
+[embedded-elasticsearch](https://github.com/allegro/embedded-elasticsearch) | elasticsearch integration test
 [freemarker](https://freemarker.apache.org/) | code template generation
 [yapi](https://github.com/YMFE/yapi)、[idea yapi upload plugin](https://github.com/smart-cloud/yapi_upload) | api documentation
 [jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot) | Encryption and decryption of sensitive data in configuration files

@@ -93,6 +93,7 @@ smart-cloud
 [h2](http://www.h2database.com/html/tutorial.html) | 数据库集成测试
 [embedded-redis](https://github.com/ozimov/embedded-redis) | redis集成测试
 [rabbitmq-mock](https://github.com/fridujo/rabbitmq-mock) | rabbitmq集成测试
+[embedded-elasticsearch](https://github.com/allegro/embedded-elasticsearch) | elasticsearch集成测试
 [freemarker](https://freemarker.apache.org/) | 用于代码生成
 [yapi](https://github.com/YMFE/yapi)、[idea yapi upload plugin](https://github.com/smart-cloud/yapi_upload) | 接口文档
 [jasypt-spring-boot](https://github.com/ulisesbocchio/jasypt-spring-boot) | 配置文件中敏感数据加解密
