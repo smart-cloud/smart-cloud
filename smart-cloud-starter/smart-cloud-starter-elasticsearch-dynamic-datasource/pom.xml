@@ -79,8 +79,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.mock-server</groupId>
-            <artifactId>mockserver-netty-no-dependencies</artifactId>
+            <groupId>pl.allegro.tech</groupId>
+            <artifactId>embedded-elasticsearch</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
