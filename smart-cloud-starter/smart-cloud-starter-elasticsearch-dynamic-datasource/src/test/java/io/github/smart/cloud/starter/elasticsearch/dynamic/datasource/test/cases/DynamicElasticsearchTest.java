@@ -1,12 +1,24 @@
+/*
+ * Copyright © 2019 collin (1634753825@qq.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.cases;
 
-import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.core.DynamicRestHighLevelClient;
-import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.prepare.constants.EsDatasources;
+import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.prepare.service.OrderService;
+import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.prepare.service.ProductService;
 import org.assertj.core.api.Assertions;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
-import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
-import org.elasticsearch.client.RequestOptions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,46 +27,24 @@ import java.io.IOException;
 public class DynamicElasticsearchTest extends AbstractIntegrationTest {
 
     @Autowired
-    private DynamicRestHighLevelClient dynamicRestHighLevelClient;
+    private OrderService orderService;
+    @Autowired
+    private ProductService productService;
 
     @Test
-    void test() {
-        boolean tag = existIndex("risk_product");
-        System.out.println(tag);
-    }
+    void testCreate() throws IOException {
+        String indexName = "risk_order";
+        CreateIndexResponse createOrderIndexResponse = orderService.createIndex(indexName);
+        Assertions.assertThat(createOrderIndexResponse).isNotNull();
+        Assertions.assertThat(createOrderIndexResponse.isAcknowledged()).isTrue();
 
-    public CreateIndexResponse createIndex(String indexName) throws IOException {
-        CreateIndexResponse response;
-        if(existIndex(indexName)){
-            response = new CreateIndexResponse(false, false, indexName);
-            return response;
-        }
+        CreateIndexResponse createOrderIndexResponse2 = orderService.createIndex(indexName);
+        Assertions.assertThat(createOrderIndexResponse2).isNotNull();
+        Assertions.assertThat(createOrderIndexResponse2.isAcknowledged()).isFalse();
 
-        CreateIndexRequest request = new CreateIndexRequest(indexName);
-        response = dynamicRestHighLevelClient.getRestHighLevelClient(EsDatasources.PRODUCT).indices().create(request, RequestOptions.DEFAULT);
-        return response;
-    }
-
-    /**
-     * 判断索引是否存在
-     * @param indexName 要判断是否存在的索引的名字，传入如： testindex
-     * @return 返回是否存在。
-     * 		<ul>
-     * 			<li>true:存在</li>
-     * 			<li>false:不存在</li>
-     * 		</ul>
-     */
-    public boolean existIndex(String indexName){
-        GetIndexRequest request = new GetIndexRequest();
-        request.indices(indexName);
-        boolean exists;
-        try {
-            exists = dynamicRestHighLevelClient.getRestHighLevelClient(EsDatasources.PRODUCT).indices().exists(request, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return exists;
+        CreateIndexResponse createProductIndexResponse = productService.createIndex("risk_product");
+        Assertions.assertThat(createProductIndexResponse).isNotNull();
+        Assertions.assertThat(createProductIndexResponse.isAcknowledged()).isTrue();
     }
 
 }

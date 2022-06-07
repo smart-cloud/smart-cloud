@@ -17,6 +17,7 @@ package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.autoconfi
 
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.core.DynamicRestHighLevelClient;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.properties.DynamicElasticsearchProperties;
+import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.util.ElasticsearchClientUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +38,10 @@ public class ElasticsearchDynamicDatasourceAutoConfiguration {
 
     @Bean
     public DynamicRestHighLevelClient dynamicRestHighLevelClient(final DynamicElasticsearchProperties dynamicElasticsearchProperties) {
-        return new DynamicRestHighLevelClient(dynamicElasticsearchProperties);
+        DynamicRestHighLevelClient dynamicRestHighLevelClient = new DynamicRestHighLevelClient(dynamicElasticsearchProperties);
+
+        ElasticsearchClientUtil.setDynamicRestHighLevelClient(dynamicRestHighLevelClient);
+        return dynamicRestHighLevelClient;
     }
 
 }

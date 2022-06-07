@@ -4,3 +4,6 @@ smart:
       # 商品
       product:
         uris: http://localhost:9200
+      # 订单
+      order:
+        uris: http://localhost:9201

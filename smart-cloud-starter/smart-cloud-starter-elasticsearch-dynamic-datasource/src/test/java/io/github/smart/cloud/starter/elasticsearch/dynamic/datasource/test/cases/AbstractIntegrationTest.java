@@ -17,26 +17,36 @@ package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.case
 
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.prepare.Application;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.support.ElasticsearchMockServer;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic;
 
 import java.io.IOException;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
 public abstract class AbstractIntegrationTest {
+    private static EmbeddedElastic embeddedElasticProduct;
+    private static EmbeddedElastic embeddedElasticOrder;
 
     @BeforeAll
     static void startElasticsearchServer() throws IOException, InterruptedException {
-        ElasticsearchMockServer.startMockServer(9200);
+        embeddedElasticProduct = ElasticsearchMockServer.startMockServer(9200, 9300, FileUtils.getTempDirectoryPath() + "/product");
+        embeddedElasticOrder = ElasticsearchMockServer.startMockServer(9201, 9301, FileUtils.getTempDirectoryPath() + "/order");
     }
 
     @AfterAll
     static void stopElasticsearch() {
-        ElasticsearchMockServer.stop();
+        if (embeddedElasticProduct != null) {
+            embeddedElasticProduct.stop();
+        }
+        if (embeddedElasticOrder != null) {
+            embeddedElasticOrder.stop();
+        }
     }
 
 }
