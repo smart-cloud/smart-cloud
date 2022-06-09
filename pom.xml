@@ -28,6 +28,32 @@
     <artifactId>smart-cloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <description>基于springboot与springcloud的脚手架，支持服务合并部署与拆分部署、接口加解密签名、日志数据 脱敏、接口数据mock、接口文档自动生成、请求幂等校验、接口日志、sql日志切面打印、分表分库分布式事务、国际化语言等</description>
+
+    <url>https://smart-cloud.github.io/smart-cloud</url>
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>collin</name>
+            <email>1634753825@qq.com</email>
+            <organization>https://github.com/smart-cloud/smart-cloud</organization>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/smart-cloud/smart-cloud.git</connection>
+        <developerConnection>scm:git:https://github.com/smart-cloud/smart-cloud.git</developerConnection>
+        <url>https://github.com/smart-cloud/smart-cloud.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <modules>
         <module>smart-api-core</module>
@@ -523,6 +549,8 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <testSource>${java.version}</testSource>
+                    <testTarget>${java.version}</testTarget>
                     <compilerVersion>${java.version}</compilerVersion>
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <debug>true</debug>
@@ -664,6 +692,15 @@
                     </rules> -->
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
@@ -685,4 +722,17 @@
             <url>https://maven.aliyun.com/repository/public</url>
         </repository>
     </repositories>
+
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
 </project>
