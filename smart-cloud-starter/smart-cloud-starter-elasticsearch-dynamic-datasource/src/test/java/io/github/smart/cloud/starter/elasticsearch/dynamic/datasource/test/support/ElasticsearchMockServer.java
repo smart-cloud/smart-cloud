@@ -34,7 +34,7 @@ public class ElasticsearchMockServer {
                 .withSetting(PopularProperties.TRANSPORT_TCP_PORT, tcpPort)
                 .withInstallationDirectory(new File(installationDirectory))
                 .withEsJavaOpts("-Xms128m -Xmx512m")
-                .withStartTimeout(30, TimeUnit.SECONDS)
+                .withStartTimeout(2, TimeUnit.MINUTES)
                 .build()
                 .start();
         return embeddedElastic;
