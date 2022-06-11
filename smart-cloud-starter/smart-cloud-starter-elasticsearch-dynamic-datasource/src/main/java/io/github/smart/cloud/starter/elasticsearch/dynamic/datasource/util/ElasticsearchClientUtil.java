@@ -18,10 +18,10 @@ package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.util;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.core.DynamicRestHighLevelClient;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
-import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
-import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.CreateIndexResponse;
+import org.elasticsearch.client.indices.GetIndexRequest;
 
 import java.io.IOException;
 
@@ -50,8 +50,7 @@ public class ElasticsearchClientUtil {
             return new CreateIndexResponse(false, false, indexName);
         }
 
-        CreateIndexRequest request = new CreateIndexRequest(indexName);
-        return dynamicRestHighLevelClient.determine().indices().create(request, RequestOptions.DEFAULT);
+        return dynamicRestHighLevelClient.determine().indices().create(new CreateIndexRequest(indexName), RequestOptions.DEFAULT);
     }
 
     /**
@@ -65,16 +64,12 @@ public class ElasticsearchClientUtil {
      * </ul>
      */
     public static boolean existIndex(String indexName) {
-        GetIndexRequest request = new GetIndexRequest();
-        request.indices(indexName);
-        boolean exists;
         try {
-            exists = dynamicRestHighLevelClient.determine().indices().exists(request, RequestOptions.DEFAULT);
+            return dynamicRestHighLevelClient.determine().indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
         } catch (IOException e) {
             log.error("indexName={}", indexName, e);
             return false;
         }
-        return exists;
     }
 
 }

@@ -18,7 +18,7 @@ package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.prep
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.annotation.ES;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.prepare.constants.EsDatasources;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.util.ElasticsearchClientUtil;
-import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

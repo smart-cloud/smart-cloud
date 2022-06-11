@@ -25,6 +25,12 @@ import org.springframework.boot.context.properties.PropertyMapper;
 
 import java.time.Duration;
 
+/**
+ * client属性转换
+ *
+ * @author collin
+ * @date 2022-06-11
+ */
 @RequiredArgsConstructor
 public class SmartRestClientBuilderCustomizer implements RestClientBuilderCustomizer {
 

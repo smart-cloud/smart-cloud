@@ -24,6 +24,12 @@ import org.springframework.util.StringUtils;
 
 import java.net.URI;
 
+/**
+ *es凭据
+ *
+ * @author collin
+ * @date 2022-06-11
+ */
 public class PropertiesCredentialsProvider extends BasicCredentialsProvider {
 
     public PropertiesCredentialsProvider(ElasticsearchProperties properties) {

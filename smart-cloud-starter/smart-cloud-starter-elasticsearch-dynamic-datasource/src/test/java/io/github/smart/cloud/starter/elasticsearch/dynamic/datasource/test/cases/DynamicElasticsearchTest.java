@@ -18,7 +18,7 @@ package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.case
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.prepare.service.OrderService;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.test.prepare.service.ProductService;
 import org.assertj.core.api.Assertions;
-import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
