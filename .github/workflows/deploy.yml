@@ -27,9 +27,12 @@ jobs:
       # 3. 发布到Maven中央仓库
       - name: Publish to Maven Central Repo
         # 这里用到了其他人写的action脚本，详细可以去看他的文档。
-        uses: samuelmeuli/action-maven-publish@v1
+        uses: samuelmeuli/action-maven-publish@v1.4.0
         with:
           gpg_private_key: ${{ secrets.GPG_SECRET }}
           gpg_passphrase: ${{ secrets.GPG_PASSWORD }}
           nexus_username: ${{ secrets.OSSRH_USER }}
           nexus_password: ${{ secrets.OSSRH_PASSWORD }}
+          maven_goals_phases: clean deploy
+          maven_args: -Dmaven.test.skip=true -T 8
+          maven_profiles: deploy
