@@ -22,7 +22,7 @@
     <parent>
         <artifactId>smart-cloud</artifactId>
         <groupId>io.github.smart-cloud</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>smart-constants</artifactId>

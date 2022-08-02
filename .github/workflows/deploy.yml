@@ -24,8 +24,6 @@ jobs:
           server-username: ${{ secrets.OSSRH_USER }}
           server-password: ${{ secrets.OSSRH_PASSWORD }}
           gpg-passphrase:  ${{ secrets.GPG_PASSWORD }}
-      - name: Update version in pom.xml (Release only)
-        run: mvn -B versions:set -DnewVersion=${{github.event.release.tag_name}} -DgenerateBackupPoms=false
       # 3. 发布到Maven中央仓库
       - name: Publish to Maven Central Repo
         # 这里用到了其他人写的action脚本，详细可以去看他的文档。

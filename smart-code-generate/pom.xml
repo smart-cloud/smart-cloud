@@ -24,7 +24,7 @@
     <parent>
         <groupId>io.github.smart-cloud</groupId>
         <artifactId>smart-cloud</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>smart-code-generate</artifactId>
 
