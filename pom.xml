@@ -31,12 +31,13 @@
     <name>${project.artifactId}</name>
     <description>基于springboot与springcloud的脚手架，支持服务合并部署与拆分部署、接口加解密签名、日志数据 脱敏、接口数据mock、接口文档自动生成、请求幂等校验、接口日志、sql日志切面打印、分表分库分布式事务、国际化语言等</description>
 
-    <url>https://smart-cloud.github.io/smart-cloud</url>
+    <url>https://github.com/smart-cloud/smart-cloud</url>
     <licenses>
         <license>
             <name>Apache License 2.0</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0</url>
             <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
 
@@ -44,7 +45,7 @@
         <developer>
             <name>collin</name>
             <email>1634753825@qq.com</email>
-            <organization>https://github.com/smart-cloud/smart-cloud</organization>
+            <organization>https://github.com/smart-cloud</organization>
         </developer>
     </developers>
 
@@ -537,6 +538,164 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <testSource>${java.version}</testSource>
+                    <testTarget>${java.version}</testTarget>
+                    <compilerVersion>${java.version}</compilerVersion>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <debug>true</debug>
+                    <optimize>true</optimize>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <!-- 生成source源码包 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>4.1</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <licenseSets>
+                        <licenseSet>
+                            <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+                            <excludes>
+                                <exclude>README.md</exclude>
+                                <exclude>src/test/resources/**</exclude>
+                                <exclude>src/main/resources/**</exclude>
+                            </excludes>
+                        </licenseSet>
+                    </licenseSets>
+                    <properties>
+                        <owner>collin</owner>
+                        <email>1634753825@qq.com</email>
+                        <year>2019</year>
+                    </properties>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${maven-pmd-plugin}</version>
+                <configuration>
+                    <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                    <!--扫描级别，小于等于这个级别的错误代码将不通过扫描。不配默认是5-->
+                    <minimumPriority>5</minimumPriority>
+                    <printFailingErrors>true</printFailingErrors>
+                    <linkXRef>true</linkXRef>
+                    <rulesets>
+                        <ruleset>rulesets/java/ali-comment.xml</ruleset>
+                        <ruleset>rulesets/java/ali-concurrent.xml</ruleset>
+                        <ruleset>rulesets/java/ali-constant.xml</ruleset>
+                        <ruleset>rulesets/java/ali-exception.xml</ruleset>
+                        <ruleset>rulesets/java/ali-flowcontrol.xml</ruleset>
+                        <ruleset>rulesets/java/ali-naming.xml</ruleset>
+                        <ruleset>rulesets/java/ali-oop.xml</ruleset>
+                        <ruleset>rulesets/java/ali-orm.xml</ruleset>
+                        <ruleset>rulesets/java/ali-other.xml</ruleset>
+                        <ruleset>rulesets/java/ali-set.xml</ruleset>
+                    </rulesets>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.alibaba.p3c</groupId>
+                        <artifactId>p3c-pmd</artifactId>
+                        <version>${p3c-pmd}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- 检查代码覆盖率 -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco-maven-plugin}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- rules里面指定覆盖规则 -->
+                    <!-- <rules>
+                        <rule implementation="org.jacoco.maven.RuleConfiguration">
+                            <element>BUNDLE</element>
+                            <limits> 指定行覆盖到85%
+                                <limit implementation="org.jacoco.report.check.Limit">
+                                    <counter>LINE</counter>
+                                    <value>COVEREDRATIO</value>
+                                    <minimum>0.85</minimum>
+                                </limit> 指定分支覆盖到90%
+                                <limit implementation="org.jacoco.report.check.Limit">
+                                    <counter>BRANCH</counter>
+                                    <value>COVEREDRATIO</value>
+                                    <minimum>0.9</minimum>
+                                </limit> 指定方法覆盖到85%
+                                <limit implementation="org.jacoco.report.check.Limit">
+                                    <counter>METHOD</counter>
+                                    <value>COVEREDRATIO</value>
+                                    <minimum>0.85</minimum>
+                                </limit> 指定类覆盖到90%，不能遗失任何类
+                                <limit implementation="org.jacoco.report.check.Limit">
+                                    <counter>CLASS</counter>
+                                    <value>MISSEDCOUNT</value>
+                                    <maximum>0.1</maximum>
+                                </limit>
+                            </limits>
+                        </rule>
+                    </rules> -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
             <id>deploy</id>
@@ -544,30 +703,33 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <configuration>
-                            <source>${java.version}</source>
-                            <target>${java.version}</target>
-                            <testSource>${java.version}</testSource>
-                            <testTarget>${java.version}</testTarget>
-                            <compilerVersion>${java.version}</compilerVersion>
-                            <encoding>${project.build.sourceEncoding}</encoding>
-                            <debug>true</debug>
-                            <optimize>true</optimize>
-                            <showWarnings>true</showWarnings>
-                        </configuration>
-                    </plugin>
-                    <!-- 生成source源码包 -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <show>private</show>
+                            <nohelp>true</nohelp>
+                            <charset>UTF-8</charset>
+                            <encoding>UTF-8</encoding>
+                            <docencoding>UTF-8</docencoding>
+                            <!-- jdk1.8要加上，1.7要去掉，否则会报错 -->
+                            <additionalJOptions>
+                                <additionalJOption>-Xdoclint:none</additionalJOption>
+                            </additionalJOptions>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
@@ -576,139 +738,25 @@
                     </plugin>
 
                     <plugin>
-                        <groupId>com.mycila</groupId>
-                        <artifactId>license-maven-plugin</artifactId>
-                        <version>4.1</version>
-                        <executions>
-                            <execution>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>format</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <licenseSets>
-                                <licenseSet>
-                                    <header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
-                                    <excludes>
-                                        <exclude>README.md</exclude>
-                                        <exclude>src/test/resources/**</exclude>
-                                        <exclude>src/main/resources/**</exclude>
-                                    </excludes>
-                                </licenseSet>
-                            </licenseSets>
-                            <properties>
-                                <owner>collin</owner>
-                                <email>1634753825@qq.com</email>
-                                <year>2019</year>
-                            </properties>
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <version>${maven-pmd-plugin}</version>
-                        <configuration>
-                            <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
-                            <!--扫描级别，小于等于这个级别的错误代码将不通过扫描。不配默认是5-->
-                            <minimumPriority>5</minimumPriority>
-                            <printFailingErrors>true</printFailingErrors>
-                            <linkXRef>true</linkXRef>
-                            <rulesets>
-                                <ruleset>rulesets/java/ali-comment.xml</ruleset>
-                                <ruleset>rulesets/java/ali-concurrent.xml</ruleset>
-                                <ruleset>rulesets/java/ali-constant.xml</ruleset>
-                                <ruleset>rulesets/java/ali-exception.xml</ruleset>
-                                <ruleset>rulesets/java/ali-flowcontrol.xml</ruleset>
-                                <ruleset>rulesets/java/ali-naming.xml</ruleset>
-                                <ruleset>rulesets/java/ali-oop.xml</ruleset>
-                                <ruleset>rulesets/java/ali-orm.xml</ruleset>
-                                <ruleset>rulesets/java/ali-other.xml</ruleset>
-                                <ruleset>rulesets/java/ali-set.xml</ruleset>
-                            </rulesets>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.alibaba.p3c</groupId>
-                                <artifactId>p3c-pmd</artifactId>
-                                <version>${p3c-pmd}</version>
-                            </dependency>
-                        </dependencies>
-                    </plugin>
-
-                    <!-- 检查代码覆盖率 -->
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>${jacoco-maven-plugin}</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>prepare-agent</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>report</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>report</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <!-- rules里面指定覆盖规则 -->
-                            <!-- <rules>
-                                <rule implementation="org.jacoco.maven.RuleConfiguration">
-                                    <element>BUNDLE</element>
-                                    <limits> 指定行覆盖到85%
-                                        <limit implementation="org.jacoco.report.check.Limit">
-                                            <counter>LINE</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.85</minimum>
-                                        </limit> 指定分支覆盖到90%
-                                        <limit implementation="org.jacoco.report.check.Limit">
-                                            <counter>BRANCH</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.9</minimum>
-                                        </limit> 指定方法覆盖到85%
-                                        <limit implementation="org.jacoco.report.check.Limit">
-                                            <counter>METHOD</counter>
-                                            <value>COVEREDRATIO</value>
-                                            <minimum>0.85</minimum>
-                                        </limit> 指定类覆盖到90%，不能遗失任何类
-                                        <limit implementation="org.jacoco.report.check.Limit">
-                                            <counter>CLASS</counter>
-                                            <value>MISSEDCOUNT</value>
-                                            <maximum>0.1</maximum>
-                                        </limit>
-                                    </limits>
-                                </rule>
-                            </rules> -->
-                        </configuration>
-                    </plugin>
-
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
+
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
     </profiles>
 
@@ -739,7 +787,7 @@
         </snapshotRepository>
         <repository>
             <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
     </distributionManagement>
 
