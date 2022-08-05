@@ -28,7 +28,7 @@
     <artifactId>smart-cloud</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-    <name>${project.artifactId}</name>
+    <name>smart-cloud</name>
     <description>基于springboot与springcloud的脚手架，支持服务合并部署与拆分部署、接口加解密签名、日志数据 脱敏、接口数据mock、接口文档自动生成、请求幂等校验、接口日志、sql日志切面打印、分表分库分布式事务、国际化语言等</description>
 
     <url>https://github.com/smart-cloud/smart-cloud</url>
@@ -72,6 +72,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <smart-cloud.version>1.0.0</smart-cloud.version>
         <spring.boot>2.6.7</spring.boot>
         <spring-cloud>2021.0.2</spring-cloud>
         <spring-cloud-alibaba>2021.0.1.0</spring-cloud-alibaba>
@@ -108,172 +109,172 @@
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-api-core</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-api-annotation</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-user-context</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-mask</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-utility</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-common-pojo</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-common-web</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-constants</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-exception</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-core</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-elasticsearch-dynamic-datasource</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-code-generate</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-configure</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-job</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-locale</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-log4j2</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-method-log</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-mock</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-mp-shardingjdbc</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-mybatis-plus</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-rabbitmq</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-redis</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-feign</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-global-id</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-web</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-test-core</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-test-mock-rabbitmq</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-test-mock-redis</artifactId>
-                <version>${project.version}</version>
+                <version>${smart-cloud.version}</version>
                 <scope>test</scope>
             </dependency>
             <!-- 私有jar end -->
