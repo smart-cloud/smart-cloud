@@ -133,7 +133,7 @@ public class DbTableUtil {
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
         } finally {
-            log.warn("queryTables|tableName={}, result={}", tableName, JacksonUtil.toJson(tablesWithPrefix));
+            log.debug("queryTables|tableName={}, result={}", tableName, JacksonUtil.toJson(tablesWithPrefix));
         }
         return tablesWithPrefix;
     }
