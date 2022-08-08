@@ -32,6 +32,9 @@ import java.sql.SQLException;
 @Slf4j
 public class DbUtil {
 
+    private DbUtil() {
+    }
+
     /**
      * 创建数据库（如果不存在）
      *

@@ -17,7 +17,6 @@ package io.github.smart.cloud.starter.mybatis.plus.util;
 
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.utility.JacksonUtil;
-import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
@@ -31,9 +30,11 @@ import java.util.List;
  * @author collin
  * @date 2019-06-04
  */
-@UtilityClass
 @Slf4j
 public class DbTableUtil {
+
+    private DbTableUtil() {
+    }
 
     /**
      * 复制表结构
