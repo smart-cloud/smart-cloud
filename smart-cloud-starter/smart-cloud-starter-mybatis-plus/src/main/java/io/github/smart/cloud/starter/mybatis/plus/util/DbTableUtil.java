@@ -15,10 +15,10 @@
  */
 package io.github.smart.cloud.starter.mybatis.plus.util;
 
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.utility.JacksonUtil;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -36,7 +36,7 @@ import java.util.List;
 public class DbTableUtil {
 
     /**
-     * （在当前库）复制表结构
+     * 复制表结构
      *
      * @param sourceTableName 被复制的表名
      * @param targetTableName 复制后的表名
@@ -58,18 +58,22 @@ public class DbTableUtil {
     }
 
     /**
-     * （在当前库）创建表（如果不存在）
+     * 创建表（如果不存在）
      *
+     * @param targetDbName    数据库名（传null，则表示不限制）
      * @param sourceTableName 源表
      * @param targetTableName 待创建的表
      * @param dataSource
      */
-    public static boolean createTableIfAbsent(String sourceTableName, String targetTableName,
+    public static boolean createTableIfAbsent(String targetDbName, String sourceTableName, String targetTableName,
                                               DataSource dataSource) {
         boolean result = true;
         try {
-            boolean exist = existTable(targetTableName, dataSource);
+            boolean exist = existTable(targetDbName, targetTableName, dataSource);
             if (!exist) {
+                if (targetDbName != null) {
+                    targetTableName = targetDbName + SymbolConstant.DOT + targetTableName;
+                }
                 result = copyTableSchema(sourceTableName, targetTableName, dataSource);
             }
         } catch (Exception e) {
@@ -80,45 +84,48 @@ public class DbTableUtil {
     }
 
     /**
-     * （在当前库）判断表是否已存在
+     * 判断表是否已存在
      *
-     * @param tableName  表名
+     * @param targetDbName 数据库名（传null，则表示不限制）
+     * @param tableName    表名
      * @param dataSource
      * @return
      * @throws Exception
      */
-    public static boolean existTable(String tableName, DataSource dataSource) {
-        List<String> tables = queryTables(tableName, false, dataSource);
+    public static boolean existTable(String targetDbName, String tableName, DataSource dataSource) {
+        List<String> tables = queryTables(targetDbName, tableName, false, dataSource);
         return tables.contains(tableName);
     }
 
     /**
      * 通过表名前缀查询所有的表名
      *
+     * @param targetDbName    数据库名（传null，则表示不限制）
      * @param tableNamePrefix 表名前缀
      * @param dataSource
      * @return
      */
-    public static List<String> queryTablesByPrefix(String tableNamePrefix, DataSource dataSource) {
-        return queryTables(tableNamePrefix, true, dataSource);
+    public static List<String> queryTablesByPrefix(String targetDbName, String tableNamePrefix, DataSource dataSource) {
+        return queryTables(targetDbName, tableNamePrefix, true, dataSource);
     }
 
     /**
      * 根据表名查询满足条件的表
      *
-     * @param tableName  表名
-     * @param prefix     是否表名前缀匹配
+     * @param targetDbName 数据库名（传null，则表示不限制）
+     * @param tableName    表名
+     * @param prefix       是否表名前缀匹配
      * @param dataSource
      * @return
      */
-    private static List<String> queryTables(String tableName, boolean prefix, DataSource dataSource) {
+    private static List<String> queryTables(String targetDbName, String tableName, boolean prefix, DataSource dataSource) {
         if (prefix) {
             tableName += SymbolConstant.PERCENT;
         }
         List<String> tablesWithPrefix = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
             DatabaseMetaData databaseMetaData = connection.getMetaData();
-            ResultSet resultSet = databaseMetaData.getTables(null, null, tableName, null);
+            ResultSet resultSet = databaseMetaData.getTables(targetDbName, null, tableName, null);
             while (resultSet.next()) {
                 tablesWithPrefix.add(resultSet.getString(3));
             }
