@@ -777,15 +777,19 @@
         </plugins>
     </reporting>
 
-    <!-- 使用aliyun镜像 -->
     <repositories>
         <repository>
             <id>aliyun</id>
             <name>aliyun</name>
             <url>https://maven.aliyun.com/repository/public</url>
         </repository>
-    </repositories>
 
+        <repository>
+            <id>repo1</id>
+            <name>repo1</name>
+            <url>https://repo1.maven.org/maven2</url>
+        </repository>
+    </repositories>
 
     <distributionManagement>
         <snapshotRepository>
