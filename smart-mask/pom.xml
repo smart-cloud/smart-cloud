@@ -28,6 +28,7 @@
 	</parent>
 	<artifactId>smart-mask</artifactId>
 	<packaging>jar</packaging>
+	<description>敏感数据混淆</description>
 
 	<dependencies>
 		<dependency>

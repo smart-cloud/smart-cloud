@@ -27,6 +27,7 @@
 		<version>1.0.1</version>
 	</parent>
 	<artifactId>smart-cloud-starter-feign</artifactId>
+	<description>openfeign封装（可拆可合、切面处理）</description>
 	
 	<dependencies>
 		<dependency>

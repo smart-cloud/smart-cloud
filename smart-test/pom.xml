@@ -27,6 +27,7 @@
     </parent>
     <artifactId>smart-test</artifactId>
     <packaging>pom</packaging>
+    <description>test封装</description>
 
     <modules>
         <module>smart-cloud-starter-test</module>

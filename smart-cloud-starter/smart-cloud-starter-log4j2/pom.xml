@@ -27,6 +27,8 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-cloud-starter-log4j2</artifactId>
+    <description>日志封装（log4j2封装，支持日志敏感数据脱敏）</description>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

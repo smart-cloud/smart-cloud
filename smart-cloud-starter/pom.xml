@@ -25,6 +25,7 @@
 	</parent>
 	<artifactId>smart-cloud-starter</artifactId>
 	<packaging>pom</packaging>
+	<description>框架封装</description>
 
 	<modules>
 		<module>smart-cloud-starter-configure</module>

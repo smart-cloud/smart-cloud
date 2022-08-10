@@ -27,6 +27,7 @@
 		<version>1.0.1</version>
 	</parent>
 	<artifactId>smart-cloud-starter-locale</artifactId>
+	<description>国际化封装</description>
 
 	<dependencies>
 		<dependency>

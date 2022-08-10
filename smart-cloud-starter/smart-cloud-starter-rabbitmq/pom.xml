@@ -27,6 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>smart-cloud-starter-rabbitmq</artifactId>
+    <description>rabbitmq封装（消费失败，自动放入延迟队列重新消费）</description>
 
     <dependencies>
         <dependency>

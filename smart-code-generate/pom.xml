@@ -27,6 +27,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-code-generate</artifactId>
+    <description>代码生成</description>
 
     <dependencies>
         <dependency>

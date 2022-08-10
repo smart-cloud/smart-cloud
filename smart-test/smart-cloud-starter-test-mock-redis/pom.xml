@@ -26,6 +26,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-cloud-starter-test-mock-redis</artifactId>
+    <description>test redis模块封装</description>
 
     <dependencies>
         <dependency>

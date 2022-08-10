@@ -27,6 +27,7 @@
     </parent>
     <artifactId>smart-cloud-starter-test</artifactId>
     <packaging>pom</packaging>
+    <description>test封装</description>
 
     <dependencies>
         <dependency>

@@ -27,6 +27,8 @@
 		<version>1.0.1</version>
 	</parent>
 	<artifactId>smart-cloud-starter-configure</artifactId>
+	<description>框架配置属性封装</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>io.github.smart-cloud</groupId>

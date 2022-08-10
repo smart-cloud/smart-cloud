@@ -27,6 +27,8 @@
 		<version>1.0.1</version>
 	</parent>
 	<artifactId>smart-cloud-starter-core</artifactId>
+	<description>框架核心（自定义注解、异常封装、请求响应公共参数、业务相关工具类）</description>
+
 	<dependencies>
 		<dependency>
 			<groupId>io.github.smart-cloud</groupId>

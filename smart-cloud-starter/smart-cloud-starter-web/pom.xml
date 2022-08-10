@@ -27,6 +27,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-cloud-starter-web</artifactId>
+    <description>web封装（日志切面、异常处理、参数校验）</description>
 
     <dependencies>
         <dependency>

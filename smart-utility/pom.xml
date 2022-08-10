@@ -27,6 +27,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-utility</artifactId>
+    <description>常用工具类</description>
 
     <dependencies>
         <dependency>

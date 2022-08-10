@@ -24,6 +24,6 @@
         <artifactId>smart-api-core</artifactId>
         <version>1.0.1</version>
     </parent>
-
     <artifactId>smart-api-annotation</artifactId>
+    <description>接口权限、加解密、签名等注解</description>
 </project>

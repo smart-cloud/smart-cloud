@@ -25,6 +25,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-common-web</artifactId>
+    <description>web公共模块</description>
 
     <dependencies>
         <dependency>

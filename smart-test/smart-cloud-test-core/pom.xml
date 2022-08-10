@@ -26,6 +26,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-cloud-test-core</artifactId>
+    <description>test 单元测试、集成测试封装</description>
 
     <dependencies>
         <!--解决“使用@SpyBean时报 Mockito cannot mock/spy because : - final class”-->

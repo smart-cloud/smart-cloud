@@ -27,6 +27,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-cloud-starter-redis</artifactId>
+    <description>redis封装、自定义分布式锁注解</description>
 
     <dependencies>
         <dependency>

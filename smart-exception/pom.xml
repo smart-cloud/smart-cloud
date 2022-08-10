@@ -26,6 +26,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-exception</artifactId>
+    <description>异常模块</description>
 
     <dependencies>
         <dependency>

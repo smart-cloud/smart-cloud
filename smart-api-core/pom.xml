@@ -21,10 +21,6 @@
         xmlns="http://maven.apache.org/POM/4.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <modules>
-        <module>smart-api-annotation</module>
-        <module>smart-user-context</module>
-    </modules>
     <parent>
         <groupId>io.github.smart-cloud</groupId>
         <artifactId>smart-cloud</artifactId>
@@ -32,4 +28,10 @@
     </parent>
     <artifactId>smart-api-core</artifactId>
     <packaging>pom</packaging>
+    <description>接口权限、加解密、签名等注解及用户上下文</description>
+
+    <modules>
+        <module>smart-api-annotation</module>
+        <module>smart-user-context</module>
+    </modules>
 </project>

@@ -25,8 +25,8 @@
         <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>smart-cloud-starter-elasticsearch-dynamic-datasource</artifactId>
+    <description>elasticsearch动态数据源</description>
 
     <dependencies>
         <dependency>

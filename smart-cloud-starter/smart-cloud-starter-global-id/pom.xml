@@ -27,6 +27,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-cloud-starter-global-id</artifactId>
+    <description>布式id生成器</description>
 
     <dependencies>
         <dependency>

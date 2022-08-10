@@ -24,8 +24,8 @@
         <artifactId>smart-api-core</artifactId>
         <version>1.0.1</version>
     </parent>
-
     <artifactId>smart-user-context</artifactId>
+    <description>用户上下文</description>
 
     <dependencies>
         <dependency>

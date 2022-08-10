@@ -27,6 +27,7 @@
         <version>1.0.1</version>
     </parent>
     <artifactId>smart-cloud-starter-job</artifactId>
+    <description>定时任务封装</description>
 
     <dependencies>
         <dependency>
