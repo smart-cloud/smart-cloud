@@ -17,10 +17,10 @@ package io.github.smart.cloud.starter.log4j2.plugin;
 
 import io.github.smart.cloud.starter.log4j2.constants.LogConstants;
 import io.github.smart.cloud.starter.log4j2.enums.ExtProperty;
-import io.github.smart.cloud.starter.log4j2.system.ApplicationHome;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.config.plugins.Plugin;
 import org.apache.logging.log4j.core.lookup.StrLookup;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.core.io.ClassPathResource;
 import org.yaml.snakeyaml.Yaml;
 
