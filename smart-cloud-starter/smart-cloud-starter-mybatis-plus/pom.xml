@@ -24,7 +24,7 @@
     <parent>
         <groupId>io.github.smart-cloud</groupId>
         <artifactId>smart-cloud-starter</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </parent>
     <artifactId>smart-cloud-starter-mybatis-plus</artifactId>
     <description>mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类、表隐私字段加解密等）</description>
