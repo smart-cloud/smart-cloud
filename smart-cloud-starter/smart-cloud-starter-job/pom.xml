@@ -24,7 +24,7 @@
     <parent>
         <groupId>io.github.smart-cloud</groupId>
         <artifactId>smart-cloud-starter</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </parent>
     <artifactId>smart-cloud-starter-job</artifactId>
     <description>定时任务封装</description>
