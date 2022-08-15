@@ -16,6 +16,7 @@
 package io.github.smart.cloud.starter.redis.intercept;
 
 import io.github.smart.cloud.constants.SymbolConstant;
+import io.github.smart.cloud.utility.security.Md5Util;
 import lombok.RequiredArgsConstructor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +40,10 @@ public abstract class AbstractRedisInterceptor implements MethodInterceptor {
 
     private static final LocalVariableTableParameterNameDiscoverer DISCOVERER = new LocalVariableTableParameterNameDiscoverer();
     private static final ExpressionParser PARSER = new SpelExpressionParser();
+    /**
+     * md5长度
+     */
+    private static final int MD5_LENGTH = 32;
     protected final RedissonClient redissonClient;
 
     /**
@@ -56,10 +61,11 @@ public abstract class AbstractRedisInterceptor implements MethodInterceptor {
             key.append(method.getDeclaringClass().getSimpleName().toLowerCase());
             key.append(SymbolConstant.COLON);
             key.append(method.getName().toLowerCase());
+            key.append(SymbolConstant.COLON);
         } else {
             key.append(name);
-            if (name.endsWith(SymbolConstant.COLON)) {
-                key.delete(key.length() - 1, key.length());
+            if (!name.endsWith(SymbolConstant.COLON)) {
+                key.append(SymbolConstant.COLON);
             }
         }
 
@@ -85,6 +91,21 @@ public abstract class AbstractRedisInterceptor implements MethodInterceptor {
         }
 
         return key;
+    }
+
+    /**
+     * 获取key
+     *
+     * @param keyPrefix
+     * @param expressions
+     * @param method
+     * @param arguments
+     * @return
+     */
+    protected String getKey(String prefixType, String keyPrefix, String[] expressions, Method method, Object[] arguments) {
+        String finalKeyPrefix = getPrefix(prefixType, keyPrefix, method).toString();
+        String keySuffix = getSuffix(expressions, method, arguments).toString();
+        return finalKeyPrefix + keySuffix;
     }
 
     /**

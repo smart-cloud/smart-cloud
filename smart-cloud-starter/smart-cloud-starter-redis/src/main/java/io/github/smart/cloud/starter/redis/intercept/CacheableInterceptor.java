@@ -22,8 +22,8 @@ import io.github.smart.cloud.starter.redis.constants.RedisLockConstants;
 import io.github.smart.cloud.starter.redis.enums.RedisKeyPrefix;
 import org.aopalliance.intercept.MethodInvocation;
 import org.redisson.api.RLock;
-import org.redisson.api.RMapCache;
 import org.redisson.api.RedissonClient;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,8 +39,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class CacheableInterceptor extends AbstractCacheInterceptor {
 
-    public CacheableInterceptor(RedissonClient redissonClient) {
-        super(redissonClient);
+    public CacheableInterceptor(RedisTemplate<String, Object> redisTemplate, RedissonClient redissonClient) {
+        super(redisTemplate, redissonClient);
     }
 
     @Nullable
@@ -48,11 +48,9 @@ public class CacheableInterceptor extends AbstractCacheInterceptor {
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
         Cacheable cacheable = method.getAnnotation(Cacheable.class);
-        String cacheName = getCacheName(cacheable.name(), method);
-        String cacheKey = getCacheKey(cacheable.expressions(), method, invocation.getArguments());
+        String cacheKey = getKey(RedisKeyPrefix.CACHE.getKey(), cacheable.name(), cacheable.expressions(), method, invocation.getArguments());
         // 从缓存获取
-        RMapCache<String, Object> mapCache = redissonClient.getMapCache(cacheName);
-        Object cache = mapCache.get(cacheKey);
+        Object cache = redisTemplate.opsForValue().get(cacheKey);
         if (cache != null) {
             return cache;
         }
@@ -67,13 +65,13 @@ public class CacheableInterceptor extends AbstractCacheInterceptor {
                 throw new AcquiredLockFailException(CommonReturnCodes.GET_LOCK_FAIL);
             }
             // 再次从缓存中获取一次，如果存在则返回
-            cache = mapCache.get(cacheKey);
+            cache = redisTemplate.opsForValue().get(cacheKey);
             if (cache != null) {
                 return cache;
             }
 
             Object result = invocation.proceed();
-            mapCache.put(cacheKey, result, cacheable.ttl(), cacheable.unit());
+            redisTemplate.opsForValue().set(cacheKey, result, cacheable.ttl(), cacheable.unit());
             return result;
         } finally {
             if (isRequiredLock) {

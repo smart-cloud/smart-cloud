@@ -15,22 +15,21 @@
  */
 package io.github.smart.cloud.starter.redis.autoconfigure;
 
+import io.github.smart.cloud.starter.redis.adapter.IRedisAdapter;
 import io.github.smart.cloud.starter.redis.adapter.impl.RedisAdapterImpl;
 import org.redisson.Redisson;
-import io.github.smart.cloud.starter.redis.adapter.IRedisAdapter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
-import java.io.Serializable;
 
 /**
  * redis配置
@@ -43,10 +42,9 @@ import java.io.Serializable;
 @EnableCaching
 public class RedisAutoConfiguration {
 
-    @Primary
     @Bean
-    public RedisTemplate<Serializable, Serializable> initRedisTemplate(final RedisConnectionFactory connectionFactory) {
-        RedisTemplate<Serializable, Serializable> redisTemplate = new RedisTemplate<>();
+    public RedisTemplate<String, Object> redisTemplate(final RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(connectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
@@ -56,7 +54,7 @@ public class RedisAutoConfiguration {
     }
 
     @Bean
-    public StringRedisTemplate initStringRedisTemplate(final RedisConnectionFactory connectionFactory) {
+    public StringRedisTemplate stringRedisTemplate(final RedisConnectionFactory connectionFactory) {
         StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
         stringRedisTemplate.setConnectionFactory(connectionFactory);
         stringRedisTemplate.setKeySerializer(new StringRedisSerializer());
@@ -69,36 +67,6 @@ public class RedisAutoConfiguration {
     @Bean
     public CacheManager cacheManager() {
         return new SimpleCacheManager();
-    }
-
-    @Bean
-    public ValueOperations<Serializable, Serializable> redisValueOperations(
-            final RedisTemplate<Serializable, Serializable> redisTemplate) {
-        return redisTemplate.opsForValue();
-    }
-
-    @Bean
-    public ListOperations<Serializable, Serializable> redisListOperations(
-            final RedisTemplate<Serializable, Serializable> redisTemplate) {
-        return redisTemplate.opsForList();
-    }
-
-    @Bean
-    public SetOperations<Serializable, Serializable> redisSetOperations(
-            final RedisTemplate<Serializable, Serializable> redisTemplate) {
-        return redisTemplate.opsForSet();
-    }
-
-    @Bean
-    public ZSetOperations<Serializable, Serializable> redisZsetOperations(
-            final RedisTemplate<Serializable, Serializable> redisTemplate) {
-        return redisTemplate.opsForZSet();
-    }
-
-    @Bean
-    public HashOperations<Serializable, Serializable, Serializable> redisHashOperations(
-            final RedisTemplate<Serializable, Serializable> redisTemplate) {
-        return redisTemplate.opsForHash();
     }
 
     @Bean

@@ -24,6 +24,7 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * 缓存拦截器配置
@@ -36,8 +37,8 @@ import org.springframework.context.annotation.Configuration;
 public class CacheableInterceptorAutoConfiguration {
 
     @Bean
-    public CacheableInterceptor redisCacheableInterceptor(final RedissonClient redissonClient) {
-        return new CacheableInterceptor(redissonClient);
+    public CacheableInterceptor redisCacheableInterceptor(final RedisTemplate<String, Object> redisTemplate, final RedissonClient redissonClient) {
+        return new CacheableInterceptor(redisTemplate, redissonClient);
     }
 
     @Bean

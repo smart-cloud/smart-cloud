@@ -15,10 +15,8 @@
  */
 package io.github.smart.cloud.starter.redis.intercept;
 
-import io.github.smart.cloud.starter.redis.enums.RedisKeyPrefix;
 import org.redisson.api.RedissonClient;
-
-import java.lang.reflect.Method;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * 缓存父类
@@ -28,31 +26,11 @@ import java.lang.reflect.Method;
  */
 public abstract class AbstractCacheInterceptor extends AbstractRedisInterceptor {
 
-    protected AbstractCacheInterceptor(RedissonClient redissonClient) {
+    protected final RedisTemplate<String, Object> redisTemplate;
+
+    protected AbstractCacheInterceptor(RedisTemplate<String, Object> redisTemplate, RedissonClient redissonClient) {
         super(redissonClient);
-    }
-
-    /**
-     * 获取缓存名称
-     *
-     * @param name
-     * @param method
-     * @return
-     */
-    protected String getCacheName(String name, Method method) {
-        return getPrefix(RedisKeyPrefix.CACHE.getKey(), name, method).toString();
-    }
-
-    /**
-     * 获取缓存key
-     *
-     * @param expressions
-     * @param method
-     * @param arguments
-     * @return
-     */
-    protected String getCacheKey(String[] expressions, Method method, Object[] arguments) {
-        return getSuffix(expressions, method, arguments).toString();
+        this.redisTemplate = redisTemplate;
     }
 
 }

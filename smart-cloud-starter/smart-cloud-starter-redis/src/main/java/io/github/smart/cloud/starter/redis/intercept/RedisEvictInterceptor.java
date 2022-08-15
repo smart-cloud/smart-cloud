@@ -16,8 +16,10 @@
 package io.github.smart.cloud.starter.redis.intercept;
 
 import io.github.smart.cloud.starter.redis.annotation.CacheEvict;
+import io.github.smart.cloud.starter.redis.enums.RedisKeyPrefix;
 import org.aopalliance.intercept.MethodInvocation;
 import org.redisson.api.RedissonClient;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,8 +34,8 @@ import java.lang.reflect.Method;
  */
 public class RedisEvictInterceptor extends AbstractCacheInterceptor {
 
-    public RedisEvictInterceptor(RedissonClient redissonClient) {
-        super(redissonClient);
+    public RedisEvictInterceptor(RedisTemplate<String, Object> redisTemplate, RedissonClient redissonClient) {
+        super(redisTemplate, redissonClient);
     }
 
     @Nullable
@@ -44,9 +46,8 @@ public class RedisEvictInterceptor extends AbstractCacheInterceptor {
         // 移除缓存
         Method method = invocation.getMethod();
         CacheEvict cacheEvict = method.getAnnotation(CacheEvict.class);
-        redissonClient.getMapCache(getCacheName(cacheEvict.name(), method))
-                .remove(getCacheKey(cacheEvict.expressions(), method, invocation.getArguments()));
-
+        String cacheKey = getKey(RedisKeyPrefix.CACHE.getKey(), cacheEvict.name(), cacheEvict.expressions(), method, invocation.getArguments());
+        redisTemplate.delete(cacheKey);
         return result;
     }
 

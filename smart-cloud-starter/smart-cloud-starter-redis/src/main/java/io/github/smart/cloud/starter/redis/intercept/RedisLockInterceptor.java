@@ -15,7 +15,6 @@
  */
 package io.github.smart.cloud.starter.redis.intercept;
 
-import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.exception.AcquiredLockFailException;
 import io.github.smart.cloud.starter.redis.annotation.RedisLock;
 import io.github.smart.cloud.starter.redis.constants.RedisLockConstants;
@@ -46,10 +45,8 @@ public class RedisLockInterceptor extends AbstractRedisInterceptor {
     public Object invoke(@Nonnull MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
         RedisLock redisLock = method.getAnnotation(RedisLock.class);
-        StringBuilder lockName = getPrefix(RedisKeyPrefix.LOCK.getKey(), redisLock.prefix(), method);
-        lockName.append(SymbolConstant.COLON);
-        lockName.append(getSuffix(redisLock.expressions(), method, invocation.getArguments()));
-        RLock lock = redissonClient.getLock(lockName.toString());
+        String lockName = getKey(RedisKeyPrefix.LOCK.getKey(), redisLock.prefix(), redisLock.expressions(), method, invocation.getArguments());
+        RLock lock = redissonClient.getLock(lockName);
         boolean isRequiredLock = false;
         try {
             if (redisLock.leaseTime() == RedisLockConstants.DEFAULT_LEASE_TIME) {

@@ -15,15 +15,15 @@
  */
 package io.github.smart.cloud.starter.redis.test.integration;
 
+import io.github.smart.cloud.starter.redis.enums.RedisKeyPrefix;
 import io.github.smart.cloud.starter.redis.test.prepare.bo.CreateOrderBO;
 import io.github.smart.cloud.starter.redis.test.prepare.dataobject.OrderInfo;
 import io.github.smart.cloud.starter.redis.test.prepare.service.ICacheTestService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.redisson.api.RMapCache;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.concurrent.TimeUnit;
 
@@ -32,19 +32,22 @@ class CacheIntegrationTest extends AbstractRedisIntegrationTest {
     @Autowired
     private ICacheTestService cacheTestService;
     @Autowired
-    private RedissonClient redissonClient;
+    private RedisTemplate<String, Object> redisTemplate;
 
     @Test
     void testCacheable() {
         String orderNo = RandomStringUtils.random(32, true, true);
-        OrderInfo orderInfoCache = cacheTestService.query(orderNo);
-        RMapCache<String, OrderInfo> mapCache = redissonClient.getMapCache(getCacheName());
+        OrderInfo orderInfo = cacheTestService.query(orderNo);
+        Assertions.assertThat(orderInfo).isNotNull();
 
-        Assertions.assertThat(mapCache.get(orderNo)).isNotNull();
-        Assertions.assertThat(mapCache.get(orderNo).getOrderNo()).isNotBlank();
-        Assertions.assertThat(mapCache.get(orderNo).getOrderNo()).isEqualTo(orderInfoCache.getOrderNo());
-        Assertions.assertThat(mapCache.get(orderNo).getPrice()).isNotNull();
-        Assertions.assertThat(mapCache.get(orderNo).getPrice()).isEqualTo(orderInfoCache.getPrice());
+        String key = RedisKeyPrefix.CACHE.getKey() + "order:" + orderNo;
+        OrderInfo orderInfoCache = (OrderInfo) redisTemplate.opsForValue().get(key);
+
+        Assertions.assertThat(orderInfoCache).isNotNull();
+        Assertions.assertThat(orderInfoCache.getOrderNo()).isNotBlank();
+        Assertions.assertThat(orderInfoCache.getOrderNo()).isEqualTo(orderInfoCache.getOrderNo());
+        Assertions.assertThat(orderInfoCache.getPrice()).isNotNull();
+        Assertions.assertThat(orderInfoCache.getPrice()).isEqualTo(orderInfoCache.getPrice());
     }
 
     private String getCacheName() {
@@ -54,16 +57,15 @@ class CacheIntegrationTest extends AbstractRedisIntegrationTest {
     @Test
     void testEvictCache() {
         String orderNo = RandomStringUtils.random(32, true, true);
-        RMapCache<String, OrderInfo> mapCache = redissonClient.getMapCache(getCacheName());
-        mapCache.put(orderNo, new OrderInfo(), 3600, TimeUnit.SECONDS);
-        Assertions.assertThat(mapCache.get(orderNo)).isNotNull();
+        String key = RedisKeyPrefix.CACHE.getKey() + "order:" + orderNo;
+        redisTemplate.opsForValue().set(key, "xxx", 3600, TimeUnit.SECONDS);
 
         CreateOrderBO createOrderBO = new CreateOrderBO();
         createOrderBO.setOrderNo(orderNo);
         createOrderBO.setPrice(100L);
         cacheTestService.createOrder(createOrderBO);
 
-        Assertions.assertThat(mapCache.get(orderNo)).isNull();
+        Assertions.assertThat(redisTemplate.opsForValue().get(orderNo)).isNull();
     }
 
 }

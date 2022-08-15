@@ -24,6 +24,7 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * 缓存移除拦截器配置
@@ -36,8 +37,8 @@ import org.springframework.context.annotation.Configuration;
 public class CacheEvictInterceptorAutoConfiguration {
 
     @Bean
-    public RedisEvictInterceptor redisEvictInterceptor(final RedissonClient redissonClient) {
-        return new RedisEvictInterceptor(redissonClient);
+    public RedisEvictInterceptor redisEvictInterceptor(final RedisTemplate<String, Object> redisTemplate, final RedissonClient redissonClient) {
+        return new RedisEvictInterceptor(redisTemplate, redissonClient);
     }
 
     @Bean
