@@ -105,7 +105,8 @@ public abstract class AbstractRedisInterceptor implements MethodInterceptor {
     protected String getKey(String prefixType, String keyPrefix, String[] expressions, Method method, Object[] arguments) {
         String finalKeyPrefix = getPrefix(prefixType, keyPrefix, method).toString();
         String keySuffix = getSuffix(expressions, method, arguments).toString();
-        return finalKeyPrefix + keySuffix;
+        String finalKeySuffix = keySuffix.length() > MD5_LENGTH ? Md5Util.md5Hex(keySuffix) : keySuffix;
+        return finalKeyPrefix + finalKeySuffix;
     }
 
     /**
