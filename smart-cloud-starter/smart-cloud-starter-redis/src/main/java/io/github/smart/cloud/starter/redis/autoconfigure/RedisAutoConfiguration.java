@@ -70,7 +70,7 @@ public class RedisAutoConfiguration {
     }
 
     @Bean
-    public IRedisAdapter redisAdapterImpl(final StringRedisTemplate stringRedisTemplate) {
+    public IRedisAdapter redisAdapter(final StringRedisTemplate stringRedisTemplate) {
         return new RedisAdapterImpl(stringRedisTemplate);
     }
 
