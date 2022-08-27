@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.core.method.log.autoconfigure;
 
+import io.github.smart.cloud.starter.configure.constants.SmartConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.core.method.log.annotation.MethodLog;
 import io.github.smart.cloud.starter.core.method.log.intercept.MethodLogInterceptor;
@@ -22,6 +23,7 @@ import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,6 +34,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020-03-14
  */
 @Configuration
+@ConditionalOnProperty(name = SmartConstant.METHOD_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
 public class MethodLogInterceptorAutoConfiguration {
 
     @Bean

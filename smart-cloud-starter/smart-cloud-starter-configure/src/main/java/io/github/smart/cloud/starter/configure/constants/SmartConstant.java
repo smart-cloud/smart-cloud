@@ -43,5 +43,9 @@ public interface SmartConstant {
      * method mock开关配置name
      */
     String MOCK_METHOD_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".mock.method";
+    /**
+     * method log开关配置name
+     */
+    String METHOD_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".method.log.enable";
 
 }

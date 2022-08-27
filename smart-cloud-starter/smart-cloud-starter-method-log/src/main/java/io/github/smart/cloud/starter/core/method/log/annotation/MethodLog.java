@@ -31,7 +31,7 @@ import java.lang.annotation.*;
 public @interface MethodLog {
 
     /**
-     * 日志级别（默认info级别）
+     * 日志级别（默认debug级别）
      *
      * @return
      */
