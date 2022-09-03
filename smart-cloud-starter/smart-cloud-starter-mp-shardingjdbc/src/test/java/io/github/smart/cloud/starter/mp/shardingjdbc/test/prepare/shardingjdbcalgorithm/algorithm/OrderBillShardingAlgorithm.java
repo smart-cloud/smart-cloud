@@ -19,10 +19,7 @@ import org.apache.shardingsphere.sharding.api.sharding.complex.ComplexKeysShardi
 import org.apache.shardingsphere.sharding.api.sharding.complex.ComplexKeysShardingValue;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcalgorithm.util.OrderUtil;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class OrderBillShardingAlgorithm<T extends Comparable<?>> implements ComplexKeysShardingAlgorithm<T> {
 
@@ -53,13 +50,17 @@ public class OrderBillShardingAlgorithm<T extends Comparable<?>> implements Comp
     }
 
     @Override
-    public void init() {
-
-    }
-
-    @Override
     public String getType() {
         return "ORDER_BILL_TABLE_TYPE";
     }
 
+    @Override
+    public Properties getProps() {
+        return null;
+    }
+
+    @Override
+    public void init(Properties properties) {
+
+    }
 }
