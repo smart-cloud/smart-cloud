@@ -19,11 +19,11 @@ import com.mysql.cj.MysqlType;
 import io.github.smart.cloud.code.generate.bo.ColumnMetaDataBO;
 import io.github.smart.cloud.code.generate.bo.TableMetaDataBO;
 import io.github.smart.cloud.code.generate.config.Config;
+import io.github.smart.cloud.code.generate.constants.DbConstants;
 import io.github.smart.cloud.code.generate.enums.GenerateTypeEnum;
 import io.github.smart.cloud.code.generate.properties.CodeProperties;
 import io.github.smart.cloud.code.generate.properties.DbProperties;
 import org.apache.commons.io.FileUtils;
-import io.github.smart.cloud.code.generate.constants.DbConstants;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
@@ -90,7 +90,7 @@ public class DbUtil {
     public static Map<String, TableMetaDataBO> getTablesMetaData(Connection connnection, CodeProperties code)
             throws SQLException {
         Map<String, TableMetaDataBO> tableMetaDataMap = new HashMap<>(16);
-        try (ResultSet resultSet = connnection.getMetaData().getTables(connnection.getCatalog(), null, null, new String[]{DbConstants.TABLE_TYPE})) {
+        try (ResultSet resultSet = connnection.getMetaData().getTables(connnection.getCatalog(), DbConstants.PUBLIC_SCHEMA_PATTERN, null, new String[]{DbConstants.TABLE_TYPE})) {
             while (resultSet.next()) {
                 String tableName = resultSet.getString(3);
                 if (filterTable(code, tableName)) {

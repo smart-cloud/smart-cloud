@@ -29,6 +29,11 @@ public interface DbConstants {
     String TABLE_TYPE = "TABLE";
 
     /**
+     * “PUBLIC” schema
+     */
+    String PUBLIC_SCHEMA_PATTERN = "PUBLIC";
+
+    /**
      * 数据库连接属性
      *
      * @author collin
