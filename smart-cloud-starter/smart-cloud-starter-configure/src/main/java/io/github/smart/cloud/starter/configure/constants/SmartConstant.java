@@ -21,31 +21,34 @@ package io.github.smart.cloud.starter.configure.constants;
  * @author collin
  * @date 2019-04-22
  */
-public interface SmartConstant {
+public class SmartConstant {
+
+    private SmartConstant() {
+    }
 
     /**
      * 公共配置属性前缀
      */
-    String SMART_PROPERTIES_PREFIX = "smart";
+    public static final String SMART_PROPERTIES_PREFIX = "smart";
     /**
      * rpc 日志打印开关配置name
      */
-    String FEIGN_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".log.rpclog";
+    public static final String FEIGN_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".log.rpclog";
     /**
      * api 日志打印开关配置name
      */
-    String API_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".log.apilog";
+    public static final String API_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".log.apilog";
     /**
      * api mock开关配置name
      */
-    String MOCK_API_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".mock.api";
+    public static final String MOCK_API_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".mock.api";
     /**
      * method mock开关配置name
      */
-    String MOCK_METHOD_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".mock.method";
+    public static final String MOCK_METHOD_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".mock.method";
     /**
      * method log开关配置name
      */
-    String METHOD_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".method.log.enable";
+    public static final String METHOD_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".method.log.enable";
 
 }

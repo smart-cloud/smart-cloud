@@ -42,15 +42,17 @@ class AspectInterceptorUtilUnitTest {
     @Test
     void testGetApiAnnotations() {
         List<Class<? extends Annotation>> annotations = AspectInterceptorUtil.getApiAnnotations();
-        Assertions.assertThat(annotations).isNotEmpty();
-        Assertions.assertThat(annotations).contains(RequestMapping.class, GetMapping.class, PostMapping.class, DeleteMapping.class, PutMapping.class, PatchMapping.class);
+        Assertions.assertThat(annotations)
+                .isNotEmpty()
+                .contains(RequestMapping.class, GetMapping.class, PostMapping.class, DeleteMapping.class, PutMapping.class, PatchMapping.class);
     }
 
     @Test
     void testGetApiExpression() {
         String apiExpression = AspectInterceptorUtil.getApiExpression(new String[]{"org.smartcloud"});
-        Assertions.assertThat(apiExpression).isNotBlank();
-        Assertions.assertThat(apiExpression).isEqualTo("(execution( * org.smartcloud..*.*(..))) " +
+        Assertions.assertThat(apiExpression)
+                .isNotBlank()
+                .isEqualTo("(execution( * org.smartcloud..*.*(..))) " +
                 "&& (@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
                 "|| @annotation(org.springframework.web.bind.annotation.GetMapping) " +
                 "|| @annotation(org.springframework.web.bind.annotation.PostMapping) " +

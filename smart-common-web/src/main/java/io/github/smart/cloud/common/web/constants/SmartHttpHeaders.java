@@ -21,27 +21,30 @@ package io.github.smart.cloud.common.web.constants;
  * @author collin
  * @date 2021-07-17
  */
-public interface SmartHttpHeaders {
+public class SmartHttpHeaders {
+
+    private SmartHttpHeaders() {
+    }
 
     /**
      * http header timestamp
      */
-    String TIMESTAMP = "smart-timestamp";
+    public static final String TIMESTAMP = "smart-timestamp";
     /**
      * http header nonce
      */
-    String NONCE = "smart-nonce";
+    public static final String NONCE = "smart-nonce";
     /**
      * 请求token
      */
-    String TOKEN = "smart-token";
+    public static final String TOKEN = "smart-token";
     /**
      * 请求参数签名
      */
-    String SIGN = "smart-sign";
+    public static final String SIGN = "smart-sign";
     /**
      * http header中user信息参数名
      */
-    String HEADER_USER = "smart-user";
+    public static final String HEADER_USER = "smart-user";
 
 }

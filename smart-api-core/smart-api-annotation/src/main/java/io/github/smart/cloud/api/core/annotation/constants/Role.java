@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.api.core.annotation.enums;
+package io.github.smart.cloud.api.core.annotation.constants;
 
 /**
  * 常用角色
@@ -21,11 +21,14 @@ package io.github.smart.cloud.api.core.annotation.enums;
  * @author collin
  * @date 2021-07-04
  */
-public interface Role {
+public class Role {
 
     /**
      * 管理员角色
      */
-    String ADMIN = "admin";
+    public static final String ADMIN = "admin";
+
+    private Role() {
+    }
 
 }

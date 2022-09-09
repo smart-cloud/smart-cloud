@@ -21,21 +21,24 @@ package io.github.smart.cloud.code.generate.config;
  * @author collin
  * @date 2022-05-04
  */
-public interface ClassConstants {
+public class ClassConstants {
 
     /**
      * TableId包名
      */
-    String TABLEID_PACKAGE = "com.baomidou.mybatisplus.annotation.TableId";
+    public static final String TABLEID_PACKAGE = "com.baomidou.mybatisplus.annotation.TableId";
 
     /**
      * CryptField包名
      */
-    String CRYPT_FIELD_PACKAGE = "io.github.smart.cloud.starter.mybatis.plus.common.CryptField";
+    public static final String CRYPT_FIELD_PACKAGE = "io.github.smart.cloud.starter.mybatis.plus.common.CryptField";
 
     /**
      * CryptField类名
      */
-    String CRYPT_FIELD_CLASS_NAME = "CryptField";
+    public static final String CRYPT_FIELD_CLASS_NAME = "CryptField";
+
+    private ClassConstants() {
+    }
 
 }

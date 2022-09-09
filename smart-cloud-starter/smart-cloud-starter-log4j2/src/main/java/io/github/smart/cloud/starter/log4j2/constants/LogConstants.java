@@ -21,11 +21,14 @@ package io.github.smart.cloud.starter.log4j2.constants;
  * @author collin
  * @date 2021-12-06
  */
-public interface LogConstants {
+public class LogConstants {
 
     /**
      * 日志文件目录
      */
-    String LOG_DIR = "/data/log/";
+    public static final String LOG_DIR = "/data/log/";
+
+    private LogConstants() {
+    }
 
 }

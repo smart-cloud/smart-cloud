@@ -28,6 +28,9 @@ public class RedisMockServer {
 
     private static RedisServer redisServer = null;
 
+    private RedisMockServer() {
+    }
+
     /**
      * 启动redis
      *

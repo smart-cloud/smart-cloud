@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
-public class DynamicElasticsearchTest extends AbstractIntegrationTest {
+class DynamicElasticsearchTest extends AbstractIntegrationTest {
 
     @Autowired
     private OrderService orderService;

@@ -56,7 +56,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
     /**
      * 参数数组的长度
      */
-    private final int ARGS_LENGTH = 6;
+    private static final int ARGS_LENGTH = 6;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {

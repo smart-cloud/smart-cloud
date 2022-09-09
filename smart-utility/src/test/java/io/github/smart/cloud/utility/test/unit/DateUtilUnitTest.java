@@ -38,92 +38,71 @@ class DateUtilUnitTest {
     @Test
     void testGetCurrentDate() {
         String currentDateStr = DateUtil.getCurrentDate();
-        Assertions.assertThat(currentDateStr).isNotBlank();
-        Assertions.assertThat(currentDateStr.length()).isEqualTo(DateFormartConst.DATE.length());
+        Assertions.assertThat(currentDateStr)
+                .isNotBlank()
+                .hasSameSizeAs(DateFormartConst.DATE);
     }
 
     @Test
     void testGetCurrentDateTime() {
         String currentDateStr = DateUtil.getCurrentDateTime();
-        Assertions.assertThat(currentDateStr).isNotBlank();
-        Assertions.assertThat(currentDateStr.length()).isEqualTo(DateFormartConst.DATETIME.length());
+        Assertions.assertThat(currentDateStr)
+                .isNotBlank()
+                .hasSameSizeAs(DateFormartConst.DATETIME);
     }
 
     @Test
     void testGetCurrentDateTimeWithFormat() {
-        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.YYYY).length())
-                .isEqualTo(DateFormartConst.YYYY.length());
-        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.YYYY_MM).length())
-                .isEqualTo(DateFormartConst.YYYY_MM.length());
-        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATE).length())
-                .isEqualTo(DateFormartConst.DATE.length());
-        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATE_HH).length())
-                .isEqualTo(DateFormartConst.DATE_HH.length());
-        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATE_HH_MM).length())
-                .isEqualTo(DateFormartConst.DATE_HH_MM.length());
-        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATETIME).length())
-                .isEqualTo(DateFormartConst.DATETIME.length());
-        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATETIME_SSS).length())
-                .isEqualTo(DateFormartConst.DATETIME_SSS.length());
+        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.YYYY)).hasSameSizeAs(DateFormartConst.YYYY);
+        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.YYYY_MM)).hasSameSizeAs(DateFormartConst.YYYY_MM);
+        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATE)).hasSameSizeAs(DateFormartConst.DATE);
+        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATE_HH)).hasSameSizeAs(DateFormartConst.DATE_HH);
+        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATE_HH_MM)).hasSameSizeAs(DateFormartConst.DATE_HH_MM);
+        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATETIME)).hasSameSizeAs(DateFormartConst.DATETIME);
+        Assertions.assertThat(DateUtil.getCurrentDateTime(DateFormartConst.DATETIME_SSS)).hasSameSizeAs(DateFormartConst.DATETIME_SSS);
     }
 
     @Test
     void testFormat() {
-        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.YYYY).length())
-                .isEqualTo(DateFormartConst.YYYY.length());
-        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.YYYY_MM).length())
-                .isEqualTo(DateFormartConst.YYYY_MM.length());
-        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATE).length())
-                .isEqualTo(DateFormartConst.DATE.length());
-        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATE_HH).length())
-                .isEqualTo(DateFormartConst.DATE_HH.length());
-        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATE_HH_MM).length())
-                .isEqualTo(DateFormartConst.DATE_HH_MM.length());
-        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATETIME).length())
-                .isEqualTo(DateFormartConst.DATETIME.length());
-        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATETIME_SSS).length())
-                .isEqualTo(DateFormartConst.DATETIME_SSS.length());
+        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.YYYY)).hasSameSizeAs(DateFormartConst.YYYY);
+        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.YYYY_MM)).hasSameSizeAs(DateFormartConst.YYYY_MM);
+        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATE)).hasSameSizeAs(DateFormartConst.DATE);
+        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATE_HH)).hasSameSizeAs(DateFormartConst.DATE_HH);
+        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATE_HH_MM)).hasSameSizeAs(DateFormartConst.DATE_HH_MM);
+        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATETIME)).hasSameSizeAs(DateFormartConst.DATETIME);
+        Assertions.assertThat(DateUtil.format(new Date(), DateFormartConst.DATETIME_SSS)).hasSameSizeAs(DateFormartConst.DATETIME_SSS);
     }
 
     @Test
     void testFormatMillis() {
         long currentMillis = new Date().getTime();
-        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.YYYY).length())
-                .isEqualTo(DateFormartConst.YYYY.length());
-        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.YYYY_MM).length())
-                .isEqualTo(DateFormartConst.YYYY_MM.length());
-        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.DATE).length())
-                .isEqualTo(DateFormartConst.DATE.length());
-        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.DATE_HH).length())
-                .isEqualTo(DateFormartConst.DATE_HH.length());
-        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.DATE_HH_MM).length())
-                .isEqualTo(DateFormartConst.DATE_HH_MM.length());
-        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.DATETIME).length())
-                .isEqualTo(DateFormartConst.DATETIME.length());
-        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.DATETIME_SSS).length())
-                .isEqualTo(DateFormartConst.DATETIME_SSS.length());
+        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.YYYY)).hasSameSizeAs(DateFormartConst.YYYY);
+        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.YYYY_MM)).hasSameSizeAs(DateFormartConst.YYYY_MM);
+        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.DATE)).hasSameSizeAs(DateFormartConst.DATE);
+        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.DATE_HH)).hasSameSizeAs(DateFormartConst.DATE_HH);
+        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.DATE_HH_MM)).hasSameSizeAs(DateFormartConst.DATE_HH_MM);
+        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.DATETIME)).hasSameSizeAs(DateFormartConst.DATETIME);
+        Assertions.assertThat(DateUtil.format(currentMillis, DateFormartConst.DATETIME_SSS)).hasSameSizeAs(DateFormartConst.DATETIME_SSS);
     }
 
     @Test
     void testFormatDate() {
-        Assertions.assertThat(DateUtil.formatDate(new Date()).length()).isEqualTo(DateFormartConst.DATE.length());
+        Assertions.assertThat(DateUtil.formatDate(new Date())).hasSameSizeAs(DateFormartConst.DATE);
     }
 
     @Test
     void testFormatDateMillis() {
-        Assertions.assertThat(DateUtil.formatDate(new Date().getTime()).length()).isEqualTo(DateFormartConst.DATE.length());
+        Assertions.assertThat(DateUtil.formatDate(new Date().getTime())).hasSameSizeAs(DateFormartConst.DATE);
     }
 
     @Test
     void testFormatDateTime() {
-        Assertions.assertThat(DateUtil.formatDateTime(new Date()).length())
-                .isEqualTo(DateFormartConst.DATETIME.length());
+        Assertions.assertThat(DateUtil.formatDateTime(new Date())).hasSameSizeAs(DateFormartConst.DATETIME);
     }
 
     @Test
     void testFormatDateTimeMillis() {
-        Assertions.assertThat(DateUtil.formatDateTime(new Date().getTime()).length())
-                .isEqualTo(DateFormartConst.DATETIME.length());
+        Assertions.assertThat(DateUtil.formatDateTime(new Date().getTime())).hasSameSizeAs(DateFormartConst.DATETIME);
     }
 
     @Test

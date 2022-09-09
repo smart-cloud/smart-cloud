@@ -38,8 +38,9 @@ class SmartPropertiesTest {
     void test() {
         // bean not null check
         Map<String, SmartProperties> beanOfType = applicationContext.getBeansOfType(SmartProperties.class);
-        Assertions.assertThat(beanOfType).isNotEmpty();
-        Assertions.assertThat(beanOfType.size()).isEqualTo(1);
+        Assertions.assertThat(beanOfType)
+                .isNotEmpty()
+                .hasSize(1);
 
         // check properties values
         SmartProperties smartProperties = applicationContext.getBean(SmartProperties.class);
@@ -70,8 +71,7 @@ class SmartPropertiesTest {
         Assertions.assertThat(smartProperties.getMock()).isNotNull();
         Assertions.assertThat(smartProperties.getMock().isApi()).isTrue();
         Assertions.assertThat(smartProperties.getMock().isMethod()).isTrue();
-        Assertions.assertThat(smartProperties.getMock().getWhilelist()).isNotEmpty();
-        Assertions.assertThat(smartProperties.getMock().getWhilelist().size()).isEqualTo(2);
+        Assertions.assertThat(smartProperties.getMock().getWhilelist()).isNotEmpty().hasSize(2);
         Assertions.assertThat(smartProperties.getMock().getWhilelist()).contains("xxxx.query", "yyyy.submit");
     }
 

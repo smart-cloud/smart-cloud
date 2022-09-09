@@ -165,9 +165,7 @@ public class DbUtil {
         if (primaryKeyColumnName != null) {
             columnMetaDatas.stream().filter(columnMetaData -> columnMetaData.getName().equals(primaryKeyColumnName))
                     .findFirst()
-                    .ifPresent(columnMetaData -> {
-                        columnMetaData.setPrimaryKey(true);
-                    });
+                    .ifPresent(columnMetaData -> columnMetaData.setPrimaryKey(true));
         }
 
         return columnMetaDatas;

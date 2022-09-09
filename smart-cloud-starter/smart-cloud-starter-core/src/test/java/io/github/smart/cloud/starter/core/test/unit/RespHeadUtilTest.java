@@ -46,7 +46,7 @@ class RespHeadUtilTest {
         Assertions.assertThat(responseHead.getCode()).isEqualTo(code);
         Assertions.assertThat(responseHead.getMessage()).isEqualTo(msg);
 
-        Assertions.assertThat(responseHead.getTimestamp()).isGreaterThan(0L);
+        Assertions.assertThat(responseHead.getTimestamp()).isPositive();
         Assertions.assertThat(responseHead.getNonce()).isNotBlank();
     }
 
@@ -58,7 +58,7 @@ class RespHeadUtilTest {
         Assertions.assertThat(responseHeadWithNone).isNotNull();
         Assertions.assertThat(responseHeadWithNone.getCode()).isEqualTo(CommonReturnCodes.GET_LOCK_FAIL);
 
-        Assertions.assertThat(responseHeadWithNone.getTimestamp()).isGreaterThan(0L);
+        Assertions.assertThat(responseHeadWithNone.getTimestamp()).isPositive();
         Assertions.assertThat(responseHeadWithNone.getNonce()).isNotBlank();
 
         Assertions.assertThat(responseHeadWithNone.getMessage()).isEqualTo(msg);
@@ -68,7 +68,7 @@ class RespHeadUtilTest {
         Assertions.assertThat(responseHeadWithNull).isNotNull();
         Assertions.assertThat(responseHeadWithNull.getCode()).isEqualTo(CommonReturnCodes.GET_LOCK_FAIL);
 
-        Assertions.assertThat(responseHeadWithNull.getTimestamp()).isGreaterThan(0L);
+        Assertions.assertThat(responseHeadWithNull.getTimestamp()).isPositive();
         Assertions.assertThat(responseHeadWithNull.getNonce()).isNotBlank();
 
         Assertions.assertThat(responseHeadWithNull.getMessage()).isNull();
@@ -80,7 +80,7 @@ class RespHeadUtilTest {
         Assertions.assertThat(responseHead).isNotNull();
         Assertions.assertThat(responseHead.getCode()).isEqualTo(CommonReturnCodes.UPLOAD_FILE_SIZE_EXCEEDED);
 
-        Assertions.assertThat(responseHead.getTimestamp()).isGreaterThan(0L);
+        Assertions.assertThat(responseHead.getTimestamp()).isPositive();
         Assertions.assertThat(responseHead.getNonce()).isNotBlank();
 
         Assertions.assertThat(responseHead.getMessage()).isNotBlank();

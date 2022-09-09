@@ -61,7 +61,7 @@ public class XxlJobTraceWrapper extends IJobHandler {
                 tracing.currentTraceContext().get());
         try {
             delegate.execute();
-        } catch (Exception | Error e) {
+        } catch (Exception e) {
             span.error(e);
             throw e;
         } finally {

@@ -48,8 +48,9 @@ class ValidationUtilTest {
             expectedException = e;
         }
 
-        Assertions.assertThat(expectedException).isNotNull();
-        Assertions.assertThat(expectedException instanceof ParamValidateException).isTrue();
+        Assertions.assertThat(expectedException)
+                .isNotNull()
+                .isInstanceOf(ParamValidateException.class);
         Assertions.assertThat(((ParamValidateException) expectedException).getCode()).isEqualTo(WebReturnCodes.VALIDATE_IN_PARAMS_NULL);
     }
 
@@ -66,8 +67,9 @@ class ValidationUtilTest {
             expectedException = e;
         }
 
-        Assertions.assertThat(expectedException).isNotNull();
-        Assertions.assertThat(expectedException instanceof ParamValidateException).isTrue();
+        Assertions.assertThat(expectedException)
+                .isNotNull()
+                .isInstanceOf(ParamValidateException.class);
         Assertions.assertThat(((ParamValidateException) expectedException).getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL);
     }
 

@@ -35,13 +35,13 @@ class CustomizeContextMapLookupUnitTest {
     @Test
     void testReadAppNameFromYaml() {
         Map<String, String> data = CustomizeContextMapLookup.init("name_test.yaml");
-        Assertions.assertThat(data.get(ExtProperty.APP_NAME.getName())).isEqualTo("unit_test");
+        Assertions.assertThat(data).containsEntry(ExtProperty.APP_NAME.getName(), "unit_test");
     }
 
     @Test
     void testReadAppNameFromYamlAndProjectName() {
         Map<String, String> data = CustomizeContextMapLookup.init("name_test_project.yaml");
-        Assertions.assertThat(data.get(ExtProperty.APP_NAME.getName())).isEqualTo(projectName);
+        Assertions.assertThat(data).containsEntry(ExtProperty.APP_NAME.getName(), projectName);
     }
 
 }

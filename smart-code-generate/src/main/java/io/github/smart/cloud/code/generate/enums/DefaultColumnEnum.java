@@ -15,39 +15,66 @@
  */
 package io.github.smart.cloud.code.generate.enums;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 每张表默认的字段
  *
  * @author collin
  * @date 2019-07-13
  */
+@Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum DefaultColumnEnum {
 
-	/** 主键id */
-	f_id,
-	/** 新增时间 */
-	f_sys_insert_time,
-	/** 修改时间 */
-	f_sys_upd_time,
-	/** 删除时间 */
-	f_sys_del_time,
-	/** 新增人 */
-	f_sys_insert_user,
-	/** 修改人 */
-	f_sys_upd_user,
-	/** 删除人 */
-	f_sys_del_user,
-	/** 删除状态 */
-	f_sys_del_state;
+    /**
+     * 主键id
+     */
+    ID("f_id"),
+    /**
+     * 新增时间
+     */
+    SYS_INSERT_TIME("f_sys_insert_time"),
+    /**
+     * 修改时间
+     */
+    SYS_UPD_TIME("f_sys_upd_time"),
+    /**
+     * 删除时间
+     */
+    SYS_DEL_TIME("f_sys_del_time"),
+    /**
+     * 新增人
+     */
+    SYS_INSERT_USER("f_sys_insert_user"),
+    /**
+     * 修改人
+     */
+    SYS_UPD_USER("f_sys_upd_user"),
+    /**
+     * 删除人
+     */
+    SYS_DEL_USER("f_sys_del_user"),
+    /**
+     * 删除状态
+     */
+    SYS_DEL_STATE("f_sys_del_state");
 
-	public static boolean contains(String name) {
-		DefaultColumnEnum[] defaultColumns = DefaultColumnEnum.values();
-		for (DefaultColumnEnum defaultColumn : defaultColumns) {
-			if (defaultColumn.toString().equals(name)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * 字段名称
+     */
+    private String column;
+
+    public static boolean contains(String name) {
+        DefaultColumnEnum[] defaultColumns = DefaultColumnEnum.values();
+        for (DefaultColumnEnum defaultColumn : defaultColumns) {
+            if (defaultColumn.getColumn().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

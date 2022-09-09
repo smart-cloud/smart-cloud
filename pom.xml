@@ -663,36 +663,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <!-- rules里面指定覆盖规则 -->
-                    <!-- <rules>
-                        <rule implementation="org.jacoco.maven.RuleConfiguration">
-                            <element>BUNDLE</element>
-                            <limits> 指定行覆盖到85%
-                                <limit implementation="org.jacoco.report.check.Limit">
-                                    <counter>LINE</counter>
-                                    <value>COVEREDRATIO</value>
-                                    <minimum>0.85</minimum>
-                                </limit> 指定分支覆盖到90%
-                                <limit implementation="org.jacoco.report.check.Limit">
-                                    <counter>BRANCH</counter>
-                                    <value>COVEREDRATIO</value>
-                                    <minimum>0.9</minimum>
-                                </limit> 指定方法覆盖到85%
-                                <limit implementation="org.jacoco.report.check.Limit">
-                                    <counter>METHOD</counter>
-                                    <value>COVEREDRATIO</value>
-                                    <minimum>0.85</minimum>
-                                </limit> 指定类覆盖到90%，不能遗失任何类
-                                <limit implementation="org.jacoco.report.check.Limit">
-                                    <counter>CLASS</counter>
-                                    <value>MISSEDCOUNT</value>
-                                    <maximum>0.1</maximum>
-                                </limit>
-                            </limits>
-                        </rule>
-                    </rules> -->
-                </configuration>
             </plugin>
         </plugins>
     </build>

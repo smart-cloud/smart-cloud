@@ -46,22 +46,22 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
     /**
      * 消费者具体执行的业务逻辑
      *
-     * @param object
+     * @param body
      */
-    protected abstract void doProcess(T object);
+    protected abstract void doProcess(T body);
 
     /**
      * 重试失败后执行
      *
-     * @param object
+     * @param body
      * @return
      */
-    protected boolean executeAfterRetryConsumerFail(T object) {
+    protected boolean executeAfterRetryConsumerFail(T body) {
         return true;
     }
 
     @RabbitHandler
-    public void consumer(@Payload T object, @Headers Map<String, Object> headers) {
+    public void consumer(@Payload T body, @Headers Map<String, Object> headers) {
         Object messageId = headers.get(MqConstants.MESSAGE_ID_NAME);
         RLock lock = redissonClient.getLock(MqConstants.IDE_CKECK_LOCK_NAME_PREFIX + messageId);
         // 加锁状态（true：成功；false失败）
@@ -70,17 +70,17 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
             isRequiredLock = lock.tryLock();
             if (isRequiredLock) {
                 if (log.isDebugEnabled()) {
-                    log.debug("receive.msg={}", JacksonUtil.toJson(object));
+                    log.debug("receive.msg={}", JacksonUtil.toJson(body));
                 }
-                doProcess(object);
+                doProcess(body);
             } else {
-                log.warn("idempotent.check.fail|msg={}", JacksonUtil.toJson(object));
+                log.warn("idempotent.check.fail|msg={}", JacksonUtil.toJson(body));
             }
         } catch (Exception e) {
-            log.error("consumer.mq.exception|object={}", JacksonUtil.toJson(object), e);
-            RetryResult retryResult = MqUtil.retryAfterConsumerFail(rabbitMqAdapter, object, headers, getClass());
+            log.error("consumer.mq.exception|object={}", JacksonUtil.toJson(body), e);
+            RetryResult retryResult = MqUtil.retryAfterConsumerFail(rabbitMqAdapter, body, headers, getClass());
             boolean isThrow = retryResult == RetryResult.NOT_SUPPORT
-                    || (retryResult == RetryResult.REACHED_RETRY_THRESHOLD && !executeAfterRetryConsumerFail(object));
+                    || (retryResult == RetryResult.REACHED_RETRY_THRESHOLD && !executeAfterRetryConsumerFail(body));
             if (isThrow) {
                 throw e;
             }

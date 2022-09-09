@@ -60,8 +60,7 @@ class HttpUtilIntegrationTest {
         GetPageRespVO result = HttpUtil.get(REQUEST_URL_PREFIX + "/page", reqVO, new TypeReference<GetPageRespVO>() {
         });
         Assertions.assertThat(result.getStr()).isEqualTo("test");
-        Assertions.assertThat(result.getIds()).isNotEmpty();
-        Assertions.assertThat(result.getIds().length).isEqualTo(3);
+        Assertions.assertThat(result.getIds()).isNotEmpty().hasSize(3);
         Assertions.assertThat(result.getIds()[2]).isEqualTo(3);
     }
 
@@ -77,8 +76,7 @@ class HttpUtilIntegrationTest {
         GetPageRespVO result = HttpUtil.get(REQUEST_URL_PREFIX + "/page", headers, reqVO, new TypeReference<GetPageRespVO>() {
         });
         Assertions.assertThat(result.getStr()).isEqualTo("test");
-        Assertions.assertThat(result.getIds()).isNotEmpty();
-        Assertions.assertThat(result.getIds().length).isEqualTo(3);
+        Assertions.assertThat(result.getIds()).isNotEmpty().hasSize(3);
         Assertions.assertThat(result.getIds()[2]).isEqualTo(3);
     }
 

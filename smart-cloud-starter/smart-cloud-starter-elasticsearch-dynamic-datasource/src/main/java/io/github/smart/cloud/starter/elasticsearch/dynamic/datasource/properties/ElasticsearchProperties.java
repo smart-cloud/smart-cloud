@@ -37,7 +37,7 @@ public class ElasticsearchProperties extends Base {
     /**
      * es实例列表（使用逗号隔开）
      */
-    private List<String> uris = new ArrayList(Collections.singletonList("http://localhost:9200"));
+    private List<String> uris = new ArrayList<>(Collections.singletonList("http://localhost:9200"));
 
     /**
      * 用户名

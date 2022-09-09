@@ -21,19 +21,22 @@ package io.github.smart.cloud.starter.locale.constant;
  * @author collin
  * @date 2019-07-15
  */
-public interface LocaleConstant {
+public class LocaleConstant {
 
     /**
      * locale文件后缀
      */
-    String LOCALE_PROPERTIES_SUFFIX = ".properties";
+    public static final String LOCALE_PROPERTIES_SUFFIX = ".properties";
     /**
      * locale文件目录
      */
-    String LOCALE_DIR = "i18n/";
+    public static final String LOCALE_DIR = "i18n/";
     /**
      * locale文件路径
      */
-    String LOCALE_PATTERN = "classpath*:/" + LOCALE_DIR + "*messages.properties";
+    public static final String LOCALE_PATTERN = "classpath*:/" + LOCALE_DIR + "*messages.properties";
+
+    private LocaleConstant() {
+    }
 
 }

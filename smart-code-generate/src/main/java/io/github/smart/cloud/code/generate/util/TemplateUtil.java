@@ -176,12 +176,11 @@ public class TemplateUtil {
      *
      * @param tableMetaData
      * @param entityBO
-     * @param baseResp
      * @param classComment
      * @param mainClassPackage
      * @return
      */
-    public static BaseMapperBO getBaseMapperBO(TableMetaDataBO tableMetaData, EntityBO entityBO, BaseRespBO baseResp, ClassCommentBO classComment, String mainClassPackage) {
+    public static BaseMapperBO getBaseMapperBO(TableMetaDataBO tableMetaData, EntityBO entityBO, ClassCommentBO classComment, String mainClassPackage) {
         BaseMapperBO baseMapperBO = new BaseMapperBO();
         baseMapperBO.setClassComment(classComment);
         baseMapperBO.setTableComment(tableMetaData.getComment());

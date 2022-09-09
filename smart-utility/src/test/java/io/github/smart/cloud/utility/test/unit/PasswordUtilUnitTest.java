@@ -35,7 +35,7 @@ class PasswordUtilUnitTest {
     @Test
     void testGenerateRandomSalt() throws NoSuchAlgorithmException {
         String randomSalt = PasswordUtil.generateRandomSalt();
-        Assertions.assertThat(randomSalt.length()).isEqualTo(16);
+        Assertions.assertThat(randomSalt).hasSize(16);
     }
 
 }

@@ -92,7 +92,9 @@ public class ShardingsphereEnumTypeHandler<E extends Enum<E>> extends MybatisEnu
 
     private E valueOf(Object value) {
         E[] es = this.enumClassType.getEnumConstants();
-        return Arrays.stream(es).filter((e) -> equalsValue(value, getValue(e))).findAny().orElse(null);
+        return Arrays.stream(es)
+                .filter(e -> equalsValue(value, getValue(e)))
+                .findAny().orElse(null);
     }
 
     private Object getValue(Object object) {

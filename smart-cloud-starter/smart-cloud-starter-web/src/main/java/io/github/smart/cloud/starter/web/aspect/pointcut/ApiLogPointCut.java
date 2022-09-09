@@ -46,7 +46,7 @@ public class ApiLogPointCut extends StaticMethodMatcherPointcut {
         return  // package是否匹配
                 packageExpressionPointcut.matches(method, c) &&
                         // 类
-                        (c.isAnnotationPresent(RestController.class) || c.isAnnotationPresent(Controller.class)) &&
+                        (c != null && (c.isAnnotationPresent(RestController.class) || c.isAnnotationPresent(Controller.class))) &&
                         // 方法
                         (AnnotatedElementUtils.hasAnnotation(method, RequestMapping.class)
                                 || AnnotatedElementUtils.hasAnnotation(method, GetMapping.class)

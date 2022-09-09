@@ -16,9 +16,9 @@
 package io.github.smart.cloud.starter.redis.intercept;
 
 import io.github.smart.cloud.constants.SymbolConstant;
-import io.github.smart.cloud.utility.security.Md5Util;
 import lombok.RequiredArgsConstructor;
 import org.aopalliance.intercept.MethodInterceptor;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RedissonClient;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
@@ -105,7 +105,7 @@ public abstract class AbstractRedisInterceptor implements MethodInterceptor {
     protected String getKey(String prefixType, String keyPrefix, String[] expressions, Method method, Object[] arguments) {
         String finalKeyPrefix = getPrefix(prefixType, keyPrefix, method).toString();
         String keySuffix = getSuffix(expressions, method, arguments).toString();
-        String finalKeySuffix = keySuffix.length() > MD5_LENGTH ? Md5Util.md5Hex(keySuffix) : keySuffix;
+        String finalKeySuffix = keySuffix.length() > MD5_LENGTH ? DigestUtils.md5Hex(keySuffix) : keySuffix;
         return finalKeyPrefix + finalKeySuffix;
     }
 

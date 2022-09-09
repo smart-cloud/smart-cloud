@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.global.id.test.cases;
 import io.github.smart.cloud.starter.global.id.GlobalId;
 import io.github.smart.cloud.starter.global.id.constants.RedisKey;
 import io.github.smart.cloud.starter.global.id.test.prepare.GlobalIdApp;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.redisson.api.RAtomicLong;
@@ -32,11 +33,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Import(GlobalIdTest.GlobalIdValueAutoConfiguration.class)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = GlobalIdApp.class, args = "--spring.profiles.active=globalid")
-public class GlobalIdTest extends AbstractIntegrationTest {
+class GlobalIdTest extends AbstractIntegrationTest {
 
     @Test
     void test() {
-        GlobalId.nextId();
+        Assertions.assertThat(GlobalId.nextId()).isPositive();
     }
 
     public static class GlobalIdValueAutoConfiguration implements ApplicationContextAware {

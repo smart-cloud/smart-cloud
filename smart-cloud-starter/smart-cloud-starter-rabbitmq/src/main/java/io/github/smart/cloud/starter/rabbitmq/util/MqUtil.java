@@ -79,17 +79,17 @@ public final class MqUtil {
      * @param rabbitMqAdapter
      * @param exchange
      * @param routingKey
-     * @param object
+     * @param body
      * @param retriedTimes
      * @param delayMillis
      * @param <T>
      */
-    public static <T> void send(IRabbitMqAdapter rabbitMqAdapter, String exchange, String routingKey, T object, Integer retriedTimes, Long delayMillis) {
+    public static <T> void send(IRabbitMqAdapter rabbitMqAdapter, String exchange, String routingKey, T body, Integer retriedTimes, Long delayMillis) {
         Message message = null;
-        if (object instanceof Message) {
-            message = (Message) object;
+        if (body instanceof Message) {
+            message = (Message) body;
         } else {
-            message = rabbitMqAdapter.getMessageConverter().toMessage(object, new MessageProperties());
+            message = rabbitMqAdapter.getMessageConverter().toMessage(body, new MessageProperties());
         }
 
         MessageProperties messageProperties = message.getMessageProperties();
@@ -110,17 +110,17 @@ public final class MqUtil {
      * 消费失败重试
      *
      * @param rabbitMqAdapter
-     * @param object
+     * @param body
      * @param headers
      * @param consumerClass
      * @param <T>
      * @return
      */
-    public static <T> RetryResult retryAfterConsumerFail(IRabbitMqAdapter rabbitMqAdapter, T object, Map<String, Object> headers, Class<?> consumerClass) {
+    public static <T> RetryResult retryAfterConsumerFail(IRabbitMqAdapter rabbitMqAdapter, T body, Map<String, Object> headers, Class<?> consumerClass) {
         if (!MqUtil.enableRetryAfterConsumerFail) {
             return RetryResult.NOT_SUPPORT;
         }
-        if (object == null) {
+        if (body == null) {
             return RetryResult.NOT_SUPPORT;
         }
 
@@ -150,7 +150,7 @@ public final class MqUtil {
         //延迟路由键
         String retryRouteKeyName = MqNameUtil.getRetryRouteKeyName(queueName, mqConsumerFailRetry);
         long retryIntervalSeconds = getRetryIntervalSeconds(mqConsumerFailRetry, nextRetriedTimes);
-        send(rabbitMqAdapter, retryExchangeName, retryRouteKeyName, object, nextRetriedTimes, TimeUnit.SECONDS.toMillis(retryIntervalSeconds));
+        send(rabbitMqAdapter, retryExchangeName, retryRouteKeyName, body, nextRetriedTimes, TimeUnit.SECONDS.toMillis(retryIntervalSeconds));
         return RetryResult.SUCCESS;
     }
 

@@ -23,16 +23,19 @@ import io.github.smart.cloud.starter.redis.annotation.RedisLock;
  * @author collin
  * @date 2022-02-04
  */
-public interface RedisLockConstants {
+public class RedisLockConstants {
 
     /**
      * 默认的获取锁等待时间（5000毫秒）
      */
-    long DEFAULT_WAIT_TIME = 5000L;
+    public static final long DEFAULT_WAIT_TIME = 5000L;
 
     /**
      * 默认的锁释放时间，-1表示直到代码执行完毕才释放锁
      */
-    long DEFAULT_LEASE_TIME = -1L;
+    public static final long DEFAULT_LEASE_TIME = -1L;
+
+    private RedisLockConstants() {
+    }
 
 }

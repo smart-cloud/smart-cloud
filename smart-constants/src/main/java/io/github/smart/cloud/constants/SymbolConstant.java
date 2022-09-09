@@ -21,63 +21,66 @@ package io.github.smart.cloud.constants;
  * @author collin
  * @date 2019-04-27
  */
-public interface SymbolConstant {
+public class SymbolConstant {
+
+    private SymbolConstant() {
+    }
 
     /**
      * 点（.）
      */
-    String DOT = ".";
+    public static final String DOT = ".";
     /**
      * 逗号（,）
      */
-    String COMMA = ",";
+    public static final String COMMA = ",";
     /**
      * 问号（?）
      */
-    String QUESTION_MARK = "?";
+    public static final String QUESTION_MARK = "?";
     /**
      * 冒号（:）
      */
-    String COLON = ":";
+    public static final String COLON = ":";
     /**
      * 分号（;）
      */
-    String SEMICOLON = ";";
+    public static final String SEMICOLON = ";";
     /**
      * 竖线（|）
      */
-    String VERTICAL_BAR = "|";
+    public static final String VERTICAL_BAR = "|";
     /**
      * 双线号（||）
      */
-    String PARALLEL = "||";
+    public static final String PARALLEL = "||";
     /**
      * 连字号（-）
      */
-    String HYPHEN = "-";
+    public static final String HYPHEN = "-";
     /**
      * 破折号（——）
      */
-    String DASH = "——";
+    public static final String DASH = "——";
     /**
      * 省略号（...）
      */
-    String ELLIPSIS = "...";
+    public static final String ELLIPSIS = "...";
     /**
      * 斜杆（/）
      */
-    String DIAGONAL_BAR = "/";
+    public static final String DIAGONAL_BAR = "/";
     /**
      * &
      */
-    String AND = "&";
+    public static final String AND = "&";
     /**
      * =
      */
-    String EQUAL = "=";
+    public static final String EQUAL = "=";
     /**
      * %
      */
-    String PERCENT = "%";
+    public static final String PERCENT = "%";
 
 }

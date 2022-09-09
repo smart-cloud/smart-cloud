@@ -141,7 +141,7 @@ public class DynamicDatasourceTest {
             roleInfoEntity.setDescription("查询");
             roleInfoEntity.setInsertUser(1L);
 
-            roleInfoOmsBiz.save(roleInfoEntity);
+            Assertions.assertThat(roleInfoOmsBiz.save(roleInfoEntity)).isTrue();
         }
     }
 

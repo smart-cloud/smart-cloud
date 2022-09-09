@@ -21,21 +21,24 @@ package io.github.smart.cloud.constants;
  * @author collin
  * @date 2022-02-16
  */
-public interface LogLevel {
+public class LogLevel {
 
     /**
      * debug级别
      */
-    String DEBUG = "debug";
+    public static final String DEBUG = "debug";
 
     /**
      * info级别
      */
-    String INFO = "info";
+    public static final String INFO = "info";
 
     /**
      * warn级别
      */
-    String WARN = "warn";
+    public static final String WARN = "warn";
+
+    private LogLevel() {
+    }
 
 }

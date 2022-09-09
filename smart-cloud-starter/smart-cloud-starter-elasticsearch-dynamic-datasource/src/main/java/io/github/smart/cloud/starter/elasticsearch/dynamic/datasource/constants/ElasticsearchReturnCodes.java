@@ -25,27 +25,30 @@ import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.exception.
  * @author collin
  * @date 2021-10-31
  */
-public interface ElasticsearchReturnCodes {
+public class ElasticsearchReturnCodes {
 
     /**
      * elasticsearch ds key不存在
      *
      * @see ElasticsearchDatasourceKeyNotExistException
      */
-    String ELASTICSEARCH_DS_KEY_CAN_NOT_BLANK = "3001";
+    public static final String ELASTICSEARCH_DS_KEY_CAN_NOT_BLANK = "3001";
 
     /**
      * elasticsearch 数据源未找到
      *
      * @see ElasticsearchDataSourceNotFoundException
      */
-    String ELASTICSEARCH_DS_NOT_FOUND = "3002";
+    public static final String ELASTICSEARCH_DS_NOT_FOUND = "3002";
 
     /**
      * elasticsearch 动态数据源属性未配置
      *
      * @see DynamicElasticsearchPropertiesNotConfigException
      */
-    String DYNAMIC_ELASTICSEARCH_PROPERTIES_NOT_CONFIG = "3003";
+    public static final String DYNAMIC_ELASTICSEARCH_PROPERTIES_NOT_CONFIG = "3003";
+
+    private ElasticsearchReturnCodes() {
+    }
 
 }

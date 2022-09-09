@@ -73,7 +73,7 @@ class RedisLockIntegrationTest extends AbstractRedisIntegrationTest {
             throwable = e.getCause();
         }
         Assertions.assertThat(throwable).isNotNull();
-        Assertions.assertThat(throwable instanceof AcquiredLockFailException).isTrue();
+        Assertions.assertThat(throwable).isInstanceOf(AcquiredLockFailException.class);
     }
 
     @Test

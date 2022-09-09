@@ -49,7 +49,7 @@ public class FeignHttpHeaderParameterInterceptor implements RequestInterceptor, 
     /**
      * 默认的需要传递的请求参数名称
      */
-    public static final Set<String> DEFAULT_TRANSFER_HEADER_NAMES = new HashSet<>();
+    private static final Set<String> DEFAULT_TRANSFER_HEADER_NAMES = new HashSet<>();
 
     static {
         DEFAULT_TRANSFER_HEADER_NAMES.add(SmartHttpHeaders.HEADER_USER);

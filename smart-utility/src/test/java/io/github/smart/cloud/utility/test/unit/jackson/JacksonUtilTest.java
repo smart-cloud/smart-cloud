@@ -73,8 +73,9 @@ class JacksonUtilTest {
 
         List<Product> products2 = JacksonUtil.parseObject(productsStr, new TypeReference<List<Product>>() {
         });
-        Assertions.assertThat(products2).isNotEmpty();
-        Assertions.assertThat(products2.size()).isEqualTo(products1.size());
+        Assertions.assertThat(products2)
+                .isNotEmpty()
+                .hasSameSizeAs(products1);
 
         Product product2 = products2.get(0);
         Assertions.assertThat(product1.getId()).isEqualTo(product2.getId());

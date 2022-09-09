@@ -55,7 +55,8 @@ public class MaskJsonSerializer extends JsonSerializer<Object> implements Contex
             return;
         }
 
-        int startLen, endLen;
+        int startLen;
+        int endLen;
         String mask;
         if (isSetMaskAttributes(maskLog)) {
             startLen = maskLog.startLen();

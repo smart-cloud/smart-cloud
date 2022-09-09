@@ -241,6 +241,9 @@ public class DateUtil {
             }
         }
 
+        private Holder() {
+        }
+
         /**
          * 初始化时间格式路由器
          */

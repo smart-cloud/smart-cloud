@@ -35,32 +35,35 @@ import java.util.Set;
 @UtilityClass
 public class ExceptionHandlerStrategyFactory {
 
-    private static Set<IExceptionHandlerStrategy> EXCEPTION_HANDLER_STRATEGIES = null;
+    /**
+     * 异常处理策略
+     */
+    private static final Set<IExceptionHandlerStrategy> EXCEPTION_HANDLER_STRATEGIES = init();
 
-    static {
+    private static Set<IExceptionHandlerStrategy> init() {
         Reflections reflections = new Reflections(IExceptionHandlerStrategy.class.getPackage().getName());
         Set<Class<? extends IExceptionHandlerStrategy>> exceptionHandlerStrategySet = reflections
                 .getSubTypesOf(IExceptionHandlerStrategy.class);
-        if (CollectionUtils.isNotEmpty(exceptionHandlerStrategySet)) {
-            final String servletClassName = "javax.servlet.ServletException";
-            boolean isServletEnv = ClassUtils.isPresent(servletClassName, ExceptionHandlerStrategyFactory.class.getClassLoader());
-            Set<IExceptionHandlerStrategy> exceptionHandlerStrategies = new HashSet<>(exceptionHandlerStrategySet.size());
-            for (Class<?> c : exceptionHandlerStrategySet) {
-                try {
-                    IExceptionHandlerStrategy exceptionHandlerStrategy = (IExceptionHandlerStrategy) c.newInstance();
-                    if (!isServletEnv && exceptionHandlerStrategy.isNeedServletEnv()) {
-                        continue;
-                    }
-                    exceptionHandlerStrategies.add(exceptionHandlerStrategy);
-                } catch (InstantiationException | IllegalAccessException e) {
-                    log.error("IExceptionHandlerStrategy newInstance error", e);
-                }
-            }
-
-            EXCEPTION_HANDLER_STRATEGIES = Collections.unmodifiableSet(exceptionHandlerStrategies);
-        } else {
-            EXCEPTION_HANDLER_STRATEGIES = Collections.unmodifiableSet(new HashSet<>(0));
+        if (CollectionUtils.isEmpty(exceptionHandlerStrategySet)) {
+            return Collections.unmodifiableSet(new HashSet<>(0));
         }
+
+        final String servletClassName = "javax.servlet.ServletException";
+        boolean isServletEnv = ClassUtils.isPresent(servletClassName, ExceptionHandlerStrategyFactory.class.getClassLoader());
+        Set<IExceptionHandlerStrategy> exceptionHandlerStrategies = new HashSet<>(exceptionHandlerStrategySet.size());
+        for (Class<?> c : exceptionHandlerStrategySet) {
+            try {
+                IExceptionHandlerStrategy exceptionHandlerStrategy = (IExceptionHandlerStrategy) c.newInstance();
+                if (!isServletEnv && exceptionHandlerStrategy.isNeedServletEnv()) {
+                    continue;
+                }
+                exceptionHandlerStrategies.add(exceptionHandlerStrategy);
+            } catch (InstantiationException | IllegalAccessException e) {
+                log.error("IExceptionHandlerStrategy newInstance error", e);
+            }
+        }
+
+        return Collections.unmodifiableSet(exceptionHandlerStrategies);
     }
 
     /**

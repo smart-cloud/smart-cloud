@@ -21,15 +21,18 @@ package io.github.smart.cloud.starter.global.id.constants;
  * @author collin
  * @date 2022-03-06
  */
-public interface RedisKey {
+public class RedisKey {
 
     /**
      * globalid锁key
      */
-    String GLOBALID = "smartcloud:lock:globalid";
+    public static final String GLOBALID = "smartcloud:lock:globalid";
     /**
      * globalid workerId计算器key
      */
-    String GLOBALID_WORKERID = "smartcloud:data:globalid:workerId";
+    public static final String GLOBALID_WORKERID = "smartcloud:data:globalid:workerId";
+
+    private RedisKey() {
+    }
 
 }

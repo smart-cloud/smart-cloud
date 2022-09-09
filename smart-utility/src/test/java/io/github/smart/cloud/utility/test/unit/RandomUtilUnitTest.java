@@ -29,8 +29,8 @@ class RandomUtilUnitTest {
     void testGenerateRandom() {
         String random1 = RandomUtil.generateRandom(true, 10);
         String random2 = RandomUtil.generateRandom(false, 10);
-        Assertions.assertThat(random1.length()).isEqualTo(10);
-        Assertions.assertThat(random2.length()).isEqualTo(10);
+        Assertions.assertThat(random1).hasSize(10);
+        Assertions.assertThat(random2).hasSize(10);
     }
 
     @Test

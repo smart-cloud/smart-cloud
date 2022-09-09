@@ -39,7 +39,7 @@
 				                如果filePattern配置的日期格式为 %d{yyyy-MM-dd} ，则每天生成一个压缩文件 -->
 				<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
 				<!-- 每个日志文件最大10MB -->
-				<!-- <SizeBasedTriggeringPolicy size="10 MB" /> -->
+				<SizeBasedTriggeringPolicy size="512 MB" />
 			</Policies>
 		</RollingRandomAccessFile>
 

@@ -55,6 +55,9 @@ public class SystemUtil {
 
     static class Holder {
         private static final String OS = System.getProperty("os.name").toLowerCase();
+
+        private Holder() {
+        }
     }
 
 }

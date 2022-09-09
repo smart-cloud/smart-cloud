@@ -37,9 +37,10 @@ class SmartAutoConfigurationTest {
     @Test
     void test() {
         Map<String, SmartAutoConfiguration> beanOfType = applicationContext.getBeansOfType(SmartAutoConfiguration.class);
-        Assertions.assertThat(beanOfType).isNotEmpty();
-        // 因被@RefreshScope标注，故也会生成一个bean
-        Assertions.assertThat(beanOfType.size()).isEqualTo(2);
+        Assertions.assertThat(beanOfType)
+                .isNotEmpty()
+                // 因被@RefreshScope标注，故也会生成一个bean
+                .hasSize(2);
     }
 
 }

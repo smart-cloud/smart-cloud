@@ -33,4 +33,7 @@ public class SmartEnv {
     @Setter
     private static boolean unitTest = false;
 
+    private SmartEnv() {
+    }
+
 }

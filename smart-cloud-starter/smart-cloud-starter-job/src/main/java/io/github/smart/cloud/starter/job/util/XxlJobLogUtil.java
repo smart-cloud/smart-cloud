@@ -27,6 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public final class XxlJobLogUtil {
 
+    private XxlJobLogUtil() {
+    }
+
     public static void debug(String format, Object... arguments) {
         log.debug(format, arguments);
         XxlJobHelper.log(format, arguments);

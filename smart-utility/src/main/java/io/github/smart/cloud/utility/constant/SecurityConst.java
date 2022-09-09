@@ -21,15 +21,18 @@ package io.github.smart.cloud.utility.constant;
  * @author collin
  * @date 2021-10-31
  */
-public interface SecurityConst {
+public class SecurityConst {
 
     /**
      * the name of the RNG algorithm
      */
-    String RNG_ALGORITHM = "SHA1PRNG";
+    public static final String RNG_ALGORITHM = "SHA1PRNG";
     /**
      * 加密算法
      */
-    String ENCRYPTION_ALGORITHM = "AES";
+    public static final String ENCRYPTION_ALGORITHM = "AES";
+
+    private SecurityConst() {
+    }
 
 }

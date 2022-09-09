@@ -36,7 +36,7 @@ import java.util.Date;
  */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ShardingJdbcAlgorithmApp.class, args = "--spring.profiles.active=shardingjdbcalgorithm")
-public class ShardingjdbcAlgorithmTest {
+class ShardingjdbcAlgorithmTest {
 
     @Autowired
     private OrderBillBiz orderBillBiz;

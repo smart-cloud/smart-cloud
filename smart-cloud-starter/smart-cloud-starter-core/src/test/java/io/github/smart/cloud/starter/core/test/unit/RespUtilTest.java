@@ -75,8 +75,9 @@ class RespUtilTest {
         errorResponse.getHead().setMessage(msg);
 
         String errorMsg = RespUtil.getFailMsg(errorResponse);
-        Assertions.assertThat(errorMsg).isNotBlank();
-        Assertions.assertThat(errorMsg).isEqualTo(msg);
+        Assertions.assertThat(errorMsg)
+                .isNotBlank()
+                .isEqualTo(msg);
     }
 
 }

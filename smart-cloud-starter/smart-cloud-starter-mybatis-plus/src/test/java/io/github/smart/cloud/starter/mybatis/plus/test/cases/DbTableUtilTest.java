@@ -36,20 +36,14 @@ class DbTableUtilTest {
     @Autowired
     private DynamicRoutingDataSource dynamicRoutingDataSource;
 
-    /**
-     * 因h2不支持“create table xxxyyy like xxx”，所以跳过
-     */
-    @Disabled
+    @Disabled("因h2不支持“create table xxxyyy like xxx”，所以跳过")
     @Test
     void testCopyTableSchema() {
         boolean result = DbTableUtil.copyTableSchema("t_product_info", String.format("t_product_info_%s", RandomUtil.uuid()), dynamicRoutingDataSource.determineDataSource());
         Assertions.assertThat(result).isTrue();
     }
 
-    /**
-     * 因h2不支持“create table xxxyyy like xxx”，所以跳过
-     */
-    @Disabled
+    @Disabled("因h2不支持“create table xxxyyy like xxx”，所以跳过")
     @Test
     void testCreateTableIfAbsent() {
         String sourceTableName = "t_product_info";
@@ -59,19 +53,19 @@ class DbTableUtilTest {
         Assertions.assertThat(result1).isTrue();
 
         // 存在
-        boolean result2 = DbTableUtil.createTableIfAbsent("test_mybatis_plus",sourceTableName, targetTableName, dynamicRoutingDataSource.determineDataSource());
+        boolean result2 = DbTableUtil.createTableIfAbsent("test_mybatis_plus", sourceTableName, targetTableName, dynamicRoutingDataSource.determineDataSource());
         Assertions.assertThat(result2).isTrue();
     }
 
     @Test
     void testExistTable() {
-        Assertions.assertThat(DbTableUtil.existTable("test_mybatis_plus","xxx", dynamicRoutingDataSource.determineDataSource())).isFalse();
-        Assertions.assertThat(DbTableUtil.existTable("test_mybatis_plus","t_product_info", dynamicRoutingDataSource.determineDataSource())).isTrue();
+        Assertions.assertThat(DbTableUtil.existTable("test_mybatis_plus", "xxx", dynamicRoutingDataSource.determineDataSource())).isFalse();
+        Assertions.assertThat(DbTableUtil.existTable("test_mybatis_plus", "t_product_info", dynamicRoutingDataSource.determineDataSource())).isTrue();
     }
 
     @Test
     void testQueryTablesByPrefix() {
-        List<String> productInfoTables = DbTableUtil.queryTablesByPrefix("test_mybatis_plus","t_product_info", dynamicRoutingDataSource.determineDataSource());
+        List<String> productInfoTables = DbTableUtil.queryTablesByPrefix("test_mybatis_plus", "t_product_info", dynamicRoutingDataSource.determineDataSource());
         Assertions.assertThat(productInfoTables).isNotEmpty();
     }
 

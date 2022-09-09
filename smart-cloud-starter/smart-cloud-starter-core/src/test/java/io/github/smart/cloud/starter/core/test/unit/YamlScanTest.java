@@ -31,8 +31,9 @@ class YamlScanTest {
     void test() {
         String value = SpringContextUtil.getApplicationContext().getEnvironment().getProperty("smart.test");
 
-        Assertions.assertThat(value).isNotBlank();
-        Assertions.assertThat(value).isEqualTo("100");
+        Assertions.assertThat(value)
+                .isNotBlank()
+                .isEqualTo("100");
     }
 
 }

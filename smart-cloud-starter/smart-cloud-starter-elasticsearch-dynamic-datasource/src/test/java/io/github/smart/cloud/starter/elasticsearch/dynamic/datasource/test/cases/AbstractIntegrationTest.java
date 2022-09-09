@@ -29,7 +29,7 @@ import java.io.IOException;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
-public abstract class AbstractIntegrationTest {
+abstract class AbstractIntegrationTest {
     private static EmbeddedElastic embeddedElasticProduct;
     private static EmbeddedElastic embeddedElasticOrder;
 

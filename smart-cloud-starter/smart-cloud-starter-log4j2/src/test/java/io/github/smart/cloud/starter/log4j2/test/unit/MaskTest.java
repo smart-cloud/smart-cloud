@@ -53,8 +53,7 @@ class MaskTest {
         byteBuffer.flip();
         String maskName = MaskUtil.mask(user.getName(), MaskRule.NAME);
         String maskMobile = MaskUtil.mask(user.getMobile(), MaskRule.MOBILE);
-        Assertions.assertThat(logContent).contains(maskName);
-        Assertions.assertThat(logContent).contains(maskMobile);
+        Assertions.assertThat(logContent).contains(maskName, maskMobile);
     }
 
     @Getter

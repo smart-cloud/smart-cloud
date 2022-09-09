@@ -21,87 +21,90 @@ package io.github.smart.cloud.constants;
  * @author collin
  * @date 2019-03-27
  */
-public interface CommonReturnCodes {
+public class CommonReturnCodes {
 
     /**
      * 成功
      */
-    String SUCCESS = "200";
+    public static final String SUCCESS = "200";
     /**
      * 校验失败
      */
-    String VALIDATE_FAIL = "101";
+    public static final String VALIDATE_FAIL = "101";
     /**
      * 数据不存在
      */
-    String DATA_MISSING = "102";
+    public static final String DATA_MISSING = "102";
     /**
      * 数据已存在
      */
-    String DATA_EXISTED = "103";
+    public static final String DATA_EXISTED = "103";
     /**
      * 签名错误
      */
-    String SIGN_ERROR = "400";
+    public static final String SIGN_ERROR = "400";
     /**
      * 无权限访问
      */
-    String NO_ACCESS = "401";
+    public static final String NO_ACCESS = "401";
     /**
      * 请求url错误
      */
-    String REQUEST_URL_ERROR = "404";
+    public static final String REQUEST_URL_ERROR = "404";
     /**
      * 请求超时
      */
-    String REQUEST_TIMEOUT = "408";
+    public static final String REQUEST_TIMEOUT = "408";
     /**
      * 重复提交
      */
-    String REPEAT_SUBMIT = "409";
+    public static final String REPEAT_SUBMIT = "409";
     /**
      * 参数不全
      */
-    String PARAMETERS_MISSING = "412";
+    public static final String PARAMETERS_MISSING = "412";
     /**
      * 请求方式不支持
      */
-    String REQUEST_METHOD_NOT_SUPPORTED = "415";
+    public static final String REQUEST_METHOD_NOT_SUPPORTED = "415";
     /**
      * 请求类型不支持
      */
-    String UNSUPPORTED_MEDIA_TYPE = "416";
+    public static final String UNSUPPORTED_MEDIA_TYPE = "416";
     /**
      * 获取锁失败
      */
-    String GET_LOCK_FAIL = "417";
+    public static final String GET_LOCK_FAIL = "417";
     /**
      * 上传文件大小超过限制
      */
-    String UPLOAD_FILE_SIZE_EXCEEDED = "418";
+    public static final String UPLOAD_FILE_SIZE_EXCEEDED = "418";
     /**
      * 当前会话已失效，请重新登陆
      */
-    String NOT_LOGGED_IN = "419";
+    public static final String NOT_LOGGED_IN = "419";
     /**
      * 服务器异常
      */
-    String SERVER_ERROR = "500";
+    public static final String SERVER_ERROR = "500";
     /**
      * 获取Request失败
      */
-    String GET_REQUEST_FAIL = "501";
+    public static final String GET_REQUEST_FAIL = "501";
     /**
      * 获取Response失败
      */
-    String GET_RESPONSE_FAIL = "502";
+    public static final String GET_RESPONSE_FAIL = "502";
     /**
      * rpc请求失败
      */
-    String RPC_REQUEST_FAIL = "503";
+    public static final String RPC_REQUEST_FAIL = "503";
     /**
      * rpc返回结果异常
      */
-    String RPC_RESULT_EXCEPTION = "504";
+    public static final String RPC_RESULT_EXCEPTION = "504";
+
+    private CommonReturnCodes() {
+    }
 
 }

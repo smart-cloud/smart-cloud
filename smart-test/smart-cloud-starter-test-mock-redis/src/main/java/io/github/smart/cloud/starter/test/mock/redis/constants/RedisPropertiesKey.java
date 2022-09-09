@@ -21,15 +21,15 @@ package io.github.smart.cloud.starter.test.mock.redis.constants;
  * @author collin
  * @date 2022-02-22
  */
-public interface RedisPropertiesKey {
+public class RedisPropertiesKey {
 
     /**
      * redis密码key
      */
-    String PASSWORD = "spring.redis.password";
+    public static final String PASSWORD = "spring.redis.password";
     /**
      * redis端口key
      */
-    String PORT = "spring.redis.port";
+    public static final String PORT = "spring.redis.port";
 
 }

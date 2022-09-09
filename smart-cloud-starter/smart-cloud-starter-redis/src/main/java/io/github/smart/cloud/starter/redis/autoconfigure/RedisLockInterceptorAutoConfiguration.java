@@ -24,7 +24,6 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * 分布式锁拦截器配置

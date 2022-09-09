@@ -21,17 +21,17 @@ package io.github.smart.cloud.code.generate.constants;
  * @author collin
  * @date 2021-12-12
  */
-public interface DbConstants {
+public class DbConstants {
 
     /**
      * jdbc查询表的类型
      */
-    String TABLE_TYPE = "TABLE";
+    public static final String TABLE_TYPE = "TABLE";
 
     /**
      * “PUBLIC” schema
      */
-    String PUBLIC_SCHEMA_PATTERN = "PUBLIC";
+    public static final String PUBLIC_SCHEMA_PATTERN = "PUBLIC";
 
     /**
      * 数据库连接属性
@@ -39,23 +39,29 @@ public interface DbConstants {
      * @author collin
      * @date 2021-12-12
      */
-    interface ConnectionProperties {
+    public static class ConnectionProperties {
         /**
          * 数据库用户名
          */
-        String USER = "user";
+        public static final String USER = "user";
         /**
          * 数据库密码
          */
-        String PASSWORD = "password";
+        public static final String PASSWORD = "password";
         /**
          * 获取Oracle元数据 REMARKS信息
          */
-        String REMARKS_REPORTING = "remarksReporting";
+        public static final String REMARKS_REPORTING = "remarksReporting";
         /**
          * 获取MySQL元数据 REMARKS信息
          */
-        String USE_INFORMATION_SCHEMA = "useInformationSchema";
+        public static final String USE_INFORMATION_SCHEMA = "useInformationSchema";
+
+        private ConnectionProperties() {
+        }
+    }
+
+    private DbConstants() {
     }
 
 }

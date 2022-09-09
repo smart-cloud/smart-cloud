@@ -100,8 +100,7 @@ public class CodeGenerateUtil {
                 entityBO.getImportPackages(), code.getMask());
         CodeFileGenerateUtil.generateBaseRespVO(baseResp, rpcPath);
 
-        BaseMapperBO baseMapperBO = TemplateUtil.getBaseMapperBO(tableMetaData, entityBO, baseResp,
-                classComment, mainClassPackage);
+        BaseMapperBO baseMapperBO = TemplateUtil.getBaseMapperBO(tableMetaData, entityBO, classComment, mainClassPackage);
         CodeFileGenerateUtil.generateBaseMapper(baseMapperBO, servicePath);
     }
 

@@ -38,7 +38,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DynamicDatasourceMasterSlaveApp.class, args = "--spring.profiles.active=dynamicdatasourcemasterslave")
-public class DynamicDatasourceMasterSlaveTest {
+class DynamicDatasourceMasterSlaveTest {
 
     @Autowired
     private ProductInfoOmsBiz productInfoOmsBiz;
@@ -116,7 +116,7 @@ public class DynamicDatasourceMasterSlaveTest {
         Assertions.assertThat(responseOfSlave.getDatas()).isEmpty();
         Assertions.assertThat(responseOfSlave.getPageSize()).isEqualTo(reqVO.getPageSize());
         Assertions.assertThat(responseOfSlave.getPageIndex()).isEqualTo(reqVO.getPageNum());
-        Assertions.assertThat(responseOfSlave.getPageTotal()).isEqualTo(0);
+        Assertions.assertThat(responseOfSlave.getPageTotal()).isZero();
         // master--end
     }
 

@@ -21,11 +21,14 @@ package io.github.smart.cloud.starter.web.constants;
  * @author collin
  * @date 2021-10-31
  */
-public interface WebReturnCodes {
+public class WebReturnCodes {
 
     /**
      * 待校验参数object不能为null
      */
-    String VALIDATE_IN_PARAMS_NULL = "2001";
+    public static final String VALIDATE_IN_PARAMS_NULL = "2001";
+
+    private WebReturnCodes() {
+    }
 
 }

@@ -20,6 +20,7 @@ import com.github.fridujo.rabbitmq.mock.ReceiverRegistry;
 import com.github.fridujo.rabbitmq.mock.exchange.MockDirectExchange;
 import com.rabbitmq.client.AMQP;
 import io.github.smart.cloud.starter.rabbitmq.MqConstants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.MessageProperties;
 
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,7 @@ import java.util.concurrent.TimeUnit;
  * @author collin
  * @date 2022-02-21
  */
+@Slf4j
 public class DelayExchange extends MockDirectExchange {
 
     public DelayExchange(String name, AmqArguments arguments, ReceiverRegistry receiverRegistry) {
@@ -46,6 +48,7 @@ public class DelayExchange extends MockDirectExchange {
         try {
             TimeUnit.MILLISECONDS.sleep((long) props.getHeaders().get(MessageProperties.X_DELAY));
         } catch (InterruptedException e) {
+            log.error("sleep.exception|exchangeName={}, routingKey={}", previousExchangeName, routingKey, e);
         }
         return super.publish(previousExchangeName, routingKey, props, body);
     }

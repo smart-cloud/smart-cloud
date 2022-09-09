@@ -21,11 +21,14 @@ package io.github.smart.cloud.starter.test.mock.rabbitmq.constants;
  * @author collin
  * @date 2022-02-22
  */
-public interface MqConstants {
+public class MqConstants {
 
     /**
      * 延迟消息类型
      */
-    String DELAY_MESSAGE_TYPE = "x-delayed-message";
+    public static final String DELAY_MESSAGE_TYPE = "x-delayed-message";
+
+    private MqConstants() {
+    }
 
 }

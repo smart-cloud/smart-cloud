@@ -37,6 +37,9 @@ public class ElasticsearchClientUtil {
     @Setter
     private static DynamicRestHighLevelClient dynamicRestHighLevelClient;
 
+    private ElasticsearchClientUtil() {
+    }
+
     /**
      * 创建索引
      *

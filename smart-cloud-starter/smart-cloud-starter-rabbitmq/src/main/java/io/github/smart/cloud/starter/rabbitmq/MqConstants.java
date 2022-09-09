@@ -21,53 +21,56 @@ package io.github.smart.cloud.starter.rabbitmq;
  * @author collin
  * @date 2021-06-17
  */
-public interface MqConstants {
+public class MqConstants {
 
     /**
      * rabbitmq header中的消息id
      */
-    String MESSAGE_ID_NAME = "id";
+    public static final String MESSAGE_ID_NAME = "id";
     /**
      * mq已重试次数
      */
-    String CONSUMER_RETRIED_TIMES = "consumer_retried_times";
+    public static final String CONSUMER_RETRIED_TIMES = "consumer_retried_times";
     /**
      * 幂等校验锁名称前缀
      */
-    String IDE_CKECK_LOCK_NAME_PREFIX = "lock:mq:idecheck:";
+    public static final String IDE_CKECK_LOCK_NAME_PREFIX = "lock:mq:idecheck:";
 
     /**
      * Binding bean名称前缀
      */
-    String BINDING_BEAN_NAME_PREFIX = "bind";
+    public static final String BINDING_BEAN_NAME_PREFIX = "bind";
 
     /**
      * 延迟交换机类型key
      */
-    String DELAY_EXCHANGE_TYPE_KEY = "x-delayed-type";
+    public static final String DELAY_EXCHANGE_TYPE_KEY = "x-delayed-type";
 
     /**
      * 延迟消息类型
      */
-    String DELAY_MESSAGE_TYPE = "x-delayed-message";
+    public static final String DELAY_MESSAGE_TYPE = "x-delayed-message";
 
     /**
      * 延迟队列（交换机、路由键等）名称前缀
      */
-    String DELAY_PREFIX = "delay_";
+    public static final String DELAY_PREFIX = "delay_";
 
     /**
      * 交换机后缀
      */
-    String EXCHANGE_SUFFIX = "_exchange";
+    public static final String EXCHANGE_SUFFIX = "_exchange";
 
     /**
      * 路由键后缀
      */
-    String ROUTE_KEY_SUFFIX = "_route_key";
+    public static final String ROUTE_KEY_SUFFIX = "_route_key";
     /**
      * mq消费失败后最大重试次数
      */
-    int DEFAULT_MAX_RETRY_TIMES_WHEN_FAIL = 10;
+    public static final int DEFAULT_MAX_RETRY_TIMES_WHEN_FAIL = 10;
+
+    private MqConstants() {
+    }
 
 }

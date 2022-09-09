@@ -37,7 +37,7 @@ import java.util.Date;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MybatisplusApp.class, args = "--spring.profiles.active=mybatisplus")
-public class MybatisSqlLogInterceptorTest {
+class MybatisSqlLogInterceptorTest {
 
     @Autowired
     private ProductInfoOmsBiz productInfoOmsBiz;
