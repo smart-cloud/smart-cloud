@@ -22,6 +22,7 @@ import io.github.smart.cloud.starter.redis.enums.RedisKeyPrefix;
 import org.aopalliance.intercept.MethodInvocation;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.core.Ordered;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,10 +35,15 @@ import java.lang.reflect.Method;
  * @date 2022-02-02
  * @see RedisLock
  */
-public class RedisLockInterceptor extends AbstractRedisInterceptor {
+public class RedisLockInterceptor extends AbstractRedisInterceptor implements Ordered {
 
     public RedisLockInterceptor(RedissonClient redissonClient) {
         super(redissonClient);
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 
     @Nullable
