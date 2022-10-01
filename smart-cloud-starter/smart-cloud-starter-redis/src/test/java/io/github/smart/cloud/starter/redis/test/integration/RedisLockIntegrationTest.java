@@ -33,13 +33,15 @@ class RedisLockIntegrationTest extends AbstractRedisIntegrationTest {
 
     @Test
     void testWithKeyPrefix() {
+        final Long uid = 1000000000000000000L;
+        String mobile = "12345678901234567890";
         final String success = "ok";
         FutureTask<String> normalFutureTask = new FutureTask<>(() -> {
             User user = new User();
-            user.setId(100L);
+            user.setId(uid);
             user.setMobile("18700000000");
             try {
-                redisLockController.testWithKeyPrefix(user, "13112341234");
+                redisLockController.testWithKeyPrefix(user, mobile);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -48,11 +50,11 @@ class RedisLockIntegrationTest extends AbstractRedisIntegrationTest {
 
         FutureTask<String> acquireLockFailFutureTask = new FutureTask<>(() -> {
             User user = new User();
-            user.setId(100L);
+            user.setId(uid);
             user.setMobile("18700000000");
             try {
-                TimeUnit.MICROSECONDS.sleep(100);
-                redisLockController.testWithKeyPrefix(user, "13112341234");
+                TimeUnit.MILLISECONDS.sleep(1500);
+                redisLockController.testWithKeyPrefix(user, mobile);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -72,8 +74,9 @@ class RedisLockIntegrationTest extends AbstractRedisIntegrationTest {
         } catch (InterruptedException | ExecutionException e) {
             throwable = e.getCause();
         }
-        Assertions.assertThat(throwable).isNotNull();
-        Assertions.assertThat(throwable).isInstanceOf(AcquiredLockFailException.class);
+        Assertions.assertThat(throwable)
+                .isNotNull()
+                .isInstanceOf(AcquiredLockFailException.class);
     }
 
     @Test

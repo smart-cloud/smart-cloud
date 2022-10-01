@@ -28,4 +28,7 @@ public class ShardingSphereDataSourceName {
      */
     public static final String SHARDING_DATASOURCE = "shardingSphereDataSource";
 
+    private ShardingSphereDataSourceName() {
+    }
+
 }

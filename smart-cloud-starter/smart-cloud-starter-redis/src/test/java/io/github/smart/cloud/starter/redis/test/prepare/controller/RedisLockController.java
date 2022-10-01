@@ -26,7 +26,7 @@ public class RedisLockController {
 
     @RedisLock(prefix = "test:testWithKeyPrefix:", expressions = {"#mobile", "#user.id"}, waitTime = 10)
     public String testWithKeyPrefix(User user, String mobile) throws InterruptedException {
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(3);
         return "ok";
     }
 

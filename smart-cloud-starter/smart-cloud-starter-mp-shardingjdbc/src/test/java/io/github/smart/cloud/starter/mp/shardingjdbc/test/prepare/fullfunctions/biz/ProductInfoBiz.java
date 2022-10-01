@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.biz;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
-import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.constants.DatasourceName;
+import io.github.smart.cloud.starter.mp.shardingjdbc.constants.ShardingSphereDataSourceName;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.entity.ProductInfoEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.fullfunctions.mapper.ProductInfoBaseMapper;
 import io.github.smart.cloud.starter.mybatis.plus.common.biz.BaseBiz;
@@ -34,7 +34,7 @@ import java.util.Date;
  * @date 2019-03-31
  */
 @Repository
-@DS(DatasourceName.SHARDING_DATASOURCE)
+@DS(ShardingSphereDataSourceName.SHARDING_DATASOURCE)
 public class ProductInfoBiz extends BaseBiz<ProductInfoBaseMapper, ProductInfoEntity> {
 
     public Long create() {

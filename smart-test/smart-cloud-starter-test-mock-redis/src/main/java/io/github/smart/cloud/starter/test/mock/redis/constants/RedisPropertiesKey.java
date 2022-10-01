@@ -32,4 +32,7 @@ public class RedisPropertiesKey {
      */
     public static final String PORT = "spring.redis.port";
 
+    private RedisPropertiesKey() {
+    }
+
 }

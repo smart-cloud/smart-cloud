@@ -15,9 +15,7 @@
  */
 package io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.constants;
 
-import io.github.smart.cloud.starter.mp.shardingjdbc.constants.ShardingSphereDataSourceName;
-
-public class DatasourceName extends ShardingSphereDataSourceName {
+public class DatasourceName {
 
     public static final String LOG = "datasource-log";
 

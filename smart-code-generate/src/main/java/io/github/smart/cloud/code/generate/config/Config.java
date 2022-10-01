@@ -65,6 +65,9 @@ public class Config {
     public static final String MAPPER_PACKAGE_SUFFIX = ".mapper.base";
     public static final String BASE_RESPVO_PACKAGE_SUFFIX = ".response.base";
 
+    private Config() {
+    }
+
     /**
      * 模板文件名
      */
@@ -81,6 +84,10 @@ public class Config {
          * entity
          */
         public static final String ENTITY = "Entity.ftl";
+
+        private Template() {
+        }
+
     }
 
     /**
@@ -95,6 +102,9 @@ public class Config {
          * MaskLog包名
          */
         public static final String MASK_LOG = MaskLog.class.getTypeName();
+
+        private MaskPackage() {
+        }
     }
 
 }

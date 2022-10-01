@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.biz;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
-import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.constants.DatasourceName;
+import io.github.smart.cloud.starter.mp.shardingjdbc.constants.ShardingSphereDataSourceName;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.entity.ProductInfoEntity;
 import io.github.smart.cloud.starter.mp.shardingjdbc.test.prepare.shardingjdbcdynamicdatasource.mapper.ProductInfoBaseMapper;
 import io.github.smart.cloud.starter.mybatis.plus.common.biz.BaseBiz;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Repository;
  * @date 2019-03-31
  */
 @Repository
-@DS(DatasourceName.SHARDING_DATASOURCE)
+@DS(ShardingSphereDataSourceName.SHARDING_DATASOURCE)
 public class ProductInfoBiz extends BaseBiz<ProductInfoBaseMapper, ProductInfoEntity> {
 
 }
