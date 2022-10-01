@@ -24,6 +24,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * redis分布式锁注解
  *
+ * <p>支持同时与事务注解使用；会执行锁拦截器，再执行事务拦截器</p>
+ *
  * @author collin
  * @date 2022-02-02
  */
