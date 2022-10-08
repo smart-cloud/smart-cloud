@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.redis.adapter;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * redis防腐层
@@ -112,4 +113,15 @@ public interface IRedisAdapter {
      * @return {@code true}表示成功；{@code false}表示失败
      */
     boolean setNx(String key, String value, long expireMillis);
+
+    /**
+     * 设置hash结构缓存，并设置有效期
+     *
+     * @param hkey
+     * @param data
+     * @param expireSeconds
+     * @return
+     */
+    boolean setHash(String hkey, Map<String, Object> data, Long expireSeconds);
+
 }
