@@ -122,6 +122,6 @@ public interface IRedisAdapter {
      * @param expireSeconds
      * @return
      */
-    boolean setHash(String hkey, Map<String, Object> data, Long expireSeconds);
+    boolean setHash(String hkey, Map<String, String> data, Long expireSeconds);
 
 }

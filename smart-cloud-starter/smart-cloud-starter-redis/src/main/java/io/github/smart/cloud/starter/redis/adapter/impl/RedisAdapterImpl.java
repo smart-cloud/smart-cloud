@@ -24,6 +24,8 @@ import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.types.Expiration;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.Assert;
 
 import java.nio.charset.StandardCharsets;
@@ -44,6 +46,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisAdapterImpl implements IRedisAdapter {
 
     private final StringRedisTemplate stringRedisTemplate;
+    private RedisSerializer redisSerializer = new StringRedisSerializer();
 
     /**
      * 设置k-v对
@@ -169,10 +172,7 @@ public class RedisAdapterImpl implements IRedisAdapter {
      */
     @Override
     public boolean setNx(String key, String value, long expireMillis) {
-        Boolean result = stringRedisTemplate.execute(connection -> connection.set(key.getBytes(StandardCharsets.UTF_8),
-                value.getBytes(StandardCharsets.UTF_8),
-                Expiration.milliseconds(expireMillis),
-                RedisStringCommands.SetOption.SET_IF_ABSENT), true);
+        Boolean result = stringRedisTemplate.execute(connection -> connection.set(key.getBytes(StandardCharsets.UTF_8), value.getBytes(StandardCharsets.UTF_8), Expiration.milliseconds(expireMillis), RedisStringCommands.SetOption.SET_IF_ABSENT), true);
         return result != null && result;
     }
 
@@ -185,7 +185,7 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @return
      */
     @Override
-    public boolean setHash(String hkey, Map<String, Object> data, Long expireSeconds) {
+    public boolean setHash(String hkey, Map<String, String> data, Long expireSeconds) {
         Assert.hasText(hkey, "The arg[hkey] can not be empty");
         Assert.notEmpty(data, "The arg[data] can not be empty");
         Assert.notNull(expireSeconds, "The arg[expireSeconds] can not be null");
@@ -196,7 +196,7 @@ public class RedisAdapterImpl implements IRedisAdapter {
         List<Object> args = new ArrayList<>();
         args.add(String.valueOf(expireSeconds));
 
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
+        for (Map.Entry<String, String> entry : data.entrySet()) {
             keys.add(entry.getKey());
             args.add(entry.getValue());
         }
@@ -207,8 +207,8 @@ public class RedisAdapterImpl implements IRedisAdapter {
         DefaultRedisScript<Long> mapRedisScript = new DefaultRedisScript<>();
         mapRedisScript.setScriptText(scriptText);
         mapRedisScript.setResultType(Long.TYPE);
-        Long result = stringRedisTemplate.execute(mapRedisScript, keys, args.toArray());
-        return result != null && result.compareTo(1L) == 0;
+        Long result = stringRedisTemplate.execute(mapRedisScript, redisSerializer, redisSerializer, keys, args.toArray());
+        return result != null && result == 1L;
     }
 
     /**
@@ -217,13 +217,13 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @param data
      * @return
      */
-    private final String buildHashLuaScript(Map<String, Object> data) {
+    private final String buildHashLuaScript(Map<String, String> data) {
         StringBuilder hashLua = new StringBuilder(64);
         hashLua.append("redis.call('hmset', KEYS[1], ");
 
         int count = 0;
         int size = data.size();
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
+        for (Map.Entry<String, String> entry : data.entrySet()) {
             int index = count + 2;
             hashLua.append("KEYS[").append(index).append("], ARGV[").append(index).append("]");
             if (count < size - 1) {
