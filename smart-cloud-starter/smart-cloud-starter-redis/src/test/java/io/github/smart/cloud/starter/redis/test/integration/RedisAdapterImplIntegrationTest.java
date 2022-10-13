@@ -16,6 +16,7 @@
 package io.github.smart.cloud.starter.redis.test.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.github.smart.cloud.starter.redis.adapter.IRedisAdapter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,11 +24,12 @@ import lombok.Setter;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import io.github.smart.cloud.starter.redis.adapter.IRedisAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
@@ -129,6 +131,19 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
 
         Boolean result2 = redisAdapter.setNx(key, value, 1000 * 60L);
         Assertions.assertThat(result2).isFalse();
+    }
+
+    @Test
+    void testSetHash(){
+        String hashKey = "test:hash:user";
+        Map<String, String> data = new HashMap<>();
+        data.put("name", "zhangsan");
+        data.put("heign", "160");
+        data.put("age", "20");
+        data.put("islogin", "true");
+
+        boolean result = redisAdapter.setHash(hashKey,data, 3600L);
+        Assertions.assertThat(result).isTrue();
     }
 
     @Getter
