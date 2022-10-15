@@ -15,12 +15,11 @@
  */
 package io.github.smart.cloud.starter.redis.adapter.impl;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.smart.cloud.starter.redis.adapter.IRedisAdapter;
-import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisStringCommands;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.types.Expiration;
@@ -46,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisAdapterImpl implements IRedisAdapter {
 
     private final StringRedisTemplate stringRedisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private RedisSerializer redisSerializer = new StringRedisSerializer();
 
     /**
@@ -141,25 +141,23 @@ public class RedisAdapterImpl implements IRedisAdapter {
      */
     @Override
     public void setObject(String key, Object value, Long expireMillis) {
-        setString(key, JacksonUtil.toJson(value), expireMillis);
+        if (expireMillis == null) {
+            redisTemplate.opsForValue().set(key, value);
+        } else {
+            redisTemplate.opsForValue().set(key, value, expireMillis, TimeUnit.MILLISECONDS);
+        }
     }
 
     /**
      * 根据key获取Object
      *
      * @param key
-     * @param t
      * @param <T> 返回对象类型
      * @return
      */
     @Override
-    public <T> T getObject(String key, TypeReference<T> t) {
-        String value = getString(key);
-        if (null == value) {
-            return null;
-        }
-
-        return JacksonUtil.parseObject(value, t);
+    public <T> T getObject(String key) {
+        return (T) redisTemplate.opsForValue().get(key);
     }
 
     /**

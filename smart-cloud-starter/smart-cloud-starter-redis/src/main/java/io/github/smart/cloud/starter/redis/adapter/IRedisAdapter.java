@@ -98,11 +98,10 @@ public interface IRedisAdapter {
      * 根据key获取Object
      *
      * @param key
-     * @param t
      * @param <T> 返回对象类型
      * @return
      */
-    <T> T getObject(String key, TypeReference<T> t);
+    <T> T getObject(String key);
 
     /**
      * 不存在则设置；存在则不设置

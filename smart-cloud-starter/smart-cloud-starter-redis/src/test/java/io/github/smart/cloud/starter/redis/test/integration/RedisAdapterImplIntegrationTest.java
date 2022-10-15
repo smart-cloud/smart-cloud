@@ -117,8 +117,7 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
         String key = "SetObjectkey";
         SetObject setObject = new SetObject("test");
         redisAdapter.setObject(key, setObject, null);
-        SetObject expectedValue = redisAdapter.getObject(key, new TypeReference<SetObject>() {
-        });
+        SetObject expectedValue = redisAdapter.getObject(key);
         Assertions.assertThat(setObject.getName()).isEqualTo(expectedValue.getName());
     }
 
