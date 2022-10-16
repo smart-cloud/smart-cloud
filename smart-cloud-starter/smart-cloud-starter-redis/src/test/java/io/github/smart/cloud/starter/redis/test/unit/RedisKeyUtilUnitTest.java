@@ -22,6 +22,12 @@ import org.junit.jupiter.api.Test;
 class RedisKeyUtilUnitTest {
 
     @Test
+    void testBuildKeyAboutUnsupportedOperationException() {
+        Assertions.assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> RedisKeyUtil.buildKey(null));
+        Assertions.assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> RedisKeyUtil.buildKey(new String[0]));
+    }
+
+    @Test
     void testBuildKey() {
         //--------count=1
         Assertions.assertThat(RedisKeyUtil.buildKey("1")).isEqualTo("1");

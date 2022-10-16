@@ -57,7 +57,9 @@ public abstract class AbstractRedisIntegrationTest {
      */
     @AfterAll
     static void stopRedis() {
-        redisServer.stop();
+        if (redisServer.isActive()) {
+            redisServer.stop();
+        }
     }
 
 }

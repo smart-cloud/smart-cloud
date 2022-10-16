@@ -15,7 +15,6 @@
  */
 package io.github.smart.cloud.starter.redis.test.integration;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.smart.cloud.starter.redis.adapter.IRedisAdapter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,24 +24,20 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
 
     @Autowired
     private IRedisAdapter redisAdapter;
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
 
     @BeforeEach
     void beforeTest() {
-        Set<String> keys = stringRedisTemplate.keys("*");
-        stringRedisTemplate.delete(keys);
+        redisAdapter.delete("*");
     }
 
     @Test
@@ -113,12 +108,22 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
     }
 
     @Test
-    void testSetObject() {
+    void testSetObject() throws InterruptedException {
+        // 无有效期
         String key = "SetObjectkey";
         SetObject setObject = new SetObject("test");
         redisAdapter.setObject(key, setObject, null);
         SetObject expectedValue = redisAdapter.getObject(key);
         Assertions.assertThat(setObject.getName()).isEqualTo(expectedValue.getName());
+
+        // 有有效期
+        redisAdapter.setObject(key, "1", 1000L);
+        String expectedValue2 = redisAdapter.getObject(key);
+        Assertions.assertThat(expectedValue2).isNotBlank();
+
+        TimeUnit.MILLISECONDS.sleep(3000L);
+        String expectedValue3 = redisAdapter.getObject(key);
+        Assertions.assertThat(expectedValue3).isNull();
     }
 
     @Test
@@ -133,7 +138,7 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
     }
 
     @Test
-    void testSetHash(){
+    void testSetHash() {
         String hashKey = "test:hash:user";
         Map<String, String> data = new HashMap<>();
         data.put("name", "zhangsan");
@@ -141,7 +146,7 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
         data.put("age", "20");
         data.put("islogin", "true");
 
-        boolean result = redisAdapter.setHash(hashKey,data, 3600L);
+        boolean result = redisAdapter.setHash(hashKey, data, 3600L);
         Assertions.assertThat(result).isTrue();
     }
 

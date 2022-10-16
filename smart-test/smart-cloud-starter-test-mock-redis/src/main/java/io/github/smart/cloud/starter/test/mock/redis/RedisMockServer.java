@@ -54,7 +54,7 @@ public class RedisMockServer {
      * 停止Redis
      */
     public static void stop() {
-        if (redisServer != null) {
+        if (redisServer != null && redisServer.isActive()) {
             redisServer.stop();
         }
     }
