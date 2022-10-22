@@ -23,15 +23,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.types.Expiration;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.Assert;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -46,7 +41,18 @@ public class RedisAdapterImpl implements IRedisAdapter {
 
     private final StringRedisTemplate stringRedisTemplate;
     private final RedisTemplate<String, Object> redisTemplate;
-    private RedisSerializer redisSerializer = new StringRedisSerializer();
+
+
+    /**
+     * 获取匹配的key
+     *
+     * @param pattern
+     * @return
+     */
+    @Override
+    public Set<String> keys(String pattern) {
+        return stringRedisTemplate.keys(pattern);
+    }
 
     /**
      * 设置k-v对
@@ -177,24 +183,24 @@ public class RedisAdapterImpl implements IRedisAdapter {
     /**
      * 设置hash结构缓存，并设置有效期
      *
-     * @param hkey
+     * @param key
      * @param data
      * @param expireSeconds
      * @return
      */
     @Override
-    public boolean setHash(String hkey, Map<String, String> data, Long expireSeconds) {
-        Assert.hasText(hkey, "The arg[hkey] can not be empty");
+    public boolean setHash(String key, Map<String, Object> data, Integer expireSeconds) {
+        Assert.hasText(key, "The arg[key] can not be empty");
         Assert.notEmpty(data, "The arg[data] can not be empty");
         Assert.notNull(expireSeconds, "The arg[expireSeconds] can not be null");
 
         List<String> keys = new ArrayList<>();
-        keys.add(hkey);
+        keys.add(key);
 
         List<Object> args = new ArrayList<>();
-        args.add(String.valueOf(expireSeconds));
+        args.add(expireSeconds);
 
-        for (Map.Entry<String, String> entry : data.entrySet()) {
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
             keys.add(entry.getKey());
             args.add(entry.getValue());
         }
@@ -205,8 +211,14 @@ public class RedisAdapterImpl implements IRedisAdapter {
         DefaultRedisScript<Long> mapRedisScript = new DefaultRedisScript<>();
         mapRedisScript.setScriptText(scriptText);
         mapRedisScript.setResultType(Long.TYPE);
-        Long result = stringRedisTemplate.execute(mapRedisScript, redisSerializer, redisSerializer, keys, args.toArray());
+
+        Long result = redisTemplate.execute(mapRedisScript, keys, args.toArray());
         return result != null && result == 1L;
+    }
+
+    @Override
+    public <T> T get(String key, Object hashKey) {
+        return (T) redisTemplate.opsForHash().get(key, hashKey);
     }
 
     /**
@@ -215,19 +227,16 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @param data
      * @return
      */
-    private final String buildHashLuaScript(Map<String, String> data) {
+    private final String buildHashLuaScript(Map<String, Object> data) {
         StringBuilder hashLua = new StringBuilder(64);
         hashLua.append("redis.call('hmset', KEYS[1], ");
 
-        int count = 0;
-        int size = data.size();
-        for (Map.Entry<String, String> entry : data.entrySet()) {
-            int index = count + 2;
-            hashLua.append("KEYS[").append(index).append("], ARGV[").append(index).append("]");
-            if (count < size - 1) {
+        for (int index = 0, size = data.size(); index < size; index++) {
+            int luaArgIndex = index + 2;
+            hashLua.append("KEYS[").append(luaArgIndex).append("], ARGV[").append(luaArgIndex).append("]");
+            if (index < size - 1) {
                 hashLua.append(" ,");
             }
-            count++;
         }
 
         hashLua.append("); return redis.call('expire', KEYS[1], ARGV[1]);");

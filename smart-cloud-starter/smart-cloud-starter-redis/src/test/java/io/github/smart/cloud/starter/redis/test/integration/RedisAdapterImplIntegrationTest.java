@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
@@ -37,7 +38,8 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
 
     @BeforeEach
     void beforeTest() {
-        redisAdapter.delete("*");
+        Set<String> keys = redisAdapter.keys("*");
+        redisAdapter.delete(keys);
     }
 
     @Test
@@ -139,15 +141,26 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
 
     @Test
     void testSetHash() {
-        String hashKey = "test:hash:user";
-        Map<String, String> data = new HashMap<>();
-        data.put("name", "zhangsan");
-        data.put("heign", "160");
-        data.put("age", "20");
-        data.put("islogin", "true");
+        String key = "test:hash:user";
+        String nameValue = "zhangsan";
+        int heightValue = 160;
 
-        boolean result = redisAdapter.setHash(hashKey, data, 3600L);
-        Assertions.assertThat(result).isTrue();
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", nameValue);
+        data.put("heign", heightValue);
+        data.put("age", 20);
+        data.put("islogin", true);
+
+        Assertions.assertThat(redisAdapter.setHash(key, data, 3600)).isTrue();
+
+        String name = redisAdapter.get(key, "name");
+        Assertions.assertThat(name).isEqualTo(nameValue);
+
+        int heign = redisAdapter.get(key, "heign");
+        Assertions.assertThat(heign).isEqualTo(heightValue);
+
+        boolean islogin = redisAdapter.get(key, "islogin");
+        Assertions.assertThat(islogin).isTrue();
     }
 
     @Getter

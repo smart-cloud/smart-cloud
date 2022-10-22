@@ -15,10 +15,9 @@
  */
 package io.github.smart.cloud.starter.redis.adapter;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * redis防腐层
@@ -27,6 +26,14 @@ import java.util.Map;
  * @date 2021-12-15
  */
 public interface IRedisAdapter {
+
+    /**
+     * 获取匹配的key
+     *
+     * @param pattern
+     * @return
+     */
+    Set<String> keys(String pattern);
 
     /**
      * 设置k-v对
@@ -116,11 +123,21 @@ public interface IRedisAdapter {
     /**
      * 设置hash结构缓存，并设置有效期
      *
-     * @param hkey
+     * @param key
      * @param data
      * @param expireSeconds
      * @return
      */
-    boolean setHash(String hkey, Map<String, String> data, Long expireSeconds);
+    boolean setHash(String key, Map<String, Object> data, Integer expireSeconds);
+
+    /**
+     * 获取hash值
+     *
+     * @param key
+     * @param hashKey
+     * @param <T>
+     * @return
+     */
+    <T> T get(String key, Object hashKey);
 
 }
