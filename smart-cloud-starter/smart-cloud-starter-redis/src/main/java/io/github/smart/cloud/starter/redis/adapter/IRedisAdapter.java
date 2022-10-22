@@ -131,6 +131,14 @@ public interface IRedisAdapter {
     boolean setHash(String key, Map<String, Object> data, Integer expireSeconds);
 
     /**
+     * 根据key获取hash
+     *
+     * @param key
+     * @return
+     */
+    Map<Object, Object> getHash(String key);
+
+    /**
      * 获取hash值
      *
      * @param key

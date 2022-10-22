@@ -216,6 +216,25 @@ public class RedisAdapterImpl implements IRedisAdapter {
         return result != null && result == 1L;
     }
 
+    /**
+     * 根据key获取hash
+     *
+     * @param key
+     * @return
+     */
+    @Override
+    public Map<Object, Object> getHash(String key) {
+        return redisTemplate.opsForHash().entries(key);
+    }
+
+    /**
+     * 获取hash值
+     *
+     * @param key
+     * @param hashKey
+     * @param <T>
+     * @return
+     */
     @Override
     public <T> T get(String key, Object hashKey) {
         return (T) redisTemplate.opsForHash().get(key, hashKey);

@@ -153,6 +153,9 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
 
         Assertions.assertThat(redisAdapter.setHash(key, data, 3600)).isTrue();
 
+        Map<Object, Object> cache = redisAdapter.getHash(key);
+        Assertions.assertThat(cache).hasSize(data.size());
+
         String name = redisAdapter.get(key, "name");
         Assertions.assertThat(name).isEqualTo(nameValue);
 
