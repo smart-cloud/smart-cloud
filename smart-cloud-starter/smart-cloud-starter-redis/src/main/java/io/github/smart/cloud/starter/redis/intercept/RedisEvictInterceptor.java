@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
  */
 public class RedisEvictInterceptor extends AbstractCacheInterceptor {
 
-    public RedisEvictInterceptor(RedisTemplate<String, Object> redisTemplate, RedissonClient redissonClient) {
+    public RedisEvictInterceptor(RedisTemplate<Object, Object> redisTemplate, RedissonClient redissonClient) {
         super(redisTemplate, redissonClient);
     }
 

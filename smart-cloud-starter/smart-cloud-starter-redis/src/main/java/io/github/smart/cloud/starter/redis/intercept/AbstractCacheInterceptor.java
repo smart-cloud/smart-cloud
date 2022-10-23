@@ -26,9 +26,9 @@ import org.springframework.data.redis.core.RedisTemplate;
  */
 public abstract class AbstractCacheInterceptor extends AbstractRedisInterceptor {
 
-    protected final RedisTemplate<String, Object> redisTemplate;
+    protected final RedisTemplate<Object, Object> redisTemplate;
 
-    protected AbstractCacheInterceptor(RedisTemplate<String, Object> redisTemplate, RedissonClient redissonClient) {
+    protected AbstractCacheInterceptor(RedisTemplate<Object, Object> redisTemplate, RedissonClient redissonClient) {
         super(redissonClient);
         this.redisTemplate = redisTemplate;
     }

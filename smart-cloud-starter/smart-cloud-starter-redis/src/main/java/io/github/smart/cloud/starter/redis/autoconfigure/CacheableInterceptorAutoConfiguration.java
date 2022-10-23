@@ -37,7 +37,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class CacheableInterceptorAutoConfiguration {
 
     @Bean
-    public CacheableInterceptor redisCacheableInterceptor(final RedisTemplate<String, Object> redisTemplate, final RedissonClient redissonClient) {
+    public CacheableInterceptor redisCacheableInterceptor(final RedisTemplate<Object, Object> redisTemplate, final RedissonClient redissonClient) {
         return new CacheableInterceptor(redisTemplate, redissonClient);
     }
 

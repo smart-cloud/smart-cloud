@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisAdapterImpl implements IRedisAdapter {
 
     private final StringRedisTemplate stringRedisTemplate;
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<Object, Object> redisTemplate;
 
 
     /**
@@ -206,7 +206,7 @@ public class RedisAdapterImpl implements IRedisAdapter {
         Assert.notEmpty(data, "The arg[data] can not be empty");
         Assert.notNull(expireSeconds, "The arg[expireSeconds] can not be null");
 
-        List<String> keys = new ArrayList<>();
+        List<Object> keys = new ArrayList<>();
         keys.add(key);
 
         List<Object> args = new ArrayList<>();

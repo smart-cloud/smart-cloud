@@ -32,7 +32,7 @@ class CacheIntegrationTest extends AbstractRedisIntegrationTest {
     @Autowired
     private ICacheTestService cacheTestService;
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
 
     @Test
     void testCacheable() {

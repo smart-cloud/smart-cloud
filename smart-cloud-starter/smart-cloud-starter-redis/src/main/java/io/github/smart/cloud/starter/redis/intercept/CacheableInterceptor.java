@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class CacheableInterceptor extends AbstractCacheInterceptor {
 
-    public CacheableInterceptor(RedisTemplate<String, Object> redisTemplate, RedissonClient redissonClient) {
+    public CacheableInterceptor(RedisTemplate<Object, Object> redisTemplate, RedissonClient redissonClient) {
         super(redisTemplate, redissonClient);
     }
 

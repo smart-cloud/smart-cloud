@@ -37,7 +37,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class CacheEvictInterceptorAutoConfiguration {
 
     @Bean
-    public RedisEvictInterceptor redisEvictInterceptor(final RedisTemplate<String, Object> redisTemplate, final RedissonClient redissonClient) {
+    public RedisEvictInterceptor redisEvictInterceptor(final RedisTemplate<Object, Object> redisTemplate, final RedissonClient redissonClient) {
         return new RedisEvictInterceptor(redisTemplate, redissonClient);
     }
 
