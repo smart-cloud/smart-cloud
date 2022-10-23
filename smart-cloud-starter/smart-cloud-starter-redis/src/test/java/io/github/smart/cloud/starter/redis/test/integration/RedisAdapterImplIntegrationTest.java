@@ -119,13 +119,16 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
         Assertions.assertThat(setObject.getName()).isEqualTo(expectedValue.getName());
 
         // 有有效期
-        redisAdapter.setObject(key, "1", 1000L);
+        redisAdapter.setObject(key, "1", 2000L);
         String expectedValue2 = redisAdapter.getObject(key);
         Assertions.assertThat(expectedValue2).isNotBlank();
 
-        TimeUnit.MILLISECONDS.sleep(3000L);
+        Assertions.assertThat(redisAdapter.getExpire(key, TimeUnit.MILLISECONDS)).isGreaterThan(0L);
+
+        TimeUnit.MILLISECONDS.sleep(2000L);
         String expectedValue3 = redisAdapter.getObject(key);
         Assertions.assertThat(expectedValue3).isNull();
+
     }
 
     @Test

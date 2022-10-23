@@ -167,6 +167,18 @@ public class RedisAdapterImpl implements IRedisAdapter {
     }
 
     /**
+     * 获取缓存有效期
+     *
+     * @param key
+     * @param timeUnit
+     * @return
+     */
+    @Override
+    public Long getExpire(String key, TimeUnit timeUnit) {
+        return redisTemplate.getExpire(key, timeUnit);
+    }
+
+    /**
      * 不存在则设置；存在则不设置
      *
      * @param key

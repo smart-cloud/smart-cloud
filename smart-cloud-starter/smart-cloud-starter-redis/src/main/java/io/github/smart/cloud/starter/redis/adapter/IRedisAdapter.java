@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.redis.adapter;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * redis防腐层
@@ -109,6 +110,15 @@ public interface IRedisAdapter {
      * @return
      */
     <T> T getObject(String key);
+
+    /**
+     * 获取缓存有效期
+     *
+     * @param key
+     * @param timeUnit
+     * @return
+     */
+    Long getExpire(String key, TimeUnit timeUnit);
 
     /**
      * 不存在则设置；存在则不设置
