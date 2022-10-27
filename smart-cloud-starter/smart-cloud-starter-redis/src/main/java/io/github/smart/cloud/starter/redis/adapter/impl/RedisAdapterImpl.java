@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.util.Assert;
@@ -39,7 +38,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RedisAdapterImpl implements IRedisAdapter {
 
-    private final StringRedisTemplate stringRedisTemplate;
     private final RedisTemplate<Object, Object> redisTemplate;
 
 
@@ -50,8 +48,8 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @return
      */
     @Override
-    public Set<String> keys(String pattern) {
-        return stringRedisTemplate.keys(pattern);
+    public Set<Object> keys(Object pattern) {
+        return redisTemplate.keys(pattern);
     }
 
     /**
@@ -62,11 +60,11 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @param expireMillis 有效期（毫秒），为null表示不设置有效期
      */
     @Override
-    public void setString(String key, String value, Long expireMillis) {
+    public void set(Object key, Object value, Long expireMillis) {
         if (expireMillis == null) {
-            stringRedisTemplate.opsForValue().set(key, value);
+            redisTemplate.opsForValue().set(key, value);
         } else {
-            stringRedisTemplate.opsForValue().set(key, value, expireMillis, TimeUnit.MILLISECONDS);
+            redisTemplate.opsForValue().set(key, value, expireMillis, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -77,8 +75,8 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @return
      */
     @Override
-    public String getString(String key) {
-        return stringRedisTemplate.opsForValue().get(key);
+    public Object get(Object key) {
+        return redisTemplate.opsForValue().get(key);
     }
 
     /**
@@ -88,8 +86,8 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @param expireMillis 有效期（毫秒）
      */
     @Override
-    public void expire(String key, Long expireMillis) {
-        stringRedisTemplate.expire(key, expireMillis, TimeUnit.MILLISECONDS);
+    public void expire(Object key, Long expireMillis) {
+        redisTemplate.expire(key, expireMillis, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -99,8 +97,8 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
     @Override
-    public Boolean delete(String key) {
-        return stringRedisTemplate.delete(key);
+    public Boolean delete(Object key) {
+        return redisTemplate.delete(key);
     }
 
     /**
@@ -110,8 +108,8 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
     @Override
-    public Boolean delete(Collection<String> keys) {
-        Long count = stringRedisTemplate.delete(keys);
+    public Boolean delete(Collection<Object> keys) {
+        Long count = redisTemplate.delete(keys);
         return count != null && count == keys.size();
     }
 
@@ -122,8 +120,8 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
     @Override
-    public Boolean unlink(String key) {
-        return stringRedisTemplate.unlink(key);
+    public Boolean unlink(Object key) {
+        return redisTemplate.unlink(key);
     }
 
     /**
@@ -133,37 +131,9 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
     @Override
-    public Boolean unlink(Collection<String> keys) {
-        Long count = stringRedisTemplate.unlink(keys);
+    public Boolean unlink(Collection<Object> keys) {
+        Long count = redisTemplate.unlink(keys);
         return count != null && count == keys.size();
-    }
-
-    /**
-     * 设置k-v对
-     *
-     * @param key
-     * @param value        对象
-     * @param expireMillis 有效期（毫秒），为null表示不设置有效期
-     */
-    @Override
-    public void setObject(String key, Object value, Long expireMillis) {
-        if (expireMillis == null) {
-            redisTemplate.opsForValue().set(key, value);
-        } else {
-            redisTemplate.opsForValue().set(key, value, expireMillis, TimeUnit.MILLISECONDS);
-        }
-    }
-
-    /**
-     * 根据key获取Object
-     *
-     * @param key
-     * @param <T> 返回对象类型
-     * @return
-     */
-    @Override
-    public <T> T getObject(String key) {
-        return (T) redisTemplate.opsForValue().get(key);
     }
 
     /**
@@ -188,7 +158,7 @@ public class RedisAdapterImpl implements IRedisAdapter {
      */
     @Override
     public boolean setNx(String key, String value, long expireMillis) {
-        Boolean result = stringRedisTemplate.execute(connection -> connection.set(key.getBytes(StandardCharsets.UTF_8), value.getBytes(StandardCharsets.UTF_8), Expiration.milliseconds(expireMillis), RedisStringCommands.SetOption.SET_IF_ABSENT), true);
+        Boolean result = redisTemplate.execute(connection -> connection.set(key.getBytes(StandardCharsets.UTF_8), value.getBytes(StandardCharsets.UTF_8), Expiration.milliseconds(expireMillis), RedisStringCommands.SetOption.SET_IF_ABSENT), true);
         return result != null && result;
     }
 

@@ -29,7 +29,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
 
@@ -38,7 +37,7 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
 
     @BeforeEach
     void beforeTest() {
-        Set<String> keys = redisAdapter.keys("*");
+        Set<Object> keys = redisAdapter.keys("*");
         redisAdapter.delete(keys);
     }
 
@@ -46,9 +45,9 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
     void testSetString() {
         String key = "SetStringkey";
         String value = "SetStringvalue";
-        redisAdapter.setString(key, value, null);
-        redisAdapter.setString(key, value, 1000 * 60L);
-        String expectedValue = redisAdapter.getString(key);
+        redisAdapter.set(key, value, null);
+        redisAdapter.set(key, value, 1000 * 60L);
+        String expectedValue = (String) redisAdapter.get(key);
         Assertions.assertThat(value).isEqualTo(expectedValue);
     }
 
@@ -56,12 +55,12 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
     void testExpire() {
         String key = "Expire";
         String value = "Expire";
-        redisAdapter.setString(key, value, 1000 * 60L);
-        String expectedValue1 = redisAdapter.getString(key);
+        redisAdapter.set(key, value, 1000 * 60L);
+        String expectedValue1 = (String) redisAdapter.get(key);
         Assertions.assertThat(value).isEqualTo(expectedValue1);
 
         redisAdapter.expire(key, 0L);
-        String expectedValue2 = redisAdapter.getString(key);
+        String expectedValue2 = (String) redisAdapter.get(key);
         Assertions.assertThat(expectedValue2).isBlank();
     }
 
@@ -69,8 +68,8 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
     void testDelete() {
         String key = "deletekey";
         String value = "deletevalue";
-        redisAdapter.setString(key, value, null);
-        String expectedValue1 = redisAdapter.getString(key);
+        redisAdapter.set(key, value, null);
+        String expectedValue1 = (String) redisAdapter.get(key);
         Assertions.assertThat(value).isEqualTo(expectedValue1);
 
         Boolean result1 = redisAdapter.delete(key);
@@ -79,7 +78,7 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
         Boolean result2 = redisAdapter.delete(key);
         Assertions.assertThat(result2).isFalse();
 
-        String expectedValue2 = redisAdapter.getString(key);
+        String expectedValue2 = (String) redisAdapter.get(key);
         Assertions.assertThat(expectedValue2).isNull();
     }
 
@@ -87,14 +86,14 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
     void testBatchDelete() {
         String key1 = "batchdeletekey1";
         String value1 = "batchdeletevalue1";
-        redisAdapter.setString(key1, value1, null);
-        String expectedValue1 = redisAdapter.getString(key1);
+        redisAdapter.set(key1, value1, null);
+        String expectedValue1 = (String) redisAdapter.get(key1);
         Assertions.assertThat(value1).isEqualTo(expectedValue1);
 
         String key2 = "batchdeletekey2";
         String value2 = "batchdeletevalue2";
-        redisAdapter.setString(key2, value2, null);
-        String expectedValue2 = redisAdapter.getString(key2);
+        redisAdapter.set(key2, value2, null);
+        String expectedValue2 = (String) redisAdapter.get(key2);
         Assertions.assertThat(value2).isEqualTo(expectedValue2);
 
         Boolean result1 = redisAdapter.delete(Arrays.asList(key1, key2));
@@ -103,32 +102,10 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
         Boolean result2 = redisAdapter.delete(Arrays.asList(key1, key2));
         Assertions.assertThat(result2).isFalse();
 
-        String expectedValue12 = redisAdapter.getString(key1);
-        String expectedValue22 = redisAdapter.getString(key2);
+        String expectedValue12 = (String) redisAdapter.get(key1);
+        String expectedValue22 = (String) redisAdapter.get(key2);
         Assertions.assertThat(expectedValue12).isNull();
         Assertions.assertThat(expectedValue22).isNull();
-    }
-
-    @Test
-    void testSetObject() throws InterruptedException {
-        // 无有效期
-        String key = "SetObjectkey";
-        SetObject setObject = new SetObject("test");
-        redisAdapter.setObject(key, setObject, null);
-        SetObject expectedValue = redisAdapter.getObject(key);
-        Assertions.assertThat(setObject.getName()).isEqualTo(expectedValue.getName());
-
-        // 有有效期
-        redisAdapter.setObject(key, "1", 2000L);
-        String expectedValue2 = redisAdapter.getObject(key);
-        Assertions.assertThat(expectedValue2).isNotBlank();
-
-        Assertions.assertThat(redisAdapter.getExpire(key, TimeUnit.MILLISECONDS)).isGreaterThan(0L);
-
-        TimeUnit.MILLISECONDS.sleep(2000L);
-        String expectedValue3 = redisAdapter.getObject(key);
-        Assertions.assertThat(expectedValue3).isNull();
-
     }
 
     @Test

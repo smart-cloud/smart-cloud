@@ -34,7 +34,7 @@ public interface IRedisAdapter {
      * @param pattern
      * @return
      */
-    Set<String> keys(String pattern);
+    Set<Object> keys(Object pattern);
 
     /**
      * 设置k-v对
@@ -43,7 +43,7 @@ public interface IRedisAdapter {
      * @param value
      * @param expireMillis 有效期（毫秒），为null表示不设置有效期
      */
-    void setString(String key, String value, Long expireMillis);
+    void set(Object key, Object value, Long expireMillis);
 
     /**
      * 根据key获取value
@@ -51,7 +51,7 @@ public interface IRedisAdapter {
      * @param key
      * @return
      */
-    String getString(String key);
+    Object get(Object key);
 
     /**
      * 设置key有效期
@@ -59,7 +59,7 @@ public interface IRedisAdapter {
      * @param key
      * @param expireMillis 有效期（毫秒）
      */
-    void expire(String key, Long expireMillis);
+    void expire(Object key, Long expireMillis);
 
     /**
      * 删除k-v对
@@ -67,7 +67,7 @@ public interface IRedisAdapter {
      * @param key
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
-    Boolean delete(String key);
+    Boolean delete(Object key);
 
     /**
      * 批量删除k-v对
@@ -75,7 +75,7 @@ public interface IRedisAdapter {
      * @param keys
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
-    Boolean delete(Collection<String> keys);
+    Boolean delete(Collection<Object> keys);
 
     /**
      * 异步删除k-v对
@@ -83,7 +83,7 @@ public interface IRedisAdapter {
      * @param key
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
-    Boolean unlink(String key);
+    Boolean unlink(Object key);
 
     /**
      * 异步批量删除k-v对
@@ -91,25 +91,7 @@ public interface IRedisAdapter {
      * @param keys
      * @return {@code true}表示成功；{@code false}表示失败。删除一个不存在的key，将返回{@code false}！！！
      */
-    Boolean unlink(Collection<String> keys);
-
-    /**
-     * 设置k-v对
-     *
-     * @param key
-     * @param value        对象
-     * @param expireMillis 有效期（毫秒），为null表示不设置有效期
-     */
-    void setObject(String key, Object value, Long expireMillis);
-
-    /**
-     * 根据key获取Object
-     *
-     * @param key
-     * @param <T> 返回对象类型
-     * @return
-     */
-    <T> T getObject(String key);
+    Boolean unlink(Collection<Object> keys);
 
     /**
      * 获取缓存有效期

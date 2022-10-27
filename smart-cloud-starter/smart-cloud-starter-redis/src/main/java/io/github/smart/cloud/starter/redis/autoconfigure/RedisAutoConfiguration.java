@@ -78,8 +78,8 @@ public class RedisAutoConfiguration {
     }
 
     @Bean
-    public IRedisAdapter redisAdapter(final StringRedisTemplate stringRedisTemplate, final RedisTemplate<Object, Object> redisTemplate) {
-        return new RedisAdapterImpl(stringRedisTemplate, redisTemplate);
+    public IRedisAdapter redisAdapter(final RedisTemplate<Object, Object> redisTemplate) {
+        return new RedisAdapterImpl(redisTemplate);
     }
 
 }
