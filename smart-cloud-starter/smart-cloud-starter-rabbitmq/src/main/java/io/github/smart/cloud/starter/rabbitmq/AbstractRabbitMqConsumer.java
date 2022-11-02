@@ -60,10 +60,21 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
         return true;
     }
 
+    /**
+     * 获取锁名称（如果不满足，可在子类覆盖默认实现）
+     *
+     * @param body
+     * @param messageId
+     * @return
+     */
+    protected String getLockName(T body, Object messageId) {
+        return MqConstants.IDE_CKECK_LOCK_NAME_PREFIX + messageId;
+    }
+
     @RabbitHandler
     public void consumer(@Payload T body, @Headers Map<String, Object> headers) {
         Object messageId = headers.get(MqConstants.MESSAGE_ID_NAME);
-        RLock lock = redissonClient.getLock(MqConstants.IDE_CKECK_LOCK_NAME_PREFIX + messageId);
+        RLock lock = redissonClient.getLock(getLockName(body, messageId));
         // 加锁状态（true：成功；false失败）
         boolean isRequiredLock = false;
         try {
@@ -79,8 +90,7 @@ public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqCon
         } catch (Exception e) {
             log.error("consumer.mq.exception|object={}", JacksonUtil.toJson(body), e);
             RetryResult retryResult = MqUtil.retryAfterConsumerFail(rabbitMqAdapter, body, headers, getClass());
-            boolean isThrow = retryResult == RetryResult.NOT_SUPPORT
-                    || (retryResult == RetryResult.REACHED_RETRY_THRESHOLD && !executeAfterRetryConsumerFail(body));
+            boolean isThrow = retryResult == RetryResult.NOT_SUPPORT || (retryResult == RetryResult.REACHED_RETRY_THRESHOLD && !executeAfterRetryConsumerFail(body));
             if (isThrow) {
                 throw e;
             }
