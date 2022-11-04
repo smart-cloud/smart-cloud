@@ -52,12 +52,12 @@ public class RabbitMqConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
      */
     private void registerDelayMqBeans(ConfigurableListableBeanFactory beanFactory) {
         Reflections reflections = new Reflections(PackageConfig.getBasePackages());
-        Set<Class<? extends AbstractRabbitMqConsumerMarker>> mqConsumerClasses = reflections.getSubTypesOf(AbstractRabbitMqConsumerMarker.class);
+        Set<Class<? extends IRabbitMqConsumer>> mqConsumerClasses = reflections.getSubTypesOf(IRabbitMqConsumer.class);
         if (CollectionUtils.isEmpty(mqConsumerClasses)) {
             return;
         }
 
-        for (Class<? extends AbstractRabbitMqConsumerMarker> mqConsumerClass : mqConsumerClasses) {
+        for (Class<? extends IRabbitMqConsumer> mqConsumerClass : mqConsumerClasses) {
             if (registerDelayMqBean(mqConsumerClass, beanFactory)) {
                 MqUtil.setEnableRetryAfterConsumerFail(true);
             }

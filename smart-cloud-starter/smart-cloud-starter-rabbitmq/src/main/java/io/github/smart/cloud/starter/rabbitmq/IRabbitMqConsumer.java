@@ -16,10 +16,10 @@
 package io.github.smart.cloud.starter.rabbitmq;
 
 /**
- * mq消费者标记类，方便使用者扩展自己的消费者父类
+ * mq消费者标记类，方便使用者扩展自己的消费者
  *
  * @author collin
  * @date 2021-07-16
  */
-public interface AbstractRabbitMqConsumerMarker {
+public interface IRabbitMqConsumer {
 }

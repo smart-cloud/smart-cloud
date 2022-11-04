@@ -36,7 +36,7 @@ import java.util.Map;
  * @date 2020-08-12
  */
 @Slf4j
-public abstract class AbstractRabbitMqConsumer<T> implements AbstractRabbitMqConsumerMarker {
+public abstract class AbstractRabbitMqConsumer<T> implements IRabbitMqConsumer {
 
     @Autowired
     private RedissonClient redissonClient;
