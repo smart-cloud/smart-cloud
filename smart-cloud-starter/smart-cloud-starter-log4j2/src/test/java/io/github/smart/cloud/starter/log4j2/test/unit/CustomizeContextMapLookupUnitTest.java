@@ -33,13 +33,13 @@ class CustomizeContextMapLookupUnitTest {
     }
 
     @Test
-    void testReadAppNameFromYaml() {
+    void testReadAppNameFromYaml() throws ClassNotFoundException {
         Map<String, String> data = CustomizeContextMapLookup.init("name_test.yaml");
         Assertions.assertThat(data).containsEntry(ExtProperty.APP_NAME.getName(), "unit_test");
     }
 
     @Test
-    void testReadAppNameFromYamlAndProjectName() {
+    void testReadAppNameFromYamlAndProjectName() throws ClassNotFoundException {
         Map<String, String> data = CustomizeContextMapLookup.init("name_test_project.yaml");
         Assertions.assertThat(data).containsEntry(ExtProperty.APP_NAME.getName(), projectName);
     }

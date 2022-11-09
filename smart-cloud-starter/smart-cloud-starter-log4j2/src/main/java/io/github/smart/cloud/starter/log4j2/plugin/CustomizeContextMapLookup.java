@@ -62,10 +62,14 @@ public class CustomizeContextMapLookup implements StrLookup {
     private static final Map<String, String> DATA = new HashMap<>(2);
 
     static {
-        DATA.putAll(init(YAML_FILE_NAME));
+        try {
+            DATA.putAll(init(YAML_FILE_NAME));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static Map<String, String> init(String yamlFileName) {
+    public static Map<String, String> init(String yamlFileName) throws ClassNotFoundException {
         // 解析yaml
         ClassPathResource resource = new ClassPathResource(yamlFileName);
         String appName = null;
@@ -91,8 +95,13 @@ public class CustomizeContextMapLookup implements StrLookup {
      *
      * @return
      */
-    private static String getCurrentProjectName() {
-        ApplicationHome applicationHome = new ApplicationHome(CustomizeContextMapLookup.class);
+    private static String getCurrentProjectName() throws ClassNotFoundException {
+        // 获取启动类
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        StackTraceElement stackTraceElement = stackTraceElements[stackTraceElements.length - 1];
+        Class<?> sourceClass = ClassLoader.getSystemClassLoader().loadClass(stackTraceElement.getClassName());
+
+        ApplicationHome applicationHome = new ApplicationHome(sourceClass);
         File source = getApplicationHomeSource(applicationHome);
         if (source == null) {
             // 外部工程
