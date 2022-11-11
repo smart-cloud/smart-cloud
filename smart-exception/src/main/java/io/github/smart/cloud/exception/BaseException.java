@@ -56,8 +56,7 @@ public abstract class BaseException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        // 如果为空，则从国际化配置里面根据code取
-        return message == null ? code : message;
+        return message;
     }
 
     public void setMessage(String message) {
