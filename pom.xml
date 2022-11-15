@@ -75,7 +75,7 @@
         <smart-cloud.version>1.0.4-SNAPSHOT</smart-cloud.version>
         <spring.boot>2.6.7</spring.boot>
         <spring-cloud>2021.0.2</spring-cloud>
-        <spring-cloud-alibaba>2021.0.1.0</spring-cloud-alibaba>
+        <spring-cloud-alibaba>2021.0.4.0</spring-cloud-alibaba>
         <spring-cloud-gateway>3.1.2</spring-cloud-gateway>
         <openfeign>3.1.2</openfeign>
         <spring.boot.admin>2.6.7</spring.boot.admin>
