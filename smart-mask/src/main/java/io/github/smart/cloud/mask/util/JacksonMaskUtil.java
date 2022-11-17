@@ -51,7 +51,7 @@ public final class JacksonMaskUtil {
      * @param value
      * @return
      */
-    public static final String mask(Object value) {
+    public static String mask(Object value) {
         if (value == null) {
             return null;
         }

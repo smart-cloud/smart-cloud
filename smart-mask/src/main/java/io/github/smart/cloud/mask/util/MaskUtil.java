@@ -84,7 +84,7 @@ public final class MaskUtil {
 	 * @param object
 	 * @return
 	 */
-	public static final String mask(Object object) {
+	public static String mask(Object object) {
 		return JacksonMaskUtil.mask(object);
 	}
 

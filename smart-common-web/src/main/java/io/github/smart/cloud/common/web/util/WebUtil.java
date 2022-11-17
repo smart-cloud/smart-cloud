@@ -42,7 +42,7 @@ public class WebUtil {
 	private static final String WEBFLUX_INDICATOR_CLASS = "org.springframework.web.reactive.DispatcherHandler";
 	private static final boolean WEBFLUX_PRESENT = ClassUtils.isPresent(WEBFLUX_INDICATOR_CLASS, null);
 
-	public static final boolean isWebFlux() {
+	public static boolean isWebFlux() {
 		return WEBFLUX_PRESENT;
 	}
 

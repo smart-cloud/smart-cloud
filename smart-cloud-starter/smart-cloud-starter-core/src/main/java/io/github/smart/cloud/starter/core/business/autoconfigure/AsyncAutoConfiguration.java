@@ -15,8 +15,8 @@
  */
 package io.github.smart.cloud.starter.core.business.autoconfigure;
 
-import lombok.extern.slf4j.Slf4j;
 import io.github.smart.cloud.utility.JacksonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
@@ -33,10 +33,10 @@ import java.util.concurrent.Executor;
  * @author collin
  * @date 2021-10-31
  */
+@Slf4j
 @EnableAsync
 @Configuration
 @ConditionalOnProperty(prefix = "smart", name = "async", havingValue = "true", matchIfMissing = true)
-@Slf4j
 public class AsyncAutoConfiguration extends AsyncConfigurerSupport {
 
     private static final int CORE_POOL_SIZE = Runtime.getRuntime().availableProcessors();
@@ -61,7 +61,7 @@ public class AsyncAutoConfiguration extends AsyncConfigurerSupport {
     @Override
     @Nullable
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return (throwable, method, obj) -> log.error("asyncException@method=" + method.getName() + "; param=" + JacksonUtil.toJson(obj), throwable);
+        return (throwable, method, obj) -> log.error("asyncException@method={}; param={}", method.getName(), JacksonUtil.toJson(obj), throwable);
     }
 
 }

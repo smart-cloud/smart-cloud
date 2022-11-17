@@ -48,7 +48,7 @@ public final class JacksonUtil {
      * @param value
      * @return
      */
-    public static final String toJson(Object value) {
+    public static String toJson(Object value) {
         String result = null;
         try {
             result = OBJECT_MAPPER.writeValueAsString(value);
@@ -64,7 +64,7 @@ public final class JacksonUtil {
      * @param value
      * @return
      */
-    public static final byte[] toBytes(Object value) {
+    public static byte[] toBytes(Object value) {
         byte[] bytes = null;
         try {
             bytes = OBJECT_MAPPER.writeValueAsBytes(value);
