@@ -24,10 +24,6 @@ package io.github.smart.cloud.starter.rabbitmq;
 public class MqConstants {
 
     /**
-     * rabbitmq header中的消息id
-     */
-    public static final String MESSAGE_ID_NAME = "id";
-    /**
      * mq已重试次数
      */
     public static final String CONSUMER_RETRIED_TIMES = "consumer_retried_times";

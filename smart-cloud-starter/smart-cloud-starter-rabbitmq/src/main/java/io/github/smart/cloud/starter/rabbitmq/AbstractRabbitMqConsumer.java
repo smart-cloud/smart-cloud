@@ -19,6 +19,7 @@ import io.github.smart.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
 import io.github.smart.cloud.starter.rabbitmq.enums.RetryResult;
 import io.github.smart.cloud.starter.rabbitmq.util.MqUtil;
 import io.github.smart.cloud.utility.JacksonUtil;
+import io.github.smart.cloud.utility.security.Md5Util;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -64,17 +65,15 @@ public abstract class AbstractRabbitMqConsumer<T> implements IRabbitMqConsumer {
      * 获取锁名称（如果不满足，可在子类覆盖默认实现）
      *
      * @param body
-     * @param messageId
      * @return
      */
-    protected String getLockName(T body, Object messageId) {
-        return MqConstants.IDE_CKECK_LOCK_NAME_PREFIX + messageId;
+    protected String getLockName(T body) {
+        return MqConstants.IDE_CKECK_LOCK_NAME_PREFIX + Md5Util.md5Hex(JacksonUtil.toBytes(body));
     }
 
     @RabbitHandler
     public void consumer(@Payload T body, @Headers Map<String, Object> headers) {
-        Object messageId = headers.get(MqConstants.MESSAGE_ID_NAME);
-        RLock lock = redissonClient.getLock(getLockName(body, messageId));
+        RLock lock = redissonClient.getLock(getLockName(body));
         // 加锁状态（true：成功；false失败）
         boolean isRequiredLock = false;
         try {
