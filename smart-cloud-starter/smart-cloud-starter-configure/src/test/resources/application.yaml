@@ -1,5 +1,4 @@
 smart:
-  async: false
   log:
     rpclog: false
     apilog: false

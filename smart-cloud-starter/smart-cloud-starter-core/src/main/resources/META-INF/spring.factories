@@ -2,4 +2,4 @@ org.springframework.boot.env.EnvironmentPostProcessor=\
 io.github.smart.cloud.starter.core.business.autoconfigure.BootstrapAnnotationEnvironmentPostProcessor
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.smart.cloud.starter.core.business.autoconfigure.AsyncAutoConfiguration
+io.github.smart.cloud.starter.core.business.autoconfigure.SmartAsyncConfigurerSupportAutoConfiguration

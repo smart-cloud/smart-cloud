@@ -16,10 +16,10 @@
 package io.github.smart.cloud.starter.configure.test.cases;
 
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
+import io.github.smart.cloud.starter.configure.test.prepare.Application;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.smart.cloud.starter.configure.test.prepare.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -44,7 +44,13 @@ class SmartPropertiesTest {
 
         // check properties values
         SmartProperties smartProperties = applicationContext.getBean(SmartProperties.class);
-        Assertions.assertThat(smartProperties.isAsync()).isFalse();
+        Assertions.assertThat(smartProperties.getAsync()).isNotNull();
+        Assertions.assertThat(smartProperties.getAsync().isEnable()).isTrue();
+        Assertions.assertThat(smartProperties.getAsync().getCorePoolSize()).isGreaterThan(0);
+        Assertions.assertThat(smartProperties.getAsync().getMaxPoolSize()).isGreaterThan(0);
+        Assertions.assertThat(smartProperties.getAsync().getKeepAliveSeconds()).isEqualTo(60);
+        Assertions.assertThat(smartProperties.getAsync().getQueueCapacity()).isEqualTo(512);
+        Assertions.assertThat(smartProperties.getAsync().getAwaitTerminationSeconds()).isEqualTo(0);
 
         // log
         Assertions.assertThat(smartProperties.getLog()).isNotNull();

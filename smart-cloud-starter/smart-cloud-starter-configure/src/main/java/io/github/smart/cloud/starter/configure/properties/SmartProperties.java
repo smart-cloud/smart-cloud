@@ -34,10 +34,13 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 public class SmartProperties extends Base {
 
     private static final long serialVersionUID = 1L;
+
     /**
-     * @Async配置开关
+     * 异步配置
      */
-    private boolean async = true;
+    @NestedConfigurationProperty
+    private AsyncProperties async = new AsyncProperties();
+
     /**
      * 切面配置
      */
