@@ -39,7 +39,7 @@ public class MethodLogInterceptorAutoConfiguration {
 
     @Bean
     public MethodLogInterceptor methodLogInterceptor(final SmartProperties smartProperties) {
-        return new MethodLogInterceptor(smartProperties.getLog());
+        return new MethodLogInterceptor(smartProperties.getMethodLog());
     }
 
     @Bean

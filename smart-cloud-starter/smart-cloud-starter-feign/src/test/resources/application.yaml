@@ -1,3 +1,4 @@
 smart:
-  log:
-    rpclog: true
+  feign:
+    log:
+      enable: true

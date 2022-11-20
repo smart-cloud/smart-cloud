@@ -31,10 +31,11 @@ import java.lang.annotation.*;
 public @interface ApiLog {
 
     /**
-     * 日志级别（默认debug级别）
+     * 日志级别（默认debug级别；如果要覆盖全局配置，需要指定注解的日志级别）
      *
      * @return
+     * @see LogLevel#getFinalLevel
      */
-    String level() default LogLevel.DEBUG;
+    String level() default "";
 
 }

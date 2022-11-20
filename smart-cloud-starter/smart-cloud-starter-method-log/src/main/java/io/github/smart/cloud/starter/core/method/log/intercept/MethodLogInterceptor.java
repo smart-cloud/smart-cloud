@@ -19,7 +19,7 @@ import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.mask.util.MaskUtil;
-import io.github.smart.cloud.starter.configure.properties.LogProperties;
+import io.github.smart.cloud.starter.configure.properties.MethodLogProperties;
 import io.github.smart.cloud.starter.core.method.log.annotation.MethodLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ import java.lang.reflect.Method;
 @RequiredArgsConstructor
 public class MethodLogInterceptor implements MethodInterceptor {
 
-    private final LogProperties logProperties;
+    private final MethodLogProperties methodLogProperties;
     /**
      * 慢日志
      */
@@ -54,15 +54,15 @@ public class MethodLogInterceptor implements MethodInterceptor {
         Object result = null;
         try {
             result = invocation.proceed();
-        } finally {
-            long cost = System.currentTimeMillis() - startTime;
+
             if (log.isWarnEnabled()) {
-                if (cost >= logProperties.getSlowApiMinCost()) {
+                long cost = System.currentTimeMillis() - startTime;
+                if (cost >= methodLogProperties.getSlowApiMinCost()) {
                     String mastResult = (result instanceof String) ? (String) result : MaskUtil.mask(result);
                     log.warn(SLOW_LOG_PATTERN, getTag(invocation.getMethod()), cost, LogUtil.truncate(MaskUtil.mask(invocation.getArguments())), LogUtil.truncate(mastResult));
                 } else {
                     MethodLog methodLog = invocation.getMethod().getAnnotation(MethodLog.class);
-                    String logLevel = methodLog.level();
+                    String logLevel = LogLevel.getFinalLevel(methodLog.level(), methodLogProperties.getLevel());
                     if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
                         log.debug(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result));
                     } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
@@ -72,10 +72,20 @@ public class MethodLogInterceptor implements MethodInterceptor {
                     }
                 }
             }
+        } catch (Exception e) {
+            long cost = System.currentTimeMillis() - startTime;
+            log.error(LOG_PATTERN, getTag(invocation.getMethod()), cost, getArgs(invocation.getArguments()), getResult(result), e);
+            throw e;
         }
         return result;
     }
 
+    /**
+     * 获取类标志符
+     *
+     * @param method
+     * @return
+     */
     private String getTag(Method method) {
         return method.getDeclaringClass().getSimpleName() + SymbolConstant.DOT + method.getName();
     }

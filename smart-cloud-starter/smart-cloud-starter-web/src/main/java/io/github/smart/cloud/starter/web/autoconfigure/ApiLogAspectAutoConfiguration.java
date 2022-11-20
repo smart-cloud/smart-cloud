@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019-07-03
  */
 @Configuration
-@ConditionalOnProperty(name = SmartConstant.API_LOG_CONDITION_PROPERTY, havingValue = "true")
+@ConditionalOnProperty(name = SmartConstant.API_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
 @ConditionalOnClass(name = {"javax.servlet.Filter"})
 public class ApiLogAspectAutoConfiguration {
 
@@ -44,7 +44,7 @@ public class ApiLogAspectAutoConfiguration {
 
     @Bean
     public ServletApiLogInterceptor apiLogInterceptor(final SmartProperties smartProperties) {
-        return new ServletApiLogInterceptor(smartProperties.getLog());
+        return new ServletApiLogInterceptor(smartProperties.getApiLog());
     }
 
     /**

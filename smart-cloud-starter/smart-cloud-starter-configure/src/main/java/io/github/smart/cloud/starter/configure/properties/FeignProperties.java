@@ -13,29 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.method.log.annotation;
+package io.github.smart.cloud.starter.configure.properties;
 
-import io.github.smart.cloud.constants.LogLevel;
+import io.github.smart.cloud.common.pojo.Base;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.lang.annotation.*;
+import java.util.Set;
 
 /**
- * method日志打印注解
+ * feign配置
  *
  * @author collin
- * @date 2021-03-13
+ * @date 2019-06-19
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface MethodLog {
+@Getter
+@Setter
+public class FeignProperties extends Base {
+
+    private static final long serialVersionUID = 1L;
 
     /**
-     * 日志级别（默认debug级别；如果要覆盖全局配置，需要指定注解的日志级别）
-     *
-     * @return
-     * @see LogLevel#getFinalLevel
+     * feign日志切面配置
      */
-    String level() default "";
+    private FeignLogProperties log = new FeignLogProperties();
+
+    /**
+     * 需要往下一级请求传递的请求头参数名称
+     */
+    private Set<String> transferHeaderNames;
 
 }

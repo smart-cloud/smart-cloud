@@ -20,7 +20,7 @@ import io.github.smart.cloud.common.web.util.WebServletUtil;
 import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
-import io.github.smart.cloud.starter.configure.properties.LogProperties;
+import io.github.smart.cloud.starter.configure.properties.ApiLogProperties;
 import io.github.smart.cloud.starter.web.annotation.ApiLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +50,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
 
-    private final LogProperties logProperties;
+    private final ApiLogProperties apiLogProperties;
     /**
      * 慢日志
      */
@@ -79,13 +79,13 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
         Object result = null;
         try {
             result = invocation.proceed();
-            long cost = System.currentTimeMillis() - startTime;
             if (log.isWarnEnabled()) {
-                if (cost >= logProperties.getSlowApiMinCost()) {
+                long cost = System.currentTimeMillis() - startTime;
+                if (cost >= apiLogProperties.getSlowApiMinCost()) {
                     log.warn(LogUtil.truncate(SLOW_LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
                 } else {
                     ApiLog apiLog = invocation.getMethod().getAnnotation(ApiLog.class);
-                    String logLevel = apiLog == null ? LogLevel.DEBUG : apiLog.level();
+                    String logLevel = LogLevel.getFinalLevel((apiLog == null ? null : apiLog.level()), apiLogProperties.getLevel());
                     if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
                         log.debug(LogUtil.truncate(LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));
                     } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
@@ -105,14 +105,7 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
 
     private LogAspectDO buildLogAspectDO(Object[] args, Object result, long cost) {
         HttpServletRequest request = WebServletUtil.getHttpServletRequest();
-        return LogAspectDO.builder()
-                .url(request.getPathInfo())
-                .method(request.getMethod())
-                .head(getHeaders(request))
-                .args(getRequestArgs(args))
-                .cost(cost)
-                .result(result)
-                .build();
+        return LogAspectDO.builder().url(request.getPathInfo()).method(request.getMethod()).head(getHeaders(request)).args(getRequestArgs(args)).cost(cost).result(result).build();
     }
 
     /**
@@ -158,10 +151,7 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
      * @return
      */
     private static boolean needFilter(Object object) {
-        return object instanceof ServletRequest
-                || object instanceof ServletResponse
-                || object instanceof DataBinder
-                || object instanceof InputStreamSource;
+        return object instanceof ServletRequest || object instanceof ServletResponse || object instanceof DataBinder || object instanceof InputStreamSource;
     }
 
 }

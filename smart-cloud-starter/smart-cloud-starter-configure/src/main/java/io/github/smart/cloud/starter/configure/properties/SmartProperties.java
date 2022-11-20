@@ -40,12 +40,21 @@ public class SmartProperties extends Base {
      */
     @NestedConfigurationProperty
     private AsyncProperties async = new AsyncProperties();
-
     /**
-     * 切面配置
+     * 接口日志切面配置
      */
     @NestedConfigurationProperty
-    private LogProperties log = new LogProperties();
+    private ApiLogProperties apiLog = new ApiLogProperties();
+    /**
+     * openfeign配置
+     */
+    @NestedConfigurationProperty
+    private FeignProperties feign = new FeignProperties();
+    /**
+     * 方法日志切面配置
+     */
+    @NestedConfigurationProperty
+    private MethodLogProperties methodLog = new MethodLogProperties();
     /**
      * xxl-job配置
      */
@@ -61,11 +70,6 @@ public class SmartProperties extends Base {
      */
     @NestedConfigurationProperty
     private MockProperties mock = new MockProperties();
-    /**
-     * openfeign配置
-     */
-    @NestedConfigurationProperty
-    private OpenFeignProperties feign = new OpenFeignProperties();
     /**
      * 表字段加解密相关配置
      */

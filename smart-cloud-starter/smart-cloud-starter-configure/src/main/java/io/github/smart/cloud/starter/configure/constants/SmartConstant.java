@@ -33,11 +33,11 @@ public class SmartConstant {
     /**
      * rpc 日志打印开关配置name
      */
-    public static final String FEIGN_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".log.rpclog";
+    public static final String FEIGN_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".feign.log.enable";
     /**
      * api 日志打印开关配置name
      */
-    public static final String API_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".log.apilog";
+    public static final String API_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".apiLog.enable";
     /**
      * api mock开关配置name
      */
@@ -49,6 +49,6 @@ public class SmartConstant {
     /**
      * method log开关配置name
      */
-    public static final String METHOD_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".method.log.enable";
+    public static final String METHOD_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".methodLog.enable";
 
 }

@@ -13,29 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.method.log.annotation;
+package io.github.smart.cloud.starter.configure.properties;
 
+import io.github.smart.cloud.common.pojo.Base;
 import io.github.smart.cloud.constants.LogLevel;
-
-import java.lang.annotation.*;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
- * method日志打印注解
+ * feign日志切面配置
  *
  * @author collin
- * @date 2021-03-13
+ * @date 2019-06-19
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface MethodLog {
+@Getter
+@Setter
+public class FeignLogProperties extends Base {
+
+    private static final long serialVersionUID = 1L;
 
     /**
-     * 日志级别（默认debug级别；如果要覆盖全局配置，需要指定注解的日志级别）
-     *
-     * @return
-     * @see LogLevel#getFinalLevel
+     * feign切面开关 （默认true）
      */
-    String level() default "";
+    private boolean enable = true;
+
+    /**
+     * openfeign日志级别（默认DEBUG）
+     *
+     * @see LogLevel
+     */
+    private String level = LogLevel.DEBUG;
+
+    /**
+     * 慢接口时间（单位：毫秒，默认3000毫秒）
+     */
+    private int slowApiMinCost = 3000;
 
 }

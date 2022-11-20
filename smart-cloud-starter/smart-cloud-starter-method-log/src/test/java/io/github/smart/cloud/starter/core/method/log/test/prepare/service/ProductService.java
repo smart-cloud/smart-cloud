@@ -43,7 +43,7 @@ public class ProductService {
      */
     @MethodLog
     public String queryWithSlow(Long id) throws InterruptedException {
-        TimeUnit.MILLISECONDS.sleep(smartProperties.getLog().getSlowApiMinCost());
+        TimeUnit.MILLISECONDS.sleep(smartProperties.getMethodLog().getSlowApiMinCost());
         return String.valueOf(id);
     }
 

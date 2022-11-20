@@ -39,9 +39,8 @@ import java.util.Arrays;
  * @date 2019-07-03
  */
 @Configuration
-@ConditionalOnProperty(name = SmartConstant.FEIGN_LOG_CONDITION_PROPERTY, havingValue = "true")
+@ConditionalOnProperty(name = SmartConstant.FEIGN_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
 public class FeignLogAspectAutoConfiguration {
-
 
     /**
      * feign切面
@@ -60,7 +59,7 @@ public class FeignLogAspectAutoConfiguration {
 
     @Bean
     public FeignLogInterceptor feignInterceptor(final SmartProperties smartProperties) {
-        return new FeignLogInterceptor(smartProperties.getLog());
+        return new FeignLogInterceptor(smartProperties.getFeign().getLog());
     }
 
     @Bean

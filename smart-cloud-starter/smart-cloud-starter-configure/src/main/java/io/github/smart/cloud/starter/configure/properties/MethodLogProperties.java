@@ -15,32 +15,38 @@
  */
 package io.github.smart.cloud.starter.configure.properties;
 
+import io.github.smart.cloud.common.pojo.Base;
+import io.github.smart.cloud.constants.LogLevel;
 import lombok.Getter;
 import lombok.Setter;
-import io.github.smart.cloud.common.pojo.Base;
 
 /**
- * 切面配置
+ * 方法日志切面配置
  *
  * @author collin
  * @date 2019-06-19
  */
 @Getter
 @Setter
-public class LogProperties extends Base {
+public class MethodLogProperties extends Base {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * feign切面开关 （默认false）
+     * 切面开关 （默认true）
      */
-    private boolean rpclog = false;
+    private boolean enable = true;
+
     /**
-     * 接口日志切面开关 （默认false）
+     * 日志级别（默认DEBUG）
+     *
+     * @see LogLevel
      */
-    private boolean apilog = false;
+    private String level = LogLevel.DEBUG;
+
+
     /**
-     * 慢接口时间（单位：毫秒，默认3秒）
+     * 慢接口时间（单位：毫秒，默认3000毫秒）
      */
     private int slowApiMinCost = 3000;
 

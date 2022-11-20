@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.configure.test.cases;
 
+import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.configure.test.prepare.Application;
 import org.assertj.core.api.Assertions;
@@ -53,10 +54,22 @@ class SmartPropertiesTest {
         Assertions.assertThat(smartProperties.getAsync().getAwaitTerminationSeconds()).isEqualTo(0);
 
         // log
-        Assertions.assertThat(smartProperties.getLog()).isNotNull();
-        Assertions.assertThat(smartProperties.getLog().isRpclog()).isFalse();
-        Assertions.assertThat(smartProperties.getLog().isApilog()).isFalse();
-        Assertions.assertThat(smartProperties.getLog().getSlowApiMinCost()).isEqualTo(4000);
+        Assertions.assertThat(smartProperties.getApiLog()).isNotNull();
+        Assertions.assertThat(smartProperties.getApiLog().isEnable()).isTrue();
+        Assertions.assertThat(smartProperties.getApiLog().getLevel()).isEqualTo(LogLevel.INFO);
+        Assertions.assertThat(smartProperties.getApiLog().getSlowApiMinCost()).isEqualTo(4000);
+
+        Assertions.assertThat(smartProperties.getFeign()).isNotNull();
+        Assertions.assertThat(smartProperties.getFeign().getLog()).isNotNull();
+        Assertions.assertThat(smartProperties.getFeign().getLog().isEnable()).isTrue();
+        Assertions.assertThat(smartProperties.getFeign().getLog().getLevel()).isEqualTo(LogLevel.WARN);
+        Assertions.assertThat(smartProperties.getFeign().getLog().getSlowApiMinCost()).isEqualTo(2500);
+        Assertions.assertThat(smartProperties.getFeign().getTransferHeaderNames()).contains("smart-user");
+
+        Assertions.assertThat(smartProperties.getMethodLog()).isNotNull();
+        Assertions.assertThat(smartProperties.getMethodLog().isEnable()).isTrue();
+        Assertions.assertThat(smartProperties.getMethodLog().getLevel()).isEqualTo(LogLevel.DEBUG);
+        Assertions.assertThat(smartProperties.getMethodLog().getSlowApiMinCost()).isEqualTo(3100);
 
         // xxl-job
         Assertions.assertThat(smartProperties.getXxlJob()).isNotNull();

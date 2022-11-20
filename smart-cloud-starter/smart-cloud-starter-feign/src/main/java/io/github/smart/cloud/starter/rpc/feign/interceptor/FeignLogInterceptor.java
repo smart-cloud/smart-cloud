@@ -18,10 +18,11 @@ package io.github.smart.cloud.starter.rpc.feign.interceptor;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import io.github.smart.cloud.common.web.util.WebUtil;
+import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
-import io.github.smart.cloud.starter.configure.properties.LogProperties;
+import io.github.smart.cloud.starter.configure.properties.FeignLogProperties;
 import io.github.smart.cloud.starter.rpc.feign.pojo.FeignLogAspectDO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,26 +44,37 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FeignLogInterceptor implements MethodInterceptor, RequestInterceptor, Ordered {
 
-    private final LogProperties logProperties;
+    private final FeignLogProperties feignLogProperties;
     private static final ThreadLocal<Map<String, Collection<String>>> FEIGN_HEADER_THREAD_LOCAL = new ThreadLocal<>();
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         long startTime = System.currentTimeMillis();
 
-        // 1、rpc
         Object result = null;
         try {
             result = invocation.proceed();
-        } finally {
-            // 2、打印日志
-            long cost = System.currentTimeMillis() - startTime;
-            if (log.isWarnEnabled() && cost >= logProperties.getSlowApiMinCost()) {
-                log.warn(LogUtil.truncate("rpc.slow=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
-            } else if (log.isDebugEnabled()) {
-                log.debug(LogUtil.truncate("rpc.info=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
-            }
 
+            if (log.isWarnEnabled()) {
+                long cost = System.currentTimeMillis() - startTime;
+                if (cost >= feignLogProperties.getSlowApiMinCost()) {
+                    log.warn(LogUtil.truncate("rpc.slow=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
+                } else {
+                    String level = feignLogProperties.getLevel();
+                    if (LogLevel.DEBUG.equals(level)) {
+                        log.debug(LogUtil.truncate("rpc.info=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
+                    } else if (LogLevel.INFO.equals(level)) {
+                        log.info(LogUtil.truncate("rpc.info=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
+                    } else if (LogLevel.WARN.equals(level)) {
+                        log.warn(LogUtil.truncate("rpc.info=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            long cost = System.currentTimeMillis() - startTime;
+            log.error(LogUtil.truncate("rpc.error=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)), e);
+            throw e;
+        } finally {
             // 方法调用顺序：apply（初始化值） ——> invoke（获取值，并清除）
             // 3、防止内存泄漏
             FEIGN_HEADER_THREAD_LOCAL.remove();

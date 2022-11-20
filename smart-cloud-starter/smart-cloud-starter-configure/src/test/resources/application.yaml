@@ -1,9 +1,19 @@
 smart:
-  log:
-    rpclog: false
-    apilog: false
+  apiLog:
+    enable: true
+    level: info
     slow-api-min-cost: 4000
-  xxl-job:
+  feign:
+    log:
+      enable: true
+      level: warn
+      slow-api-min-cost: 2500
+    transferHeaderNames: smart-user
+  methodLog:
+    enable: true
+    level: debug
+    slow-api-min-cost: 3100
+  xxlJob:
     admin-addresses: 192.168.1.15
     app-name: yyy
     ip: 127.0.0.1
