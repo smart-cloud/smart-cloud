@@ -15,8 +15,9 @@ smart cloud
 - [可以生成mock数据，充分发挥前后端分离的作用](https://github.com/smart-cloud/smart-cloud#%E4%B8%89%E6%8E%A5%E5%8F%A3mock%E6%95%B0%E6%8D%AE)
 - [部署灵活，服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）部署，合并后也可拆分开部署](https://github.com/smart-cloud/smart-cloud#%E5%9B%9B%E6%9C%8D%E5%8A%A1%E5%90%88%E5%B9%B6%E5%8E%9F%E7%90%86)
 - 业务无关代码自动生成
-- [接口（加密+签名）安全保证](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
+- [接口支持加密与签名](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
 - 业务无关功能（如日志打印、公共配置、常用工具类等）抽象为starter
+- 支持web接口日志、feign日志、method注解日志、mybatis日志、mq消费者日志打印，日志级别可配置
 - 支持多数据源、分表分库、分布式事务
 - 支持多语言（国际化）
 - 敏感配置信息支持加密，表隐私字段加解密

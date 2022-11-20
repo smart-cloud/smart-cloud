@@ -15,8 +15,9 @@ smart cloud
 - [Mock data can be generated to give full play to the role of front-end and back-end separation](https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md#interface-mock-data)
 - [Flexible deployment, services can be merged (after the merged services communicate through internal processes; after separation, through RPC communication) deployment, and can also be deployed separately after merging](https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md#principles-of-service-merger)
 - Automatic generation of business-independent code
-- [Interface (encryption + signature) security assurance](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
+- [The interface supports encryption and signature](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
 - Business-related functions (such as log printing, public configuration, common tool classes, etc.) are abstracted as starters
+- Support web interface log, feign log, method annotation log, mybatis log, mq consumer log printing, log level is configurable
 - Support multiple data sources, sharding table and sharding database, distributed transactions
 - Supports multiple languages (internationalization)
 - Sensitive configuration information supports encryption, table privacy field encryption and decryption
