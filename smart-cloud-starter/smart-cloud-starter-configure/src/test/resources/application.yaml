@@ -34,3 +34,5 @@ smart:
     enable: true
     logLevel: warn
     cryptKey: 123456
+  rabbitmq:
+    level: info

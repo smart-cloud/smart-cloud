@@ -15,6 +15,8 @@
  */
 package io.github.smart.cloud.starter.rabbitmq;
 
+import io.github.smart.cloud.constants.LogLevel;
+import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
 import io.github.smart.cloud.starter.rabbitmq.enums.RetryResult;
 import io.github.smart.cloud.starter.rabbitmq.util.MqUtil;
@@ -43,6 +45,8 @@ public abstract class AbstractRabbitMqConsumer<T> implements IRabbitMqConsumer {
     private RedissonClient redissonClient;
     @Autowired
     private IRabbitMqAdapter rabbitMqAdapter;
+    @Autowired
+    private SmartProperties smartProperties;
 
     /**
      * 消费者具体执行的业务逻辑
@@ -79,8 +83,15 @@ public abstract class AbstractRabbitMqConsumer<T> implements IRabbitMqConsumer {
         try {
             isRequiredLock = lock.tryLock();
             if (isRequiredLock) {
-                if (log.isDebugEnabled()) {
-                    log.debug("receive.msg={}", JacksonUtil.toJson(body));
+                String logLevel = smartProperties.getRabbitmq().getLevel();
+                if (log.isWarnEnabled()) {
+                    if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
+                        log.debug("receive.msg={}", JacksonUtil.toJson(body));
+                    } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
+                        log.info("receive.msg={}", JacksonUtil.toJson(body));
+                    } else if (LogLevel.WARN.equals(logLevel)) {
+                        log.warn("receive.msg={}", JacksonUtil.toJson(body));
+                    }
                 }
                 doProcess(body);
             } else {

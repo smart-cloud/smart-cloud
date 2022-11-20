@@ -15,8 +15,10 @@
  */
 package io.github.smart.cloud.starter.rabbitmq.autoconfigure;
 
+import io.github.smart.cloud.starter.rabbitmq.adapter.IRabbitMqAdapter;
 import io.github.smart.cloud.starter.rabbitmq.adapter.impl.RabbitMqAdapterImpl;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,7 +32,8 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMqAdapterAutoConfiguration {
 
     @Bean
-    public RabbitMqAdapterImpl rabbitMqAdapterImpl(final RabbitTemplate rabbitTemplate) {
+    @ConditionalOnMissingBean
+    public IRabbitMqAdapter rabbitMqAdapter(final RabbitTemplate rabbitTemplate) {
         return new RabbitMqAdapterImpl(rabbitTemplate);
     }
 

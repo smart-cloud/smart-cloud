@@ -75,5 +75,10 @@ public class SmartProperties extends Base {
      */
     @NestedConfigurationProperty
     private MybatisProperties mybatis = new MybatisProperties();
+    /**
+     * rabbitmq相关配置
+     */
+    @NestedConfigurationProperty
+    private RabbitmqProperties rabbitmq = new RabbitmqProperties();
 
 }

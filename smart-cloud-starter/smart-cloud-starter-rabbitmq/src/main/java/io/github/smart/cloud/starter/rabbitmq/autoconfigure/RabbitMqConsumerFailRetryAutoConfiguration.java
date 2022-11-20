@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.rabbitmq.autoconfigure;
 import io.github.smart.cloud.starter.rabbitmq.RabbitMqConsumerFailRetryBeanProcessor;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,6 +33,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMqConsumerFailRetryAutoConfiguration {
 
     @Bean
+    @ConditionalOnMissingBean
     public RabbitMqConsumerFailRetryBeanProcessor rabbitMqConsumerFailRetryBeanProcessor() {
         return new RabbitMqConsumerFailRetryBeanProcessor();
     }
