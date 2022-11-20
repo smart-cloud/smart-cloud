@@ -15,6 +15,11 @@
  */
 package io.github.smart.cloud.starter.mybatis.plus.plugin;
 
+import io.github.smart.cloud.constants.LogLevel;
+import io.github.smart.cloud.mask.util.LogUtil;
+import io.github.smart.cloud.mask.util.MaskUtil;
+import io.github.smart.cloud.utility.DateUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.cache.CacheKey;
@@ -28,9 +33,6 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
-import io.github.smart.cloud.mask.util.LogUtil;
-import io.github.smart.cloud.mask.util.MaskUtil;
-import io.github.smart.cloud.utility.DateUtil;
 
 import java.io.Serializable;
 import java.util.*;
@@ -42,14 +44,9 @@ import java.util.regex.Matcher;
  * @author collin
  * @date 2019-03-22
  */
-@Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
-        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class,
-                RowBounds.class, ResultHandler.class}),
-        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class,
-                RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
-        @Signature(type = Executor.class, method = "queryCursor", args = {MappedStatement.class, Object.class,
-                RowBounds.class})})
 @Slf4j
+@RequiredArgsConstructor
+@Intercepts({@Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}), @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}), @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}), @Signature(type = Executor.class, method = "queryCursor", args = {MappedStatement.class, Object.class, RowBounds.class})})
 public class MybatisSqlLogInterceptor implements Interceptor {
 
     private static final String QUOTE = "\\?";
@@ -57,6 +54,10 @@ public class MybatisSqlLogInterceptor implements Interceptor {
      * 参数数组的长度
      */
     private static final int ARGS_LENGTH = 6;
+    /**
+     * 日志级别
+     */
+    private final String logLevel;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -65,19 +66,21 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         try {
             returnValue = invocation.proceed();
         } finally {
-            long end = System.currentTimeMillis();
-            long time = (end - start);
-            MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-            BoundSql boundSql = null;
-            if (invocation.getArgs().length == ARGS_LENGTH) {
-                boundSql = (BoundSql) invocation.getArgs()[ARGS_LENGTH - 1];
-            } else {
-                Object parameter = invocation.getArgs()[1];
-                boundSql = mappedStatement.getBoundSql(parameter);
+            if (log.isWarnEnabled()) {
+                long end = System.currentTimeMillis();
+                long time = (end - start);
+                MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
+                BoundSql boundSql = null;
+                if (invocation.getArgs().length == ARGS_LENGTH) {
+                    boundSql = (BoundSql) invocation.getArgs()[ARGS_LENGTH - 1];
+                } else {
+                    Object parameter = invocation.getArgs()[1];
+                    boundSql = mappedStatement.getBoundSql(parameter);
+                }
+                String sqlId = mappedStatement.getId();
+                Configuration configuration = mappedStatement.getConfiguration();
+                showSql(configuration, boundSql, sqlId, time, returnValue);
             }
-            String sqlId = mappedStatement.getId();
-            Configuration configuration = mappedStatement.getConfiguration();
-            showSql(configuration, boundSql, sqlId, time, returnValue);
         }
         return returnValue;
     }
@@ -103,8 +106,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
      * @param time
      * @param returnValue
      */
-    public void showSql(Configuration configuration, BoundSql boundSql, String sqlId, long time,
-                        Object returnValue) {
+    public void showSql(Configuration configuration, BoundSql boundSql, String sqlId, long time, Object returnValue) {
         String separator = "==>";
         StringBuilder str = new StringBuilder(64);
         String shortSqlId = getShortSqlId(sqlId);
@@ -130,7 +132,13 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         str.append(separator);
         str.append(MaskUtil.mask(returnValue));
 
-        log.info(LogUtil.truncate(str.toString()));
+        if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
+            log.debug(LogUtil.truncate(str.toString()));
+        } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
+            log.info(LogUtil.truncate(str.toString()));
+        } else if (LogLevel.WARN.equals(logLevel)) {
+            log.warn(LogUtil.truncate(str.toString()));
+        }
     }
 
     private boolean canMask(Object object) {

@@ -92,6 +92,12 @@ class SmartPropertiesTest {
         Assertions.assertThat(smartProperties.getMock().isMethod()).isTrue();
         Assertions.assertThat(smartProperties.getMock().getWhilelist()).isNotEmpty().hasSize(2);
         Assertions.assertThat(smartProperties.getMock().getWhilelist()).contains("xxxx.query", "yyyy.submit");
+
+        // mybatis
+        Assertions.assertThat(smartProperties.getMybatis()).isNotNull();
+        Assertions.assertThat(smartProperties.getMybatis().isEnable()).isTrue();
+        Assertions.assertThat(smartProperties.getMybatis().getLogLevel()).isEqualTo("warn");
+        Assertions.assertThat(smartProperties.getMybatis().getCryptKey()).isEqualTo("123456");
     }
 
 }

@@ -50,5 +50,9 @@ public class SmartConstant {
      * method log开关配置name
      */
     public static final String METHOD_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".methodLog.enable";
+    /**
+     * mybatis log开关配置name
+     */
+    public static final String MYBATIS_LOG_CONDITION_PROPERTY = SMART_PROPERTIES_PREFIX + ".mybatis.log.enable";
 
 }

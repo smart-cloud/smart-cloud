@@ -71,9 +71,9 @@ public class SmartProperties extends Base {
     @NestedConfigurationProperty
     private MockProperties mock = new MockProperties();
     /**
-     * 表字段加解密相关配置
+     * mybatis相关配置
      */
     @NestedConfigurationProperty
-    private CryptFieldProperties cryptField = new CryptFieldProperties();
+    private MybatisProperties mybatis = new MybatisProperties();
 
 }

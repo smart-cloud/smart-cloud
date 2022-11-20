@@ -17,14 +17,14 @@ package io.github.smart.cloud.starter.mybatis.plus.autoconfigure;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import io.github.smart.cloud.starter.configure.constants.OrderConstant;
+import io.github.smart.cloud.starter.configure.constants.SmartConstant;
+import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.mybatis.plus.handler.CryptFieldHandler;
 import io.github.smart.cloud.starter.mybatis.plus.injector.SmartSqlInjector;
 import io.github.smart.cloud.starter.mybatis.plus.plugin.MybatisSqlLogInterceptor;
-import io.github.smart.cloud.starter.configure.constants.OrderConstant;
-import io.github.smart.cloud.utility.spring.condition.ConditionEnableLogInfo;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
@@ -54,10 +54,9 @@ public class MyBatisPlusAutoConfiguration {
      */
     @Bean
     @Order(OrderConstant.MYBATIS_SQL_LOG_INTERCEPTOR)
-    @Conditional(ConditionEnableLogInfo.class)
-    @ConditionalOnProperty(prefix = "smart.cloud.mybatis.log", name = "enabled", havingValue = "true", matchIfMissing = true)
-    public MybatisSqlLogInterceptor mybatisSqlLogInterceptor() {
-        return new MybatisSqlLogInterceptor();
+    @ConditionalOnProperty(name = SmartConstant.MYBATIS_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
+    public MybatisSqlLogInterceptor mybatisSqlLogInterceptor(final SmartProperties smartProperties) {
+        return new MybatisSqlLogInterceptor(smartProperties.getMybatis().getLogLevel());
     }
 
     /**

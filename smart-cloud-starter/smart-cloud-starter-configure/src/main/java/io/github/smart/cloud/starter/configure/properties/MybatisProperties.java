@@ -15,23 +15,37 @@
  */
 package io.github.smart.cloud.starter.configure.properties;
 
+import io.github.smart.cloud.common.pojo.Base;
+import io.github.smart.cloud.constants.LogLevel;
 import lombok.Getter;
 import lombok.Setter;
-import io.github.smart.cloud.common.pojo.Base;
 
 /**
- * 表字段加解密相关配置
+ * api日志切面配置
  *
  * @author collin
- * @date 2022-02-06
+ * @date 2019-06-19
  */
 @Getter
 @Setter
-public class CryptFieldProperties extends Base {
+public class MybatisProperties extends Base {
 
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * mybatis日志开关 （默认true）
+     */
+    private boolean enable = true;
+
+    /**
+     * api日志级别（默认DEBUG）
+     *
+     * @see LogLevel
+     */
+    private String logLevel = LogLevel.DEBUG;
     /**
      * 加解密密钥
      */
-    private String key;
+    private String cryptKey;
 
 }

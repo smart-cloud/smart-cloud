@@ -1,6 +1,6 @@
 smart:
-  cryptField:
-    key: 123456
+  mybatis:
+    cryptKey: 123456
 logging:
   config: classpath:log4j2-mybatis-sql-log-interceptor.xml
 spring:

@@ -30,3 +30,7 @@ smart:
     whilelist:
       - xxxx.query
       - yyyy.submit
+  mybatis:
+    enable: true
+    logLevel: warn
+    cryptKey: 123456

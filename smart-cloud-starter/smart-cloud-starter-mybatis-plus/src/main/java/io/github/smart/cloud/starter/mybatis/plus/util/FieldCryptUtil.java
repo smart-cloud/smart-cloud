@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.mybatis.plus.util;
 
-import io.github.smart.cloud.starter.configure.properties.CryptFieldProperties;
+import io.github.smart.cloud.starter.configure.properties.MybatisProperties;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.utility.security.AesUtil;
 import io.github.smart.cloud.utility.spring.SpringContextUtil;
@@ -57,9 +57,9 @@ public final class FieldCryptUtil {
      */
     private static String getKey() {
         SmartProperties smartProperties = SpringContextUtil.getBean(SmartProperties.class);
-        CryptFieldProperties cryptFieldProperties = smartProperties.getCryptField();
-        Assert.hasText(cryptFieldProperties.getKey(), "key not configured");
-        return cryptFieldProperties.getKey();
+        MybatisProperties mybatisProperties = smartProperties.getMybatis();
+        Assert.hasText(mybatisProperties.getCryptKey(), "key not configured");
+        return mybatisProperties.getCryptKey();
     }
 
 }
