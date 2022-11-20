@@ -61,9 +61,9 @@ public class FeignLogInterceptor implements MethodInterceptor, RequestIntercepto
                     log.warn(LogUtil.truncate("rpc.slow=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
                 } else {
                     String level = feignLogProperties.getLevel();
-                    if (LogLevel.DEBUG.equals(level)) {
+                    if (LogLevel.DEBUG.equals(level) && log.isDebugEnabled()) {
                         log.debug(LogUtil.truncate("rpc.info=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
-                    } else if (LogLevel.INFO.equals(level)) {
+                    } else if (LogLevel.INFO.equals(level) && log.isInfoEnabled()) {
                         log.info(LogUtil.truncate("rpc.info=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
                     } else if (LogLevel.WARN.equals(level)) {
                         log.warn(LogUtil.truncate("rpc.info=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));
