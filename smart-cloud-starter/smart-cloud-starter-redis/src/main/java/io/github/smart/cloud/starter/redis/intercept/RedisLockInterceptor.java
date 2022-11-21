@@ -43,6 +43,7 @@ public class RedisLockInterceptor extends AbstractRedisInterceptor implements Or
 
     @Override
     public int getOrder() {
+        // 将优先级设置为最高，以便与数据库事务注解同时使用时，redis锁拦截器能先执行
         return Ordered.HIGHEST_PRECEDENCE;
     }
 
