@@ -61,14 +61,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>io.github.smart-cloud</groupId>
-			<artifactId>smart-cloud-starter-log4j2</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
 			<scope>test</scope>
 		</dependency>
 
