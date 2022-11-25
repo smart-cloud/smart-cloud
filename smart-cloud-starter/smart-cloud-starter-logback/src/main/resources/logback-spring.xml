@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="appName" source="spring.application.name"/>
+
+    <!--读取配置中心的属性-->
+    <springProperty scope="context" name="LOG_BASE" source="logging.base-dir" defaultValue="/data/logs"/>
+    <springProperty scope="context" name="SERVICE_INSTANCE_ID" source="server.port" defaultValue="0"/>
+
+    <property name="LOG_BACK_DIR" value="${LOG_BASE}/${appName}_${SERVICE_INSTANCE_ID}"/>
+    <property name="log_format"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level ${appName} [%X{X-B3-SpanId} | %X{X-B3-ParentSpanId} | %X{X-B3-TraceId}] %thread [%logger{36} %method %line] %m%n"/>
+
+    <!-- 开发环境使用 打印在控制台-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log_format}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ELK_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_BACK_DIR}/${appName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_BACK_DIR}/${appName}.%d{yyyyMMddHH}.%i.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>512MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>60</maxHistory>
+            <totalSizeCap>50GB</totalSizeCap>
+        </rollingPolicy>
+        <append>true</append>
+        <!-- 日志文件的格式 -->
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers class="net.logstash.logback.composite.loggingevent.LoggingEventJsonProviders">
+                <timestamp>
+                    <timeZone>UTC</timeZone>
+                </timestamp>
+                <pattern>
+                    <pattern>
+                        {
+                        "timestamp": "%date{yyyy-MM-dd'T'HH:mm:ss.SSS}",
+                        "level": "%level",
+                        "appName": "${appName}
+                        "msg": "[%X{X-B3-SpanId} | %X{X-B3-ParentSpanId} | %X{X-B3-TraceId}] %thread [%logger{36} %method %line] %m",
+                        "stacktrace": "%exception"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ELK_FILE"/>
+    </root>
+
+</configuration>
