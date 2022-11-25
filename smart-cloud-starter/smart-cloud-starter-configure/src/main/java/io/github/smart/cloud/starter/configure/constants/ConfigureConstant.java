@@ -21,9 +21,9 @@ package io.github.smart.cloud.starter.configure.constants;
  * @author collin
  * @date 2019-04-22
  */
-public class SmartConstant {
+public class ConfigureConstant {
 
-    private SmartConstant() {
+    private ConfigureConstant() {
     }
 
     /**
