@@ -7,7 +7,7 @@
 <Configuration status="WARN" monitorInterval="600" packages="io.github.smart.cloud.starter.log4j2.plugin">
 	<!-- 变量配置 -->
 	<Properties>
-		<Property name="project">${cctx:appName}</Property>
+		<Property name="appName">${cctx:appName}</Property>
 		<Property name="log_path">${cctx:logPath}</Property>
 		<!--
 			%level 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL
@@ -20,7 +20,7 @@
 			sleuth相关参数：
 			TraceId为此次调用链共享id；SpanId本应用唯一id；ParentSpanId为上级应用唯一id；X-Span-Export是否是发送给Zipkin
 			-->
-		<Property name="log_format">[%-5level][${project}][%date{MM-dd HH:mm:ss.SSS}][%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}][%thread] (%F:%line)[%method] -> %mm%n</Property>
+		<Property name="log_format">[%-5level][${appName}][%date{MM-dd HH:mm:ss.SSS}][%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}][%thread] (%F:%line)[%method] -> %mm%n</Property>
 	</Properties>
 
 	<Appenders>
@@ -29,8 +29,8 @@
 		</Console>
 		<RollingRandomAccessFile immediateFlush="false"
 			name="dailyRollingRandomAccessFile"
-			fileName="${log_path}/${project}.log"
-			filePattern="${log_path}/${project}.%d{yyyy-MM-dd-HH}.log.gz">
+			fileName="${log_path}/${appName}.log"
+			filePattern="${log_path}/${appName}.%d{yyyy-MM-dd-HH}.log.gz">
 			<!--参考http://logging.apache.org/log4j/2.x/manual/json-template-layout.html-->
 			<JsonTemplateLayout eventTemplateUri="classpath:log4j2Template.json" charset="UTF-8"/>
 			<Policies>
@@ -54,6 +54,7 @@
 	</Appenders>
 
 	<Loggers>
+		<!--可在配置中心通过“logging.level.root”属性覆盖日志级别-->
 		<Root level="info">
 			<AppenderRef ref="asyncConsle" />
 			<AppenderRef ref="asyncFile" />
