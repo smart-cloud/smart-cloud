@@ -15,12 +15,14 @@
  */
 package io.github.smart.cloud.starter.configure.properties;
 
-import io.github.smart.cloud.common.pojo.Base;
-import io.github.smart.cloud.starter.configure.constants.SmartConstant;
+import io.github.smart.cloud.starter.configure.constants.ConfigureConstant;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
+import java.io.Serializable;
 
 /**
  * yml文件公共属性配置定义
@@ -30,8 +32,9 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
  */
 @Getter
 @Setter
-@ConfigurationProperties(prefix = SmartConstant.SMART_PROPERTIES_PREFIX)
-public class SmartProperties extends Base {
+@ToString
+@ConfigurationProperties(prefix = ConfigureConstant.SMART_PROPERTIES_PREFIX)
+public class SmartProperties implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

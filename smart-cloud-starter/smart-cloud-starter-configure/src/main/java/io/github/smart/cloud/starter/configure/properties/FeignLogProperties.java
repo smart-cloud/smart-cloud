@@ -15,10 +15,12 @@
  */
 package io.github.smart.cloud.starter.configure.properties;
 
-import io.github.smart.cloud.common.pojo.Base;
 import io.github.smart.cloud.constants.LogLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * feign日志切面配置
@@ -28,7 +30,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class FeignLogProperties extends Base {
+@ToString
+public class FeignLogProperties implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

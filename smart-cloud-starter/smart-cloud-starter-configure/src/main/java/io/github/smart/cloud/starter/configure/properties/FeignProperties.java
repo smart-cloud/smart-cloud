@@ -15,10 +15,11 @@
  */
 package io.github.smart.cloud.starter.configure.properties;
 
-import io.github.smart.cloud.common.pojo.Base;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -29,7 +30,8 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class FeignProperties extends Base {
+@ToString
+public class FeignProperties implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

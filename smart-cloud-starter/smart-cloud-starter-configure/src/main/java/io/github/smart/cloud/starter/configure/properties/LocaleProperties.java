@@ -15,27 +15,33 @@
  */
 package io.github.smart.cloud.starter.configure.properties;
 
-import java.nio.charset.StandardCharsets;
-
-import io.github.smart.cloud.common.pojo.Base;
-
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 多语言配置信息
- * 
+ *
  * @author collin
  * @date 2019-07-15
  */
 @Getter
 @Setter
-public class LocaleProperties extends Base {
+@ToString
+public class LocaleProperties implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	/** 编码（默认utf-8） */
-	private String encoding = StandardCharsets.UTF_8.name();
-	/** 缓存时间（默认7天；单位秒） */
-	private int cacheSeconds = 60 * 60 * 24 * 7;
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * 编码（默认utf-8）
+     */
+    private String encoding = StandardCharsets.UTF_8.name();
+    /**
+     * 缓存时间（默认7天；单位秒）
+     */
+    private int cacheSeconds = 60 * 60 * 24 * 7;
 
 }

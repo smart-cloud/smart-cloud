@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.core.method.log.autoconfigure;
 
-import io.github.smart.cloud.starter.configure.constants.SmartConstant;
+import io.github.smart.cloud.starter.configure.constants.ConfigureConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.core.method.log.annotation.MethodLog;
 import io.github.smart.cloud.starter.core.method.log.intercept.MethodLogInterceptor;
@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020-03-14
  */
 @Configuration
-@ConditionalOnProperty(name = SmartConstant.METHOD_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = ConfigureConstant.METHOD_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
 public class MethodLogInterceptorAutoConfiguration {
 
     @Bean

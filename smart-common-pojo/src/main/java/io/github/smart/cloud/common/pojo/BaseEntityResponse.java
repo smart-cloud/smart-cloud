@@ -20,8 +20,10 @@ import io.github.smart.cloud.common.pojo.constant.DateConstant;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -32,10 +34,10 @@ import java.util.Date;
  */
 @Setter
 @Getter
+@ToString
 @NoArgsConstructor
 @SuperBuilder
-public class BaseEntityResponse extends Base {
-
+public class BaseEntityResponse implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

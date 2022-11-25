@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.web.autoconfigure;
 
-import io.github.smart.cloud.starter.configure.constants.SmartConstant;
+import io.github.smart.cloud.starter.configure.constants.ConfigureConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.web.aspect.interceptor.ServletApiLogInterceptor;
 import io.github.smart.cloud.starter.web.aspect.pointcut.ApiLogPointCut;
@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019-07-03
  */
 @Configuration
-@ConditionalOnProperty(name = SmartConstant.API_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = ConfigureConstant.API_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
 @ConditionalOnClass(name = {"javax.servlet.Filter"})
 public class ApiLogAspectAutoConfiguration {
 

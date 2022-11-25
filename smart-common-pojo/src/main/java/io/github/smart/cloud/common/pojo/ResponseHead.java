@@ -18,9 +18,12 @@ package io.github.smart.cloud.common.pojo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import uk.co.jemos.podam.common.PodamStringValue;
+
+import java.io.Serializable;
 
 /**
  * 响应头部
@@ -30,9 +33,10 @@ import uk.co.jemos.podam.common.PodamStringValue;
  */
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @SuperBuilder
-public class ResponseHead extends Base {
+public class ResponseHead implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

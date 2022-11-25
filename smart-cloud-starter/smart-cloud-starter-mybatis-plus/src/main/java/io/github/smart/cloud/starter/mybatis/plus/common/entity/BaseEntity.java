@@ -18,13 +18,14 @@ package io.github.smart.cloud.starter.mybatis.plus.common.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import io.github.smart.cloud.common.pojo.Base;
-import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -35,9 +36,10 @@ import java.util.Date;
  */
 @Setter
 @Getter
+@ToString
 @NoArgsConstructor
 @SuperBuilder
-public class BaseEntity extends Base {
+public class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

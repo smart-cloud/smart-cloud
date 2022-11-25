@@ -31,11 +31,6 @@
     <dependencies>
         <dependency>
             <groupId>io.github.smart-cloud</groupId>
-            <artifactId>smart-common-pojo</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.smart-cloud</groupId>
             <artifactId>smart-exception</artifactId>
         </dependency>
 

@@ -17,7 +17,9 @@ package io.github.smart.cloud.starter.configure.properties;
 
 import lombok.Getter;
 import lombok.Setter;
-import io.github.smart.cloud.common.pojo.Base;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * xxl-job配置属性
@@ -27,7 +29,8 @@ import io.github.smart.cloud.common.pojo.Base;
  */
 @Getter
 @Setter
-public class XxlJobProperties extends Base {
+@ToString
+public class XxlJobProperties implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

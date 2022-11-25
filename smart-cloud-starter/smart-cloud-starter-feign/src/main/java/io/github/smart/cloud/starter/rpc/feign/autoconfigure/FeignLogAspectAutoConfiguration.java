@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.rpc.feign.autoconfigure;
 
-import io.github.smart.cloud.starter.configure.constants.SmartConstant;
+import io.github.smart.cloud.starter.configure.constants.ConfigureConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.core.business.util.AspectInterceptorUtil;
 import io.github.smart.cloud.starter.core.constants.PackageConfig;
@@ -39,7 +39,7 @@ import java.util.Arrays;
  * @date 2019-07-03
  */
 @Configuration
-@ConditionalOnProperty(name = SmartConstant.FEIGN_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = ConfigureConstant.FEIGN_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
 public class FeignLogAspectAutoConfiguration {
 
     /**

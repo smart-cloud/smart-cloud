@@ -15,11 +15,9 @@
  */
 package io.github.smart.cloud.common.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,9 +30,10 @@ import java.util.Objects;
  */
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasePageResponse<T> extends Base {
+public class BasePageResponse<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -16,7 +16,8 @@
 package io.github.smart.cloud.common.pojo.dataobject;
 
 import lombok.*;
-import io.github.smart.cloud.common.pojo.Base;
+
+import java.io.Serializable;
 
 /**
  * （用于dao层）分页请求参数基类
@@ -29,12 +30,18 @@ import io.github.smart.cloud.common.pojo.Base;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class BasePageRequestDO extends Base {
+public class BasePageRequestDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 页码
+     */
     private Integer offset;
 
+    /**
+     * 每页大小
+     */
     private Integer rows;
 
 }

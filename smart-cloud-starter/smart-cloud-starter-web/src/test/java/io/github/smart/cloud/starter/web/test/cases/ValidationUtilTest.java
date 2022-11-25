@@ -15,6 +15,9 @@
  */
 package io.github.smart.cloud.starter.web.test.cases;
 
+import io.github.smart.cloud.constants.CommonReturnCodes;
+import io.github.smart.cloud.exception.ParamValidateException;
+import io.github.smart.cloud.starter.web.constants.WebReturnCodes;
 import io.github.smart.cloud.starter.web.test.prepare.Application;
 import io.github.smart.cloud.starter.web.validation.util.ValidationUtil;
 import lombok.Getter;
@@ -23,14 +26,11 @@ import org.assertj.core.api.Assertions;
 import org.hibernate.validator.constraints.Length;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.smart.cloud.common.pojo.Base;
-import io.github.smart.cloud.constants.CommonReturnCodes;
-import io.github.smart.cloud.exception.ParamValidateException;
-import io.github.smart.cloud.starter.web.constants.WebReturnCodes;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
@@ -93,7 +93,9 @@ class ValidationUtilTest {
 
     @Getter
     @Setter
-    class ProductReqVO extends Base {
+    class ProductReqVO implements Serializable {
+
+        private static final long serialVersionUID = 1L;
 
         @NotBlank
         @Length(max = 64)

@@ -15,10 +15,12 @@
  */
 package io.github.smart.cloud.starter.configure.properties;
 
-import io.github.smart.cloud.common.pojo.Base;
 import io.github.smart.cloud.constants.LogLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * api日志切面配置
@@ -28,7 +30,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class ApiLogProperties extends Base {
+@ToString
+public class ApiLogProperties implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

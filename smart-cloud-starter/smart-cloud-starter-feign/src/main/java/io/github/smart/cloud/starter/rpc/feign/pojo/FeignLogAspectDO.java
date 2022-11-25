@@ -19,7 +19,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import io.github.smart.cloud.common.pojo.Base;
+
+import java.io.Serializable;
 
 /**
  * feign切面日志Dto
@@ -30,7 +31,7 @@ import io.github.smart.cloud.common.pojo.Base;
 @Getter
 @Setter
 @ToString
-public class FeignLogAspectDO extends Base {
+public class FeignLogAspectDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

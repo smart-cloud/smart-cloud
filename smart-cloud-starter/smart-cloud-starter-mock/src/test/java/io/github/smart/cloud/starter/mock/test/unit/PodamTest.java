@@ -15,22 +15,23 @@
  */
 package io.github.smart.cloud.starter.mock.test.unit;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-import io.github.smart.cloud.common.pojo.Base;
 import io.github.smart.cloud.starter.mock.strategy.MobileAttributeStrategy;
 import io.github.smart.cloud.starter.mock.strategy.MoneyAttributeStrategy;
 import io.github.smart.cloud.starter.mock.util.MockUtil;
 import io.github.smart.cloud.starter.mock.util.TypeReference;
 import io.github.smart.cloud.utility.JacksonUtil;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 import uk.co.jemos.podam.common.PodamLongValue;
 import uk.co.jemos.podam.common.PodamStrategyValue;
 import uk.co.jemos.podam.common.PodamStringValue;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -89,7 +90,8 @@ class PodamTest {
 
     @Getter
     @Setter
-    class Product extends Base {
+    @ToString
+    class Product implements Serializable {
         private static final long serialVersionUID = 1L;
 
         private String name;
@@ -98,7 +100,8 @@ class PodamTest {
 
     @Getter
     @Setter
-    class OrderReqBody extends Base {
+    @ToString
+    class OrderReqBody implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @PodamStrategyValue(value = MobileAttributeStrategy.class)

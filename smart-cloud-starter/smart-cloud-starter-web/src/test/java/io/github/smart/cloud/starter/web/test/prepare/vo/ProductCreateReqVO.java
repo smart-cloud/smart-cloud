@@ -17,10 +17,11 @@ package io.github.smart.cloud.starter.web.test.prepare.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
-import io.github.smart.cloud.common.pojo.Base;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 /**
  * 创建产品
@@ -30,7 +31,10 @@ import javax.validation.constraints.NotBlank;
  */
 @Getter
 @Setter
-public class ProductCreateReqVO extends Base {
+@ToString
+public class ProductCreateReqVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @NotBlank
     @Length(max = 64)

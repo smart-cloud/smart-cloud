@@ -22,7 +22,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import io.github.smart.cloud.common.pojo.Base;
+
+import java.io.Serializable;
 
 /**
  * 普通接口（除了feign以外的接口）切面日志DO
@@ -36,7 +37,7 @@ import io.github.smart.cloud.common.pojo.Base;
 @ToString
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class LogAspectDO extends Base {
+public class LogAspectDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

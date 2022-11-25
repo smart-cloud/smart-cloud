@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.mock.condition;
 
-import io.github.smart.cloud.starter.configure.constants.SmartConstant;
+import io.github.smart.cloud.starter.configure.constants.ConfigureConstant;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.Environment;
@@ -32,8 +32,8 @@ public class MockCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         Environment environment = context.getEnvironment();
-        Boolean mockApi = environment.getProperty(SmartConstant.MOCK_API_CONDITION_PROPERTY, Boolean.class);
-        Boolean mockMethod = environment.getProperty(SmartConstant.MOCK_METHOD_CONDITION_PROPERTY, Boolean.class);
+        Boolean mockApi = environment.getProperty(ConfigureConstant.MOCK_API_CONDITION_PROPERTY, Boolean.class);
+        Boolean mockMethod = environment.getProperty(ConfigureConstant.MOCK_METHOD_CONDITION_PROPERTY, Boolean.class);
         return (mockApi != null && mockApi) || (mockMethod != null && mockMethod);
     }
 

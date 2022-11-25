@@ -17,8 +17,9 @@ package io.github.smart.cloud.starter.configure.properties;
 
 import lombok.Getter;
 import lombok.Setter;
-import io.github.smart.cloud.common.pojo.Base;
+import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -29,7 +30,8 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public class MockProperties extends Base {
+@ToString
+public class MockProperties implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

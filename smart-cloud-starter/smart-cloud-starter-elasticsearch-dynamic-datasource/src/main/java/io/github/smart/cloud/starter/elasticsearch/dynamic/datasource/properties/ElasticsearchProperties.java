@@ -15,10 +15,11 @@
  */
 package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.properties;
 
-import io.github.smart.cloud.common.pojo.Base;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +33,10 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class ElasticsearchProperties extends Base {
+@ToString
+public class ElasticsearchProperties implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * es实例列表（使用逗号隔开）

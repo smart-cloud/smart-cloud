@@ -15,13 +15,11 @@
  */
 package io.github.smart.cloud.common.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 分页请求参数基类
@@ -31,9 +29,10 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class BasePageRequest extends Base {
+public class BasePageRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -18,7 +18,7 @@ package io.github.smart.cloud.starter.mybatis.plus.autoconfigure;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
-import io.github.smart.cloud.starter.configure.constants.SmartConstant;
+import io.github.smart.cloud.starter.configure.constants.ConfigureConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.mybatis.plus.handler.CryptFieldHandler;
 import io.github.smart.cloud.starter.mybatis.plus.injector.SmartSqlInjector;
@@ -54,7 +54,7 @@ public class MyBatisPlusAutoConfiguration {
      */
     @Bean
     @Order(OrderConstant.MYBATIS_SQL_LOG_INTERCEPTOR)
-    @ConditionalOnProperty(name = SmartConstant.MYBATIS_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(name = ConfigureConstant.MYBATIS_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
     public MybatisSqlLogInterceptor mybatisSqlLogInterceptor(final SmartProperties smartProperties) {
         return new MybatisSqlLogInterceptor(smartProperties.getMybatis().getLogLevel());
     }

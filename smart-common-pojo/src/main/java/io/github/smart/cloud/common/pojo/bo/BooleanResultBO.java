@@ -16,7 +16,8 @@
 package io.github.smart.cloud.common.pojo.bo;
 
 import lombok.*;
-import io.github.smart.cloud.common.pojo.Base;
+
+import java.io.Serializable;
 
 /**
  * boolean BO
@@ -29,7 +30,7 @@ import io.github.smart.cloud.common.pojo.Base;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class BooleanResultBO extends Base {
+public class BooleanResultBO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

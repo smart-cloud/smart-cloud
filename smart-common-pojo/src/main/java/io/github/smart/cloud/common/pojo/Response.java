@@ -15,11 +15,10 @@
  */
 package io.github.smart.cloud.common.pojo;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import io.github.smart.cloud.constants.CommonReturnCodes;
+import lombok.*;
+
+import java.io.Serializable;
 
 /**
  * 响应对象
@@ -29,9 +28,10 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  */
 @Setter
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Response<T> extends Base {
+public class Response<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

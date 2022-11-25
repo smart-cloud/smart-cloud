@@ -15,9 +15,11 @@
  */
 package io.github.smart.cloud.starter.configure.properties;
 
-import io.github.smart.cloud.common.pojo.Base;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * 异步相关配置
@@ -27,7 +29,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class AsyncProperties extends Base {
+@ToString
+public class AsyncProperties implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 可用处理器数

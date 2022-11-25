@@ -15,12 +15,13 @@
  */
 package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.properties;
 
-import io.github.smart.cloud.common.pojo.Base;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -32,15 +33,21 @@ import java.util.Map;
  */
 @Getter
 @Setter
+@ToString
 @RefreshScope
 @ConfigurationProperties(prefix = DynamicElasticsearchProperties.PREFIX)
-public class DynamicElasticsearchProperties extends Base {
+public class DynamicElasticsearchProperties implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * elasticsearch配置属性前缀
      */
     public static final String PREFIX = "smart.elasticsearch";
 
+    /**
+     * elasticsearch数据源
+     */
     private final Map<String, ElasticsearchProperties> datasources = new LinkedHashMap<>();
 
 }
