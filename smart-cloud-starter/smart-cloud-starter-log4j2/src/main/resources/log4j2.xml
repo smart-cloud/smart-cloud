@@ -8,7 +8,7 @@
 	<!-- 变量配置 -->
 	<Properties>
 		<Property name="appName">${cctx:appName}</Property>
-		<Property name="log_path">${cctx:logPath}</Property>
+		<Property name="logPath">${cctx:logPath}</Property>
 		<!--
 			%level 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL
 			%m 输出代码中指定的消息
@@ -20,17 +20,33 @@
 			sleuth相关参数：
 			TraceId为此次调用链共享id；SpanId本应用唯一id；ParentSpanId为上级应用唯一id；X-Span-Export是否是发送给Zipkin
 			-->
-		<Property name="log_format">[%-5level][${appName}][%date{MM-dd HH:mm:ss.SSS}][%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}][%thread] (%F:%line)[%method] -> %mm%n</Property>
+		<Property name="logFormat">[%-5level][${appName}][%date{MM-dd HH:mm:ss.SSS}][%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}][%thread] (%F:%line)[%method] -> %mm%n</Property>
 	</Properties>
 
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
-			<PatternLayout pattern="${log_format}" />
+			<PatternLayout pattern="${logFormat}" />
 		</Console>
+
 		<RollingRandomAccessFile immediateFlush="false"
-			name="dailyRollingRandomAccessFile"
-			fileName="${log_path}/${appName}.log"
-			filePattern="${log_path}/${appName}.%d{yyyy-MM-dd-HH}.log.gz">
+								 name="file"
+								 fileName="${logPath}/${appName}.log"
+								 filePattern="${logPath}/${appName}.%d{yyyy-MM-dd-HH}.log.gz">
+			<PatternLayout pattern="${logFormat}" />
+			<Policies>
+				<!-- 如果启用此配置，则日志会按文件名生成新压缩文件，
+				                即如果filePattern配置的日期格式为 %d{yyyy-MM-dd HH} ，则每小时生成一个压缩文件，
+				                如果filePattern配置的日期格式为 %d{yyyy-MM-dd} ，则每天生成一个压缩文件 -->
+				<TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+				<!-- 每个日志文件最大512MB -->
+				 <SizeBasedTriggeringPolicy size="512 MB" />
+			</Policies>
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile immediateFlush="false"
+			name="elk_file"
+			fileName="${logPath}/elk/${appName}.log"
+			filePattern="${logPath}/elk/${appName}.%d{yyyy-MM-dd-HH}.log.gz">
 			<!--参考http://logging.apache.org/log4j/2.x/manual/json-template-layout.html-->
 			<JsonTemplateLayout eventTemplateUri="classpath:log4j2Template.json" charset="UTF-8"/>
 			<Policies>
@@ -43,12 +59,16 @@
 			</Policies>
 		</RollingRandomAccessFile>
 
-		<Async name="asyncConsle" includeLocation="true">
+		<Async name="async_consle" includeLocation="true">
 			<AppenderRef ref="console"/>
 			<LinkedTransferQueue/>
 		</Async>
-		<Async name="asyncFile" includeLocation="true">
-			<AppenderRef ref="dailyRollingRandomAccessFile"/>
+		<Async name="async_file" includeLocation="true">
+			<AppenderRef ref="file"/>
+			<LinkedTransferQueue/>
+		</Async>
+		<Async name="async_elk_file" includeLocation="true">
+			<AppenderRef ref="elk_file"/>
 			<LinkedTransferQueue/>
 		</Async>
 	</Appenders>
@@ -56,8 +76,9 @@
 	<Loggers>
 		<!--可在配置中心通过“logging.level.root”属性覆盖日志级别-->
 		<Root level="info">
-			<AppenderRef ref="asyncConsle" />
-			<AppenderRef ref="asyncFile" />
+			<AppenderRef ref="async_consle" />
+			<AppenderRef ref="async_file" />
+			<AppenderRef ref="async_elk_file" />
 		</Root>
 	</Loggers>
 </Configuration>
