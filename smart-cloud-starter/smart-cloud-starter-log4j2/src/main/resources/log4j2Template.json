@@ -12,7 +12,7 @@
   },
   "message": {
     "$resolver": "pattern",
-    "pattern": "[${appName}][%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}][%thread] (%F:%line)[%method] -> %mm",
+    "pattern": "[${app_name}][%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId}][%thread] (%F:%line)[%method] -> %mm",
     "stackTraceEnabled": false
   },
   "exception": {
