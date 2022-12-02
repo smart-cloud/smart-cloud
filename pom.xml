@@ -101,6 +101,7 @@
         <embedded-redis>0.7.3</embedded-redis>
         <rabbitmq-mock>1.1.1</rabbitmq-mock>
         <embedded-elasticsearch>2.10.0</embedded-elasticsearch>
+        <logstash-logback-encoder>7.2</logstash-logback-encoder>
     </properties>
 
     <dependencyManagement>
@@ -200,6 +201,12 @@
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-log4j2</artifactId>
+                <version>${smart-cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.smart-cloud</groupId>
+                <artifactId>smart-cloud-starter-logback</artifactId>
                 <version>${smart-cloud.version}</version>
             </dependency>
 
@@ -521,6 +528,12 @@
                 <groupId>pl.allegro.tech</groupId>
                 <artifactId>embedded-elasticsearch</artifactId>
                 <version>${embedded-elasticsearch}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback-encoder}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
