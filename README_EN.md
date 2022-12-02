@@ -57,6 +57,8 @@ smart-cloud
      ├── smart-cloud-starter-job -- Scheduled task
      ├── smart-cloud-starter-locale -- international
      ├── smart-cloud-starter-log4j2 -- Log encapsulation (log4j2 encapsulation, support desensitization of log sensitive data)
+     ├── smart-cloud-starter-log4j2 -- Log encapsulation (log4j2 log printing, support log sensitive data desensitization)
+     ├── smart-cloud-starter-logback -- Log encapsulation (logback log printing, support log sensitive data desensitization)
      ├── smart-cloud-starter-method-log -- 方Method Aspect Log Encapsulation
      ├── smart-cloud-starter-mock -- Mock encapsulation (mock tool classes, common mock strategies, request interface mock interceptors)
      ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus, dynamic-datasource, shardingjdbc package (supports multiple data sources, sub-database sub-tables, distributed transactions; mapper tool class)
