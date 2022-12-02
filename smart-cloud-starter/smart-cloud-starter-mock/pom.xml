@@ -24,7 +24,7 @@
 	<parent>
 		<groupId>io.github.smart-cloud</groupId>
 		<artifactId>smart-cloud-starter</artifactId>
-		<version>1.0.4-SNAPSHOT</version>
+		<version>1.0.4</version>
 	</parent>
 	<artifactId>smart-cloud-starter-mock</artifactId>
 	<description>mock封装（mock工具类、常用mock策略、请求接口mock拦截器）</description>
