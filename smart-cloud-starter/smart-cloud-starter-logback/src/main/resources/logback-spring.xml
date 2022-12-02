@@ -3,7 +3,7 @@
 
     <conversionRule conversionWord="mm" converterClass="io.github.smart.cloud.starter.logback.pattern.MaskMessageConverter"/>
 
-    <springProperty scope="context" name="app_name" source="spring.application.name"/>
+    <springProperty scope="context" name="app_name" source="spring.application.name" defaultValue="app"/>
     <springProperty scope="context" name="log_path" source="logging.base-dir" defaultValue="/data/logs"/>
 
     <property name="log_format" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%X{X-B3-SpanId}|%X{X-B3-ParentSpanId}|%X{X-B3-TraceId}] %thread [%logger{36} %method %line] %mm%n"/>
