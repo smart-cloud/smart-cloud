@@ -42,7 +42,7 @@ public class ExceptionControllerAdvice {
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     public Response<Void> handleException(Exception e) {
         log.error("global.error", e);
 
