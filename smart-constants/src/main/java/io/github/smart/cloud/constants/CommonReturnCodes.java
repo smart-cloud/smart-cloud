@@ -84,6 +84,10 @@ public class CommonReturnCodes {
      */
     public static final String NOT_LOGGED_IN = "419";
     /**
+     * json解析异常
+     */
+    public static final String JSON_PARSE_ERROR = "420";
+    /**
      * 服务器异常
      */
     public static final String SERVER_ERROR = "500";

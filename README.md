@@ -187,27 +187,28 @@ smart-cloud
 # 六、错误码说明
 
 所属模块 | code | message
----| ---|---
-smart-constants | 200 | 成功
-smart-constants | 101 | 校验失败
-smart-constants | 102 | 数据不存在
-smart-constants | 103 | 数据已存在
-smart-constants | 400 | 签名错误
-smart-constants | 401 | 无权限访问
-smart-constants | 404 | 请求url错误
-smart-constants | 408 | 请求超时
-smart-constants | 409 | 重复提交
-smart-constants | 412 | 参数不全
-smart-constants | 415 | 请求方式不支持
-smart-constants | 416 | 请求类型不支持
-smart-constants | 417 | 获取锁失败
-smart-constants | 418 | 上传文件大小超过限制
-smart-constants | 419 | 当前会话已失效，请重新登陆
-smart-constants | 500 | 服务器异常
-smart-constants | 501 | 获取Request失败
-smart-constants | 502 | 获取Response失败
-smart-constants | 503 | rpc请求失败
-smart-constants | 504 | rpc返回结果异常
+---|------|---
+smart-constants | 200  | 成功
+smart-constants | 101  | 校验失败
+smart-constants | 102  | 数据不存在
+smart-constants | 103  | 数据已存在
+smart-constants | 400  | 签名错误
+smart-constants | 401  | 无权限访问
+smart-constants | 404  | 请求url错误
+smart-constants | 408  | 请求超时
+smart-constants | 409  | 重复提交
+smart-constants | 412  | 参数不全
+smart-constants | 415  | 请求方式不支持
+smart-constants | 416  | 请求类型不支持
+smart-constants | 417  | 获取锁失败
+smart-constants | 418  | 上传文件大小超过限制
+smart-constants | 419  | 当前会话已失效，请重新登陆
+smart-constants | 420  | json解析异常
+smart-constants | 500  | 服务器异常
+smart-constants | 501  | 获取Request失败
+smart-constants | 502  | 获取Response失败
+smart-constants | 503  | rpc请求失败
+smart-constants | 504  | rpc返回结果异常
 smart-cloud-starter-web | 2001 | 待校验参数object不能为null
 smart-cloud-starter-elasticsearch-dynamic-datasource | 3001 | elasticsearch ds key不存在
 smart-cloud-starter-elasticsearch-dynamic-datasource | 3002 | elasticsearch 数据源未找到
