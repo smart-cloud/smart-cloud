@@ -203,7 +203,7 @@ smart-constants | 416  | 请求类型不支持
 smart-constants | 417  | 获取锁失败
 smart-constants | 418  | 上传文件大小超过限制
 smart-constants | 419  | 当前会话已失效，请重新登陆
-smart-constants | 420  | json解析异常
+smart-constants | 420  | 请求入参json解析异常
 smart-constants | 500  | 服务器异常
 smart-constants | 501  | 获取Request失败
 smart-constants | 502  | 获取Response失败

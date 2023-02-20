@@ -204,7 +204,7 @@ smart-constants | 416 | Request type not supported
 smart-constants | 417 | Failed to acquire lock
 smart-constants | 418 | Upload file size exceeds limit
 smart-constants | 419 | The current session has expired, please log in again
-smart-constants | 420 | json parsing exception
+smart-constants | 420 | json parsing of the input parameter is abnormal
 smart-constants | 500 | Server exception
 smart-constants | 501 | Failed to get Request
 smart-constants | 502 | Failed to get Response
