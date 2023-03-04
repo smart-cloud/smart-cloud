@@ -23,6 +23,7 @@ import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
 import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class BindExceptionHandlerStrategy implements IExceptionHandlerStrategy {
 
     @Override
     public boolean match(Throwable e) {
-        return e instanceof BindException;
+        return !(e instanceof MethodArgumentNotValidException) && (e instanceof BindException);
     }
 
     @Override

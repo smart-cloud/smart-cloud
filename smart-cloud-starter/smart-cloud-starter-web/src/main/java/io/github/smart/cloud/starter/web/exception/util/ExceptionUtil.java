@@ -62,8 +62,11 @@ public class ExceptionUtil {
             if (constraintViolation.getPropertyPath() == null) {
                 errorMsg.append(constraintViolation.getMessage());
             } else {
+                String message = constraintViolation.getMessage();
+                String i18nMessage = I18nUtil.getMessage(message);
+
                 errorMsg.append(constraintViolation.getPropertyPath().toString()).append(SymbolConstant.HYPHEN)
-                        .append(I18nUtil.getMessage(constraintViolation.getMessage()));
+                        .append(StringUtils.isBlank(i18nMessage) ? message : i18nMessage);
             }
             if (size > 1 && i < size) {
                 errorMsg.append("; ");
@@ -81,7 +84,9 @@ public class ExceptionUtil {
             }
 
             String validateField = fieldErrors.get(i).getField();
-            errorMsg.append(validateField + SymbolConstant.HYPHEN + I18nUtil.getMessage(fieldErrors.get(i).getDefaultMessage()));
+            String defaultMessage = fieldErrors.get(i).getDefaultMessage();
+            String i18nMessage = I18nUtil.getMessage(defaultMessage);
+            errorMsg.append(validateField + SymbolConstant.HYPHEN + (StringUtils.isBlank(i18nMessage) ? defaultMessage : i18nMessage));
             if (size > 1 && i < size - 1) {
                 errorMsg.append("; ");
             }
