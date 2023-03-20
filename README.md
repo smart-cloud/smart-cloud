@@ -62,6 +62,7 @@ smart-cloud
      ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表、分布式事务；mapper工具类）
      ├── smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类、表隐私字段加解密等）
      ├── smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）
+     ├── smart-cloud-starter-rate-limit -- 接口限流
      ├── smart-cloud-starter-redis -- redis封装、自定义分布式锁注解
      └── smart-cloud-starter-web -- web封装（日志切面、异常处理、参数校验）
 ```
@@ -204,6 +205,7 @@ smart-constants | 417  | 获取锁失败
 smart-constants | 418  | 上传文件大小超过限制
 smart-constants | 419  | 当前会话已失效，请重新登陆
 smart-constants | 420  | 请求入参json解析异常
+smart-constants | 421  | 接口访问太频繁，请稍后再试
 smart-constants | 500  | 服务器异常
 smart-constants | 501  | 获取Request失败
 smart-constants | 502  | 获取Response失败

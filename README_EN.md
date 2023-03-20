@@ -63,6 +63,7 @@ smart-cloud
      ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus, dynamic-datasource, shardingjdbc package (supports multiple data sources, sub-database sub-tables, distributed transactions; mapper tool class)
      ├── smart-cloud-starter-mybatis-plus -- mybatis plus, dynamic-datasource encapsulation (supports multiple data sources, distributed transactions; mapper tool class, table privacy field encryption and decryption, etc.)
      ├── smart-cloud-starter-rabbitmq -- rabbitmq encapsulation (consumption failure, automatically put into the delayed queue for re-consumption)
+     ├── smart-cloud-starter-rate-limit -- api rate limit
      ├── smart-cloud-starter-redis -- redis encapsulation, custom distributed lock annotation
      └── smart-cloud-starter-web -- web encapsulation (log aspect, exception handling, parameter verification)
 ```
@@ -188,28 +189,29 @@ Through the [idea yapi upload plugin](https://github.com/smart-cloud/yapi_upload
 # Error code description
 
 module | code | message
----| ---|---
-smart-constants | 200 | success
-smart-constants | 101 | Verification failed
-smart-constants | 102 | Data does not exist
-smart-constants | 103 | Data already exists
-smart-constants | 400 | Signature error
-smart-constants | 401 | Unauthorized access
-smart-constants | 404 | request url error
-smart-constants | 408 | Request timed out
-smart-constants | 409 | duplicate commit
-smart-constants | 412 | Incomplete parameters
-smart-constants | 415 | Request method not supported
-smart-constants | 416 | Request type not supported
-smart-constants | 417 | Failed to acquire lock
-smart-constants | 418 | Upload file size exceeds limit
-smart-constants | 419 | The current session has expired, please log in again
-smart-constants | 420 | json parsing of the input parameter is abnormal
-smart-constants | 500 | Server exception
-smart-constants | 501 | Failed to get Request
-smart-constants | 502 | Failed to get Response
-smart-constants | 503 | rpc request failed
-smart-constants | 504 | rpc returns abnormal results
+---|------|---
+smart-constants | 200  | success
+smart-constants | 101  | Verification failed
+smart-constants | 102  | Data does not exist
+smart-constants | 103  | Data already exists
+smart-constants | 400  | Signature error
+smart-constants | 401  | Unauthorized access
+smart-constants | 404  | request url error
+smart-constants | 408  | Request timed out
+smart-constants | 409  | duplicate commit
+smart-constants | 412  | Incomplete parameters
+smart-constants | 415  | Request method not supported
+smart-constants | 416  | Request type not supported
+smart-constants | 417  | Failed to acquire lock
+smart-constants | 418  | Upload file size exceeds limit
+smart-constants | 419  | The current session has expired, please log in again
+smart-constants | 420  | json parsing of the input parameter is abnormal
+smart-constants | 421  | Interface access is too frequent, please try again later
+smart-constants | 500  | Server exception
+smart-constants | 501  | Failed to get Request
+smart-constants | 502  | Failed to get Response
+smart-constants | 503  | rpc request failed
+smart-constants | 504  | rpc returns abnormal results
 smart-cloud-starter-web | 2001 | The parameter object to be verified cannot be null
 smart-cloud-starter-elasticsearch-dynamic-datasource | 3001 | elasticsearch ds key does not exist
 smart-cloud-starter-elasticsearch-dynamic-datasource | 3002 | elasticsearch data source not found

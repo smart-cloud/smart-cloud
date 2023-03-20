@@ -88,6 +88,10 @@ public class CommonReturnCodes {
      */
     public static final String JSON_PARSE_ERROR = "420";
     /**
+     * 接口访问太频繁，请稍后再试
+     */
+    public static final String API_ACCESS_TOO_FREQUENT = "421";
+    /**
      * 服务器异常
      */
     public static final String SERVER_ERROR = "500";
