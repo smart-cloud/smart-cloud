@@ -20,6 +20,7 @@ smart cloud
 - Support multiple data sources, sharding table and sharding database, distributed transactions
 - Supports multiple languages (internationalization)
 - Sensitive configuration information supports encryption, table privacy field encryption and decryption
+- local rate limit
 - Annotated distributed lock, cache annotations
 - mq (rabbitmq) consumption fails, retry through custom annotations (put into delayed queue for re-consumption)
 - [Log sensitive data desensitization](https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md#desensitization-of-log-data)
