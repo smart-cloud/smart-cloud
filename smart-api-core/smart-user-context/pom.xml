@@ -22,7 +22,7 @@
     <parent>
         <groupId>io.github.smart-cloud</groupId>
         <artifactId>smart-api-core</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.6-SNAPSHOT</version>
     </parent>
     <artifactId>smart-user-context</artifactId>
     <description>用户上下文</description>
