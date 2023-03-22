@@ -23,7 +23,7 @@
     <parent>
         <groupId>io.github.smart-cloud</groupId>
         <artifactId>smart-test</artifactId>
-        <version>1.0.5-SNAPSHOT</version>
+        <version>1.0.5</version>
     </parent>
     <artifactId>smart-cloud-starter-test</artifactId>
     <packaging>pom</packaging>

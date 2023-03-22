@@ -24,7 +24,7 @@
 	<parent>
 		<groupId>io.github.smart-cloud</groupId>
 		<artifactId>smart-cloud-starter</artifactId>
-		<version>1.0.5-SNAPSHOT</version>
+		<version>1.0.5</version>
 	</parent>
 	<artifactId>smart-cloud-starter-feign</artifactId>
 	<description>openfeign封装（可拆可合、切面处理）</description>
