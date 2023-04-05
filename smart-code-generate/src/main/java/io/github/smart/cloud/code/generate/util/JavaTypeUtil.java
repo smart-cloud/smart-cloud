@@ -61,10 +61,10 @@ public class JavaTypeUtil {
     }
 
     private static boolean isByteType(MysqlType mysqlType, int length) {
-        return (length <= 2 && (mysqlType == MysqlType.INT
-                || mysqlType == MysqlType.INT_UNSIGNED)) || (mysqlType == MysqlType.BIT || mysqlType == MysqlType.SMALLINT
-                || mysqlType == MysqlType.SMALLINT_UNSIGNED || mysqlType == MysqlType.TINYINT
-                || mysqlType == MysqlType.TINYINT_UNSIGNED);
+        return length <= 2 && (mysqlType == MysqlType.INT || mysqlType == MysqlType.INT_UNSIGNED
+                || mysqlType == MysqlType.BIT
+                || mysqlType == MysqlType.SMALLINT || mysqlType == MysqlType.SMALLINT_UNSIGNED
+                || mysqlType == MysqlType.TINYINT || mysqlType == MysqlType.TINYINT_UNSIGNED);
     }
 
     /**
