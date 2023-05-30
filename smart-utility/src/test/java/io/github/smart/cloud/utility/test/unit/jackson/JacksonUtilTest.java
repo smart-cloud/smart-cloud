@@ -18,13 +18,14 @@ package io.github.smart.cloud.utility.test.unit.jackson;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import io.github.smart.cloud.utility.JacksonUtil;
 import io.github.smart.cloud.utility.test.unit.jackson.bo.Product;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import io.github.smart.cloud.utility.JacksonUtil;
 
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,11 @@ class JacksonUtilTest {
         Assertions.assertThat(product1.getId()).isEqualTo(product2.getId());
         Assertions.assertThat(product1.getName()).isEqualTo(product2.getName());
         Assertions.assertThat(product1.getPrice()).isEqualTo(product2.getPrice());
+    }
+
+    @Test
+    void testLocalDateTime() {
+        Assertions.assertThat(JacksonUtil.toJson(LocalDateTime.now())).isNotBlank();
     }
 
     private Product buildProduct() {
