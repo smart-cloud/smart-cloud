@@ -56,6 +56,7 @@ public class SmartFeignClientCondition implements Condition {
 			interfaceClass = Class.forName(interfaceClassName);
 		} catch (ClassNotFoundException e) {
 			log.error(e.getMessage(), e);
+			return false;
 		}
 
 		// 2、获取interface对应的所有实现类
