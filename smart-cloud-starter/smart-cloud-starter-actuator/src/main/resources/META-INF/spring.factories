@@ -1,0 +1,5 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.github.smart.cloud.starter.actuator.autoconfiguration.ActuatorAutoConguration,\
+io.github.smart.cloud.starter.actuator.autoconfiguration.ApiHealthInterceptorAutoConfiguration,\
+io.github.smart.cloud.starter.actuator.autoconfiguration.ApiHealthIndicatorAutoConfiguration

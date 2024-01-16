@@ -49,6 +49,7 @@ smart-cloud
 │  └──smart-cloud-test-core -- test unit test, integration test package
 ├── smart-utility -- Tools
 └── smart-could-starter -- frame encapsulation
+     ├── smart-cloud-starter-actuator -- Expand actuator and customize monitoring
      ├── smart-cloud-starter-configure -- Framework configuration property encapsulation
      ├── smart-cloud-starter-core -- Framework core (custom annotations, exception encapsulation, request and response public parameters, business-related tool classes)
      ├── smart-cloud-starter-elasticsearch-dynamic-datasource -- elasticsearch dynamic data source

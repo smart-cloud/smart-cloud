@@ -49,6 +49,7 @@ smart-cloud
 │  └──smart-cloud-test-core -- test 单元测试、集成测试封装
 ├── smart-utility -- 工具类
 └── smart-could-starter -- 框架封装
+     ├── smart-cloud-starter-actuator -- 扩展actuator，自定义监控
      ├── smart-cloud-starter-configure -- 框架配置属性封装
      ├── smart-cloud-starter-core -- 框架核心（自定义注解、异常封装、请求响应公共参数、业务相关工具类）
      ├── smart-cloud-starter-elasticsearch-dynamic-datasource -- elasticsearch动态数据源
