@@ -1,4 +1,4 @@
-package io.github.smart.cloud.starter.actuator.autoconfiguration;
+package io.github.smart.cloud.starter.actuator.autoconfigure;
 
 import io.github.smart.cloud.starter.actuator.indicator.ApiHealthIndicator;
 import io.github.smart.cloud.starter.actuator.repository.ApiHealthRepository;
