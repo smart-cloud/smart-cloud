@@ -22,11 +22,11 @@ public class UnHealthApiDTO {
     /**
      * 请求总数
      */
-    private Integer total;
+    private Long total;
     /**
      * 失败数
      */
-    private Integer failCount;
+    private Long failCount;
     /**
      * 失败率
      */

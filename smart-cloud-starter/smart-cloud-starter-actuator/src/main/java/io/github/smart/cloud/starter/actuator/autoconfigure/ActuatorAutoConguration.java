@@ -17,7 +17,7 @@ public class ActuatorAutoConguration {
 
     @Bean
     @RefreshScope
-    @ConfigurationProperties(prefix = "health")
+    @ConfigurationProperties(prefix = "smart.health")
     public HealthProperties healthProperties() {
         return new HealthProperties();
     }

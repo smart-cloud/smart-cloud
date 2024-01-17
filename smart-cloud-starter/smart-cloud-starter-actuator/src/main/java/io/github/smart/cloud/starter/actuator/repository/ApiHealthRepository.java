@@ -3,23 +3,19 @@ package io.github.smart.cloud.starter.actuator.repository;
 import io.github.smart.cloud.starter.actuator.dto.ApiHealthCacheDTO;
 import io.github.smart.cloud.starter.actuator.dto.UnHealthApiDTO;
 import io.github.smart.cloud.starter.actuator.properties.HealthProperties;
-import io.github.smart.cloud.starter.actuator.util.LruCache;
 import io.github.smart.cloud.starter.actuator.util.PercentUtil;
 import io.micrometer.core.instrument.util.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
-import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
  * 接口健康信息存储
@@ -35,9 +31,8 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
     /**
      * 接口成功失败记录统计
      */
-    private LruCache<String, ApiHealthCacheDTO> apiStatusStatistics = null;
+    private ConcurrentMap<String, ApiHealthCacheDTO> apiStatusStatistics = new ConcurrentHashMap<>();
     private ScheduledExecutorService cleanSchedule = null;
-    private final Object MONITOR = new Object();
 
     /**
      * 添加接口访问记录
@@ -47,24 +42,14 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
      */
     public void add(String name, boolean success) {
         try {
-            ApiHealthCacheDTO apiHealthCacheDTO = apiStatusStatistics.get(name);
-            if (apiHealthCacheDTO == null) {
-                synchronized (MONITOR) {
-                    apiHealthCacheDTO = apiStatusStatistics.get(name);
-                    if (apiHealthCacheDTO == null) {
-                        apiHealthCacheDTO = new ApiHealthCacheDTO(new AtomicInteger(0), new AtomicInteger(0));
-                        apiStatusStatistics.put(name, apiHealthCacheDTO);
-                    }
-                }
-            }
-
+            ApiHealthCacheDTO apiHealthCacheDTO = apiStatusStatistics.computeIfAbsent(name, k -> new ApiHealthCacheDTO(new LongAdder(), new LongAdder()));
             if (success) {
-                apiHealthCacheDTO.getSuccessCount().incrementAndGet();
+                apiHealthCacheDTO.getSuccessCount().increment();
             } else {
-                apiHealthCacheDTO.getFailCount().incrementAndGet();
+                apiHealthCacheDTO.getFailCount().increment();
             }
         } catch (Exception e) {
-            log.error("web api health info add error|name={}", name, e);
+            log.error("api health info add error|name={}", name, e);
         }
     }
 
@@ -75,21 +60,19 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
      */
     public List<UnHealthApiDTO> getUnHealthInfos() {
         List<UnHealthApiDTO> unHealthInfos = new ArrayList<>(0);
-        synchronized (MONITOR) {
-            apiStatusStatistics.forEach((name, apiStatus) -> {
-                BigDecimal failCount = BigDecimal.valueOf(apiStatus.getFailCount().get());
-                BigDecimal total = BigDecimal.valueOf(apiStatus.getSuccessCount().get()).add(failCount);
-                BigDecimal failRate = failCount.divide(total, 4, RoundingMode.HALF_UP);
-                if (isUnHealth(total, failRate)) {
-                    UnHealthApiDTO unHealthApiDTO = new UnHealthApiDTO();
-                    unHealthApiDTO.setName(name);
-                    unHealthApiDTO.setTotal(total.intValue());
-                    unHealthApiDTO.setFailCount(failCount.intValue());
-                    unHealthApiDTO.setFailRate(PercentUtil.format(failRate));
-                    unHealthInfos.add(unHealthApiDTO);
-                }
-            });
-        }
+        apiStatusStatistics.forEach((name, apiStatus) -> {
+            BigDecimal failCount = BigDecimal.valueOf(apiStatus.getFailCount().sum());
+            BigDecimal total = BigDecimal.valueOf(apiStatus.getSuccessCount().sum()).add(failCount);
+            BigDecimal failRate = failCount.divide(total, 4, RoundingMode.HALF_UP);
+            if (isUnHealth(total, failRate)) {
+                UnHealthApiDTO unHealthApiDTO = new UnHealthApiDTO();
+                unHealthApiDTO.setName(name);
+                unHealthApiDTO.setTotal(total.longValue());
+                unHealthApiDTO.setFailCount(failCount.longValue());
+                unHealthApiDTO.setFailRate(PercentUtil.format(failRate));
+                unHealthInfos.add(unHealthApiDTO);
+            }
+        });
 
         return unHealthInfos;
     }
@@ -102,20 +85,14 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
      * @return
      */
     private final boolean isUnHealth(BigDecimal total, BigDecimal failRate) {
-        return (total.intValue() >= healthProperties.getUnhealthMinCount()) && (failRate.compareTo(healthProperties.getFailRateThreshold()) > 0);
+        return (total.intValue() >= healthProperties.getUnhealthMinCount()) && (failRate.compareTo(healthProperties.getFailRateThreshold()) >= 0);
     }
 
     @Override
     public void afterSingletonsInstantiated() {
-        Assert.isTrue(healthProperties.getCacheSize() > 0, "cacheSize must be greater than 0");
-        apiStatusStatistics = new LruCache<>(healthProperties.getCacheSize());
-
         cleanSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("clean-api-health-cache"));
-        cleanSchedule.scheduleWithFixedDelay(() -> {
-            synchronized (MONITOR) {
-                apiStatusStatistics.clear();
-            }
-        }, healthProperties.getCleanIntervalSeconds(), healthProperties.getCleanIntervalSeconds(), TimeUnit.SECONDS);
+        cleanSchedule.scheduleWithFixedDelay(() -> apiStatusStatistics.clear(),
+                healthProperties.getCleanIntervalSeconds(), healthProperties.getCleanIntervalSeconds(), TimeUnit.SECONDS);
     }
 
     @Override

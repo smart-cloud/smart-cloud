@@ -26,10 +26,6 @@ public class HealthProperties {
      */
     private BigDecimal failRateThreshold = BigDecimal.valueOf(0.5);
     /**
-     * 缓存大小
-     */
-    private int cacheSize = 512;
-    /**
      * 清理间隔时间（单位：秒）
      */
     private long cleanIntervalSeconds = 60 * 5L;

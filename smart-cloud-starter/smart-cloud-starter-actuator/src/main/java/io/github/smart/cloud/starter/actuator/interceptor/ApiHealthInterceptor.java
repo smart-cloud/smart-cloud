@@ -28,17 +28,17 @@ public class ApiHealthInterceptor implements MethodInterceptor, Ordered {
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        String name = getApiName(invocation.getMethod());
         Object result = null;
         try {
             result = invocation.proceed();
-            String name = getApiName(invocation.getMethod());
             try {
                 apiHealthRepository.add(name, true);
             } catch (Exception e) {
                 log.error("web api health info add error|tag={}", name, e);
             }
         } catch (Exception e) {
-            apiHealthRepository.add(getApiName(invocation.getMethod()), false);
+            apiHealthRepository.add(name, false);
             throw e;
         }
 
