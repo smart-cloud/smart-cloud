@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.LongAdder;
+import java.util.function.Function;
 
 /**
  * 接口健康信息存储
@@ -32,6 +33,7 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
      * 接口成功失败记录统计
      */
     private ConcurrentMap<String, ApiHealthCacheDTO> apiStatusStatistics = new ConcurrentHashMap<>();
+    private CreateApiHealthCacheDtoFunction createApiHealthCacheDtoFunction = new CreateApiHealthCacheDtoFunction();
     private ScheduledExecutorService cleanSchedule = null;
 
     /**
@@ -42,7 +44,7 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
      */
     public void add(String name, boolean success) {
         try {
-            ApiHealthCacheDTO apiHealthCacheDTO = apiStatusStatistics.computeIfAbsent(name, k -> new ApiHealthCacheDTO(new LongAdder(), new LongAdder()));
+            ApiHealthCacheDTO apiHealthCacheDTO = apiStatusStatistics.computeIfAbsent(name, createApiHealthCacheDtoFunction);
             if (success) {
                 apiHealthCacheDTO.getSuccessCount().increment();
             } else {
@@ -100,6 +102,21 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
         if (cleanSchedule != null) {
             cleanSchedule.shutdown();
         }
+    }
+
+    /**
+     * 创建ApiHealthCacheDTO
+     *
+     * @author collin
+     * @date 2024-01-7
+     */
+    static class CreateApiHealthCacheDtoFunction implements Function<String, ApiHealthCacheDTO> {
+
+        @Override
+        public ApiHealthCacheDTO apply(String s) {
+            return new ApiHealthCacheDTO(new LongAdder(), new LongAdder());
+        }
+
     }
 
 }
