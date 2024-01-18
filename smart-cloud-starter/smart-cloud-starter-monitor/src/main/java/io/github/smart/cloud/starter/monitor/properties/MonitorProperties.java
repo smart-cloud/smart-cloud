@@ -13,52 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.actuator.properties;
+package io.github.smart.cloud.starter.monitor.properties;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 接口健康检测配置属性
- * <p/>
- * <b>配置样例：</b>
- * <pre>
- * health:
- *   unhealthMinCount: 10
- *   defaultFailRateThreshold: 0.3
- *   failRateThresholds:
- *     '[LoginController#login]': 0
- *     '[OrderController#query]': 0
- * </pre>
+ * 监控配置信息
  *
  * @author collin
- * @date 2024-01-6
+ * @date 2023-01-16
  */
 @Getter
 @Setter
 @ToString
-public class HealthProperties {
+public class MonitorProperties {
 
     /**
-     * 不健康最小数量
+     * 服务启动时过滤消息时间间隔（单位：毫秒）
      */
-    private int unhealthMinCount = 5;
+    private Long filterEventTs = 90000L;
     /**
-     * 默认失败阈值（默认0.5）
+     * 工程信息
      */
-    private BigDecimal defaultFailRateThreshold = BigDecimal.valueOf(0.5);
+    private ProxyProperties proxy = new ProxyProperties();
     /**
-     * 特定接口失败阈值
+     * gitlab配置
      */
-    private Map<String, BigDecimal> failRateThresholds = new HashMap<>();
+    private GitlabProperties gitlab = new GitlabProperties();
     /**
-     * 清理间隔时间（单位：秒）
+     * 默认的机器人key
      */
-    private long cleanIntervalSeconds = 60 * 5L;
+    private String robotKey;
+    /**
+     * 服务配置
+     */
+    private Map<String, ServiceInfoProperties> serviceInfos = new HashMap<>();
 
 }

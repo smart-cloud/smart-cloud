@@ -13,32 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.actuator.dto;
+package io.github.smart.cloud.starter.monitor.properties;
 
-import lombok.*;
-
-import java.util.concurrent.atomic.LongAdder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
- * 接口访问状态（成功、失败）缓存信息
+ * gitlab配置
  *
  * @author collin
- * @date 2024-01-6
+ * @date 2023-01-16
  */
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class ApiHealthCacheDTO {
+public class GitlabProperties {
 
     /**
-     * 成功数
+     * gitlab地址前缀
      */
-    private volatile LongAdder successCount;
+    private String urlPrefix;
     /**
-     * 失败数
+     * 访问token
      */
-    private volatile LongAdder failCount;
+    private String token;
 
 }

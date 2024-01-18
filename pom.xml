@@ -67,7 +67,6 @@
         <module>smart-mask</module>
         <module>smart-test</module>
         <module>smart-utility</module>
-        <module>smart-cloud-starter/smart-cloud-starter-actuator</module>
     </modules>
 
     <properties>
@@ -225,6 +224,12 @@
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-mock</artifactId>
+                <version>${smart-cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.smart-cloud</groupId>
+                <artifactId>smart-cloud-starter-monitor</artifactId>
                 <version>${smart-cloud.version}</version>
             </dependency>
 

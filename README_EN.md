@@ -62,6 +62,8 @@ smart-cloud
      ├── smart-cloud-starter-logback -- Log encapsulation (logback log printing, support log sensitive data desensitization)
      ├── smart-cloud-starter-method-log -- 方Method Aspect Log Encapsulation
      ├── smart-cloud-starter-mock -- Mock encapsulation (mock tool classes, common mock strategies, request interface mock interceptors)
+     ├── smart-cloud-starter-monitor -- Monitor service by spring boot admin, send warning message by WXWork
+     ├── smart-cloud-starter-monitor -- spring boot admin监控，企业微信发通知
      ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus, dynamic-datasource, shardingjdbc package (supports multiple data sources, sub-database sub-tables, distributed transactions; mapper tool class)
      ├── smart-cloud-starter-mybatis-plus -- mybatis plus, dynamic-datasource encapsulation (supports multiple data sources, distributed transactions; mapper tool class, table privacy field encryption and decryption, etc.)
      ├── smart-cloud-starter-rabbitmq -- rabbitmq encapsulation (consumption failure, automatically put into the delayed queue for re-consumption)

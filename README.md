@@ -61,6 +61,7 @@ smart-cloud
      ├── smart-cloud-starter-logback -- 日志封装（logback日志打印，支持日志敏感数据脱敏）
      ├── smart-cloud-starter-method-log -- 方法切面日志封装
      ├── smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
+     ├── smart-cloud-starter-monitor -- spring boot admin监控，企业微信发通知
      ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表、分布式事务；mapper工具类）
      ├── smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类、表隐私字段加解密等）
      ├── smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）

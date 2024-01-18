@@ -194,7 +194,7 @@ public class DateUtil {
      * @param utcStr
      * @return
      */
-    public static Date parseUTC(String utcStr) {
+    public static Date parseUtc(String utcStr) {
         try {
             return DateUtils.parseDate(utcStr, DateFormartConst.UTC);
         } catch (ParseException e) {

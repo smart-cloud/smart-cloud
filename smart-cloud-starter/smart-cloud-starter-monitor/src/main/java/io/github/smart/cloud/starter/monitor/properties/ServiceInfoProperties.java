@@ -13,32 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.actuator.dto;
+package io.github.smart.cloud.starter.monitor.properties;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.util.concurrent.atomic.LongAdder;
+import java.io.Serializable;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
- * 接口访问状态（成功、失败）缓存信息
+ * 服务配置
  *
  * @author collin
- * @date 2024-01-6
+ * @date 2023-01-16
  */
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class ApiHealthCacheDTO {
+public class ServiceInfoProperties implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
-     * 成功数
+     * gitlab工程ID
      */
-    private volatile LongAdder successCount;
+    private Long id;
     /**
-     * 失败数
+     * 企业微信提醒人（账号）
      */
-    private volatile LongAdder failCount;
+    private Set<String> reminders = new LinkedHashSet<>();
+    /**
+     * 提醒的tag最小时间间隔
+     */
+    private long remindTagMinDiffTs = 3600 * 1000L;
+    /**
+     * 机器人key
+     */
+    private String robotKey;
 
 }

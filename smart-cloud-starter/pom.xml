@@ -28,6 +28,7 @@
 	<description>框架封装</description>
 
 	<modules>
+		<module>smart-cloud-starter-actuator</module>
 		<module>smart-cloud-starter-configure</module>
 		<module>smart-cloud-starter-core</module>
 		<module>smart-cloud-starter-elasticsearch-dynamic-datasource</module>
@@ -39,6 +40,7 @@
 		<module>smart-cloud-starter-logback</module>
 		<module>smart-cloud-starter-method-log</module>
 		<module>smart-cloud-starter-mock</module>
+		<module>smart-cloud-starter-monitor</module>
 		<module>smart-cloud-starter-mp-shardingjdbc</module>
 		<module>smart-cloud-starter-mybatis-plus</module>
 		<module>smart-cloud-starter-rabbitmq</module>

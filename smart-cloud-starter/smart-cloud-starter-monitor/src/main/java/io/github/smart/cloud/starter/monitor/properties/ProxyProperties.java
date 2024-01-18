@@ -13,32 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.actuator.dto;
+package io.github.smart.cloud.starter.monitor.properties;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.util.concurrent.atomic.LongAdder;
+import java.io.Serializable;
 
 /**
- * 接口访问状态（成功、失败）缓存信息
+ * 代理配置
  *
  * @author collin
- * @date 2024-01-6
+ * @date 2023-03-07
  */
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class ApiHealthCacheDTO {
+public class ProxyProperties implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
-     * 成功数
+     * 代理ip
      */
-    private volatile LongAdder successCount;
+    private String host = "";
+
     /**
-     * 失败数
+     * 代理端口
      */
-    private volatile LongAdder failCount;
+    private Integer port = null;
 
 }
