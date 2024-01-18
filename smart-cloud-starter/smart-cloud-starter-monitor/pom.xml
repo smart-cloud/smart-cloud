@@ -28,6 +28,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>smart-cloud-starter-monitor</artifactId>
+    <description>服务状态、接口状态监控</description>
 
     <dependencies>
         <dependency>
