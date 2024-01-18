@@ -48,7 +48,7 @@ class HttpUtilIntegrationTest {
 
     @Test
     void testGet() throws IOException {
-        String result = HttpUtil.get(REQUEST_URL_PREFIX + "?str=test", null);
+        String result = HttpUtil.get(REQUEST_URL_PREFIX + "?str=test", null,null);
         Assertions.assertThat(result).isEqualTo("test");
     }
 
@@ -58,7 +58,7 @@ class HttpUtilIntegrationTest {
         reqVO.setStr("test");
         reqVO.setIds(new long[]{1, 2, 3});
         GetPageRespVO result = HttpUtil.get(REQUEST_URL_PREFIX + "/page", reqVO, new TypeReference<GetPageRespVO>() {
-        });
+        },null);
         Assertions.assertThat(result.getStr()).isEqualTo("test");
         Assertions.assertThat(result.getIds()).isNotEmpty().hasSize(3);
         Assertions.assertThat(result.getIds()[2]).isEqualTo(3);
@@ -74,7 +74,7 @@ class HttpUtilIntegrationTest {
         headers[0] = new BasicHeader(HttpHeaders.CONTENT_MD5, Md5Util.md5Hex(JacksonUtil.toJson(reqVO)));
 
         GetPageRespVO result = HttpUtil.get(REQUEST_URL_PREFIX + "/page", headers, reqVO, new TypeReference<GetPageRespVO>() {
-        });
+        },null);
         Assertions.assertThat(result.getStr()).isEqualTo("test");
         Assertions.assertThat(result.getIds()).isNotEmpty().hasSize(3);
         Assertions.assertThat(result.getIds()[2]).isEqualTo(3);
@@ -88,7 +88,7 @@ class HttpUtilIntegrationTest {
 
     @Test
     void testPostWithRaw2() throws IOException {
-        String result = HttpUtil.postWithRaw(REQUEST_URL_PREFIX, "test", 10000, 10000);
+        String result = HttpUtil.postWithRaw(REQUEST_URL_PREFIX, "test", 10000, 10000,null);
         Assertions.assertThat(result).isEqualTo("test");
     }
 
@@ -107,7 +107,7 @@ class HttpUtilIntegrationTest {
         parameters.add(new BasicNameValuePair("id", id));
         PostUrlEncodedRespVO result = HttpUtil.postWithUrlEncoded(REQUEST_URL_PREFIX + "/postUrlEncoded", parameters,
                 new TypeReference<PostUrlEncodedRespVO>() {
-                });
+                },null);
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result.getId()).isEqualTo(id);
     }

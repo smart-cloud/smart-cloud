@@ -67,7 +67,6 @@ public class HttpUtil {
 
     private HttpUtil() {
     }
-
     /**
      * post（raw）方式请求（编码为UTF-8，超时时间10秒）
      *
@@ -78,7 +77,20 @@ public class HttpUtil {
      * @throws IOException
      */
     public static <T> T postWithRaw(String url, Object req, TypeReference<T> typeReference) throws IOException {
-        return postWithRaw(url, null, req, typeReference);
+        return postWithRaw(url, req, typeReference, null);
+    }
+
+    /**
+     * post（raw）方式请求（编码为UTF-8，超时时间10秒）
+     *
+     * @param url
+     * @param req           请求参数对象
+     * @param typeReference 返回对象
+     * @return
+     * @throws IOException
+     */
+    public static <T> T postWithRaw(String url, Object req, TypeReference<T> typeReference, HttpHost proxy) throws IOException {
+        return postWithRaw(url, null, req, typeReference, proxy);
     }
 
     /**
@@ -92,13 +104,27 @@ public class HttpUtil {
      * @throws IOException
      */
     public static <T> T postWithRaw(String url, Header[] headers, Object req, TypeReference<T> typeReference) throws IOException {
+        return postWithRaw(url, headers, req, typeReference, null);
+    }
+
+    /**
+     * post（raw）方式请求（编码为UTF-8，超时时间10秒）
+     *
+     * @param url
+     * @param headers       请求头参数对象
+     * @param req           请求体参数对象
+     * @param typeReference 返回对象
+     * @return
+     * @throws IOException
+     */
+    public static <T> T postWithRaw(String url, Header[] headers, Object req, TypeReference<T> typeReference, HttpHost proxy) throws IOException {
         String stringEntity = null;
         if (req instanceof String) {
             stringEntity = String.valueOf(req);
         } else {
             stringEntity = JacksonUtil.toJson(req);
         }
-        String content = postWithRaw(url, stringEntity, headers, DEFAULT_CHARSET, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT);
+        String content = postWithRaw(url, stringEntity, headers, DEFAULT_CHARSET, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT, proxy);
         return JacksonUtil.parseObject(content, typeReference);
     }
 
@@ -111,7 +137,19 @@ public class HttpUtil {
      * @throws IOException
      */
     public static String postWithRaw(String url, String stringEntity) throws IOException {
-        return postWithRaw(url, stringEntity, DEFAULT_CHARSET, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT);
+        return postWithRaw(url, stringEntity, DEFAULT_CHARSET, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT, null);
+    }
+
+    /**
+     * post（raw）方式请求（编码为UTF-8，超时时间10秒）
+     *
+     * @param url
+     * @param stringEntity 请求体中的数据
+     * @return
+     * @throws IOException
+     */
+    public static String postWithRaw(String url, String stringEntity, HttpHost proxy) throws IOException {
+        return postWithRaw(url, stringEntity, DEFAULT_CHARSET, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT, proxy);
     }
 
     /**
@@ -124,9 +162,9 @@ public class HttpUtil {
      * @return
      * @throws IOException
      */
-    public static String postWithRaw(String url, String stringEntity, int socketTimeout, int connectTimeout)
+    public static String postWithRaw(String url, String stringEntity, int socketTimeout, int connectTimeout, HttpHost proxy)
             throws IOException {
-        return postWithRaw(url, stringEntity, DEFAULT_CHARSET, socketTimeout, connectTimeout);
+        return postWithRaw(url, stringEntity, DEFAULT_CHARSET, socketTimeout, connectTimeout, proxy);
     }
 
     /**
@@ -141,8 +179,8 @@ public class HttpUtil {
      * @throws IOException
      */
     public static String postWithRaw(String url, String stringEntity, String charset, int socketTimeout,
-                                     int connectTimeout) throws IOException {
-        return postWithRaw(url, stringEntity, null, charset, socketTimeout, connectTimeout);
+                                     int connectTimeout, HttpHost proxy) throws IOException {
+        return postWithRaw(url, stringEntity, null, charset, socketTimeout, connectTimeout, proxy);
     }
 
     /**
@@ -158,8 +196,8 @@ public class HttpUtil {
      * @throws IOException
      */
     public static String postWithRaw(String url, String stringEntity, Header[] headers, String charset, int socketTimeout,
-                                     int connectTimeout) throws IOException {
-        RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout);
+                                     int connectTimeout, HttpHost proxy) throws IOException {
+        RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout, proxy);
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
@@ -193,8 +231,8 @@ public class HttpUtil {
      * @return
      * @throws IOException
      */
-    public static <T> T postWithUrlEncoded(String url, List<? extends NameValuePair> parameters, TypeReference<T> typeReference) throws IOException {
-        return JacksonUtil.parseObject(postWithUrlEncoded(url, parameters), typeReference);
+    public static <T> T postWithUrlEncoded(String url, List<? extends NameValuePair> parameters, TypeReference<T> typeReference, HttpHost proxy) throws IOException {
+        return JacksonUtil.parseObject(postWithUrlEncoded(url, parameters, proxy), typeReference);
     }
 
     /**
@@ -205,8 +243,8 @@ public class HttpUtil {
      * @return
      * @throws IOException
      */
-    public static String postWithUrlEncoded(String url, List<? extends NameValuePair> parameters) throws IOException {
-        return postWithUrlEncoded(url, parameters, DEFAULT_CHARSET, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT);
+    public static String postWithUrlEncoded(String url, List<? extends NameValuePair> parameters, HttpHost proxy) throws IOException {
+        return postWithUrlEncoded(url, parameters, DEFAULT_CHARSET, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT, proxy);
     }
 
     /**
@@ -221,8 +259,8 @@ public class HttpUtil {
      * @throws IOException
      */
     public static String postWithUrlEncoded(String url, List<? extends NameValuePair> parameters, String charset,
-                                            int socketTimeout, int connectTimeout) throws IOException {
-        RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout);
+                                            int socketTimeout, int connectTimeout, HttpHost proxy) throws IOException {
+        RequestConfig requestConfig = createRequestConfig(socketTimeout, connectTimeout, proxy);
 
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
@@ -255,8 +293,8 @@ public class HttpUtil {
      * @return
      * @throws IOException
      */
-    public static <T> T get(String url, Object req, TypeReference<T> typeReference) throws IOException {
-        String content = get(url, req);
+    public static <T> T get(String url, Object req, TypeReference<T> typeReference, HttpHost proxy) throws IOException {
+        String content = get(url, req, proxy);
         return JacksonUtil.parseObject(content, typeReference);
     }
 
@@ -271,8 +309,8 @@ public class HttpUtil {
      * @return
      * @throws IOException
      */
-    public static <T> T get(String url, Header[] headers, Object req, TypeReference<T> typeReference) throws IOException {
-        String content = get(url, headers, req, DEFAULT_CHARSET, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT);
+    public static <T> T get(String url, Header[] headers, Object req, TypeReference<T> typeReference, HttpHost proxy) throws IOException {
+        String content = get(url, headers, req, DEFAULT_CHARSET, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT, proxy);
         return JacksonUtil.parseObject(content, typeReference);
     }
 
@@ -284,8 +322,8 @@ public class HttpUtil {
      * @return
      * @throws IOException
      */
-    public static String get(String url, Object req) throws IOException {
-        return get(url, req, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT);
+    public static String get(String url, Object req, HttpHost proxy) throws IOException {
+        return get(url, req, DEFAULT_SOCKET_TIMEOUT, DEFAULT_CONNECT_TIMEOUT, proxy);
     }
 
     /**
@@ -298,8 +336,8 @@ public class HttpUtil {
      * @return
      * @throws IOException
      */
-    public static String get(String url, Object req, int socketTimeout, int connectTimeout) throws IOException {
-        return get(url, req, DEFAULT_CHARSET, socketTimeout, connectTimeout);
+    public static String get(String url, Object req, int socketTimeout, int connectTimeout, HttpHost proxy) throws IOException {
+        return get(url, req, DEFAULT_CHARSET, socketTimeout, connectTimeout, proxy);
     }
 
     /**
@@ -310,11 +348,12 @@ public class HttpUtil {
      * @param charset
      * @param socketTimeout
      * @param connectTimeout
+     * @param proxy
      * @return
      * @throws IOException
      */
-    public static String get(String url, Object req, String charset, int socketTimeout, int connectTimeout) throws IOException {
-        return get(url, null, req, charset, socketTimeout, connectTimeout);
+    public static String get(String url, Object req, String charset, int socketTimeout, int connectTimeout, HttpHost proxy) throws IOException {
+        return get(url, null, req, charset, socketTimeout, connectTimeout, proxy);
     }
 
     /**
@@ -326,10 +365,11 @@ public class HttpUtil {
      * @param charset
      * @param socketTimeout
      * @param connectTimeout
+     * @param proxy
      * @return
      * @throws IOException
      */
-    public static String get(String url, Header[] headers, Object req, String charset, int socketTimeout, int connectTimeout) throws IOException {
+    public static String get(String url, Header[] headers, Object req, String charset, int socketTimeout, int connectTimeout, HttpHost proxy) throws IOException {
         String requestJsonStr = (req == null) ? null : JacksonUtil.toJson(req);
         URIBuilder builder = new URIBuilder(URI.create(url));
         builder.setCharset(StandardCharsets.UTF_8);
@@ -350,7 +390,7 @@ public class HttpUtil {
         }
 
         HttpGet httpGet = new HttpGet(builder.toString());
-        httpGet.setConfig(createRequestConfig(socketTimeout, connectTimeout));
+        httpGet.setConfig(createRequestConfig(socketTimeout, connectTimeout, proxy));
         httpGet.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
         if (headers != null) {
             httpGet.setHeaders(headers);
@@ -377,13 +417,15 @@ public class HttpUtil {
      *
      * @param socketTimeout  从服务器获取响应数据的超时时间，单位毫秒
      * @param connectTimeout socket的连接超时时间，单位毫秒
+     * @param proxy 代理
      * @return
      */
-    private static RequestConfig createRequestConfig(int socketTimeout, int connectTimeout) {
+    private static RequestConfig createRequestConfig(int socketTimeout, int connectTimeout, HttpHost proxy) {
         return RequestConfig.custom()
                 .setSocketTimeout(socketTimeout)
                 .setConnectTimeout(connectTimeout)
                 .setConnectionRequestTimeout(CONNECTION_REQUEST_TIMEOUT)
+                .setProxy(proxy)
                 .build();
     }
 

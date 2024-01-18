@@ -50,6 +50,10 @@ public class DateFormartConst {
      * yyyy-MM-dd HH:mm:ss.SSS
      */
     public static final String DATETIME_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
+    /**
+     * yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+     */
+    public static final String UTC = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     private DateFormartConst() {
     }

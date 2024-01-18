@@ -183,9 +183,23 @@ public class DateUtil {
         try {
             date = DateUtils.parseDate(dateStr, format);
         } catch (ParseException e) {
-            log.error("data string parse error", e);
+            throw new RuntimeException(e);
         }
         return date;
+    }
+
+    /**
+     * 解析UTC格式日期
+     *
+     * @param utcStr
+     * @return
+     */
+    public static Date parseUTC(String utcStr) {
+        try {
+            return DateUtils.parseDate(utcStr, DateFormartConst.UTC);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
