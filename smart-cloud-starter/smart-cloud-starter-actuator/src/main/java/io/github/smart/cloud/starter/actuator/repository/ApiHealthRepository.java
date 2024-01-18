@@ -66,7 +66,7 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
             BigDecimal failCount = BigDecimal.valueOf(apiStatus.getFailCount().sum());
             BigDecimal total = BigDecimal.valueOf(apiStatus.getSuccessCount().sum()).add(failCount);
             BigDecimal failRate = failCount.divide(total, 4, RoundingMode.HALF_UP);
-            if (isUnHealth(total, failRate)) {
+            if (isUnHealth(name, total, failRate)) {
                 UnHealthApiDTO unHealthApiDTO = new UnHealthApiDTO();
                 unHealthApiDTO.setName(name);
                 unHealthApiDTO.setTotal(total.longValue());
@@ -83,11 +83,13 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
      * 判断是否不健康
      *
      * @param total
+     * @param name
      * @param failRate
      * @return
      */
-    private final boolean isUnHealth(BigDecimal total, BigDecimal failRate) {
-        return (total.intValue() >= healthProperties.getUnhealthMinCount()) && (failRate.compareTo(healthProperties.getFailRateThreshold()) >= 0);
+    private final boolean isUnHealth(String name, BigDecimal total, BigDecimal failRate) {
+        BigDecimal failRateThreshold = healthProperties.getFailRateThresholds().getOrDefault(name, healthProperties.getDefaultFailRateThreshold());
+        return (total.intValue() >= healthProperties.getUnhealthMinCount()) && (failRate.compareTo(failRateThreshold) >= 0);
     }
 
     @Override
