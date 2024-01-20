@@ -154,6 +154,17 @@ When the combined service is packaged, the packages that the single service depe
 3. Obtain the MaskRule annotation information of the log incoming parameters through reflection, and finally intercept and replace the string according to the annotation rules.
 ```
 
+## Service monitor
+Monitoring the service status through springboot admin, monitoring the interface abnormality in the service through extending the actuator interface, and notifying the WXWork.
+- When the service is offline, check the gitlab job record. If there is no tag job running record in the last half hour (configurable), the enterprise WeChat will be notified by @ the specified reminder person.
+- Customize the interface aspect, calculate the interface failure rate within a simple sliding window time. When springboot admin queries through actuator/health, if some interfaces exceed the failure rate threshold, the service health check will be returned.
+### 1.Service Offline Notification
+![](docs/images/monitor/off_line.png)
+### 2.Service Health Check Failed
+![](docs/images/monitor/down.png)
+### 3.Service up
+![](docs/images/monitor/up.png)
+
 ## Interface mock data
 
 The interface can obtain all the information of the returned object through reflection, and then randomly generate data according to the attribute type of the object; for the data required by specific requirements, you can formulate mock rules to generate data in a specified format.
