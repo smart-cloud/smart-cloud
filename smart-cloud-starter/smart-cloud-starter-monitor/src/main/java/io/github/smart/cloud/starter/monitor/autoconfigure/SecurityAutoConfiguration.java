@@ -44,6 +44,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(new String[]{this.adminContextPath + "/assets/**"}).permitAll()
                 .antMatchers(new String[]{this.adminContextPath + "/login"}).permitAll()
+                .antMatchers(new String[]{this.adminContextPath + "/actuator/**"}).permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage(this.adminContextPath + "/login").successHandler(successHandler)
                 .and().logout().logoutUrl(this.adminContextPath + "/logout")
