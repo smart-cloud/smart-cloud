@@ -21,10 +21,13 @@ import io.github.smart.cloud.starter.monitor.component.GitLabComponent;
 import io.github.smart.cloud.starter.monitor.component.OfflineCheckComponent;
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
+import io.github.smart.cloud.starter.monitor.listener.AppChangeWeworkNotice;
+import io.github.smart.cloud.starter.monitor.listener.OfflineCheckListener;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -71,9 +74,20 @@ public class MonitorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AppChangeNotifier appChangeNotifier(final InstanceRepository instanceRepository, final RobotComponent robotComponent, final ReminderComponent reminderComponent,
-                                               final OfflineCheckComponent offlineCheckComponent, final MonitorProperties monitorProperties) {
-        return new AppChangeNotifier(instanceRepository, robotComponent, reminderComponent, offlineCheckComponent, monitorProperties);
+    public AppChangeWeworkNotice appChangeWeworkNotice(final RobotComponent robotComponent, final ReminderComponent reminderComponent) {
+        return new AppChangeWeworkNotice(robotComponent, reminderComponent);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public OfflineCheckListener offlineCheckListener(final OfflineCheckComponent offlineCheckComponent) {
+        return new OfflineCheckListener(offlineCheckComponent);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AppChangeNotifier appChangeNotifier(final InstanceRepository instanceRepository, final MonitorProperties monitorProperties, final ApplicationEventPublisher applicationEventPublisher) {
+        return new AppChangeNotifier(instanceRepository, monitorProperties, applicationEventPublisher);
     }
 
 }

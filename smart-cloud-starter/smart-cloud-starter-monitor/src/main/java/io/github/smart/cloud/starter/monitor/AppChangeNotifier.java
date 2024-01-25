@@ -22,20 +22,12 @@ import de.codecentric.boot.admin.server.domain.events.InstanceStatusChangedEvent
 import de.codecentric.boot.admin.server.domain.values.Registration;
 import de.codecentric.boot.admin.server.domain.values.StatusInfo;
 import de.codecentric.boot.admin.server.notify.AbstractStatusChangeNotifier;
-import io.github.smart.cloud.starter.monitor.component.OfflineCheckComponent;
-import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
-import io.github.smart.cloud.starter.monitor.component.RobotComponent;
+import io.github.smart.cloud.starter.monitor.event.*;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import reactor.core.publisher.Mono;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 服务状态变更监听
@@ -47,24 +39,19 @@ import java.util.Map;
 public class AppChangeNotifier extends AbstractStatusChangeNotifier {
 
     private final InstanceRepository instanceRepository;
-    private final RobotComponent robotComponent;
-    private final ReminderComponent reminderComponent;
-    private final OfflineCheckComponent offlineCheckComponent;
     private final MonitorProperties monitorProperties;
+    private final ApplicationEventPublisher applicationEventPublisher;
     /**
      * 服务启动时间
      */
     private static final long START_UP_TS = System.currentTimeMillis();
 
-    public AppChangeNotifier(InstanceRepository instanceRepository, RobotComponent robotComponent, ReminderComponent reminderComponent, final OfflineCheckComponent offlineCheckComponent,
-                             MonitorProperties monitorProperties) {
+    public AppChangeNotifier(InstanceRepository instanceRepository, MonitorProperties monitorProperties, ApplicationEventPublisher applicationEventPublisher) {
         super(instanceRepository);
         this.instanceRepository = instanceRepository;
 
-        this.robotComponent = robotComponent;
-        this.reminderComponent = reminderComponent;
-        this.offlineCheckComponent = offlineCheckComponent;
         this.monitorProperties = monitorProperties;
+        this.applicationEventPublisher = applicationEventPublisher;
     }
 
     @Override
@@ -86,19 +73,19 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
                 return;
             }
 
+            AbstractAppChangeEvent appChangeEvent = null;
             // 服务状态描述
             String state;
             if (statusInfo.isDown()) {
-                state = "<font color=\\\"comment\\\">**健康检查没通过**</font>";
+                appChangeEvent = new DownEvent(this);
             } else if (statusInfo.isUp()) {
-                state = "<font color=\\\"info\\\">**上线**</font>";
+                appChangeEvent = new UpEvent(this);
             } else if (statusInfo.isOffline()) {
-                state = "<font color=\\\"warning\\\">**离线**</font>";
-                offlineCheckComponent.add(registration.getName());
+                appChangeEvent = new OfflineEvent(this);
             } else if (statusInfo.isUnknown()) {
-                state = "<font color=\\\"comment\\\">**未知异常**</font>";
+                appChangeEvent = new UnknownEvent(this);
             } else {
-                state = "**unknow**";
+                appChangeEvent = new UnknownEvent(this);
             }
 
             if (statusInfo.isDown() || statusInfo.isOffline()) {
@@ -112,77 +99,13 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
                     .count()
                     .share()
                     .block();
-            // 在线实例数
-            String healthInstanceCountDesc = healthInstanceCount > 0 ? String.valueOf(healthInstanceCount) : "<font color=\\\"warning\\\">**0**</font>";
 
-            StringBuilder content = new StringBuilder(64);
-            content.append("**服务名**: ").append(registration.getName()).append("\n")
-                    .append("**address**: ").append(registration.getServiceUrl()).append("\n")
-                    .append("**状态**: ").append(state).append("\n")
-                    .append("**在线实例数**: ").append(healthInstanceCountDesc);
-
-            String apiUnHealthDetail = getApiUnHealthDetail(statusInfo);
-            content.append(apiUnHealthDetail);
-
-            // 提醒人
-            String reminderParams = reminderComponent.getReminderParams(registration.getName(), statusInfo, apiUnHealthDetail);
-            content.append(reminderParams);
-
-            robotComponent.sendWxworkNotice(robotComponent.getRobotKey(registration.getName()), content.toString());
+            appChangeEvent.setName(registration.getName());
+            appChangeEvent.setHealthInstanceCount(healthInstanceCount);
+            appChangeEvent.setUrl(registration.getServiceUrl());
+            appChangeEvent.setStatusInfo(statusInfo);
+            applicationEventPublisher.publishEvent(appChangeEvent);
         });
-    }
-
-    private String getApiUnHealthDetail(StatusInfo statusInfo) {
-        if (!statusInfo.isDown()) {
-            return StringUtils.EMPTY;
-        }
-
-        Map<String, Object> detail = statusInfo.getDetails();
-        if (MapUtils.isEmpty(detail)) {
-            return StringUtils.EMPTY;
-        }
-
-        Map<String, Object> apiHealthInfo = (Map<String, Object>) detail.get(Constants.API);
-        if (MapUtils.isEmpty(apiHealthInfo)) {
-            return StringUtils.EMPTY;
-        }
-
-        if (!StatusInfo.STATUS_DOWN.equals(apiHealthInfo.get(Constants.STATUS))) {
-            return StringUtils.EMPTY;
-        }
-
-        Map<String, Object> apiUnHealthDetail = (Map<String, Object>) apiHealthInfo.get(Constants.DETAILS);
-        if (MapUtils.isEmpty(apiUnHealthDetail)) {
-            return StringUtils.EMPTY;
-        }
-
-        List<Map<String, Object>> unHealthInfos = (ArrayList<Map<String, Object>>) apiUnHealthDetail.get(Constants.UN_HEALTH_INFOS);
-        if (CollectionUtils.isEmpty(unHealthInfos)) {
-            return StringUtils.EMPTY;
-        }
-
-        StringBuilder unHealthContent = new StringBuilder(64);
-        unHealthContent.append("\n<font color=\\\"warning\\\">**非健康接口(近5分钟)**</font>:");
-        int apiIndex = 0;
-        for (Map<String, Object> unHealthInfo : unHealthInfos) {
-            unHealthContent.append("\n\n>**接口").append(++apiIndex).append("**: ").append(unHealthInfo.get(Constants.NAME))
-                    .append("\n**请求总数**: ").append(unHealthInfo.get(Constants.TOTAL))
-                    .append("\n>**失败数**: ").append(unHealthInfo.get(Constants.FAIL_COUNT))
-                    .append("\n>**失败率**: ").append(unHealthInfo.get(Constants.FAIL_RATE));
-        }
-        unHealthContent.append("\n");
-        return unHealthContent.toString();
-    }
-
-    interface Constants {
-        String API = "api";
-        String STATUS = "status";
-        String DETAILS = "details";
-        String UN_HEALTH_INFOS = "unHealthInfos";
-        String NAME = "name";
-        String TOTAL = "total";
-        String FAIL_COUNT = "failCount";
-        String FAIL_RATE = "failRate";
     }
 
 }

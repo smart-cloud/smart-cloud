@@ -15,7 +15,8 @@
  */
 package io.github.smart.cloud.starter.monitor.component;
 
-import de.codecentric.boot.admin.server.domain.values.StatusInfo;
+import io.github.smart.cloud.starter.monitor.event.AbstractAppChangeEvent;
+import io.github.smart.cloud.starter.monitor.event.UpEvent;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.properties.ServiceInfoProperties;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +39,16 @@ public class ReminderComponent {
     private final GitLabComponent gitLabComponent;
     private final MonitorProperties monitorProperties;
 
-    public String getReminderParams(String serviceName, StatusInfo statusInfo, String apiUnHealthDetail) {
-        if (!statusInfo.isDown() && !statusInfo.isOffline()) {
+    /**
+     * 获取提醒人
+     *
+     * @param serviceName
+     * @param event
+     * @param apiUnHealthDetail
+     * @return
+     */
+    public String getReminderParams(String serviceName, AbstractAppChangeEvent event, String apiUnHealthDetail) {
+        if (event instanceof UpEvent) {
             return StringUtils.EMPTY;
         }
 
@@ -75,6 +84,12 @@ public class ReminderComponent {
         return generateReminders(reminders);
     }
 
+    /**
+     * 获取提醒人
+     *
+     * @param reminders
+     * @return
+     */
     public String generateReminders(Set<String> reminders) {
         StringBuilder sb = new StringBuilder(32);
         reminders.forEach(reminder -> sb.append("\n").append("<@").append(reminder).append(">"));
