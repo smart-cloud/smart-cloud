@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.monitor.autoconfigure;
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
 import io.github.smart.cloud.starter.monitor.AppChangeNotifier;
 import io.github.smart.cloud.starter.monitor.component.GitLabComponent;
+import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -56,8 +57,14 @@ public class MonitorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AppChangeNotifier appChangeNotifier(final InstanceRepository repository, final RobotComponent robotComponent, final GitLabComponent gitLabComponent, final MonitorProperties monitorProperties) {
-        return new AppChangeNotifier(repository, robotComponent, gitLabComponent, monitorProperties);
+    public ReminderComponent reminderComponent(final GitLabComponent gitLabComponent, final MonitorProperties monitorProperties) {
+        return new ReminderComponent(gitLabComponent, monitorProperties);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AppChangeNotifier appChangeNotifier(final InstanceRepository repository, final RobotComponent robotComponent, final ReminderComponent reminderComponent, final MonitorProperties monitorProperties) {
+        return new AppChangeNotifier(repository, robotComponent, reminderComponent, monitorProperties);
     }
 
 }

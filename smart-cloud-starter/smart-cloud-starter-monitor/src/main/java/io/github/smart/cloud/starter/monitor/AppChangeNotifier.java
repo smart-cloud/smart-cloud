@@ -22,7 +22,7 @@ import de.codecentric.boot.admin.server.domain.events.InstanceStatusChangedEvent
 import de.codecentric.boot.admin.server.domain.values.Registration;
 import de.codecentric.boot.admin.server.domain.values.StatusInfo;
 import de.codecentric.boot.admin.server.notify.AbstractStatusChangeNotifier;
-import io.github.smart.cloud.starter.monitor.component.GitLabComponent;
+import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.properties.ServiceInfoProperties;
@@ -36,7 +36,6 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * 服务状态变更监听
@@ -49,19 +48,19 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
 
     private final InstanceRepository instanceRepository;
     private final RobotComponent robotComponent;
-    private final GitLabComponent gitLabComponent;
+    private final ReminderComponent reminderComponent;
     private final MonitorProperties monitorProperties;
     /**
      * 服务启动时间
      */
     private static final long START_UP_TS = System.currentTimeMillis();
 
-    public AppChangeNotifier(InstanceRepository repository, RobotComponent robotComponent, GitLabComponent gitLabComponent, MonitorProperties monitorProperties) {
+    public AppChangeNotifier(InstanceRepository repository, RobotComponent robotComponent, ReminderComponent reminderComponent, MonitorProperties monitorProperties) {
         super(repository);
         this.instanceRepository = repository;
 
         this.robotComponent = robotComponent;
-        this.gitLabComponent = gitLabComponent;
+        this.reminderComponent = reminderComponent;
         this.monitorProperties = monitorProperties;
     }
 
@@ -73,13 +72,16 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
     @Override
     protected Mono<Void> doNotify(InstanceEvent event, Instance instance) {
         return Mono.fromRunnable(() -> {
-            if (System.currentTimeMillis() - START_UP_TS <= monitorProperties.getFilterEventTs()) {
-                //服务启动时，90秒内的服务通知过滤掉
+            Registration registration = instance.getRegistration();
+            if (monitorProperties.getExcludeServices().contains(registration.getName())) {
                 return;
             }
 
-            Registration registration = instance.getRegistration();
             StatusInfo statusInfo = instance.getStatusInfo();
+            if (System.currentTimeMillis() - START_UP_TS <= monitorProperties.getFilterEventTs() && statusInfo.isUp()) {
+                //服务启动时，短时间内的服务上线通知过滤掉
+                return;
+            }
 
             // 服务状态描述
             String state;
@@ -116,7 +118,7 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
             content.append(apiUnHealthDetail);
 
             // 提醒人
-            String reminderParams = getReminderParams(registration.getName(), statusInfo, apiUnHealthDetail);
+            String reminderParams = reminderComponent.getReminderParams(registration.getName(), statusInfo, apiUnHealthDetail);
             content.append(reminderParams);
 
             robotComponent.sendWxworkNotice(getRobotKey(registration.getName()), content.toString());
@@ -180,58 +182,7 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
         return serviceInfoProperties.getRobotKey();
     }
 
-    /**
-     * 获取提醒人
-     *
-     * @param serviceName
-     * @param statusInfo
-     * @param apiUnHealthDetail
-     * @return
-     */
-    private String getReminderParams(String serviceName, StatusInfo statusInfo, String apiUnHealthDetail) {
-        if (!statusInfo.isDown() && !statusInfo.isOffline()) {
-            return StringUtils.EMPTY;
-        }
-
-        ServiceInfoProperties serviceInfoProperties = monitorProperties.getServiceInfos().get(serviceName);
-        if (serviceInfoProperties == null) {
-            return StringUtils.EMPTY;
-        }
-        Set<String> reminders = serviceInfoProperties.getReminders();
-        if (CollectionUtils.isEmpty(reminders)) {
-            return StringUtils.EMPTY;
-        }
-
-        if (StringUtils.isNotBlank(apiUnHealthDetail)) {
-            return generateReminders(reminders);
-        }
-
-        // 查询最近是否有tag记录
-        Long lastTagCommittedTs = null;
-        try {
-            lastTagCommittedTs = gitLabComponent.getLastTagCreateAtTs(serviceName);
-            if (lastTagCommittedTs == null || lastTagCommittedTs == 0) {
-                return StringUtils.EMPTY;
-            }
-        } catch (Exception e) {
-            log.error("fetch git info error|serviceName={}", serviceName, e);
-            return StringUtils.EMPTY;
-        }
-
-        if (System.currentTimeMillis() - lastTagCommittedTs < serviceInfoProperties.getRemindTagMinDiffTs()) {
-            return StringUtils.EMPTY;
-        }
-
-        return generateReminders(reminders);
-    }
-
-    private String generateReminders(Set<String> reminders) {
-        StringBuilder sb = new StringBuilder(32);
-        reminders.forEach(reminder -> sb.append("\n").append("<@").append(reminder).append(">"));
-        return sb.toString();
-    }
-
-    static interface Constants {
+    interface Constants {
         String API = "api";
         String STATUS = "status";
         String DETAILS = "details";

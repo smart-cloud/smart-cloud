@@ -20,7 +20,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 监控配置信息
@@ -53,5 +55,9 @@ public class MonitorProperties {
      * 服务配置
      */
     private Map<String, ServiceInfoProperties> serviceInfos = new HashMap<>();
+    /**
+     * 不监听的服务
+     */
+    private Set<String> excludeServices = new HashSet<>();
 
 }
