@@ -22,10 +22,10 @@ import de.codecentric.boot.admin.server.domain.events.InstanceStatusChangedEvent
 import de.codecentric.boot.admin.server.domain.values.Registration;
 import de.codecentric.boot.admin.server.domain.values.StatusInfo;
 import de.codecentric.boot.admin.server.notify.AbstractStatusChangeNotifier;
+import io.github.smart.cloud.starter.monitor.component.OfflineCheckComponent;
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
-import io.github.smart.cloud.starter.monitor.properties.ServiceInfoProperties;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -49,18 +49,21 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
     private final InstanceRepository instanceRepository;
     private final RobotComponent robotComponent;
     private final ReminderComponent reminderComponent;
+    private final OfflineCheckComponent offlineCheckComponent;
     private final MonitorProperties monitorProperties;
     /**
      * 服务启动时间
      */
     private static final long START_UP_TS = System.currentTimeMillis();
 
-    public AppChangeNotifier(InstanceRepository repository, RobotComponent robotComponent, ReminderComponent reminderComponent, MonitorProperties monitorProperties) {
-        super(repository);
-        this.instanceRepository = repository;
+    public AppChangeNotifier(InstanceRepository instanceRepository, RobotComponent robotComponent, ReminderComponent reminderComponent, final OfflineCheckComponent offlineCheckComponent,
+                             MonitorProperties monitorProperties) {
+        super(instanceRepository);
+        this.instanceRepository = instanceRepository;
 
         this.robotComponent = robotComponent;
         this.reminderComponent = reminderComponent;
+        this.offlineCheckComponent = offlineCheckComponent;
         this.monitorProperties = monitorProperties;
     }
 
@@ -91,6 +94,7 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
                 state = "<font color=\\\"info\\\">**上线**</font>";
             } else if (statusInfo.isOffline()) {
                 state = "<font color=\\\"warning\\\">**离线**</font>";
+                offlineCheckComponent.add(registration.getName());
             } else if (statusInfo.isUnknown()) {
                 state = "<font color=\\\"comment\\\">**未知异常**</font>";
             } else {
@@ -112,7 +116,10 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
             String healthInstanceCountDesc = healthInstanceCount > 0 ? String.valueOf(healthInstanceCount) : "<font color=\\\"warning\\\">**0**</font>";
 
             StringBuilder content = new StringBuilder(64);
-            content.append("**服务名**: ").append(registration.getName()).append("\n").append("**address**: ").append(registration.getServiceUrl()).append("\n").append("**状态**: ").append(state).append("\n").append("**在线实例数**: ").append(healthInstanceCountDesc);
+            content.append("**服务名**: ").append(registration.getName()).append("\n")
+                    .append("**address**: ").append(registration.getServiceUrl()).append("\n")
+                    .append("**状态**: ").append(state).append("\n")
+                    .append("**在线实例数**: ").append(healthInstanceCountDesc);
 
             String apiUnHealthDetail = getApiUnHealthDetail(statusInfo);
             content.append(apiUnHealthDetail);
@@ -121,7 +128,7 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
             String reminderParams = reminderComponent.getReminderParams(registration.getName(), statusInfo, apiUnHealthDetail);
             content.append(reminderParams);
 
-            robotComponent.sendWxworkNotice(getRobotKey(registration.getName()), content.toString());
+            robotComponent.sendWxworkNotice(robotComponent.getRobotKey(registration.getName()), content.toString());
         });
     }
 
@@ -165,21 +172,6 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
         }
         unHealthContent.append("\n");
         return unHealthContent.toString();
-    }
-
-    /**
-     * 获取机器人key
-     *
-     * @param serviceName
-     * @return
-     */
-    private String getRobotKey(String serviceName) {
-        ServiceInfoProperties serviceInfoProperties = monitorProperties.getServiceInfos().get(serviceName);
-        if (serviceInfoProperties == null) {
-            return monitorProperties.getRobotKey();
-        }
-
-        return serviceInfoProperties.getRobotKey();
     }
 
     interface Constants {

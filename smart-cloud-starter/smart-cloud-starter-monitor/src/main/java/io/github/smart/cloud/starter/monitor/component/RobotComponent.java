@@ -17,6 +17,7 @@ package io.github.smart.cloud.starter.monitor.component;
 
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.properties.ProxyProperties;
+import io.github.smart.cloud.starter.monitor.properties.ServiceInfoProperties;
 import io.github.smart.cloud.utility.HttpUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,21 @@ public class RobotComponent implements SmartInitializingSingleton {
         } catch (Exception e) {
             log.error("send WXWork notice fail|url={}, content={}", url, content, e);
         }
+    }
+
+    /**
+     * 获取机器人key
+     *
+     * @param serviceName
+     * @return
+     */
+    public String getRobotKey(String serviceName) {
+        ServiceInfoProperties serviceInfoProperties = monitorProperties.getServiceInfos().get(serviceName);
+        if (serviceInfoProperties == null) {
+            return monitorProperties.getRobotKey();
+        }
+
+        return serviceInfoProperties.getRobotKey();
     }
 
     @Override

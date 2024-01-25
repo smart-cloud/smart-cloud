@@ -38,7 +38,11 @@ public class MonitorProperties {
     /**
      * 服务启动时过滤消息时间间隔（单位：毫秒）
      */
-    private Long filterEventTs = 90000L;
+    private Long filterEventTs = 90 * 1000L;
+    /**
+     * 检查离线服务在线实例数间隔时间（单位：毫秒）
+     */
+    private Long checkOfflineTs = 60 * 5 * 1000L;
     /**
      * 工程信息
      */
