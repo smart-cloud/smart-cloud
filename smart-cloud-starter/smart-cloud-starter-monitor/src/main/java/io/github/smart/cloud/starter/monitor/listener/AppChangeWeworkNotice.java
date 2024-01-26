@@ -19,6 +19,7 @@ import de.codecentric.boot.admin.server.domain.values.StatusInfo;
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.event.*;
+import io.github.smart.cloud.utility.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -47,18 +48,24 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         Long healthInstanceCount = event.getHealthInstanceCount();
         String healthInstanceCountDesc = healthInstanceCount > 0 ? String.valueOf(healthInstanceCount) : "<font color=\\\"warning\\\">**0**</font>";
 
-        StringBuilder content = new StringBuilder(64);
-        content.append("**服务名**: ").append(event.getName()).append("\n")
-                .append("**address**: ").append(event.getUrl()).append("\n")
+        StringBuilder content = new StringBuilder(128);
+        content.append("**时间**：").append(DateUtil.getCurrentDateTime()).append("\n")
+                .append("**服务**: ").append(event.getName()).append("\n")
+                .append("**地址**: ").append(event.getUrl()).append("\n")
                 .append("**状态**: ").append(getState(event)).append("\n")
                 .append("**在线实例数**: ").append(healthInstanceCountDesc);
 
+        // 接口健康信息
         String apiUnHealthDetail = getApiUnHealthDetail(event.getStatusInfo());
-        content.append(apiUnHealthDetail);
+        if (StringUtils.isNotBlank(apiUnHealthDetail)) {
+            content.append(apiUnHealthDetail);
+        }
 
         // 提醒人
         String reminderParams = reminderComponent.getReminderParams(event.getName(), event, apiUnHealthDetail);
-        content.append(reminderParams);
+        if (StringUtils.isNotBlank(reminderParams)) {
+            content.append(reminderParams);
+        }
 
         robotComponent.sendWxworkNotice(robotComponent.getRobotKey(event.getName()), content.toString());
     }
