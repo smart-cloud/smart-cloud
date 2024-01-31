@@ -83,6 +83,8 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
             return "<font color=\\\"info\\\">**上线**</font>";
         } else if (event instanceof OfflineEvent) {
             return "<font color=\\\"warning\\\">**离线**</font>";
+        } else if (event instanceof MarkedOfflineEvent) {
+            return "<font color=\\\"comment\\\">**被人工标记下线**</font>";
         } else if (event instanceof UnknownEvent) {
             return "<font color=\\\"comment\\\">**未知异常**</font>";
         }

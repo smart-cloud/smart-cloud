@@ -17,6 +17,7 @@ package io.github.smart.cloud.starter.monitor;
 
 import de.codecentric.boot.admin.server.domain.entities.Instance;
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
+import de.codecentric.boot.admin.server.domain.events.InstanceDeregisteredEvent;
 import de.codecentric.boot.admin.server.domain.events.InstanceEvent;
 import de.codecentric.boot.admin.server.domain.events.InstanceStatusChangedEvent;
 import de.codecentric.boot.admin.server.domain.values.Registration;
@@ -56,7 +57,7 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
 
     @Override
     protected boolean shouldNotify(InstanceEvent event, Instance instance) {
-        return event instanceof InstanceStatusChangedEvent;
+        return event instanceof InstanceStatusChangedEvent || event instanceof InstanceDeregisteredEvent;
     }
 
     @Override
@@ -83,12 +84,17 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
             } else if (statusInfo.isOffline()) {
                 appChangeEvent = new OfflineEvent(this);
             } else if (statusInfo.isUnknown()) {
-                appChangeEvent = new UnknownEvent(this);
+                // 注册中心人工标记下线
+                if (event instanceof InstanceDeregisteredEvent) {
+                    appChangeEvent = new MarkedOfflineEvent(this);
+                } else {
+                    appChangeEvent = new UnknownEvent(this);
+                }
             } else {
                 appChangeEvent = new UnknownEvent(this);
             }
 
-            if (statusInfo.isDown() || statusInfo.isOffline()) {
+            if (appChangeEvent instanceof DownEvent || appChangeEvent instanceof OfflineEvent || appChangeEvent instanceof MarkedOfflineEvent) {
                 log.warn("{}==>{}", registration.getName(), JacksonUtil.toJson(instance));
             } else {
                 log.info("{}==>{}", registration.getName(), statusInfo.getStatus());
