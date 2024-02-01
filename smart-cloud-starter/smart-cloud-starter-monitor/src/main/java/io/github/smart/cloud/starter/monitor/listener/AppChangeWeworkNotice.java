@@ -61,10 +61,12 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
             content.append(apiUnHealthDetail);
         }
 
-        // 提醒人
-        String reminderParams = reminderComponent.getReminderParams(event.getName(), event, apiUnHealthDetail);
-        if (StringUtils.isNotBlank(reminderParams)) {
-            content.append(reminderParams);
+        if (!(event instanceof MarkedOfflineEvent)) {
+            // 提醒人
+            String reminderParams = reminderComponent.getReminderParams(event.getName(), event, apiUnHealthDetail);
+            if (StringUtils.isNotBlank(reminderParams)) {
+                content.append(reminderParams);
+            }
         }
 
         robotComponent.sendWxworkNotice(robotComponent.getRobotKey(event.getName()), content.toString());
