@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.monitor.autoconfigure;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
 import io.github.smart.cloud.starter.monitor.AppChangeNotifier;
 import io.github.smart.cloud.starter.monitor.component.GitLabComponent;
@@ -38,6 +39,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2024-01-16
  */
 @Configuration
+@EnableAdminServer
 public class MonitorAutoConfiguration {
 
     @Bean
