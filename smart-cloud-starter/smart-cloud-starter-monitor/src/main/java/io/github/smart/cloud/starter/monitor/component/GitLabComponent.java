@@ -16,6 +16,7 @@
 package io.github.smart.cloud.starter.monitor.component;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.github.smart.cloud.starter.monitor.properties.GitlabProperties;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.properties.ServiceInfoProperties;
 import io.github.smart.cloud.utility.DateUtil;
@@ -84,12 +85,24 @@ public class GitLabComponent implements SmartInitializingSingleton {
         return System.currentTimeMillis() - 2 * serviceInfoProperties.getRemindTagMinDiffTs();
     }
 
+    /**
+     * gitlab是否可用
+     *
+     * @return
+     */
+    public boolean enable() {
+        GitlabProperties gitlab = monitorProperties.getGitlab();
+        return gitlab != null && StringUtils.isNotBlank(gitlab.getUrlPrefix());
+    }
+
     @Override
     public void afterSingletonsInstantiated() {
-        this.jobsUrlTemplate = String.format("%s/api/v4/projects/%d/jobs?scope[]=running&scope[]=success", monitorProperties.getGitlab().getUrlPrefix());
+        if (enable()) {
+            this.jobsUrlTemplate = String.format("%s/api/v4/projects/%d/jobs?scope[]=running&scope[]=success", monitorProperties.getGitlab().getUrlPrefix());
 
-        this.headers = new Header[1];
-        headers[0] = new BasicHeader("PRIVATE-TOKEN", monitorProperties.getGitlab().getToken());
+            this.headers = new Header[1];
+            headers[0] = new BasicHeader("PRIVATE-TOKEN", monitorProperties.getGitlab().getToken());
+        }
     }
 
 }

@@ -65,6 +65,10 @@ public class ReminderComponent {
             return generateReminders(reminders);
         }
 
+        if (!gitLabComponent.enable()) {
+            return generateReminders(reminders);
+        }
+
         // 查询最近是否有tag记录
         Long lastTagCommittedTs = null;
         try {
