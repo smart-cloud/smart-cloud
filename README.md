@@ -11,7 +11,7 @@ smart cloud
 **一个基于spring cloud实现的脚手架。所实现功能如下：**
 
 - [接口文档自动生成（利用idea yapi插件上传到yapi server）](https://github.com/smart-cloud/smart-cloud#%E4%BA%94%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3)
-- [可以生成mock数据，充分发挥前后端分离的作用](https://github.com/smart-cloud/smart-cloud#%E4%B8%89%E6%8E%A5%E5%8F%A3mock%E6%95%B0%E6%8D%AE)
+- [可以生成mock数据，充分发挥前后端分离的作用](https://github.com/smart-cloud/smart-cloud?tab=readme-ov-file#%E5%9B%9B%E6%8E%A5%E5%8F%A3mock%E6%95%B0%E6%8D%AE)
 - [部署灵活，服务可合并（合并后服务间通过内部进程通信；分开后通过rpc通信）部署，合并后也可拆分开部署](https://github.com/smart-cloud/smart-cloud#%E5%9B%9B%E6%9C%8D%E5%8A%A1%E5%90%88%E5%B9%B6%E5%8E%9F%E7%90%86)
 - 业务无关代码自动生成
 - [接口支持加密与签名](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
@@ -23,9 +23,9 @@ smart cloud
 - 本地限流注解
 - 分布式锁注解，缓存注解
 - mq（rabbitmq）消费失败，通过自定义注解实现重试（放入延迟队列重新消费）
+- 服务监控，接口异常监控
 - [日志敏感数据脱敏](https://github.com/smart-cloud/smart-cloud#%E4%BA%8C%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E8%84%B1%E6%95%8F)
 - 单体服务开发接阶段测试不依赖其他服务（mock test、关闭nacos、sentinel等）
-- 技术栈稳定、实用、易用
 
 示例工程见[smart-cloud-examples](https://github.com/smart-cloud/smart-cloud-examples)
 

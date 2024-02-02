@@ -23,9 +23,9 @@ smart cloud
 - local rate limit
 - Annotated distributed lock, cache annotations
 - mq (rabbitmq) consumption fails, retry through custom annotations (put into delayed queue for re-consumption)
+- Service monitoring, interface exception monitoring
 - [Log sensitive data desensitization](https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md#desensitization-of-log-data)
 - The testing of the single service development phase does not depend on other services (mock test, closing nacos, sentinel, etc.)
-- The technology stack is stable, practical and easy to use
 
 See the example project: [smart-cloud-examples](https://github.com/smart-cloud/smart-cloud-examples)
 
