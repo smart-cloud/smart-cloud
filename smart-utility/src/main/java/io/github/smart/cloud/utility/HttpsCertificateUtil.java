@@ -17,6 +17,7 @@ package io.github.smart.cloud.utility;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
+import java.net.Proxy;
 import java.net.URL;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
@@ -39,17 +40,22 @@ public class HttpsCertificateUtil {
      * 获取证书有效期（有效期从小到大排序）
      *
      * @param url
+     * @param proxy
      * @return
      * @throws IOException
      */
-    public static List<Date> getValidTimes(String url) throws IOException {
+    public static List<Date> getValidTimes(String url, Proxy proxy) throws IOException {
         if (!url.startsWith(HTTPS_PREFIX)) {
             url = HTTPS_PREFIX + url;
         }
         List<Date> validTimes = new ArrayList<>();
         HttpsURLConnection connection = null;
         try {
-            connection = (HttpsURLConnection) new URL(url).openConnection();
+            if (proxy != null) {
+                connection = (HttpsURLConnection) new URL(url).openConnection(proxy);
+            } else {
+                connection = (HttpsURLConnection) new URL(url).openConnection();
+            }
             connection.connect();
 
             Certificate[] certificates = connection.getServerCertificates();

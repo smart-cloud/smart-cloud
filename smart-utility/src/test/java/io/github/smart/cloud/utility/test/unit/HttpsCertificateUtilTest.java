@@ -12,7 +12,7 @@ public class HttpsCertificateUtilTest {
 
     @Test
     void testEncryptorAndDecrypt() throws IOException {
-        List<Date> validTimes = HttpsCertificateUtil.getValidTimes("www.baidu.com");
+        List<Date> validTimes = HttpsCertificateUtil.getValidTimes("www.baidu.com", null);
         Assertions.assertThat(validTimes).isNotEmpty();
         Assertions.assertThat(validTimes.get(0)).isAfter(new Date());
     }
