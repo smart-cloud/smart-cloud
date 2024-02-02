@@ -75,8 +75,6 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
             }
 
             AbstractAppChangeEvent appChangeEvent = null;
-            // 服务状态描述
-            String state;
             if (statusInfo.isDown()) {
                 appChangeEvent = new DownEvent(this);
             } else if (statusInfo.isUp()) {
