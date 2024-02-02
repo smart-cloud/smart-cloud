@@ -71,7 +71,9 @@ public class OfflineCheckComponent implements SmartInitializingSingleton, Dispos
             Long healthInstanceCount = instanceRepository.findByName(name)
                     .filter(item -> item.getStatusInfo().isUp())
                     .count().share().block();
-            if (healthInstanceCount <= 0) {
+            if (healthInstanceCount > 0 || monitorProperties.getExcludeServices().contains(name)) {
+                OFF_LINE_SERVICES.remove(name);
+            } else {
                 String reminders = getReminderParams(name);
                 StringBuilder content = new StringBuilder(64);
                 content.append("**").append(name).append("**服务<font color=\\\"warning\\\">**在线实例数为0**</font>");
@@ -79,8 +81,6 @@ public class OfflineCheckComponent implements SmartInitializingSingleton, Dispos
                     content.append(reminders);
                 }
                 robotComponent.sendWxworkNotice(robotComponent.getRobotKey(name), content.toString());
-            } else {
-                OFF_LINE_SERVICES.remove(name);
             }
         });
     }
@@ -107,8 +107,7 @@ public class OfflineCheckComponent implements SmartInitializingSingleton, Dispos
     @Override
     public void afterSingletonsInstantiated() {
         checkOfflineSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("check-off-line-service"));
-        checkOfflineSchedule.scheduleWithFixedDelay(this::checkOffline,
-                monitorProperties.getCheckOfflineTs(), monitorProperties.getCheckOfflineTs(), TimeUnit.SECONDS);
+        checkOfflineSchedule.scheduleWithFixedDelay(this::checkOffline, monitorProperties.getCheckOfflineTs(), monitorProperties.getCheckOfflineTs(), TimeUnit.SECONDS);
     }
 
     @Override
