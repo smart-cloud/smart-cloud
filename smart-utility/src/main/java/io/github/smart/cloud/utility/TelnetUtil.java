@@ -17,6 +17,7 @@ package io.github.smart.cloud.utility;
 
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 /**
  * telnet工具类
@@ -27,6 +28,29 @@ import java.net.Socket;
 public class TelnetUtil {
 
     private TelnetUtil() {
+    }
+
+    /**
+     * 测试telnet 机器端口的连通性
+     *
+     * @param hostname
+     * @param port
+     * @param timeout      单位毫秒
+     * @param failRetryCount 失败重试次数
+     * @return
+     */
+    public static boolean isOk(String hostname, int port, int timeout, int failRetryCount) {
+        for (int i = 0; i < failRetryCount; i++) {
+            if (TelnetUtil.telnet(hostname, port, timeout)) {
+                return true;
+            } else {
+                try {
+                    TimeUnit.SECONDS.sleep(10);
+                } catch (InterruptedException e) {
+                }
+            }
+        }
+        return false;
     }
 
     /**

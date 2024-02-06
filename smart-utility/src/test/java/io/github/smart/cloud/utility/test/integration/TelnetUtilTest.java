@@ -32,8 +32,8 @@ class TelnetUtilTest {
 
     @Test
     void testTelnet() throws IOException {
-        Assertions.assertThat(TelnetUtil.telnet("localhost", 8080, 3000)).isTrue();
-        Assertions.assertThat(TelnetUtil.telnet("localhost", 8081, 500)).isFalse();
+        Assertions.assertThat(TelnetUtil.isOk("localhost", 8080, 3000, 3)).isTrue();
+        Assertions.assertThat(TelnetUtil.isOk("localhost", 8081, 500, 3)).isFalse();
     }
 
 }
