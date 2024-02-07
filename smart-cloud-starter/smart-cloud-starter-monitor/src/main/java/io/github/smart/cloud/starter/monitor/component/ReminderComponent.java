@@ -61,6 +61,10 @@ public class ReminderComponent {
             return StringUtils.EMPTY;
         }
 
+        if (event.getHealthInstanceCount() <= 0) {
+            return generateReminders(reminders);
+        }
+
         if (StringUtils.isNotBlank(apiUnHealthDetail)) {
             return generateReminders(reminders);
         }
