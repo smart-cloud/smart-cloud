@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.rpc.feign.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +32,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({"classMethod", "cost", "params", "headers", "result"})
 public class FeignLogAspectDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,31 +41,26 @@ public class FeignLogAspectDO implements Serializable {
     /**
      * 调用的类方法
      */
-    @JsonPropertyOrder(value = "0")
     private String classMethod;
 
     /**
      * 请求处理时间,毫秒
      */
-    @JsonPropertyOrder(value = "10")
     private Long cost;
 
     /**
      * 请求的参数信息
      */
-    @JsonPropertyOrder(value = "20")
     private Object params;
 
     /**
      * 请求头
      */
-    @JsonPropertyOrder(value = "30")
     private Object headers;
 
     /**
      * 响应数据
      */
-    @JsonPropertyOrder(value = "40")
     private Object result;
 
 }

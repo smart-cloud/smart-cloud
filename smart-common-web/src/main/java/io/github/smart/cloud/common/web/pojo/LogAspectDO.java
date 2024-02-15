@@ -37,6 +37,7 @@ import java.io.Serializable;
 @ToString
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({"url", "method", "cost", "head", "queryParams", "args", "result"})
 public class LogAspectDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,37 +45,30 @@ public class LogAspectDO implements Serializable {
     /**
      * 请求路径
      */
-    @JsonPropertyOrder(value = "0")
     private String url;
     /**
      * http请求方式
      */
-    @JsonPropertyOrder(value = "10")
     private String method;
     /**
      * 花费时间（毫秒）
      */
-    @JsonPropertyOrder(value = "20")
     private Long cost;
     /**
      * http头部数据
      */
-    @JsonPropertyOrder(value = "30")
     private Object head;
     /**
      * url参数
      */
-    @JsonPropertyOrder(value = "40")
     private String queryParams;
     /**
      * body部分请求体参数
      */
-    @JsonPropertyOrder(value = "50")
     private Object args;
     /**
      * 请求结果
      */
-    @JsonPropertyOrder(value = "60")
     private Object result;
 
 }
