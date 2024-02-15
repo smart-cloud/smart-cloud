@@ -2,7 +2,7 @@ smart cloud
 ---
 [![build](https://github.com/smart-cloud/smart-cloud/actions/workflows/build.yml/badge.svg?branch=dev)](https://github.com/smart-cloud/smart-cloud/actions/workflows/build.yml)
 [![codecov](https://codecov.io/gh/smart-cloud/smart-cloud/branch/dev/graph/badge.svg)](https://codecov.io/gh/smart-cloud/smart-cloud)
-[![license](https://img.shields.io/badge/license-Apache%202-green)](https://www.apache.org/licenses/LICENSE-2.0.html)
+[![license](https://img.shields.io/badge/license-Apache%202-green)](https://github.com/smart-cloud/smart-cloud/blob/dev/LICENSE)
 [![Latest release](https://maven-badges.herokuapp.com/maven-central/io.github.smart-cloud/smart-cloud/badge.svg)](https://mvnrepository.com/artifact/io.github.smart-cloud/smart-cloud)
 [![EN doc](https://img.shields.io/badge/document-English-blue.svg)](https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md)
 [![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](https://github.com/smart-cloud/smart-cloud#readme)
