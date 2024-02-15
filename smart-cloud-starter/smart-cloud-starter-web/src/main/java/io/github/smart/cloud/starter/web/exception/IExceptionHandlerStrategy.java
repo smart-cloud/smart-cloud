@@ -26,15 +26,6 @@ import io.github.smart.cloud.common.pojo.ResponseHead;
 public interface IExceptionHandlerStrategy {
 
     /**
-     * 是否需要servlet环境
-     *
-     * @return
-     */
-    default boolean isNeedServletEnv() {
-        return false;
-    }
-
-    /**
      * 异常类型匹配
      *
      * @param e

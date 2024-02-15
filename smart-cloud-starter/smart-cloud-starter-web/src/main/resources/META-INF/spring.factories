@@ -1,4 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 io.github.smart.cloud.starter.web.autoconfigure.ApiLogAspectAutoConfiguration,\
-io.github.smart.cloud.starter.web.aspect.ExceptionControllerAdvice
+io.github.smart.cloud.starter.web.autoconfigure.ExceptionControllerAdviceAutoConfiguration

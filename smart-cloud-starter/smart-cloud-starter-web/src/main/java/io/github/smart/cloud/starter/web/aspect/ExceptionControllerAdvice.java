@@ -17,8 +17,8 @@ package io.github.smart.cloud.starter.web.aspect;
 
 import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.starter.web.exception.ExceptionHandlerContext;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,8 +31,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @date 2019年4月8日下午9:05:25
  */
 @Slf4j
-@Configuration
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class ExceptionControllerAdvice {
 
     static {
@@ -41,12 +41,14 @@ public class ExceptionControllerAdvice {
         System.setProperty("spring.resources.add-mappings", "false");
     }
 
+    private final ExceptionHandlerContext exceptionHandlerContext;
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
     public Response<Void> handleException(Exception e) {
         log.error("global.error", e);
 
-        return new Response<>(ExceptionHandlerContext.transRespHead(e));
+        return new Response<>(exceptionHandlerContext.transRespHead(e));
     }
 
 }

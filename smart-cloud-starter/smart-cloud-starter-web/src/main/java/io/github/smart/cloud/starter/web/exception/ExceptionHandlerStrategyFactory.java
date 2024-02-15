@@ -15,14 +15,14 @@
  */
 package io.github.smart.cloud.starter.web.exception;
 
-import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
-import lombok.experimental.UtilityClass;
+import io.github.smart.cloud.utility.spring.SpringContextUtil;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.util.ClassUtils;
+import org.apache.commons.collections4.MapUtils;
+import org.springframework.beans.factory.SmartInitializingSingleton;
 
-import java.util.Collections;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -32,45 +32,22 @@ import java.util.Set;
  * @date 2021-11-13
  */
 @Slf4j
-@UtilityClass
-public class ExceptionHandlerStrategyFactory {
+public class ExceptionHandlerStrategyFactory implements SmartInitializingSingleton {
 
     /**
      * 异常处理策略
      */
-    private static final Set<IExceptionHandlerStrategy> EXCEPTION_HANDLER_STRATEGIES = init();
+    @Getter
+    private Set<IExceptionHandlerStrategy> exceptionHandlerStrategies = new HashSet<>();
 
-    private static Set<IExceptionHandlerStrategy> init() {
-        Set<Class<? extends IExceptionHandlerStrategy>> exceptionHandlerStrategySet = ReflectionUtil.getSubTypesOf(IExceptionHandlerStrategy.class);
-        if (CollectionUtils.isEmpty(exceptionHandlerStrategySet)) {
-            return Collections.unmodifiableSet(new HashSet<>(0));
+    @Override
+    public void afterSingletonsInstantiated() {
+        Map<String, IExceptionHandlerStrategy> exceptionHandlerStrategyBeanMap = SpringContextUtil.getApplicationContext().getBeansOfType(IExceptionHandlerStrategy.class);
+        if (MapUtils.isEmpty(exceptionHandlerStrategyBeanMap)) {
+            return;
         }
 
-        final String servletClassName = "javax.servlet.ServletException";
-        boolean isServletEnv = ClassUtils.isPresent(servletClassName, ExceptionHandlerStrategyFactory.class.getClassLoader());
-        Set<IExceptionHandlerStrategy> exceptionHandlerStrategies = new HashSet<>(exceptionHandlerStrategySet.size());
-        for (Class<?> c : exceptionHandlerStrategySet) {
-            try {
-                IExceptionHandlerStrategy exceptionHandlerStrategy = (IExceptionHandlerStrategy) c.newInstance();
-                if (!isServletEnv && exceptionHandlerStrategy.isNeedServletEnv()) {
-                    continue;
-                }
-                exceptionHandlerStrategies.add(exceptionHandlerStrategy);
-            } catch (InstantiationException | IllegalAccessException e) {
-                log.error("IExceptionHandlerStrategy newInstance error", e);
-            }
-        }
-
-        return Collections.unmodifiableSet(exceptionHandlerStrategies);
-    }
-
-    /**
-     * 获取异常处理策略
-     *
-     * @return
-     */
-    public static Set<IExceptionHandlerStrategy> getExceptionHandlerStrategys() {
-        return EXCEPTION_HANDLER_STRATEGIES;
+        exceptionHandlerStrategyBeanMap.values().forEach(exceptionHandlerStrategies::add);
     }
 
 }

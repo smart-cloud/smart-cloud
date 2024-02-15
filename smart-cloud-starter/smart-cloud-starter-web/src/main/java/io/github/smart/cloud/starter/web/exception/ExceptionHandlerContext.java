@@ -15,12 +15,12 @@
  */
 package io.github.smart.cloud.starter.web.exception;
 
-import lombok.experimental.UtilityClass;
-import org.apache.commons.lang3.StringUtils;
 import io.github.smart.cloud.common.pojo.ResponseHead;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 异常处理工具
@@ -28,8 +28,10 @@ import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
  * @author collin
  * @date 2021-11-13
  */
-@UtilityClass
+@RequiredArgsConstructor
 public class ExceptionHandlerContext {
+
+    private final ExceptionHandlerStrategyFactory exceptionHandlerStrategyFactory;
 
     /**
      * 将{@link Throwable}解析构造{@link ResponseHead}
@@ -37,9 +39,8 @@ public class ExceptionHandlerContext {
      * @param e
      * @return
      */
-    public static ResponseHead transRespHead(Throwable e) {
-        for (IExceptionHandlerStrategy exceptionHandler : ExceptionHandlerStrategyFactory
-                .getExceptionHandlerStrategys()) {
+    public ResponseHead transRespHead(Throwable e) {
+        for (IExceptionHandlerStrategy exceptionHandler : exceptionHandlerStrategyFactory.getExceptionHandlerStrategies()) {
             if (!exceptionHandler.match(e)) {
                 continue;
             }

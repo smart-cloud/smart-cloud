@@ -30,11 +30,7 @@ import java.util.Set;
  */
 public class ReflectionUtil extends ReflectionUtils {
 
-    private static Reflections reflections = null;
-
-    static {
-        reflections = new Reflections(PackageConfig.getBasePackages());
-    }
+    private static Reflections reflections = new Reflections(PackageConfig.getBasePackages());
 
     private ReflectionUtil() {
     }
