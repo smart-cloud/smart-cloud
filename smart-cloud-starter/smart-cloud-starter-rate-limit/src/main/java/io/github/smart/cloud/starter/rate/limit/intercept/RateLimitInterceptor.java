@@ -22,6 +22,9 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
@@ -34,16 +37,16 @@ import java.util.concurrent.Semaphore;
  * @author collin
  * @date 2023-03-19
  */
-public class RateLimitInterceptor implements MethodInterceptor, ApplicationContextAware {
+public class RateLimitInterceptor implements MethodInterceptor, BeanFactoryPostProcessor, ApplicationContextAware {
 
+    private ConfigurableListableBeanFactory beanFactory;
     private ApplicationContext applicationContext;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
         RateLimit rateLimit = method.getAnnotation(RateLimit.class);
-        String rateLimitBeanName = RateLimitUtil.getSemaphoreBeanName(method, rateLimit);
-        Semaphore semaphore = applicationContext.getBean(rateLimitBeanName, Semaphore.class);
+        Semaphore semaphore = getSemaphore(method, rateLimit);
         boolean isAcquire = false;
         try {
             isAcquire = semaphore.tryAcquire();
@@ -62,6 +65,28 @@ public class RateLimitInterceptor implements MethodInterceptor, ApplicationConte
                 semaphore.release();
             }
         }
+    }
+
+    private Semaphore getSemaphore(Method method, RateLimit rateLimit) {
+        String rateLimitBeanName = RateLimitUtil.getSemaphoreBeanName(method, rateLimit);
+        try {
+            return applicationContext.getBean(rateLimitBeanName, Semaphore.class);
+        } catch (NoSuchBeanDefinitionException e) {
+            synchronized (this) {
+                if (applicationContext.containsBean(rateLimitBeanName)) {
+                    return applicationContext.getBean(rateLimitBeanName, Semaphore.class);
+                } else {
+                    Semaphore semaphore = new Semaphore(rateLimit.permits());
+                    beanFactory.registerSingleton(rateLimitBeanName, semaphore);
+                    return semaphore;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
     }
 
     @Override

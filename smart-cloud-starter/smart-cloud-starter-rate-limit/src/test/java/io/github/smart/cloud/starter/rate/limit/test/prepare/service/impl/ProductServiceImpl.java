@@ -25,14 +25,14 @@ import java.util.concurrent.TimeUnit;
 public class ProductServiceImpl implements IProductService {
 
     @Override
-    @RateLimit(rate = 1)
+    @RateLimit(permits = 1)
     public String query() throws InterruptedException {
         TimeUnit.SECONDS.sleep(1);
         return "张三";
     }
 
     @Override
-    @RateLimit(rate = 1)
+    @RateLimit(permits = 1)
     public Boolean create() throws InterruptedException {
         TimeUnit.SECONDS.sleep(1);
         return true;

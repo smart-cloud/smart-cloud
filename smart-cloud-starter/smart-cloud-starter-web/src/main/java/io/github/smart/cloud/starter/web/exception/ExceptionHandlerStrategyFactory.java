@@ -15,10 +15,10 @@
  */
 package io.github.smart.cloud.starter.web.exception;
 
+import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.reflections.Reflections;
 import org.springframework.util.ClassUtils;
 
 import java.util.Collections;
@@ -41,9 +41,7 @@ public class ExceptionHandlerStrategyFactory {
     private static final Set<IExceptionHandlerStrategy> EXCEPTION_HANDLER_STRATEGIES = init();
 
     private static Set<IExceptionHandlerStrategy> init() {
-        Reflections reflections = new Reflections(IExceptionHandlerStrategy.class.getPackage().getName());
-        Set<Class<? extends IExceptionHandlerStrategy>> exceptionHandlerStrategySet = reflections
-                .getSubTypesOf(IExceptionHandlerStrategy.class);
+        Set<Class<? extends IExceptionHandlerStrategy>> exceptionHandlerStrategySet = ReflectionUtil.getSubTypesOf(IExceptionHandlerStrategy.class);
         if (CollectionUtils.isEmpty(exceptionHandlerStrategySet)) {
             return Collections.unmodifiableSet(new HashSet<>(0));
         }

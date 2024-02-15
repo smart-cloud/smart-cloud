@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.smart.cloud.starter.rate.limit.autoconfigure.RateLimitInterceptorAutoConfiguration,\
-io.github.smart.cloud.starter.rate.limit.autoconfigure.SemaphoreBeanProcessorAutoConfiguration
+io.github.smart.cloud.starter.rate.limit.autoconfigure.RateLimitInterceptorAutoConfiguration

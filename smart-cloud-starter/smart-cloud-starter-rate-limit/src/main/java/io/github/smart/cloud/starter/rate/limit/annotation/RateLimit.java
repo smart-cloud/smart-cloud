@@ -38,11 +38,11 @@ public @interface RateLimit {
     String name() default "";
 
     /**
-     * 限流速率
+     * 信号量限流大小
      *
      * @return
      */
-    int rate();
+    int permits();
 
     /**
      * 限流触发时的提示信息

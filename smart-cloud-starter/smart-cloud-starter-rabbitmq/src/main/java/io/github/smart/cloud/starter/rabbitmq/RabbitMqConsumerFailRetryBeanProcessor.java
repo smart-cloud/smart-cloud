@@ -15,14 +15,16 @@
  */
 package io.github.smart.cloud.starter.rabbitmq;
 
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
+import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
 import io.github.smart.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
 import io.github.smart.cloud.starter.rabbitmq.util.MqNameUtil;
 import io.github.smart.cloud.starter.rabbitmq.util.MqUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.reflections.Reflections;
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Exchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -51,8 +53,7 @@ public class RabbitMqConsumerFailRetryBeanProcessor implements BeanFactoryPostPr
      * @param beanFactory
      */
     private void registerDelayMqBeans(ConfigurableListableBeanFactory beanFactory) {
-        Reflections reflections = new Reflections(PackageConfig.getBasePackages());
-        Set<Class<? extends IRabbitMqConsumer>> mqConsumerClasses = reflections.getSubTypesOf(IRabbitMqConsumer.class);
+        Set<Class<? extends IRabbitMqConsumer>> mqConsumerClasses = ReflectionUtil.getSubTypesOf(IRabbitMqConsumer.class);
         if (CollectionUtils.isEmpty(mqConsumerClasses)) {
             return;
         }
