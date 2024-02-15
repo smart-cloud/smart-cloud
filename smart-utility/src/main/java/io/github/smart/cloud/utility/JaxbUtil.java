@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,20 +42,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2019-04-17
  */
 public final class JaxbUtil {
-
-    /**
-     * cache JAXBContext
-     */
-    private static Cache<Class<?>, JAXBContext> jaxbContextCache = CacheBuilder.newBuilder()
-            // 设置并发级别
-            .concurrencyLevel(Runtime.getRuntime().availableProcessors() << 1)
-            // 设置写缓存30天后过期
-            .expireAfterWrite(30, TimeUnit.DAYS)
-            // 设置缓存最大容量为512，超过512之后就会按照LRU最近虽少使用算法来移除缓存项
-            .maximumSize(512)
-            // 使用弱引用
-            .weakValues()
-            .build();
 
     private JaxbUtil() {
     }
@@ -111,13 +96,26 @@ public final class JaxbUtil {
     }
 
     private static JAXBContext getJaxbContext(Class<?> beanClass) throws JAXBException {
-        JAXBContext context = jaxbContextCache.getIfPresent(beanClass);
-        if (Objects.isNull(context)) {
-            context = JAXBContext.newInstance(beanClass);
-            jaxbContextCache.put(beanClass, context);
+        JAXBContext context = JaxbUtilHolder.getJaxbContextCache().getIfPresent(beanClass);
+        if (context != null) {
+            return context;
         }
 
+        context = JAXBContext.newInstance(beanClass);
+        JaxbUtilHolder.getJaxbContextCache().put(beanClass, context);
         return context;
+    }
+
+    private static class JaxbUtilHolder {
+        /**
+         * cache JAXBContext
+         */
+        private static final Cache<Class<?>, JAXBContext> JAXB_CONTEXT_CACHE = CacheBuilder.newBuilder().concurrencyLevel(Runtime.getRuntime().availableProcessors() << 1).expireAfterWrite(7, TimeUnit.DAYS).maximumSize(1024).weakValues().build();
+
+        public static final Cache<Class<?>, JAXBContext> getJaxbContextCache() {
+            return JAXB_CONTEXT_CACHE;
+        }
+
     }
 
 }

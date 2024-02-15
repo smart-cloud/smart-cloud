@@ -101,6 +101,8 @@
         <rabbitmq-mock>1.1.1</rabbitmq-mock>
         <embedded-elasticsearch>2.10.0</embedded-elasticsearch>
         <logstash-logback-encoder>7.2</logstash-logback-encoder>
+        <bcpkix-jdk15on>1.68</bcpkix-jdk15on>
+        <jsr305>3.0.2</jsr305>
     </properties>
 
     <dependencyManagement>
@@ -533,6 +535,18 @@
                 <groupId>net.logstash.logback</groupId>
                 <artifactId>logstash-logback-encoder</artifactId>
                 <version>${logstash-logback-encoder}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk15on</artifactId>
+                <version>${bcpkix-jdk15on}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>${jsr305}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
