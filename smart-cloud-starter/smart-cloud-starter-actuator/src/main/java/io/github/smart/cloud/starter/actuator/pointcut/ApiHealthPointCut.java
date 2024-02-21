@@ -16,10 +16,7 @@
 package io.github.smart.cloud.starter.actuator.pointcut;
 
 import org.springframework.aop.support.StaticMethodMatcherPointcut;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.core.annotation.AnnotatedElementUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Method;
 
@@ -30,23 +27,59 @@ import java.lang.reflect.Method;
  * @date 2022-07-12
  */
 public class ApiHealthPointCut extends StaticMethodMatcherPointcut {
+    /**
+     * RestController注解类名
+     */
+    private static final String CONTROLLER_ANNOTATION_NAME = "org.springframework.stereotype.Controller";
+    /**
+     * RestController注解类名
+     */
+    private static final String REST_CONTROLLER_ANNOTATION_NAME = "org.springframework.web.bind.annotation.RestController";
+    /**
+     * FeignClient注解类名
+     */
+    private static final String FEIGN_CLIENT_ANNOTATION_NAME = "org.springframework.cloud.openfeign.FeignClient";
+    /**
+     * RequestMapping注解类名
+     */
+    private static final String REQUEST_MAPPING_ANNOTATION_NAME = "org.springframework.web.bind.annotation.RequestMapping";
+    /**
+     * GetMapping注解类名
+     */
+    private static final String GET_MAPPING_ANNOTATION_NAME = "org.springframework.web.bind.annotation.GetMapping";
+    /**
+     * PostMapping注解类名
+     */
+    private static final String POST_MAPPING_ANNOTATION_NAME = "org.springframework.web.bind.annotation.PostMapping";
+    /**
+     * DeleteMapping注解类名
+     */
+    private static final String DELETE_MAPPING_ANNOTATION_NAME = "org.springframework.web.bind.annotation.DeleteMapping";
+    /**
+     * PutMapping注解类名
+     */
+    private static final String PUT_MAPPING_ANNOTATION_NAME = "org.springframework.web.bind.annotation.PutMapping";
+    /**
+     * PatchMapping注解类名
+     */
+    private static final String PATCH_MAPPING_ANNOTATION_NAME = "org.springframework.web.bind.annotation.PatchMapping";
 
     @Override
     public boolean matches(Method method, Class<?> c) {
         return
                 // 1.类
                 // 1.1web接口
-                (c != null && (c.isAnnotationPresent(RestController.class)
-                        || c.isAnnotationPresent(Controller.class)
+                (c != null && (AnnotatedElementUtils.isAnnotated(c, CONTROLLER_ANNOTATION_NAME)
+                        || AnnotatedElementUtils.isAnnotated(c, REST_CONTROLLER_ANNOTATION_NAME)
                         // 1.2openfeign接口
-                        || c.isAnnotationPresent(FeignClient.class))) &&
+                        || AnnotatedElementUtils.isAnnotated(c, FEIGN_CLIENT_ANNOTATION_NAME))) &&
                         // 2.方法
-                        (AnnotatedElementUtils.hasAnnotation(method, RequestMapping.class)
-                                || AnnotatedElementUtils.hasAnnotation(method, GetMapping.class)
-                                || AnnotatedElementUtils.hasAnnotation(method, PostMapping.class)
-                                || AnnotatedElementUtils.hasAnnotation(method, DeleteMapping.class)
-                                || AnnotatedElementUtils.hasAnnotation(method, PutMapping.class)
-                                || AnnotatedElementUtils.hasAnnotation(method, PatchMapping.class));
+                        (AnnotatedElementUtils.isAnnotated(method, REQUEST_MAPPING_ANNOTATION_NAME)
+                                || AnnotatedElementUtils.isAnnotated(method, GET_MAPPING_ANNOTATION_NAME)
+                                || AnnotatedElementUtils.isAnnotated(method, POST_MAPPING_ANNOTATION_NAME)
+                                || AnnotatedElementUtils.isAnnotated(method, DELETE_MAPPING_ANNOTATION_NAME)
+                                || AnnotatedElementUtils.isAnnotated(method, PUT_MAPPING_ANNOTATION_NAME)
+                                || AnnotatedElementUtils.isAnnotated(method, PATCH_MAPPING_ANNOTATION_NAME));
     }
 
 }

@@ -21,6 +21,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -55,7 +56,7 @@ public class HealthProperties {
     /**
      * 特定接口失败阈值
      */
-    private Map<String, BigDecimal> failRateThresholds = new HashMap<>();
+    private Map<String, BigDecimal> failRateThresholds = new LinkedHashMap<>();
     /**
      * 清理间隔时间（单位：秒）
      */
