@@ -17,10 +17,8 @@ package io.github.smart.cloud.starter.actuator.properties;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -42,7 +40,6 @@ import java.util.Map;
  */
 @Getter
 @Setter
-@ToString
 public class HealthProperties {
 
     /**

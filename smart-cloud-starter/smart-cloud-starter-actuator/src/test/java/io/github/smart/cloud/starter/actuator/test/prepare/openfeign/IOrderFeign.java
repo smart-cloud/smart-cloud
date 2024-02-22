@@ -13,30 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.actuator.dto;
+package io.github.smart.cloud.starter.actuator.test.prepare.openfeign;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.concurrent.atomic.LongAdder;
+@FeignClient(name = "actuator-test", url = "http://localhost:8080/order")
+public interface IOrderFeign {
 
-/**
- * 接口访问状态（成功、失败）缓存信息
- *
- * @author collin
- * @date 2024-01-6
- */
-@Getter
-@AllArgsConstructor
-public class ApiHealthCacheDTO {
-
-    /**
-     * 成功数
-     */
-    private volatile LongAdder successCount;
-    /**
-     * 失败数
-     */
-    private volatile LongAdder failCount;
+    @GetMapping("query")
+    ResponseEntity<String> query(@RequestParam("id") int id);
 
 }

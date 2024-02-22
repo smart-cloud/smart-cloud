@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.core.Ordered;
 
 import java.lang.reflect.Method;
 
@@ -32,14 +31,9 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class ApiHealthInterceptor implements MethodInterceptor, Ordered {
+public class ApiHealthInterceptor implements MethodInterceptor {
 
     private final ApiHealthRepository apiHealthRepository;
-
-    @Override
-    public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
-    }
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -47,11 +41,7 @@ public class ApiHealthInterceptor implements MethodInterceptor, Ordered {
         Object result = null;
         try {
             result = invocation.proceed();
-            try {
-                apiHealthRepository.add(name, true);
-            } catch (Exception e) {
-                log.error("web api health info add error|tag={}", name, e);
-            }
+            apiHealthRepository.add(name, true);
         } catch (Exception e) {
             apiHealthRepository.add(name, false);
             throw e;

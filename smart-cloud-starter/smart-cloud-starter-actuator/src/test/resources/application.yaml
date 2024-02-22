@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: actuator-test
+
+server:
+  port: 8080
+
+smart:
+  health:
+    unhealthMinCount: 3
+    defaultFailRateThreshold: 0.60
+    failRateThresholds:
+      '[IOrderFeign#query]': 0.1
+management:
+  health:
+    diskspace:
+      threshold: 10GB
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: 'health,info'

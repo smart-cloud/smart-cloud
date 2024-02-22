@@ -110,8 +110,8 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
     @Override
     public void afterSingletonsInstantiated() {
         cleanSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("clean-api-health-cache"));
-        cleanSchedule.scheduleWithFixedDelay(() -> apiStatusStatistics.clear(),
-                healthProperties.getCleanIntervalSeconds(), healthProperties.getCleanIntervalSeconds(), TimeUnit.SECONDS);
+        cleanSchedule.scheduleWithFixedDelay(this::clearApiStatusStatistics, healthProperties.getCleanIntervalSeconds(),
+                healthProperties.getCleanIntervalSeconds(), TimeUnit.SECONDS);
     }
 
     @Override
@@ -119,6 +119,12 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
         if (cleanSchedule != null) {
             cleanSchedule.shutdown();
         }
+
+        clearApiStatusStatistics();
+    }
+
+    public void clearApiStatusStatistics() {
+        apiStatusStatistics.clear();
     }
 
     /**
