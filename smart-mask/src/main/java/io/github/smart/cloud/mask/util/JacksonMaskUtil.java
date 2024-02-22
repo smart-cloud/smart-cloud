@@ -18,8 +18,9 @@ package io.github.smart.cloud.mask.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.github.smart.cloud.mask.jackson.MaskJacksonAnnotationIntrospector;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,13 +35,12 @@ import java.io.Serializable;
 @Slf4j
 public final class JacksonMaskUtil {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    static {
-        OBJECT_MAPPER.setAnnotationIntrospector(new MaskJacksonAnnotationIntrospector());
-        OBJECT_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        OBJECT_MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-    }
+    private static final JsonMapper JSON_MAPPER = JsonMapper.builder()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+            .annotationIntrospector(new MaskJacksonAnnotationIntrospector())
+            .addModule(new JavaTimeModule()).build();
 
     private JacksonMaskUtil() {
     }
@@ -58,7 +58,7 @@ public final class JacksonMaskUtil {
         String result = null;
         if (value instanceof Serializable) {
             try {
-                result = OBJECT_MAPPER.writeValueAsString(value);
+                result = JSON_MAPPER.writeValueAsString(value);
             } catch (JsonProcessingException e) {
                 log.error("mask error", e);
             }
@@ -79,7 +79,7 @@ public final class JacksonMaskUtil {
     public static <T> T parseObject(String content, Class<T> valueType) {
         T t = null;
         try {
-            t = OBJECT_MAPPER.readValue(content, valueType);
+            t = JSON_MAPPER.readValue(content, valueType);
         } catch (JsonProcessingException e) {
             log.error("parse object error", e);
         }
@@ -90,7 +90,7 @@ public final class JacksonMaskUtil {
     public static JsonNode parseObject(String content) {
         JsonNode t = null;
         try {
-            t = OBJECT_MAPPER.readTree(content);
+            t = JSON_MAPPER.readTree(content);
         } catch (JsonProcessingException e) {
             log.error("parse object error", e);
         }

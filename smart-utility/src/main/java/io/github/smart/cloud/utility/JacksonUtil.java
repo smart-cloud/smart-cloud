@@ -37,7 +37,6 @@ public final class JacksonUtil {
     private static final JsonMapper JSON_MAPPER = JsonMapper.builder()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
-            .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
             .addModule(new JavaTimeModule()).build();
 
     private JacksonUtil() {
