@@ -36,6 +36,7 @@ public class SecurityAutoConfiguration extends WebSecurityConfigurerAdapter {
         this.adminContextPath = adminServerProperties.getContextPath();
     }
 
+    @Override
     protected void configure(final HttpSecurity http) throws Exception {
         final SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
         successHandler.setTargetUrlParameter("redirectTo");

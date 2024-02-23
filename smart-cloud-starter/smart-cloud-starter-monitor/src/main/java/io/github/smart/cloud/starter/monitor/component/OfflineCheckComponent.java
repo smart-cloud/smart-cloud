@@ -16,14 +16,13 @@
 package io.github.smart.cloud.starter.monitor.component;
 
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
+import io.github.smart.cloud.starter.monitor.event.offline.OfflineWeworkNoticeEvent;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
-import io.github.smart.cloud.starter.monitor.properties.ServiceInfoProperties;
 import io.micrometer.core.instrument.util.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -41,9 +40,8 @@ import java.util.concurrent.TimeUnit;
 public class OfflineCheckComponent implements SmartInitializingSingleton, DisposableBean {
 
     private final InstanceRepository instanceRepository;
-    private final RobotComponent robotComponent;
     private final MonitorProperties monitorProperties;
-    private final ReminderComponent reminderComponent;
+    private final ApplicationEventPublisher applicationEventPublisher;
     /**
      * 离线服务名
      */
@@ -68,40 +66,13 @@ public class OfflineCheckComponent implements SmartInitializingSingleton, Dispos
         }
 
         OFF_LINE_SERVICES.forEach(name -> {
-            Long healthInstanceCount = instanceRepository.findByName(name)
-                    .filter(item -> item.getStatusInfo().isUp())
-                    .count().share().block();
+            Long healthInstanceCount = instanceRepository.findByName(name).filter(item -> item.getStatusInfo().isUp()).count().share().block();
             if (healthInstanceCount > 0 || monitorProperties.getExcludeServices().contains(name)) {
                 OFF_LINE_SERVICES.remove(name);
             } else {
-                String reminders = getReminderParams(name);
-                StringBuilder content = new StringBuilder(64);
-                content.append("**").append(name).append("**服务<font color=\\\"warning\\\">**在线实例数为0**</font>");
-                if (StringUtils.isNotBlank(reminders)) {
-                    content.append(reminders);
-                }
-                robotComponent.sendWxworkNotice(robotComponent.getRobotKey(name), content.toString());
+                applicationEventPublisher.publishEvent(new OfflineWeworkNoticeEvent(this, name));
             }
         });
-    }
-
-    /**
-     * 获取提醒人
-     *
-     * @param serviceName
-     * @return
-     */
-    private String getReminderParams(String serviceName) {
-        ServiceInfoProperties projectProperties = monitorProperties.getServiceInfos().get(serviceName);
-        if (projectProperties == null) {
-            return StringUtils.EMPTY;
-        }
-        Set<String> reminders = projectProperties.getReminders();
-        if (CollectionUtils.isEmpty(reminders)) {
-            return StringUtils.EMPTY;
-        }
-
-        return reminderComponent.generateReminders(reminders);
     }
 
     @Override

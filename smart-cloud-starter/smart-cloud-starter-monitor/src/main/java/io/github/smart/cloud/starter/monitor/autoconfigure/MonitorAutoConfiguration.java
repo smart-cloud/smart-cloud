@@ -21,8 +21,10 @@ import io.github.smart.cloud.starter.monitor.component.GitLabComponent;
 import io.github.smart.cloud.starter.monitor.component.OfflineCheckComponent;
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
+import io.github.smart.cloud.starter.monitor.condition.ConditionOnWework;
 import io.github.smart.cloud.starter.monitor.listener.AppChangeWeworkNotice;
 import io.github.smart.cloud.starter.monitor.listener.OfflineCheckListener;
+import io.github.smart.cloud.starter.monitor.listener.OfflineWeworkNotice;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -67,12 +69,21 @@ public class MonitorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public OfflineCheckComponent offlineCheckComponent(final InstanceRepository instanceRepository, final RobotComponent robotComponent, final MonitorProperties monitorProperties,
-                                                   final ReminderComponent reminderComponent) {
-        return new OfflineCheckComponent(instanceRepository, robotComponent, monitorProperties, reminderComponent);
+    public OfflineCheckComponent offlineCheckComponent(final InstanceRepository instanceRepository, final MonitorProperties monitorProperties,
+                                                       final ApplicationEventPublisher applicationEventPublisher) {
+        return new OfflineCheckComponent(instanceRepository, monitorProperties, applicationEventPublisher);
     }
 
     @Bean
+    @ConditionOnWework
+    @ConditionalOnMissingBean
+    public OfflineWeworkNotice offlineWeworkNotice(final RobotComponent robotComponent, final MonitorProperties monitorProperties,
+                                                   final ReminderComponent reminderComponent) {
+        return new OfflineWeworkNotice(robotComponent, monitorProperties, reminderComponent);
+    }
+
+    @Bean
+    @ConditionOnWework
     @ConditionalOnMissingBean
     public AppChangeWeworkNotice appChangeWeworkNotice(final RobotComponent robotComponent, final ReminderComponent reminderComponent) {
         return new AppChangeWeworkNotice(robotComponent, reminderComponent);
@@ -86,7 +97,8 @@ public class MonitorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AppChangeNotifier appChangeNotifier(final InstanceRepository instanceRepository, final MonitorProperties monitorProperties, final ApplicationEventPublisher applicationEventPublisher) {
+    public AppChangeNotifier appChangeNotifier(final InstanceRepository instanceRepository, final MonitorProperties monitorProperties,
+                                               final ApplicationEventPublisher applicationEventPublisher) {
         return new AppChangeNotifier(instanceRepository, monitorProperties, applicationEventPublisher);
     }
 
