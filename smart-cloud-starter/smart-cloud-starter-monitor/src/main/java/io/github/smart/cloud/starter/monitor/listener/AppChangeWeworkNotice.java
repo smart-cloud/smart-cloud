@@ -134,7 +134,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         int apiIndex = 0;
         for (Map<String, Object> unHealthInfo : unHealthInfos) {
             unHealthContent.append("\n\n>**接口").append(++apiIndex).append("**: ").append(unHealthInfo.get(Constants.NAME))
-                    .append("\n**请求总数**: ").append(unHealthInfo.get(Constants.TOTAL))
+                    .append("\n>**请求总数**: ").append(unHealthInfo.get(Constants.TOTAL))
                     .append("\n>**失败数**: ").append(unHealthInfo.get(Constants.FAIL_COUNT))
                     .append("\n>**失败率**: ").append(unHealthInfo.get(Constants.FAIL_RATE));
         }
