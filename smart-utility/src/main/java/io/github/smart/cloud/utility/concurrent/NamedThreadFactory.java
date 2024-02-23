@@ -42,7 +42,7 @@ public class NamedThreadFactory implements ThreadFactory {
         if (prefix.endsWith(SymbolConstant.HYPHEN)) {
             thread.setName(prefix + seq);
         } else {
-            thread.setName(seq <= 1 ? prefix : prefix + SymbolConstant.HYPHEN + seq);
+            thread.setName(prefix + SymbolConstant.HYPHEN + seq);
         }
         thread.setDaemon(true);
         return thread;
