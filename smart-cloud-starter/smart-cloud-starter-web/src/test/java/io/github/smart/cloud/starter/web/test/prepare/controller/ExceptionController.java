@@ -57,4 +57,9 @@ public class ExceptionController {
         return RespUtil.success(true);
     }
 
+    @GetMapping("other")
+    public Response<Boolean> other() {
+        throw new NullPointerException("test");
+    }
+
 }

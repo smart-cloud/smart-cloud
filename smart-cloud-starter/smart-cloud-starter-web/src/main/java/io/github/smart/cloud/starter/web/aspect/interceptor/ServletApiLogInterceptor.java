@@ -105,7 +105,14 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
 
     private LogAspectDO buildLogAspectDO(Object[] args, Object result, long cost) {
         HttpServletRequest request = WebServletUtil.getHttpServletRequest();
-        return LogAspectDO.builder().url(request.getPathInfo()).method(request.getMethod()).head(getHeaders(request)).args(getRequestArgs(args)).cost(cost).result(result).build();
+        return LogAspectDO.builder()
+                .url(request.getPathInfo())
+                .method(request.getMethod())
+                .head(getHeaders(request))
+                .args(getRequestArgs(args))
+                .cost(cost)
+                .result(result)
+                .build();
     }
 
     /**

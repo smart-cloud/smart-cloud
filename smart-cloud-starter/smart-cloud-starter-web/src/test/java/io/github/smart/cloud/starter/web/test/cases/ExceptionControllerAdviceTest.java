@@ -110,4 +110,24 @@ class ExceptionControllerAdviceTest extends AbstractTest {
         Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.JSON_PARSE_ERROR);
     }
 
+    @Test
+    void testOtherException() throws Exception {
+        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/exception/other")
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE);
+
+        MockHttpServletResponse mockHttpServletResponse = mockMvc.perform(mockHttpServletRequestBuilder)
+                .andReturn()
+                .getResponse();
+        mockHttpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        String result = new String(mockHttpServletResponse.getContentAsByteArray(), StandardCharsets.UTF_8);
+        Assertions.assertThat(result).isNotBlank();
+        Response response = JacksonUtil.parseObject(result, Response.class);
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response.getHead()).isNotNull();
+        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
+        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SERVER_ERROR);
+    }
+
 }
