@@ -29,14 +29,14 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 @Setter
 @ToString
-public class OfflineWeworkNoticeEvent extends ApplicationEvent {
+public class OfflineNoticeEvent extends ApplicationEvent {
 
     /**
      * 服务名
      */
     private String name;
 
-    public OfflineWeworkNoticeEvent(Object source, String name) {
+    public OfflineNoticeEvent(Object source, String name) {
         super(source);
         this.name = name;
     }

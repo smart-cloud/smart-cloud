@@ -16,9 +16,9 @@
 package io.github.smart.cloud.starter.monitor.component;
 
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
-import io.github.smart.cloud.starter.monitor.event.offline.OfflineWeworkNoticeEvent;
+import io.github.smart.cloud.starter.monitor.event.offline.OfflineNoticeEvent;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
-import io.micrometer.core.instrument.util.NamedThreadFactory;
+import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
@@ -60,7 +60,7 @@ public class OfflineCheckComponent implements SmartInitializingSingleton, Dispos
     /**
      * 检查实现服务在线实例数
      */
-    public void checkOffline() {
+    private void checkOffline() {
         if (OFF_LINE_SERVICES.isEmpty()) {
             return;
         }
@@ -70,7 +70,7 @@ public class OfflineCheckComponent implements SmartInitializingSingleton, Dispos
             if (healthInstanceCount > 0 || monitorProperties.getExcludeServices().contains(name)) {
                 OFF_LINE_SERVICES.remove(name);
             } else {
-                applicationEventPublisher.publishEvent(new OfflineWeworkNoticeEvent(this, name));
+                applicationEventPublisher.publishEvent(new OfflineNoticeEvent(this, name));
             }
         });
     }

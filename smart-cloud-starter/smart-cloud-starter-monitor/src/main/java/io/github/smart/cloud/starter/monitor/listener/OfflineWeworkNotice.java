@@ -17,7 +17,7 @@ package io.github.smart.cloud.starter.monitor.listener;
 
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
-import io.github.smart.cloud.starter.monitor.event.offline.OfflineWeworkNoticeEvent;
+import io.github.smart.cloud.starter.monitor.event.offline.OfflineNoticeEvent;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.properties.ServiceInfoProperties;
 import lombok.RequiredArgsConstructor;
@@ -34,14 +34,14 @@ import java.util.Set;
  * @date 2024-02-23
  */
 @RequiredArgsConstructor
-public class OfflineWeworkNotice implements ApplicationListener<OfflineWeworkNoticeEvent> {
+public class OfflineWeworkNotice implements ApplicationListener<OfflineNoticeEvent> {
 
     private final RobotComponent robotComponent;
     private final MonitorProperties monitorProperties;
     private final ReminderComponent reminderComponent;
 
     @Override
-    public void onApplicationEvent(OfflineWeworkNoticeEvent event) {
+    public void onApplicationEvent(OfflineNoticeEvent event) {
         String name = event.getName();
         String reminders = getReminderParams(name);
         StringBuilder content = new StringBuilder(64);
