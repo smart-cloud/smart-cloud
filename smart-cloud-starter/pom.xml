@@ -48,4 +48,11 @@
 		<module>smart-cloud-starter-redis</module>
 		<module>smart-cloud-starter-web</module>
     </modules>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+	</dependencies>
 </project>
