@@ -18,20 +18,20 @@ package io.github.smart.cloud.exception;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 
 /**
- * 接口限流触发异常
+ * 接口请求太频繁（限流触发）异常
  *
  * @author collin
  * @date 2023-03-19
  */
-public class RateLimitException extends BaseException {
+public class AccessFrequentlyException extends BaseException {
 
     private static final long serialVersionUID = 1L;
 
-    public RateLimitException() {
+    public AccessFrequentlyException() {
         setCode(CommonReturnCodes.API_ACCESS_TOO_FREQUENT);
     }
 
-    public RateLimitException(String code) {
+    public AccessFrequentlyException(String code) {
         setCode(code);
     }
 

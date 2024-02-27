@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.rate.limit.intercept;
 
-import io.github.smart.cloud.exception.RateLimitException;
+import io.github.smart.cloud.exception.AccessFrequentlyException;
 import io.github.smart.cloud.starter.rate.limit.annotation.RateLimit;
 import io.github.smart.cloud.starter.rate.limit.util.RateLimitUtil;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -53,9 +53,9 @@ public class RateLimitInterceptor implements MethodInterceptor, BeanFactoryPostP
             if (!isAcquire) {
                 String message = rateLimit.message();
                 if (StringUtils.isNotBlank(message)) {
-                    throw new RateLimitException(message);
+                    throw new AccessFrequentlyException(message);
                 } else {
-                    throw new RateLimitException();
+                    throw new AccessFrequentlyException();
                 }
             }
 

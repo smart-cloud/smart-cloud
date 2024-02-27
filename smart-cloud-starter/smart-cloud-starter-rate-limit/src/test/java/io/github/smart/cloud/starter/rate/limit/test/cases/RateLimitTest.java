@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.rate.limit.test.cases;
 
-import io.github.smart.cloud.exception.RateLimitException;
+import io.github.smart.cloud.exception.AccessFrequentlyException;
 import io.github.smart.cloud.starter.rate.limit.test.prepare.Application;
 import io.github.smart.cloud.starter.rate.limit.test.prepare.service.IProductService;
 import org.assertj.core.api.Assertions;
@@ -55,7 +55,7 @@ class RateLimitTest {
         TimeUnit.MILLISECONDS.sleep(1200);
 
         Assertions.assertThat(exceptionAtomicReference.get()).isNotNull();
-        Assertions.assertThat(exceptionAtomicReference.get()).isInstanceOf(RateLimitException.class);
+        Assertions.assertThat(exceptionAtomicReference.get()).isInstanceOf(AccessFrequentlyException.class);
     }
 
 }
