@@ -37,25 +37,31 @@ class RateLimitTest {
 
     @Test
     void test() throws Exception {
-        AtomicReference<Exception> exceptionAtomicReference = new AtomicReference<>();
+        AtomicReference<Exception> exceptionAtomicReference1 = new AtomicReference<>();
+        AtomicReference<Exception> exceptionAtomicReference2 = new AtomicReference<>();
         new Thread(() -> {
             try {
                 productService.create();
             } catch (Exception e) {
-                exceptionAtomicReference.set(e);
+                exceptionAtomicReference1.set(e);
             }
         }).start();
         new Thread(() -> {
             try {
                 productService.create();
             } catch (Exception e) {
-                exceptionAtomicReference.set(e);
+                exceptionAtomicReference2.set(e);
             }
         }).start();
         TimeUnit.MILLISECONDS.sleep(1200);
 
-        Assertions.assertThat(exceptionAtomicReference.get()).isNotNull();
-        Assertions.assertThat(exceptionAtomicReference.get()).isInstanceOf(AccessFrequentlyException.class);
+        boolean onlyOneException = (exceptionAtomicReference1.get() != null && exceptionAtomicReference2.get() == null)
+                || (exceptionAtomicReference1.get() == null && exceptionAtomicReference2.get() != null);
+        Assertions.assertThat(onlyOneException).isTrue();
+
+        boolean isInstanceOfAccessFrequentlyException = (exceptionAtomicReference1.get() != null && exceptionAtomicReference1.get() instanceof AccessFrequentlyException)
+                || (exceptionAtomicReference2.get() != null && exceptionAtomicReference2.get() instanceof AccessFrequentlyException);
+        Assertions.assertThat(isInstanceOfAccessFrequentlyException).isTrue();
     }
 
 }
