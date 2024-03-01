@@ -18,8 +18,16 @@ package io.github.smart.cloud.starter.core.business.util;
 import io.github.smart.cloud.starter.core.constants.PackageConfig;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import org.springframework.context.annotation.Condition;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -30,7 +38,20 @@ import java.util.Set;
  */
 public class ReflectionUtil extends ReflectionUtils {
 
-    private static Reflections reflections = new Reflections(PackageConfig.getBasePackages());
+    private static Reflections reflections = null;
+
+    static {
+        String[] basePackages = PackageConfig.getBasePackages();
+        Collection<URL> urls = new HashSet<>();
+        for (String basePackage : basePackages) {
+            urls.addAll(ClasspathHelper.forPackage(basePackage));
+        }
+
+        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
+                .addUrls(urls)
+                .addScanners(Scanners.TypesAnnotated, Scanners.MethodsAnnotated, Scanners.SubTypes);
+        reflections = new Reflections(configurationBuilder);
+    }
 
     private ReflectionUtil() {
     }
@@ -43,6 +64,26 @@ public class ReflectionUtil extends ReflectionUtils {
      */
     public static <T> Set<Class<? extends T>> getSubTypesOf(final Class<T> type) {
         return reflections.getSubTypesOf(type);
+    }
+
+    /**
+     * 获取类上有指定注解的类
+     *
+     * @param annotation
+     * @return
+     */
+    public static Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation> annotation) {
+        return reflections.getTypesAnnotatedWith(annotation);
+    }
+
+    /**
+     * 获取方法上有指定注解的方法
+     *
+     * @param annotation
+     * @return
+     */
+    public static Set<Method> getMethodsAnnotatedWith(Class<? extends Annotation> annotation) {
+        return reflections.getMethodsAnnotatedWith(annotation);
     }
 
 }

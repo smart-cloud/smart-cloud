@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.test.unit.prepare;
+package io.github.smart.cloud.starter.core.test.prepare.service;
 
-import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
-import io.github.smart.cloud.starter.core.support.annotation.YamlScan;
-import org.springframework.boot.SpringApplication;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
-@SmartBootApplication
-@YamlScan(locationPatterns = "application-*.yaml")
-public class Application {
+@Component
+public class SmsService {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+    @Async
+    public void asyncSend() {
+        String template = null;
+        template.startsWith("A");
     }
 
 }

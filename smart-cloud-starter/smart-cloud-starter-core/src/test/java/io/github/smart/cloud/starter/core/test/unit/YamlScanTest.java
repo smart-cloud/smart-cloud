@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.core.test.unit;
 
-import io.github.smart.cloud.starter.core.test.unit.prepare.Application;
+import io.github.smart.cloud.starter.core.test.prepare.Application;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
