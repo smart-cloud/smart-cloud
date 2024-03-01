@@ -43,7 +43,7 @@ class HttpUtilIntegrationTest {
     /**
      * 服务启动端口
      */
-    private static final int DEFAULT_PORT = 8080;
+    private static final int DEFAULT_PORT = 40007;
     private static final String REQUEST_URL_PREFIX = "http://localhost:" + DEFAULT_PORT + "/test";
 
     @Test

@@ -1,3 +1,5 @@
+server:
+  port: 40002
 smart:
   feign:
     log:

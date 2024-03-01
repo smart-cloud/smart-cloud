@@ -1,3 +1,5 @@
+server:
+  port: 40003
 smart:
   mock:
     api: true

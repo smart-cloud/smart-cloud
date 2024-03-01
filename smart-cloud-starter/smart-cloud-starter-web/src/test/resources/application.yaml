@@ -1,3 +1,5 @@
+server:
+  port: 40006
 smart:
   apiLog:
     enable: true

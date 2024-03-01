@@ -20,7 +20,7 @@ import io.github.smart.cloud.starter.rpc.feign.annotation.SmartFeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@SmartFeignClient(name = "orderRpc", url = "http://localhost:8080", contextId = "order")
+@SmartFeignClient(name = "orderRpc", url = "http://localhost:40002", contextId = "order")
 public interface OrderRpc {
 
     @GetMapping("/order/queryWithJson")

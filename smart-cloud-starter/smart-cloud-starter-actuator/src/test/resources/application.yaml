@@ -3,7 +3,7 @@ spring:
     name: actuator-test
 
 server:
-  port: 8080
+  port: 40001
 
 smart:
   health:

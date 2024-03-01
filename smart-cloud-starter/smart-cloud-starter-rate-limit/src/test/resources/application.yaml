@@ -1,5 +1,5 @@
 server:
-  port: 20009
+  port: 40004
 spring:
   application:
     name: ratelimit
