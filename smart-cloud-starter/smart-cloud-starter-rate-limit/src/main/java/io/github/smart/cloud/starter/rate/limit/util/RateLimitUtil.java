@@ -16,8 +16,6 @@
 package io.github.smart.cloud.starter.rate.limit.util;
 
 import io.github.smart.cloud.constants.SymbolConstant;
-import io.github.smart.cloud.starter.rate.limit.annotation.RateLimit;
-import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Method;
 
@@ -36,15 +34,10 @@ public class RateLimitUtil {
      * 获取限流bean name
      *
      * @param method
-     * @param rateLimit
      * @return
      */
-    public static String getSemaphoreBeanName(Method method, RateLimit rateLimit) {
-        String rateLimitBeanName = rateLimit.name();
-        if (StringUtils.isBlank(rateLimitBeanName)) {
-            rateLimitBeanName = method.getDeclaringClass().getName() + SymbolConstant.DOT + method.getName();
-        }
-        return rateLimitBeanName;
+    public static String getSemaphoreBeanName(Method method) {
+        return method.getDeclaringClass().getName() + SymbolConstant.DOT + method.getName();
     }
 
 }

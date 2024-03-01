@@ -15,12 +15,17 @@
  */
 package io.github.smart.cloud.starter.rate.limit.autoconfigure;
 
+import io.github.smart.cloud.starter.rate.limit.RateLimitBeanHandler;
 import io.github.smart.cloud.starter.rate.limit.annotation.RateLimit;
 import io.github.smart.cloud.starter.rate.limit.intercept.RateLimitInterceptor;
+import io.github.smart.cloud.starter.rate.limit.pointcut.RateLimitPointCut;
+import io.github.smart.cloud.starter.rate.limit.properties.RateLimitProperties;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
-import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,18 +37,31 @@ import org.springframework.context.annotation.Configuration;
  * @see {@link RateLimit}
  */
 @Configuration
-public class RateLimitInterceptorAutoConfiguration {
+public class RateLimitAutoConfiguration {
 
     @Bean
-    public RateLimitInterceptor rateLimitInterceptor() {
-        return new RateLimitInterceptor();
+    @RefreshScope
+    @ConfigurationProperties(prefix = "smart.rate-limit")
+    public RateLimitProperties rateLimitProperties() {
+        return new RateLimitProperties();
     }
 
     @Bean
-    public Pointcut rateLimitPointcut() {
-        AspectJExpressionPointcut redisLockPointcut = new AspectJExpressionPointcut();
-        redisLockPointcut.setExpression(String.format("@annotation(%s)", RateLimit.class.getTypeName()));
-        return redisLockPointcut;
+    @RefreshScope
+    public RateLimitBeanHandler rateLimitBeanHandler(final RateLimitProperties rateLimitProperties) {
+        return new RateLimitBeanHandler(rateLimitProperties);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RateLimitInterceptor rateLimitInterceptor(final RateLimitBeanHandler rateLimitBeanHandler) {
+        return new RateLimitInterceptor(rateLimitBeanHandler);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RateLimitPointCut rateLimitPointcut(final RateLimitProperties rateLimitProperties) {
+        return new RateLimitPointCut(rateLimitProperties);
     }
 
     @Bean

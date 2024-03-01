@@ -13,27 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.rate.limit.test.prepare.service.impl;
+package io.github.smart.cloud.starter.rate.limit.test.prepare.controller;
 
 import io.github.smart.cloud.starter.rate.limit.annotation.RateLimit;
-import io.github.smart.cloud.starter.rate.limit.test.prepare.service.IProductService;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.TimeUnit;
 
-@Service
-public class ProductServiceImpl implements IProductService {
+@RestController
+@RequestMapping("product")
+public class ProductController {
 
-    @Override
-    @RateLimit(permits = 1)
+    @GetMapping
     public String query() throws InterruptedException {
         TimeUnit.SECONDS.sleep(1);
         return "张三";
     }
 
-    @Override
     @RateLimit(permits = 1)
+    @PostMapping
     public Boolean create() throws InterruptedException {
+        TimeUnit.SECONDS.sleep(1);
+        return true;
+    }
+
+    @PutMapping
+    public Boolean update() throws InterruptedException {
         TimeUnit.SECONDS.sleep(1);
         return true;
     }

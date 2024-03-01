@@ -1,0 +1,11 @@
+server:
+  port: 20009
+spring:
+  application:
+    name: ratelimit
+
+smart:
+  rate-limit:
+    config:
+      'io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.query': 20
+      'io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.update': 30

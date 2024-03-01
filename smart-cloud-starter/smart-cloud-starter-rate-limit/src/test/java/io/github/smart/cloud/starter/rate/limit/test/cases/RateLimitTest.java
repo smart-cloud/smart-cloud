@@ -16,8 +16,9 @@
 package io.github.smart.cloud.starter.rate.limit.test.cases;
 
 import io.github.smart.cloud.exception.AccessFrequentlyException;
+import io.github.smart.cloud.starter.rate.limit.RateLimitBeanHandler;
 import io.github.smart.cloud.starter.rate.limit.test.prepare.Application;
-import io.github.smart.cloud.starter.rate.limit.test.prepare.service.IProductService;
+import io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -33,22 +35,33 @@ import java.util.concurrent.atomic.AtomicReference;
 class RateLimitTest {
 
     @Autowired
-    private IProductService productService;
+    private ProductController productController;
+    @Autowired
+    private RateLimitBeanHandler rateLimitBeanHandler;
 
     @Test
-    void test() throws Exception {
+    void testPropertiesRule() throws Exception {
+        Semaphore querySemaphore = rateLimitBeanHandler.get("io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.query");
+        Assertions.assertThat(querySemaphore).isNotNull();
+
+        Semaphore updateSemaphore = rateLimitBeanHandler.get("io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.update");
+        Assertions.assertThat(updateSemaphore).isNotNull();
+    }
+
+    @Test
+    void testRateLimitAnnotationRule() throws Exception {
         AtomicReference<Exception> exceptionAtomicReference1 = new AtomicReference<>();
         AtomicReference<Exception> exceptionAtomicReference2 = new AtomicReference<>();
         new Thread(() -> {
             try {
-                productService.create();
+                productController.create();
             } catch (Exception e) {
                 exceptionAtomicReference1.set(e);
             }
         }).start();
         new Thread(() -> {
             try {
-                productService.create();
+                productController.create();
             } catch (Exception e) {
                 exceptionAtomicReference2.set(e);
             }

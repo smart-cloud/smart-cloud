@@ -16,17 +16,13 @@
 package io.github.smart.cloud.starter.rate.limit.intercept;
 
 import io.github.smart.cloud.exception.AccessFrequentlyException;
+import io.github.smart.cloud.starter.rate.limit.RateLimitBeanHandler;
 import io.github.smart.cloud.starter.rate.limit.annotation.RateLimit;
 import io.github.smart.cloud.starter.rate.limit.util.RateLimitUtil;
+import lombok.RequiredArgsConstructor;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import java.lang.reflect.Method;
 import java.util.concurrent.Semaphore;
@@ -37,23 +33,27 @@ import java.util.concurrent.Semaphore;
  * @author collin
  * @date 2023-03-19
  */
-public class RateLimitInterceptor implements MethodInterceptor, BeanFactoryPostProcessor, ApplicationContextAware {
+@RequiredArgsConstructor
+public class RateLimitInterceptor implements MethodInterceptor {
 
-    private ConfigurableListableBeanFactory beanFactory;
-    private ApplicationContext applicationContext;
+    private final RateLimitBeanHandler rateLimitBeanHandler;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
-        RateLimit rateLimit = method.getAnnotation(RateLimit.class);
-        Semaphore semaphore = getSemaphore(method, rateLimit);
+        String rateLimitBeanName = RateLimitUtil.getSemaphoreBeanName(method);
+        Semaphore semaphore = rateLimitBeanHandler.get(rateLimitBeanName);
+        if (semaphore == null) {
+            return invocation.proceed();
+        }
+
         boolean isAcquire = false;
         try {
             isAcquire = semaphore.tryAcquire();
             if (!isAcquire) {
-                String message = rateLimit.message();
-                if (StringUtils.isNotBlank(message)) {
-                    throw new AccessFrequentlyException(message);
+                RateLimit rateLimit = method.getAnnotation(RateLimit.class);
+                if (rateLimit != null && StringUtils.isNotBlank(rateLimit.message())) {
+                    throw new AccessFrequentlyException(rateLimit.message());
                 } else {
                     throw new AccessFrequentlyException();
                 }
@@ -65,33 +65,6 @@ public class RateLimitInterceptor implements MethodInterceptor, BeanFactoryPostP
                 semaphore.release();
             }
         }
-    }
-
-    private Semaphore getSemaphore(Method method, RateLimit rateLimit) {
-        String rateLimitBeanName = RateLimitUtil.getSemaphoreBeanName(method, rateLimit);
-        try {
-            return applicationContext.getBean(rateLimitBeanName, Semaphore.class);
-        } catch (NoSuchBeanDefinitionException e) {
-            synchronized (this) {
-                if (applicationContext.containsBean(rateLimitBeanName)) {
-                    return applicationContext.getBean(rateLimitBeanName, Semaphore.class);
-                } else {
-                    Semaphore semaphore = new Semaphore(rateLimit.permits());
-                    beanFactory.registerSingleton(rateLimitBeanName, semaphore);
-                    return semaphore;
-                }
-            }
-        }
-    }
-
-    @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
     }
 
 }

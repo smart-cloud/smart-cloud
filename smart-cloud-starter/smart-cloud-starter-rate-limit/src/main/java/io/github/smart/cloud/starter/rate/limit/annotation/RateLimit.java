@@ -31,13 +31,6 @@ import java.lang.annotation.*;
 public @interface RateLimit {
 
     /**
-     * 限流器名称（默认取“全限定类名+方法名”）
-     *
-     * @return
-     */
-    String name() default "";
-
-    /**
      * 信号量限流大小
      *
      * @return

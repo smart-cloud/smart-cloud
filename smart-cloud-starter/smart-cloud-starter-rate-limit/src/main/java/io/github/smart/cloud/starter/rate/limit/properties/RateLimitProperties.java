@@ -13,12 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.rate.limit.test.prepare.service;
+package io.github.smart.cloud.starter.rate.limit.properties;
 
-public interface IProductService {
+import lombok.Getter;
+import lombok.Setter;
 
-    String query() throws InterruptedException;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
-    Boolean create() throws InterruptedException;
+/**
+ * 限流配置属性
+ *
+ * @author collin
+ * @date 2024-02-27
+ */
+@Getter
+@Setter
+public class RateLimitProperties implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    /**
+     * 限流配置<全路径类名.方法名，信号量限流大小>
+     */
+    private Map<String, Integer> config = new HashMap<>();
 
 }
