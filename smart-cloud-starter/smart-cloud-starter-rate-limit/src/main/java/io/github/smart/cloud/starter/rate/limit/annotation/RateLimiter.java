@@ -28,7 +28,7 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RateLimit {
+public @interface RateLimiter {
 
     /**
      * 信号量限流大小

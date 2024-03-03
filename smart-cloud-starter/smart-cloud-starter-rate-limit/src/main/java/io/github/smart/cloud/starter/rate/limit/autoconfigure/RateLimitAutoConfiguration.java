@@ -15,8 +15,8 @@
  */
 package io.github.smart.cloud.starter.rate.limit.autoconfigure;
 
-import io.github.smart.cloud.starter.rate.limit.RateLimitBeanHandler;
-import io.github.smart.cloud.starter.rate.limit.annotation.RateLimit;
+import io.github.smart.cloud.starter.rate.limit.RateLimitInstanceFactory;
+import io.github.smart.cloud.starter.rate.limit.annotation.RateLimiter;
 import io.github.smart.cloud.starter.rate.limit.intercept.RateLimitInterceptor;
 import io.github.smart.cloud.starter.rate.limit.pointcut.RateLimitPointCut;
 import io.github.smart.cloud.starter.rate.limit.properties.RateLimitProperties;
@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author collin
  * @date 2022-02-02
- * @see {@link RateLimit}
+ * @see {@link RateLimiter}
  */
 @Configuration
 public class RateLimitAutoConfiguration {
@@ -48,14 +48,14 @@ public class RateLimitAutoConfiguration {
 
     @Bean
     @RefreshScope
-    public RateLimitBeanHandler rateLimitBeanHandler(final RateLimitProperties rateLimitProperties) {
-        return new RateLimitBeanHandler(rateLimitProperties);
+    public RateLimitInstanceFactory rateLimitInstanceFactory(final RateLimitProperties rateLimitProperties) {
+        return new RateLimitInstanceFactory(rateLimitProperties);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public RateLimitInterceptor rateLimitInterceptor(final RateLimitBeanHandler rateLimitBeanHandler) {
-        return new RateLimitInterceptor(rateLimitBeanHandler);
+    public RateLimitInterceptor rateLimitInterceptor(final RateLimitInstanceFactory rateLimitInstanceFactory) {
+        return new RateLimitInterceptor(rateLimitInstanceFactory);
     }
 
     @Bean

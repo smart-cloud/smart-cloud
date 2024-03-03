@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.rate.limit.test.cases;
 
 import io.github.smart.cloud.exception.AccessFrequentlyException;
-import io.github.smart.cloud.starter.rate.limit.RateLimitBeanHandler;
+import io.github.smart.cloud.starter.rate.limit.RateLimitInstanceFactory;
 import io.github.smart.cloud.starter.rate.limit.test.prepare.Application;
 import io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController;
 import org.assertj.core.api.Assertions;
@@ -37,14 +37,14 @@ class RateLimitTest {
     @Autowired
     private ProductController productController;
     @Autowired
-    private RateLimitBeanHandler rateLimitBeanHandler;
+    private RateLimitInstanceFactory rateLimitInstanceFactory;
 
     @Test
     void testPropertiesRule() throws Exception {
-        Semaphore querySemaphore = rateLimitBeanHandler.get("io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.query");
+        Semaphore querySemaphore = rateLimitInstanceFactory.get("io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.query");
         Assertions.assertThat(querySemaphore).isNotNull();
 
-        Semaphore updateSemaphore = rateLimitBeanHandler.get("io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.update");
+        Semaphore updateSemaphore = rateLimitInstanceFactory.get("io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.update");
         Assertions.assertThat(updateSemaphore).isNotNull();
     }
 

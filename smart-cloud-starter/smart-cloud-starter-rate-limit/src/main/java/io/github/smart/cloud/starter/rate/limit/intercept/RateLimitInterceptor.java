@@ -16,8 +16,8 @@
 package io.github.smart.cloud.starter.rate.limit.intercept;
 
 import io.github.smart.cloud.exception.AccessFrequentlyException;
-import io.github.smart.cloud.starter.rate.limit.RateLimitBeanHandler;
-import io.github.smart.cloud.starter.rate.limit.annotation.RateLimit;
+import io.github.smart.cloud.starter.rate.limit.RateLimitInstanceFactory;
+import io.github.smart.cloud.starter.rate.limit.annotation.RateLimiter;
 import io.github.smart.cloud.starter.rate.limit.util.RateLimitUtil;
 import lombok.RequiredArgsConstructor;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -36,13 +36,13 @@ import java.util.concurrent.Semaphore;
 @RequiredArgsConstructor
 public class RateLimitInterceptor implements MethodInterceptor {
 
-    private final RateLimitBeanHandler rateLimitBeanHandler;
+    private final RateLimitInstanceFactory rateLimitInstanceFactory;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Method method = invocation.getMethod();
         String rateLimitBeanName = RateLimitUtil.getSemaphoreBeanName(method);
-        Semaphore semaphore = rateLimitBeanHandler.get(rateLimitBeanName);
+        Semaphore semaphore = rateLimitInstanceFactory.get(rateLimitBeanName);
         if (semaphore == null) {
             return invocation.proceed();
         }
@@ -51,9 +51,9 @@ public class RateLimitInterceptor implements MethodInterceptor {
         try {
             isAcquire = semaphore.tryAcquire();
             if (!isAcquire) {
-                RateLimit rateLimit = method.getAnnotation(RateLimit.class);
-                if (rateLimit != null && StringUtils.isNotBlank(rateLimit.message())) {
-                    throw new AccessFrequentlyException(rateLimit.message());
+                RateLimiter rateLimiter = method.getAnnotation(RateLimiter.class);
+                if (rateLimiter != null && StringUtils.isNotBlank(rateLimiter.message())) {
+                    throw new AccessFrequentlyException(rateLimiter.message());
                 } else {
                     throw new AccessFrequentlyException();
                 }

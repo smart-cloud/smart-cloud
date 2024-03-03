@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.rate.limit.pointcut;
 
-import io.github.smart.cloud.starter.rate.limit.annotation.RateLimit;
+import io.github.smart.cloud.starter.rate.limit.annotation.RateLimiter;
 import io.github.smart.cloud.starter.rate.limit.properties.RateLimitProperties;
 import io.github.smart.cloud.starter.rate.limit.util.RateLimitUtil;
 import lombok.RequiredArgsConstructor;
@@ -54,12 +54,12 @@ public class RateLimitPointCut extends DynamicMethodMatcherPointcut {
                 || method.isAnnotationPresent(PutMapping.class)
                 || method.isAnnotationPresent(PatchMapping.class)
                 || method.isAnnotationPresent(DeleteMapping.class)
-                || method.isAnnotationPresent(RateLimit.class);
+                || method.isAnnotationPresent(RateLimiter.class);
     }
 
     @Override
     public boolean matches(Method method, Class<?> targetClass, Object... args) {
-        if (method.isAnnotationPresent(RateLimit.class)) {
+        if (method.isAnnotationPresent(RateLimiter.class)) {
             return true;
         }
 

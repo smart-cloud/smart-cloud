@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.rate.limit.test.prepare.controller;
 
-import io.github.smart.cloud.starter.rate.limit.annotation.RateLimit;
+import io.github.smart.cloud.starter.rate.limit.annotation.RateLimiter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.TimeUnit;
@@ -30,7 +30,7 @@ public class ProductController {
         return "张三";
     }
 
-    @RateLimit(permits = 1)
+    @RateLimiter(permits = 1)
     @PostMapping
     public Boolean create() throws InterruptedException {
         TimeUnit.SECONDS.sleep(1);

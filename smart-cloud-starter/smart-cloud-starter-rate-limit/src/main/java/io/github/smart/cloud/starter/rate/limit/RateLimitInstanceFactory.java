@@ -17,7 +17,7 @@ package io.github.smart.cloud.starter.rate.limit;
 
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
-import io.github.smart.cloud.starter.rate.limit.annotation.RateLimit;
+import io.github.smart.cloud.starter.rate.limit.annotation.RateLimiter;
 import io.github.smart.cloud.starter.rate.limit.properties.RateLimitProperties;
 import io.github.smart.cloud.starter.rate.limit.util.RateLimitUtil;
 import lombok.RequiredArgsConstructor;
@@ -35,14 +35,14 @@ import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 /**
- * 信号量限流bean注册处理器
+ * 信号量限流实例工厂
  *
  * @author collin
  * @date 2024-02-28
  */
 @Slf4j
 @RequiredArgsConstructor
-public class RateLimitBeanHandler implements InitializingBean {
+public class RateLimitInstanceFactory implements InitializingBean {
 
     private final RateLimitProperties rateLimitProperties;
     private static final Map<String, Semaphore> RATE_LIMIT_INSTANCES = new ConcurrentHashMap<>();
@@ -63,11 +63,11 @@ public class RateLimitBeanHandler implements InitializingBean {
         Map<String, Integer> rateLimitConfig = new HashMap<>();
 
         // 注解限流
-        Set<Method> methods = ReflectionUtil.getMethodsAnnotatedWith(RateLimit.class);
+        Set<Method> methods = ReflectionUtil.getMethodsAnnotatedWith(RateLimiter.class);
         if (CollectionUtils.isNotEmpty(methods)) {
             methods.forEach(method -> {
-                RateLimit rateLimit = method.getAnnotation(RateLimit.class);
-                rateLimitConfig.put(RateLimitUtil.getSemaphoreBeanName(method), rateLimit.permits());
+                RateLimiter rateLimiter = method.getAnnotation(RateLimiter.class);
+                rateLimitConfig.put(RateLimitUtil.getSemaphoreBeanName(method), rateLimiter.permits());
             });
         }
 
