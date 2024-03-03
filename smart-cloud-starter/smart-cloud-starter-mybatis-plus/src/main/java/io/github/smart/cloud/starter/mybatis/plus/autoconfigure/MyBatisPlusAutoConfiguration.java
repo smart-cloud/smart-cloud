@@ -56,7 +56,7 @@ public class MyBatisPlusAutoConfiguration {
     @Order(OrderConstant.MYBATIS_SQL_LOG_INTERCEPTOR)
     @ConditionalOnProperty(name = ConfigureConstant.MYBATIS_LOG_CONDITION_PROPERTY, havingValue = "true", matchIfMissing = true)
     public MybatisSqlLogInterceptor mybatisSqlLogInterceptor(final SmartProperties smartProperties) {
-        return new MybatisSqlLogInterceptor(smartProperties.getMybatis().getLogLevel());
+        return new MybatisSqlLogInterceptor(smartProperties);
     }
 
     /**

@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.method.log.intercept;
+package io.github.smart.cloud.starter.method.log.intercept;
 
 import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.mask.util.MaskUtil;
 import io.github.smart.cloud.starter.configure.properties.MethodLogProperties;
-import io.github.smart.cloud.starter.core.method.log.annotation.MethodLog;
+import io.github.smart.cloud.starter.configure.properties.SmartProperties;
+import io.github.smart.cloud.starter.method.log.annotation.MethodLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -38,7 +39,7 @@ import java.lang.reflect.Method;
 @RequiredArgsConstructor
 public class MethodLogInterceptor implements MethodInterceptor {
 
-    private final MethodLogProperties methodLogProperties;
+    private final SmartProperties smartProperties;
     /**
      * 慢日志
      */
@@ -56,6 +57,7 @@ public class MethodLogInterceptor implements MethodInterceptor {
             result = invocation.proceed();
 
             if (log.isWarnEnabled()) {
+                MethodLogProperties methodLogProperties = smartProperties.getMethodLog();
                 long cost = System.currentTimeMillis() - startTime;
                 if (cost >= methodLogProperties.getSlowApiMinCost()) {
                     String mastResult = (result instanceof String) ? (String) result : MaskUtil.mask(result);

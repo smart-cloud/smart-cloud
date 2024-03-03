@@ -44,7 +44,7 @@ public class ApiLogAspectAutoConfiguration {
 
     @Bean
     public ServletApiLogInterceptor apiLogInterceptor(final SmartProperties smartProperties) {
-        return new ServletApiLogInterceptor(smartProperties.getApiLog());
+        return new ServletApiLogInterceptor(smartProperties);
     }
 
     /**

@@ -15,17 +15,16 @@
  */
 package io.github.smart.cloud.starter.job.autoconfigure;
 
-import org.apache.commons.lang3.StringUtils;
+import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import io.github.smart.cloud.starter.configure.SmartAutoConfiguration;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.configure.properties.XxlJobProperties;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 
 /**
  * xxl-job自动配置

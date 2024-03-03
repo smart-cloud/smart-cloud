@@ -17,6 +17,7 @@ package io.github.smart.cloud.starter.mock.interceptor;
 
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.starter.configure.properties.MockProperties;
+import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.mock.util.MockUtil;
 import lombok.RequiredArgsConstructor;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -36,13 +37,13 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class MockInterceptor implements MethodInterceptor {
 
-    private final MockProperties mockProperties;
+    private final SmartProperties smartProperties;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         // 白名单的直接跳过
         Method m = invocation.getMethod();
-        Set<String> whitelist = mockProperties.getWhilelist();
+        Set<String> whitelist = smartProperties.getMock().getWhilelist();
         if (whitelist != null) {
             String code = m.getDeclaringClass().getName() + SymbolConstant.DOT + m.getName();
             if (whitelist.contains(code)) {

@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.mybatis.plus.plugin;
 import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.mask.util.MaskUtil;
+import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.utility.DateUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
     /**
      * 日志级别
      */
-    private final String logLevel;
+    private final SmartProperties smartProperties;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -132,6 +133,7 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         str.append(separator);
         str.append(MaskUtil.mask(returnValue));
 
+        String logLevel = smartProperties.getMybatis().getLogLevel();
         if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
             log.debug(LogUtil.truncate(str.toString()));
         } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {

@@ -21,6 +21,7 @@ import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
 import io.github.smart.cloud.starter.configure.properties.ApiLogProperties;
+import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.web.annotation.ApiLog;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
 
-    private final ApiLogProperties apiLogProperties;
+    private final SmartProperties smartProperties;
     /**
      * 慢日志
      */
@@ -80,6 +81,7 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
         try {
             result = invocation.proceed();
             if (log.isWarnEnabled()) {
+                ApiLogProperties apiLogProperties = smartProperties.getApiLog();
                 long cost = System.currentTimeMillis() - startTime;
                 if (cost >= apiLogProperties.getSlowApiMinCost()) {
                     log.warn(LogUtil.truncate(SLOW_LOG_PATTERN, buildLogAspectDO(invocation.getArguments(), result, cost)));

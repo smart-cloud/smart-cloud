@@ -19,6 +19,7 @@ import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.core.business.SmartAsyncConfigurerSupport;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -35,9 +36,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class SmartAsyncConfigurerSupportAutoConfiguration {
 
     @Bean
+    @RefreshScope
     @ConditionalOnMissingBean
     public SmartAsyncConfigurerSupport smartAsyncConfigurerSupport(final SmartProperties smartProperties) {
-        return new SmartAsyncConfigurerSupport(smartProperties.getAsync());
+        return new SmartAsyncConfigurerSupport(smartProperties);
     }
 
 }

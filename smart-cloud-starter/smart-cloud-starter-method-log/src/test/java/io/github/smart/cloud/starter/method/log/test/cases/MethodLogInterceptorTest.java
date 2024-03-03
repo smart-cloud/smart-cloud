@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.method.log.test.cases;
+package io.github.smart.cloud.starter.method.log.test.cases;
 
-import io.github.smart.cloud.starter.core.method.log.test.prepare.Application;
-import io.github.smart.cloud.starter.core.method.log.test.prepare.service.ProductService;
+import io.github.smart.cloud.starter.method.log.test.prepare.Application;
+import io.github.smart.cloud.starter.method.log.test.prepare.service.ProductService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;

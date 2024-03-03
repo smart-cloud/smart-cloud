@@ -23,6 +23,7 @@ import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.mask.util.LogUtil;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
 import io.github.smart.cloud.starter.configure.properties.FeignLogProperties;
+import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.rpc.feign.pojo.FeignLogAspectDO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FeignLogInterceptor implements MethodInterceptor, RequestInterceptor, Ordered {
 
-    private final FeignLogProperties feignLogProperties;
+    private final SmartProperties smartProperties;
     private static final ThreadLocal<Map<String, Collection<String>>> FEIGN_HEADER_THREAD_LOCAL = new ThreadLocal<>();
 
     @Override
@@ -56,6 +57,7 @@ public class FeignLogInterceptor implements MethodInterceptor, RequestIntercepto
             result = invocation.proceed();
 
             if (log.isWarnEnabled()) {
+                FeignLogProperties feignLogProperties = smartProperties.getFeign().getLog();
                 long cost = System.currentTimeMillis() - startTime;
                 if (cost >= feignLogProperties.getSlowApiMinCost()) {
                     log.warn(LogUtil.truncate("rpc.slow=>{}", buildFeignLogAspectDO(invocation.getMethod(), invocation.getArguments(), result, cost)));

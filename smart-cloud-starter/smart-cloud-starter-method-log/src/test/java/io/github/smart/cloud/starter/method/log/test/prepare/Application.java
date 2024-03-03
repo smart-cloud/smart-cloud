@@ -13,29 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.method.log.annotation;
+package io.github.smart.cloud.starter.method.log.test.prepare;
 
-import io.github.smart.cloud.constants.LogLevel;
+import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
+import org.springframework.boot.SpringApplication;
 
-import java.lang.annotation.*;
+@SmartBootApplication
+public class Application {
 
-/**
- * method日志打印注解
- *
- * @author collin
- * @date 2021-03-13
- */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface MethodLog {
-
-    /**
-     * 日志级别（默认debug级别；如果要覆盖全局配置，需要指定注解的日志级别）
-     *
-     * @return
-     * @see LogLevel#getFinalLevel
-     */
-    String level() default "";
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
 }

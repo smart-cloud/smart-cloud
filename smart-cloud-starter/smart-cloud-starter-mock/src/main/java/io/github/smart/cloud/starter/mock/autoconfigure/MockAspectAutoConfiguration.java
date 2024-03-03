@@ -20,9 +20,9 @@ import io.github.smart.cloud.starter.configure.properties.MockProperties;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.core.business.util.AspectInterceptorUtil;
 import io.github.smart.cloud.starter.core.constants.PackageConfig;
-import io.github.smart.cloud.starter.mock.interceptor.MockInterceptor;
 import io.github.smart.cloud.starter.mock.annotation.Mock;
 import io.github.smart.cloud.starter.mock.condition.MockCondition;
+import io.github.smart.cloud.starter.mock.interceptor.MockInterceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
@@ -48,7 +48,7 @@ public class MockAspectAutoConfiguration {
 
     @Bean
     public MockInterceptor mockInterceptor(final SmartProperties smartProperties) {
-        return new MockInterceptor(smartProperties.getMock());
+        return new MockInterceptor(smartProperties);
     }
 
     @Bean

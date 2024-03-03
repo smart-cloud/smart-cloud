@@ -16,6 +16,7 @@
 package io.github.smart.cloud.starter.core.business;
 
 import io.github.smart.cloud.starter.configure.properties.AsyncProperties;
+import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,10 +37,11 @@ import java.util.concurrent.Executor;
 @RequiredArgsConstructor
 public class SmartAsyncConfigurerSupport extends AsyncConfigurerSupport {
 
-    private final AsyncProperties asyncProperties;
+    private final SmartProperties smartProperties;
 
     @Override
     public Executor getAsyncExecutor() {
+        AsyncProperties asyncProperties = smartProperties.getAsync();
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
         threadPoolTaskExecutor.setMaxPoolSize(asyncProperties.getMaxPoolSize());
         threadPoolTaskExecutor.setCorePoolSize(asyncProperties.getCorePoolSize());

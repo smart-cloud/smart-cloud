@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.method.log.autoconfigure;
+package io.github.smart.cloud.starter.method.log.autoconfigure;
 
 import io.github.smart.cloud.starter.configure.constants.ConfigureConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
-import io.github.smart.cloud.starter.core.method.log.annotation.MethodLog;
-import io.github.smart.cloud.starter.core.method.log.intercept.MethodLogInterceptor;
+import io.github.smart.cloud.starter.method.log.annotation.MethodLog;
+import io.github.smart.cloud.starter.method.log.intercept.MethodLogInterceptor;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -39,7 +39,7 @@ public class MethodLogInterceptorAutoConfiguration {
 
     @Bean
     public MethodLogInterceptor methodLogInterceptor(final SmartProperties smartProperties) {
-        return new MethodLogInterceptor(smartProperties.getMethodLog());
+        return new MethodLogInterceptor(smartProperties);
     }
 
     @Bean

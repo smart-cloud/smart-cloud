@@ -59,7 +59,7 @@ public class FeignLogAspectAutoConfiguration {
 
     @Bean
     public FeignLogInterceptor feignInterceptor(final SmartProperties smartProperties) {
-        return new FeignLogInterceptor(smartProperties.getFeign().getLog());
+        return new FeignLogInterceptor(smartProperties);
     }
 
     @Bean

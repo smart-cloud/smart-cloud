@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.smart.cloud.starter.core.method.log.autoconfigure.MethodLogInterceptorAutoConfiguration
+io.github.smart.cloud.starter.method.log.autoconfigure.MethodLogInterceptorAutoConfiguration

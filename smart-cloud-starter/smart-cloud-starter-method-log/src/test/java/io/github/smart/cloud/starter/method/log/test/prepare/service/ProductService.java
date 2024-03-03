@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.method.log.test.prepare.service;
+package io.github.smart.cloud.starter.method.log.test.prepare.service;
 
 import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
-import io.github.smart.cloud.starter.core.method.log.annotation.MethodLog;
+import io.github.smart.cloud.starter.method.log.annotation.MethodLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
