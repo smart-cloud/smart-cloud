@@ -30,7 +30,7 @@ public class ProductController {
         return "张三";
     }
 
-    @RateLimiter(permits = 1)
+    @RateLimiter(permits = 10)
     @PostMapping
     public Boolean create() throws InterruptedException {
         TimeUnit.SECONDS.sleep(1);
