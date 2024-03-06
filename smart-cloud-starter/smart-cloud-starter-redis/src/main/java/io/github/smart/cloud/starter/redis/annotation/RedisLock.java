@@ -75,6 +75,6 @@ public @interface RedisLock {
      *
      * @return
      */
-    TimeUnit unit() default TimeUnit.MICROSECONDS;
+    TimeUnit unit() default TimeUnit.MILLISECONDS;
 
 }
