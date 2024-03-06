@@ -22,6 +22,8 @@ import io.github.smart.cloud.starter.redis.test.prepare.dataobject.OrderInfo;
 import io.github.smart.cloud.starter.redis.test.prepare.service.ICacheTestService;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class CacheTestServiceImpl implements ICacheTestService {
 
@@ -35,7 +37,7 @@ public class CacheTestServiceImpl implements ICacheTestService {
         return orderInfo;
     }
 
-    @Cacheable(name = "order", expressions = {"#orderNo"}, ttl = 3600)
+    @Cacheable(name = "order", expressions = {"#orderNo"}, cacheTtl = 3600, cacheUnit = TimeUnit.SECONDS)
     @Override
     public OrderInfo query(String orderNo) {
         OrderInfo orderInfo = new OrderInfo();

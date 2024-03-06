@@ -15,6 +15,8 @@
  */
 package io.github.smart.cloud.starter.redis.annotation;
 
+import io.github.smart.cloud.starter.redis.constants.RedisLockConstants;
+
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;
 
@@ -49,13 +51,27 @@ public @interface Cacheable {
      *
      * @return
      */
-    long ttl();
+    long cacheTtl();
 
     /**
      * 缓存有效期时间单位
      *
      * @return
      */
-    TimeUnit unit() default TimeUnit.SECONDS;
+    TimeUnit cacheUnit() default TimeUnit.MILLISECONDS;
+
+    /**
+     * 锁最大等待时间
+     *
+     * @return
+     */
+    long lockWaitTime() default RedisLockConstants.DEFAULT_WAIT_TIME;
+
+    /**
+     * 锁最大等待时间单位
+     *
+     * @return
+     */
+    TimeUnit lockWaitTimeUnit() default TimeUnit.MILLISECONDS;
 
 }

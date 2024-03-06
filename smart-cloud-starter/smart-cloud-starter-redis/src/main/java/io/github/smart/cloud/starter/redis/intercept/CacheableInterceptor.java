@@ -60,7 +60,7 @@ public class CacheableInterceptor extends AbstractCacheInterceptor {
         RLock lock = redissonClient.getLock(String.format("%scache", RedisKeyPrefix.LOCK.getKey()));
         boolean isRequiredLock = false;
         try {
-            isRequiredLock = lock.tryLock(RedisLockConstants.DEFAULT_WAIT_TIME, TimeUnit.SECONDS);
+            isRequiredLock = lock.tryLock(cacheable.lockWaitTime(), cacheable.lockWaitTimeUnit());
             if (!isRequiredLock) {
                 throw new AcquiredLockFailException(CommonReturnCodes.GET_LOCK_FAIL);
             }
@@ -71,7 +71,7 @@ public class CacheableInterceptor extends AbstractCacheInterceptor {
             }
 
             Object result = invocation.proceed();
-            redisTemplate.opsForValue().set(cacheKey, result, cacheable.ttl(), cacheable.unit());
+            redisTemplate.opsForValue().set(cacheKey, result, cacheable.cacheTtl(), cacheable.cacheUnit());
             return result;
         } finally {
             if (isRequiredLock) {
