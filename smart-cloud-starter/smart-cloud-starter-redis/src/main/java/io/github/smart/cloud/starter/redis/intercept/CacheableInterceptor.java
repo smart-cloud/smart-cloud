@@ -57,7 +57,8 @@ public class CacheableInterceptor extends AbstractCacheInterceptor {
 
         // 缓存中没有，则从数据源获取，并放入缓存
         // 为了避免出现缓存雪崩，加分布式锁
-        RLock lock = redissonClient.getLock(String.format("%scache", RedisKeyPrefix.LOCK.getKey()));
+        String cacheLockKey = getKey(RedisKeyPrefix.LOCK_CACHE.getKey(), cacheable.name(), cacheable.expressions(), method, invocation.getArguments());
+        RLock lock = redissonClient.getLock(cacheLockKey);
         boolean isRequiredLock = false;
         try {
             isRequiredLock = lock.tryLock(cacheable.lockWaitTime(), cacheable.lockWaitTimeUnit());

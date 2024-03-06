@@ -20,23 +20,36 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @desc redis key前缀
+ * redis key前缀
+ *
  * @author collin
- * @date 2020/04/15
+ * @date 2020-04-15
  */
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public enum RedisKeyPrefix {
 
-	/** redis key分隔符 */
-	REDIS_KEY_SEPARATOR(":"),
-	/** cache: */
-	CACHE("cache" + REDIS_KEY_SEPARATOR.key),
-	/** lock: */
-	LOCK("lock" + REDIS_KEY_SEPARATOR.key),
-	/** data: */
-	DATA("data" + REDIS_KEY_SEPARATOR.key);
+    /**
+     * redis key分隔符
+     */
+    REDIS_KEY_SEPARATOR(":"),
+    /**
+     * 用户缓存
+     */
+    CACHE("cache" + REDIS_KEY_SEPARATOR.key),
+    /**
+     * 用于加锁:
+     */
+    LOCK("lock" + REDIS_KEY_SEPARATOR.key),
+    /**
+     * 用于缓存加锁
+     */
+    LOCK_CACHE("lock" + REDIS_KEY_SEPARATOR.key + "cache" + REDIS_KEY_SEPARATOR.key),
+    /**
+     * 用户数据
+     */
+    DATA("data" + REDIS_KEY_SEPARATOR.key);
 
-	private String key;
+    private String key;
 
 }
