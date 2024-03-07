@@ -72,7 +72,7 @@ public abstract class AbstractRabbitMqConsumer<T> implements IRabbitMqConsumer {
      * @return
      */
     protected String getLockName(T body) {
-        return MqConstants.IDE_CKECK_LOCK_NAME_PREFIX + Md5Util.md5Hex(JacksonUtil.toBytes(body));
+        return MqConstants.IDE_CKECK_LOCK_NAME_PREFIX + Md5Util.md5Hex(JacksonUtil.toJson(getClass().getName() + body));
     }
 
     @RabbitHandler
