@@ -73,6 +73,18 @@ public class BaseBiz<M extends SmartMapper<T>, T extends BaseEntity> extends Ser
         baseMapper.truncate();
     }
 
+
+    /**
+     * 是否存在（通过select 1 from Xxx where z=? limit 1查询，优化性能）
+     *
+     * @param queryWrapper
+     * @return
+     */
+    public boolean isExist(Wrapper<T> queryWrapper) {
+        Integer value = baseMapper.isExist(queryWrapper);
+        return value != null;
+    }
+
     /**
      * 分页查询表字段信息
      *

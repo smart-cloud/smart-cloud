@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
+import io.github.smart.cloud.starter.mybatis.plus.injector.methods.IsExist;
 import io.github.smart.cloud.starter.mybatis.plus.injector.methods.Truncate;
 
 import java.util.List;
@@ -41,7 +42,8 @@ public class SmartSqlInjector extends DefaultSqlInjector {
         List<AbstractMethod> methodList = super.getMethodList(mapperClass, tableInfo);
         // 添加in-line式批量插入
         methodList.add(new InsertBatchSomeColumn());
-        methodList.add(new Truncate(TRUNCATE_METHOD_NAME));
+        methodList.add(new Truncate());
+        methodList.add(new IsExist());
         return methodList;
     }
 

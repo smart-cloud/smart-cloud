@@ -22,22 +22,22 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 
 /**
- * truncate表数据
+ * 查询数据是否存在
  *
  * @author collin
  * @date 2121-09-30
  */
-public class Truncate extends AbstractMethod {
+public class IsExist extends AbstractMethod {
 
-    public Truncate() {
-        super(SmartSqlMethod.TRUNCATE.getMethod());
+    public IsExist() {
+        super(SmartSqlMethod.IS_EXIST.getMethod());
     }
 
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
-        String sql = String.format(SmartSqlMethod.TRUNCATE.getSql(), tableInfo.getTableName());
+        String sql = String.format(SmartSqlMethod.IS_EXIST.getSql(), tableInfo.getTableName(), sqlWhereEntityWrapper(true, tableInfo));
         SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
-        return this.addDeleteMappedStatement(mapperClass, methodName, sqlSource);
+        return this.addSelectMappedStatementForOther(mapperClass, methodName, sqlSource, Integer.class);
     }
 
 }

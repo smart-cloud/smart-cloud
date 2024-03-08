@@ -13,44 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.mybatis.plus.common.mapper;
+package io.github.smart.cloud.starter.mybatis.plus.enums;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.toolkit.Constants;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
- * smart cloud BaseMapper
+ * 自定义方法配置
  *
  * @author collin
- * @date 2021-03-23
+ * @date 2024-03-08
  */
-public interface SmartMapper<T> extends BaseMapper<T> {
+@Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public enum SmartSqlMethod {
 
     /**
-     * in-line式批量插入
-     *
-     * @param entityList
-     * @return
+     * truncate表操作
      */
-    Integer insertBatchSomeColumn(@Param("list") List<T> entityList);
-
+    TRUNCATE("truncate", "truncate表操作", "TRUNCATE TABLE %s"),
     /**
      * 是否存在（通过select 1 from Xxx where z=? limit 1查询，优化性能）
-     *
-     * @param queryWrapper
-     * @return
      */
-    Integer isExist(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper);
+    IS_EXIST("isExist", "是否存在（通过select 1 from Xxx where zzz=? limit 1查询，优化性能）", "<script>SELECT 1 FROM %s %s LIMIT 1</script>");
 
     /**
-     * 清空表数据
-     *
-     * @return
+     * 方法名
      */
-    void truncate();
+    private final String method;
+    /**
+     * 描述
+     */
+    private final String desc;
+    /**
+     * sql模板
+     */
+    private final String sql;
 
 }

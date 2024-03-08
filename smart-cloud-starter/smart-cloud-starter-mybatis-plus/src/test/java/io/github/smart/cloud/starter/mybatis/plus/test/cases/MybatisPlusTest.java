@@ -75,6 +75,20 @@ class MybatisPlusTest {
     }
 
     @Test
+    void testFastExists() {
+        String name = "testx123x";
+        ProductInfoEntity entity = create(name);
+        boolean createSuccess = productInfoOmsBiz.save(entity);
+        Assertions.assertThat(createSuccess).isTrue();
+
+        LambdaQueryWrapper<ProductInfoEntity> condition = new LambdaQueryWrapper<>();
+        condition.eq(ProductInfoEntity::getName, name);
+
+        boolean exist = productInfoOmsBiz.isExist(condition);
+        Assertions.assertThat(exist).isTrue();
+    }
+
+    @Test
     void testRemove() {
         ProductInfoEntity entity = create("testx");
         boolean createSuccess = productInfoOmsBiz.save(entity);
