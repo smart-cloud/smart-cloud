@@ -15,7 +15,8 @@
  */
 package io.github.smart.cloud.starter.mybatis.plus.common;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -26,16 +27,17 @@ import java.io.Serializable;
  * @date 2022-02-06
  */
 @Getter
-@Setter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 public class CryptField implements Serializable {
 
     /**
      * 隐私字段值
      */
-    private String value;
+    private final String value;
+
+    private CryptField(String value) {
+        this.value = value;
+    }
 
     public static CryptField of(String value) {
         return new CryptField(value);
