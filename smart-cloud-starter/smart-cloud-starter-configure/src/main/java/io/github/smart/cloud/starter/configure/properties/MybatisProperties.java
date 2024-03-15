@@ -49,7 +49,7 @@ public class MybatisProperties implements Serializable {
      */
     private String logLevel = LogLevel.DEBUG;
     /**
-     * 加解密密钥
+     * 加解密密钥信息<加解密字段类全类名, 加解密秘钥>
      */
     private Map<String, String> cryptKeys = new LinkedHashMap<>();
 
