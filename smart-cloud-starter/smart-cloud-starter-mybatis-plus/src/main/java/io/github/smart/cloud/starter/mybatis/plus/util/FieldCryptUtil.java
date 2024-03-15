@@ -21,6 +21,8 @@ import io.github.smart.cloud.utility.security.AesUtil;
 import io.github.smart.cloud.utility.spring.SpringContextUtil;
 import org.springframework.util.Assert;
 
+import java.util.Map;
+
 /**
  * 表字段加解密工具类
  *
@@ -29,25 +31,29 @@ import org.springframework.util.Assert;
  */
 public final class FieldCryptUtil {
 
+    private static Map<String, String> cryptKeys;
+
     private FieldCryptUtil() {
     }
 
     /**
      * AES加密
      *
-     * @param content 待加密字符串
+     * @param content             待加密字符串
+     * @param cryptFieldClassName
      */
-    public static String encrypt(String content) {
-        return AesUtil.encrypt(content, getKey());
+    public static String encrypt(String content, String cryptFieldClassName) {
+        return AesUtil.encrypt(content, getCryptKey(cryptFieldClassName));
     }
 
     /**
      * AES解密
      *
-     * @param content 待解密字符串
+     * @param content             待解密字符串
+     * @param cryptFieldClassName
      */
-    public static String decrypt(String content) {
-        return AesUtil.decrypt(content, getKey());
+    public static String decrypt(String content, String cryptFieldClassName) {
+        return AesUtil.decrypt(content, getCryptKey(cryptFieldClassName));
     }
 
     /**
@@ -55,11 +61,21 @@ public final class FieldCryptUtil {
      *
      * @return
      */
-    private static String getKey() {
-        SmartProperties smartProperties = SpringContextUtil.getBean(SmartProperties.class);
-        MybatisProperties mybatisProperties = smartProperties.getMybatis();
-        Assert.hasText(mybatisProperties.getCryptKey(), "key not configured");
-        return mybatisProperties.getCryptKey();
+    private static String getCryptKey(String cryptFieldClassName) {
+        if (cryptKeys == null) {
+            synchronized (FieldCryptUtil.class) {
+                if (cryptKeys == null) {
+                    SmartProperties smartProperties = SpringContextUtil.getBean(SmartProperties.class);
+                    MybatisProperties mybatisProperties = smartProperties.getMybatis();
+                    Assert.notEmpty(mybatisProperties.getCryptKeys(), "cryptKeys not configured");
+                    cryptKeys = mybatisProperties.getCryptKeys();
+                }
+            }
+        }
+
+        String cryptKey = cryptKeys.get(cryptFieldClassName);
+        Assert.hasText(cryptKey, String.format("cryptKey[%S] not configured", cryptFieldClassName));
+        return cryptKey;
     }
 
 }

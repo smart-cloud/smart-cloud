@@ -15,12 +15,14 @@
  */
 package io.github.smart.cloud.starter.mybatis.plus.handler;
 
-import org.apache.ibatis.type.BaseTypeHandler;
-import org.apache.ibatis.type.JdbcType;
-import org.apache.ibatis.type.MappedTypes;
 import io.github.smart.cloud.starter.mybatis.plus.common.CryptField;
 import io.github.smart.cloud.starter.mybatis.plus.util.FieldCryptUtil;
+import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 
 /**
@@ -29,43 +31,57 @@ import java.sql.*;
  * @author collin
  * @date 2022-02-06
  */
-@MappedTypes(value = CryptField.class)
-public class CryptFieldHandler extends BaseTypeHandler<CryptField> {
+@RequiredArgsConstructor
+public class CryptFieldHandler<T extends CryptField> extends BaseTypeHandler<T> {
+
+    private final Class<T> cryptFieldClass;
 
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, CryptField parameter, JdbcType jdbcType) throws SQLException {
+    public void setNonNullParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {
         if (parameter == null || parameter.getValue() == null) {
             ps.setNull(i, Types.VARCHAR);
         } else {
-            ps.setString(i, FieldCryptUtil.encrypt(parameter.getValue()));
+            ps.setString(i, FieldCryptUtil.encrypt(parameter.getValue(), cryptFieldClass.getName()));
         }
     }
 
     @Override
-    public CryptField getNullableResult(ResultSet rs, String columnName) throws SQLException {
+    public T getNullableResult(ResultSet rs, String columnName) throws SQLException {
         String columnValue = rs.getString(columnName);
         if (columnValue != null) {
-            columnValue = FieldCryptUtil.decrypt(columnValue);
+            columnValue = FieldCryptUtil.decrypt(columnValue, cryptFieldClass.getName());
         }
-        return CryptField.of(columnValue);
+
+        return build(columnValue);
     }
 
     @Override
-    public CryptField getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+    public T getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         String columnValue = rs.getString(columnIndex);
         if (columnValue != null) {
-            columnValue = FieldCryptUtil.decrypt(columnValue);
+            columnValue = FieldCryptUtil.decrypt(columnValue, cryptFieldClass.getName());
         }
-        return CryptField.of(columnValue);
+        return build(columnValue);
     }
 
     @Override
-    public CryptField getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public T getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         String columnValue = cs.getString(columnIndex);
         if (columnValue != null) {
-            columnValue = FieldCryptUtil.decrypt(columnValue);
+            columnValue = FieldCryptUtil.decrypt(columnValue, cryptFieldClass.getName());
         }
-        return CryptField.of(columnValue);
+
+        return build(columnValue);
+    }
+
+    private T build(String columnValue) {
+        try {
+            Constructor<T> constructor = cryptFieldClass.getConstructor(String.class);
+            return constructor.newInstance(columnValue);
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                 IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -1,6 +1,8 @@
 smart:
   mybatis:
-    cryptKey: 123456
+    cryptKeys:
+      'io.github.smart.cloud.starter.mybatis.plus.common.CryptField': 123456abc
+      'io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.biz.DescCryptField': 123xx456
 logging:
   config: classpath:log4j2-mybatis-sql-log-interceptor.xml
 spring:
@@ -16,4 +18,4 @@ spring:
           driver-class-name: org.h2.Driver
           type: com.zaxxer.hikari.HikariDataSource
           init:
-            schema: classpath:sql/cryptfield/V1.0.0__collin_test.sql
+            schema: classpath:sql/cryptfield/V1.0.1__collin_test.sql

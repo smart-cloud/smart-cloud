@@ -13,28 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.mybatis.plus.common;
+package io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.biz;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import io.github.smart.cloud.starter.mybatis.plus.common.CryptField;
 
-import java.io.Serializable;
+public class DescCryptField extends CryptField {
 
-/**
- * 隐私字段类型
- *
- * @author collin
- * @date 2022-02-06
- */
-@Getter
-@ToString
-@RequiredArgsConstructor
-public class CryptField implements Serializable {
-
-    /**
-     * 隐私字段值
-     */
-    private final String value;
+    public DescCryptField(String value) {
+        super(value);
+    }
 
 }

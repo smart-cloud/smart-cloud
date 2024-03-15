@@ -97,7 +97,7 @@ class SmartPropertiesTest {
         Assertions.assertThat(smartProperties.getMybatis()).isNotNull();
         Assertions.assertThat(smartProperties.getMybatis().isEnable()).isTrue();
         Assertions.assertThat(smartProperties.getMybatis().getLogLevel()).isEqualTo("warn");
-        Assertions.assertThat(smartProperties.getMybatis().getCryptKey()).isEqualTo("123456");
+        Assertions.assertThat(smartProperties.getMybatis().getCryptKeys()).isNotEmpty();
 
         // rabbitmq
         Assertions.assertThat(smartProperties.getRabbitmq()).isNotNull();

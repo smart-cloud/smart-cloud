@@ -21,6 +21,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * api日志切面配置
@@ -49,6 +51,6 @@ public class MybatisProperties implements Serializable {
     /**
      * 加解密密钥
      */
-    private String cryptKey;
+    private Map<String, String> cryptKeys = new LinkedHashMap<>();
 
 }

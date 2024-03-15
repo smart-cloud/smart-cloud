@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.smart.cloud.starter.mybatis.plus.common.CryptField;
 import io.github.smart.cloud.starter.mybatis.plus.common.entity.BaseEntity;
+import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.biz.DescCryptField;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,6 +45,11 @@ public class ProductInfoEntity extends BaseEntity {
      */
     @TableField(value = "f_name")
     private CryptField name;
+    /**
+     * 描述
+     */
+    @TableField(value = "f_desc")
+    private DescCryptField desc;
 
     /**
      * 销售价格（单位：万分之一元）

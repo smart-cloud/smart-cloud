@@ -33,6 +33,8 @@ smart:
   mybatis:
     enable: true
     logLevel: warn
-    cryptKey: 123456
+    cryptKeys:
+      'io.github.smart.cloud.starter.mybatis.plus.common.CryptField': 123456abc
+      'io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.biz.DescCryptField': 123xx456
   rabbitmq:
     level: info

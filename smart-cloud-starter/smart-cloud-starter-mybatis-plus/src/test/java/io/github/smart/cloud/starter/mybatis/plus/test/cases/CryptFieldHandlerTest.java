@@ -19,6 +19,7 @@ import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import io.github.smart.cloud.starter.mybatis.plus.common.CryptField;
 import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.CryptFieldApp;
+import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.biz.DescCryptField;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.biz.ProductInfoOmsBiz;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.entity.ProductInfoEntity;
 import io.github.smart.cloud.starter.mybatis.plus.util.FieldCryptUtil;
@@ -52,7 +53,8 @@ class CryptFieldHandlerTest {
         entity.setId(NonceUtil.nextId());
         entity.setInsertTime(new Date());
         entity.setDelState(DeleteState.NORMAL);
-        entity.setName(CryptField.of(ORIGINAL_VALUE));
+        entity.setName(new CryptField(ORIGINAL_VALUE));
+        entity.setDesc(new DescCryptField(ORIGINAL_VALUE));
         entity.setSellPrice(10L);
         entity.setStock(10L);
         entity.setUpdTime(new Date());
@@ -65,16 +67,19 @@ class CryptFieldHandlerTest {
         ProductInfoEntity dbEntity = productInfoOmsBiz.getById(id);
         Assertions.assertThat(dbEntity).isNotNull();
         Assertions.assertThat(dbEntity.getName().getValue()).isEqualTo(entity.getName().getValue());
+        Assertions.assertThat(dbEntity.getDesc().getValue()).isEqualTo(entity.getDesc().getValue());
 
         ResultSet resultSet = null;
         try (Connection connection = dynamicRoutingDataSource.determineDataSource().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("select f_name from t_product_info where f_id=?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement("select f_name,f_desc from t_product_info where f_id=?")) {
             preparedStatement.setLong(1, id);
             resultSet = preparedStatement.executeQuery();
             Assertions.assertThat(resultSet.next()).isTrue();
             String name = resultSet.getString(1);
+            String desc = resultSet.getString("f_desc");
             Assertions.assertThat(name).isNotBlank();
-            Assertions.assertThat(name).isEqualTo(FieldCryptUtil.encrypt(ORIGINAL_VALUE));
+            Assertions.assertThat(name).isEqualTo(FieldCryptUtil.encrypt(ORIGINAL_VALUE, CryptField.class.getName()));
+            Assertions.assertThat(desc).isEqualTo(FieldCryptUtil.encrypt(ORIGINAL_VALUE, DescCryptField.class.getName()));
         } finally {
             if (resultSet != null) {
                 resultSet.close();
