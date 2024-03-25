@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.monitor.listener;
 
+import com.alibaba.nacos.common.utils.MapUtil;
 import de.codecentric.boot.admin.server.domain.values.StatusInfo;
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
@@ -27,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationListener;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,12 +55,18 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
                 .append("**服务**: ").append(event.getName()).append("\n")
                 .append("**地址**: ").append(event.getUrl()).append("\n")
                 .append("**状态**: ").append(getState(event)).append("\n")
-                .append("**在线实例数**: ").append(healthInstanceCountDesc);
+                .append("**在线实例数**: ").append(healthInstanceCountDesc).append("\n");
 
         // 接口健康信息
-        String apiUnHealthDetail = getApiUnHealthDetail(event.getStatusInfo());
+        StatusInfo statusInfo = event.getStatusInfo();
+        String apiUnHealthDetail = getApiUnHealthDetail(statusInfo);
         if (StringUtils.isNotBlank(apiUnHealthDetail)) {
             content.append(apiUnHealthDetail);
+        } else if (statusInfo.isDown() || statusInfo.isOffline()) {
+            Object reason = getReason(statusInfo);
+            if (reason != null) {
+                content.append("**原因**: ").append(reason).append("\n");
+            }
         }
 
         if (!(event instanceof MarkedOfflineEvent)) {
@@ -130,7 +138,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         }
 
         StringBuilder unHealthContent = new StringBuilder(64);
-        unHealthContent.append("\n<font color=\\\"warning\\\">**非健康接口(近5分钟)**</font>:");
+        unHealthContent.append("<font color=\\\"warning\\\">**非健康接口(近5分钟)**</font>:");
         int apiIndex = 0;
         for (Map<String, Object> unHealthInfo : unHealthInfos) {
             unHealthContent.append("\n\n>**接口").append(++apiIndex).append("**: ").append(unHealthInfo.get(Constants.NAME))
@@ -142,6 +150,66 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         return unHealthContent.toString();
     }
 
+    /**
+     * 获取服务离线、下线原因
+     *
+     * @param statusInfo
+     * @return
+     */
+    private Object getReason(StatusInfo statusInfo) {
+        Map<String, Object> details = statusInfo.getDetails();
+        if (MapUtil.isEmpty(details)) {
+            return null;
+        }
+        if (statusInfo.isDown()) {
+            for (Map.Entry<String, Object> entry : details.entrySet()) {
+                Object v = entry.getValue();
+                Object message = getMessage(v);
+                if (message != null) {
+                    return message;
+                }
+            }
+        } else {
+            // offline
+            Object message = details.get(Constants.MESSAGE);
+            if (message != null) {
+                return message;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * 解析离线、下线原因
+     *
+     * @param o
+     * @return
+     */
+    private Object getMessage(Object o) {
+        if (!(o instanceof LinkedHashMap)) {
+            return null;
+        }
+
+        LinkedHashMap v = (LinkedHashMap) o;
+        if (v.containsKey(Constants.ERROR)) {
+            return v.get(Constants.ERROR);
+        } else if (v.containsKey(Constants.STATUS)) {
+            Object status = v.get(Constants.STATUS);
+            if (status == null) {
+                return null;
+            } else if (StatusInfo.STATUS_DOWN.equals(status)) {
+                Object details = v.get(Constants.DETAILS);
+                if (details == null) {
+                    return null;
+                } else {
+                    return getMessage(details);
+                }
+            }
+        }
+        return null;
+    }
+
     interface Constants {
         String API = "api";
         String STATUS = "status";
@@ -151,6 +219,8 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         String TOTAL = "total";
         String FAIL_COUNT = "failCount";
         String FAIL_RATE = "failRate";
+        String MESSAGE = "message";
+        String ERROR = "error";
     }
 
 }
