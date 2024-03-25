@@ -30,6 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import reactor.core.publisher.Mono;
 
+import java.time.Instant;
+
 /**
  * 服务状态变更监听
  *
@@ -69,8 +71,8 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
             }
 
             StatusInfo statusInfo = instance.getStatusInfo();
-            if (System.currentTimeMillis() - START_UP_TS <= monitorProperties.getFilterEventTs() && statusInfo.isUp()) {
-                //服务启动时，短时间内的服务上线通知过滤掉
+            if (instance.getStatusTimestamp().plusMillis(monitorProperties.getFilterEventTs()).isBefore(Instant.now()) && statusInfo.isUp()) {
+                //服务启动时，90秒以前启动的服务上线通知过滤掉
                 return;
             }
 
