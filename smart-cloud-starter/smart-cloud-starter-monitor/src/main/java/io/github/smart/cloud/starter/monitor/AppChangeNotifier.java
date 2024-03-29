@@ -27,10 +27,10 @@ import io.github.smart.cloud.starter.monitor.event.*;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
 import reactor.core.publisher.Mono;
-
-import java.time.Instant;
 
 /**
  * 服务状态变更监听
@@ -39,15 +39,19 @@ import java.time.Instant;
  * @date 2020-09-15
  */
 @Slf4j
-public class AppChangeNotifier extends AbstractStatusChangeNotifier {
+public class AppChangeNotifier extends AbstractStatusChangeNotifier implements ApplicationListener<ApplicationReadyEvent> {
 
     private final InstanceRepository instanceRepository;
     private final MonitorProperties monitorProperties;
     private final ApplicationEventPublisher applicationEventPublisher;
     /**
+     * 服务启动时过滤消息时间间隔（单位：毫秒）
+     */
+    private static final Long FILTER_EVENT_TS = 60 * 1000L;
+    /**
      * 服务启动时间
      */
-    private static final long START_UP_TS = System.currentTimeMillis();
+    private Long startUpTs = null;
 
     public AppChangeNotifier(InstanceRepository instanceRepository, MonitorProperties monitorProperties, ApplicationEventPublisher applicationEventPublisher) {
         super(instanceRepository);
@@ -55,6 +59,11 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
 
         this.monitorProperties = monitorProperties;
         this.applicationEventPublisher = applicationEventPublisher;
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationReadyEvent event) {
+        this.startUpTs = System.currentTimeMillis();
     }
 
     @Override
@@ -71,8 +80,8 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier {
             }
 
             StatusInfo statusInfo = instance.getStatusInfo();
-            if (instance.getStatusTimestamp().plusMillis(monitorProperties.getFilterEventTs()).isBefore(Instant.now()) && statusInfo.isUp()) {
-                //服务启动时，90秒以前启动的服务上线通知过滤掉
+            if (statusInfo.isUp() && (startUpTs == null || System.currentTimeMillis() - startUpTs <= monitorProperties.getFilterEventTs())) {
+                //服务启动时，60秒内的服务上线通知过滤掉
                 return;
             }
 
