@@ -67,7 +67,7 @@ public class OfflineCheckComponent implements SmartInitializingSingleton, Dispos
 
         OFF_LINE_SERVICES.forEach(name -> {
             Long healthInstanceCount = instanceRepository.findByName(name).filter(item -> item.getStatusInfo().isUp()).count().share().block();
-            if (healthInstanceCount > 0 || monitorProperties.getExcludeServices().contains(name)) {
+            if (healthInstanceCount > 0 || monitorProperties.getExcludeOfflineCheckServices().contains(name)) {
                 OFF_LINE_SERVICES.remove(name);
             } else {
                 applicationEventPublisher.publishEvent(new OfflineNoticeEvent(this, name));

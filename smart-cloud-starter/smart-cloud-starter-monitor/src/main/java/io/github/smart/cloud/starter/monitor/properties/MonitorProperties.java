@@ -63,5 +63,9 @@ public class MonitorProperties {
      * 不监听的服务
      */
     private Set<String> excludeServices = new HashSet<>();
+    /**
+     * 不监听的一直离线服务
+     */
+    private Set<String> excludeOfflineCheckServices = new HashSet<>();
 
 }
