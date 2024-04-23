@@ -100,7 +100,7 @@ class RsaUtilUnitTest {
 
     @Test
     void testDecryptStringByJs() throws NoSuchAlgorithmException, InvalidKeyException, NoSuchPaddingException,
-            IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, DecoderException {
+            IllegalBlockSizeException, BadPaddingException, DecoderException {
         KeyPair keyPair = RsaUtil.generateKeyPair();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
 

@@ -16,6 +16,7 @@
 package io.github.smart.cloud.starter.mybatis.plus.test.cases;
 
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.github.smart.cloud.starter.mybatis.plus.common.CryptField;
 import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
 import io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt.CryptFieldApp;
@@ -68,6 +69,16 @@ class CryptFieldHandlerTest {
         Assertions.assertThat(dbEntity).isNotNull();
         Assertions.assertThat(dbEntity.getName().getValue()).isEqualTo(entity.getName().getValue());
         Assertions.assertThat(dbEntity.getDesc().getValue()).isEqualTo(entity.getDesc().getValue());
+
+
+        // 加密字段查询
+        LambdaQueryWrapper<ProductInfoEntity> condition = new LambdaQueryWrapper<>();
+        condition.select(ProductInfoEntity::getId, ProductInfoEntity::getName, ProductInfoEntity::getDesc)
+                .eq(ProductInfoEntity::getName, new CryptField(ORIGINAL_VALUE));
+        ProductInfoEntity productInfoEntity = productInfoOmsBiz.getOne(condition);
+        Assertions.assertThat(productInfoEntity).isNotNull();
+        Assertions.assertThat(productInfoEntity.getName().getValue()).isEqualTo(entity.getName().getValue());
+        Assertions.assertThat(productInfoEntity.getDesc().getValue()).isEqualTo(entity.getDesc().getValue());
 
         ResultSet resultSet = null;
         try (Connection connection = dynamicRoutingDataSource.determineDataSource().getConnection();
