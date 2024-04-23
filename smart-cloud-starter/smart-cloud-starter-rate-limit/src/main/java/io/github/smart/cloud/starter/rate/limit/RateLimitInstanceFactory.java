@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 public class RateLimitInstanceFactory implements InitializingBean {
 
     private final RateLimitProperties rateLimitProperties;
-    private static final Map<String, Semaphore> RATE_LIMIT_INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<String, Semaphore> RATE_LIMIT_INSTANCES = new ConcurrentHashMap<>(4);
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -60,7 +60,7 @@ public class RateLimitInstanceFactory implements InitializingBean {
      * 初始化限流bean实例
      */
     private void initRateLimitBeans() {
-        Map<String, Integer> rateLimitConfig = new HashMap<>();
+        Map<String, Integer> rateLimitConfig = new HashMap<>(4);
 
         // 注解限流
         Set<Method> methods = ReflectionUtil.getMethodsAnnotatedWith(RateLimiter.class);

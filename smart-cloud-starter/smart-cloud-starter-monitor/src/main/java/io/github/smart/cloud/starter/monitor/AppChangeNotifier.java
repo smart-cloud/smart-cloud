@@ -80,7 +80,7 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier implements A
             }
 
             StatusInfo statusInfo = instance.getStatusInfo();
-            if (statusInfo.isUp() && (startUpTs == null || System.currentTimeMillis() - startUpTs <= monitorProperties.getFilterEventTs())) {
+            if (filter(statusInfo)) {
                 //服务启动时，60秒内的服务上线通知过滤掉
                 return;
             }
@@ -103,7 +103,7 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier implements A
                 appChangeEvent = new UnknownEvent(this);
             }
 
-            if (appChangeEvent instanceof DownEvent || appChangeEvent instanceof OfflineEvent || appChangeEvent instanceof MarkedOfflineEvent) {
+            if (isOffline(appChangeEvent)) {
                 log.warn("{}==>{}", registration.getName(), JacksonUtil.toJson(instance));
             } else {
                 log.info("{}==>{}", registration.getName(), statusInfo.getStatus());
@@ -121,6 +121,26 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier implements A
             appChangeEvent.setStatusInfo(statusInfo);
             applicationEventPublisher.publishEvent(appChangeEvent);
         });
+    }
+
+    /**
+     * 是否需要过滤事件
+     *
+     * @param statusInfo
+     * @return
+     */
+    private boolean filter(StatusInfo statusInfo) {
+        return statusInfo.isUp() && (startUpTs == null || System.currentTimeMillis() - startUpTs <= monitorProperties.getFilterEventTs());
+    }
+
+    /**
+     * 是否是离线
+     *
+     * @param appChangeEvent
+     * @return
+     */
+    private boolean isOffline(AbstractAppChangeEvent appChangeEvent) {
+        return appChangeEvent instanceof DownEvent || appChangeEvent instanceof OfflineEvent || appChangeEvent instanceof MarkedOfflineEvent;
     }
 
 }

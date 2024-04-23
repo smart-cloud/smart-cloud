@@ -32,6 +32,9 @@ import java.io.Serializable;
  * @date 2019-04-09
  */
 @Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({"url", "method", "cost", "head", "queryParams", "args", "result"})

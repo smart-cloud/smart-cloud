@@ -17,6 +17,7 @@ package io.github.smart.cloud.starter.actuator.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.concurrent.atomic.LongAdder;
 
@@ -27,6 +28,7 @@ import java.util.concurrent.atomic.LongAdder;
  * @date 2024-01-6
  */
 @Getter
+@ToString
 @AllArgsConstructor
 public class ApiHealthCacheDTO {
 
