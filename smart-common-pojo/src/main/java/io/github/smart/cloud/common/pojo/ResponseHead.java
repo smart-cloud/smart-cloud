@@ -15,12 +15,12 @@
  */
 package io.github.smart.cloud.common.pojo;
 
+import io.github.smart.cloud.constants.CommonReturnCodes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import io.github.smart.cloud.constants.CommonReturnCodes;
 import uk.co.jemos.podam.common.PodamStringValue;
 
 import java.io.Serializable;
@@ -59,7 +59,7 @@ public class ResponseHead implements Serializable {
     /**
      * 响应时间戳
      */
-    private long timestamp;
+    private Long timestamp;
 
     public ResponseHead(String code) {
         this.code = code;
