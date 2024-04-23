@@ -107,10 +107,6 @@ public class CommonReturnCodes {
      * rpc请求失败
      */
     public static final String RPC_REQUEST_FAIL = "503";
-    /**
-     * rpc返回结果异常
-     */
-    public static final String RPC_RESULT_EXCEPTION = "504";
 
     private CommonReturnCodes() {
     }

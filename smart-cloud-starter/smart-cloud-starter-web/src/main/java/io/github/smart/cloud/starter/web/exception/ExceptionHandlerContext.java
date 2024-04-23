@@ -15,10 +15,10 @@
  */
 package io.github.smart.cloud.starter.web.exception;
 
-import io.github.smart.cloud.common.pojo.ResponseHead;
+import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.constants.SymbolConstant;
-import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
+import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
@@ -34,20 +34,20 @@ public class ExceptionHandlerContext {
     private final ExceptionHandlerStrategyFactory exceptionHandlerStrategyFactory;
 
     /**
-     * 将{@link Throwable}解析构造{@link ResponseHead}
+     * 将{@link Throwable}解析构造{@link Response}
      *
      * @param e
      * @return
      */
-    public ResponseHead transRespHead(Throwable e) {
+    public Response transResponse(Throwable e) {
         for (IExceptionHandlerStrategy exceptionHandler : exceptionHandlerStrategyFactory.getExceptionHandlerStrategies()) {
             if (!exceptionHandler.match(e)) {
                 continue;
             }
 
-            ResponseHead respHeadVO = exceptionHandler.transRespHead(e);
-            if (respHeadVO != null) {
-                return respHeadVO;
+            Response response = exceptionHandler.trans(e);
+            if (response != null) {
+                return response;
             }
         }
 
@@ -62,10 +62,10 @@ public class ExceptionHandlerContext {
                 }
             }
 
-            return RespHeadUtil.of(CommonReturnCodes.SERVER_ERROR, message);
+            return ResponseUtil.of(CommonReturnCodes.SERVER_ERROR, message);
         }
 
-        return RespHeadUtil.of(CommonReturnCodes.SERVER_ERROR, null);
+        return ResponseUtil.of(CommonReturnCodes.SERVER_ERROR, null);
     }
 
 }

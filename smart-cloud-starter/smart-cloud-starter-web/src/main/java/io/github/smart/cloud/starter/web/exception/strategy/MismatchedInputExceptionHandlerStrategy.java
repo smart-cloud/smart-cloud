@@ -16,9 +16,9 @@
 package io.github.smart.cloud.starter.web.exception.strategy;
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import io.github.smart.cloud.common.pojo.ResponseHead;
+import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.constants.CommonReturnCodes;
-import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
+import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
 import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
@@ -36,8 +36,8 @@ public class MismatchedInputExceptionHandlerStrategy implements IExceptionHandle
     }
 
     @Override
-    public ResponseHead transRespHead(Throwable e) {
-        return RespHeadUtil.ofI18n(CommonReturnCodes.JSON_PARSE_ERROR);
+    public Response trans(Throwable e) {
+        return ResponseUtil.ofI18n(CommonReturnCodes.JSON_PARSE_ERROR);
     }
 
 }

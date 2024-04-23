@@ -16,7 +16,6 @@
 package io.github.smart.cloud.starter.locale.test.prepare.controller;
 
 import io.github.smart.cloud.common.pojo.Response;
-import io.github.smart.cloud.common.pojo.ResponseHead;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +29,7 @@ public class OrderController {
 
     @PostMapping("submit")
     public Response<String> submit() {
-        Response response = new Response(new ResponseHead(CommonReturnCodes.SUCCESS));
+        Response response = new Response(CommonReturnCodes.SUCCESS);
         response.setBody(UUID.randomUUID().toString());
         return response;
     }

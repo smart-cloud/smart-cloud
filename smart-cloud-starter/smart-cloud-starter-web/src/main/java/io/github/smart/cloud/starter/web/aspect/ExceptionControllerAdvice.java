@@ -48,7 +48,7 @@ public class ExceptionControllerAdvice {
     public Response<Void> handleException(Exception e) {
         log.error("global.error", e);
 
-        return new Response<>(exceptionHandlerContext.transRespHead(e));
+        return exceptionHandlerContext.transResponse(e);
     }
 
 }

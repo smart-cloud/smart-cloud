@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.web.test.prepare.controller;
 
 import io.github.smart.cloud.common.pojo.Response;
-import io.github.smart.cloud.starter.core.business.util.RespUtil;
+import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
 import io.github.smart.cloud.starter.web.test.prepare.vo.ProductCreateReqVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -38,23 +38,23 @@ public class ExceptionController {
 
     @GetMapping("bind")
     public Response<Boolean> bind(@Valid @NotNull ProductCreateReqVO reqVO) {
-        return RespUtil.success(true);
+        return ResponseUtil.success(true);
     }
 
     @GetMapping("bind2")
     public Response<Boolean> bind2(@NotBlank String name) {
-        return RespUtil.success(true);
+        return ResponseUtil.success(true);
     }
 
 
     @GetMapping(value = "mediaTypeNotSupported", consumes = "application/rss+xml")
     public Response<Boolean> xml(@Valid @NotNull ProductCreateReqVO reqVO) {
-        return RespUtil.success(true);
+        return ResponseUtil.success(true);
     }
 
     @PostMapping("mismatchedInputException")
     public Response<Boolean> mismatchedInputException(@RequestBody @Valid @NotNull ProductCreateReqVO reqVO) {
-        return RespUtil.success(true);
+        return ResponseUtil.success(true);
     }
 
     @GetMapping("other")

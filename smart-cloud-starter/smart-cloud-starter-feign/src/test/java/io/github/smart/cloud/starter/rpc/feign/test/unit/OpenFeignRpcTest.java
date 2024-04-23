@@ -37,9 +37,8 @@ class OpenFeignRpcTest {
     void testQueryWithJson() {
         Response<String> response = orderRpc.queryWithJson(100L);
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
+        Assertions.assertThat(response.getCode()).isNotBlank();
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
         Assertions.assertThat(response.getBody()).isNotBlank();
         Assertions.assertThat(response.getBody()).isEqualTo("ok");
     }

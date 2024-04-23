@@ -47,8 +47,7 @@ class MethodMockTest {
     void testList() {
         Response<List<DeductDTO>> response = stockService.list();
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
         Assertions.assertThat(response.getBody()).isNotEmpty();
     }
 

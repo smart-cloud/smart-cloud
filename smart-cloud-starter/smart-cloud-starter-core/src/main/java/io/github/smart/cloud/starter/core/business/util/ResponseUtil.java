@@ -16,9 +16,8 @@
 package io.github.smart.cloud.starter.core.business.util;
 
 import io.github.smart.cloud.common.pojo.Response;
-import io.github.smart.cloud.common.pojo.ResponseHead;
 import io.github.smart.cloud.constants.CommonReturnCodes;
-import io.github.smart.cloud.utility.ObjectUtil;
+import io.github.smart.cloud.utility.NonceUtil;
 import io.github.smart.cloud.utility.spring.I18nUtil;
 
 /**
@@ -27,9 +26,9 @@ import io.github.smart.cloud.utility.spring.I18nUtil;
  * @author collin
  * @date 2019-04-06
  */
-public class RespUtil {
+public class ResponseUtil {
 
-    private RespUtil() {
+    private ResponseUtil() {
     }
 
     /**
@@ -38,17 +37,17 @@ public class RespUtil {
      * @return
      */
     public static <R> Response<R> success() {
-        return new Response<>(new ResponseHead(CommonReturnCodes.SUCCESS));
+        return new Response<>(CommonReturnCodes.SUCCESS);
     }
 
     /**
      * 构造响应成功对象
      *
-     * @param r
+     * @param data
      * @return
      */
-    public static <R> Response<R> success(R r) {
-        return new Response<>(r);
+    public static <R> Response<R> success(R data) {
+        return new Response<>(data);
     }
 
     /**
@@ -58,36 +57,58 @@ public class RespUtil {
      * @return
      */
     public static <R> Response<R> error(String code) {
-        return new Response<>(new ResponseHead(code));
+        return new Response<>(code);
+    }
+
+    /**
+     * 构造response对象
+     *
+     * @param code
+     * @return
+     */
+    public static Response of(String code, String message) {
+        Response response = new Response(code, message);
+        response.setTimestamp(System.currentTimeMillis());
+        response.setNonce(String.valueOf(NonceUtil.nextId()));
+        return response;
+    }
+
+    /**
+     * 构造response对象
+     *
+     * @param code
+     * @return
+     */
+    public static Response ofI18n(String code) {
+        Response response = new Response(code);
+        response.setTimestamp(System.currentTimeMillis());
+        response.setNonce(String.valueOf(NonceUtil.nextId()));
+        response.setMessage(I18nUtil.getMessage(code));
+        return response;
     }
 
     /**
      * 是否成功
      *
-     * @param resp
+     * @param response
      * @return
      */
-    public static <R> boolean isSuccess(Response<R> resp) {
-        return resp != null && resp.getHead() != null
-                && ObjectUtil.equals(CommonReturnCodes.SUCCESS, resp.getHead().getCode());
+    public static <R> boolean isSuccess(Response<R> response) {
+        return response != null && CommonReturnCodes.SUCCESS.equals(response.getCode());
     }
 
     /**
      * 获取失败的提示信息
      *
-     * @param resp
+     * @param response
      * @return
      */
-    public static <R> String getFailMsg(Response<R> resp) {
-        if (resp == null) {
+    public static <R> String getFailMsg(Response<R> response) {
+        if (response == null) {
             return I18nUtil.getMessage(CommonReturnCodes.RPC_REQUEST_FAIL);
         }
 
-        if (resp.getHead() == null) {
-            return I18nUtil.getMessage(CommonReturnCodes.RPC_RESULT_EXCEPTION);
-        }
-
-        return resp.getHead().getMessage();
+        return response.getMessage();
     }
 
 }

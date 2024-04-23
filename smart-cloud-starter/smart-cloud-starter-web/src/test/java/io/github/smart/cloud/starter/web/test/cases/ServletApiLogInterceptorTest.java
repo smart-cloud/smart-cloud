@@ -59,8 +59,7 @@ class ServletApiLogInterceptorTest extends AbstractTest {
         });
 
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
         Assertions.assertThat(response.getBody()).isNotBlank();
     }
 
@@ -72,8 +71,7 @@ class ServletApiLogInterceptorTest extends AbstractTest {
         reqVO.setName("iphone");
         Response<Boolean> response = productController.create(reqVO);
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
         Assertions.assertThat(response.getBody()).isTrue();
 
         checkLog();

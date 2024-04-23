@@ -15,9 +15,9 @@
  */
 package io.github.smart.cloud.starter.web.exception.strategy;
 
-import io.github.smart.cloud.common.pojo.ResponseHead;
+import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.constants.CommonReturnCodes;
-import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
+import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
 import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 
@@ -34,8 +34,8 @@ public class HttpMediaTypeNotSupportedExceptionHandlerStrategy implements IExcep
     }
 
     @Override
-    public ResponseHead transRespHead(Throwable e) {
-        return RespHeadUtil.ofI18n(CommonReturnCodes.UNSUPPORTED_MEDIA_TYPE);
+    public Response trans(Throwable e) {
+        return ResponseUtil.ofI18n(CommonReturnCodes.UNSUPPORTED_MEDIA_TYPE);
     }
 
 }

@@ -44,7 +44,7 @@ class PodamTest {
     @Test
     void testMockObject() {
         Product product = MockUtil.mock(Product.class);
-        log.info("普通对象head=>{}", product);
+        log.info("普通对象product=>{}", product);
 
         Assertions.assertThat(product).isNotNull();
         Assertions.assertThat(product.getName()).isNotBlank();

@@ -15,14 +15,14 @@
  */
 package io.github.smart.cloud.starter.locale.test.cases;
 
+import io.github.smart.cloud.common.pojo.Response;
+import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.starter.locale.test.prepare.Application;
+import io.github.smart.cloud.starter.locale.test.prepare.controller.OrderController;
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.smart.cloud.common.pojo.Response;
-import io.github.smart.cloud.constants.CommonReturnCodes;
-import io.github.smart.cloud.starter.locale.test.prepare.controller.OrderController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -38,9 +38,8 @@ class LocaleInterceptorTest {
     void testSubmit() {
         Response<String> response = orderController.submit();
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
-        Assertions.assertThat(StringUtils.containsAny(response.getHead().getMessage(), "Success", "成功")).isTrue();
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
+        Assertions.assertThat(StringUtils.containsAny(response.getMessage(), "Success", "成功")).isTrue();
     }
 
 }

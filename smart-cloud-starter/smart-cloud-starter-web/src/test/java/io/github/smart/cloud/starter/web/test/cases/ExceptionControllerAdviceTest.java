@@ -44,9 +44,8 @@ class ExceptionControllerAdviceTest extends AbstractTest {
         Assertions.assertThat(result).isNotBlank();
         Response response = JacksonUtil.parseObject(result, Response.class);
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL);
+        Assertions.assertThat(response.getCode()).isNotBlank();
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL);
     }
 
     @Test
@@ -64,9 +63,8 @@ class ExceptionControllerAdviceTest extends AbstractTest {
         Assertions.assertThat(result).isNotBlank();
         Response response = JacksonUtil.parseObject(result, Response.class);
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL);
+        Assertions.assertThat(response.getCode()).isNotBlank();
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.VALIDATE_FAIL);
     }
 
     @Test
@@ -84,9 +82,8 @@ class ExceptionControllerAdviceTest extends AbstractTest {
         Assertions.assertThat(result).isNotBlank();
         Response response = JacksonUtil.parseObject(result, Response.class);
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.UNSUPPORTED_MEDIA_TYPE);
+        Assertions.assertThat(response.getCode()).isNotBlank();
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.UNSUPPORTED_MEDIA_TYPE);
     }
 
     @Test
@@ -105,9 +102,8 @@ class ExceptionControllerAdviceTest extends AbstractTest {
         Assertions.assertThat(result).isNotBlank();
         Response response = JacksonUtil.parseObject(result, Response.class);
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.JSON_PARSE_ERROR);
+        Assertions.assertThat(response.getCode()).isNotBlank();
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.JSON_PARSE_ERROR);
     }
 
     @Test
@@ -125,9 +121,8 @@ class ExceptionControllerAdviceTest extends AbstractTest {
         Assertions.assertThat(result).isNotBlank();
         Response response = JacksonUtil.parseObject(result, Response.class);
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SERVER_ERROR);
+        Assertions.assertThat(response.getCode()).isNotBlank();
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.SERVER_ERROR);
     }
 
 }

@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.web.exception;
 
-import io.github.smart.cloud.common.pojo.ResponseHead;
+import io.github.smart.cloud.common.pojo.Response;
 
 /**
  * 接口异常转换
@@ -39,6 +39,6 @@ public interface IExceptionHandlerStrategy {
      * @param e
      * @return
      */
-    ResponseHead transRespHead(Throwable e);
+    Response trans(Throwable e);
 
 }

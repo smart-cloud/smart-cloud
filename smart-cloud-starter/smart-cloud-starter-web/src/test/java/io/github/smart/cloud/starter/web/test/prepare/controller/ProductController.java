@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.web.test.prepare.controller;
 
 import io.github.smart.cloud.common.pojo.Response;
-import io.github.smart.cloud.starter.core.business.util.RespUtil;
+import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
 import io.github.smart.cloud.starter.web.test.prepare.vo.ProductCreateReqVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +32,12 @@ public class ProductController {
 
     @GetMapping
     public Response<String> query(@NotNull Long id, HttpServletRequest request) {
-        return RespUtil.success(String.format("iphone_%s", id));
+        return ResponseUtil.success(String.format("iphone_%s", id));
     }
 
     @PostMapping
     public Response<Boolean> create(@RequestBody @Valid ProductCreateReqVO reqVO) {
-        return RespUtil.success(true);
+        return ResponseUtil.success(true);
     }
 
 }

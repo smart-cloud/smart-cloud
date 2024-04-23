@@ -15,12 +15,11 @@
  */
 package io.github.smart.cloud.starter.locale.aspect;
 
+import io.github.smart.cloud.common.pojo.Response;
+import io.github.smart.cloud.starter.configure.constants.OrderConstant;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang3.StringUtils;
-import io.github.smart.cloud.common.pojo.Response;
-import io.github.smart.cloud.common.pojo.ResponseHead;
-import io.github.smart.cloud.starter.configure.constants.OrderConstant;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.Ordered;
@@ -50,16 +49,15 @@ public class LocaleInterceptor implements MethodInterceptor, Ordered {
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Object result = invocation.proceed();
         if (result instanceof Response) {
-            Response<?> resp = (Response<?>) result;
-            ResponseHead respHeadVO = resp.getHead();
-            if (respHeadVO == null) {
+            Response<?> response = (Response<?>) result;
+            if (response == null) {
                 return result;
             }
-            String msg = StringUtils.isNotBlank(respHeadVO.getMessage()) ? respHeadVO.getMessage() : respHeadVO.getCode();
+            String msg = StringUtils.isNotBlank(response.getMessage()) ? response.getMessage() : response.getCode();
             Locale locale = LocaleContextHolder.getLocale();
             String localMessage = messageSource.getMessage(msg, null, null, locale);
             if (StringUtils.isNotBlank(localMessage)) {
-                respHeadVO.setMessage(localMessage);
+                response.setMessage(localMessage);
             }
         }
         return result;

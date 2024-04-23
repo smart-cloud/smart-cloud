@@ -17,6 +17,7 @@ package io.github.smart.cloud.common.pojo;
 
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import lombok.*;
+import uk.co.jemos.podam.common.PodamStringValue;
 
 import java.io.Serializable;
 
@@ -36,9 +37,20 @@ public class Response<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 响应头部
+     * 全局唯一交易流水号
      */
-    private ResponseHead head = null;
+    private String nonce;
+
+    /**
+     * 响应状态码
+     */
+    @PodamStringValue(strValue = CommonReturnCodes.SUCCESS)
+    private String code;
+
+    /**
+     * 提示信息
+     */
+    private String message;
 
     /**
      * 响应体
@@ -46,16 +58,26 @@ public class Response<T> implements Serializable {
     private T body;
 
     /**
+     * 响应时间戳
+     */
+    private Long timestamp;
+
+    /**
      * 签名
      */
     private String sign;
 
-    public Response(ResponseHead head) {
-        this.head = head;
+    public Response(String code) {
+        this.code = code;
+    }
+
+    public Response(String code, String message) {
+        this.code = code;
+        this.message = message;
     }
 
     public Response(T body) {
-        this.head = new ResponseHead(CommonReturnCodes.SUCCESS);
+        this(CommonReturnCodes.SUCCESS, null);
         this.body = body;
     }
 

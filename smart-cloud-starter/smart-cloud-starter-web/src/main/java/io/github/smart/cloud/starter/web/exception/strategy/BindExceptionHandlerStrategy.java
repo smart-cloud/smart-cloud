@@ -15,12 +15,12 @@
  */
 package io.github.smart.cloud.starter.web.exception.strategy;
 
+import io.github.smart.cloud.common.pojo.Response;
+import io.github.smart.cloud.constants.CommonReturnCodes;
+import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
+import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import io.github.smart.cloud.starter.web.exception.util.ExceptionUtil;
 import org.apache.commons.collections4.CollectionUtils;
-import io.github.smart.cloud.constants.CommonReturnCodes;
-import io.github.smart.cloud.common.pojo.ResponseHead;
-import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
-import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,13 +40,13 @@ public class BindExceptionHandlerStrategy implements IExceptionHandlerStrategy {
     }
 
     @Override
-    public ResponseHead transRespHead(Throwable e) {
+    public Response trans(Throwable e) {
         // 参数校验
         BindException bindException = (BindException) e;
         List<FieldError> fieldErrors = bindException.getFieldErrors();
         if (CollectionUtils.isNotEmpty(fieldErrors)) {
             String errorMsg = ExceptionUtil.getErrorMsg(fieldErrors);
-            return RespHeadUtil.of(CommonReturnCodes.VALIDATE_FAIL, errorMsg);
+            return ResponseUtil.of(CommonReturnCodes.VALIDATE_FAIL, errorMsg);
         }
         return null;
     }

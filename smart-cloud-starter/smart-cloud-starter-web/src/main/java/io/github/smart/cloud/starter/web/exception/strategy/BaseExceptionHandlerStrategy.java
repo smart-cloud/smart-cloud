@@ -15,17 +15,18 @@
  */
 package io.github.smart.cloud.starter.web.exception.strategy;
 
-import io.github.smart.cloud.common.pojo.ResponseHead;
+import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.exception.BaseException;
-import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
+import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
 import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import io.github.smart.cloud.utility.spring.I18nUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
+ * 自定义异常转换
+ *
  * @author collin
- * @desc 自定义异常转换
  * @date 2019/10/29
  */
 public class BaseExceptionHandlerStrategy implements IExceptionHandlerStrategy {
@@ -36,17 +37,17 @@ public class BaseExceptionHandlerStrategy implements IExceptionHandlerStrategy {
     }
 
     @Override
-    public ResponseHead transRespHead(Throwable e) {
+    public Response trans(Throwable e) {
         if (e instanceof BaseException) {
             BaseException ex = (BaseException) e;
             String message = e.getMessage();
             if (StringUtils.isBlank(message)) {
                 message = I18nUtil.getMessage(ex.getCode(), ex.getArgs());
             }
-            return RespHeadUtil.of(ex.getCode(), message);
+            return ResponseUtil.of(ex.getCode(), message);
         }
 
-        return RespHeadUtil.of(CommonReturnCodes.SERVER_ERROR, e.getMessage());
+        return ResponseUtil.of(CommonReturnCodes.SERVER_ERROR, e.getMessage());
     }
 
 }

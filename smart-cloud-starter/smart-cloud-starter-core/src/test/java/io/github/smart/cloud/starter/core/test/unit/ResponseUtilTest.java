@@ -15,37 +15,35 @@
  */
 package io.github.smart.cloud.starter.core.test.unit;
 
-import io.github.smart.cloud.starter.core.business.util.RespUtil;
+import io.github.smart.cloud.common.pojo.Response;
+import io.github.smart.cloud.constants.CommonReturnCodes;
+import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
+import io.github.smart.cloud.starter.core.test.prepare.Application;
+import io.github.smart.cloud.utility.spring.I18nUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.smart.cloud.common.pojo.Response;
-import io.github.smart.cloud.constants.CommonReturnCodes;
-import io.github.smart.cloud.starter.core.test.prepare.Application;
-import io.github.smart.cloud.utility.spring.I18nUtil;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = Application.class)
-class RespUtilTest {
+class ResponseUtilTest {
 
     @Test
     void testSuccess() {
-        Response<Long> response = RespUtil.success();
+        Response<Long> response = ResponseUtil.success();
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
+        Assertions.assertThat(response.getCode()).isNotBlank();
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
     }
 
     @Test
     void testSuccessWithBody() {
-        Response<Long> response = RespUtil.success(1L);
+        Response<Long> response = ResponseUtil.success(1L);
         Assertions.assertThat(response).isNotNull();
-        Assertions.assertThat(response.getHead()).isNotNull();
-        Assertions.assertThat(response.getHead().getCode()).isNotBlank();
-        Assertions.assertThat(response.getHead().getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
+        Assertions.assertThat(response.getCode()).isNotBlank();
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
 
         Assertions.assertThat(response.getBody()).isNotNull();
         Assertions.assertThat(response.getBody()).isEqualTo(1L);
@@ -53,31 +51,38 @@ class RespUtilTest {
 
     @Test
     void testIsSuccess() {
-        Assertions.assertThat(RespUtil.isSuccess(RespUtil.error(CommonReturnCodes.VALIDATE_FAIL))).isFalse();
-        Assertions.assertThat(RespUtil.isSuccess(RespUtil.success())).isTrue();
+        Assertions.assertThat(ResponseUtil.isSuccess(ResponseUtil.error(CommonReturnCodes.VALIDATE_FAIL))).isFalse();
+        Assertions.assertThat(ResponseUtil.isSuccess(ResponseUtil.success())).isTrue();
     }
 
     @Test
     void testGetFailMsg() {
         // Response is null
         Response<Long> nullResponse = null;
-        String nullMsg = RespUtil.getFailMsg(nullResponse);
+        String nullMsg = ResponseUtil.getFailMsg(nullResponse);
         Assertions.assertThat(nullMsg).isEqualTo(I18nUtil.getMessage(CommonReturnCodes.RPC_REQUEST_FAIL));
 
-        // head is null
-        Response<Long> headNullResponse = new Response<>();
-        String headNullMsg = RespUtil.getFailMsg(headNullResponse);
-        Assertions.assertThat(headNullMsg).isEqualTo(I18nUtil.getMessage(CommonReturnCodes.RPC_RESULT_EXCEPTION));
-
         // 正常分支
-        Response<Long> errorResponse = RespUtil.error(CommonReturnCodes.VALIDATE_FAIL);
+        Response<Long> errorResponse = ResponseUtil.error(CommonReturnCodes.VALIDATE_FAIL);
         String msg = "validate fail";
-        errorResponse.getHead().setMessage(msg);
+        errorResponse.setMessage(msg);
 
-        String errorMsg = RespUtil.getFailMsg(errorResponse);
+        String errorMsg = ResponseUtil.getFailMsg(errorResponse);
         Assertions.assertThat(errorMsg)
                 .isNotBlank()
                 .isEqualTo(msg);
+    }
+
+    @Test
+    void testOfI18n() {
+        Response response = ResponseUtil.ofI18n(CommonReturnCodes.UPLOAD_FILE_SIZE_EXCEEDED);
+        Assertions.assertThat(response).isNotNull();
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.UPLOAD_FILE_SIZE_EXCEEDED);
+
+        Assertions.assertThat(response.getTimestamp()).isPositive();
+        Assertions.assertThat(response.getNonce()).isNotBlank();
+
+        Assertions.assertThat(response.getMessage()).isNotBlank();
     }
 
 }

@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.rpc.feign.test.prepare.controller;
 
 import io.github.smart.cloud.common.pojo.Response;
-import io.github.smart.cloud.starter.core.business.util.RespUtil;
+import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +27,7 @@ public class OrderRpcController {
 
     @GetMapping("queryWithJson")
     public Response<String> queryWithJson(Long id) {
-        return RespUtil.success("ok");
+        return ResponseUtil.success("ok");
     }
 
 }

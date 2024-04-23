@@ -15,20 +15,21 @@
  */
 package io.github.smart.cloud.starter.web.exception.strategy;
 
+import io.github.smart.cloud.common.pojo.Response;
+import io.github.smart.cloud.constants.CommonReturnCodes;
+import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
+import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import io.github.smart.cloud.starter.web.exception.util.ExceptionUtil;
 import org.apache.commons.collections4.CollectionUtils;
-import io.github.smart.cloud.constants.CommonReturnCodes;
-import io.github.smart.cloud.common.pojo.ResponseHead;
-import io.github.smart.cloud.starter.core.business.util.RespHeadUtil;
-import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Set;
 
 /**
+ * 参数校验异常转换
+ *
  * @author collin
- * @desc 参数校验异常转换
  * @date 2019/10/29
  */
 public class ConstraintViolationExceptionHandlerStrategy implements IExceptionHandlerStrategy {
@@ -39,16 +40,16 @@ public class ConstraintViolationExceptionHandlerStrategy implements IExceptionHa
     }
 
     @Override
-    public ResponseHead transRespHead(Throwable e) {
+    public Response trans(Throwable e) {
         // 参数校验
         ConstraintViolationException constraintViolationException = (ConstraintViolationException) e;
         Set<ConstraintViolation<?>> constraintViolationSet = constraintViolationException.getConstraintViolations();
         if (CollectionUtils.isNotEmpty(constraintViolationSet)) {
             String errorMsg = ExceptionUtil.getErrorMsg(constraintViolationSet);
-            return RespHeadUtil.of(CommonReturnCodes.VALIDATE_FAIL, errorMsg);
+            return ResponseUtil.of(CommonReturnCodes.VALIDATE_FAIL, errorMsg);
         }
 
-        return RespHeadUtil.of(CommonReturnCodes.VALIDATE_FAIL, e.getMessage());
+        return ResponseUtil.of(CommonReturnCodes.VALIDATE_FAIL, e.getMessage());
     }
 
 }
