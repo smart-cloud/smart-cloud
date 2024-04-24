@@ -26,6 +26,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -43,7 +44,10 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
 
     @BeforeEach
     public void initMock() {
-        webTestClient = WebTestClient.bindToApplicationContext(applicationContext).build();
+        webTestClient = WebTestClient.bindToApplicationContext(applicationContext)
+                .configureClient()
+                .responseTimeout(Duration.ofSeconds(60))
+                .build();
     }
 
     @Override
@@ -104,7 +108,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
             }
         }
 
-        WebTestClient.RequestHeadersSpec requestHeadersSpec = webTestClient.get().uri(url, params);
+        WebTestClient.RequestHeadersSpec requestHeadersSpec = params == null ? webTestClient.get().uri(url) : webTestClient.get().uri(url, params);
         if (MapUtils.isNotEmpty(headers)) {
             headers.forEach(requestHeadersSpec::header);
         }

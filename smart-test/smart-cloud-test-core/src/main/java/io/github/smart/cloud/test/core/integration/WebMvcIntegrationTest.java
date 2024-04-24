@@ -64,7 +64,9 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
             filters[i++] = entry.getValue();
         }
 
-        mockMvc = MockMvcBuilders.webAppContextSetup((WebApplicationContext) applicationContext).addFilters(filters).build();
+        mockMvc = MockMvcBuilders.webAppContextSetup((WebApplicationContext) applicationContext)
+                .addFilters(filters)
+                .build();
     }
 
     /**
