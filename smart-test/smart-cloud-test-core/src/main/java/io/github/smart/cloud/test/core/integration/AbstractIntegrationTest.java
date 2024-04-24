@@ -92,6 +92,10 @@ public abstract class AbstractIntegrationTest {
 
         String content = new String(resultBytes, StandardCharsets.UTF_8);
         log.info("test.result={}", content);
+        
+        if (typeReference.getType() == String.class) {
+            return (T) content;
+        }
 
         return JacksonUtil.parseObject(content, typeReference);
     }
