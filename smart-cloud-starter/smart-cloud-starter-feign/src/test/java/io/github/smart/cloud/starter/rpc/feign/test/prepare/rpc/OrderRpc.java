@@ -17,10 +17,11 @@ package io.github.smart.cloud.starter.rpc.feign.test.prepare.rpc;
 
 import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.starter.rpc.feign.annotation.SmartFeignClient;
+import io.github.smart.cloud.starter.rpc.feign.test.prepare.configuration.TestFeignConfiguration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@SmartFeignClient(name = "orderRpc", url = "http://localhost:40002", contextId = "order")
+@SmartFeignClient(name = "orderRpc", url = "http://localhost:40002", contextId = "order", configuration = TestFeignConfiguration.class)
 public interface OrderRpc {
 
     @GetMapping("/order/queryWithJson")

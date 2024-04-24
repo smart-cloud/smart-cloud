@@ -46,6 +46,9 @@ public @interface SmartFeignClient {
     String contextId() default "";
 
     @AliasFor(annotation = FeignClient.class)
+    Class<?>[] configuration() default {};
+
+    @AliasFor(annotation = FeignClient.class)
     Class<?> fallback() default void.class;
 
 }
