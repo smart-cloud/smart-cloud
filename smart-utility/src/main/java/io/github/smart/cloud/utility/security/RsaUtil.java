@@ -77,8 +77,19 @@ public class RsaUtil {
      * @throws NoSuchAlgorithmException
      */
     public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
+        return generateKeyPair(DEFAULT_KEY_SIZE);
+    }
+
+    /**
+     * 生成并返回RSA密钥对
+     *
+     * @param keysize
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public static KeyPair generateKeyPair(int keysize) throws NoSuchAlgorithmException {
         KeyPairGenerator keyPairGen = getKeyPairGenerator();
-        keyPairGen.initialize(DEFAULT_KEY_SIZE, new SecureRandom());
+        keyPairGen.initialize(keysize, new SecureRandom());
         return keyPairGen.generateKeyPair();
     }
 
@@ -221,8 +232,8 @@ public class RsaUtil {
      * {@code
      * null}。
      *
-     * @param publicKey 给定的公钥。
-     * @param plaintext 字符串。
+     * @param publicKey 给定的公钥
+     * @param plaintext 字符串（maxlength=keysize/8）
      * @return 给定字符串的密文。
      * @throws BadPaddingException
      * @throws IllegalBlockSizeException
