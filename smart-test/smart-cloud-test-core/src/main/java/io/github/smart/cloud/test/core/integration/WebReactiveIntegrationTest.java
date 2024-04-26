@@ -22,11 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -59,10 +61,15 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
     public <T> T post(String url, Map<String, String> headers, Object req, TypeReference<T> typeReference) throws Exception {
         String requestJsonStr = JacksonUtil.toJson(req);
         log.info("test.requestBody={}", requestJsonStr);
-        WebTestClient.RequestBodyUriSpec requestBodyUriSpec = webTestClient.post();
-        if (MapUtils.isNotEmpty(headers)) {
-            headers.forEach(requestBodyUriSpec::header);
+        if (MapUtils.isEmpty(headers)) {
+            headers = new HashMap<>(1);
         }
+        if (!headers.containsKey(HttpHeaders.CONTENT_TYPE)) {
+            headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+        }
+
+        WebTestClient.RequestBodyUriSpec requestBodyUriSpec = webTestClient.post();
+        headers.forEach(requestBodyUriSpec::header);
         WebTestClient.RequestBodySpec requestBodySpec = requestBodyUriSpec.uri(url)
                 .contentType(MediaType.APPLICATION_JSON);
         if (req != null) {
@@ -107,11 +114,16 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
                 }
             }
         }
+        if (MapUtils.isEmpty(headers)) {
+            headers = new HashMap<>(1);
+        }
+        if (!headers.containsKey(HttpHeaders.CONTENT_TYPE)) {
+            headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+        }
 
         WebTestClient.RequestHeadersSpec requestHeadersSpec = params == null ? webTestClient.get().uri(url) : webTestClient.get().uri(url, params);
-        if (MapUtils.isNotEmpty(headers)) {
-            headers.forEach(requestHeadersSpec::header);
-        }
+        headers.forEach(requestHeadersSpec::header);
+
         byte[] resultBytes = requestHeadersSpec
                 .acceptCharset(StandardCharsets.UTF_8)
                 .accept(MediaType.APPLICATION_JSON)
