@@ -8,7 +8,8 @@ server:
 smart:
   health:
     notifyType: HTTP_NOTICE
-    robotKey: 6654474b-c2dd-4e41-a959-95ae3d332f09
+    # 可先添加一个机器人，获取key后再移除机器人
+    robotKey: 79445cd5-4f18-4d44-a84a-01ff147d11ae
     unhealthMinCount: 3
     defaultFailRateThreshold: 0.60
     failRateThresholds:

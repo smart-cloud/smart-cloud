@@ -19,7 +19,7 @@ public class ExceptionApiTest extends AbstractTest {
     private ExceptionApiChecker exceptionApiChecker;
 
     @Test
-    void testApiDown() throws Exception {
+    void testExceptionApiCheck() throws Exception {
         OrderController orderController = applicationContext.getBean(OrderController.class);
         for (int i = 1; i <= 6; i++) {
             try {
