@@ -3,7 +3,7 @@ spring:
     name: actuator-exception-api-checker-test
 
 server:
-  port: 40002
+  port: 40012
 
 smart:
   health:

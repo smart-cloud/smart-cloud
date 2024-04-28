@@ -264,7 +264,7 @@ public class HttpUtil {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
         httpPost.setEntity(new UrlEncodedFormEntity(parameters, charset));
-        httpPost.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString());
+        httpPost.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.toString());
 
         String result = null;
         try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
