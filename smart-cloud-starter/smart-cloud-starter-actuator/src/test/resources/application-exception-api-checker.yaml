@@ -15,6 +15,7 @@ smart:
     defaultFailRateThreshold: 0.60
     failRateThresholds:
       '[IOrderFeign#query]': 0.1
+      '[ProductService#query]': 0.1
 management:
   health:
     diskspace:

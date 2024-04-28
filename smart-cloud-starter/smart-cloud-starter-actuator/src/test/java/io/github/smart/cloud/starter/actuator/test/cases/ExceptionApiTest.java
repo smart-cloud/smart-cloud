@@ -6,6 +6,7 @@ import io.github.smart.cloud.starter.actuator.repository.ApiHealthRepository;
 import io.github.smart.cloud.starter.actuator.test.prepare.App;
 import io.github.smart.cloud.starter.actuator.test.prepare.controller.OrderController;
 import io.github.smart.cloud.starter.actuator.test.prepare.openfeign.IOrderFeign;
+import io.github.smart.cloud.starter.actuator.test.prepare.service.ProductService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,6 +66,22 @@ public class ExceptionApiTest extends AbstractTest {
 
 
         Assertions.assertThat(exceptionApiChecker.checkExceptionApiAndNotice()).isTrue();
+    }
+
+    @Test
+    void testApiHealthMonitor() {
+        ProductService productService = applicationContext.getBean(ProductService.class);
+        int[] ids = {5, 5, 1};
+        for (int id : ids) {
+            try {
+                productService.query(id);
+            } catch (Exception e) {
+            }
+        }
+
+
+        List<UnHealthApiDTO> unHealthInfos = apiHealthRepository.getUnHealthInfos();
+        Assertions.assertThat(unHealthInfos).hasSize(1);
     }
 
 }
