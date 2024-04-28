@@ -44,6 +44,10 @@ public class MonitorProperties {
      */
     private Long checkOfflineTs = 60 * 5 * 1000L;
     /**
+     * 异常接口统计间隔时间（单位：分钟）
+     */
+    private long exceptionApiCheckInterval = 5L;
+    /**
      * 工程信息
      */
     private ProxyProperties proxy = new ProxyProperties();

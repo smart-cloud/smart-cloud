@@ -20,6 +20,7 @@ import de.codecentric.boot.admin.server.domain.values.StatusInfo;
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.event.*;
+import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import io.github.smart.cloud.utility.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -41,6 +42,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppChangeEvent> {
 
+    private final MonitorProperties monitorProperties;
     private final RobotComponent robotComponent;
     private final ReminderComponent reminderComponent;
 
@@ -138,7 +140,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         }
 
         StringBuilder unHealthContent = new StringBuilder(64);
-        unHealthContent.append("<font color=\\\"warning\\\">**非健康接口(近5分钟)**</font>:");
+        unHealthContent.append("<font color=\\\"warning\\\">**非健康接口(近").append(monitorProperties.getExceptionApiCheckInterval()).append("分钟)**</font>:");
         int apiIndex = 0;
         for (Map<String, Object> unHealthInfo : unHealthInfos) {
             unHealthContent.append("\n\n>**接口").append(++apiIndex).append("**: ").append(unHealthInfo.get(Constants.NAME))

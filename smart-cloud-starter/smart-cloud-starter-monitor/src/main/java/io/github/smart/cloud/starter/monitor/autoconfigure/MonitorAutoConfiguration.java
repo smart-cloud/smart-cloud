@@ -85,8 +85,9 @@ public class MonitorAutoConfiguration {
     @Bean
     @ConditionOnWework
     @ConditionalOnMissingBean
-    public AppChangeWeworkNotice appChangeWeworkNotice(final RobotComponent robotComponent, final ReminderComponent reminderComponent) {
-        return new AppChangeWeworkNotice(robotComponent, reminderComponent);
+    public AppChangeWeworkNotice appChangeWeworkNotice(final MonitorProperties monitorProperties, final RobotComponent robotComponent,
+                                                       final ReminderComponent reminderComponent) {
+        return new AppChangeWeworkNotice(monitorProperties, robotComponent, reminderComponent);
     }
 
     @Bean
