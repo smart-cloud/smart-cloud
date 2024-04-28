@@ -8,7 +8,7 @@ server:
 smart:
   health:
     notifyType: ACTUATOR
-    unhealthMinCount: 3
+    unhealthMatchMinCount: 3
     defaultFailRateThreshold: 0.60
     failRateThresholds:
       '[IOrderFeign#query]': 0.1

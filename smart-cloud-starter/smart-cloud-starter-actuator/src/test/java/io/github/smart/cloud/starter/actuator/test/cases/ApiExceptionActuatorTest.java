@@ -42,7 +42,7 @@ class ApiExceptionActuatorTest extends AbstractActuatorHealthTest {
         OrderController orderController = applicationContext.getBean(OrderController.class);
         for (int i = 1; i <= 6; i++) {
             try {
-                orderController.buy();
+                orderController.buy(i);
             } catch (Exception e) {
 
             }

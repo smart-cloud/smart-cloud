@@ -29,7 +29,7 @@ import java.util.Map;
  * <b>配置样例：</b>
  * <pre>
  * health:
- *   unhealthMinCount: 10
+ *   unhealthMatchMinCount: 10
  *   defaultFailRateThreshold: 0.3
  *   failRateThresholds:
  *     '[LoginController#login]': 0
@@ -44,9 +44,13 @@ import java.util.Map;
 public class HealthProperties {
 
     /**
-     * 不健康最小数量
+     * 不健康匹配最小数量
      */
-    private int unhealthMinCount = 5;
+    private int unhealthMatchMinCount = 5;
+    /**
+     * 不健康接口最大上报数
+     */
+    private int unhealthApiReportMaxCount = 10;
     /**
      * 默认失败阈值（默认0.5）
      */

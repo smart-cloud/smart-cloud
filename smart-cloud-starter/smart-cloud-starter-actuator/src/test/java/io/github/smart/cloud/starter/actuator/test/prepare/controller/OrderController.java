@@ -34,7 +34,10 @@ public class OrderController {
     }
 
     @PostMapping("buy")
-    public ResponseEntity<String> buy() {
+    public ResponseEntity<String> buy(Integer id) {
+        if (id > 100) {
+            throw new UnsupportedOperationException();
+        }
         return ResponseEntity.ok("success2");
     }
 

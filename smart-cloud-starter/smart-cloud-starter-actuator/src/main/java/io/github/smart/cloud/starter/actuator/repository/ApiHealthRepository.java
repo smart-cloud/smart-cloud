@@ -22,12 +22,14 @@ import io.github.smart.cloud.starter.actuator.util.PercentUtil;
 import io.micrometer.core.instrument.util.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.LongAdder;
@@ -76,7 +78,7 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
      * @return
      */
     public List<UnHealthApiDTO> getUnHealthInfos() {
-        List<UnHealthApiDTO> unHealthInfos = new ArrayList<>(0);
+        final List<UnHealthApiDTO> unHealthInfos = new ArrayList<>(0);
         apiStatusStatistics.forEach((name, apiStatus) -> {
             BigDecimal failCount = BigDecimal.valueOf(apiStatus.getFailCount().sum());
             BigDecimal total = BigDecimal.valueOf(apiStatus.getSuccessCount().sum()).add(failCount);
@@ -91,6 +93,15 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
             }
         });
 
+        if (CollectionUtils.isNotEmpty(unHealthInfos)) {
+            if (unHealthInfos.size() > healthProperties.getUnhealthApiReportMaxCount()) {
+                Collections.sort(unHealthInfos, (o1, o2) -> {
+                    // 按失败率倒叙排序
+                    return (int) (o2.getFailCount() * o1.getTotal() - o1.getFailCount() * o2.getTotal());
+                });
+                return unHealthInfos.subList(0, healthProperties.getUnhealthApiReportMaxCount());
+            }
+        }
         return unHealthInfos;
     }
 
@@ -104,7 +115,7 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
      */
     private final boolean isUnHealth(String name, BigDecimal total, BigDecimal failRate) {
         BigDecimal failRateThreshold = healthProperties.getFailRateThresholds().getOrDefault(name, healthProperties.getDefaultFailRateThreshold());
-        return (total.intValue() >= healthProperties.getUnhealthMinCount()) && (failRate.compareTo(failRateThreshold) >= 0);
+        return (total.intValue() >= healthProperties.getUnhealthMatchMinCount()) && (failRate.compareTo(failRateThreshold) >= 0);
     }
 
     @Override
