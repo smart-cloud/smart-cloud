@@ -22,7 +22,7 @@ import io.github.smart.cloud.starter.actuator.properties.HealthProperties;
 import io.github.smart.cloud.starter.actuator.repository.ApiHealthRepository;
 import io.github.smart.cloud.utility.HttpUtil;
 import io.github.smart.cloud.utility.JacksonUtil;
-import io.micrometer.core.instrument.util.NamedThreadFactory;
+import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

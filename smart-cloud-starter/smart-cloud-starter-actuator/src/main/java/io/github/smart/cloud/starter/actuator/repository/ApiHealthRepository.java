@@ -19,7 +19,7 @@ import io.github.smart.cloud.starter.actuator.dto.ApiHealthCacheDTO;
 import io.github.smart.cloud.starter.actuator.dto.UnHealthApiDTO;
 import io.github.smart.cloud.starter.actuator.properties.HealthProperties;
 import io.github.smart.cloud.starter.actuator.util.PercentUtil;
-import io.micrometer.core.instrument.util.NamedThreadFactory;
+import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
