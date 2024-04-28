@@ -13,38 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.actuator.dto;
+package io.github.smart.cloud.starter.actuator.condition;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import io.github.smart.cloud.starter.actuator.enums.NotifyType;
+import org.springframework.context.annotation.Conditional;
+
+import java.lang.annotation.*;
 
 /**
- * 不健康接口信息
+ * 监控通知条件注解
  *
  * @author collin
- * @date 2024-01-6
+ * @date 2024-04-28
  */
-@Getter
-@Setter
-@ToString
-public class UnHealthApiDTO {
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Conditional(NotifyTypeCondition.class)
+public @interface ConditionalOnNotifyType {
 
-    /**
-     * 接口名（类名#方法名）
-     */
-    private String name;
-    /**
-     * 请求总数
-     */
-    private Long total;
-    /**
-     * 失败数
-     */
-    private Long failCount;
-    /**
-     * 失败率
-     */
-    private String failRate;
+    NotifyType value();
 
 }

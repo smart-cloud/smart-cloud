@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.actuator.properties;
 
+import io.github.smart.cloud.starter.actuator.enums.NotifyType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,9 +55,32 @@ public class HealthProperties {
      * 特定接口失败阈值
      */
     private Map<String, BigDecimal> failRateThresholds = new LinkedHashMap<>();
+
+    // -------企业微信通知配置 start
     /**
      * 清理间隔时间（单位：秒）
      */
     private long cleanIntervalSeconds = 60 * 5L;
+    /**
+     * 异常接口通知间隔时间（单位：秒）
+     */
+    private long apiExceptionNoticeIntervalSeconds = 60L;
+    /**
+     * 通知方式
+     */
+    private NotifyType notifyType = NotifyType.ACTUATOR;
+    /**
+     * 发送消息时的代理host
+     */
+    private String proxyHost;
+    /**
+     * 发送消息时的代理端口
+     */
+    private int port;
+    /**
+     * 企业微信机器人key
+     */
+    private String robotKey;
+    // -------企业微信通知配置 end
 
 }

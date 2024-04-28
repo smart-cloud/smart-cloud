@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.actuator.indicator;
+package io.github.smart.cloud.starter.actuator.notify.indicator;
 
 import io.github.smart.cloud.starter.actuator.dto.UnHealthApiDTO;
 import io.github.smart.cloud.starter.actuator.repository.ApiHealthRepository;

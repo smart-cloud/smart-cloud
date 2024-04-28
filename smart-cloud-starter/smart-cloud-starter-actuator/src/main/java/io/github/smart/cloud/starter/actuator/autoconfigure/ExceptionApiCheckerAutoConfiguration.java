@@ -17,26 +17,25 @@ package io.github.smart.cloud.starter.actuator.autoconfigure;
 
 import io.github.smart.cloud.starter.actuator.condition.ConditionalOnNotifyType;
 import io.github.smart.cloud.starter.actuator.enums.NotifyType;
-import io.github.smart.cloud.starter.actuator.notify.indicator.ApiHealthIndicator;
+import io.github.smart.cloud.starter.actuator.notify.http.ExceptionApiChecker;
+import io.github.smart.cloud.starter.actuator.properties.HealthProperties;
 import io.github.smart.cloud.starter.actuator.repository.ApiHealthRepository;
-import org.springframework.boot.actuate.autoconfigure.health.ConditionalOnEnabledHealthIndicator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 接口健康检测配置
+ * 异常接口检测配置
  *
  * @author collin
  * @date 2024-01-16
  */
 @Configuration
-@ConditionalOnNotifyType(NotifyType.ACTUATOR)
-@ConditionalOnEnabledHealthIndicator("api")
-public class ApiHealthIndicatorAutoConfiguration {
+@ConditionalOnNotifyType(NotifyType.HTTP_NOTICE)
+public class ExceptionApiCheckerAutoConfiguration {
 
     @Bean
-    public ApiHealthIndicator apiHealthIndicator(final ApiHealthRepository apiHealthRepository) {
-        return new ApiHealthIndicator(apiHealthRepository);
+    public ExceptionApiChecker exceptionApiChecker(final HealthProperties healthProperties, final ApiHealthRepository apiHealthRepository) {
+        return new ExceptionApiChecker(healthProperties, apiHealthRepository);
     }
 
 }

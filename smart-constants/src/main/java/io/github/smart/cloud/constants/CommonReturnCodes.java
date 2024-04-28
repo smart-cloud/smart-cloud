@@ -64,6 +64,10 @@ public class CommonReturnCodes {
      */
     public static final String PARAMETERS_MISSING = "412";
     /**
+     * 属性未配置
+     */
+    public static final String CONFIG_MISSING = "413";
+    /**
      * 请求方式不支持
      */
     public static final String REQUEST_METHOD_NOT_SUPPORTED = "415";

@@ -13,38 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.actuator.dto;
+package io.github.smart.cloud.exception;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import io.github.smart.cloud.constants.CommonReturnCodes;
 
 /**
- * 不健康接口信息
+ * 配置异常（属性未配置）
  *
  * @author collin
- * @date 2024-01-6
+ * @date 2024-04-28
  */
-@Getter
-@Setter
-@ToString
-public class UnHealthApiDTO {
+public class ConfigException extends BaseException {
 
-    /**
-     * 接口名（类名#方法名）
-     */
-    private String name;
-    /**
-     * 请求总数
-     */
-    private Long total;
-    /**
-     * 失败数
-     */
-    private Long failCount;
-    /**
-     * 失败率
-     */
-    private String failRate;
+    private static final long serialVersionUID = 1L;
+
+    public ConfigException(String message) {
+        setCode(CommonReturnCodes.CONFIG_MISSING);
+        setMessage(message);
+    }
 
 }

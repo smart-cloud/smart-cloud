@@ -23,7 +23,7 @@ import io.micrometer.core.instrument.util.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.InitializingBean;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -41,7 +41,7 @@ import java.util.function.Function;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class ApiHealthRepository implements SmartInitializingSingleton, DisposableBean {
+public class ApiHealthRepository implements InitializingBean, DisposableBean {
 
     private final HealthProperties healthProperties;
     /**
@@ -108,7 +108,7 @@ public class ApiHealthRepository implements SmartInitializingSingleton, Disposab
     }
 
     @Override
-    public void afterSingletonsInstantiated() {
+    public void afterPropertiesSet() {
         cleanSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("clean-api-health-cache"));
         cleanSchedule.scheduleWithFixedDelay(this::clearApiStatusStatistics, healthProperties.getCleanIntervalSeconds(),
                 healthProperties.getCleanIntervalSeconds(), TimeUnit.SECONDS);

@@ -13,38 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.actuator.dto;
-
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+package io.github.smart.cloud.starter.actuator.enums;
 
 /**
- * 不健康接口信息
+ * 监控通知类型
  *
  * @author collin
- * @date 2024-01-6
+ * @date 2024-04-28
  */
-@Getter
-@Setter
-@ToString
-public class UnHealthApiDTO {
+public enum NotifyType {
 
     /**
-     * 接口名（类名#方法名）
+     * spring boot admin通过/actuator/health接口收集
      */
-    private String name;
+    ACTUATOR,
     /**
-     * 请求总数
+     * http直接通知
      */
-    private Long total;
-    /**
-     * 失败数
-     */
-    private Long failCount;
-    /**
-     * 失败率
-     */
-    private String failRate;
+    HTTP_NOTICE;
 
 }

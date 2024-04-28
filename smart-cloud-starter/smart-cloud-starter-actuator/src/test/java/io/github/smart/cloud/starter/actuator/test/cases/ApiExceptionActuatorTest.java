@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 /**
  * controller接口测试
  */
-class ApiExceptionTest extends AbstractTest {
+class ApiExceptionActuatorTest extends AbstractActuatorHealthTest {
 
     @Test
     void testApiDown() throws Exception {

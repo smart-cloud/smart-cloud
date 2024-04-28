@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 /**
  * openfeign接口测试
  */
-class FeignApiExceptionTest extends AbstractTest {
+class FeignApiExceptionTest extends AbstractActuatorHealthTest {
 
     @Test
     void testFeignApi() throws Exception {

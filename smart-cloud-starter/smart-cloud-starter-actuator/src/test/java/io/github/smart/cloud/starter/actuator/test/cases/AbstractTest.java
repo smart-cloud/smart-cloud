@@ -38,8 +38,6 @@ import javax.servlet.Filter;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public abstract class AbstractTest {
 
     protected MockMvc mockMvc = null;
@@ -60,55 +58,6 @@ public abstract class AbstractTest {
 
         ApiHealthRepository apiHealthRepository = applicationContext.getBean(ApiHealthRepository.class);
         apiHealthRepository.clearApiStatusStatistics();
-    }
-
-    /**
-     * 校验actuator/health接口
-     *
-     * @param status
-     * @param apiName
-     * @param totalCount
-     * @param failCount
-     * @throws Exception
-     */
-    protected void assertActuatorHealth(String status, String apiName, Long totalCount, Long failCount) throws Exception {
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get("/actuator/health")
-                .characterEncoding(StandardCharsets.UTF_8.name())
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE);
-
-        MockHttpServletResponse mockHttpServletResponse = mockMvc.perform(mockHttpServletRequestBuilder)
-                .andReturn()
-                .getResponse();
-        mockHttpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
-        String result = new String(mockHttpServletResponse.getContentAsByteArray(), StandardCharsets.UTF_8);
-        Assertions.assertThat(result).isNotBlank();
-
-        JsonNode jsonNode = JacksonUtil.parse(result);
-        Assertions.assertThat(jsonNode).isNotNull();
-        Assertions.assertThat(jsonNode.get("status").asText()).isEqualTo(status);
-        if (!"DOWN".equals(status)) {
-            return;
-        }
-
-        JsonNode componentsNode = jsonNode.get("components");
-        Assertions.assertThat(componentsNode).isNotNull();
-
-        JsonNode apiNode = componentsNode.get("api");
-        Assertions.assertThat(apiNode).isNotNull();
-        Assertions.assertThat(apiNode.get("status").asText()).isEqualTo("DOWN");
-
-        JsonNode apiDetailsNode = apiNode.get("details");
-        Assertions.assertThat(apiDetailsNode).isNotNull();
-
-        JsonNode unHealthInfosNode = apiDetailsNode.get("unHealthInfos");
-        Assertions.assertThat(unHealthInfosNode).isNotNull();
-        Assertions.assertThat(unHealthInfosNode.size()).isGreaterThanOrEqualTo(1);
-
-        JsonNode node = unHealthInfosNode.get(0);
-        Assertions.assertThat(node.get("name").asText()).isEqualTo(apiName);
-        Assertions.assertThat(node.get("total").asLong()).isEqualTo(totalCount);
-        Assertions.assertThat(node.get("failCount").asLong()).isEqualTo(failCount);
     }
 
 }

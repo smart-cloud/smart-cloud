@@ -1,13 +1,14 @@
 spring:
   application:
-    name: actuator-test
+    name: actuator-exception-api-checker-test
 
 server:
-  port: 40001
+  port: 40002
 
 smart:
   health:
-    notifyType: ACTUATOR
+    notifyType: HTTP_NOTICE
+    robotKey: 6654474b-c2dd-4e41-a959-95ae3d332f09
     unhealthMinCount: 3
     defaultFailRateThreshold: 0.60
     failRateThresholds:
