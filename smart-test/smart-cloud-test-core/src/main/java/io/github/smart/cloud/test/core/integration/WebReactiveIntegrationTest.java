@@ -65,7 +65,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
             headers = new HashMap<>(1);
         }
         if (!headers.containsKey(HttpHeaders.CONTENT_TYPE)) {
-            headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+            headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         }
 
         WebTestClient.RequestBodyUriSpec requestBodyUriSpec = webTestClient.post();
@@ -118,7 +118,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
             headers = new HashMap<>(1);
         }
         if (!headers.containsKey(HttpHeaders.CONTENT_TYPE)) {
-            headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+            headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         }
 
         WebTestClient.RequestHeadersSpec requestHeadersSpec = params == null ? webTestClient.get().uri(url) : webTestClient.get().uri(url, params);

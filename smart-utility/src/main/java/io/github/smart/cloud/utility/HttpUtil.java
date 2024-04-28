@@ -17,7 +17,6 @@ package io.github.smart.cloud.utility;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.net.MediaType;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;
@@ -202,7 +201,7 @@ public class HttpUtil {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
         httpPost.setEntity(new StringEntity(stringEntity, ContentType.APPLICATION_JSON));
-        httpPost.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
+        httpPost.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString());
         if (headers != null) {
             httpPost.setHeaders(headers);
         }
@@ -265,7 +264,7 @@ public class HttpUtil {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(requestConfig);
         httpPost.setEntity(new UrlEncodedFormEntity(parameters, charset));
-        httpPost.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.FORM_DATA.toString());
+        httpPost.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString());
 
         String result = null;
         try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
@@ -391,7 +390,7 @@ public class HttpUtil {
 
         HttpGet httpGet = new HttpGet(builder.toString());
         httpGet.setConfig(createRequestConfig(socketTimeout, connectTimeout, proxy));
-        httpGet.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString());
+        httpGet.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString());
         if (headers != null) {
             httpGet.setHeaders(headers);
         }
