@@ -17,6 +17,7 @@ package io.github.smart.cloud.starter.monitor.listener;
 
 import com.alibaba.nacos.common.utils.MapUtil;
 import de.codecentric.boot.admin.server.domain.values.StatusInfo;
+import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.event.*;
@@ -147,6 +148,13 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
                     .append("\n>**请求总数**: ").append(unHealthInfo.get(Constants.TOTAL))
                     .append("\n>**失败数**: ").append(unHealthInfo.get(Constants.FAIL_COUNT))
                     .append("\n>**失败率**: ").append(unHealthInfo.get(Constants.FAIL_RATE));
+            String failMessage = (String) unHealthInfo.get(Constants.FAIL_MESSAGE);
+            if (failMessage != null) {
+                if (failMessage.contains(SymbolConstant.DOUBLE_QUOTE)) {
+                    failMessage = StringUtils.remove(failMessage, SymbolConstant.DOUBLE_QUOTE);
+                }
+                unHealthContent.append("\n>**异常信息**：").append(failMessage);
+            }
         }
         unHealthContent.append("\n");
         return unHealthContent.toString();
@@ -221,6 +229,8 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         String TOTAL = "total";
         String FAIL_COUNT = "failCount";
         String FAIL_RATE = "failRate";
+        String FAIL_MESSAGE = "failMessage";
+
         String MESSAGE = "message";
         String ERROR = "error";
     }

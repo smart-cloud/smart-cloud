@@ -58,14 +58,16 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
      *
      * @param name
      * @param success
+     * @param exception
      */
-    public void add(String name, boolean success) {
+    public void add(String name, boolean success, Exception exception) {
         try {
             ApiHealthCacheDTO apiHealthCacheDTO = apiStatusStatistics.computeIfAbsent(name, createApiHealthCacheDtoFunction);
             if (success) {
                 apiHealthCacheDTO.getSuccessCount().increment();
             } else {
                 apiHealthCacheDTO.getFailCount().increment();
+                apiHealthCacheDTO.setExceptionMessage(exception.toString());
             }
         } catch (Exception e) {
             log.error("api health info add error|name={}", name, e);
@@ -79,9 +81,9 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
      */
     public List<UnHealthApiDTO> getUnHealthInfos() {
         final List<UnHealthApiDTO> unHealthInfos = new ArrayList<>(0);
-        apiStatusStatistics.forEach((name, apiStatus) -> {
-            BigDecimal failCount = BigDecimal.valueOf(apiStatus.getFailCount().sum());
-            BigDecimal total = BigDecimal.valueOf(apiStatus.getSuccessCount().sum()).add(failCount);
+        apiStatusStatistics.forEach((name, apiHealthCacheDTO) -> {
+            BigDecimal failCount = BigDecimal.valueOf(apiHealthCacheDTO.getFailCount().sum());
+            BigDecimal total = BigDecimal.valueOf(apiHealthCacheDTO.getSuccessCount().sum()).add(failCount);
             BigDecimal failRate = failCount.divide(total, 4, RoundingMode.HALF_UP);
             if (isUnHealth(name, total, failRate)) {
                 UnHealthApiDTO unHealthApiDTO = new UnHealthApiDTO();
@@ -89,6 +91,7 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
                 unHealthApiDTO.setTotal(total.longValue());
                 unHealthApiDTO.setFailCount(failCount.longValue());
                 unHealthApiDTO.setFailRate(PercentUtil.format(failRate));
+                unHealthApiDTO.setFailMessage(apiHealthCacheDTO.getExceptionMessage());
                 unHealthInfos.add(unHealthApiDTO);
             }
         });
@@ -148,7 +151,7 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
 
         @Override
         public ApiHealthCacheDTO apply(String s) {
-            return new ApiHealthCacheDTO(new LongAdder(), new LongAdder());
+            return new ApiHealthCacheDTO(new LongAdder(), new LongAdder(), null);
         }
 
     }

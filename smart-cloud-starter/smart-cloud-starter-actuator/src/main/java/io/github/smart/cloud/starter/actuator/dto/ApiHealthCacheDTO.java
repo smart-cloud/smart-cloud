@@ -17,6 +17,7 @@ package io.github.smart.cloud.starter.actuator.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.concurrent.atomic.LongAdder;
@@ -40,5 +41,10 @@ public class ApiHealthCacheDTO {
      * 失败数
      */
     private volatile LongAdder failCount;
+    /**
+     * 失败信息
+     */
+    @Setter
+    private String exceptionMessage;
 
 }

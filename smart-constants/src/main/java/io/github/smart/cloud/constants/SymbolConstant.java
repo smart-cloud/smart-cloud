@@ -82,5 +82,9 @@ public class SymbolConstant {
      * %
      */
     public static final String PERCENT = "%";
+    /**
+     * 双引号
+     */
+    public static final String DOUBLE_QUOTE = "\"";
 
 }

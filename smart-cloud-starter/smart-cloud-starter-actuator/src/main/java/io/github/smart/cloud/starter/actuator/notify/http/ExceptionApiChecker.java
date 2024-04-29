@@ -16,6 +16,7 @@
 package io.github.smart.cloud.starter.actuator.notify.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.exception.ConfigException;
 import io.github.smart.cloud.starter.actuator.dto.UnHealthApiDTO;
 import io.github.smart.cloud.starter.actuator.properties.HealthProperties;
@@ -124,6 +125,13 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
             content.append("\n>**请求总数**：").append(unHealthInfo.getTotal());
             content.append("\n>**失败数**：").append(unHealthInfo.getFailCount());
             content.append("\n>**失败率**：<font color=\\\"warning\\\">").append(unHealthInfo.getFailRate()).append("</font >");
+            String failMessage = unHealthInfo.getFailMessage();
+            if (failMessage != null) {
+                if (failMessage.contains(SymbolConstant.DOUBLE_QUOTE)) {
+                    failMessage = StringUtils.remove(failMessage, SymbolConstant.DOUBLE_QUOTE);
+                }
+                content.append("\n>**异常信息**：").append(failMessage);
+            }
         }
 
         return String.format("{\"msgtype\":\"markdown\",\"markdown\":{\"content\":\"%s\"}}", content);

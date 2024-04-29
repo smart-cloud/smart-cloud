@@ -41,9 +41,9 @@ public class ApiHealthInterceptor implements MethodInterceptor {
         Object result = null;
         try {
             result = invocation.proceed();
-            apiHealthRepository.add(name, true);
+            apiHealthRepository.add(name, true, null);
         } catch (Exception e) {
-            apiHealthRepository.add(name, false);
+            apiHealthRepository.add(name, false, e);
             throw e;
         }
 

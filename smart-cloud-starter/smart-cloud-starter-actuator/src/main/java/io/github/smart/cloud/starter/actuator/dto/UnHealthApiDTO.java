@@ -46,5 +46,9 @@ public class UnHealthApiDTO {
      * 失败率
      */
     private String failRate;
+    /**
+     * 失败信息
+     */
+    private String failMessage;
 
 }
