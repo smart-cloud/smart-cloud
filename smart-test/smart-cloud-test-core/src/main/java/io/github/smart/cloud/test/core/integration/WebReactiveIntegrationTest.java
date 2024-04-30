@@ -60,7 +60,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
 
     @Override
     public <T> T post(String url, Map<String, String> headers, Object req, TypeReference<T> typeReference) throws Exception {
-        String requestJsonStr = JacksonUtil.toJson(req);
+        String requestJsonStr = convertJson(req);
         log.info("test.requestBody={}", requestJsonStr);
         if (MapUtils.isEmpty(headers)) {
             headers = new HashMap<>(1);
@@ -73,8 +73,8 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
         headers.forEach(requestBodyUriSpec::header);
         WebTestClient.RequestBodySpec requestBodySpec = requestBodyUriSpec.uri(url)
                 .contentType(MediaType.APPLICATION_JSON);
-        if (req != null) {
-            requestBodySpec.bodyValue(req);
+        if (requestJsonStr != null) {
+            requestBodySpec.bodyValue(requestJsonStr);
         }
         byte[] resultBytes = requestBodySpec.acceptCharset(StandardCharsets.UTF_8)
                 .accept(MediaType.APPLICATION_JSON)
@@ -109,8 +109,8 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
      * @throws Exception
      */
     public <T> T get(String url, Map<String, String> headers, Object req, Object body, TypeReference<T> typeReference) throws Exception {
-        String urlParamJson = (req == null) ? null : JacksonUtil.toJson(req);
-        String bodyStr = (body == null) ? null : JacksonUtil.toJson(body);
+        String urlParamJson = convertJson(req);
+        String bodyStr = (body == null) ? null : (body instanceof String ? (String) body : JacksonUtil.toJson(body));
         log.info("test.urlParam={}, bodyStr={}", urlParamJson, bodyStr);
         Map<String, Object> params = null;
         if (StringUtils.isNotBlank(urlParamJson)) {

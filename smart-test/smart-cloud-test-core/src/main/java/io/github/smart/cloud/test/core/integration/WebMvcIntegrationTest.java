@@ -85,7 +85,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
 
     @Override
     public <T> T post(String url, Map<String, String> headers, Object req, TypeReference<T> typeReference) throws Exception {
-        String requestBody = JacksonUtil.toJson(req);
+        String requestBody = convertJson(req);
         log.info("test.requestBody={}", requestBody);
 
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.post(url)
@@ -124,7 +124,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
 
     @Override
     public <T> T get(String url, Map<String, String> headers, Object req, TypeReference<T> typeReference) throws Exception {
-        String requestJsonStr = (req == null) ? null : JacksonUtil.toJson(req);
+        String requestJsonStr = convertJson(req);
         log.info("test.requestBody={}", requestJsonStr);
 
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(url)
@@ -183,7 +183,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
      */
     public <T> T getByBody(String url, Object req, TypeReference<T> typeReference)
             throws Exception {
-        String requestJsonStr = (req == null) ? null : JacksonUtil.toJson(req);
+        String requestJsonStr = convertJson(req);
         log.info("test.requestBody={}", requestJsonStr);
 
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(url)
@@ -235,15 +235,17 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
      * @throws Exception
      */
     public File download(String url, Object req, String dest) throws Exception {
-        String requestJsonStr = JacksonUtil.toJson(req);
+        String requestJsonStr = convertJson(req);
         MockHttpServletRequestBuilder mockHttpServletRequestBuilder = MockMvcRequestBuilders.get(url)
                 .characterEncoding(StandardCharsets.UTF_8.name())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_OCTET_STREAM_VALUE);
-        Map<String, String> requestMap = JacksonUtil.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {
-        });
-        if (requestMap != null) {
-            requestMap.forEach(mockHttpServletRequestBuilder::param);
+        if (requestJsonStr != null) {
+            Map<String, String> requestMap = JacksonUtil.parseObject(requestJsonStr, new TypeReference<Map<String, String>>() {
+            });
+            if (requestMap != null) {
+                requestMap.forEach(mockHttpServletRequestBuilder::param);
+            }
         }
 
         MockHttpServletResponse response = this.mockMvc.perform(mockHttpServletRequestBuilder)

@@ -92,12 +92,24 @@ public abstract class AbstractIntegrationTest {
 
         String content = new String(resultBytes, StandardCharsets.UTF_8);
         log.info("test.result={}", content);
-        
+
         if (typeReference.getType() == String.class) {
             return (T) content;
         }
 
         return JacksonUtil.parseObject(content, typeReference);
+    }
+
+    protected String convertJson(Object requestObject) {
+        if (requestObject == null) {
+            return null;
+        }
+
+        if (requestObject instanceof String) {
+            return (String) requestObject;
+        }
+
+        return JacksonUtil.toJson(requestObject);
     }
 
 }
