@@ -65,7 +65,7 @@ public interface IIntegrationTest {
      *
      * @param url           请求mapping的地址
      * @param headers       请求header参数
-     * @param req           请求参数
+     * @param req           url请求参数
      * @param typeReference 返回对象类型
      * @return
      * @throws Exception

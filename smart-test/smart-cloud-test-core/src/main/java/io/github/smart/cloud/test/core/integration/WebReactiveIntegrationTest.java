@@ -23,6 +23,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -92,12 +93,29 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
 
     @Override
     public <T> T get(String url, Map<String, String> headers, Object req, TypeReference<T> typeReference) throws Exception {
-        String requestJsonStr = (req == null) ? null : JacksonUtil.toJson(req);
-        log.info("test.requestBody={}", requestJsonStr);
+        return get(url, headers, req, null, typeReference);
+    }
+
+    /**
+     * GET请求，支持body传参
+     *
+     * @param url
+     * @param headers
+     * @param req           url请求参数
+     * @param body          http body参数
+     * @param typeReference
+     * @param <T>
+     * @return
+     * @throws Exception
+     */
+    public <T> T get(String url, Map<String, String> headers, Object req, Object body, TypeReference<T> typeReference) throws Exception {
+        String urlParamJson = (req == null) ? null : JacksonUtil.toJson(req);
+        String bodyStr = (body == null) ? null : JacksonUtil.toJson(body);
+        log.info("test.urlParam={}, bodyStr={}", urlParamJson, bodyStr);
         Map<String, Object> params = null;
-        if (StringUtils.isNotBlank(requestJsonStr)) {
+        if (StringUtils.isNotBlank(urlParamJson)) {
             params = new LinkedHashMap<>();
-            JsonNode jsonNodeElements = JacksonUtil.parse(requestJsonStr);
+            JsonNode jsonNodeElements = JacksonUtil.parse(urlParamJson);
             Iterator<Map.Entry<String, JsonNode>> jsonNodeIterator = jsonNodeElements.fields();
             while (jsonNodeIterator.hasNext()) {
                 Map.Entry<String, JsonNode> entry = jsonNodeIterator.next();
@@ -121,7 +139,11 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
             headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         }
 
-        WebTestClient.RequestHeadersSpec requestHeadersSpec = params == null ? webTestClient.get().uri(url) : webTestClient.get().uri(url, params);
+        WebTestClient.RequestBodyUriSpec requestBodyUriSpec = webTestClient.method(HttpMethod.GET);
+        if (bodyStr != null) {
+            requestBodyUriSpec.bodyValue(bodyStr);
+        }
+        WebTestClient.RequestHeadersSpec requestHeadersSpec = params == null ? requestBodyUriSpec.uri(url) : requestBodyUriSpec.uri(url, params);
         headers.forEach(requestHeadersSpec::header);
 
         byte[] resultBytes = requestHeadersSpec
