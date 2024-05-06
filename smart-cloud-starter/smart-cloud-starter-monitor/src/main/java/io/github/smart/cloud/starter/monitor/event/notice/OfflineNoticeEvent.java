@@ -13,21 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.condition;
+package io.github.smart.cloud.starter.monitor.event.notice;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-
-import java.lang.annotation.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.context.ApplicationEvent;
 
 /**
- * 企业微信通知是否可用
+ * 服务不在线事件（在线实例为0）
  *
  * @author collin
  * @date 2024-02-23
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Documented
-@ConditionalOnProperty(name = "smart.monitor.wework.enable", havingValue = "true", matchIfMissing = true)
-public @interface ConditionOnWework {
+@Getter
+@Setter
+@ToString
+public class OfflineNoticeEvent extends ApplicationEvent {
+
+    /**
+     * 服务名
+     */
+    private String name;
+
+    public OfflineNoticeEvent(Object source, String name) {
+        super(source);
+        this.name = name;
+    }
+
 }

@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.monitor.schedule;
 
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
-import io.github.smart.cloud.starter.monitor.event.offline.OfflineNoticeEvent;
+import io.github.smart.cloud.starter.monitor.event.notice.OfflineNoticeEvent;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +58,7 @@ public class OfflineCheckSchedule implements SmartInitializingSingleton, Disposa
     }
 
     /**
-     * 检查实现服务在线实例数
+     * 检查服务在线实例数
      */
     private void checkOffline() {
         if (OFF_LINE_SERVICES.isEmpty()) {

@@ -44,6 +44,10 @@ public class MonitorProperties {
      */
     private Long checkOfflineTs = 60 * 5 * 1000L;
     /**
+     * 检查服务在线实例数间隔时间（单位：毫秒）
+     */
+    private Long checkServiceNodeCountTs = 60 * 20 * 1000L;
+    /**
      * 异常接口统计间隔时间（单位：分钟）
      */
     private long exceptionApiCheckInterval = 5L;

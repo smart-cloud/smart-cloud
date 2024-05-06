@@ -13,19 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.listener;
+package io.github.smart.cloud.starter.monitor.listener.wework;
 
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
-import io.github.smart.cloud.starter.monitor.event.offline.OfflineNoticeEvent;
+import io.github.smart.cloud.starter.monitor.event.notice.ServiceNodeCountCheckNoticeEvent;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.properties.ServiceInfoProperties;
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.ApplicationListener;
-
-import java.util.Set;
 
 /**
  * 在线实例为0时，企业微信通知
@@ -33,42 +28,31 @@ import java.util.Set;
  * @author collin
  * @date 2024-02-23
  */
-@RequiredArgsConstructor
-public class OfflineWeworkNotice implements ApplicationListener<OfflineNoticeEvent> {
+public class ServiceNodeCountCheckNotice extends AbstractWeworkNotice<ServiceNodeCountCheckNoticeEvent> {
 
-    private final RobotComponent robotComponent;
-    private final MonitorProperties monitorProperties;
-    private final ReminderComponent reminderComponent;
+    public ServiceNodeCountCheckNotice(RobotComponent robotComponent, MonitorProperties monitorProperties, ReminderComponent reminderComponent) {
+        super(robotComponent, monitorProperties, reminderComponent);
+    }
 
     @Override
-    public void onApplicationEvent(OfflineNoticeEvent event) {
+    public void onApplicationEvent(ServiceNodeCountCheckNoticeEvent event) {
         String name = event.getName();
         String reminders = getReminderParams(name);
         StringBuilder content = new StringBuilder(64);
-        content.append("**").append(name).append("**服务<font color=\\\"warning\\\">**在线实例数为0**</font>");
+        content.append("**服务**: ").append(name).append("\n");
+
+        ServiceInfoProperties serviceInfoProperties = monitorProperties.getServiceInfos().get(name);
+        if (serviceInfoProperties != null) {
+            Integer nodeCount = serviceInfoProperties.getNodeCount();
+            if (nodeCount != null) {
+                content.append("**期望实例数**: ").append(nodeCount).append("\n");
+            }
+        }
+        content.append("**当前实例数**: <font color=\\\"warning\\\">").append(event.getNodeCount()).append("</font>\n");
         if (StringUtils.isNotBlank(reminders)) {
             content.append(reminders);
         }
         robotComponent.sendWxworkNotice(robotComponent.getRobotKey(name), content.toString());
-    }
-
-    /**
-     * 获取提醒人
-     *
-     * @param serviceName
-     * @return
-     */
-    private String getReminderParams(String serviceName) {
-        ServiceInfoProperties projectProperties = monitorProperties.getServiceInfos().get(serviceName);
-        if (projectProperties == null) {
-            return StringUtils.EMPTY;
-        }
-        Set<String> reminders = projectProperties.getReminders();
-        if (CollectionUtils.isEmpty(reminders)) {
-            return StringUtils.EMPTY;
-        }
-
-        return reminderComponent.generateReminders(reminders);
     }
 
 }

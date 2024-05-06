@@ -52,5 +52,9 @@ public class ServiceInfoProperties implements Serializable {
      * 机器人key
      */
     private String robotKey;
+    /**
+     * 服务实例节点数
+     */
+    private Integer nodeCount;
 
 }

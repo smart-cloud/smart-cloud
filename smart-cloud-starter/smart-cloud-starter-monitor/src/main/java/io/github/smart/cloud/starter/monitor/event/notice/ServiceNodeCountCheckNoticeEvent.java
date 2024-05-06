@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.event.offline;
+package io.github.smart.cloud.starter.monitor.event.notice;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +21,7 @@ import lombok.ToString;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * 服务不在线事件（在线实例为0）
+ * 服务实例数检查通知事件
  *
  * @author collin
  * @date 2024-02-23
@@ -29,16 +29,21 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 @Setter
 @ToString
-public class OfflineNoticeEvent extends ApplicationEvent {
+public class ServiceNodeCountCheckNoticeEvent extends ApplicationEvent {
 
     /**
      * 服务名
      */
-    private String name;
+    private final String name;
+    /**
+     * 当前在线实例数
+     */
+    private final int nodeCount;
 
-    public OfflineNoticeEvent(Object source, String name) {
+    public ServiceNodeCountCheckNoticeEvent(Object source, String name, int nodeCount) {
         super(source);
         this.name = name;
+        this.nodeCount = nodeCount;
     }
 
 }

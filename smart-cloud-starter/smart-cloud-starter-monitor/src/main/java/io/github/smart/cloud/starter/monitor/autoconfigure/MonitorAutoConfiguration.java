@@ -18,14 +18,11 @@ package io.github.smart.cloud.starter.monitor.autoconfigure;
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
 import io.github.smart.cloud.starter.monitor.AppChangeNotifier;
 import io.github.smart.cloud.starter.monitor.component.GitLabComponent;
-import io.github.smart.cloud.starter.monitor.schedule.OfflineCheckSchedule;
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
-import io.github.smart.cloud.starter.monitor.component.RobotComponent;
-import io.github.smart.cloud.starter.monitor.condition.ConditionOnWework;
-import io.github.smart.cloud.starter.monitor.listener.AppChangeWeworkNotice;
 import io.github.smart.cloud.starter.monitor.listener.OfflineCheckListener;
-import io.github.smart.cloud.starter.monitor.listener.OfflineWeworkNotice;
 import io.github.smart.cloud.starter.monitor.properties.MonitorProperties;
+import io.github.smart.cloud.starter.monitor.schedule.OfflineCheckSchedule;
+import io.github.smart.cloud.starter.monitor.schedule.ServiceNodeCountCheckSchedule;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -51,43 +48,22 @@ public class MonitorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public RobotComponent robotComponent(final MonitorProperties monitorProperties) {
-        return new RobotComponent(monitorProperties);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     public GitLabComponent gitLabComponent(final MonitorProperties monitorProperties) {
         return new GitLabComponent(monitorProperties);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public ReminderComponent reminderComponent(final GitLabComponent gitLabComponent, final MonitorProperties monitorProperties) {
-        return new ReminderComponent(gitLabComponent, monitorProperties);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     public OfflineCheckSchedule offlineCheckSchedule(final InstanceRepository instanceRepository, final MonitorProperties monitorProperties,
-                                                      final ApplicationEventPublisher applicationEventPublisher) {
+                                                     final ApplicationEventPublisher applicationEventPublisher) {
         return new OfflineCheckSchedule(instanceRepository, monitorProperties, applicationEventPublisher);
     }
 
     @Bean
-    @ConditionOnWework
     @ConditionalOnMissingBean
-    public OfflineWeworkNotice offlineWeworkNotice(final RobotComponent robotComponent, final MonitorProperties monitorProperties,
-                                                   final ReminderComponent reminderComponent) {
-        return new OfflineWeworkNotice(robotComponent, monitorProperties, reminderComponent);
-    }
-
-    @Bean
-    @ConditionOnWework
-    @ConditionalOnMissingBean
-    public AppChangeWeworkNotice appChangeWeworkNotice(final MonitorProperties monitorProperties, final RobotComponent robotComponent,
-                                                       final ReminderComponent reminderComponent) {
-        return new AppChangeWeworkNotice(monitorProperties, robotComponent, reminderComponent);
+    public ServiceNodeCountCheckSchedule serviceNodeCountCheckSchedule(final InstanceRepository instanceRepository, final MonitorProperties monitorProperties,
+                                                                       final ApplicationEventPublisher applicationEventPublisher) {
+        return new ServiceNodeCountCheckSchedule(instanceRepository, monitorProperties, applicationEventPublisher);
     }
 
     @Bean
