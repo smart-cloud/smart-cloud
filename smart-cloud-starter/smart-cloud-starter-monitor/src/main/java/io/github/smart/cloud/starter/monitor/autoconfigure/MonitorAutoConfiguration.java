@@ -18,7 +18,7 @@ package io.github.smart.cloud.starter.monitor.autoconfigure;
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
 import io.github.smart.cloud.starter.monitor.AppChangeNotifier;
 import io.github.smart.cloud.starter.monitor.component.GitLabComponent;
-import io.github.smart.cloud.starter.monitor.component.OfflineCheckComponent;
+import io.github.smart.cloud.starter.monitor.schedule.OfflineCheckSchedule;
 import io.github.smart.cloud.starter.monitor.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.condition.ConditionOnWework;
@@ -69,9 +69,9 @@ public class MonitorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public OfflineCheckComponent offlineCheckComponent(final InstanceRepository instanceRepository, final MonitorProperties monitorProperties,
-                                                       final ApplicationEventPublisher applicationEventPublisher) {
-        return new OfflineCheckComponent(instanceRepository, monitorProperties, applicationEventPublisher);
+    public OfflineCheckSchedule offlineCheckSchedule(final InstanceRepository instanceRepository, final MonitorProperties monitorProperties,
+                                                      final ApplicationEventPublisher applicationEventPublisher) {
+        return new OfflineCheckSchedule(instanceRepository, monitorProperties, applicationEventPublisher);
     }
 
     @Bean
@@ -92,8 +92,8 @@ public class MonitorAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public OfflineCheckListener offlineCheckListener(final OfflineCheckComponent offlineCheckComponent) {
-        return new OfflineCheckListener(offlineCheckComponent);
+    public OfflineCheckListener offlineCheckListener(final OfflineCheckSchedule offlineCheckSchedule) {
+        return new OfflineCheckListener(offlineCheckSchedule);
     }
 
     @Bean

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.component;
+package io.github.smart.cloud.starter.monitor.schedule;
 
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
 import io.github.smart.cloud.starter.monitor.event.offline.OfflineNoticeEvent;
@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2024-01-25
  */
 @RequiredArgsConstructor
-public class OfflineCheckComponent implements SmartInitializingSingleton, DisposableBean {
+public class OfflineCheckSchedule implements SmartInitializingSingleton, DisposableBean {
 
     private final InstanceRepository instanceRepository;
     private final MonitorProperties monitorProperties;

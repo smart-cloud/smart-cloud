@@ -45,13 +45,9 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier implements A
     private final MonitorProperties monitorProperties;
     private final ApplicationEventPublisher applicationEventPublisher;
     /**
-     * 服务启动时过滤消息时间间隔（单位：毫秒）
-     */
-    private static final Long FILTER_EVENT_TS = 60 * 1000L;
-    /**
      * 服务启动时间
      */
-    private Long startUpTs = null;
+    private Long monitorStartUpTs = null;
 
     public AppChangeNotifier(InstanceRepository instanceRepository, MonitorProperties monitorProperties, ApplicationEventPublisher applicationEventPublisher) {
         super(instanceRepository);
@@ -63,7 +59,7 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier implements A
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        this.startUpTs = System.currentTimeMillis();
+        this.monitorStartUpTs = System.currentTimeMillis();
     }
 
     @Override
@@ -130,7 +126,7 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier implements A
      * @return
      */
     private boolean filter(StatusInfo statusInfo) {
-        return statusInfo.isUp() && (startUpTs == null || System.currentTimeMillis() - startUpTs <= monitorProperties.getFilterEventTs());
+        return statusInfo.isUp() && (monitorStartUpTs == null || System.currentTimeMillis() - monitorStartUpTs <= monitorProperties.getFilterEventTs());
     }
 
     /**

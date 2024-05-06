@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.monitor.listener;
 
-import io.github.smart.cloud.starter.monitor.component.OfflineCheckComponent;
+import io.github.smart.cloud.starter.monitor.schedule.OfflineCheckSchedule;
 import io.github.smart.cloud.starter.monitor.event.OfflineEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
@@ -29,11 +29,11 @@ import org.springframework.context.ApplicationListener;
 @RequiredArgsConstructor
 public class OfflineCheckListener implements ApplicationListener<OfflineEvent> {
 
-    private final OfflineCheckComponent offlineCheckComponent;
+    private final OfflineCheckSchedule offlineCheckSchedule;
 
     @Override
     public void onApplicationEvent(OfflineEvent event) {
-        offlineCheckComponent.add(event.getName());
+        offlineCheckSchedule.add(event.getName());
     }
 
 }
