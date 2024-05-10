@@ -54,11 +54,11 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         String healthInstanceCountDesc = healthInstanceCount > 0 ? String.valueOf(healthInstanceCount) : "<font color=\\\"warning\\\">**0**</font>";
 
         StringBuilder content = new StringBuilder(128);
-        content.append("**时间**：").append(DateUtil.getCurrentDateTime()).append("\n")
-                .append("**服务**: ").append(event.getName()).append("\n")
-                .append("**地址**: ").append(event.getUrl()).append("\n")
-                .append("**状态**: ").append(getState(event)).append("\n")
-                .append("**在线实例数**: ").append(healthInstanceCountDesc).append("\n");
+        content.append("**时间**：").append(DateUtil.getCurrentDateTime()).append('\n')
+                .append("**服务**: ").append(event.getName()).append('\n')
+                .append("**地址**: ").append(event.getUrl()).append('\n')
+                .append("**状态**: ").append(getState(event)).append('\n')
+                .append("**在线实例数**: ").append(healthInstanceCountDesc).append('\n');
 
         // 接口健康信息
         StatusInfo statusInfo = event.getStatusInfo();
@@ -68,7 +68,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         } else if (statusInfo.isDown() || statusInfo.isOffline()) {
             Object reason = getReason(statusInfo);
             if (reason != null) {
-                content.append("**原因**: ").append(reason).append("\n");
+                content.append("**原因**: ").append(reason).append('\n');
             }
         }
 
@@ -156,7 +156,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
                 unHealthContent.append("\n>**异常信息**：").append(failMessage);
             }
         }
-        unHealthContent.append("\n");
+        unHealthContent.append('\n');
         return unHealthContent.toString();
     }
 

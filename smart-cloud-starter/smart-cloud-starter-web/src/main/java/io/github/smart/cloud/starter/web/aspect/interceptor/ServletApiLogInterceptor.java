@@ -36,6 +36,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -126,7 +127,7 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
     private Map<String, String> getHeaders(HttpServletRequest request) {
         Enumeration<String> enumerations = request.getHeaderNames();
         if (enumerations == null) {
-            return null;
+            return Collections.emptyMap();
         }
 
         Map<String, String> headers = new HashMap<>(8);

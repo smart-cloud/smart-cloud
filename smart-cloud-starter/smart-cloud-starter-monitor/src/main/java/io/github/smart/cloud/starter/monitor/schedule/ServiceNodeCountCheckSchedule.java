@@ -48,12 +48,12 @@ public class ServiceNodeCountCheckSchedule implements SmartInitializingSingleton
     private final InstanceRepository instanceRepository;
     private final MonitorProperties monitorProperties;
     private final ApplicationEventPublisher applicationEventPublisher;
-    private ScheduledExecutorService serviceNodeCountCheckSchedule = null;
+    private ScheduledExecutorService checkServiceNodeCountSchedule;
 
     @Override
     public void afterSingletonsInstantiated() {
-        serviceNodeCountCheckSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("check-service-node-count"));
-        serviceNodeCountCheckSchedule.scheduleWithFixedDelay(this::checkServiceNodeCount, monitorProperties.getCheckServiceNodeCountTs(),
+        checkServiceNodeCountSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("check-service-node-count"));
+        checkServiceNodeCountSchedule.scheduleWithFixedDelay(this::checkServiceNodeCount, monitorProperties.getCheckServiceNodeCountTs(),
                 monitorProperties.getCheckServiceNodeCountTs(), TimeUnit.SECONDS);
     }
 
@@ -97,8 +97,8 @@ public class ServiceNodeCountCheckSchedule implements SmartInitializingSingleton
 
     @Override
     public void destroy() throws Exception {
-        if (serviceNodeCountCheckSchedule != null) {
-            serviceNodeCountCheckSchedule.shutdown();
+        if (checkServiceNodeCountSchedule != null) {
+            checkServiceNodeCountSchedule.shutdown();
         }
     }
 

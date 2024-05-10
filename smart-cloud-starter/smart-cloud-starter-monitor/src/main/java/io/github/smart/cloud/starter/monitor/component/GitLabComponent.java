@@ -42,11 +42,11 @@ import java.util.Date;
 public class GitLabComponent implements SmartInitializingSingleton {
 
     private final MonitorProperties monitorProperties;
-    private String jobsUrlTemplate = null;
+    private String jobsUrlTemplate;
     /**
      * gitlab请求header信息
      */
-    private Header[] headers = null;
+    private Header[] headers;
 
     /**
      * 获取最后一个tag创建时间

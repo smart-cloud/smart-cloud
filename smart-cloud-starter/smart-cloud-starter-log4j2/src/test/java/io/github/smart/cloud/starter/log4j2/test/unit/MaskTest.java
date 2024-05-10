@@ -15,6 +15,9 @@
  */
 package io.github.smart.cloud.starter.log4j2.test.unit;
 
+import io.github.smart.cloud.mask.MaskLog;
+import io.github.smart.cloud.mask.MaskRule;
+import io.github.smart.cloud.mask.util.MaskUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,9 +27,6 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import io.github.smart.cloud.mask.MaskLog;
-import io.github.smart.cloud.mask.MaskRule;
-import io.github.smart.cloud.mask.util.MaskUtil;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -37,7 +37,7 @@ import java.nio.charset.StandardCharsets;
 class MaskTest {
 
     @Test
-    void testMask() throws IOException, InterruptedException {
+    void testMask() {
         User user = new User();
         user.setId(9L);
         user.setName("zhangsan");
@@ -45,21 +45,25 @@ class MaskTest {
         log.info("user={}", user);
 
         // 判断日志中是否脱敏
-        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        String appenderName = "console";
-        ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
-        ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
-        String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
-        byteBuffer.flip();
-        String maskName = MaskUtil.mask(user.getName(), MaskRule.NAME);
-        String maskMobile = MaskUtil.mask(user.getMobile(), MaskRule.MOBILE);
-        Assertions.assertThat(logContent).contains(maskName, maskMobile);
+        try (LoggerContext ctx = (LoggerContext) LogManager.getContext(false)) {
+            String appenderName = "console";
+            ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
+            ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
+            String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
+            byteBuffer.flip();
+            String maskName = MaskUtil.mask(user.getName(), MaskRule.NAME);
+            String maskMobile = MaskUtil.mask(user.getMobile(), MaskRule.MOBILE);
+            Assertions.assertThat(logContent).contains(maskName, maskMobile);
+        }
     }
 
     @Getter
     @Setter
     @ToString
     static class User implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
         private Long id;
         @MaskLog(MaskRule.NAME)
         private String name;

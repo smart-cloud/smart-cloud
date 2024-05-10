@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 
 @Disabled
 @RunWith(JUnitPlatform.class)
-@SelectPackages("io.github.smart.cloud.starter.core.method.log.test.cases")
+@SelectPackages("io.github.smart.cloud.starter.method.log.test.cases")
 public class SuiteTest {
 
 }

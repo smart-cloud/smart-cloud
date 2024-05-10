@@ -100,7 +100,7 @@ public class ReminderComponent {
      */
     public String generateReminders(Set<String> reminders) {
         StringBuilder sb = new StringBuilder(32);
-        reminders.forEach(reminder -> sb.append("\n").append("<@").append(reminder).append(">"));
+        reminders.forEach(reminder -> sb.append("\n<@").append(reminder).append('>'));
         return sb.toString();
     }
 

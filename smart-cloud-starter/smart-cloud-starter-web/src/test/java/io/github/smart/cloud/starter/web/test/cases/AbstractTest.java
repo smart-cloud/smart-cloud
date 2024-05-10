@@ -33,7 +33,7 @@ import java.util.Map;
 @SpringBootTest(classes = Application.class)
 public abstract class AbstractTest {
 
-    protected MockMvc mockMvc = null;
+    protected MockMvc mockMvc;
     @Autowired
     protected ApplicationContext applicationContext;
 

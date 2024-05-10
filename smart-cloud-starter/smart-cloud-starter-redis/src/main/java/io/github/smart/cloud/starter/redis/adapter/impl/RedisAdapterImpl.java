@@ -234,9 +234,9 @@ public class RedisAdapterImpl implements IRedisAdapter {
 
         for (int index = 0, size = data.size(); index < size; index++) {
             int luaArgIndex = index + 2;
-            hashLua.append("KEYS[").append(luaArgIndex).append("], ARGV[").append(luaArgIndex).append("]");
+            hashLua.append("KEYS[").append(luaArgIndex).append("], ARGV[").append(luaArgIndex).append(']');
             if (index < size - 1) {
-                hashLua.append(" ,");
+                hashLua.append(',');
             }
         }
 

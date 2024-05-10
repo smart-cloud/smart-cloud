@@ -63,16 +63,10 @@ public class DbUtil {
         Connection connection = DriverManager.getConnection(db.getUrl(), props);
         String schema = db.getSchema();
         if (schema != null && schema.trim().length() > 0) {
-            PreparedStatement preparedStatement = null;
-            try {
-                String fileContent = FileUtils.readFileToString(new ClassPathResource(schema).getFile(), StandardCharsets.UTF_8);
-                if (fileContent != null && fileContent.trim().length() > 0) {
-                    preparedStatement = connection.prepareStatement(fileContent.trim());
+            String fileContent = FileUtils.readFileToString(new ClassPathResource(schema).getFile(), StandardCharsets.UTF_8);
+            if (fileContent != null && fileContent.trim().length() > 0) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(fileContent.trim())) {
                     preparedStatement.execute();
-                }
-            } finally {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
                 }
             }
         }
@@ -183,7 +177,7 @@ public class DbUtil {
     private static String getPrimaryKeyColumnName(DatabaseMetaData metaData, String database,
                                                   String tableName) throws SQLException {
         try (ResultSet primaryKeyResultSet = metaData.getPrimaryKeys(database, null, tableName)) {
-            while (primaryKeyResultSet.next()) {
+            if (primaryKeyResultSet.next()) {
                 return primaryKeyResultSet.getString(4);
             }
         }

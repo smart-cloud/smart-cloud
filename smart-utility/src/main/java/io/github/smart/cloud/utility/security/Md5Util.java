@@ -18,8 +18,10 @@ package io.github.smart.cloud.utility.security;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -78,8 +80,8 @@ public class Md5Util extends DigestUtils {
      * @throws IOException
      */
     public static String generateFileMd5(File file) throws IOException {
-        try (FileInputStream fileInputStream = new FileInputStream(file)) {
-            return DigestUtils.md5Hex(fileInputStream);
+        try (InputStream inputStream = Files.newInputStream(Paths.get(file.toURI()))) {
+            return DigestUtils.md5Hex(inputStream);
         }
     }
 

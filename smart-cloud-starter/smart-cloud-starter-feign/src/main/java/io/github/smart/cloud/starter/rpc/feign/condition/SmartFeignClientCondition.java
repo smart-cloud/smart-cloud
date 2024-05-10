@@ -15,9 +15,8 @@
  */
 package io.github.smart.cloud.starter.rpc.feign.condition;
 
-import java.util.Set;
-
 import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
@@ -27,7 +26,7 @@ import org.springframework.core.type.ClassMetadata;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.Set;
 
 /**
  * <code>FeignClient</code>生效条件判断

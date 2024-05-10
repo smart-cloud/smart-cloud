@@ -28,6 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -123,16 +125,15 @@ public class CustomizeContextMapLookup implements StrLookup {
      * @return
      */
     private static File getApplicationHomeSource(ApplicationHome applicationHome) {
-        File source = null;
-        try {
-            Field field = ApplicationHome.class.getDeclaredField("source");
-            field.setAccessible(true);
-            source = (File) field.get(applicationHome);
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        return source;
+        return AccessController.doPrivileged((PrivilegedAction<File>) () -> {
+            try {
+                Field field = ApplicationHome.class.getDeclaredField("source");
+                field.setAccessible(true);
+                return (File) field.get(applicationHome);
+            } catch (ReflectiveOperationException | SecurityException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     /**

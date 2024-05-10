@@ -36,8 +36,8 @@ public class JasyptUtil {
      * @param message
      * @return
      */
-    public static String encryptor(String salt, String message) {
-        return JasyptUtilHolder.encryptor(salt, message);
+    public static String encrypt(String salt, String message) {
+        return JasyptUtilHolder.encrypt(salt, message);
     }
 
     /**
@@ -63,7 +63,7 @@ public class JasyptUtil {
          * @param message
          * @return
          */
-        public static String encryptor(String salt, String message) {
+        public static String encrypt(String salt, String message) {
             environment.getSystemProperties().put("jasypt.encryptor.password", salt);
             return encryptor.encrypt(message);
         }

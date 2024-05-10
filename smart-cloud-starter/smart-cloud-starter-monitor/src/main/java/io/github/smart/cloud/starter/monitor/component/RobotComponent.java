@@ -35,7 +35,7 @@ import org.springframework.beans.factory.SmartInitializingSingleton;
 public class RobotComponent implements SmartInitializingSingleton {
 
     private final MonitorProperties monitorProperties;
-    private HttpHost proxy = null;
+    private HttpHost proxy;
     /**
      * 机器人地址
      */

@@ -50,10 +50,6 @@ class CacheIntegrationTest extends AbstractRedisIntegrationTest {
         Assertions.assertThat(orderInfoCache.getPrice()).isEqualTo(orderInfoCache.getPrice());
     }
 
-    private String getCacheName() {
-        return "cache:order";
-    }
-
     @Test
     void testEvictCache() {
         String orderNo = RandomStringUtils.random(32, true, true);

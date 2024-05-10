@@ -46,7 +46,7 @@ public class OfflineCheckSchedule implements SmartInitializingSingleton, Disposa
      * 离线服务名
      */
     private static final Set<String> OFF_LINE_SERVICES = new CopyOnWriteArraySet<>();
-    private ScheduledExecutorService checkOfflineSchedule = null;
+    private ScheduledExecutorService checkOfflineSchedule;
 
     /**
      * 添加离线服务

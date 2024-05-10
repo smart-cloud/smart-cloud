@@ -77,7 +77,7 @@ public class XxlJobBeanPostProcessor implements BeanPostProcessor, BeanFactoryAw
      * @param advice
      * @return
      */
-    Object createProxy(Object bean, boolean cglibProxy, Advice advice) {
+    private Object createProxy(Object bean, boolean cglibProxy, Advice advice) {
         ProxyFactoryBean factory = new ProxyFactoryBean();
         factory.setProxyTargetClass(cglibProxy);
         factory.addAdvice(advice);

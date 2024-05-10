@@ -111,27 +111,27 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         String separator = "==>";
         StringBuilder str = new StringBuilder(64);
         String shortSqlId = getShortSqlId(sqlId);
-        str.append(shortSqlId);
-        str.append(":");
+        str.append(shortSqlId)
+                .append(':');
         Object parameterObject = boundSql.getParameterObject();
         // 过滤掉第三方定义的对象，避免循环引用时序列化报错
         if (canMask(parameterObject)) {
             String sql = cleanSql(boundSql.getSql());
-            str.append(sql);
-            str.append(separator);
-            str.append(MaskUtil.mask(parameterObject));
+            str.append(sql)
+                    .append(separator)
+                    .append(MaskUtil.mask(parameterObject));
         } else {
             String sql = getSql(configuration, boundSql);
             str.append(sql);
         }
-        str.append(separator);
-        str.append("spend:");
-        str.append(time);
-        str.append("ms");
-        str.append(separator);
-        str.append("result");
-        str.append(separator);
-        str.append(MaskUtil.mask(returnValue));
+        str.append(separator)
+                .append("spend:")
+                .append(time)
+                .append("ms")
+                .append(separator)
+                .append("result")
+                .append(separator)
+                .append(MaskUtil.mask(returnValue));
 
         String logLevel = smartProperties.getMybatis().getLogLevel();
         if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {

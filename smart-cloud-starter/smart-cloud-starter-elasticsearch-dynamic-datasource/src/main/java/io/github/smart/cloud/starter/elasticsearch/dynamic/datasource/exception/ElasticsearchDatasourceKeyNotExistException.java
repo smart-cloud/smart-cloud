@@ -26,6 +26,8 @@ import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.constants.
  */
 public class ElasticsearchDatasourceKeyNotExistException extends BaseException {
 
+    private static final long serialVersionUID = 1L;
+
     public ElasticsearchDatasourceKeyNotExistException() {
         setCode(ElasticsearchReturnCodes.ELASTICSEARCH_DS_KEY_CAN_NOT_BLANK);
     }

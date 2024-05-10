@@ -26,6 +26,8 @@ import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.constants.
  */
 public class ElasticsearchDataSourceNotFoundException extends BaseException {
 
+    private static final long serialVersionUID = 1L;
+
     public ElasticsearchDataSourceNotFoundException(String dsKey) {
         setCode(ElasticsearchReturnCodes.ELASTICSEARCH_DS_NOT_FOUND);
         setArgs(new Object[]{dsKey});

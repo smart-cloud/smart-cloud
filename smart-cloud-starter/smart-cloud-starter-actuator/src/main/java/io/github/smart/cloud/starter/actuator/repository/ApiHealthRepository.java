@@ -51,7 +51,7 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
      */
     private ConcurrentMap<String, ApiHealthCacheDTO> apiStatusStatistics = new ConcurrentHashMap<>();
     private CreateApiHealthCacheDtoFunction createApiHealthCacheDtoFunction = new CreateApiHealthCacheDtoFunction();
-    private ScheduledExecutorService cleanSchedule = null;
+    private ScheduledExecutorService cleanSchedule;
 
     /**
      * 添加接口访问记录

@@ -28,6 +28,8 @@ import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.properties
  */
 public class DynamicElasticsearchPropertiesNotConfigException extends BaseException {
 
+    private static final long serialVersionUID = 1L;
+
     public DynamicElasticsearchPropertiesNotConfigException() {
         setCode(ElasticsearchReturnCodes.DYNAMIC_ELASTICSEARCH_PROPERTIES_NOT_CONFIG);
     }

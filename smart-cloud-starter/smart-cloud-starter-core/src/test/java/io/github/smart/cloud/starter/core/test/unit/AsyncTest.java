@@ -15,6 +15,8 @@
  */
 package io.github.smart.cloud.starter.core.test.unit;
 
+import io.github.smart.cloud.starter.core.test.prepare.Application;
+import io.github.smart.cloud.starter.core.test.prepare.service.SmsService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
@@ -22,8 +24,6 @@ import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.smart.cloud.starter.core.test.prepare.Application;
-import io.github.smart.cloud.starter.core.test.prepare.service.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -44,13 +44,14 @@ class AsyncTest {
         smsService.asyncSend();
         TimeUnit.SECONDS.sleep(1);
 
-        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        String appenderName = "console";
-        ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
-        ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
-        String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
-        byteBuffer.flip();
-        Assertions.assertThat(StringUtils.containsAny(logContent, "asyncException@method=asyncSend; param=")).isTrue();
+        try (LoggerContext ctx = (LoggerContext) LogManager.getContext(false)) {
+            String appenderName = "console";
+            ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
+            ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
+            String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
+            byteBuffer.flip();
+            Assertions.assertThat(StringUtils.containsAny(logContent, "asyncException@method=asyncSend; param=")).isTrue();
+        }
     }
 
 }

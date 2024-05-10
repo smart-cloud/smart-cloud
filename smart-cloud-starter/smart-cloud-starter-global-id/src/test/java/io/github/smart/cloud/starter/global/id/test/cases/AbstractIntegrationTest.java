@@ -21,7 +21,7 @@ import redis.embedded.RedisServer;
 
 public abstract class AbstractIntegrationTest {
 
-    private static RedisServer redisServer = null;
+    private static RedisServer redisServer;
     /**
      * redis server端口
      */

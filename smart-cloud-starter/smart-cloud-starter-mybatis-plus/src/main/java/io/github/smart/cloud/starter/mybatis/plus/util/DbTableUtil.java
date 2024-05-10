@@ -126,9 +126,10 @@ public class DbTableUtil {
         List<String> tablesWithPrefix = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
             DatabaseMetaData databaseMetaData = connection.getMetaData();
-            ResultSet resultSet = databaseMetaData.getTables(targetDbName, null, tableName, null);
-            while (resultSet.next()) {
-                tablesWithPrefix.add(resultSet.getString(3));
+            try (ResultSet resultSet = databaseMetaData.getTables(targetDbName, null, tableName, null)) {
+                while (resultSet.next()) {
+                    tablesWithPrefix.add(resultSet.getString(3));
+                }
             }
         } catch (SQLException e) {
             log.error(e.getMessage(), e);

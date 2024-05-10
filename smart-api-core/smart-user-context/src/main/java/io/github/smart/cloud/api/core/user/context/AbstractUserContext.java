@@ -23,12 +23,23 @@ package io.github.smart.cloud.api.core.user.context;
  */
 public abstract class AbstractUserContext {
 
+    /**
+     * 用户上下文信息
+     */
     protected static final ThreadLocal<SmartUser> USER_THREAD_LOCAL = new InheritableThreadLocal<>();
 
+    /**
+     * 设置用户上下文信息
+     *
+     * @param smartUser
+     */
     public static void setContext(SmartUser smartUser) {
         USER_THREAD_LOCAL.set(smartUser);
     }
 
+    /**
+     * 移除用户上下文信息
+     */
     public static void remove() {
         USER_THREAD_LOCAL.remove();
     }

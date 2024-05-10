@@ -30,7 +30,7 @@ import org.springframework.core.type.ClassMetadata;
  */
 public class SmartBootApplicationCondition implements Condition {
 
-    private static String bootstrapClassName = null;
+    private static String bootstrapClassName;
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {

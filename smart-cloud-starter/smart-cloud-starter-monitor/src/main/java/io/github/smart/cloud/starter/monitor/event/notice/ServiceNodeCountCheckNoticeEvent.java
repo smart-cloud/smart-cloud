@@ -31,6 +31,8 @@ import org.springframework.context.ApplicationEvent;
 @ToString
 public class ServiceNodeCountCheckNoticeEvent extends ApplicationEvent {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * 服务名
      */

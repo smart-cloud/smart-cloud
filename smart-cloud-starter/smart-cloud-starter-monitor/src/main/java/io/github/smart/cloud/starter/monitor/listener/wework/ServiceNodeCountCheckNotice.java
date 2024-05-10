@@ -39,13 +39,13 @@ public class ServiceNodeCountCheckNotice extends AbstractWeworkNotice<ServiceNod
         String name = event.getName();
         String reminders = getReminderParams(name);
         StringBuilder content = new StringBuilder(64);
-        content.append("**服务**: ").append(name).append("\n");
+        content.append("**服务**: ").append(name).append('\n');
 
         ServiceInfoProperties serviceInfoProperties = monitorProperties.getServiceInfos().get(name);
         if (serviceInfoProperties != null) {
             Integer nodeCount = serviceInfoProperties.getNodeCount();
             if (nodeCount != null) {
-                content.append("**期望实例数**: ").append(nodeCount).append("\n");
+                content.append("**期望实例数**: ").append(nodeCount).append('\n');
             }
         }
         content.append("**当前实例数**: <font color=\\\"warning\\\">").append(event.getNodeCount()).append("</font>\n");

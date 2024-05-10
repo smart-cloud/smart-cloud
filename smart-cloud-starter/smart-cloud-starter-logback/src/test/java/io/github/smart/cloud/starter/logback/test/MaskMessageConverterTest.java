@@ -60,6 +60,9 @@ public class MaskMessageConverterTest {
     @Setter
     @ToString
     static class User implements Serializable {
+
+        private static final long serialVersionUID = 1L;
+
         private Long id;
         @MaskLog(MaskRule.NAME)
         private String name;

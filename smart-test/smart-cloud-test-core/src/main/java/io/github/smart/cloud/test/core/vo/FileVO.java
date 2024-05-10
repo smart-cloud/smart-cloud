@@ -32,6 +32,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class FileVO implements java.io.Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * 表单文件参数名
      */

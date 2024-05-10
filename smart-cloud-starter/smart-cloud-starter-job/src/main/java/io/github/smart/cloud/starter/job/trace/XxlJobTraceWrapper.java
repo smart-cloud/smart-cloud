@@ -57,7 +57,7 @@ public class XxlJobTraceWrapper extends IJobHandler {
     }
 
     private void doExecute() throws Exception {
-        ScopedSpan span = tracing.tracer().startScopedSpanWithParent(spanNamer().name(delegate, "xxl-job"),
+        ScopedSpan span = tracing.tracer().startScopedSpanWithParent(getSpanNamer().name(delegate, "xxl-job"),
                 tracing.currentTraceContext().get());
         try {
             delegate.execute();
@@ -74,7 +74,7 @@ public class XxlJobTraceWrapper extends IJobHandler {
      *
      * @return
      */
-    private SpanNamer spanNamer() {
+    private SpanNamer getSpanNamer() {
         if (spanNamer == null) {
             try {
                 spanNamer = beanFactory.getBean(SpanNamer.class);

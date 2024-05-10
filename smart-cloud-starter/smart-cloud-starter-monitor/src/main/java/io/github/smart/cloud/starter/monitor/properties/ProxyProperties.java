@@ -42,6 +42,6 @@ public class ProxyProperties implements Serializable {
     /**
      * 代理端口
      */
-    private Integer port = null;
+    private Integer port;
 
 }

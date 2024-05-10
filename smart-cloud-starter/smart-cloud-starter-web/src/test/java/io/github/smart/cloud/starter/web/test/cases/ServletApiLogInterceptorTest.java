@@ -83,13 +83,14 @@ class ServletApiLogInterceptorTest extends AbstractTest {
      * @throws IOException
      */
     private void checkLog() throws IOException {
-        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        String appenderName = "console";
-        ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
-        ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
-        String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
-        byteBuffer.flip();
-        Assertions.assertThat(StringUtils.containsAny(logContent, "api.log=>", "api.slow=>", "api.error=>")).isTrue();
+        try (LoggerContext ctx = (LoggerContext) LogManager.getContext(false)) {
+            String appenderName = "console";
+            ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
+            ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
+            String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
+            byteBuffer.flip();
+            Assertions.assertThat(StringUtils.containsAny(logContent, "api.log=>", "api.slow=>", "api.error=>")).isTrue();
+        }
     }
 
 }

@@ -23,6 +23,8 @@ package io.github.smart.cloud.starter.monitor.event;
  */
 public class UnknownEvent extends AbstractAppChangeEvent {
 
+    private static final long serialVersionUID = 1L;
+
     public UnknownEvent(Object source) {
         super(source);
     }

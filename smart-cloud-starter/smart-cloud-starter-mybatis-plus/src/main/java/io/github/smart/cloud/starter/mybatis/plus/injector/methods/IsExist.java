@@ -29,6 +29,8 @@ import org.apache.ibatis.mapping.SqlSource;
  */
 public class IsExist extends AbstractMethod {
 
+    private static final long serialVersionUID = 1L;
+
     public IsExist() {
         super(SmartSqlMethod.IS_EXIST.getMethod());
     }

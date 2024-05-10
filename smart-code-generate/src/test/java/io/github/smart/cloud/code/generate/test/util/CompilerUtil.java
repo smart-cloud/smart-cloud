@@ -16,6 +16,7 @@
 package io.github.smart.cloud.code.generate.test.util;
 
 import javax.tools.*;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,14 +37,17 @@ public class CompilerUtil {
      */
     public static List<? super JavaFileObject> compile(Iterable<String> names) {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, StandardCharsets.UTF_8);
-        Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromStrings(names);
-        DiagnosticCollector<? super JavaFileObject> diagnosticCollector = new DiagnosticCollector();
-        compiler.getTask(null, fileManager, diagnosticCollector, null, null, compilationUnits).call();
-        return diagnosticCollector.getDiagnostics()
-                .stream()
-                .filter(item -> item.getKind() == Diagnostic.Kind.ERROR)
-                .collect(Collectors.toList());
+        try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, StandardCharsets.UTF_8)) {
+            Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromStrings(names);
+            DiagnosticCollector<? super JavaFileObject> diagnosticCollector = new DiagnosticCollector();
+            compiler.getTask(null, fileManager, diagnosticCollector, null, null, compilationUnits).call();
+            return diagnosticCollector.getDiagnostics()
+                    .stream()
+                    .filter(item -> item.getKind() == Diagnostic.Kind.ERROR)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

@@ -15,12 +15,12 @@
  */
 package io.github.smart.cloud.starter.rabbitmq.test.cases;
 
+import io.github.smart.cloud.starter.rabbitmq.test.prepare.mq.Producer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import io.github.smart.cloud.starter.rabbitmq.test.prepare.mq.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.nio.ByteBuffer;
@@ -37,13 +37,14 @@ class MqIntegrationTest extends AbstractIntegrationTest {
         producer.send(200L);
         TimeUnit.SECONDS.sleep(95);
 
-        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        String appenderName = "console";
-        ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
-        ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
-        String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
-        byteBuffer.flip();
-        Assertions.assertThat(logContent).contains("Maximum times[2] of retries reached");
+        try (LoggerContext ctx = (LoggerContext) LogManager.getContext(false)) {
+            String appenderName = "console";
+            ConsoleAppender appender = ctx.getConfiguration().getAppender(appenderName);
+            ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
+            String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
+            byteBuffer.flip();
+            Assertions.assertThat(logContent).contains("Maximum times[2] of retries reached");
+        }
     }
 
 }

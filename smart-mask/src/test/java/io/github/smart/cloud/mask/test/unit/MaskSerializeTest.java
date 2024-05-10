@@ -230,6 +230,8 @@ class MaskSerializeTest {
     @Setter
     @ToString
     static class LoginVO implements Serializable {
+
+        private static final long serialVersionUID = 1L;
         @MaskLog(startLen = 1, endLen = 1, mask = "###")
         private String name;
         @MaskLog(startLen = 2)
@@ -240,6 +242,8 @@ class MaskSerializeTest {
     @Setter
     @ToString
     static class User implements Serializable {
+
+        private static final long serialVersionUID = 1L;
         @MaskLog
         private Long id;
         @MaskLog(MaskRule.NAME)
@@ -252,6 +256,8 @@ class MaskSerializeTest {
     @Setter
     @ToString
     static class Student extends User {
+
+        private static final long serialVersionUID = 1L;
         private int age;
         @MaskLog(MaskRule.NAME)
         private String className;
@@ -261,6 +267,8 @@ class MaskSerializeTest {
     @Setter
     @ToString
     static class Source implements Serializable {
+
+        private static final long serialVersionUID = 1L;
         @MaskLog(MaskRule.IP)
         private String ip;
         private List<User> users;
@@ -270,6 +278,8 @@ class MaskSerializeTest {
     @Setter
     @ToString
     static class Req<T> implements Serializable {
+
+        private static final long serialVersionUID = 1L;
         @MaskLog
         private String token;
         private T t;

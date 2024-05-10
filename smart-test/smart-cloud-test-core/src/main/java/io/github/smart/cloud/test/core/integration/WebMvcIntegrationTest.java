@@ -39,6 +39,8 @@ import javax.servlet.Filter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +54,7 @@ import java.util.Map;
 @Slf4j
 public class WebMvcIntegrationTest extends AbstractIntegrationTest implements IIntegrationTest {
 
-    protected MockMvc mockMvc = null;
+    protected MockMvc mockMvc;
 
     @BeforeEach
     public void initMock() {
@@ -207,7 +209,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
         for (FileVO fileVO : files) {
             File file = fileVO.getFile();
             MockMultipartFile mockMultipartFile = new MockMultipartFile(fileVO.getName(), file.getCanonicalPath(),
-                    MediaType.MULTIPART_FORM_DATA_VALUE, new FileInputStream(file));
+                    MediaType.MULTIPART_FORM_DATA_VALUE, Files.newInputStream(Paths.get(file.toURI())));
             mockMultipartHttpServletRequestBuilder.file(mockMultipartFile);
         }
         if (null != params && params.size() > 0) {

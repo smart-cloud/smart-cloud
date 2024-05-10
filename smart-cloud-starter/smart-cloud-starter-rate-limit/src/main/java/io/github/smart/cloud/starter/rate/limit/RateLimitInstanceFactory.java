@@ -116,7 +116,7 @@ public class RateLimitInstanceFactory implements InitializingBean {
             String className = rateLimitBeanName.substring(0, lastDotIndex);
             Class<?> c = null;
             try {
-                c = Class.forName(className, false, getClass().getClassLoader());
+                c = Class.forName(className, false, RateLimitInstanceFactory.class.getClassLoader());
             } catch (ClassNotFoundException e) {
                 log.warn("The class of bean name[{}] is not found", rateLimitBeanName);
                 rateLimitConfig.remove(rateLimitBeanName);

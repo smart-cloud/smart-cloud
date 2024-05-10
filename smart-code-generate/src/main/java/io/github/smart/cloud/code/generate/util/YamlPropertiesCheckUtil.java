@@ -20,6 +20,7 @@ import io.github.smart.cloud.code.generate.properties.CodeProperties;
 import io.github.smart.cloud.code.generate.properties.DbProperties;
 import io.github.smart.cloud.code.generate.properties.YamlProperties;
 import io.github.smart.cloud.mask.MaskRule;
+import org.springframework.util.StringUtils;
 
 import java.util.Map;
 

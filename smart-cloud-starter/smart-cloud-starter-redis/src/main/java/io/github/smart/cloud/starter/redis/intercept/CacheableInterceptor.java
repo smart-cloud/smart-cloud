@@ -18,7 +18,6 @@ package io.github.smart.cloud.starter.redis.intercept;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.exception.AcquiredLockFailException;
 import io.github.smart.cloud.starter.redis.annotation.Cacheable;
-import io.github.smart.cloud.starter.redis.constants.RedisLockConstants;
 import io.github.smart.cloud.starter.redis.enums.RedisKeyPrefix;
 import org.aopalliance.intercept.MethodInvocation;
 import org.redisson.api.RLock;
@@ -28,7 +27,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 缓存拦截器

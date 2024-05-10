@@ -47,7 +47,7 @@ public class AppChangeNotifier extends AbstractStatusChangeNotifier implements A
     /**
      * 服务启动时间
      */
-    private Long monitorStartUpTs = null;
+    private Long monitorStartUpTs;
 
     public AppChangeNotifier(InstanceRepository instanceRepository, MonitorProperties monitorProperties, ApplicationEventPublisher applicationEventPublisher) {
         super(instanceRepository);

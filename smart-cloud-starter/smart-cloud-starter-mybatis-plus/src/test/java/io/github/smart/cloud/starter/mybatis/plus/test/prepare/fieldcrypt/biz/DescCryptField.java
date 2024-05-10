@@ -19,6 +19,8 @@ import io.github.smart.cloud.starter.mybatis.plus.common.CryptField;
 
 public class DescCryptField extends CryptField {
 
+    private static final long serialVersionUID = 1L;
+
     public DescCryptField(String value) {
         super(value);
     }

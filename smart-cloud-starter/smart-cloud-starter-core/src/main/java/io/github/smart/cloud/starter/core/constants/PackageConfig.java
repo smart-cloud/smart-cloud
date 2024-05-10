@@ -34,7 +34,7 @@ public class PackageConfig {
      * 基础包
      */
     @Setter
-    private static String[] basePackages = null;
+    private static String[] basePackages;
 
     public static String[] getBasePackages() {
         Assert.isTrue(ArrayUtils.isNotEmpty(PackageConfig.basePackages), "basePackages未配置！！！");

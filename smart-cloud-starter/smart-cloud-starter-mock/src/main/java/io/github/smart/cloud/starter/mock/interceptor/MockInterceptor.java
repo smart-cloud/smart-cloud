@@ -16,7 +16,6 @@
 package io.github.smart.cloud.starter.mock.interceptor;
 
 import io.github.smart.cloud.constants.SymbolConstant;
-import io.github.smart.cloud.starter.configure.properties.MockProperties;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.mock.util.MockUtil;
 import lombok.RequiredArgsConstructor;

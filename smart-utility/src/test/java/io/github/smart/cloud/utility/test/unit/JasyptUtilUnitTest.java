@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 class JasyptUtilUnitTest {
 
     @Test
-    void testEncryptorAndDecrypt() {
+    void testEncryptAndDecrypt() {
         String salt = "test";
         String message = "123456";
-        String encryptor = JasyptUtil.encryptor(salt, message);
+        String encryptor = JasyptUtil.encrypt(salt, message);
         String decrypt = JasyptUtil.decrypt(salt, encryptor);
         Assertions.assertThat(decrypt).isEqualTo(message);
     }

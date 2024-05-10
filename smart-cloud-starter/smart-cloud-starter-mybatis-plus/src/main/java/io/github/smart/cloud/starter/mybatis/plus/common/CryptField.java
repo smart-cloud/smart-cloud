@@ -32,6 +32,8 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 public class CryptField implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * 隐私字段值
      */

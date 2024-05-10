@@ -115,7 +115,7 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
      * @return
      */
     private String buildWeworkRobotMessage(List<UnHealthApiDTO> unHealthInfos) {
-        StringBuilder content = new StringBuilder(32);
+        StringBuilder content = new StringBuilder(64);
         content.append("**").append(environment.getProperty("spring.application.name")).append("** ")
                 .append(TimeUnit.SECONDS.toMinutes(healthProperties.getCleanIntervalSeconds()))
                 .append("分钟异常接口统计:");

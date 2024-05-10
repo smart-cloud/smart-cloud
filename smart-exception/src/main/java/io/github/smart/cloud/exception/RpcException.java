@@ -25,6 +25,8 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  */
 public class RpcException extends BaseException {
 
+    private static final long serialVersionUID = 1L;
+
     public RpcException() {
         super(CommonReturnCodes.RPC_REQUEST_FAIL);
     }

@@ -15,12 +15,12 @@
  */
 package io.github.smart.cloud.starter.locale.autoconfigure;
 
-import io.github.smart.cloud.starter.locale.aspect.LocaleInterceptor;
-import io.github.smart.cloud.starter.locale.constant.LocaleConstant;
-import lombok.extern.slf4j.Slf4j;
 import io.github.smart.cloud.starter.configure.SmartAutoConfiguration;
 import io.github.smart.cloud.starter.configure.properties.LocaleProperties;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
+import io.github.smart.cloud.starter.locale.aspect.LocaleInterceptor;
+import io.github.smart.cloud.starter.locale.constant.LocaleConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
@@ -79,16 +79,16 @@ public class LocaleAutoConfiguration {
     @Bean
     public Advisor localeAdvisor(final LocaleInterceptor localeInterceptor) {
         StringBuilder expression = new StringBuilder(512);
-        expression.append("(@within(org.springframework.stereotype.Controller) || @within(org.springframework.web.bind.annotation.RestController))");
-        expression.append("&&");
-        expression.append("(");
-        expression.append("@annotation(org.springframework.web.bind.annotation.RequestMapping)");
-        expression.append("|| @annotation(org.springframework.web.bind.annotation.GetMapping)");
-        expression.append("|| @annotation(org.springframework.web.bind.annotation.PostMapping)");
-        expression.append("|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)");
-        expression.append("|| @annotation(org.springframework.web.bind.annotation.PutMapping)");
-        expression.append("|| @annotation(org.springframework.web.bind.annotation.PatchMapping)");
-        expression.append(")");
+        expression.append("(@within(org.springframework.stereotype.Controller) || @within(org.springframework.web.bind.annotation.RestController))") //NOPMD - suppressed ConsecutiveLiteralAppends - TODO explain reason for suppression
+                .append("&&")
+                .append('(')
+                .append("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
+                .append("|| @annotation(org.springframework.web.bind.annotation.GetMapping)")
+                .append("|| @annotation(org.springframework.web.bind.annotation.PostMapping)")
+                .append("|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)")
+                .append("|| @annotation(org.springframework.web.bind.annotation.PutMapping)")
+                .append("|| @annotation(org.springframework.web.bind.annotation.PatchMapping)")
+                .append(')');
 
         AspectJExpressionPointcut localePointcut = new AspectJExpressionPointcut();
         localePointcut.setExpression(expression.toString());

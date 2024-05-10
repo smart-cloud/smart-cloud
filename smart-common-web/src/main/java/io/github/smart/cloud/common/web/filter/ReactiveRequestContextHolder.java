@@ -49,7 +49,7 @@ public class ReactiveRequestContextHolder {
     public static HttpHeaders getHttpHeaders() {
         ServerHttpRequest serverHttpRequest = getServerHttpRequest();
         if (serverHttpRequest == null) {
-            return null;
+            return HttpHeaders.EMPTY;
         }
         return serverHttpRequest.getHeaders();
     }

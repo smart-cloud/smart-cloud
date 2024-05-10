@@ -27,7 +27,7 @@ import redis.embedded.RedisServer;
 @SpringBootTest(classes = App.class)
 public abstract class AbstractRedisIntegrationTest {
 
-    private static RedisServer redisServer = null;
+    private static RedisServer redisServer;
     /**
      * redis server端口
      */

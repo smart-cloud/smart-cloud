@@ -86,11 +86,11 @@ public class AspectInterceptorUtil {
      * @return
      */
     public static String buildExpression(String[] basePackages) {
-        StringBuilder executions = new StringBuilder();
+        StringBuilder executions = new StringBuilder(32);
         for (int i = 0; i < basePackages.length; i++) {
-            executions.append(PointcutPrimitive.EXECUTION.getName()).append("( * " + basePackages[i] + "..*.*(..))");
+            executions.append(PointcutPrimitive.EXECUTION.getName()).append("( * ").append(basePackages[i]).append("..*.*(..))");
             if (i != basePackages.length - 1) {
-                executions.append(" || ");
+                executions.append("||");
             }
         }
 
@@ -104,7 +104,7 @@ public class AspectInterceptorUtil {
      * @return
      */
     public static String buildExpression(String[] basePackages, String expression) {
-        return "(" + buildExpression(basePackages) + ") && (" + expression + ")";
+        return "(" + buildExpression(basePackages) + ")&&(" + expression + ")";
     }
 
     /**
@@ -117,9 +117,9 @@ public class AspectInterceptorUtil {
         StringBuilder expression = new StringBuilder();
         for (int i = 0; i < annotations.size(); i++) {
             expression.append(annotationPointcut);
-            expression.append("(" + annotations.get(i).getTypeName() + ")");
+            expression.append('(').append(annotations.get(i).getTypeName()).append(')');
             if (i != annotations.size() - 1) {
-                expression.append(" || ");
+                expression.append("||");
             }
         }
         return expression.toString();

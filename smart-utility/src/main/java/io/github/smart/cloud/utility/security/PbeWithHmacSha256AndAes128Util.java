@@ -33,7 +33,7 @@ import java.security.spec.InvalidKeySpecException;
  */
 public class PbeWithHmacSha256AndAes128Util {
     private static final String ALGORITHM = "PBEWithHmacSHA256AndAES_128";
-    private static PBEParameterSpec parameterSpec = null;
+    private static PBEParameterSpec parameterSpec;
 
     static {
         // 初始化盐

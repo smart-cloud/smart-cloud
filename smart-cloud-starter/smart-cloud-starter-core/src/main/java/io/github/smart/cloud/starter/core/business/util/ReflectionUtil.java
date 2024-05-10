@@ -38,7 +38,7 @@ import java.util.Set;
  */
 public class ReflectionUtil extends ReflectionUtils {
 
-    private static Reflections reflections = null;
+    private static Reflections reflections;
 
     static {
         String[] basePackages = PackageConfig.getBasePackages();
@@ -54,6 +54,7 @@ public class ReflectionUtil extends ReflectionUtils {
     }
 
     private ReflectionUtil() {
+        super();
     }
 
     /**

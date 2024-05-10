@@ -15,9 +15,9 @@
  */
 package io.github.smart.cloud.starter.web.exception.util;
 
-import org.apache.commons.lang3.StringUtils;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.utility.spring.I18nUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.FieldError;
 
 import javax.validation.ConstraintViolation;
@@ -80,13 +80,15 @@ public class ExceptionUtil {
         StringBuilder errorMsg = new StringBuilder();
         for (int i = 0, size = fieldErrors.size(); i < size; i++) {
             if (size > 1) {
-                errorMsg.append((i + 1) + SymbolConstant.DOT);
+                errorMsg.append((i + 1)).append(SymbolConstant.DOT);
             }
 
             String validateField = fieldErrors.get(i).getField();
             String defaultMessage = fieldErrors.get(i).getDefaultMessage();
             String i18nMessage = I18nUtil.getMessage(defaultMessage);
-            errorMsg.append(validateField + SymbolConstant.HYPHEN + (StringUtils.isBlank(i18nMessage) ? defaultMessage : i18nMessage));
+            errorMsg.append(validateField)
+                    .append(SymbolConstant.HYPHEN)
+                    .append(StringUtils.isBlank(i18nMessage) ? defaultMessage : i18nMessage);
             if (size > 1 && i < size - 1) {
                 errorMsg.append("; ");
             }

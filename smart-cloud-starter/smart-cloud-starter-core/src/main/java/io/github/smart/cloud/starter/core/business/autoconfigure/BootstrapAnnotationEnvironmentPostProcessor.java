@@ -16,10 +16,10 @@
 package io.github.smart.cloud.starter.core.business.autoconfigure;
 
 import io.github.smart.cloud.starter.core.constants.PackageConfig;
-import org.apache.commons.lang3.ArrayUtils;
 import io.github.smart.cloud.starter.core.constants.SmartEnv;
 import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
 import io.github.smart.cloud.starter.core.support.annotation.YamlScan;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.env.YamlPropertySourceLoader;
@@ -35,6 +35,8 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.*;
 
 /**
@@ -89,16 +91,15 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
     }
 
     private boolean isRegisterShutdownHook(SpringApplication application) {
-        boolean registerShutdownHook = false;
-        try {
-            Field field = SpringApplication.class.getDeclaredField("registerShutdownHook");
-            field.setAccessible(true);
-            registerShutdownHook = field.getBoolean(application);
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        return registerShutdownHook;
+        return AccessController.doPrivileged((PrivilegedAction<Boolean>) () -> {
+            try {
+                Field field = SpringApplication.class.getDeclaredField("registerShutdownHook");
+                field.setAccessible(true);
+                return field.getBoolean(application);
+            } catch (ReflectiveOperationException | SecurityException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     /**
@@ -194,10 +195,10 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
 
             // 2、将所有Resource加入Environment中
             try {
+                YamlPropertySourceLoader yamlPropertySourceLoader = new YamlPropertySourceLoader();
                 for (Resource resource : resourceSet) {
                     System.out.println("load yaml ==> " + resource.getFilename());
 
-                    YamlPropertySourceLoader yamlPropertySourceLoader = new YamlPropertySourceLoader();
                     List<PropertySource<?>> propertySources = yamlPropertySourceLoader.load(resource.getFilename(),
                             resource);
                     for (PropertySource<?> propertySource : propertySources) {

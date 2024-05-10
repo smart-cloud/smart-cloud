@@ -23,6 +23,8 @@ package io.github.smart.cloud.starter.monitor.event;
  */
 public class OfflineEvent extends AbstractAppChangeEvent {
 
+    private static final long serialVersionUID = 1L;
+
     public OfflineEvent(Object source) {
         super(source);
     }

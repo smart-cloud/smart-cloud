@@ -32,6 +32,8 @@ import java.io.Serializable;
 @ToString
 public class SmartUser implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * 用户id
      */

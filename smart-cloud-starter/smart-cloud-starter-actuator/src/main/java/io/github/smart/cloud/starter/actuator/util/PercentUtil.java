@@ -37,7 +37,9 @@ public class PercentUtil {
      * @return
      */
     public static String format(Object obj) {
-        return PERCENT_FORMAT.format(obj);
+        synchronized (PERCENT_FORMAT) {
+            return PERCENT_FORMAT.format(obj);
+        }
     }
 
 }

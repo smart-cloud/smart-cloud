@@ -29,6 +29,8 @@ import org.apache.ibatis.mapping.SqlSource;
  */
 public class Truncate extends AbstractMethod {
 
+    private static final long serialVersionUID = 1L;
+
     public Truncate() {
         super(SmartSqlMethod.TRUNCATE.getMethod());
     }

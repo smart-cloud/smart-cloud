@@ -28,11 +28,11 @@ public abstract class AbstractRandomUtil {
     /**
      * 随机字符表
      */
-    protected static String randomStrTable = null;
+    protected static String randomStrTable;
     /**
      * 随机数字表
      */
-    protected static String randomPureNumberTable = null;
+    protected static String randomPureNumberTable;
 
     static {
         StringBuilder strTableTmp = new StringBuilder();

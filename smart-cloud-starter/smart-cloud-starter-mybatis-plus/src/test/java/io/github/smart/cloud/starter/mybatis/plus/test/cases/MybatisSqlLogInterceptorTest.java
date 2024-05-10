@@ -60,15 +60,16 @@ class MybatisSqlLogInterceptorTest {
         boolean success = productInfoOmsBiz.save(entity);
         Assertions.assertThat(success).isTrue();
 
-        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
-        ConsoleAppender appender = ctx.getConfiguration().getAppender("console");
-        if (appender == null) {
-            appender = ctx.getConfiguration().getAppender("Console");
+        try (LoggerContext ctx = (LoggerContext) LogManager.getContext(false)) {
+            ConsoleAppender appender = ctx.getConfiguration().getAppender("console");
+            if (appender == null) {
+                appender = ctx.getConfiguration().getAppender("Console");
+            }
+            ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
+            String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
+            byteBuffer.flip();
+            Assertions.assertThat(logContent).containsSubsequence("ProductInfoBaseMapper.insert:", "==>spend:", "==>result==>");
         }
-        ByteBuffer byteBuffer = appender.getManager().getByteBuffer().asReadOnlyBuffer();
-        String logContent = StandardCharsets.UTF_8.decode(byteBuffer).toString();
-        byteBuffer.flip();
-        Assertions.assertThat(logContent).containsSubsequence("ProductInfoBaseMapper.insert:", "==>spend:", "==>result==>");
     }
 
 }

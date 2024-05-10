@@ -30,13 +30,13 @@ class AspectInterceptorUtilUnitTest {
     @Test
     void testGetTypeExpression() {
         String expression = AspectInterceptorUtil.getTypeExpression(Arrays.asList(Controller.class, RestController.class));
-        Assertions.assertThat(expression).isEqualTo("@within(org.springframework.stereotype.Controller) || @within(org.springframework.web.bind.annotation.RestController)");
+        Assertions.assertThat(expression).isEqualTo("@within(org.springframework.stereotype.Controller)||@within(org.springframework.web.bind.annotation.RestController)");
     }
 
     @Test
     void testGetMethodExpression() {
         String expression = AspectInterceptorUtil.getMethodExpression(Arrays.asList(Controller.class, RestController.class));
-        Assertions.assertThat(expression).isEqualTo("@annotation(org.springframework.stereotype.Controller) || @annotation(org.springframework.web.bind.annotation.RestController)");
+        Assertions.assertThat(expression).isEqualTo("@annotation(org.springframework.stereotype.Controller)||@annotation(org.springframework.web.bind.annotation.RestController)");
     }
 
     @Test
@@ -52,13 +52,13 @@ class AspectInterceptorUtilUnitTest {
         String apiExpression = AspectInterceptorUtil.getApiExpression(new String[]{"org.smartcloud"});
         Assertions.assertThat(apiExpression)
                 .isNotBlank()
-                .isEqualTo("(execution( * org.smartcloud..*.*(..))) " +
-                "&& (@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
-                "|| @annotation(org.springframework.web.bind.annotation.GetMapping) " +
-                "|| @annotation(org.springframework.web.bind.annotation.PostMapping) " +
-                "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping) " +
-                "|| @annotation(org.springframework.web.bind.annotation.PutMapping) " +
-                "|| @annotation(org.springframework.web.bind.annotation.PatchMapping))");
+                .isEqualTo("(execution( * org.smartcloud..*.*(..)))" +
+                "&&(@annotation(org.springframework.web.bind.annotation.RequestMapping)" +
+                "||@annotation(org.springframework.web.bind.annotation.GetMapping)" +
+                "||@annotation(org.springframework.web.bind.annotation.PostMapping)" +
+                "||@annotation(org.springframework.web.bind.annotation.DeleteMapping)" +
+                "||@annotation(org.springframework.web.bind.annotation.PutMapping)" +
+                "||@annotation(org.springframework.web.bind.annotation.PatchMapping))");
     }
 
 }

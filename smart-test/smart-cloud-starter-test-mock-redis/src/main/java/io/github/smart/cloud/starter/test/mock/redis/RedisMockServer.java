@@ -26,7 +26,7 @@ import redis.embedded.RedisServerBuilder;
  */
 public class RedisMockServer {
 
-    private static RedisServer redisServer = null;
+    private static RedisServer redisServer;
 
     private RedisMockServer() {
     }
