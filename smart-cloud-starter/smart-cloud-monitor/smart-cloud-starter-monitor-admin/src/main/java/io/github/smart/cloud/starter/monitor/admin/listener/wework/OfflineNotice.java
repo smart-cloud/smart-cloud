@@ -15,10 +15,12 @@
  */
 package io.github.smart.cloud.starter.monitor.admin.listener.wework;
 
+import io.github.smart.cloud.monitor.common.dto.WeworkRobotMarkdownMessageDTO;
 import io.github.smart.cloud.starter.monitor.admin.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.admin.component.RobotComponent;
-import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.admin.event.notice.OfflineNoticeEvent;
+import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
+import io.github.smart.cloud.utility.JacksonUtil;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -38,11 +40,13 @@ public class OfflineNotice extends AbstractWeworkNotice<OfflineNoticeEvent> {
         String name = event.getName();
         String reminders = getReminderParams(name);
         StringBuilder content = new StringBuilder(64);
-        content.append("**").append(name).append("**服务<font color=\\\"warning\\\">**在线实例数为0**</font>");
+        content.append("**").append(name).append("**服务<font color=\"warning\">**在线实例数为0**</font>");
         if (StringUtils.isNotBlank(reminders)) {
             content.append(reminders);
         }
-        robotComponent.sendWxworkNotice(robotComponent.getRobotKey(name), content.toString());
+
+        String robotMessage = JacksonUtil.toJson(new WeworkRobotMarkdownMessageDTO(content.toString()));
+        robotComponent.sendWxworkNotice(robotComponent.getRobotKey(name), robotMessage);
     }
 
 }

@@ -40,10 +40,6 @@ public class RobotComponent implements SmartInitializingSingleton {
      * 机器人地址
      */
     private String robotUrlTemplate = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=%s";
-    /**
-     * 企业微信机器人通知模板
-     */
-    private String rabotMessageTemplate = "{\"msgtype\":\"markdown\",\"markdown\":{\"content\":\"%s\"}}";
 
     /**
      * 发送企业微信通知
@@ -54,7 +50,7 @@ public class RobotComponent implements SmartInitializingSingleton {
     public void sendWxworkNotice(String robotKey, String content) {
         String url = String.format(robotUrlTemplate, robotKey);
         try {
-            HttpUtil.postWithRaw(url, String.format(rabotMessageTemplate, content), proxy);
+            HttpUtil.postWithRaw(url, content, proxy);
         } catch (Exception e) {
             log.error("send WXWork notice fail|url={}, content={}", url, content, e);
         }

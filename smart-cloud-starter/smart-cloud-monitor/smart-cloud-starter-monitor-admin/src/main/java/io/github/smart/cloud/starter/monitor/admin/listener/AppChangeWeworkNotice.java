@@ -18,11 +18,13 @@ package io.github.smart.cloud.starter.monitor.admin.listener;
 import com.alibaba.nacos.common.utils.MapUtil;
 import de.codecentric.boot.admin.server.domain.values.StatusInfo;
 import io.github.smart.cloud.constants.SymbolConstant;
+import io.github.smart.cloud.monitor.common.dto.WeworkRobotMarkdownMessageDTO;
 import io.github.smart.cloud.starter.monitor.admin.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.admin.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.admin.event.*;
 import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.utility.DateUtil;
+import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
@@ -51,7 +53,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
     public void onApplicationEvent(AbstractAppChangeEvent event) {
         // 在线实例数
         Long healthInstanceCount = event.getHealthInstanceCount();
-        String healthInstanceCountDesc = healthInstanceCount > 0 ? String.valueOf(healthInstanceCount) : "<font color=\\\"warning\\\">**0**</font>";
+        String healthInstanceCountDesc = healthInstanceCount > 0 ? String.valueOf(healthInstanceCount) : "<font color=\"warning\">**0**</font>";
 
         StringBuilder content = new StringBuilder(128);
         content.append("**时间**：").append(DateUtil.getCurrentDateTime()).append('\n')
@@ -80,7 +82,8 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
             }
         }
 
-        robotComponent.sendWxworkNotice(robotComponent.getRobotKey(event.getName()), content.toString());
+        String robotMessage = JacksonUtil.toJson(new WeworkRobotMarkdownMessageDTO(content.toString()));
+        robotComponent.sendWxworkNotice(robotComponent.getRobotKey(event.getName()), robotMessage);
     }
 
     /**
@@ -91,15 +94,15 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
      */
     private String getState(AbstractAppChangeEvent event) {
         if (event instanceof DownEvent) {
-            return "<font color=\\\"comment\\\">**健康检查没通过**</font>";
+            return "<font color=\"comment\">**健康检查没通过**</font>";
         } else if (event instanceof UpEvent) {
-            return "<font color=\\\"info\\\">**上线**</font>";
+            return "<font color=\"info\">**上线**</font>";
         } else if (event instanceof OfflineEvent) {
-            return "<font color=\\\"warning\\\">**离线**</font>";
+            return "<font color=\"warning\">**离线**</font>";
         } else if (event instanceof MarkedOfflineEvent) {
-            return "<font color=\\\"comment\\\">**被人工标记下线**</font>";
+            return "<font color=\"comment\">**被人工标记下线**</font>";
         } else if (event instanceof UnknownEvent) {
-            return "<font color=\\\"comment\\\">**未知异常**</font>";
+            return "<font color=\"comment\">**未知异常**</font>";
         }
 
         return "**unknow**";
@@ -141,7 +144,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         }
 
         StringBuilder unHealthContent = new StringBuilder(64);
-        unHealthContent.append("<font color=\\\"warning\\\">**非健康接口(近").append(monitorProperties.getExceptionApiCheckInterval()).append("分钟)**</font>:");
+        unHealthContent.append("<font color=\"warning\">**非健康接口(近").append(monitorProperties.getExceptionApiCheckInterval()).append("分钟)**</font>:");
         int apiIndex = 0;
         for (Map<String, Object> unHealthInfo : unHealthInfos) {
             unHealthContent.append("\n\n>**接口").append(++apiIndex).append("**: ").append(unHealthInfo.get(Constants.NAME))
