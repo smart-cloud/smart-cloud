@@ -33,41 +33,43 @@ smart cloud
 
 ```
 smart-cloud
-├── smart-api-core -- 接口权限、加解密、签名等注解 && 用户上下文
-│    ├──smart-api-annotation -- 接口权限、加解密、签名等注解
-│    └──smart-user-context -- 用户上下文
-├── smart-code-generate -- 代码生成
-├── smart-common-pojo -- 公共对象（VO、DTO、BO、DO等）
-├── smart-common-web -- web模块公共处理
-├── smart-constants -- 常量模块
-├── smart-exception -- 异常模块
-├── smart-mask -- 敏感数据混淆
-├── smart-test -- test封装
+├──smart-api-core -- 接口权限、加解密、签名等注解 && 用户上下文
+│  ├──smart-api-annotation -- 接口权限、加解密、签名等注解
+│  └──smart-user-context -- 用户上下文
+├──smart-code-generate -- 代码生成
+├──smart-common-pojo -- 公共对象（VO、DTO、BO、DO等）
+├──smart-common-web -- web模块公共处理
+├──smart-constants -- 常量模块
+├──smart-exception -- 异常模块
+├──smart-mask -- 敏感数据混淆
+├──smart-test -- test封装
 │  ├──smart-cloud-starter-test -- test封装
 │  ├──smart-cloud-starter-test-mock-rabbitmq -- test rabbitmq模块封装
 │  ├──smart-cloud-starter-test-mock-redis -- test redis模块封装
 │  └──smart-cloud-test-core -- test 单元测试、集成测试封装
-├── smart-utility -- 工具类
-└── smart-could-starter -- 框架封装
-     ├── smart-cloud-starter-actuator -- 扩展actuator，自定义监控
-     ├── smart-cloud-starter-configure -- 框架配置属性封装
-     ├── smart-cloud-starter-core -- 框架核心（自定义注解、异常封装、请求响应公共参数、业务相关工具类）
-     ├── smart-cloud-starter-elasticsearch-dynamic-datasource -- elasticsearch动态数据源
-     ├── smart-cloud-starter-feign -- feign封装（可拆可合、切面处理）
-     ├── smart-cloud-starter-global-id -- 分布式id生成器
-     ├── smart-cloud-starter-job -- 定时任务封装
-     ├── smart-cloud-starter-locale -- 国际化封装
-     ├── smart-cloud-starter-log4j2 -- 日志封装（log4j2日志打印，支持日志敏感数据脱敏）
-     ├── smart-cloud-starter-logback -- 日志封装（logback日志打印，支持日志敏感数据脱敏）
-     ├── smart-cloud-starter-method-log -- 方法切面日志封装
-     ├── smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
-     ├── smart-cloud-starter-monitor -- spring boot admin监控，企业微信发通知
-     ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表、分布式事务；mapper工具类）
-     ├── smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类、表隐私字段加解密等）
-     ├── smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）
-     ├── smart-cloud-starter-rate-limit -- 接口限流
-     ├── smart-cloud-starter-redis -- redis封装、自定义分布式锁注解
-     └── smart-cloud-starter-web -- web封装（日志切面、异常处理、参数校验）
+├──smart-utility -- 工具类
+└──smart-could-starter -- 框架封装
+   ├──smart-cloud-starter-configure -- 框架配置属性封装
+   ├──smart-cloud-starter-core -- 框架核心（自定义注解、异常封装、请求响应公共参数、业务相关工具类）
+   ├──smart-cloud-starter-elasticsearch-dynamic-datasource -- elasticsearch动态数据源
+   ├──smart-cloud-starter-feign -- feign封装（可拆可合、切面处理）
+   ├──smart-cloud-starter-global-id -- 分布式id生成器
+   ├──smart-cloud-starter-job -- 定时任务封装
+   ├──smart-cloud-starter-locale -- 国际化封装
+   ├──smart-cloud-starter-log4j2 -- 日志封装（log4j2日志打印，支持日志敏感数据脱敏）
+   ├──smart-cloud-starter-logback -- 日志封装（logback日志打印，支持日志敏感数据脱敏）
+   ├──smart-cloud-starter-method-log -- 方法切面日志封装
+   ├──smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
+   ├──smart-cloud-starter-mp-shardingjdbc -- mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表、分布式事务；mapper工具类）
+   ├──smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类、表隐私字段加解密等）
+   ├──smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）
+   ├──smart-cloud-starter-rate-limit -- 接口限流
+   ├──smart-cloud-starter-redis -- redis封装、自定义分布式锁注解
+   ├──smart-cloud-starter-web -- web封装（日志切面、异常处理、参数校验）
+   └──smart-cloud-starter-monitor -- 服务监控，接口监控
+      ├──smart-cloud-monitor-common -- 监控公共代码
+      ├──smart-cloud-starter-monitor-actuator -- 扩展actuator，自定义监控
+      └──smart-cloud-starter-monitor-admin -- spring boot admin监控，企业微信发通知
 ```
 
 # 三、技术栈

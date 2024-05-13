@@ -33,43 +33,45 @@ See the example project: [smart-cloud-examples](https://github.com/smart-cloud/s
 
 ```
 smart-cloud
-├── smart-api-core -- Interface permissions, encryption and decryption, signature and other annotations && user context
-│    ├──smart-api-annotation -- Annotation for interface permissions, encryption and decryption, signature, etc.
-│    └──smart-user-context -- user context
-├── smart-code-generate -- code generation
-├── smart-common-pojo -- public object( VO,DTO,BO,DO, etc.)
-├── smart-common-web -- web module public processing
-├── smart-constants -- constant module
-├── smart-exception -- exception module
-├── smart-mask -- Sensitive data obfuscation
-├── smart-test -- test package
+├──smart-api-core -- Interface permissions, encryption and decryption, signature and other annotations && user context
+│  ├──smart-api-annotation -- Annotation for interface permissions, encryption and decryption, signature, etc.
+│  └──smart-user-context -- user context
+├──smart-code-generate -- code generation
+├──smart-common-pojo -- public object( VO,DTO,BO,DO, etc.)
+├──smart-common-web -- web module public processing
+├──smart-constants -- constant module
+├──smart-exception -- exception module
+├──smart-mask -- Sensitive data obfuscation
+├──smart-test -- test package
 │  ├──smart-cloud-starter-test -- test package
 │  ├──smart-cloud-starter-test-mock-rabbitmq -- test rabbitmq module package
 │  ├──smart-cloud-starter-test-mock-redis -- test redis module package
 │  └──smart-cloud-test-core -- test unit test, integration test package
-├── smart-utility -- Tools
-└── smart-could-starter -- frame encapsulation
-     ├── smart-cloud-starter-actuator -- Expand actuator and customize monitoring
-     ├── smart-cloud-starter-configure -- Framework configuration property encapsulation
-     ├── smart-cloud-starter-core -- Framework core (custom annotations, exception encapsulation, request and response public parameters, business-related tool classes)
-     ├── smart-cloud-starter-elasticsearch-dynamic-datasource -- elasticsearch dynamic data source
-     ├── smart-cloud-starter-feign -- feign package (removable and reusable, faceted)
-     ├── smart-cloud-starter-global-id -- distributed id generator
-     ├── smart-cloud-starter-job -- Scheduled task
-     ├── smart-cloud-starter-locale -- international
-     ├── smart-cloud-starter-log4j2 -- Log encapsulation (log4j2 encapsulation, support desensitization of log sensitive data)
-     ├── smart-cloud-starter-log4j2 -- Log encapsulation (log4j2 log printing, support log sensitive data desensitization)
-     ├── smart-cloud-starter-logback -- Log encapsulation (logback log printing, support log sensitive data desensitization)
-     ├── smart-cloud-starter-method-log -- 方Method Aspect Log Encapsulation
-     ├── smart-cloud-starter-mock -- Mock encapsulation (mock tool classes, common mock strategies, request interface mock interceptors)
-     ├── smart-cloud-starter-monitor -- Monitor service by spring boot admin, send warning message by WXWork
-     ├── smart-cloud-starter-monitor -- spring boot admin监控，企业微信发通知
-     ├── smart-cloud-starter-mp-shardingjdbc -- mybatis plus, dynamic-datasource, shardingjdbc package (supports multiple data sources, sub-database sub-tables, distributed transactions; mapper tool class)
-     ├── smart-cloud-starter-mybatis-plus -- mybatis plus, dynamic-datasource encapsulation (supports multiple data sources, distributed transactions; mapper tool class, table privacy field encryption and decryption, etc.)
-     ├── smart-cloud-starter-rabbitmq -- rabbitmq encapsulation (consumption failure, automatically put into the delayed queue for re-consumption)
-     ├── smart-cloud-starter-rate-limit -- api rate limit
-     ├── smart-cloud-starter-redis -- redis encapsulation, custom distributed lock annotation
-     └── smart-cloud-starter-web -- web encapsulation (log aspect, exception handling, parameter verification)
+├──smart-utility -- Tools
+└──smart-could-starter -- frame encapsulation
+   ├──smart-cloud-starter-configure -- Framework configuration property encapsulation
+   ├──smart-cloud-starter-core -- Framework core (custom annotations, exception encapsulation, request and response public parameters, business-related tool classes)
+   ├──smart-cloud-starter-elasticsearch-dynamic-datasource -- elasticsearch dynamic data source
+   ├──smart-cloud-starter-feign -- feign package (removable and reusable, faceted)
+   ├──smart-cloud-starter-global-id -- distributed id generator
+   ├──smart-cloud-starter-job -- Scheduled task
+   ├──smart-cloud-starter-locale -- international
+   ├──smart-cloud-starter-log4j2 -- Log encapsulation (log4j2 encapsulation, support desensitization of log sensitive data)
+   ├──smart-cloud-starter-log4j2 -- Log encapsulation (log4j2 log printing, support log sensitive data desensitization)
+   ├──smart-cloud-starter-logback -- Log encapsulation (logback log printing, support log sensitive data desensitization)
+   ├──smart-cloud-starter-method-log -- 方Method Aspect Log Encapsulation
+   ├──smart-cloud-starter-mock -- Mock encapsulation (mock tool classes, common mock strategies, request interface mock interceptors)
+   ├──smart-cloud-starter-monitor -- Monitor service by spring boot admin, send warning message by WXWork
+   ├──smart-cloud-starter-mp-shardingjdbc -- mybatis plus, dynamic-datasource, shardingjdbc package (supports multiple data sources, sub-database sub-tables, distributed transactions; mapper tool class)
+   ├──smart-cloud-starter-mybatis-plus -- mybatis plus, dynamic-datasource encapsulation (supports multiple data sources, distributed transactions; mapper tool class, table privacy field encryption and decryption, etc.)
+   ├──smart-cloud-starter-rabbitmq -- rabbitmq encapsulation (consumption failure, automatically put into the delayed queue for re-consumption)
+   ├──smart-cloud-starter-rate-limit -- api rate limit
+   ├──smart-cloud-starter-redis -- redis encapsulation, custom distributed lock annotation
+   └──smart-cloud-starter-web -- web encapsulation (log aspect, exception handling, parameter verification)
+   └──smart-cloud-starter-monitor -- Service monitoring, interface monitoring
+      ├──smart-cloud-monitor-common -- Monitor common code
+      ├──smart-cloud-starter-monitor-actuator -- Expand actuator and customize monitoring
+      └──smart-cloud-starter-monitor-admin -- spring boot admin monitoring, wework notifications
 ```
 
 # technology stack
