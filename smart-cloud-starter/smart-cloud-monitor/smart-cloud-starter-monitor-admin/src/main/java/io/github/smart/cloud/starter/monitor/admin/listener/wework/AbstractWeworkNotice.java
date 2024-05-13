@@ -12,6 +12,13 @@ import org.springframework.context.ApplicationListener;
 
 import java.util.Set;
 
+/**
+ * 企业微信机器人通知父类
+ *
+ * @param <E>
+ * @author collin
+ * @date 2024-05-13
+ */
 @RequiredArgsConstructor
 public abstract class AbstractWeworkNotice<E extends ApplicationEvent> implements ApplicationListener<E> {
 
