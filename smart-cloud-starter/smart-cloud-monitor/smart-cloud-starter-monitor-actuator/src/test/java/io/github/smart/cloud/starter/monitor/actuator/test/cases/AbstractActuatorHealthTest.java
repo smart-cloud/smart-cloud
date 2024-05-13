@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class AbstractActuatorHealthTest extends AbstractTest {
+public abstract class AbstractActuatorHealthTest extends AbstractTest {
 
     /**
      * 校验actuator/health接口

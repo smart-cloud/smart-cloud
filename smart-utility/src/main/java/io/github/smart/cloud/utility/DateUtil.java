@@ -237,7 +237,7 @@ public class DateUtil {
         return new Date(currentMillis);
     }
 
-    static class Holder {
+    private static class Holder {
         /**
          * 所有的日期格式
          */

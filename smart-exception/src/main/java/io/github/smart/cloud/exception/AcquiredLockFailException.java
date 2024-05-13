@@ -23,7 +23,7 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  * @author collin
  * @date 2022-02-04
  */
-public class AcquiredLockFailException extends BaseException {
+public class AcquiredLockFailException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,6 +32,7 @@ public class AcquiredLockFailException extends BaseException {
     }
 
     public AcquiredLockFailException(String code) {
+        super();
         super.setCode(code);
     }
 

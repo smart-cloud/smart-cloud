@@ -150,7 +150,7 @@ class RedisAdapterImplIntegrationTest extends AbstractRedisIntegrationTest {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    static class SetObject {
+    private class SetObject {
         private String name;
     }
 

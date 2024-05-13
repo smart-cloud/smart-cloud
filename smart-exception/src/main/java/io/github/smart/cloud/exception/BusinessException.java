@@ -21,7 +21,7 @@ package io.github.smart.cloud.exception;
  * @author collin
  * @date 2019-06-29
  */
-public class BusinessException extends BaseException {
+public class BusinessException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 

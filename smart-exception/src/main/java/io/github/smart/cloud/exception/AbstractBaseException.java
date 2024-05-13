@@ -21,7 +21,7 @@ package io.github.smart.cloud.exception;
  * @author collin
  * @date 2019-04-22
  */
-public abstract class BaseException extends RuntimeException {
+public abstract class AbstractBaseException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,10 +39,12 @@ public abstract class BaseException extends RuntimeException {
      */
     private Object[] args;
 
-    protected BaseException() {
+    protected AbstractBaseException() {
+        super();
     }
 
-    protected BaseException(String code) {
+    protected AbstractBaseException(String code) {
+        super();
         this.code = code;
     }
 

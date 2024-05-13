@@ -23,15 +23,17 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  * @author collin
  * @date 2019-05-01
  */
-public class DataValidateException extends BaseException {
+public class DataValidateException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 
     public DataValidateException() {
+        super();
         setCode(CommonReturnCodes.DATA_MISSING);
     }
 
     public DataValidateException(String code) {
+        super();
         setCode(code);
     }
 

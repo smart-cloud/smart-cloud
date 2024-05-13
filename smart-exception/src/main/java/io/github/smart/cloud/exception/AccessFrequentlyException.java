@@ -23,15 +23,17 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  * @author collin
  * @date 2023-03-19
  */
-public class AccessFrequentlyException extends BaseException {
+public class AccessFrequentlyException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 
     public AccessFrequentlyException() {
+        super();
         setCode(CommonReturnCodes.API_ACCESS_TOO_FREQUENT);
     }
 
     public AccessFrequentlyException(String code) {
+        super();
         setCode(code);
     }
 

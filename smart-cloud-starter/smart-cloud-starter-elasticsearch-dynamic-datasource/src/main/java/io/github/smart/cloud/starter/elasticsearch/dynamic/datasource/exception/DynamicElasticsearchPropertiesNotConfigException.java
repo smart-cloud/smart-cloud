@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.exception;
 
-import io.github.smart.cloud.exception.BaseException;
+import io.github.smart.cloud.exception.AbstractBaseException;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.constants.ElasticsearchReturnCodes;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.properties.DynamicElasticsearchProperties;
 
@@ -26,11 +26,13 @@ import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.properties
  * @date 2022-06-03
  * @see DynamicElasticsearchProperties
  */
-public class DynamicElasticsearchPropertiesNotConfigException extends BaseException {
+public class DynamicElasticsearchPropertiesNotConfigException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 
     public DynamicElasticsearchPropertiesNotConfigException() {
+        super();
+
         setCode(ElasticsearchReturnCodes.DYNAMIC_ELASTICSEARCH_PROPERTIES_NOT_CONFIG);
     }
 

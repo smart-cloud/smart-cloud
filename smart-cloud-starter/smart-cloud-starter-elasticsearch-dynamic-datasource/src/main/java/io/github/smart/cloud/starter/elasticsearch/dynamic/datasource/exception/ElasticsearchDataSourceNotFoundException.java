@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.exception;
 
-import io.github.smart.cloud.exception.BaseException;
+import io.github.smart.cloud.exception.AbstractBaseException;
 import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.constants.ElasticsearchReturnCodes;
 
 /**
@@ -24,11 +24,13 @@ import io.github.smart.cloud.starter.elasticsearch.dynamic.datasource.constants.
  * @author collin
  * @date 2022-06-03
  */
-public class ElasticsearchDataSourceNotFoundException extends BaseException {
+public class ElasticsearchDataSourceNotFoundException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 
     public ElasticsearchDataSourceNotFoundException(String dsKey) {
+        super();
+
         setCode(ElasticsearchReturnCodes.ELASTICSEARCH_DS_NOT_FOUND);
         setArgs(new Object[]{dsKey});
     }

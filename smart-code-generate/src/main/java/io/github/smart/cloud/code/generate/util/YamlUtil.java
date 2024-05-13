@@ -54,9 +54,7 @@ public final class YamlUtil {
         try (InputStream yamlInputStream = resource.getInputStream()) {
             yamlProperties = yaml.loadAs(yamlInputStream, YamlProperties.class);
         }
-        System.out.println(String.format("yamlProperties==>%s", yamlProperties));
-        // 换行
-        System.out.println();
+        System.out.println(String.format("yamlProperties==>%s\n", yamlProperties));
 
         return yamlProperties;
     }

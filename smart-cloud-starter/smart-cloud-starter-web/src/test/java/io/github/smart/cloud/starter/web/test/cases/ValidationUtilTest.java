@@ -93,7 +93,7 @@ class ValidationUtilTest {
 
     @Getter
     @Setter
-    class ProductReqVO implements Serializable {
+    private class ProductReqVO implements Serializable {
 
         private static final long serialVersionUID = 1L;
 

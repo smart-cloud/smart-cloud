@@ -23,7 +23,7 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  * @author collin
  * @date 2019-07-06
  */
-public class NotLoggedInException extends BaseException {
+public class NotLoggedInException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 

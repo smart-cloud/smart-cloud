@@ -23,11 +23,12 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  * @author collin
  * @date 2024-04-28
  */
-public class ConfigException extends BaseException {
+public class ConfigException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 
     public ConfigException(String message) {
+        super();
         setCode(CommonReturnCodes.CONFIG_MISSING);
         setMessage(message);
     }

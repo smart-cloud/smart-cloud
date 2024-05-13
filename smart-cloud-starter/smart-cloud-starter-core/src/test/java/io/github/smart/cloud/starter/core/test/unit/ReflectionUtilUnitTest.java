@@ -48,14 +48,14 @@ class ReflectionUtilUnitTest {
         Assertions.assertThat(set).hasSize(1);
     }
 
-    class Animal {
+    private class Animal {
     }
 
-    class Dog extends Animal {
+    private class Dog extends Animal {
     }
 
     @RestController
-    class AnnotatedClassController {
+    private class AnnotatedClassController {
 
         @GetMapping
         public String test() {

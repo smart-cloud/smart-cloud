@@ -64,15 +64,4 @@ public class ObjectUtil {
         return true;
     }
 
-    /**
-     * 判断两对象的字符串是否相等
-     *
-     * @param a
-     * @param b
-     * @return
-     */
-    public static boolean equals(Object a, Object b) {
-        return (a == b) || (a != null && a.equals(b));
-    }
-
 }

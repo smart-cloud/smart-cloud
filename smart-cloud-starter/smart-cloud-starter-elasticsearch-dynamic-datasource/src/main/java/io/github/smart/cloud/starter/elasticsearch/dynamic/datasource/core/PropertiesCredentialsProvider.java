@@ -33,6 +33,8 @@ import java.net.URI;
 public class PropertiesCredentialsProvider extends BasicCredentialsProvider {
 
     public PropertiesCredentialsProvider(ElasticsearchProperties properties) {
+        super();
+
         if (StringUtils.hasText(properties.getUsername())) {
             Credentials credentials = new UsernamePasswordCredentials(properties.getUsername(),
                     properties.getPassword());

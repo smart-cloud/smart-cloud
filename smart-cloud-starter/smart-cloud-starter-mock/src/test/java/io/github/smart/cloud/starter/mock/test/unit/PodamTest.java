@@ -91,7 +91,7 @@ class PodamTest {
     @Getter
     @Setter
     @ToString
-    class Product implements Serializable {
+    private class Product implements Serializable {
         private static final long serialVersionUID = 1L;
 
         private String name;
@@ -101,7 +101,7 @@ class PodamTest {
     @Getter
     @Setter
     @ToString
-    class OrderReqBody implements Serializable {
+    private class OrderReqBody implements Serializable {
         private static final long serialVersionUID = 1L;
 
         @PodamStrategyValue(value = MobileAttributeStrategy.class)

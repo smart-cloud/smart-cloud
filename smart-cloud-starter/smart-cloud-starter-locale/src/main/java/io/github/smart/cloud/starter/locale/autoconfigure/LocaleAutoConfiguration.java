@@ -78,7 +78,7 @@ public class LocaleAutoConfiguration {
 
     @Bean
     public Advisor localeAdvisor(final LocaleInterceptor localeInterceptor) {
-        StringBuilder expression = new StringBuilder(512);
+        StringBuilder expression = new StringBuilder(1024);
         expression.append("(@within(org.springframework.stereotype.Controller) || @within(org.springframework.web.bind.annotation.RestController))") //NOPMD - suppressed ConsecutiveLiteralAppends - TODO explain reason for suppression
                 .append("&&")
                 .append('(')

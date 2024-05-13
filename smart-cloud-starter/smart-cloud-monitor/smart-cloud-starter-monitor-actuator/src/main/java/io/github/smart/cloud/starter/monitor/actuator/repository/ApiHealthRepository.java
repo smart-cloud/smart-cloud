@@ -147,7 +147,7 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
      * @author collin
      * @date 2024-01-7
      */
-    static class CreateApiHealthCacheDtoFunction implements Function<String, ApiHealthCacheDTO> {
+    private class CreateApiHealthCacheDtoFunction implements Function<String, ApiHealthCacheDTO> {
 
         @Override
         public ApiHealthCacheDTO apply(String s) {

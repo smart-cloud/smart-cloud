@@ -45,7 +45,7 @@ public class DynamicDatasourceTest {
     @ExtendWith(SpringExtension.class)
     @SpringBootTest(classes = DynamicDatasourceApp.class, args = "--spring.profiles.active=dynamicdatasource")
     @Nested
-    class ProductTest {
+    private class ProductTest {
 
         @Autowired
         private ProductInfoOmsBiz productInfoOmsBiz;
@@ -121,7 +121,7 @@ public class DynamicDatasourceTest {
     @ExtendWith(SpringExtension.class)
     @SpringBootTest(classes = DynamicDatasourceApp.class, args = "--spring.profiles.active=dynamicdatasource")
     @Nested
-    class AuthTest {
+    private class AuthTest {
 
         @Autowired
         private RoleInfoOmsBiz roleInfoOmsBiz;

@@ -37,6 +37,8 @@ public class ApiLogPointCut extends StaticMethodMatcherPointcut {
     private final AspectJExpressionPointcut packageExpressionPointcut;
 
     public ApiLogPointCut() {
+        super();
+
         packageExpressionPointcut = new AspectJExpressionPointcut();
         packageExpressionPointcut.setExpression(AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages()));
     }

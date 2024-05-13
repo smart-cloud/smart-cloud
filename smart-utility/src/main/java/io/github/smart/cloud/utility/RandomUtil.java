@@ -31,6 +31,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class RandomUtil extends AbstractRandomUtil {
 
     private RandomUtil() {
+        super();
     }
 
     /**

@@ -143,7 +143,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
             return StringUtils.EMPTY;
         }
 
-        StringBuilder unHealthContent = new StringBuilder(64);
+        StringBuilder unHealthContent = new StringBuilder(128);
         unHealthContent.append("<font color=\"warning\">**非健康接口(近").append(monitorProperties.getExceptionApiCheckInterval()).append("分钟)**</font>:");
         int apiIndex = 0;
         for (Map<String, Object> unHealthInfo : unHealthInfos) {

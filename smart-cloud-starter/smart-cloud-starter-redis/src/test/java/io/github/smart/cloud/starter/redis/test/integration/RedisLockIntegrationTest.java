@@ -33,9 +33,9 @@ class RedisLockIntegrationTest extends AbstractRedisIntegrationTest {
 
     @Test
     void testWithKeyPrefix() {
-        final Long uid = 1000000000000000000L;
+        Long uid = 1000000000000000000L;
         String mobile = "12345678901234567890";
-        final String success = "ok";
+        String success = "ok";
         FutureTask<String> normalFutureTask = new FutureTask<>(() -> {
             User user = new User();
             user.setId(uid);

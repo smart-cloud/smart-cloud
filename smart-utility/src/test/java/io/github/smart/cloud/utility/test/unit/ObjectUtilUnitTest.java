@@ -15,9 +15,9 @@
  */
 package io.github.smart.cloud.utility.test.unit;
 
+import io.github.smart.cloud.utility.ObjectUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import io.github.smart.cloud.utility.ObjectUtil;
 
 class ObjectUtilUnitTest {
 
@@ -35,12 +35,6 @@ class ObjectUtilUnitTest {
         Assertions.assertThat(ObjectUtil.isAllNotNull(null, null)).isFalse();
         Assertions.assertThat(ObjectUtil.isAllNotNull(null, "")).isFalse();
         Assertions.assertThat(ObjectUtil.isAllNotNull("", "")).isTrue();
-    }
-
-    @Test
-    void testEquals() {
-        Assertions.assertThat(ObjectUtil.equals("123", "123")).isTrue();
-        Assertions.assertThat(ObjectUtil.equals("1234", "123")).isFalse();
     }
 
 }

@@ -229,7 +229,7 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @return
      */
     private final String buildHashLuaScript(Map<String, Object> data) {
-        StringBuilder hashLua = new StringBuilder(64);
+        StringBuilder hashLua = new StringBuilder(128);
         hashLua.append("redis.call('hmset', KEYS[1], ");
 
         for (int index = 0, size = data.size(); index < size; index++) {

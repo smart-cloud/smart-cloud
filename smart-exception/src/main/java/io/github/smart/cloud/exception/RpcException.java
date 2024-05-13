@@ -23,7 +23,7 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  * @author collin
  * @date 2021-07-15
  */
-public class RpcException extends BaseException {
+public class RpcException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,6 +32,7 @@ public class RpcException extends BaseException {
     }
 
     public RpcException(String code, String message) {
+        super();
         super.setCode(code);
         super.setMessage(message);
     }

@@ -23,15 +23,17 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  * @author collin
  * @date 2019-07-03
  */
-public class RepeatSubmitException extends BaseException {
+public class RepeatSubmitException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 
     public RepeatSubmitException() {
+        super();
         setCode(CommonReturnCodes.REPEAT_SUBMIT);
     }
 
     public RepeatSubmitException(String code) {
+        super();
         setCode(code);
     }
 

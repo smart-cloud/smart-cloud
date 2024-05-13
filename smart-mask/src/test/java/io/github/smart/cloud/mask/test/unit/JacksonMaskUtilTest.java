@@ -37,7 +37,7 @@ class JacksonMaskUtilTest {
     @Setter
     @ToString
     @AllArgsConstructor
-    static class LoginBO {
+    private class LoginBO {
         private String username;
         private String password;
     }

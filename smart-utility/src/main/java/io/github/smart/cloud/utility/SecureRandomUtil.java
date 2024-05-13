@@ -29,6 +29,7 @@ import java.security.SecureRandom;
 public class SecureRandomUtil extends AbstractRandomUtil {
 
     private SecureRandomUtil() {
+        super();
     }
 
     /**

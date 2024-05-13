@@ -23,19 +23,22 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  * @author collin
  * @date 2019-05-01
  */
-public class ParamValidateException extends BaseException {
+public class ParamValidateException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 
     public ParamValidateException() {
+        super();
         setCode(CommonReturnCodes.PARAMETERS_MISSING);
     }
 
     public ParamValidateException(String code) {
+        super();
         setCode(code);
     }
 
     public ParamValidateException(String code, String message) {
+        super();
         setCode(code);
         setMessage(message);
     }

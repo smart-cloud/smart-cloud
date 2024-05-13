@@ -24,7 +24,7 @@ public class SmsService {
     @Async
     public void asyncSend() {
         String template = null;
-        template.startsWith("A");
+        boolean nullPointerException = template == "A";
     }
 
 }

@@ -23,11 +23,13 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
  * @author collin
  * @date 2019-06-29
  */
-public class ServerException extends BaseException {
+public class ServerException extends AbstractBaseException {
 
     private static final long serialVersionUID = 1L;
 
     public ServerException(String message) {
+        super();
+
         super.setCode(CommonReturnCodes.SERVER_ERROR);
         super.setMessage(message);
     }

@@ -17,7 +17,7 @@ package io.github.smart.cloud.starter.web.exception.strategy;
 
 import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.constants.CommonReturnCodes;
-import io.github.smart.cloud.exception.BaseException;
+import io.github.smart.cloud.exception.AbstractBaseException;
 import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
 import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import io.github.smart.cloud.utility.spring.I18nUtil;
@@ -33,13 +33,13 @@ public class BaseExceptionHandlerStrategy implements IExceptionHandlerStrategy {
 
     @Override
     public boolean match(Throwable e) {
-        return e instanceof BaseException;
+        return e instanceof AbstractBaseException;
     }
 
     @Override
     public Response trans(Throwable e) {
-        if (e instanceof BaseException) {
-            BaseException ex = (BaseException) e;
+        if (e instanceof AbstractBaseException) {
+            AbstractBaseException ex = (AbstractBaseException) e;
             String message = e.getMessage();
             if (StringUtils.isBlank(message)) {
                 message = I18nUtil.getMessage(ex.getCode(), ex.getArgs());

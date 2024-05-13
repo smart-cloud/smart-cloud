@@ -60,7 +60,7 @@ class MaskTest {
     @Getter
     @Setter
     @ToString
-    static class User implements Serializable {
+    private class User implements Serializable {
 
         private static final long serialVersionUID = 1L;
 

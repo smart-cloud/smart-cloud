@@ -53,7 +53,7 @@ public class SystemUtil {
         return System.getProperty("user.dir");
     }
 
-    static class Holder {
+    private static class Holder {
         private static final String OS = System.getProperty("os.name").toLowerCase();
 
         private Holder() {
