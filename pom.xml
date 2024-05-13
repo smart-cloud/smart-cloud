@@ -184,12 +184,6 @@
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
-                <artifactId>smart-cloud-starter-actuator</artifactId>
-                <version>${smart-cloud.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-configure</artifactId>
                 <version>${smart-cloud.version}</version>
             </dependency>
@@ -232,7 +226,25 @@
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
-                <artifactId>smart-cloud-starter-monitor</artifactId>
+                <artifactId>smart-cloud-monitor</artifactId>
+                <version>${smart-cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.smart-cloud</groupId>
+                <artifactId>smart-cloud-monitor-common</artifactId>
+                <version>${smart-cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.smart-cloud</groupId>
+                <artifactId>smart-cloud-starter-monitor-actuator</artifactId>
+                <version>${smart-cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.smart-cloud</groupId>
+                <artifactId>smart-cloud-starter-monitor-admin</artifactId>
                 <version>${smart-cloud.version}</version>
             </dependency>
 
