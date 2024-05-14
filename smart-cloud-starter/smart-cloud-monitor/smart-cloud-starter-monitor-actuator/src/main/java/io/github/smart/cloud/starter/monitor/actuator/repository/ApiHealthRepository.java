@@ -62,6 +62,10 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
      */
     public void add(String name, boolean success, Exception exception) {
         try {
+            if (healthProperties.getApiWhiteList().contains(name)) {
+                return;
+            }
+
             ApiHealthCacheDTO apiHealthCacheDTO = apiStatusStatistics.computeIfAbsent(name, createApiHealthCacheDtoFunction);
             if (success) {
                 apiHealthCacheDTO.getSuccessCount().increment();
@@ -116,7 +120,7 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
      * @param failRate
      * @return
      */
-    private final boolean isUnHealth(String name, BigDecimal total, BigDecimal failRate) {
+    private boolean isUnHealth(String name, BigDecimal total, BigDecimal failRate) {
         BigDecimal failRateThreshold = healthProperties.getFailRateThresholds().getOrDefault(name, healthProperties.getDefaultFailRateThreshold());
         return (total.intValue() >= healthProperties.getUnhealthMatchMinCount()) && (failRate.compareTo(failRateThreshold) >= 0);
     }

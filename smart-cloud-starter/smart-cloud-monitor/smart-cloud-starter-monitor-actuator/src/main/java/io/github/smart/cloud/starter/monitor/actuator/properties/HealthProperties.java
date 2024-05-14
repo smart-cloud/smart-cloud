@@ -20,8 +20,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 接口健康检测配置属性
@@ -59,6 +61,10 @@ public class HealthProperties {
      * 特定接口失败阈值
      */
     private Map<String, BigDecimal> failRateThresholds = new LinkedHashMap<>();
+    /**
+     * 接口白名单（不监听异常）
+     */
+    private Set<String> apiWhiteList = new HashSet<>();
 
     // -------企业微信通知配置 start
     /**
