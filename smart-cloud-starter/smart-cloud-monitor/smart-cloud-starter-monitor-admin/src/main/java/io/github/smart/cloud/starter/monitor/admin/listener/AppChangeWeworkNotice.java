@@ -15,7 +15,6 @@
  */
 package io.github.smart.cloud.starter.monitor.admin.listener;
 
-import com.alibaba.nacos.common.utils.MapUtil;
 import de.codecentric.boot.admin.server.domain.values.StatusInfo;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.monitor.common.dto.WeworkRobotMarkdownMessageDTO;
@@ -171,7 +170,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
      */
     private Object getReason(StatusInfo statusInfo) {
         Map<String, Object> details = statusInfo.getDetails();
-        if (MapUtil.isEmpty(details)) {
+        if (details == null || details.isEmpty()) {
             return null;
         }
         if (statusInfo.isDown()) {
