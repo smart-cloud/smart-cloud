@@ -29,4 +29,11 @@
     <artifactId>smart-cloud-monitor-common</artifactId>
     <description>监控公共模块</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

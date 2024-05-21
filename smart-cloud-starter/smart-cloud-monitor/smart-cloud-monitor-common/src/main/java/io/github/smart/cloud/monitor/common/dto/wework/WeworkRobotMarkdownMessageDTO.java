@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.monitor.common.dto;
+package io.github.smart.cloud.monitor.common.dto.wework;
 
 import io.github.smart.cloud.monitor.common.enums.WeworkRobotMessageType;
 import lombok.Getter;
@@ -31,14 +31,10 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class WeworkRobotMarkdownMessageDTO implements Serializable {
+public class WeworkRobotMarkdownMessageDTO extends AbstractWeworkRobotMessageDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 消息类型markdown
-     */
-    private final String msgtype = WeworkRobotMessageType.MARKDOWN.getValue();
     /**
      * 消息内容
      */
@@ -46,6 +42,7 @@ public class WeworkRobotMarkdownMessageDTO implements Serializable {
 
     public WeworkRobotMarkdownMessageDTO(String content) {
         this.markdown = new WeworkRobotMessageContentDTO(content);
+        setMsgtype(WeworkRobotMessageType.MARKDOWN.getValue());
     }
 
 }

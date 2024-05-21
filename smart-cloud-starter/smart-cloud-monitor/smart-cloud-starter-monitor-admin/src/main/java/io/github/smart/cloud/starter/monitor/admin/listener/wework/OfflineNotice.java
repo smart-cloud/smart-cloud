@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.monitor.admin.listener.wework;
 
-import io.github.smart.cloud.monitor.common.dto.WeworkRobotMarkdownMessageDTO;
+import io.github.smart.cloud.monitor.common.dto.wework.WeworkRobotMarkdownMessageDTO;
 import io.github.smart.cloud.starter.monitor.admin.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.admin.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.admin.event.notice.OfflineNoticeEvent;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.monitor.common.dto;
+package io.github.smart.cloud.monitor.common.dto.wework;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

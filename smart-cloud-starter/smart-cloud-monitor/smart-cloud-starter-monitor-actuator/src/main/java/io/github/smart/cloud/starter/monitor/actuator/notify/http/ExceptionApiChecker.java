@@ -17,7 +17,7 @@ package io.github.smart.cloud.starter.monitor.actuator.notify.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.smart.cloud.exception.ConfigException;
-import io.github.smart.cloud.monitor.common.dto.WeworkRobotMarkdownMessageDTO;
+import io.github.smart.cloud.monitor.common.dto.wework.WeworkRobotMarkdownMessageDTO;
 import io.github.smart.cloud.starter.monitor.actuator.dto.UnHealthApiDTO;
 import io.github.smart.cloud.starter.monitor.actuator.properties.HealthProperties;
 import io.github.smart.cloud.starter.monitor.actuator.repository.ApiHealthRepository;

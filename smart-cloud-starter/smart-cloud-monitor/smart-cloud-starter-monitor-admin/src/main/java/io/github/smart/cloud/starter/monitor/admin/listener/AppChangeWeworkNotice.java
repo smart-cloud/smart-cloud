@@ -17,7 +17,7 @@ package io.github.smart.cloud.starter.monitor.admin.listener;
 
 import de.codecentric.boot.admin.server.domain.values.StatusInfo;
 import io.github.smart.cloud.constants.SymbolConstant;
-import io.github.smart.cloud.monitor.common.dto.WeworkRobotMarkdownMessageDTO;
+import io.github.smart.cloud.monitor.common.dto.wework.WeworkRobotMarkdownMessageDTO;
 import io.github.smart.cloud.starter.monitor.admin.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.admin.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.admin.event.*;
