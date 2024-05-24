@@ -34,6 +34,7 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -55,6 +56,7 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
     private HttpHost proxy;
     private ScheduledExecutorService exceptionApiCheckSchedule;
     private String weworkRobotUrl;
+    private String ip;
 
     @Override
     public void setEnvironment(Environment environment) {
@@ -76,6 +78,8 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
         exceptionApiCheckSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("exception-api-notice-schedule"));
         exceptionApiCheckSchedule.scheduleWithFixedDelay(this::checkExceptionApiAndNotice, healthProperties.getApiExceptionNoticeIntervalSeconds(),
                 healthProperties.getApiExceptionNoticeIntervalSeconds(), TimeUnit.SECONDS);
+
+        this.ip = InetAddress.getLocalHost().getHostAddress();
     }
 
     /**
@@ -118,7 +122,8 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
         StringBuilder content = new StringBuilder(128);
         content.append("**").append(environment.getProperty("spring.application.name")).append("** ")
                 .append(TimeUnit.SECONDS.toMinutes(healthProperties.getCleanIntervalSeconds()))
-                .append("分钟异常接口统计:");
+                .append("分钟异常接口统计:")
+                .append("\n**IP**：").append(ip);
         int apiIndex = 0;
         for (UnHealthApiDTO unHealthInfo : unHealthInfos) {
             content.append("\n\n>**接口").append(++apiIndex).append("**：").append(unHealthInfo.getName());
