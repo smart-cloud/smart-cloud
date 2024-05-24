@@ -17,11 +17,11 @@ package io.github.smart.cloud.starter.monitor.admin.autoconfigure;
 
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
 import io.github.smart.cloud.starter.monitor.admin.AppChangeNotifier;
+import io.github.smart.cloud.starter.monitor.admin.component.GitLabComponent;
 import io.github.smart.cloud.starter.monitor.admin.listener.OfflineCheckListener;
 import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
-import io.github.smart.cloud.starter.monitor.admin.schedule.ServiceNodeCountCheckSchedule;
-import io.github.smart.cloud.starter.monitor.admin.component.GitLabComponent;
 import io.github.smart.cloud.starter.monitor.admin.schedule.OfflineCheckSchedule;
+import io.github.smart.cloud.starter.monitor.admin.schedule.ServiceNodeCountCheckSchedule;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -46,12 +46,14 @@ public class MonitorAutoConfiguration {
     }
 
     @Bean
+    @RefreshScope
     @ConditionalOnMissingBean
     public GitLabComponent gitLabComponent(final MonitorProperties monitorProperties) {
         return new GitLabComponent(monitorProperties);
     }
 
     @Bean
+    @RefreshScope
     @ConditionalOnMissingBean
     public OfflineCheckSchedule offlineCheckSchedule(final InstanceRepository instanceRepository, final MonitorProperties monitorProperties,
                                                      final ApplicationEventPublisher applicationEventPublisher) {
@@ -59,6 +61,7 @@ public class MonitorAutoConfiguration {
     }
 
     @Bean
+    @RefreshScope
     @ConditionalOnMissingBean
     public ServiceNodeCountCheckSchedule serviceNodeCountCheckSchedule(final InstanceRepository instanceRepository, final MonitorProperties monitorProperties,
                                                                        final ApplicationEventPublisher applicationEventPublisher) {

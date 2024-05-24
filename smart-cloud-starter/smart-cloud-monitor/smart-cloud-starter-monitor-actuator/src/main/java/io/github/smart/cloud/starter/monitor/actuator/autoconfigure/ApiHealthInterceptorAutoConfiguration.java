@@ -21,6 +21,7 @@ import io.github.smart.cloud.starter.monitor.actuator.properties.HealthPropertie
 import io.github.smart.cloud.starter.monitor.actuator.repository.ApiHealthRepository;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,6 +35,7 @@ import org.springframework.context.annotation.Configuration;
 public class ApiHealthInterceptorAutoConfiguration {
 
     @Bean
+    @RefreshScope
     public ApiHealthRepository apiHealthRepository(final HealthProperties healthProperties) {
         return new ApiHealthRepository(healthProperties);
     }

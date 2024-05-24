@@ -20,6 +20,7 @@ import io.github.smart.cloud.starter.monitor.actuator.enums.NotifyType;
 import io.github.smart.cloud.starter.monitor.actuator.notify.http.ExceptionApiChecker;
 import io.github.smart.cloud.starter.monitor.actuator.properties.HealthProperties;
 import io.github.smart.cloud.starter.monitor.actuator.repository.ApiHealthRepository;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,6 +35,7 @@ import org.springframework.context.annotation.Configuration;
 public class ExceptionApiCheckerAutoConfiguration {
 
     @Bean
+    @RefreshScope
     public ExceptionApiChecker exceptionApiChecker(final HealthProperties healthProperties, final ApiHealthRepository apiHealthRepository) {
         return new ExceptionApiChecker(healthProperties, apiHealthRepository);
     }

@@ -20,6 +20,7 @@ import io.github.smart.cloud.starter.monitor.actuator.enums.NotifyType;
 import io.github.smart.cloud.starter.monitor.actuator.notify.indicator.ApiHealthIndicator;
 import io.github.smart.cloud.starter.monitor.actuator.repository.ApiHealthRepository;
 import org.springframework.boot.actuate.autoconfigure.health.ConditionalOnEnabledHealthIndicator;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,6 +36,7 @@ import org.springframework.context.annotation.Configuration;
 public class ApiHealthIndicatorAutoConfiguration {
 
     @Bean
+    @RefreshScope
     public ApiHealthIndicator apiHealthIndicator(final ApiHealthRepository apiHealthRepository) {
         return new ApiHealthIndicator(apiHealthRepository);
     }
