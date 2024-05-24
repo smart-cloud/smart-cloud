@@ -17,8 +17,9 @@ package io.github.smart.cloud.starter.rpc.feign.test.prepare.controller;
 
 import io.github.smart.cloud.starter.rpc.feign.test.prepare.rpc.TestRpc3;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class TestRpc3Controller implements TestRpc3 {
 
     @Override

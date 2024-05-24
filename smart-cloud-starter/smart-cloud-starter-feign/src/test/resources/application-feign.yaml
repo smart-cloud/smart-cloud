@@ -1,0 +1,6 @@
+server:
+  port: 40005
+smart:
+  feign:
+    log:
+      enable: true

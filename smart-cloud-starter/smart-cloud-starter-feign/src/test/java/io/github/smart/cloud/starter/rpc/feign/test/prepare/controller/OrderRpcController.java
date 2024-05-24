@@ -21,12 +21,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.NotBlank;
+
 @RestController
 @RequestMapping("order")
 public class OrderRpcController {
 
     @GetMapping("queryWithJson")
-    public Response<String> queryWithJson(Long id) {
+    public Response<String> queryWithJson(@NotBlank Long id) {
         return ResponseUtil.success("ok");
     }
 

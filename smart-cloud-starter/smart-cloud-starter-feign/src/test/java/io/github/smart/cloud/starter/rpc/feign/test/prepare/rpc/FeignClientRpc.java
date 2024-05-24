@@ -15,14 +15,16 @@
  */
 package io.github.smart.cloud.starter.rpc.feign.test.prepare.rpc;
 
-import io.github.smart.cloud.starter.rpc.feign.annotation.SmartFeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@SmartFeignClient(name = "orderRpc", contextId = "testRpc3")
-public interface TestRpc3 {
+import javax.validation.constraints.NotBlank;
 
-    @GetMapping("order/test3")
-    String get();
+@FeignClient(name = "feignClientRpc", url = "http://localhost:40005", contextId = "FeignClientRpc")
+public interface FeignClientRpc {
+
+    @GetMapping(value = "rpc/feign-client/get")
+    String get(@NotBlank @RequestParam("name") String name);
 
 }
