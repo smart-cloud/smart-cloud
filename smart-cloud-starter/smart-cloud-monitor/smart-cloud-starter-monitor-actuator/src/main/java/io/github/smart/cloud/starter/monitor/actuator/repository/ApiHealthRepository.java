@@ -15,8 +15,8 @@
  */
 package io.github.smart.cloud.starter.monitor.actuator.repository;
 
+import io.github.smart.cloud.starter.monitor.actuator.dto.ApiExceptionDTO;
 import io.github.smart.cloud.starter.monitor.actuator.dto.ApiHealthCacheDTO;
-import io.github.smart.cloud.starter.monitor.actuator.dto.UnHealthApiDTO;
 import io.github.smart.cloud.starter.monitor.actuator.properties.HealthProperties;
 import io.github.smart.cloud.starter.monitor.actuator.util.PercentUtil;
 import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
@@ -31,6 +31,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
@@ -58,9 +59,9 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
      *
      * @param name
      * @param success
-     * @param exception
+     * @param throwable
      */
-    public void add(String name, boolean success, Exception exception) {
+    public void add(String name, boolean success, Throwable throwable) {
         try {
             if (healthProperties.getApiWhiteList().contains(name)) {
                 return;
@@ -71,9 +72,11 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
                 apiHealthCacheDTO.getSuccessCount().increment();
             } else {
                 apiHealthCacheDTO.getFailCount().increment();
-                apiHealthCacheDTO.setExceptionMessage(exception.toString());
+                if (throwable != null) {
+                    apiHealthCacheDTO.setThrowable(throwable);
+                }
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("api health info add error|name={}", name, e);
         }
     }
@@ -83,33 +86,42 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
      *
      * @return
      */
-    public List<UnHealthApiDTO> getUnHealthInfos() {
-        final List<UnHealthApiDTO> unHealthInfos = new ArrayList<>(0);
-        apiStatusStatistics.forEach((name, apiHealthCacheDTO) -> {
+    public List<ApiExceptionDTO> getApiExceptions() {
+        if (apiStatusStatistics.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<ApiExceptionDTO> apiExceptions = new ArrayList<>(0);
+        for (Map.Entry<String, ApiHealthCacheDTO> entry : apiStatusStatistics.entrySet()) {
+            String name = entry.getKey();
+            ApiHealthCacheDTO apiHealthCacheDTO = entry.getValue();
             BigDecimal failCount = BigDecimal.valueOf(apiHealthCacheDTO.getFailCount().sum());
             BigDecimal total = BigDecimal.valueOf(apiHealthCacheDTO.getSuccessCount().sum()).add(failCount);
             BigDecimal failRate = failCount.divide(total, 4, RoundingMode.HALF_UP);
             if (isUnHealth(name, total, failRate)) {
-                UnHealthApiDTO unHealthApiDTO = new UnHealthApiDTO();
-                unHealthApiDTO.setName(name);
-                unHealthApiDTO.setTotal(total.longValue());
-                unHealthApiDTO.setFailCount(failCount.longValue());
-                unHealthApiDTO.setFailRate(PercentUtil.format(failRate));
-                unHealthApiDTO.setFailMessage(apiHealthCacheDTO.getExceptionMessage());
-                unHealthInfos.add(unHealthApiDTO);
+                ApiExceptionDTO apiExceptionDTO = new ApiExceptionDTO();
+                apiExceptionDTO.setName(name);
+                apiExceptionDTO.setTotal(total.longValue());
+                apiExceptionDTO.setFailCount(failCount.longValue());
+                apiExceptionDTO.setFailRate(PercentUtil.format(failRate));
+                Throwable throwable = apiHealthCacheDTO.getThrowable();
+                if (throwable != null) {
+                    apiExceptionDTO.setMessage(throwable.toString());
+                }
+                apiExceptions.add(apiExceptionDTO);
             }
-        });
+        }
 
-        if (CollectionUtils.isNotEmpty(unHealthInfos)) {
-            if (unHealthInfos.size() > healthProperties.getUnhealthApiReportMaxCount()) {
-                Collections.sort(unHealthInfos, (o1, o2) -> {
+        if (CollectionUtils.isNotEmpty(apiExceptions)) {
+            if (apiExceptions.size() > healthProperties.getUnhealthApiReportMaxCount()) {
+                Collections.sort(apiExceptions, (o1, o2) -> {
                     // 按失败率倒叙排序
                     return (int) (o2.getFailCount() * o1.getTotal() - o1.getFailCount() * o2.getTotal());
                 });
-                return unHealthInfos.subList(0, healthProperties.getUnhealthApiReportMaxCount());
+                return apiExceptions.subList(0, healthProperties.getUnhealthApiReportMaxCount());
             }
         }
-        return unHealthInfos;
+        return apiExceptions;
     }
 
     /**

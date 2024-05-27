@@ -1,6 +1,6 @@
 package io.github.smart.cloud.starter.monitor.actuator.test.cases;
 
-import io.github.smart.cloud.starter.monitor.actuator.dto.UnHealthApiDTO;
+import io.github.smart.cloud.starter.monitor.actuator.dto.ApiExceptionDTO;
 import io.github.smart.cloud.starter.monitor.actuator.notify.http.ExceptionApiChecker;
 import io.github.smart.cloud.starter.monitor.actuator.repository.ApiHealthRepository;
 import io.github.smart.cloud.starter.monitor.actuator.test.prepare.App;
@@ -55,13 +55,13 @@ public class ExceptionApiTest extends AbstractTest {
         }
 
         // 失败率倒叙测试
-        List<UnHealthApiDTO> unHealthInfos = apiHealthRepository.getUnHealthInfos();
-        Assertions.assertThat(unHealthInfos).hasSize(2);
+        List<ApiExceptionDTO> apiExceptions = apiHealthRepository.getApiExceptions();
+        Assertions.assertThat(apiExceptions).hasSize(2);
 
-        UnHealthApiDTO unHealthApi0 = unHealthInfos.get(0);
-        UnHealthApiDTO unHealthApi1 = unHealthInfos.get(1);
-        BigDecimal fail0 = BigDecimal.valueOf(unHealthApi0.getFailCount()).divide(BigDecimal.valueOf(unHealthApi0.getTotal()), 10, RoundingMode.HALF_UP);
-        BigDecimal fail1 = BigDecimal.valueOf(unHealthApi1.getFailCount()).divide(BigDecimal.valueOf(unHealthApi1.getTotal()), 10, RoundingMode.HALF_UP);
+        ApiExceptionDTO apiException0 = apiExceptions.get(0);
+        ApiExceptionDTO apiException1 = apiExceptions.get(1);
+        BigDecimal fail0 = BigDecimal.valueOf(apiException0.getFailCount()).divide(BigDecimal.valueOf(apiException0.getTotal()), 10, RoundingMode.HALF_UP);
+        BigDecimal fail1 = BigDecimal.valueOf(apiException1.getFailCount()).divide(BigDecimal.valueOf(apiException1.getTotal()), 10, RoundingMode.HALF_UP);
         Assertions.assertThat(fail0).isGreaterThanOrEqualTo(fail1);
 
 
@@ -80,8 +80,8 @@ public class ExceptionApiTest extends AbstractTest {
         }
 
 
-        List<UnHealthApiDTO> unHealthInfos = apiHealthRepository.getUnHealthInfos();
-        Assertions.assertThat(unHealthInfos).hasSize(1);
+        List<ApiExceptionDTO> apiExceptions = apiHealthRepository.getApiExceptions();
+        Assertions.assertThat(apiExceptions).hasSize(1);
     }
 
 }

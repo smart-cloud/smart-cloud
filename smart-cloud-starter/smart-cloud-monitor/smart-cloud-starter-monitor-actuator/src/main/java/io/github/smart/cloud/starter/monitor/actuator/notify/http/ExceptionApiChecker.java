@@ -18,7 +18,7 @@ package io.github.smart.cloud.starter.monitor.actuator.notify.http;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.smart.cloud.exception.ConfigException;
 import io.github.smart.cloud.monitor.common.dto.wework.WeworkRobotMarkdownMessageDTO;
-import io.github.smart.cloud.starter.monitor.actuator.dto.UnHealthApiDTO;
+import io.github.smart.cloud.starter.monitor.actuator.dto.ApiExceptionDTO;
 import io.github.smart.cloud.starter.monitor.actuator.properties.HealthProperties;
 import io.github.smart.cloud.starter.monitor.actuator.repository.ApiHealthRepository;
 import io.github.smart.cloud.utility.HttpUtil;
@@ -26,6 +26,7 @@ import io.github.smart.cloud.utility.JacksonUtil;
 import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.springframework.beans.factory.DisposableBean;
@@ -36,6 +37,7 @@ import org.springframework.core.env.Environment;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -86,12 +88,12 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
      * 检测异常接口，并发送通知
      */
     public boolean checkExceptionApiAndNotice() {
-        List<UnHealthApiDTO> unHealthInfos = apiRepository.getUnHealthInfos();
-        if (unHealthInfos.isEmpty()) {
+        List<ApiExceptionDTO> apiExceptions = apiRepository.getApiExceptions();
+        if (apiExceptions.isEmpty()) {
             return true;
         }
 
-        String request = buildWeworkRobotMessage(unHealthInfos);
+        String request = buildWeworkRobotMessage(apiExceptions);
         try {
             String result = HttpUtil.postWithRaw(weworkRobotUrl, request, proxy);
             // {"errcode":0,"errmsg":"ok"}
@@ -115,28 +117,56 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
     /**
      * 构造企业微信机器人消息
      *
-     * @param unHealthInfos
+     * @param apiExceptions
      * @return
      */
-    private String buildWeworkRobotMessage(List<UnHealthApiDTO> unHealthInfos) {
+    private String buildWeworkRobotMessage(List<ApiExceptionDTO> apiExceptions) {
         StringBuilder content = new StringBuilder(128);
         content.append("**").append(environment.getProperty("spring.application.name")).append("** ")
                 .append(TimeUnit.SECONDS.toMinutes(healthProperties.getCleanIntervalSeconds()))
                 .append("分钟异常接口统计:")
                 .append("\n**IP**：").append(ip);
+        boolean needMention = false;
         int apiIndex = 0;
-        for (UnHealthApiDTO unHealthInfo : unHealthInfos) {
-            content.append("\n\n>**接口").append(++apiIndex).append("**：").append(unHealthInfo.getName());
-            content.append("\n>**请求总数**：").append(unHealthInfo.getTotal());
-            content.append("\n>**失败数**：").append(unHealthInfo.getFailCount());
-            content.append("\n>**失败率**：<font color=\"warning\">").append(unHealthInfo.getFailRate()).append("</font >");
-            String failMessage = unHealthInfo.getFailMessage();
-            if (StringUtils.isNotBlank(failMessage)) {
-                content.append("\n>**异常信息：<font color=\"warning\">").append(failMessage).append("</font >**");
+        for (ApiExceptionDTO apiException : apiExceptions) {
+            content.append("\n\n>**接口").append(++apiIndex).append("**：").append(apiException.getName());
+            content.append("\n>**请求总数**：").append(apiException.getTotal());
+            content.append("\n>**失败数**：").append(apiException.getFailCount());
+            content.append("\n>**失败率**：<font color=\"warning\">").append(apiException.getFailRate()).append("</font >");
+            String message = apiException.getMessage();
+            if (message != null) {
+                content.append("\n>**异常信息：<font color=\"warning\">").append(message).append("</font >**");
+                needMention = matchMention(needMention, message);
             }
         }
 
+        if (needMention && CollectionUtils.isNotEmpty(healthProperties.getMentionedList())) {
+            content.append("\n\n<@").append(StringUtils.join(healthProperties.getMentionedList(), ">\n<@")).append(">");
+        }
+
         return JacksonUtil.toJson(new WeworkRobotMarkdownMessageDTO(content.toString()));
+    }
+
+    /**
+     * 匹配是否需要提醒
+     *
+     * @param needMention
+     * @param exceptionMessage
+     * @return
+     */
+    private boolean matchMention(boolean needMention, String exceptionMessage) {
+        if (needMention) {
+            return true;
+        }
+
+        Set<String> needMentionedExceptionClassNames = healthProperties.getNeedMentionedExceptionClassNames();
+        for (String needMentionedExceptionClassName : needMentionedExceptionClassNames) {
+            if (exceptionMessage.contains(needMentionedExceptionClassName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

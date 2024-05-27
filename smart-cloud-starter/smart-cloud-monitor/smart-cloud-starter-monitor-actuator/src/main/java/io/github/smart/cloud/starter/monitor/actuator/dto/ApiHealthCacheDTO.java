@@ -42,9 +42,9 @@ public class ApiHealthCacheDTO {
      */
     private volatile LongAdder failCount;
     /**
-     * 失败信息
+     * 异常
      */
     @Setter
-    private String exceptionMessage;
+    private Throwable throwable;
 
 }

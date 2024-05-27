@@ -44,10 +44,10 @@ public class ReminderComponent {
      *
      * @param serviceName
      * @param event
-     * @param apiUnHealthDetail
+     * @param apiExceptionInfo
      * @return
      */
-    public String getReminderParams(String serviceName, AbstractAppChangeEvent event, String apiUnHealthDetail) {
+    public String getReminderParams(String serviceName, AbstractAppChangeEvent event, String apiExceptionInfo) {
         if (event instanceof UpEvent) {
             return StringUtils.EMPTY;
         }
@@ -65,7 +65,7 @@ public class ReminderComponent {
             return generateReminders(reminders);
         }
 
-        if (StringUtils.isNotBlank(apiUnHealthDetail)) {
+        if (StringUtils.isNotBlank(apiExceptionInfo)) {
             return generateReminders(reminders);
         }
 

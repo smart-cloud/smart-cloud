@@ -52,11 +52,11 @@ public abstract class AbstractActuatorHealthTest extends AbstractTest {
         JsonNode apiDetailsNode = apiNode.get("details");
         Assertions.assertThat(apiDetailsNode).isNotNull();
 
-        JsonNode unHealthInfosNode = apiDetailsNode.get("unHealthInfos");
-        Assertions.assertThat(unHealthInfosNode).isNotNull();
-        Assertions.assertThat(unHealthInfosNode.size()).isGreaterThanOrEqualTo(1);
+        JsonNode apiExceptionsNode = apiDetailsNode.get("apiExceptions");
+        Assertions.assertThat(apiExceptionsNode).isNotNull();
+        Assertions.assertThat(apiExceptionsNode.size()).isGreaterThanOrEqualTo(1);
 
-        JsonNode node = unHealthInfosNode.get(0);
+        JsonNode node = apiExceptionsNode.get(0);
         Assertions.assertThat(node.get("name").asText()).isEqualTo(apiName);
         Assertions.assertThat(node.get("total").asLong()).isEqualTo(totalCount);
         Assertions.assertThat(node.get("failCount").asLong()).isEqualTo(failCount);

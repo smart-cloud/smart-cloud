@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.monitor.actuator.notify.indicator;
 
-import io.github.smart.cloud.starter.monitor.actuator.dto.UnHealthApiDTO;
+import io.github.smart.cloud.starter.monitor.actuator.dto.ApiExceptionDTO;
 import io.github.smart.cloud.starter.monitor.actuator.repository.ApiHealthRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
@@ -38,12 +38,12 @@ public class ApiHealthIndicator extends AbstractHealthIndicator {
 
     @Override
     protected void doHealthCheck(Health.Builder builder) throws Exception {
-        List<UnHealthApiDTO> unHealthInfos = apiRepository.getUnHealthInfos();
-        if (unHealthInfos.isEmpty()) {
+        List<ApiExceptionDTO> apiExceptions = apiRepository.getApiExceptions();
+        if (apiExceptions.isEmpty()) {
             builder.up();
         } else {
-            Map<String, List<UnHealthApiDTO>> details = new HashMap<>(1);
-            details.put("unHealthInfos", unHealthInfos);
+            Map<String, List<ApiExceptionDTO>> details = new HashMap<>(1);
+            details.put("apiExceptions", apiExceptions);
 
             builder.down().withDetails(details);
         }

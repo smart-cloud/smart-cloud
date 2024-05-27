@@ -20,7 +20,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 不健康接口信息
+ * 接口异常信息
  *
  * @author collin
  * @date 2024-01-6
@@ -28,7 +28,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class UnHealthApiDTO {
+public class ApiExceptionDTO {
 
     /**
      * 接口名（类名#方法名）
@@ -49,6 +49,6 @@ public class UnHealthApiDTO {
     /**
      * 失败信息
      */
-    private String failMessage;
+    private String message;
 
 }

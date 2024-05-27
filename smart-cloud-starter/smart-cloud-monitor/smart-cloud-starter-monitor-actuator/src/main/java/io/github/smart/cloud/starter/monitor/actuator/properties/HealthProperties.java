@@ -20,10 +20,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 接口健康检测配置属性
@@ -91,6 +88,14 @@ public class HealthProperties {
      * 企业微信机器人key
      */
     private String robotKey;
+    /**
+     * 异常提醒人
+     */
+    private Set<String> mentionedList = new LinkedHashSet<>();
+    /**
+     * 需要提醒的异常类名列表
+     */
+    private Set<String> needMentionedExceptionClassNames = new LinkedHashSet<>();
     // -------企业微信通知配置 end
 
 }

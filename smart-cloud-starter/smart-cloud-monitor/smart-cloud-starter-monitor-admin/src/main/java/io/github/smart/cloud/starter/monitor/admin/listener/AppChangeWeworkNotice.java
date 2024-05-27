@@ -63,9 +63,9 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
 
         // 接口健康信息
         StatusInfo statusInfo = event.getStatusInfo();
-        String apiUnHealthDetail = getApiUnHealthDetail(statusInfo);
-        if (StringUtils.isNotBlank(apiUnHealthDetail)) {
-            content.append(apiUnHealthDetail);
+        String apiExceptionInfo = getApiExceptionInfo(statusInfo);
+        if (StringUtils.isNotBlank(apiExceptionInfo)) {
+            content.append(apiExceptionInfo);
         } else if (statusInfo.isDown() || statusInfo.isOffline()) {
             Object reason = getReason(statusInfo);
             if (reason != null) {
@@ -75,7 +75,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
 
         if (!(event instanceof MarkedOfflineEvent)) {
             // 提醒人
-            String reminderParams = reminderComponent.getReminderParams(event.getName(), event, apiUnHealthDetail);
+            String reminderParams = reminderComponent.getReminderParams(event.getName(), event, apiExceptionInfo);
             if (StringUtils.isNotBlank(reminderParams)) {
                 content.append(reminderParams);
             }
@@ -113,7 +113,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
      * @param statusInfo
      * @return
      */
-    private String getApiUnHealthDetail(StatusInfo statusInfo) {
+    private String getApiExceptionInfo(StatusInfo statusInfo) {
         if (!statusInfo.isDown()) {
             return StringUtils.EMPTY;
         }
@@ -132,34 +132,34 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
             return StringUtils.EMPTY;
         }
 
-        Map<String, Object> apiUnHealthDetail = (Map<String, Object>) apiHealthInfo.get(Constants.DETAILS);
-        if (MapUtils.isEmpty(apiUnHealthDetail)) {
+        Map<String, Object> apiExceptionDetail = (Map<String, Object>) apiHealthInfo.get(Constants.DETAILS);
+        if (MapUtils.isEmpty(apiExceptionDetail)) {
             return StringUtils.EMPTY;
         }
 
-        List<Map<String, Object>> unHealthInfos = (ArrayList<Map<String, Object>>) apiUnHealthDetail.get(Constants.UN_HEALTH_INFOS);
-        if (CollectionUtils.isEmpty(unHealthInfos)) {
+        List<Map<String, Object>> apiExceptions = (ArrayList<Map<String, Object>>) apiExceptionDetail.get(Constants.API_EXCEPTIONS);
+        if (CollectionUtils.isEmpty(apiExceptions)) {
             return StringUtils.EMPTY;
         }
 
-        StringBuilder unHealthContent = new StringBuilder(128);
-        unHealthContent.append("<font color=\"warning\">**非健康接口(近").append(monitorProperties.getExceptionApiCheckInterval()).append("分钟)**</font>:");
+        StringBuilder apiExceptionContent = new StringBuilder(128);
+        apiExceptionContent.append("<font color=\"warning\">**非健康接口(近").append(monitorProperties.getExceptionApiCheckInterval()).append("分钟)**</font>:");
         int apiIndex = 0;
-        for (Map<String, Object> unHealthInfo : unHealthInfos) {
-            unHealthContent.append("\n\n>**接口").append(++apiIndex).append("**: ").append(unHealthInfo.get(Constants.NAME))
-                    .append("\n>**请求总数**: ").append(unHealthInfo.get(Constants.TOTAL))
-                    .append("\n>**失败数**: ").append(unHealthInfo.get(Constants.FAIL_COUNT))
-                    .append("\n>**失败率**: ").append(unHealthInfo.get(Constants.FAIL_RATE));
-            String failMessage = (String) unHealthInfo.get(Constants.FAIL_MESSAGE);
+        for (Map<String, Object> apiException : apiExceptions) {
+            apiExceptionContent.append("\n\n>**接口").append(++apiIndex).append("**: ").append(apiException.get(Constants.NAME))
+                    .append("\n>**请求总数**: ").append(apiException.get(Constants.TOTAL))
+                    .append("\n>**失败数**: ").append(apiException.get(Constants.FAIL_COUNT))
+                    .append("\n>**失败率**: ").append(apiException.get(Constants.FAIL_RATE));
+            String failMessage = (String) apiException.get(Constants.MESSAGE);
             if (failMessage != null) {
                 if (failMessage.contains(SymbolConstant.DOUBLE_QUOTE)) {
                     failMessage = StringUtils.remove(failMessage, SymbolConstant.DOUBLE_QUOTE);
                 }
-                unHealthContent.append("\n>**异常信息**：").append(failMessage);
+                apiExceptionContent.append("\n>**异常信息**：").append(failMessage);
             }
         }
-        unHealthContent.append('\n');
-        return unHealthContent.toString();
+        apiExceptionContent.append('\n');
+        return apiExceptionContent.toString();
     }
 
     /**
@@ -226,12 +226,11 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         String API = "api";
         String STATUS = "status";
         String DETAILS = "details";
-        String UN_HEALTH_INFOS = "unHealthInfos";
+        String API_EXCEPTIONS = "apiExceptions";
         String NAME = "name";
         String TOTAL = "total";
         String FAIL_COUNT = "failCount";
         String FAIL_RATE = "failRate";
-        String FAIL_MESSAGE = "failMessage";
 
         String MESSAGE = "message";
         String ERROR = "error";
