@@ -16,7 +16,6 @@
 package io.github.smart.cloud.starter.monitor.admin.listener;
 
 import de.codecentric.boot.admin.server.domain.values.StatusInfo;
-import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.monitor.common.dto.wework.WeworkRobotMarkdownMessageDTO;
 import io.github.smart.cloud.starter.monitor.admin.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.admin.component.RobotComponent;
@@ -152,9 +151,6 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
                     .append("\n>**失败率**: ").append(apiException.get(Constants.FAIL_RATE));
             String failMessage = (String) apiException.get(Constants.MESSAGE);
             if (failMessage != null) {
-                if (failMessage.contains(SymbolConstant.DOUBLE_QUOTE)) {
-                    failMessage = StringUtils.remove(failMessage, SymbolConstant.DOUBLE_QUOTE);
-                }
                 apiExceptionContent.append("\n>**异常信息**：").append(failMessage);
             }
         }
