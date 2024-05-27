@@ -45,6 +45,6 @@ public class ApiHealthCacheDTO {
      * 异常
      */
     @Setter
-    private Throwable throwable;
+    private String message;
 
 }

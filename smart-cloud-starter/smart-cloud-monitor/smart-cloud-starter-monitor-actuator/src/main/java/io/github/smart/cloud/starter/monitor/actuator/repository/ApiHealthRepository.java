@@ -73,7 +73,7 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
             } else {
                 apiHealthCacheDTO.getFailCount().increment();
                 if (throwable != null) {
-                    apiHealthCacheDTO.setThrowable(throwable);
+                    apiHealthCacheDTO.setMessage(throwable.toString());
                 }
             }
         } catch (Throwable e) {
@@ -104,10 +104,7 @@ public class ApiHealthRepository implements InitializingBean, DisposableBean {
                 apiExceptionDTO.setTotal(total.longValue());
                 apiExceptionDTO.setFailCount(failCount.longValue());
                 apiExceptionDTO.setFailRate(PercentUtil.format(failRate));
-                Throwable throwable = apiHealthCacheDTO.getThrowable();
-                if (throwable != null) {
-                    apiExceptionDTO.setMessage(throwable.toString());
-                }
+                apiExceptionDTO.setMessage(apiHealthCacheDTO.getMessage());
                 apiExceptions.add(apiExceptionDTO);
             }
         }
