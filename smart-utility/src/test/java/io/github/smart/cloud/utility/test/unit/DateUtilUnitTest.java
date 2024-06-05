@@ -133,4 +133,10 @@ class DateUtilUnitTest {
         Assertions.assertThat(DateUtil.toDate(new Date().getTime())).isNotNull();
     }
 
+    @Test
+    void testGetDurationBetweenNowAndTodayEnd() {
+        long durationTs = DateUtil.getDurationBetweenNowAndTodayEnd();
+        Assertions.assertThat(durationTs).isGreaterThanOrEqualTo(0);
+    }
+
 }

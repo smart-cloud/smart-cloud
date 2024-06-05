@@ -26,8 +26,7 @@ import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -235,6 +234,17 @@ public class DateUtil {
      */
     public static Date toDate(long currentMillis) {
         return new Date(currentMillis);
+    }
+
+    /**
+     * 获取从当前时间开始到当天截止时间为止的毫秒数
+     *
+     * @return
+     */
+    public static long getDurationBetweenNowAndTodayEnd() {
+        LocalDateTime tomorrowBegin = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+        LocalDateTime now = LocalDateTime.now();
+        return Duration.between(now, tomorrowBegin).toMillis();
     }
 
     private static class Holder {
