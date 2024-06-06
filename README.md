@@ -21,6 +21,7 @@ smart cloud
 - 支持多语言（国际化）
 - 敏感配置信息支持加密，表隐私字段加解密（支持多秘钥）
 - 接口限流，支持配置中心动态刷新
+- 接口多版本控制
 - 分布式锁注解，缓存注解
 - mq（rabbitmq）消费失败，通过自定义注解实现重试（放入延迟队列重新消费）
 - 服务监控，接口异常监控
@@ -49,6 +50,7 @@ smart-cloud
 │  └──smart-cloud-test-core -- test 单元测试、集成测试封装
 ├──smart-utility -- 工具类
 └──smart-could-starter -- 框架封装
+   ├──smart-cloud-starter-api-version -- 接口多版本控制
    ├──smart-cloud-starter-configure -- 框架配置属性封装
    ├──smart-cloud-starter-core -- 框架核心（自定义注解、异常封装、请求响应公共参数、业务相关工具类）
    ├──smart-cloud-starter-elasticsearch-dynamic-datasource -- elasticsearch动态数据源

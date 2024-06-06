@@ -21,6 +21,7 @@ smart cloud
 - Supports multiple languages (internationalization)
 - Sensitive configuration information supports encryption, table privacy field encryption and decryption(Multi-key support)
 - The interface traffic is restricted and dynamic refresh is supported in the configuration center
+- Interface multi-version control
 - Annotated distributed lock, cache annotations
 - mq (rabbitmq) consumption fails, retry through custom annotations (put into delayed queue for re-consumption)
 - Service monitoring, interface exception monitoring
@@ -49,6 +50,7 @@ smart-cloud
 │  └──smart-cloud-test-core -- test unit test, integration test package
 ├──smart-utility -- Tools
 └──smart-could-starter -- frame encapsulation
+   ├──smart-cloud-starter-api-version -- Interface multi-version control
    ├──smart-cloud-starter-configure -- Framework configuration property encapsulation
    ├──smart-cloud-starter-core -- Framework core (custom annotations, exception encapsulation, request and response public parameters, business-related tool classes)
    ├──smart-cloud-starter-elasticsearch-dynamic-datasource -- elasticsearch dynamic data source
