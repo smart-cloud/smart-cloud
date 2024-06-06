@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: api-version
+
+server:
+  port: 40008

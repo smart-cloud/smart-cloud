@@ -250,6 +250,12 @@
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
+                <artifactId>smart-cloud-starter-api-version</artifactId>
+                <version>${smart-cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-mp-shardingjdbc</artifactId>
                 <version>${smart-cloud.version}</version>
             </dependency>
