@@ -15,10 +15,10 @@
  */
 package io.github.smart.cloud.starter.monitor.admin.component;
 
-import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
-import io.github.smart.cloud.starter.monitor.admin.properties.ServiceInfoProperties;
 import io.github.smart.cloud.starter.monitor.admin.event.AbstractAppChangeEvent;
 import io.github.smart.cloud.starter.monitor.admin.event.UpEvent;
+import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
+import io.github.smart.cloud.starter.monitor.admin.properties.ServiceInfoProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -44,10 +44,9 @@ public class ReminderComponent {
      *
      * @param serviceName
      * @param event
-     * @param apiExceptionInfo
      * @return
      */
-    public String getReminderParams(String serviceName, AbstractAppChangeEvent event, String apiExceptionInfo) {
+    public String getReminderParams(String serviceName, AbstractAppChangeEvent event) {
         if (event instanceof UpEvent) {
             return StringUtils.EMPTY;
         }
@@ -62,10 +61,6 @@ public class ReminderComponent {
         }
 
         if (event.getHealthInstanceCount() <= 0) {
-            return generateReminders(reminders);
-        }
-
-        if (StringUtils.isNotBlank(apiExceptionInfo)) {
             return generateReminders(reminders);
         }
 

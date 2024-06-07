@@ -32,7 +32,7 @@
 
     <modules>
         <module>smart-cloud-monitor-common</module>
-        <module>smart-cloud-starter-monitor-actuator</module>
+        <module>smart-cloud-starter-monitor-api</module>
         <module>smart-cloud-starter-monitor-admin</module>
     </modules>
 

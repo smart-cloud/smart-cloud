@@ -1,0 +1,5 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.github.smart.cloud.starter.monitor.api.autoconfigure.ApiMonitorAutoConguration,\
+io.github.smart.cloud.starter.monitor.api.autoconfigure.ApiMonitorInterceptorAutoConfiguration,\
+io.github.smart.cloud.starter.monitor.api.autoconfigure.ExceptionApiCheckerAutoConfiguration

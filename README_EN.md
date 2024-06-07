@@ -72,7 +72,7 @@ smart-cloud
    └──smart-cloud-starter-web -- web encapsulation (log aspect, exception handling, parameter verification)
    └──smart-cloud-starter-monitor -- Service monitoring, interface monitoring
       ├──smart-cloud-monitor-common -- Monitor common code
-      ├──smart-cloud-starter-monitor-actuator -- Expand actuator and customize monitoring
+      ├──smart-cloud-starter-monitor-api -- api exception monitoring
       └──smart-cloud-starter-monitor-admin -- spring boot admin monitoring, wework notifications
 ```
 

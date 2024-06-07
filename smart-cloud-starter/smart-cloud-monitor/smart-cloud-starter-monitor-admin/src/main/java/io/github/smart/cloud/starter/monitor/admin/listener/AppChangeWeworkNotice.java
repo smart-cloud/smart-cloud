@@ -20,18 +20,13 @@ import io.github.smart.cloud.monitor.common.dto.wework.WeworkRobotMarkdownMessag
 import io.github.smart.cloud.starter.monitor.admin.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.admin.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.admin.event.*;
-import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.utility.DateUtil;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationListener;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,7 +38,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppChangeEvent> {
 
-    private final MonitorProperties monitorProperties;
     private final RobotComponent robotComponent;
     private final ReminderComponent reminderComponent;
 
@@ -62,10 +56,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
 
         // 接口健康信息
         StatusInfo statusInfo = event.getStatusInfo();
-        String apiExceptionInfo = getApiExceptionInfo(statusInfo);
-        if (StringUtils.isNotBlank(apiExceptionInfo)) {
-            content.append(apiExceptionInfo);
-        } else if (statusInfo.isDown() || statusInfo.isOffline()) {
+        if (statusInfo.isDown() || statusInfo.isOffline()) {
             Object reason = getReason(statusInfo);
             if (reason != null) {
                 content.append("**原因**: ").append(reason).append('\n');
@@ -74,7 +65,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
 
         if (!(event instanceof MarkedOfflineEvent)) {
             // 提醒人
-            String reminderParams = reminderComponent.getReminderParams(event.getName(), event, apiExceptionInfo);
+            String reminderParams = reminderComponent.getReminderParams(event.getName(), event);
             if (StringUtils.isNotBlank(reminderParams)) {
                 content.append(reminderParams);
             }
@@ -104,58 +95,6 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         }
 
         return "**unknow**";
-    }
-
-    /**
-     * 获取自定义健康检查信息
-     *
-     * @param statusInfo
-     * @return
-     */
-    private String getApiExceptionInfo(StatusInfo statusInfo) {
-        if (!statusInfo.isDown()) {
-            return StringUtils.EMPTY;
-        }
-
-        Map<String, Object> detail = statusInfo.getDetails();
-        if (MapUtils.isEmpty(detail)) {
-            return StringUtils.EMPTY;
-        }
-
-        Map<String, Object> apiHealthInfo = (Map<String, Object>) detail.get(Constants.API);
-        if (MapUtils.isEmpty(apiHealthInfo)) {
-            return StringUtils.EMPTY;
-        }
-
-        if (!StatusInfo.STATUS_DOWN.equals(apiHealthInfo.get(Constants.STATUS))) {
-            return StringUtils.EMPTY;
-        }
-
-        Map<String, Object> apiExceptionDetail = (Map<String, Object>) apiHealthInfo.get(Constants.DETAILS);
-        if (MapUtils.isEmpty(apiExceptionDetail)) {
-            return StringUtils.EMPTY;
-        }
-
-        List<Map<String, Object>> apiExceptions = (ArrayList<Map<String, Object>>) apiExceptionDetail.get(Constants.API_EXCEPTIONS);
-        if (CollectionUtils.isEmpty(apiExceptions)) {
-            return StringUtils.EMPTY;
-        }
-
-        StringBuilder apiExceptionContent = new StringBuilder(128);
-        apiExceptionContent.append("<font color=\"warning\">**非健康接口(近").append(monitorProperties.getExceptionApiCheckInterval()).append("分钟)**</font>:");
-        int apiIndex = 0;
-        for (Map<String, Object> apiException : apiExceptions) {
-            apiExceptionContent.append("\n\n>**接口").append(++apiIndex).append("**: ").append(apiException.get(Constants.NAME))
-                    .append("\n>**请求总数**: ").append(apiException.get(Constants.TOTAL))
-                    .append("\n>**失败数**: ").append(apiException.get(Constants.FAIL_COUNT))
-                    .append("\n>**失败率**: ").append(apiException.get(Constants.FAIL_RATE));
-            String failMessage = (String) apiException.get(Constants.MESSAGE);
-            if (failMessage != null) {
-                apiExceptionContent.append("\n>**异常信息**：").append(failMessage);
-            }
-        }
-        apiExceptionContent.append('\n');
-        return apiExceptionContent.toString();
     }
 
     /**
@@ -219,14 +158,8 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
     }
 
     interface Constants {
-        String API = "api";
         String STATUS = "status";
         String DETAILS = "details";
-        String API_EXCEPTIONS = "apiExceptions";
-        String NAME = "name";
-        String TOTAL = "total";
-        String FAIL_COUNT = "failCount";
-        String FAIL_RATE = "failRate";
 
         String MESSAGE = "message";
         String ERROR = "error";

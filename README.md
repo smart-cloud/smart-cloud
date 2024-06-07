@@ -70,7 +70,7 @@ smart-cloud
    ├──smart-cloud-starter-web -- web封装（日志切面、异常处理、参数校验）
    └──smart-cloud-starter-monitor -- 服务监控，接口监控
       ├──smart-cloud-monitor-common -- 监控公共代码
-      ├──smart-cloud-starter-monitor-actuator -- 扩展actuator，自定义监控
+      ├──smart-cloud-starter-monitor-api -- 接口异常监控
       └──smart-cloud-starter-monitor-admin -- spring boot admin监控，企业微信发通知
 ```
 
