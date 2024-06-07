@@ -17,7 +17,7 @@ smart cloud
 - [接口支持加密与签名](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
 - 业务无关功能（如日志打印、公共配置、常用工具类等）抽象为starter
 - 支持web接口日志、feign日志、method注解日志、mybatis日志、mq消费者日志打印，日志级别可配置
-- 支持多数据源、分表分库、分布式事务
+- 支持多数据源、分表分库
 - 支持多语言（国际化）
 - 敏感配置信息支持加密，表隐私字段加解密（支持多秘钥）
 - 接口限流，支持配置中心动态刷新
@@ -62,8 +62,8 @@ smart-cloud
    ├──smart-cloud-starter-logback -- 日志封装（logback日志打印，支持日志敏感数据脱敏）
    ├──smart-cloud-starter-method-log -- 方法切面日志封装
    ├──smart-cloud-starter-mock -- mock封装（mock工具类、常用mock策略、请求接口mock拦截器）
-   ├──smart-cloud-starter-mp-shardingjdbc -- mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表、分布式事务；mapper工具类）
-   ├──smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源、分布式事务；mapper工具类、表隐私字段加解密等）
+   ├──smart-cloud-starter-mp-shardingjdbc -- mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表；mapper工具类）
+   ├──smart-cloud-starter-mybatis-plus -- mybatis plus、dynamic-datasource封装（支持多数据源；mapper工具类、表隐私字段加解密等）
    ├──smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）
    ├──smart-cloud-starter-rate-limit -- 接口限流
    ├──smart-cloud-starter-redis -- redis封装、自定义分布式锁注解
@@ -86,7 +86,6 @@ smart-cloud
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | 链路追踪、日志
 [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM
 [dynamic-datasource](https://mp.baomidou.com/guide/dynamic-datasource.html)| 多数据源
-[seata](https://github.com/seata/seata) | 分布式事务
 [sharding jdbc](https://github.com/apache/incubator-shardingsphere) | 分库分表
 [redis](https://redis.io/)、[embedded-redis](https://github.com/kstyrc/embedded-redis) | 缓存、集成测试
 [sentinel](https://github.com/alibaba/Sentinel) | 限流、熔断降级

@@ -29,7 +29,7 @@
     <version>1.0.6-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>smart-cloud</name>
-    <description>基于springboot与springcloud的脚手架，支持服务合并部署与拆分部署、接口加解密签名、日志数据 脱敏、接口数据mock、接口文档自动生成、请求幂等校验、接口日志、sql日志切面打印、分表分库分布式事务、国际化语言等</description>
+    <description>基于springboot与springcloud的脚手架，支持服务合并部署与拆分部署、接口加解密签名、日志数据 脱敏、接口数据mock、接口限流、接口文档自动生成、请求幂等校验、接口日志、sql日志切面打印、分表分库、国际化语言、服务监控等</description>
 
     <url>https://github.com/smart-cloud/smart-cloud</url>
     <licenses>

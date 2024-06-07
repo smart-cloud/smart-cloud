@@ -17,7 +17,7 @@ smart cloud
 - [The interface supports encryption and signature](https://github.com/smart-cloud/smart-cloud-examples#%E4%BA%8C%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8)
 - Business-related functions (such as log printing, public configuration, common tool classes, etc.) are abstracted as starters
 - Support web interface log, feign log, method annotation log, mybatis log, mq consumer log printing, log level is configurable
-- Support multiple data sources, sharding table and sharding database, distributed transactions
+- Support multiple data sources, sharding table and sharding database
 - Supports multiple languages (internationalization)
 - Sensitive configuration information supports encryption, table privacy field encryption and decryption(Multi-key support)
 - The interface traffic is restricted and dynamic refresh is supported in the configuration center
@@ -64,8 +64,8 @@ smart-cloud
    ├──smart-cloud-starter-method-log -- 方Method Aspect Log Encapsulation
    ├──smart-cloud-starter-mock -- Mock encapsulation (mock tool classes, common mock strategies, request interface mock interceptors)
    ├──smart-cloud-starter-monitor -- Monitor service by spring boot admin, send warning message by WXWork
-   ├──smart-cloud-starter-mp-shardingjdbc -- mybatis plus, dynamic-datasource, shardingjdbc package (supports multiple data sources, sub-database sub-tables, distributed transactions; mapper tool class)
-   ├──smart-cloud-starter-mybatis-plus -- mybatis plus, dynamic-datasource encapsulation (supports multiple data sources, distributed transactions; mapper tool class, table privacy field encryption and decryption, etc.)
+   ├──smart-cloud-starter-mp-shardingjdbc -- mybatis plus, dynamic-datasource, shardingjdbc package (supports multiple data sources, sub-database sub-tables; mapper tool class)
+   ├──smart-cloud-starter-mybatis-plus -- mybatis plus, dynamic-datasource encapsulation (supports multiple data sources; mapper tool class, table privacy field encryption and decryption, etc.)
    ├──smart-cloud-starter-rabbitmq -- rabbitmq encapsulation (consumption failure, automatically put into the delayed queue for re-consumption)
    ├──smart-cloud-starter-rate-limit -- api rate limit
    ├──smart-cloud-starter-redis -- redis encapsulation, custom distributed lock annotation
@@ -88,7 +88,6 @@ name | role description
 [sleuth](https://spring.io/projects/spring-cloud-sleuth)、[log4j2](https://logging.apache.org/log4j/2.x/) | Link tracking, logs
 [mybatis](http://www.mybatis.org/mybatis-3/zh/index.html) 、[mybatis plus](https://github.com/baomidou/mybatis-plus)| ORM
 [dynamic-datasource](https://mp.baomidou.com/guide/dynamic-datasource.html)| Multiple data sources
-[seata](https://github.com/seata/seata) | Distributed transaction
 [sharding jdbc](https://github.com/apache/incubator-shardingsphere) | Sub-library and sub-table
 [redis](https://redis.io/)、[embedded-redis](https://github.com/kstyrc/embedded-redis) | Caching, Integration Testing
 [sentinel](https://github.com/alibaba/Sentinel) | Current limit, fuse, downgrade
