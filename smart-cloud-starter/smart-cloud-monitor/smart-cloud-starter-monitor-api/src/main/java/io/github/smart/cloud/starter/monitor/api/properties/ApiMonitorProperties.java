@@ -41,6 +41,8 @@ import java.util.*;
 @Setter
 public class ApiMonitorProperties {
 
+    public static final String PREFIX = "smart.api-monitor";
+
     /**
      * 不健康匹配最小数量
      */

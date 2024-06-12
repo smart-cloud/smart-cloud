@@ -15,11 +15,13 @@
  */
 package io.github.smart.cloud.starter.monitor.api.autoconfigure;
 
-import io.github.smart.cloud.starter.monitor.api.component.ExceptionApiChecker;
-import io.github.smart.cloud.starter.monitor.api.properties.ApiMonitorProperties;
 import io.github.smart.cloud.starter.monitor.api.component.ApiMonitorRepository;
+import io.github.smart.cloud.starter.monitor.api.component.ExceptionApiChecker;
+import io.github.smart.cloud.starter.monitor.api.condition.ApiMonitorCondition;
+import io.github.smart.cloud.starter.monitor.api.properties.ApiMonitorProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -29,6 +31,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2024-01-16
  */
 @Configuration
+@Conditional(ApiMonitorCondition.class)
 public class ExceptionApiCheckerAutoConfiguration {
 
     @Bean
