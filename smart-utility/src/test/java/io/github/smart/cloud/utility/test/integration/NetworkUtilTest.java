@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.utility.test.integration;
 
-import io.github.smart.cloud.utility.TelnetUtil;
+import io.github.smart.cloud.utility.NetworkUtil;
 import io.github.smart.cloud.utility.test.integration.prepare.TestApplication;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,17 +23,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.IOException;
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class TelnetUtilTest {
-
+class NetworkUtilTest {
 
     @Test
-    void testTelnet() throws IOException {
-        Assertions.assertThat(TelnetUtil.isOk("localhost", 40007, 3000, 3)).isTrue();
-        Assertions.assertThat(TelnetUtil.isOk("localhost", 8081, 500, 3)).isFalse();
+    void testTelnet() {
+        Assertions.assertThat(NetworkUtil.isOk("localhost", 40007, 3000, 3)).isTrue();
+        Assertions.assertThat(NetworkUtil.isOk("localhost", 8081, 500, 3)).isFalse();
+    }
+
+    @Test
+    void testGetLocalIpAddress() {
+        String localIpAddress = NetworkUtil.getLocalIpAddress();
+        Assertions.assertThat(localIpAddress).isNotBlank();
+        Assertions.assertThat(localIpAddress).isNotEqualTo("127.0.0.1");
     }
 
 }

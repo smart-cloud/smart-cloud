@@ -22,6 +22,7 @@ import io.github.smart.cloud.starter.monitor.api.dto.ApiExceptionDTO;
 import io.github.smart.cloud.starter.monitor.api.properties.ApiMonitorProperties;
 import io.github.smart.cloud.utility.HttpUtil;
 import io.github.smart.cloud.utility.JacksonUtil;
+import io.github.smart.cloud.utility.NetworkUtil;
 import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,6 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
@@ -75,7 +75,7 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
         }
 
         this.weworkRobotUrl = String.format("https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=%s", apiMonitorProperties.getRobotKey());
-        this.ip = InetAddress.getLocalHost().getHostAddress();
+        this.ip = NetworkUtil.getLocalIpAddress();
 
         exceptionApiCheckSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("exception-api-notice-schedule"));
         exceptionApiCheckSchedule.scheduleWithFixedDelay(this::checkExceptionApiAndNotice, apiMonitorProperties.getApiExceptionNoticeIntervalSeconds(),

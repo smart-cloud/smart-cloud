@@ -15,19 +15,19 @@
  */
 package io.github.smart.cloud.utility;
 
-import java.net.InetSocketAddress;
-import java.net.Socket;
+import java.net.*;
+import java.util.Enumeration;
 import java.util.concurrent.TimeUnit;
 
 /**
- * telnet工具类
+ * 网络工具类
  *
  * @author collin
  * @date 2023-01-03
  */
-public class TelnetUtil {
+public class NetworkUtil {
 
-    private TelnetUtil() {
+    private NetworkUtil() {
     }
 
     /**
@@ -35,13 +35,13 @@ public class TelnetUtil {
      *
      * @param hostname
      * @param port
-     * @param timeout      单位毫秒
+     * @param timeout        单位毫秒
      * @param failRetryCount 失败重试次数
      * @return
      */
     public static boolean isOk(String hostname, int port, int timeout, int failRetryCount) {
         for (int i = 0; i < failRetryCount; i++) {
-            if (TelnetUtil.telnet(hostname, port, timeout)) {
+            if (NetworkUtil.telnet(hostname, port, timeout)) {
                 return true;
             } else {
                 try {
@@ -68,6 +68,33 @@ public class TelnetUtil {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * 获取非回环地址（127.0.0.1）的本机IP地址
+     *
+     * @return
+     */
+    public static String getLocalIpAddress() {
+        try {
+            Enumeration<NetworkInterface> interfaceEnumeration = NetworkInterface.getNetworkInterfaces();
+            while (interfaceEnumeration.hasMoreElements()) {
+                NetworkInterface networkInterface = interfaceEnumeration.nextElement();
+                if (networkInterface.isLoopback() || networkInterface.isVirtual() || !networkInterface.isUp()) {
+                    continue;
+                }
+                Enumeration<InetAddress> inetAddressEnumeration = networkInterface.getInetAddresses();
+                while (inetAddressEnumeration.hasMoreElements()) {
+                    InetAddress inetAddress = inetAddressEnumeration.nextElement();
+                    if (inetAddress.isSiteLocalAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            // Handle exception
+        }
+        return "127.0.0.1"; // Fallback
     }
 
 }
