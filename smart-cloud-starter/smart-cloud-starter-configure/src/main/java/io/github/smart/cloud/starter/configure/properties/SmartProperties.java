@@ -79,6 +79,11 @@ public class SmartProperties implements Serializable {
     @NestedConfigurationProperty
     private MybatisProperties mybatis = new MybatisProperties();
     /**
+     * 数据库查询监控相关配置
+     */
+    @NestedConfigurationProperty
+    private DbQueryMonitorProperties dbQueryMonitor = new DbQueryMonitorProperties();
+    /**
      * rabbitmq相关配置
      */
     @NestedConfigurationProperty

@@ -21,6 +21,7 @@ import io.github.smart.cloud.starter.configure.constants.ConfigureConstant;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.mybatis.plus.injector.SmartSqlInjector;
+import io.github.smart.cloud.starter.mybatis.plus.plugin.DbQueryMonitor;
 import io.github.smart.cloud.starter.mybatis.plus.plugin.MybatisSqlLogInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +36,18 @@ import org.springframework.core.annotation.Order;
  */
 @Configuration
 public class MyBatisPlusAutoConfiguration {
+
+    /**
+     * 数据库查询监控
+     *
+     * @param smartProperties
+     * @return
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = ConfigureConstant.SMART_PROPERTIES_PREFIX, name = ".dbQueryMonitor.enable", havingValue = "true", matchIfMissing = true)
+    public DbQueryMonitor dbQueryMonitor(final SmartProperties smartProperties) {
+        return new DbQueryMonitor(smartProperties);
+    }
 
     /**
      * mybatis日志

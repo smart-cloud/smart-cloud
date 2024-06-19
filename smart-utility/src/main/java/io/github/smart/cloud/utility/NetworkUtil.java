@@ -94,7 +94,8 @@ public class NetworkUtil {
         } catch (SocketException e) {
             // Handle exception
         }
-        return "127.0.0.1"; // Fallback
+        // Fallback
+        return "127.0.0.1";
     }
 
 }
