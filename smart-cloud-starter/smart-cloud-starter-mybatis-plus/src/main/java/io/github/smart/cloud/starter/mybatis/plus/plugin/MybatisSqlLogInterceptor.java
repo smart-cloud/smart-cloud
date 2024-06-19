@@ -88,7 +88,12 @@ public class MybatisSqlLogInterceptor implements Interceptor {
 
     @Override
     public Object plugin(Object target) {
-        return Plugin.wrap(target, this);
+        // 只对要拦截的对象生成代理
+        if (target instanceof Executor) {
+            return Plugin.wrap(target, this);
+        }
+
+        return target;
     }
 
     @Override
