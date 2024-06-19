@@ -33,14 +33,6 @@ public class DbQueryMonitorProperties {
     /**
      * 数据库查询监控最小值
      */
-    private int queryMinSize = 1;
-    /**
-     * 是否清除查询统计
-     */
-    private boolean cleanQueryStatistics = true;
-    /**
-     * 打印最大数
-     */
-    private int printMaxSize = 5;
+    private int queryMinSize = 500;
 
 }

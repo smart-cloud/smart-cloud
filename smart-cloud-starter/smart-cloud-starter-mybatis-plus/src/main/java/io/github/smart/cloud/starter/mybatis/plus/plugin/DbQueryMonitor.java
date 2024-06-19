@@ -17,8 +17,6 @@ package io.github.smart.cloud.starter.mybatis.plus.plugin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
-import io.github.smart.cloud.utility.JacksonUtil;
-import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,13 +29,9 @@ import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.LongAdder;
-import java.util.function.Function;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 数据库查询监控
@@ -54,22 +48,15 @@ import java.util.function.Function;
                 RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
         @Signature(type = Executor.class, method = "queryCursor", args = {MappedStatement.class, Object.class,
                 RowBounds.class})})
-public class DbQueryMonitor implements Interceptor, InitializingBean, DisposableBean {
+public class DbQueryMonitor implements Interceptor {
 
     private final SmartProperties smartProperties;
-    private final ConcurrentMap<String, LongAdder> queryStatistics = new ConcurrentHashMap<>();
-    private final CreateMysqlQueryAdderFunction createMysqlQueryAdderFunction = new CreateMysqlQueryAdderFunction();
-    private ScheduledExecutorService printAdderCallSchedule = null;
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         Object returnValue = invocation.proceed();
         try {
-            MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-            String sqlId = mappedStatement.getId();
-
-            adderCallTimes(sqlId);
-            printHugeQuery(returnValue, sqlId);
+            printHugeQuery(returnValue, invocation);
         } catch (Exception e) {
             log.error("monitor mysql query fail", e);
         }
@@ -77,34 +64,24 @@ public class DbQueryMonitor implements Interceptor, InitializingBean, Disposable
     }
 
     /**
-     * 统计调用次数
-     *
-     * @param sqlId
-     */
-    private void adderCallTimes(String sqlId) {
-        LongAdder adder = queryStatistics.computeIfAbsent(sqlId, createMysqlQueryAdderFunction);
-        adder.add(1);
-    }
-
-    /**
      * 监控大数据量查询
      *
      * @param returnValue
-     * @param sqlId
+     * @param invocation
      */
-    private void printHugeQuery(Object returnValue, String sqlId) {
+    private void printHugeQuery(Object returnValue, Invocation invocation) {
         if (returnValue == null) {
             return;
         }
 
         if (returnValue instanceof Collection) {
             Collection<?> collection = (Collection<?>) returnValue;
-            printHugeQuery(collection, sqlId);
+            printHugeQuery(collection, invocation);
         } else if (returnValue instanceof IPage) {
             IPage<?> page = (IPage<?>) returnValue;
             List<?> records = page.getRecords();
             if (records != null) {
-                printHugeQuery(records, sqlId);
+                printHugeQuery(records, invocation);
             }
         }
     }
@@ -113,11 +90,13 @@ public class DbQueryMonitor implements Interceptor, InitializingBean, Disposable
      * 打印大数据量查询信息
      *
      * @param collection
-     * @param sqlId
+     * @param invocation
      */
-    private void printHugeQuery(Collection<?> collection, String sqlId) {
+    private void printHugeQuery(Collection<?> collection, Invocation invocation) {
         int total = collection.size();
         if (total >= smartProperties.getDbQueryMonitor().getQueryMinSize()) {
+            MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
+            String sqlId = mappedStatement.getId();
             log.warn("hugedata.{}-->{}", sqlId, total);
         }
     }
@@ -130,46 +109,6 @@ public class DbQueryMonitor implements Interceptor, InitializingBean, Disposable
         }
 
         return target;
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        printAdderCallSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("print-adder-call"));
-        printAdderCallSchedule.scheduleWithFixedDelay(this::printAdderCallTimes, 3, 30, TimeUnit.MINUTES);
-    }
-
-    private void printAdderCallTimes() {
-        List<QueryCallDTO> data = new ArrayList<>();
-        for (Map.Entry<String, LongAdder> entry : queryStatistics.entrySet()) {
-            data.add(new QueryCallDTO(entry.getKey(), entry.getValue().sum()));
-        }
-
-        if (smartProperties.getDbQueryMonitor().isCleanQueryStatistics()) {
-            queryStatistics.clear();
-        }
-
-        Collections.sort(data, Comparator.comparing(QueryCallDTO::getCallCount).reversed());
-        if (data.size() > smartProperties.getDbQueryMonitor().getPrintMaxSize()) {
-            data = data.subList(0, smartProperties.getDbQueryMonitor().getPrintMaxSize());
-        }
-
-        log.warn("query call count statistics:{}", JacksonUtil.toJson(data));
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        if (printAdderCallSchedule != null) {
-            printAdderCallSchedule.shutdown();
-        }
-    }
-
-    static class CreateMysqlQueryAdderFunction implements Function<String, LongAdder> {
-
-        @Override
-        public LongAdder apply(String s) {
-            return new LongAdder();
-        }
-
     }
 
     @Getter
