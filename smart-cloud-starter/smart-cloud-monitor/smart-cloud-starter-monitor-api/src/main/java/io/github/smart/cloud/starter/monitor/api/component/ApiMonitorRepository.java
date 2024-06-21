@@ -95,7 +95,12 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean {
         for (Map.Entry<String, ApiHealthCacheDTO> entry : apiStatusStatistics.entrySet()) {
             String name = entry.getKey();
             ApiHealthCacheDTO apiHealthCacheDTO = entry.getValue();
-            BigDecimal failCount = BigDecimal.valueOf(apiHealthCacheDTO.getFailCount().sum());
+            long failCountSum = apiHealthCacheDTO.getFailCount().sum();
+            if (failCountSum == 0) {
+                continue;
+            }
+
+            BigDecimal failCount = BigDecimal.valueOf(failCountSum);
             BigDecimal total = BigDecimal.valueOf(apiHealthCacheDTO.getSuccessCount().sum()).add(failCount);
             BigDecimal failRate = failCount.divide(total, 4, RoundingMode.HALF_UP);
             if (isUnHealth(name, total, failRate)) {
