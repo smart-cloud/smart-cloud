@@ -25,6 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
+import org.springframework.context.ApplicationListener;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -44,7 +46,7 @@ import java.util.function.Function;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class ApiMonitorRepository implements InitializingBean, DisposableBean {
+public class ApiMonitorRepository implements InitializingBean, DisposableBean, ApplicationListener<RefreshScopeRefreshedEvent> {
 
     private final ApiMonitorProperties apiMonitorProperties;
     /**
@@ -157,6 +159,11 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean {
 
     public void clearApiStatusStatistics() {
         apiStatusStatistics.clear();
+    }
+
+    @Override
+    public void onApplicationEvent(RefreshScopeRefreshedEvent event) {
+        // 处理“@RefreshScope会导致ScheduledExecutorService失效”的问题
     }
 
     /**

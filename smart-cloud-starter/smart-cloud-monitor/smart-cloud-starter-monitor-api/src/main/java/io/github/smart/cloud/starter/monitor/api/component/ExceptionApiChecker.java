@@ -31,6 +31,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 
@@ -49,7 +51,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, DisposableBean {
+public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, DisposableBean, ApplicationListener<RefreshScopeRefreshedEvent> {
 
     private final ApiMonitorProperties apiMonitorProperties;
     private final ApiMonitorRepository apiRepository;
@@ -172,6 +174,11 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
         if (exceptionApiCheckSchedule != null) {
             exceptionApiCheckSchedule.shutdown();
         }
+    }
+
+    @Override
+    public void onApplicationEvent(RefreshScopeRefreshedEvent event) {
+        // 处理“@RefreshScope会导致ScheduledExecutorService失效”的问题
     }
 
 }
