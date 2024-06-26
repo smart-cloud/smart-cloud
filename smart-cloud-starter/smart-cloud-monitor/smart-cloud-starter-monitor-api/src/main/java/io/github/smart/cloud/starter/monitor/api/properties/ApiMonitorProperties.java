@@ -90,9 +90,13 @@ public class ApiMonitorProperties {
      */
     private Set<String> mentionedList = new LinkedHashSet<>();
     /**
+     * “需要提醒的异常类名列表”中命中时，需要提醒
+     */
+    private Boolean alertExceptionMarked = true;
+    /**
      * 需要提醒的异常类名列表
      */
-    private Set<String> needMentionedExceptionClassNames = new LinkedHashSet<>();
+    private Set<String> needAlertExceptionClassNames = new HashSet<>();
     // -------企业微信通知配置 end
 
 }

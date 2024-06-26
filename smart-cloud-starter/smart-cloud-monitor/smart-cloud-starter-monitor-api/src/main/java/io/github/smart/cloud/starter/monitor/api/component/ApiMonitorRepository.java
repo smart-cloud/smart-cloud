@@ -30,10 +30,7 @@ import org.springframework.context.ApplicationListener;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
@@ -105,7 +102,7 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
             BigDecimal failCount = BigDecimal.valueOf(failCountSum);
             BigDecimal total = BigDecimal.valueOf(apiHealthCacheDTO.getSuccessCount().sum()).add(failCount);
             BigDecimal failRate = failCount.divide(total, 4, RoundingMode.HALF_UP);
-            if (isUnHealth(name, total, failRate)) {
+            if (match(name, total, failRate, apiHealthCacheDTO.getMessage())) {
                 ApiExceptionDTO apiExceptionDTO = new ApiExceptionDTO();
                 apiExceptionDTO.setName(name);
                 apiExceptionDTO.setTotal(total.longValue());
@@ -134,9 +131,19 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
      * @param total
      * @param name
      * @param failRate
+     * @param message
      * @return
      */
-    private boolean isUnHealth(String name, BigDecimal total, BigDecimal failRate) {
+    private boolean match(String name, BigDecimal total, BigDecimal failRate, String message) {
+        if (apiMonitorProperties.getAlertExceptionMarked()) {
+            Set<String> needAlertExceptionClassNames = apiMonitorProperties.getNeedAlertExceptionClassNames();
+            for (String needAlertExceptionClassName : needAlertExceptionClassNames) {
+                if (message.contains(needAlertExceptionClassName)) {
+                    return true;
+                }
+            }
+        }
+
         BigDecimal failRateThreshold = apiMonitorProperties.getFailRateThresholds().getOrDefault(name, apiMonitorProperties.getDefaultFailRateThreshold());
         return (total.intValue() >= apiMonitorProperties.getUnhealthMatchMinCount()) && (failRate.compareTo(failRateThreshold) >= 0);
     }

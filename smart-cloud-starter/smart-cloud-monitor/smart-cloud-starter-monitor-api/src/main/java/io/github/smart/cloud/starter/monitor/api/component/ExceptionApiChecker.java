@@ -159,9 +159,9 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
             return true;
         }
 
-        Set<String> needMentionedExceptionClassNames = apiMonitorProperties.getNeedMentionedExceptionClassNames();
-        for (String needMentionedExceptionClassName : needMentionedExceptionClassNames) {
-            if (exceptionMessage.contains(needMentionedExceptionClassName)) {
+        Set<String> needAlertExceptionClassNames = apiMonitorProperties.getNeedAlertExceptionClassNames();
+        for (String needAlertExceptionClassName : needAlertExceptionClassNames) {
+            if (exceptionMessage.contains(needAlertExceptionClassName)) {
                 return true;
             }
         }

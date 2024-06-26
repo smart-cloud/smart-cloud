@@ -15,10 +15,11 @@
  */
 package io.github.smart.cloud.starter.monitor.api.test.cases;
 
-import io.github.smart.cloud.starter.monitor.api.dto.ApiExceptionDTO;
-import io.github.smart.cloud.starter.monitor.api.component.ExceptionApiChecker;
 import io.github.smart.cloud.starter.monitor.api.component.ApiMonitorRepository;
+import io.github.smart.cloud.starter.monitor.api.component.ExceptionApiChecker;
+import io.github.smart.cloud.starter.monitor.api.dto.ApiExceptionDTO;
 import io.github.smart.cloud.starter.monitor.api.test.prepare.App;
+import io.github.smart.cloud.starter.monitor.api.test.prepare.controller.NullPointExceptionController;
 import io.github.smart.cloud.starter.monitor.api.test.prepare.controller.OrderController;
 import io.github.smart.cloud.starter.monitor.api.test.prepare.openfeign.IOrderFeign;
 import io.github.smart.cloud.starter.monitor.api.test.prepare.service.ProductService;
@@ -41,6 +42,22 @@ public class ExceptionApiTest extends AbstractTest {
     private ExceptionApiChecker exceptionApiChecker;
     @Autowired
     private ApiMonitorRepository apiMonitorRepository;
+
+    @Test
+    void testNullPointerException() {
+        NullPointExceptionController nullPointExceptionController = applicationContext.getBean(NullPointExceptionController.class);
+        for (int i = 0; i < 100; i++) {
+            try {
+                nullPointExceptionController.testNullPointerException(i);
+            } catch (Exception e) {
+
+            }
+        }
+
+        List<ApiExceptionDTO> apiExceptions = apiMonitorRepository.getApiExceptions();
+        Assertions.assertThat(apiExceptions).hasSize(1);
+        Assertions.assertThat(apiExceptions.get(0).getMessage()).contains( NullPointerException.class.getName());
+    }
 
     @Test
     void testExceptionApiCheck() throws Exception {
