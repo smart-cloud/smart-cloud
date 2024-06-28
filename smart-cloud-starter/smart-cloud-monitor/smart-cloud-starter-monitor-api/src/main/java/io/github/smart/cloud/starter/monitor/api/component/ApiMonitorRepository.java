@@ -17,6 +17,7 @@ package io.github.smart.cloud.starter.monitor.api.component;
 
 import io.github.smart.cloud.starter.monitor.api.dto.ApiExceptionDTO;
 import io.github.smart.cloud.starter.monitor.api.dto.ApiHealthCacheDTO;
+import io.github.smart.cloud.starter.monitor.api.enums.ApiExceptionRemindType;
 import io.github.smart.cloud.starter.monitor.api.properties.ApiMonitorProperties;
 import io.github.smart.cloud.starter.monitor.api.util.PercentUtil;
 import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
@@ -104,13 +105,15 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
             BigDecimal failCount = BigDecimal.valueOf(failCountSum);
             BigDecimal total = BigDecimal.valueOf(apiHealthCacheDTO.getSuccessCount().sum()).add(failCount);
             BigDecimal failRate = failCount.divide(total, 4, RoundingMode.HALF_UP);
-            if (match(name, total, failRate, apiHealthCacheDTO.getMessage())) {
+            ApiExceptionRemindType remindType = match(name, total, failRate, apiHealthCacheDTO.getMessage());
+            if (remindType != ApiExceptionRemindType.NONE) {
                 ApiExceptionDTO apiExceptionDTO = new ApiExceptionDTO();
                 apiExceptionDTO.setName(name);
                 apiExceptionDTO.setTotal(total.longValue());
                 apiExceptionDTO.setFailCount(failCount.longValue());
                 apiExceptionDTO.setFailRate(PercentUtil.format(failRate));
                 apiExceptionDTO.setMessage(apiHealthCacheDTO.getMessage());
+                apiExceptionDTO.setRemindType(remindType);
                 apiExceptions.add(apiExceptionDTO);
             }
         }
@@ -136,19 +139,23 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
      * @param message
      * @return
      */
-    private boolean match(String name, BigDecimal total, BigDecimal failRate, String message) {
+    private ApiExceptionRemindType match(String name, BigDecimal total, BigDecimal failRate, String message) {
         if (apiMonitorProperties.getAlertExceptionMarked()) {
-            if (CollectionUtils.isEmpty(needAlertExceptionClassNames)) {
+            if (CollectionUtils.isNotEmpty(needAlertExceptionClassNames)) {
                 for (String needAlertExceptionClassName : needAlertExceptionClassNames) {
                     if (message.contains(needAlertExceptionClassName)) {
-                        return true;
+                        return ApiExceptionRemindType.EXCEPTION_INFO;
                     }
                 }
             }
         }
 
         BigDecimal failRateThreshold = apiMonitorProperties.getFailRateThresholds().getOrDefault(name, apiMonitorProperties.getDefaultFailRateThreshold());
-        return (total.intValue() >= apiMonitorProperties.getUnhealthMatchMinCount()) && (failRate.compareTo(failRateThreshold) >= 0);
+        if (total.intValue() >= apiMonitorProperties.getUnhealthMatchMinCount() && failRate.compareTo(failRateThreshold) >= 0) {
+            return ApiExceptionRemindType.FAIL_RATE;
+
+        }
+        return ApiExceptionRemindType.NONE;
     }
 
     @Override

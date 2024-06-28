@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.github.smart.cloud.exception.ConfigException;
 import io.github.smart.cloud.monitor.common.dto.wework.WeworkRobotMarkdownMessageDTO;
 import io.github.smart.cloud.starter.monitor.api.dto.ApiExceptionDTO;
+import io.github.smart.cloud.starter.monitor.api.enums.ApiExceptionRemindType;
 import io.github.smart.cloud.starter.monitor.api.properties.ApiMonitorProperties;
 import io.github.smart.cloud.utility.HttpUtil;
 import io.github.smart.cloud.utility.JacksonUtil;
@@ -38,7 +39,6 @@ import org.springframework.core.env.Environment;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -132,11 +132,19 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
             content.append("\n\n>**接口").append(++apiIndex).append("**：").append(apiException.getName());
             content.append("\n>**请求总数**：").append(apiException.getTotal());
             content.append("\n>**失败数**：").append(apiException.getFailCount());
-            content.append("\n>**失败率**：<font color=\"warning\">").append(apiException.getFailRate()).append("</font >");
+            if (apiException.getRemindType() == ApiExceptionRemindType.FAIL_RATE) {
+                content.append("\n>**失败率**：<font color=\"warning\">").append(apiException.getFailRate()).append("</font>");
+            } else {
+                content.append("\n>**失败率**：").append(apiException.getFailRate());
+            }
             String message = apiException.getMessage();
             if (message != null) {
-                content.append("\n>**异常信息：<font color=\"warning\">").append(message).append("</font >**");
-                needMention = matchMention(needMention, message);
+                if (apiException.getRemindType() == ApiExceptionRemindType.EXCEPTION_INFO) {
+                    needMention = true;
+                    content.append("\n>**异常信息**：<font color=\"warning\">").append(message).append("</font>");
+                } else {
+                    content.append("\n>**异常信息**：").append(message);
+                }
             }
         }
 
@@ -145,28 +153,6 @@ public class ExceptionApiChecker implements EnvironmentAware, InitializingBean, 
         }
 
         return JacksonUtil.toJson(new WeworkRobotMarkdownMessageDTO(content.toString()));
-    }
-
-    /**
-     * 匹配是否需要提醒
-     *
-     * @param needMention
-     * @param exceptionMessage
-     * @return
-     */
-    private boolean matchMention(boolean needMention, String exceptionMessage) {
-        if (needMention) {
-            return true;
-        }
-
-        Set<String> needAlertExceptionClassNames = apiMonitorProperties.getNeedAlertExceptionClassNames();
-        for (String needAlertExceptionClassName : needAlertExceptionClassNames) {
-            if (exceptionMessage.contains(needAlertExceptionClassName)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     @Override

@@ -13,47 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.api.dto;
-
-import io.github.smart.cloud.starter.monitor.api.enums.ApiExceptionRemindType;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+package io.github.smart.cloud.starter.monitor.api.enums;
 
 /**
- * 接口异常信息
+ * 接口异常提醒类型
  *
  * @author collin
- * @date 2024-01-6
+ * @date 2024-06-28
  */
-@Getter
-@Setter
-@ToString
-public class ApiExceptionDTO {
+public enum ApiExceptionRemindType {
 
     /**
-     * 接口名（类名#方法名）
+     * 不需要提醒
      */
-    private String name;
-    /**
-     * 请求总数
-     */
-    private Long total;
-    /**
-     * 失败数
-     */
-    private Long failCount;
+    NONE,
     /**
      * 失败率
      */
-    private String failRate;
+    FAIL_RATE,
     /**
-     * 失败信息
+     * 异常信息
      */
-    private String message;
-    /**
-     * 接口异常提醒类型
-     */
-    private ApiExceptionRemindType remindType;
+    EXCEPTION_INFO;
 
 }
