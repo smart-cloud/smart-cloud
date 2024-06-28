@@ -30,6 +30,7 @@ import org.springframework.context.ApplicationListener;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.LongAdder;
@@ -52,6 +53,7 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
     private ConcurrentMap<String, ApiHealthCacheDTO> apiStatusStatistics = new ConcurrentHashMap<>();
     private CreateApiHealthCacheDtoFunction createApiHealthCacheDtoFunction = new CreateApiHealthCacheDtoFunction();
     private ScheduledExecutorService cleanSchedule;
+    private Set<String> needAlertExceptionClassNames;
 
     /**
      * 添加接口访问记录
@@ -136,10 +138,11 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
      */
     private boolean match(String name, BigDecimal total, BigDecimal failRate, String message) {
         if (apiMonitorProperties.getAlertExceptionMarked()) {
-            Set<String> needAlertExceptionClassNames = apiMonitorProperties.getNeedAlertExceptionClassNames();
-            for (String needAlertExceptionClassName : needAlertExceptionClassNames) {
-                if (message.contains(needAlertExceptionClassName)) {
-                    return true;
+            if (CollectionUtils.isEmpty(needAlertExceptionClassNames)) {
+                for (String needAlertExceptionClassName : needAlertExceptionClassNames) {
+                    if (message.contains(needAlertExceptionClassName)) {
+                        return true;
+                    }
                 }
             }
         }
@@ -150,6 +153,23 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
 
     @Override
     public void afterPropertiesSet() {
+        needAlertExceptionClassNames = apiMonitorProperties.getNeedAlertExceptionClassNames();
+        if (CollectionUtils.isEmpty(needAlertExceptionClassNames)) {
+            Set<String> defaultNeedAlertExceptionClassNames = new HashSet<>(8);
+            defaultNeedAlertExceptionClassNames.add(SQLException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(ConcurrentModificationException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(NullPointerException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(IndexOutOfBoundsException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(ArrayIndexOutOfBoundsException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(ClassCastException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(StackOverflowError.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(OutOfMemoryError.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(IllegalMonitorStateException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(StringIndexOutOfBoundsException.class.getSimpleName());
+
+            needAlertExceptionClassNames = defaultNeedAlertExceptionClassNames;
+        }
+
         cleanSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("clean-api-health-cache"));
         cleanSchedule.scheduleWithFixedDelay(this::clearApiStatusStatistics, apiMonitorProperties.getCleanIntervalSeconds(),
                 apiMonitorProperties.getCleanIntervalSeconds(), TimeUnit.SECONDS);
