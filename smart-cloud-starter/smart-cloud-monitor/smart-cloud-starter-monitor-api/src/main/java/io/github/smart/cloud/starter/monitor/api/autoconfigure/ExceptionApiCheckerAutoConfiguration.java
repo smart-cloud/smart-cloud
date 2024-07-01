@@ -15,13 +15,14 @@
  */
 package io.github.smart.cloud.starter.monitor.api.autoconfigure;
 
+import io.github.smart.cloud.starter.monitor.api.annotation.ConditionApiExceptionMonitor;
 import io.github.smart.cloud.starter.monitor.api.component.ApiMonitorRepository;
 import io.github.smart.cloud.starter.monitor.api.component.ExceptionApiChecker;
-import io.github.smart.cloud.starter.monitor.api.condition.ApiMonitorCondition;
+import io.github.smart.cloud.starter.monitor.api.listener.wework.ApiExceptionListener;
 import io.github.smart.cloud.starter.monitor.api.properties.ApiMonitorProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -31,13 +32,21 @@ import org.springframework.context.annotation.Configuration;
  * @date 2024-01-16
  */
 @Configuration
-@Conditional(ApiMonitorCondition.class)
+@ConditionApiExceptionMonitor
 public class ExceptionApiCheckerAutoConfiguration {
 
     @Bean
     @RefreshScope
-    public ExceptionApiChecker exceptionApiChecker(final ApiMonitorProperties apiMonitorProperties, final ApiMonitorRepository apiMonitorRepository) {
-        return new ExceptionApiChecker(apiMonitorProperties, apiMonitorRepository);
+    public ExceptionApiChecker exceptionApiChecker(final ApiMonitorProperties apiMonitorProperties,
+                                                   final ApiMonitorRepository apiMonitorRepository,
+                                                   final ApplicationEventPublisher applicationEventPublisher) {
+        return new ExceptionApiChecker(apiMonitorProperties, apiMonitorRepository, applicationEventPublisher);
+    }
+
+    @Bean
+    @RefreshScope
+    public ApiExceptionListener apiExceptionListener(final ApiMonitorProperties apiMonitorProperties) {
+        return new ApiExceptionListener(apiMonitorProperties);
     }
 
 }

@@ -56,7 +56,7 @@ public class ExceptionApiTest extends AbstractTest {
 
         List<ApiExceptionDTO> apiExceptions = apiMonitorRepository.getApiExceptions();
         Assertions.assertThat(apiExceptions).hasSize(1);
-        Assertions.assertThat(apiExceptions.get(0).getMessage()).contains( NullPointerException.class.getName());
+        Assertions.assertThat(apiExceptions.get(0).getMessage()).contains(NullPointerException.class.getName());
     }
 
     @Test
@@ -96,8 +96,7 @@ public class ExceptionApiTest extends AbstractTest {
         BigDecimal fail1 = BigDecimal.valueOf(apiException1.getFailCount()).divide(BigDecimal.valueOf(apiException1.getTotal()), 10, RoundingMode.HALF_UP);
         Assertions.assertThat(fail0).isGreaterThanOrEqualTo(fail1);
 
-
-        Assertions.assertThat(exceptionApiChecker.checkExceptionApiAndNotice()).isTrue();
+        exceptionApiChecker.checkExceptionApiAndNotice();
     }
 
     @Test
