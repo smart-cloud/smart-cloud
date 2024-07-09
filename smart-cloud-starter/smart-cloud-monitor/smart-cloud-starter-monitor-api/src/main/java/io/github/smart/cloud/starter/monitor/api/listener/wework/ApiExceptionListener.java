@@ -121,24 +121,27 @@ public class ApiExceptionListener implements EnvironmentAware, InitializingBean,
                 .append("分钟异常接口统计:")
                 .append("\n**IP**：").append(ip);
         boolean needMention = false;
-        int apiIndex = 0;
-        for (ApiExceptionDTO apiException : apiExceptions) {
-            content.append("\n\n>**接口").append(++apiIndex).append("**：").append(apiException.getName());
-            content.append("\n>**请求总数**：").append(apiException.getTotal());
-            content.append("\n>**失败数**：").append(apiException.getFailCount());
-            if (apiException.getRemindType() == ApiExceptionRemindType.FAIL_RATE) {
-                content.append("\n>**失败率**：<font color=\"warning\">").append(apiException.getFailRate()).append("</font>");
-            } else {
-                content.append("\n>**失败率**：").append(apiException.getFailRate());
-            }
-            String message = apiException.getMessage();
-            if (message != null) {
-                if (apiException.getRemindType() == ApiExceptionRemindType.EXCEPTION_INFO) {
-                    needMention = true;
-                    content.append("\n>**异常信息**：<font color=\"warning\">").append(message).append("</font>");
-                } else {
-                    content.append("\n>**异常信息**：").append(message);
-                }
+
+        for (int i = 0; i < apiExceptions.size(); i++) {
+            ApiExceptionDTO apiException = apiExceptions.get(i);
+            boolean isFailRateRemindType = apiException.getRemindType() == ApiExceptionRemindType.FAIL_RATE;
+
+            content.append("\n\n>**接口").append(i + 1).append("**：").append(apiException.getName())
+                    .append("\n>**请求总数**：").append(apiException.getTotal())
+                    .append("\n>**失败数**：").append(apiException.getFailCount())
+                    .append("\n>**失败率**：")
+                    .append(isFailRateRemindType ? "<font color=\"warning\">" : StringUtils.EMPTY)
+                    .append(apiException.getFailRate())
+                    .append(isFailRateRemindType ? "</font>" : StringUtils.EMPTY);
+
+            if (apiException.getMessage() != null) {
+                boolean isExceptionRemindType = apiException.getRemindType() == ApiExceptionRemindType.EXCEPTION_INFO;
+                needMention |= isExceptionRemindType;
+
+                content.append("\n>**异常信息**：")
+                        .append(isExceptionRemindType ? "<font color=\"warning\">" : StringUtils.EMPTY)
+                        .append(apiException.getMessage())
+                        .append(isExceptionRemindType ? "</font>" : StringUtils.EMPTY);
             }
         }
 
