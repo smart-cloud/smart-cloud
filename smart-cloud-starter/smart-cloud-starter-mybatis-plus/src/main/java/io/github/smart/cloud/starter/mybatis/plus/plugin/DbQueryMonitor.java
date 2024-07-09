@@ -17,10 +17,7 @@ package io.github.smart.cloud.starter.mybatis.plus.plugin;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
@@ -109,14 +106,6 @@ public class DbQueryMonitor implements Interceptor {
         }
 
         return target;
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    static class QueryCallDTO {
-        private String sqlId;
-        private long callCount;
     }
 
 }
