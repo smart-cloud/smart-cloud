@@ -45,9 +45,7 @@ public class ShardingsphereEnumTypeHandler<E extends Enum<E>> extends MybatisEnu
 
     public ShardingsphereEnumTypeHandler(Class<E> enumClassType) {
         super(enumClassType);
-        if (enumClassType == null) {
-            throw new IllegalArgumentException("Type argument cannot be null");
-        }
+
         this.enumClassType = enumClassType;
         MetaClass metaClass = MetaClass.forClass(enumClassType, REFLECTOR_FACTORY);
         String name = "value";
