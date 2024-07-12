@@ -27,7 +27,7 @@ import org.springframework.core.annotation.Order;
  * @date 2019-07-12
  */
 @Configuration
-public class UtilAutoConfigure {
+public class SpringUtilAutoConfigure {
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)

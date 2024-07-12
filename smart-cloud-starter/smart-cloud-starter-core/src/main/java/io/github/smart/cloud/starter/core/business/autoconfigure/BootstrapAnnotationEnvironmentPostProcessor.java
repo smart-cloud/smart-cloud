@@ -19,6 +19,7 @@ import io.github.smart.cloud.starter.core.constants.PackageConfig;
 import io.github.smart.cloud.starter.core.constants.SmartEnv;
 import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
 import io.github.smart.cloud.starter.core.support.annotation.YamlScan;
+import io.github.smart.cloud.utility.ClassUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -34,9 +35,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.*;
 
 /**
@@ -48,6 +46,10 @@ import java.util.*;
 public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
     private boolean isInit = false;
+    /**
+     * SpringApplication#registerShutdownHook
+     */
+    private final String registerShutdownHookFieldName = "registerShutdownHook";
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
@@ -57,22 +59,19 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
         if (isRegisterShutdownHook(application)) {
             Class<?> mainApplicationClass = application.getMainApplicationClass();
             // 1、获取启动类、启动类注解
-            SmartBootApplication smartBootApplication = AnnotationUtils
-                    .findAnnotation(mainApplicationClass, SmartBootApplication.class);
+            SmartBootApplication smartBootApplication = AnnotationUtils.findAnnotation(mainApplicationClass, SmartBootApplication.class);
             if (smartBootApplication == null) {
                 SpringBootTest springBootTest = AnnotationUtils.findAnnotation(mainApplicationClass, SpringBootTest.class);
                 if (springBootTest != null && ArrayUtils.isNotEmpty(springBootTest.classes())) {
                     mainApplicationClass = springBootTest.classes()[0];
                 } else {
                     // 此处findFromClass的参数为测试启动类
-                    mainApplicationClass = new AnnotatedClassFinder(SmartBootApplication.class)
-                            .findFromClass(mainApplicationClass);
+                    mainApplicationClass = new AnnotatedClassFinder(SmartBootApplication.class).findFromClass(mainApplicationClass);
                     if (mainApplicationClass == null) {
                         return;
                     }
                 }
-                smartBootApplication = AnnotationUtils.findAnnotation(mainApplicationClass,
-                        SmartBootApplication.class);
+                smartBootApplication = AnnotationUtils.findAnnotation(mainApplicationClass, SmartBootApplication.class);
                 if (smartBootApplication != null) {
                     SmartEnv.setUnitTest(true);
                 }
@@ -91,15 +90,7 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
     }
 
     private boolean isRegisterShutdownHook(SpringApplication application) {
-        return AccessController.doPrivileged((PrivilegedAction<Boolean>) () -> {
-            try {
-                Field field = SpringApplication.class.getDeclaredField("registerShutdownHook");
-                field.setAccessible(true);
-                return field.getBoolean(application);
-            } catch (ReflectiveOperationException | SecurityException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        return ClassUtil.findFieldValue(application, SpringApplication.class, registerShutdownHookFieldName);
     }
 
     /**
@@ -199,8 +190,7 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
                 for (Resource resource : resourceSet) {
                     System.out.println("load yaml ==> " + resource.getFilename());
 
-                    List<PropertySource<?>> propertySources = yamlPropertySourceLoader.load(resource.getFilename(),
-                            resource);
+                    List<PropertySource<?>> propertySources = yamlPropertySourceLoader.load(resource.getFilename(), resource);
                     for (PropertySource<?> propertySource : propertySources) {
                         environment.getPropertySources().addLast(propertySource);
                     }

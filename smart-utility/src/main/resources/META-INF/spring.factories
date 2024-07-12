@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.smart.cloud.utility.spring.UtilAutoConfigure
+io.github.smart.cloud.utility.spring.SpringUtilAutoConfigure
