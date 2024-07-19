@@ -19,7 +19,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.smart.cloud.starter.api.version.test.prepare.App;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.MapUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.Filter;
@@ -69,7 +69,7 @@ public abstract class AbstractTest {
                 .characterEncoding(StandardCharsets.UTF_8.name())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE);
-        if (MapUtils.isNotEmpty(headers)) {
+        if (!CollectionUtils.isEmpty(headers)) {
             headers.forEach(mockHttpServletRequestBuilder::header);
         }
         if (requestBody != null) {

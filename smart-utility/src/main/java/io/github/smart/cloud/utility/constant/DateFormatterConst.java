@@ -15,47 +15,50 @@
  */
 package io.github.smart.cloud.utility.constant;
 
+import java.time.format.DateTimeFormatter;
+
 /**
+ * 日期格式
+ *
  * @author collin
- * @desc 日期格式
- * @date 2019/10/24
+ * @date 2024-07-16
  */
-public class DateFormartConst {
+public class DateFormatterConst {
 
     /**
      * yyyy
      */
-    public static final String YYYY = "yyyy";
+    public static final DateTimeFormatter YYYY = DateTimeFormatter.ofPattern(DatePatternConst.YYYY);
     /**
      * yyyy-MM
      */
-    public static final String YYYY_MM = "yyyy-MM";
+    public static final DateTimeFormatter YYYY_MM = DateTimeFormatter.ofPattern(DatePatternConst.YYYY_MM);
     /**
      * yyyy-MM-dd
      */
-    public static final String DATE = "yyyy-MM-dd";
+    public static final DateTimeFormatter DATE = DateTimeFormatter.ofPattern(DatePatternConst.DATE);
     /**
      * yyyy-MM-dd HH
      */
-    public static final String DATE_HH = "yyyy-MM-dd HH";
+    public static final DateTimeFormatter DATE_HH = DateTimeFormatter.ofPattern(DatePatternConst.DATE_HH);
     /**
      * yyyy-MM-dd HH:mm
      */
-    public static final String DATE_HH_MM = "yyyy-MM-dd HH:mm";
+    public static final DateTimeFormatter DATE_HH_MM = DateTimeFormatter.ofPattern(DatePatternConst.DATE_HH_MM);
     /**
      * yyyy-MM-dd HH:mm:ss
      */
-    public static final String DATETIME = "yyyy-MM-dd HH:mm:ss";
+    public static final DateTimeFormatter DATETIME = DateTimeFormatter.ofPattern(DatePatternConst.DATETIME);
     /**
      * yyyy-MM-dd HH:mm:ss.SSS
      */
-    public static final String DATETIME_SSS = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final DateTimeFormatter DATETIME_SSS = DateTimeFormatter.ofPattern(DatePatternConst.DATETIME_SSS);
     /**
      * yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
      */
-    public static final String UTC = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    public static final DateTimeFormatter UTC = DateTimeFormatter.ofPattern(DatePatternConst.UTC);
 
-    private DateFormartConst() {
+    private DateFormatterConst() {
     }
 
 }

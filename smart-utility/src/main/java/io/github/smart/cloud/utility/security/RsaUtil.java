@@ -17,8 +17,8 @@ package io.github.smart.cloud.utility.security;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -138,7 +138,7 @@ public class RsaUtil {
      */
     public static RSAPrivateKey getRsaPrivateKey(String hexModulus, String hexPrivateExponent)
             throws DecoderException, InvalidKeySpecException, NoSuchAlgorithmException {
-        if (StringUtils.isBlank(hexModulus) || StringUtils.isBlank(hexPrivateExponent)) {
+        if (hexModulus == null || hexPrivateExponent == null) {
             return null;
         }
         byte[] modulus = Hex.decodeHex(hexModulus.toCharArray());
@@ -176,7 +176,7 @@ public class RsaUtil {
      */
     public static RSAPublicKey getRsaPublidKey(String hexModulus, String hexPublicExponent)
             throws DecoderException, NoSuchAlgorithmException, InvalidKeySpecException {
-        if (StringUtils.isBlank(hexModulus) || StringUtils.isBlank(hexPublicExponent)) {
+        if (hexModulus == null || hexPublicExponent == null) {
             return null;
         }
         byte[] modulus = Hex.decodeHex(hexModulus.toCharArray());
@@ -272,7 +272,7 @@ public class RsaUtil {
     public static String decryptString(PrivateKey privateKey, String encrypttext)
             throws DecoderException, InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException,
             IllegalBlockSizeException, BadPaddingException {
-        if (privateKey == null || StringUtils.isBlank(encrypttext)) {
+        if (privateKey == null || encrypttext == null) {
             return null;
         }
         byte[] encryptdata = Hex.decodeHex(encrypttext.toCharArray());
@@ -300,7 +300,8 @@ public class RsaUtil {
         if (text == null) {
             return null;
         }
-        return StringUtils.reverse(text);
+
+        return new StringBuilder(text).reverse().toString();
     }
 
     /**

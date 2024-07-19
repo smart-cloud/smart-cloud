@@ -27,6 +27,10 @@ public class SymbolConstant {
     }
 
     /**
+     * 空字符串
+     */
+    public static final String EMPTY = "";
+    /**
      * 点（.）
      */
     public static final String DOT = ".";

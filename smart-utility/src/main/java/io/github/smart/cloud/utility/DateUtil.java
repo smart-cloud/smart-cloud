@@ -15,20 +15,23 @@
  */
 package io.github.smart.cloud.utility;
 
-import io.github.smart.cloud.utility.constant.DateFormartConst;
+import io.github.smart.cloud.utility.constant.DateFormatterConst;
+import io.github.smart.cloud.utility.constant.DatePatternConst;
 import io.github.smart.cloud.utility.spring.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Field;
-import java.text.ParseException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.time.temporal.ChronoField;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * 时间日期工具类
@@ -66,7 +69,7 @@ public class DateUtil {
      * @return
      */
     public static String getCurrentDate() {
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormartConst.DATE));
+        return LocalDateTime.now().format(DateFormatterConst.DATE);
     }
 
     /**
@@ -75,7 +78,7 @@ public class DateUtil {
      * @return
      */
     public static String getCurrentDateTime() {
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern(DateFormartConst.DATETIME));
+        return LocalDateTime.now().format(DateFormatterConst.DATETIME);
     }
 
     /**
@@ -118,7 +121,7 @@ public class DateUtil {
      * @return 返回格式：yyyy-MM-dd
      */
     public static String formatDate(Date date) {
-        return format(date, DateFormartConst.DATE);
+        return format(date, DatePatternConst.DATE);
     }
 
     /**
@@ -128,7 +131,7 @@ public class DateUtil {
      * @return 返回格式：yyyy-MM-dd
      */
     public static String formatDate(long currentMillis) {
-        return format(toDate(currentMillis), DateFormartConst.DATE);
+        return format(toDate(currentMillis), DatePatternConst.DATE);
     }
 
     /**
@@ -138,7 +141,7 @@ public class DateUtil {
      * @return 返回格式：yyyy-MM-dd HH:mm:ss
      */
     public static String formatDateTime(Date date) {
-        return format(date, DateFormartConst.DATETIME);
+        return format(date, DatePatternConst.DATETIME);
     }
 
     /**
@@ -148,13 +151,13 @@ public class DateUtil {
      * @return 返回格式：yyyy-MM-dd HH:mm:ss
      */
     public static String formatDateTime(long currentMillis) {
-        return format(toDate(currentMillis), DateFormartConst.DATETIME);
+        return format(toDate(currentMillis), DatePatternConst.DATETIME);
     }
 
     /**
-     * 日期字符串转Date对象
+     * 日期字符串转LocalDateTime对象
      *
-     * <h3>支持的字符串格式（{@link DateFormartConst}）</h3>
+     * <h3>支持的字符串格式（{@link DatePatternConst}）</h3>
      * <ul>
      * <li>yyyy
      * <li>yyyy-MM
@@ -167,44 +170,38 @@ public class DateUtil {
      * @param dateStr 日期字符串
      * @return
      */
-    public static Date toDate(String dateStr) {
-        if (StringUtils.isBlank(dateStr)) {
-            return null;
-        }
+    public static LocalDateTime parse(String dateStr) {
+        Assert.hasText(dateStr, "date cannot be empty");
 
         int length = dateStr.length();
-        String format = Holder.getDateTimeFormatterRouter().get(length);
-        if (Objects.isNull(format)) {
-            throw new IllegalArgumentException(String.format("The format of [%s] is not supported！", format));
+        DateTimeFormatter dateTimeFormatter = Holder.getDateTimeFormatterRouter().get(length);
+        if (dateTimeFormatter == null) {
+            throw new IllegalArgumentException(String.format("The format of [%s] is not supported！", dateStr));
         }
 
-        Date date = null;
-        try {
-            date = DateUtils.parseDate(dateStr, format);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        return date;
+        return dateTimeFormatter.parse(dateStr, temporalAccessor -> {
+            if (temporalAccessor.isSupported(ChronoField.HOUR_OF_DAY)) {
+                return LocalDateTime.from(temporalAccessor);
+            }
+
+            if (temporalAccessor.isSupported(ChronoField.DAY_OF_MONTH)) {
+                return LocalDate.from(temporalAccessor).atStartOfDay();
+            }
+            if (temporalAccessor.isSupported(ChronoField.MONTH_OF_YEAR)) {
+                return YearMonth.from(temporalAccessor).atDay(1).atStartOfDay();
+            }
+            if (temporalAccessor.isSupported(ChronoField.YEAR)) {
+                return Year.from(temporalAccessor).atDay(1).atStartOfDay();
+            }
+
+            throw new IllegalArgumentException(String.format("The format of [%s] is not supported！", dateStr));
+        });
     }
 
     /**
-     * 解析UTC格式日期
+     * 日期字符串转毫秒
      *
-     * @param utcStr
-     * @return
-     */
-    public static Date parseUtc(String utcStr) {
-        try {
-            return DateUtils.parseDate(utcStr, DateFormartConst.UTC);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * 日期字符串转Date对象
-     *
-     * <h3>支持的字符串格式（{@link DateFormartConst}）</h3>
+     * <h3>支持的字符串格式（{@link DatePatternConst}）</h3>
      * <ul>
      * <li>yyyy
      * <li>yyyy-MM
@@ -218,12 +215,9 @@ public class DateUtil {
      * @param dateStr 日期字符串
      * @return
      */
-    public static Long toCurrentMillis(String dateStr) {
-        Date date = toDate(dateStr);
-        if (date == null) {
-            return null;
-        }
-        return date.getTime();
+    public static long toCurrentMillis(String dateStr) {
+        LocalDateTime localDateTime = parse(dateStr);
+        return localDateTime.atZone(Holder.getZoneId()).toInstant().toEpochMilli();
     }
 
     /**
@@ -247,11 +241,11 @@ public class DateUtil {
         return Duration.between(now, tomorrowBegin).toMillis();
     }
 
-    private static class Holder {
+    public static class Holder {
         /**
          * 所有的日期格式
          */
-        private static final Map<Integer, String> DATETIME_FORMATTER_ROUTER = new HashMap<>();
+        private static final Map<Integer, DateTimeFormatter> DATETIME_FORMATTER_ROUTER = new HashMap<>();
         private static ZoneId zoneId;
         private static final String SMART_ZONEID_KEY = "smart.zoneId";
         private static final String ENV_NAME = "org.springframework.core.env.ConfigurableEnvironment";
@@ -272,21 +266,14 @@ public class DateUtil {
          * 初始化时间格式路由器
          */
         private static void initDatetimeFormatterRouter() {
-            // 所有公有
-            Field[] fields = DateFormartConst.class.getFields();
-            // 日期格式变量前缀
-            for (int i = 0; i < fields.length; i++) {
-                Field field = fields[i];
-                String format = null;
-                try {
-                    format = String.valueOf(field.get(field));
-                } catch (IllegalArgumentException | IllegalAccessException e) {
-                    log.error(e.getMessage(), e);
-                }
-                if (format != null) {
-                    DATETIME_FORMATTER_ROUTER.put(format.length(), format);
-                }
-            }
+            DATETIME_FORMATTER_ROUTER.put(DatePatternConst.YYYY.length(), DateFormatterConst.YYYY);
+            DATETIME_FORMATTER_ROUTER.put(DatePatternConst.YYYY_MM.length(), DateFormatterConst.YYYY_MM);
+            DATETIME_FORMATTER_ROUTER.put(DatePatternConst.DATE.length(), DateFormatterConst.DATE);
+            DATETIME_FORMATTER_ROUTER.put(DatePatternConst.DATE_HH.length(), DateFormatterConst.DATE_HH);
+            DATETIME_FORMATTER_ROUTER.put(DatePatternConst.DATE_HH_MM.length(), DateFormatterConst.DATE_HH_MM);
+            DATETIME_FORMATTER_ROUTER.put(DatePatternConst.DATETIME.length(), DateFormatterConst.DATETIME);
+            DATETIME_FORMATTER_ROUTER.put(DatePatternConst.DATETIME_SSS.length(), DateFormatterConst.DATETIME_SSS);
+            DATETIME_FORMATTER_ROUTER.put(DatePatternConst.UTC.length(), DateFormatterConst.UTC);
         }
 
         /**
@@ -307,20 +294,19 @@ public class DateUtil {
             }
             ConfigurableEnvironment environment = applicationContext.getBean(ConfigurableEnvironment.class);
             String id = environment.getProperty(SMART_ZONEID_KEY);
-            if (StringUtils.isBlank(id)) {
-                log.warn("'{}' is not configed!!! The default zone id will be got instead of the zone id configed!!!",
-                        SMART_ZONEID_KEY);
-                zoneId = ZoneId.systemDefault();
-            } else {
+            if (StringUtils.hasText(id)) {
                 zoneId = TimeZone.getTimeZone(id).toZoneId();
+            } else {
+                log.warn("'{}' is not configed!!! The default zone id will be got instead of the zone id configed!!!", SMART_ZONEID_KEY);
+                zoneId = ZoneId.systemDefault();
             }
         }
 
-        protected static Map<Integer, String> getDateTimeFormatterRouter() {
+        public static Map<Integer, DateTimeFormatter> getDateTimeFormatterRouter() {
             return DATETIME_FORMATTER_ROUTER;
         }
 
-        protected static ZoneId getZoneId() {
+        public static ZoneId getZoneId() {
             return zoneId;
         }
     }

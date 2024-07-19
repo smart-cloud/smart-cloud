@@ -23,8 +23,6 @@ import io.github.smart.cloud.common.web.util.WebUtil;
 import io.github.smart.cloud.starter.configure.constants.OrderConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -58,7 +56,7 @@ public class FeignHttpHeaderParameterInterceptor implements RequestInterceptor, 
     @Override
     public void apply(RequestTemplate template) {
         Set<String> transferHeaderNames = smartProperties.getFeign().getTransferHeaderNames();
-        if (CollectionUtils.isEmpty(transferHeaderNames)) {
+        if (transferHeaderNames == null || transferHeaderNames.isEmpty()) {
             transferHeaderNames = DEFAULT_TRANSFER_HEADER_NAMES;
         }
 
@@ -82,7 +80,7 @@ public class FeignHttpHeaderParameterInterceptor implements RequestInterceptor, 
         }
 
         HttpHeaders httpHeaders = serverHttpRequest.getHeaders();
-        if (MapUtils.isEmpty(httpHeaders)) {
+        if (httpHeaders == null || httpHeaders.isEmpty()) {
             return;
         }
 

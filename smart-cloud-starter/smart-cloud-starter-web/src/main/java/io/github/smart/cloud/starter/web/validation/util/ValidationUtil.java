@@ -15,12 +15,12 @@
  */
 package io.github.smart.cloud.starter.web.validation.util;
 
-import org.apache.commons.collections4.CollectionUtils;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.exception.ParamValidateException;
 import io.github.smart.cloud.starter.web.constants.WebReturnCodes;
 import io.github.smart.cloud.starter.web.exception.util.ExceptionUtil;
 import io.github.smart.cloud.starter.web.validation.ValidatorSingleton;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -51,7 +51,7 @@ public class ValidationUtil {
         Validator validator = ValidatorSingleton.getInstance();
         Set<ConstraintViolation<Object>> constraintViolationSet = validator.validate(object);
         // 抛出检验异常
-        if (CollectionUtils.isNotEmpty(constraintViolationSet)) {
+        if (!CollectionUtils.isEmpty(constraintViolationSet)) {
             Set<ConstraintViolation<?>> constraintViolationSetTmp = constraintViolationSet.stream()
                     .map(item -> (ConstraintViolation<?>) (item)).collect(Collectors.toSet());
 

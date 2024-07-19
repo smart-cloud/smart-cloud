@@ -20,9 +20,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.github.smart.cloud.test.core.vo.FileVO;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -32,7 +30,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.Filter;
@@ -94,7 +94,7 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .characterEncoding(StandardCharsets.UTF_8.name())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE);
-        if (MapUtils.isNotEmpty(headers)) {
+        if (!CollectionUtils.isEmpty(headers)) {
             headers.forEach(mockHttpServletRequestBuilder::header);
         }
         if (requestBody != null) {
@@ -134,11 +134,11 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE);
 
-        if (MapUtils.isNotEmpty(headers)) {
+        if (!CollectionUtils.isEmpty(headers)) {
             headers.forEach(mockHttpServletRequestBuilder::header);
         }
 
-        if (StringUtils.isNotBlank(requestJsonStr)) {
+        if (StringUtils.hasText(requestJsonStr)) {
             JsonNode jsonNodeElements = JacksonUtil.parse(requestJsonStr);
             Iterator<Map.Entry<String, JsonNode>> jsonNodeIterator = jsonNodeElements.fields();
             while (jsonNodeIterator.hasNext()) {

@@ -21,7 +21,7 @@ import io.github.smart.cloud.starter.monitor.admin.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.admin.event.notice.OfflineNoticeEvent;
 import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.utility.JacksonUtil;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * 在线实例为0时，企业微信通知
@@ -41,7 +41,7 @@ public class OfflineNotice extends AbstractWeworkNotice<OfflineNoticeEvent> {
         String reminders = getReminderParams(name);
         StringBuilder content = new StringBuilder(64);
         content.append("**").append(name).append("**服务<font color=\"warning\">**在线实例数为0**</font>");
-        if (StringUtils.isNotBlank(reminders)) {
+        if (StringUtils.hasText(reminders)) {
             content.append(reminders);
         }
 

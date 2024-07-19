@@ -17,7 +17,6 @@ package io.github.smart.cloud.utility.test.unit;
 
 import io.github.smart.cloud.utility.security.RsaUtil;
 import org.apache.commons.codec.DecoderException;
-import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -110,7 +109,7 @@ class RsaUtilUnitTest {
         // 解密后的文本
         String decryptPrivateKey = RsaUtil.decryptStringByJs(keyPair.getPrivate(), encryptText);
 
-        Assertions.assertThat(StringUtils.reverse(decryptPrivateKey)).isEqualTo(plainText);
+        Assertions.assertThat(new StringBuilder(decryptPrivateKey).reverse().toString()).isEqualTo(plainText);
     }
 
 }

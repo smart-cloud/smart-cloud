@@ -22,9 +22,8 @@ import io.github.smart.cloud.starter.rate.limit.properties.RateLimitProperties;
 import io.github.smart.cloud.starter.rate.limit.util.RateLimitUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -64,7 +63,7 @@ public class RateLimitInstanceFactory implements InitializingBean {
 
         // 注解限流
         Set<Method> methods = ReflectionUtil.getMethodsAnnotatedWith(RateLimiter.class);
-        if (CollectionUtils.isNotEmpty(methods)) {
+        if (!CollectionUtils.isEmpty(methods)) {
             methods.forEach(method -> {
                 RateLimiter rateLimiter = method.getAnnotation(RateLimiter.class);
                 rateLimitConfig.put(RateLimitUtil.getSemaphoreBeanName(method), rateLimiter.permits());
@@ -73,14 +72,14 @@ public class RateLimitInstanceFactory implements InitializingBean {
 
         // 配置限流
         Map<String, Integer> config = rateLimitProperties.getConfig();
-        if (MapUtils.isNotEmpty(config)) {
+        if (!CollectionUtils.isEmpty(config)) {
             removeInvalidRateLimitRule(config);
-            if (MapUtils.isNotEmpty(config)) {
+            if (!CollectionUtils.isEmpty(config)) {
                 rateLimitConfig.putAll(config);
             }
         }
 
-        if (MapUtils.isEmpty(rateLimitConfig)) {
+        if (CollectionUtils.isEmpty(rateLimitConfig)) {
             log.warn("rate limit config is empty.");
             return;
         }
@@ -88,7 +87,7 @@ public class RateLimitInstanceFactory implements InitializingBean {
         // 移除待删除掉的
         Set<String> oldNames = RATE_LIMIT_INSTANCES.keySet();
         Set<String> needRemoveBeanNames = oldNames.stream().filter(name -> !rateLimitConfig.containsKey(name)).collect(Collectors.toSet());
-        if (CollectionUtils.isNotEmpty(needRemoveBeanNames)) {
+        if (!CollectionUtils.isEmpty(needRemoveBeanNames)) {
             needRemoveBeanNames.forEach(RATE_LIMIT_INSTANCES::remove);
         }
 

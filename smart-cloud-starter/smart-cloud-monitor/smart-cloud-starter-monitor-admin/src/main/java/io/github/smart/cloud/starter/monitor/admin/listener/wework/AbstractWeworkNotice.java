@@ -15,13 +15,12 @@
  */
 package io.github.smart.cloud.starter.monitor.admin.listener.wework;
 
+import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.starter.monitor.admin.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.admin.component.RobotComponent;
 import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.admin.properties.ServiceInfoProperties;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 
@@ -50,11 +49,11 @@ public abstract class AbstractWeworkNotice<E extends ApplicationEvent> implement
     protected String getReminderParams(String serviceName) {
         ServiceInfoProperties projectProperties = monitorProperties.getServiceInfos().get(serviceName);
         if (projectProperties == null) {
-            return StringUtils.EMPTY;
+            return SymbolConstant.EMPTY;
         }
         Set<String> reminders = projectProperties.getReminders();
-        if (CollectionUtils.isEmpty(reminders)) {
-            return StringUtils.EMPTY;
+        if (reminders == null || reminders.isEmpty()) {
+            return SymbolConstant.EMPTY;
         }
 
         return reminderComponent.generateReminders(reminders);

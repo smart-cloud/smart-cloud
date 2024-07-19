@@ -19,13 +19,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -62,7 +62,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
     public <T> T post(String url, Map<String, String> headers, Object req, TypeReference<T> typeReference) throws Exception {
         String requestJsonStr = convertJson(req);
         log.info("test.requestBody={}", requestJsonStr);
-        if (MapUtils.isEmpty(headers)) {
+        if (CollectionUtils.isEmpty(headers)) {
             headers = new HashMap<>(1);
         }
         if (!headers.containsKey(HttpHeaders.CONTENT_TYPE)) {
@@ -113,7 +113,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
         String bodyStr = (body == null) ? null : (body instanceof String ? (String) body : JacksonUtil.toJson(body));
         log.info("test.urlParam={}, bodyStr={}", urlParamJson, bodyStr);
         Map<String, Object> params = null;
-        if (StringUtils.isNotBlank(urlParamJson)) {
+        if (StringUtils.hasText(urlParamJson)) {
             params = new LinkedHashMap<>();
             JsonNode jsonNodeElements = JacksonUtil.parse(urlParamJson);
             Iterator<Map.Entry<String, JsonNode>> jsonNodeIterator = jsonNodeElements.fields();
@@ -132,7 +132,7 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
                 }
             }
         }
-        if (MapUtils.isEmpty(headers)) {
+        if (CollectionUtils.isEmpty(headers)) {
             headers = new HashMap<>(1);
         }
         if (!headers.containsKey(HttpHeaders.CONTENT_TYPE)) {

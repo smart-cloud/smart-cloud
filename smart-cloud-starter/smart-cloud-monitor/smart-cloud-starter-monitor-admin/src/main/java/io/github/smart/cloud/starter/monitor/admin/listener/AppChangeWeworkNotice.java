@@ -23,8 +23,8 @@ import io.github.smart.cloud.starter.monitor.admin.event.*;
 import io.github.smart.cloud.utility.DateUtil;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationListener;
+import org.springframework.util.StringUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -66,7 +66,7 @@ public class AppChangeWeworkNotice implements ApplicationListener<AbstractAppCha
         if (!(event instanceof MarkedOfflineEvent)) {
             // 提醒人
             String reminderParams = reminderComponent.getReminderParams(event.getName(), event);
-            if (StringUtils.isNotBlank(reminderParams)) {
+            if (StringUtils.hasText(reminderParams)) {
                 content.append(reminderParams);
             }
         }

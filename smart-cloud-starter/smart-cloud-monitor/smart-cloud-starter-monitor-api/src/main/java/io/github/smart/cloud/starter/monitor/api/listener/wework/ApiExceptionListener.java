@@ -27,13 +27,13 @@ import io.github.smart.cloud.utility.JacksonUtil;
 import io.github.smart.cloud.utility.NetworkUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
+import org.springframework.util.CollectionUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -145,7 +145,7 @@ public class ApiExceptionListener implements EnvironmentAware, InitializingBean,
             }
         }
 
-        if (needMention && CollectionUtils.isNotEmpty(apiMonitorProperties.getMentionedList())) {
+        if (needMention && !CollectionUtils.isEmpty(apiMonitorProperties.getMentionedList())) {
             content.append("\n\n<@").append(StringUtils.join(apiMonitorProperties.getMentionedList(), ">\n<@")).append(">");
         }
 

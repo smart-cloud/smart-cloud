@@ -18,7 +18,6 @@ package io.github.smart.cloud.utility;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -66,6 +65,7 @@ public class HttpUtil {
 
     private HttpUtil() {
     }
+
     /**
      * post（raw）方式请求（编码为UTF-8，超时时间10秒）
      *
@@ -372,7 +372,7 @@ public class HttpUtil {
         String requestJsonStr = (req == null) ? null : JacksonUtil.toJson(req);
         URIBuilder builder = new URIBuilder(URI.create(url));
         builder.setCharset(StandardCharsets.UTF_8);
-        if (StringUtils.isNotBlank(requestJsonStr)) {
+        if (requestJsonStr != null) {
             JsonNode jsonNodeElements = JacksonUtil.parse(requestJsonStr);
             Iterator<Map.Entry<String, JsonNode>> jsonNodeIterator = jsonNodeElements.fields();
             while (jsonNodeIterator.hasNext()) {
@@ -416,7 +416,7 @@ public class HttpUtil {
      *
      * @param socketTimeout  从服务器获取响应数据的超时时间，单位毫秒
      * @param connectTimeout socket的连接超时时间，单位毫秒
-     * @param proxy 代理
+     * @param proxy          代理
      * @return
      */
     private static RequestConfig createRequestConfig(int socketTimeout, int connectTimeout, HttpHost proxy) {

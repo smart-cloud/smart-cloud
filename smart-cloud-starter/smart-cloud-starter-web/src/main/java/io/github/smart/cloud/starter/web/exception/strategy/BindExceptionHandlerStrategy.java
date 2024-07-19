@@ -20,7 +20,7 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
 import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import io.github.smart.cloud.starter.web.exception.util.ExceptionUtil;
-import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,7 +44,7 @@ public class BindExceptionHandlerStrategy implements IExceptionHandlerStrategy {
         // 参数校验
         BindException bindException = (BindException) e;
         List<FieldError> fieldErrors = bindException.getFieldErrors();
-        if (CollectionUtils.isNotEmpty(fieldErrors)) {
+        if (!CollectionUtils.isEmpty(fieldErrors)) {
             String errorMsg = ExceptionUtil.getErrorMsg(fieldErrors);
             return ResponseUtil.of(CommonReturnCodes.VALIDATE_FAIL, errorMsg);
         }

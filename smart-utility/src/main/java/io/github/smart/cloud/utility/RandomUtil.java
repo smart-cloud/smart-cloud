@@ -15,9 +15,6 @@
  */
 package io.github.smart.cloud.utility;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -72,7 +69,7 @@ public class RandomUtil extends AbstractRandomUtil {
      * @return
      */
     public static <E> E[] randomSort(E[] array) {
-        if (ArrayUtils.isEmpty(array)) {
+        if (array == null || array.length == 0) {
             return array;
         }
 
@@ -93,7 +90,7 @@ public class RandomUtil extends AbstractRandomUtil {
      * @return
      */
     public static <E> List<E> randomSort(List<E> list) {
-        if (CollectionUtils.isEmpty(list)) {
+        if (list == null || list.isEmpty()) {
             return list;
         }
 

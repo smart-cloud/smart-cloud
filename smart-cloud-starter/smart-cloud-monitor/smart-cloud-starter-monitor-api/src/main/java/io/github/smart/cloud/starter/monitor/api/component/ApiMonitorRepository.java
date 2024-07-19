@@ -23,11 +23,11 @@ import io.github.smart.cloud.starter.monitor.api.util.PercentUtil;
 import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -118,7 +118,7 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
             }
         }
 
-        if (CollectionUtils.isNotEmpty(apiExceptions)) {
+        if (!apiExceptions.isEmpty()) {
             if (apiExceptions.size() > apiMonitorProperties.getUnhealthApiReportMaxCount()) {
                 Collections.sort(apiExceptions, (o1, o2) -> {
                     // 按失败率倒叙排序
@@ -141,7 +141,7 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
      */
     private ApiExceptionRemindType match(String name, BigDecimal total, BigDecimal failRate, String message) {
         if (apiMonitorProperties.getAlertExceptionMarked()) {
-            if (CollectionUtils.isNotEmpty(needAlertExceptionClassNames)) {
+            if (!CollectionUtils.isEmpty(needAlertExceptionClassNames)) {
                 for (String needAlertExceptionClassName : needAlertExceptionClassNames) {
                     if (message.contains(needAlertExceptionClassName)) {
                         return ApiExceptionRemindType.EXCEPTION_INFO;

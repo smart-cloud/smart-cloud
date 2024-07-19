@@ -25,8 +25,8 @@ import io.github.smart.cloud.common.pojo.BasePageResponse;
 import io.github.smart.cloud.starter.mybatis.plus.common.entity.BaseEntity;
 import io.github.smart.cloud.starter.mybatis.plus.common.mapper.SmartMapper;
 import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
 import java.util.List;

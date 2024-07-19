@@ -22,7 +22,7 @@ import io.github.smart.cloud.starter.monitor.admin.event.notice.ServiceNodeCount
 import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.admin.properties.ServiceInfoProperties;
 import io.github.smart.cloud.utility.JacksonUtil;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * 在线实例为0时，企业微信通知
@@ -51,7 +51,7 @@ public class ServiceNodeCountCheckNotice extends AbstractWeworkNotice<ServiceNod
             }
         }
         content.append("**当前实例数**: <font color=\"warning\">").append(event.getNodeCount()).append("</font>\n");
-        if (StringUtils.isNotBlank(reminders)) {
+        if (StringUtils.hasText(reminders)) {
             content.append(reminders);
         }
 

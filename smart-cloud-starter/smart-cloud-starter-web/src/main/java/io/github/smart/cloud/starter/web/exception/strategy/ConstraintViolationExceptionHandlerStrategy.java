@@ -20,7 +20,7 @@ import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
 import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import io.github.smart.cloud.starter.web.exception.util.ExceptionUtil;
-import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -44,7 +44,7 @@ public class ConstraintViolationExceptionHandlerStrategy implements IExceptionHa
         // 参数校验
         ConstraintViolationException constraintViolationException = (ConstraintViolationException) e;
         Set<ConstraintViolation<?>> constraintViolationSet = constraintViolationException.getConstraintViolations();
-        if (CollectionUtils.isNotEmpty(constraintViolationSet)) {
+        if (!CollectionUtils.isEmpty(constraintViolationSet)) {
             String errorMsg = ExceptionUtil.getErrorMsg(constraintViolationSet);
             return ResponseUtil.of(CommonReturnCodes.VALIDATE_FAIL, errorMsg);
         }

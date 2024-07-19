@@ -23,13 +23,14 @@ import io.github.smart.cloud.utility.DateUtil;
 import io.github.smart.cloud.utility.HttpUtil;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.temporal.ChronoField;
 import java.util.Date;
 
 /**
@@ -62,7 +63,7 @@ public class GitLabComponent implements SmartInitializingSingleton {
         }
 
         String result = HttpUtil.get(String.format(jobsUrlTemplate, serviceInfoProperties.getId()), headers, StandardCharsets.UTF_8.name(), null, 3000, 3000, null);
-        if (StringUtils.isBlank(result)) {
+        if (!StringUtils.hasText(result)) {
             return 0L;
         }
 
@@ -76,8 +77,7 @@ public class GitLabComponent implements SmartInitializingSingleton {
             boolean isTag = jobInfo.get("tag").asBoolean();
             if (isTag) {
                 String jobStartedAtUtcStr = jobInfo.get("started_at").asText();
-                Date jobStartedAt = DateUtil.parseUtc(jobStartedAtUtcStr);
-                return jobStartedAt.getTime();
+                return DateUtil.toCurrentMillis(jobStartedAtUtcStr);
             }
         }
 
@@ -92,7 +92,7 @@ public class GitLabComponent implements SmartInitializingSingleton {
      */
     public boolean enable() {
         GitlabProperties gitlab = monitorProperties.getGitlab();
-        return gitlab != null && StringUtils.isNotBlank(gitlab.getUrlPrefix());
+        return gitlab != null && StringUtils.hasText(gitlab.getUrlPrefix());
     }
 
     @Override

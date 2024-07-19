@@ -23,7 +23,6 @@ import io.github.smart.cloud.starter.monitor.admin.properties.ServiceInfoPropert
 import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.context.ApplicationEventPublisher;
@@ -61,13 +60,13 @@ public class ServiceNodeCountCheckSchedule implements SmartInitializingSingleton
         Map<String, List<Instance>> instanceOnlineInfo = instanceRepository.findAll()
                 .collectList()
                 .map(instances -> instances.stream().collect(Collectors.groupingBy(instance -> instance.getRegistration().getName()))).share().block();
-        if (MapUtils.isEmpty(instanceOnlineInfo)) {
+        if (instanceOnlineInfo == null || instanceOnlineInfo.isEmpty()) {
             log.warn("instance online info is empty");
             return;
         }
 
         Map<String, ServiceInfoProperties> serviceConfigInfo = monitorProperties.getServiceInfos();
-        if (MapUtils.isEmpty(serviceConfigInfo)) {
+        if (serviceConfigInfo == null || serviceConfigInfo.isEmpty()) {
             log.warn("service config Info info is empty");
             return;
         }

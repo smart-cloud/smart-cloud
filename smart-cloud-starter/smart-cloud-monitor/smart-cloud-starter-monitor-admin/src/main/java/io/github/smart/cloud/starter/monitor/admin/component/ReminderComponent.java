@@ -15,14 +15,13 @@
  */
 package io.github.smart.cloud.starter.monitor.admin.component;
 
+import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.starter.monitor.admin.event.AbstractAppChangeEvent;
 import io.github.smart.cloud.starter.monitor.admin.event.UpEvent;
 import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.admin.properties.ServiceInfoProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Set;
 
@@ -48,16 +47,16 @@ public class ReminderComponent {
      */
     public String getReminderParams(String serviceName, AbstractAppChangeEvent event) {
         if (event instanceof UpEvent) {
-            return StringUtils.EMPTY;
+            return SymbolConstant.EMPTY;
         }
 
         ServiceInfoProperties serviceInfoProperties = monitorProperties.getServiceInfos().get(serviceName);
         if (serviceInfoProperties == null) {
-            return StringUtils.EMPTY;
+            return SymbolConstant.EMPTY;
         }
         Set<String> reminders = serviceInfoProperties.getReminders();
-        if (CollectionUtils.isEmpty(reminders)) {
-            return StringUtils.EMPTY;
+        if (reminders == null || reminders.isEmpty()) {
+            return SymbolConstant.EMPTY;
         }
 
         if (event.getHealthInstanceCount() <= 0) {
@@ -73,15 +72,15 @@ public class ReminderComponent {
         try {
             lastTagCommittedTs = gitLabComponent.getLastTagCreateAtTs(serviceName);
             if (lastTagCommittedTs == null || lastTagCommittedTs == 0) {
-                return StringUtils.EMPTY;
+                return SymbolConstant.EMPTY;
             }
         } catch (Exception e) {
             log.error("fetch git info error|serviceName={}", serviceName, e);
-            return StringUtils.EMPTY;
+            return SymbolConstant.EMPTY;
         }
 
         if (System.currentTimeMillis() - lastTagCommittedTs < serviceInfoProperties.getRemindTagMinDiffTs()) {
-            return StringUtils.EMPTY;
+            return SymbolConstant.EMPTY;
         }
 
         return generateReminders(reminders);

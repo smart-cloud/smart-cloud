@@ -20,7 +20,6 @@ import io.github.smart.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
 import io.github.smart.cloud.starter.rabbitmq.util.MqNameUtil;
 import io.github.smart.cloud.starter.rabbitmq.util.MqUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Exchange;
@@ -30,6 +29,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Set;
 

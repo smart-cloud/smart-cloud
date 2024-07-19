@@ -19,12 +19,12 @@ import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
 import io.github.smart.cloud.starter.mybatis.plus.common.CryptField;
 import io.github.smart.cloud.starter.mybatis.plus.handler.CryptFieldHandler;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Set;
 
@@ -58,7 +58,7 @@ public class CryptFieldHandlerAutoConfiguration implements BeanPostProcessor {
         typeHandlerRegistry.register(CryptField.class, CryptFieldHandler.class);
 
         Set<Class<? extends CryptField>> classSet = ReflectionUtil.getSubTypesOf(CryptField.class);
-        if (CollectionUtils.isNotEmpty(classSet)) {
+        if (!CollectionUtils.isEmpty(classSet)) {
             classSet.forEach(c -> typeHandlerRegistry.register(c, CryptFieldHandler.class));
         }
     }
