@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.monitor.admin.properties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.util.unit.DataSize;
 
 import java.io.Serializable;
 import java.util.LinkedHashSet;
@@ -56,5 +57,13 @@ public class ServiceInfoProperties implements Serializable {
      * 服务实例节点数
      */
     private Integer nodeCount;
+    /**
+     * 默认堆内存预警值
+     */
+    private DataSize heapAlertThreshold;
+    /**
+     * 默认非堆内存预警值
+     */
+    private DataSize nonHeapAlertThreshold;
 
 }

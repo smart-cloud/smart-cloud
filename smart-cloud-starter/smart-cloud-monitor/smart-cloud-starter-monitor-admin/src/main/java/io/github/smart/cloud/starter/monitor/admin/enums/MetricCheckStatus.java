@@ -13,35 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.admin.properties;
+package io.github.smart.cloud.starter.monitor.admin.enums;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.io.Serializable;
 
 /**
- * 代理配置
+ * 指标检查状态
  *
  * @author collin
- * @date 2023-03-07
+ * @date 2024-07-23
  */
 @Getter
-@Setter
-@ToString
-public class ProxyProperties implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public enum MetricCheckStatus {
 
     /**
-     * 代理ip
+     * 健康
      */
-    private String host;
-
+    OK("健康"),
     /**
-     * 代理端口
+     * 超过阈值异常
      */
-    private Integer port;
+    THRESHOLD_EXCEPTION("超过阈值异常"),
+    /**
+     * 持续增长异常
+     */
+    KEEP_INCREASING_EXCEPTION("持续增长异常"),
+    /**
+     * gc太频繁异常
+     */
+    GC_SPEED_TOO_FAST("gc太频繁异常");
+
+    private String desc;
 
 }

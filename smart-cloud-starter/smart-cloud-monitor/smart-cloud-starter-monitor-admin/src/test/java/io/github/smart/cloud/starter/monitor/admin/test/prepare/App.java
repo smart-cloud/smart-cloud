@@ -13,35 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.admin.properties;
+package io.github.smart.cloud.starter.monitor.admin.test.prepare;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.Serializable;
+@EnableAdminServer
+@SpringBootApplication
+public class App {
 
-/**
- * 代理配置
- *
- * @author collin
- * @date 2023-03-07
- */
-@Getter
-@Setter
-@ToString
-public class ProxyProperties implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 代理ip
-     */
-    private String host;
-
-    /**
-     * 代理端口
-     */
-    private Integer port;
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
 
 }

@@ -13,35 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.admin.properties;
+package io.github.smart.cloud.starter.monitor.admin.event;
 
+import de.codecentric.boot.admin.server.domain.entities.Instance;
+import io.github.smart.cloud.starter.monitor.admin.dto.MetricCheckResultDTO;
+import io.github.smart.cloud.starter.monitor.admin.enums.InstanceMetric;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.io.Serializable;
+import org.springframework.context.ApplicationEvent;
 
 /**
- * 代理配置
+ * 服务指标预警事件
  *
  * @author collin
- * @date 2023-03-07
+ * @date 2024-07-28
  */
 @Getter
 @Setter
 @ToString
-public class ProxyProperties implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class MetricAlertEvent extends ApplicationEvent {
 
     /**
-     * 代理ip
+     * 实例信息
      */
-    private String host;
-
+    private Instance instance;
     /**
-     * 代理端口
+     * 指标
      */
-    private Integer port;
+    private InstanceMetric instanceMetric;
+    /**
+     * 检查结果
+     */
+    private MetricCheckResultDTO metricCheckResult;
+
+    public MetricAlertEvent(Object source) {
+        super(source);
+    }
 
 }

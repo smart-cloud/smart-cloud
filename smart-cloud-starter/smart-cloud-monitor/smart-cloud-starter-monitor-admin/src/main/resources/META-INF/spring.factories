@@ -1,5 +1,6 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+io.github.smart.cloud.starter.monitor.admin.autoconfigure.MetricsMonitorAutoConfiguration,\
 io.github.smart.cloud.starter.monitor.admin.autoconfigure.MonitorAutoConfiguration,\
 io.github.smart.cloud.starter.monitor.admin.autoconfigure.SecurityAutoConfiguration,\
 io.github.smart.cloud.starter.monitor.admin.autoconfigure.WeworkNoticeAutoConfiguration

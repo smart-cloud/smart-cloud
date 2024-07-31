@@ -13,35 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.admin.properties;
+package io.github.smart.cloud.starter.monitor.admin.test;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import org.junit.jupiter.api.Disabled;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.platform.suite.api.SelectPackages;
+import org.junit.runner.RunWith;
 
-import java.io.Serializable;
-
-/**
- * 代理配置
- *
- * @author collin
- * @date 2023-03-07
- */
-@Getter
-@Setter
-@ToString
-public class ProxyProperties implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * 代理ip
-     */
-    private String host;
-
-    /**
-     * 代理端口
-     */
-    private Integer port;
+@Disabled
+@RunWith(JUnitPlatform.class)
+@SelectPackages({"io.github.smart.cloud.starter.monitor.admin.test.cases"})
+public class SuiteTest {
 
 }

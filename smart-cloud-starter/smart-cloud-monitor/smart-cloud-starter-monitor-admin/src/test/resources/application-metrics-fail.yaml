@@ -1,0 +1,46 @@
+server:
+  port: 40014
+spring:
+  application:
+    name: monitor-admin-metrics-fail
+  security:
+    user:
+      name: admin
+      password: 123456
+  boot:
+    admin:
+      client:
+        url: http://localhost:${server.port}
+        username: ${spring.security.user.name}
+        password: ${spring.security.user.password}
+
+smart:
+  monitor:
+    robotKey: 79445cd5-4f18-4d44-a84a-01ff147d11ae
+    filterEventTs: 0
+    checkOfflineTs: 5000
+    checkServiceNodeCountTs: 5000
+    metric:
+      preHeatHour: 0
+      heapThreshold: 1MB
+      nonHeapThreshold: 1MB
+      keepIncreasingCount: 1
+      cpuUsageThreshold: 0.001
+      liveThreadCountThreshold: 1
+      gcSpeedThreshold: 0
+      keepIncreasingTooFastCount: 1
+      gcCheckIntervalSeconds: 5
+      cpuCheckIntervalSeconds: 5
+      memoryCheckIntervalSeconds: 5
+      threadCheckIntervalSeconds: 5
+management:
+  health:
+    diskspace:
+      threshold: 10GB
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: 'health,info,metrics'

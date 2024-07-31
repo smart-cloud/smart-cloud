@@ -1,0 +1,31 @@
+server:
+  port: 40013
+spring:
+  application:
+    name: monitor-admin
+  security:
+    user:
+      name: admin
+      password: 123456
+  boot:
+    admin:
+      client:
+        url: http://localhost:${server.port}
+        username: ${spring.security.user.name}
+        password: ${spring.security.user.password}
+
+smart:
+  monitor:
+    robotKey: 79445cd5-4f18-4d44-a84a-01ff147d11ae
+    filterEventTs: 0
+management:
+  health:
+    diskspace:
+      threshold: 10GB
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: 'health,info,metrics'

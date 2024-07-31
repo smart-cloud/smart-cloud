@@ -18,7 +18,8 @@ package io.github.smart.cloud.starter.monitor.admin.autoconfigure;
 import io.github.smart.cloud.starter.monitor.admin.component.GitLabComponent;
 import io.github.smart.cloud.starter.monitor.admin.component.ReminderComponent;
 import io.github.smart.cloud.starter.monitor.admin.component.RobotComponent;
-import io.github.smart.cloud.starter.monitor.admin.listener.AppChangeWeworkNotice;
+import io.github.smart.cloud.starter.monitor.admin.listener.wework.AppChangeWeworkNotice;
+import io.github.smart.cloud.starter.monitor.admin.listener.wework.MetricsAlertListener;
 import io.github.smart.cloud.starter.monitor.admin.listener.wework.OfflineNotice;
 import io.github.smart.cloud.starter.monitor.admin.listener.wework.ServiceNodeCountCheckNotice;
 import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
@@ -65,6 +66,11 @@ public class WeworkNoticeAutoConfiguration {
     @ConditionalOnMissingBean
     public AppChangeWeworkNotice appChangeWeworkNotice(final RobotComponent robotComponent, final ReminderComponent reminderComponent) {
         return new AppChangeWeworkNotice(robotComponent, reminderComponent);
+    }
+
+    @Bean
+    public MetricsAlertListener metricsAlertListener(final RobotComponent robotComponent) {
+        return new MetricsAlertListener(robotComponent);
     }
 
 }
