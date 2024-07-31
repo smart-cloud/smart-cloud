@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.monitor.api.test.prepare.controller;
 
+import io.github.smart.cloud.exception.ServerException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,14 @@ public class OrderController {
     public ResponseEntity<String> buy(Integer id) {
         if (id > 100) {
             throw new UnsupportedOperationException();
+        }
+        return ResponseEntity.ok("success2");
+    }
+
+    @PostMapping("code")
+    public ResponseEntity<String> code(Integer id) {
+        if (id == 1) {
+            throw new ServerException("not support test");
         }
         return ResponseEntity.ok("success2");
     }

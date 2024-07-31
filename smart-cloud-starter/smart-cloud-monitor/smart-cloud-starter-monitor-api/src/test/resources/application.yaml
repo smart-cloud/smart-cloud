@@ -1,16 +1,24 @@
 spring:
   application:
-    name: actuator-test
+    name: actuator-exception-api-checker-test
 
 server:
-  port: 40001
+  port: 40012
 
 smart:
   api-monitor:
+    # 可先添加一个机器人，获取key后再移除机器人
+    robotKey: 79445cd5-4f18-4d44-a84a-01ff147d11ae
     unhealthMatchMinCount: 3
+    unhealthApiReportMaxCount: 2
     defaultFailRateThreshold: 0.60
     failRateThresholds:
       '[IOrderFeign#query]': 0.1
+      '[ProductService#query]': 0.1
+    needAlertExceptionClassNames:
+      - NullPointerException
+    needAlertExceptionCodes:
+      - 500
 management:
   health:
     diskspace:

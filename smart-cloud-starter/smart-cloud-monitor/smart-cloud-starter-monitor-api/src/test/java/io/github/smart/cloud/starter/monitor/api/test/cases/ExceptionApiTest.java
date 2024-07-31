@@ -15,6 +15,8 @@
  */
 package io.github.smart.cloud.starter.monitor.api.test.cases;
 
+import io.github.smart.cloud.exception.ServerException;
+import io.github.smart.cloud.starter.monitor.api.annotation.ApiHealthMonitor;
 import io.github.smart.cloud.starter.monitor.api.component.ApiMonitorRepository;
 import io.github.smart.cloud.starter.monitor.api.component.ExceptionApiChecker;
 import io.github.smart.cloud.starter.monitor.api.dto.ApiExceptionDTO;
@@ -35,7 +37,7 @@ import java.math.RoundingMode;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = App.class, args = "--spring.profiles.active=exception-api-checker", webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class ExceptionApiTest extends AbstractTest {
 
     @Autowired
@@ -43,6 +45,9 @@ public class ExceptionApiTest extends AbstractTest {
     @Autowired
     private ApiMonitorRepository apiMonitorRepository;
 
+    /**
+     * 特定异常监控
+     */
     @Test
     void testNullPointerException() {
         NullPointExceptionController nullPointExceptionController = applicationContext.getBean(NullPointExceptionController.class);
@@ -56,9 +61,30 @@ public class ExceptionApiTest extends AbstractTest {
 
         List<ApiExceptionDTO> apiExceptions = apiMonitorRepository.getApiExceptions();
         Assertions.assertThat(apiExceptions).hasSize(1);
-        Assertions.assertThat(apiExceptions.get(0).getMessage()).contains(NullPointerException.class.getName());
+        Assertions.assertThat(apiExceptions.get(0).getThrowable()).isInstanceOf(NullPointerException.class);
     }
 
+    @Test
+    void testErrorCode() {
+        OrderController orderController = applicationContext.getBean(OrderController.class);
+        for (int i = 0; i < 100; i++) {
+            try {
+                orderController.code(i);
+            } catch (Exception e) {
+
+            }
+        }
+
+        List<ApiExceptionDTO> apiExceptions = apiMonitorRepository.getApiExceptions();
+        Assertions.assertThat(apiExceptions).hasSize(1);
+        Assertions.assertThat(apiExceptions.get(0).getThrowable()).isInstanceOf(ServerException.class);
+    }
+
+    /**
+     * 失败率测试
+     *
+     * @throws Exception
+     */
     @Test
     void testExceptionApiCheck() throws Exception {
         OrderController orderController = applicationContext.getBean(OrderController.class);
@@ -99,6 +125,11 @@ public class ExceptionApiTest extends AbstractTest {
         exceptionApiChecker.checkExceptionApiAndNotice();
     }
 
+    /**
+     * 异常注解
+     *
+     * @see ApiHealthMonitor
+     */
     @Test
     void testApiHealthMonitor() {
         ProductService productService = applicationContext.getBean(ProductService.class);

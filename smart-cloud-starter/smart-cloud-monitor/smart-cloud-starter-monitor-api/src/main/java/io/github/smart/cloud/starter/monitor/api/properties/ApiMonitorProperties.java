@@ -97,6 +97,10 @@ public class ApiMonitorProperties {
      * 需要提醒的异常类名列表
      */
     private Set<String> needAlertExceptionClassNames = new HashSet<>();
+    /**
+     * 需要提醒的异常码列表
+     */
+    private Set<String> needAlertExceptionCodes = new HashSet<>();
     // -------企业微信通知配置 end
 
 }

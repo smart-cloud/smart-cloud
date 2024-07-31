@@ -50,7 +50,7 @@ public class ApiExceptionDTO {
     /**
      * 失败信息
      */
-    private String message;
+    private Throwable throwable;
     /**
      * 接口异常提醒类型
      */

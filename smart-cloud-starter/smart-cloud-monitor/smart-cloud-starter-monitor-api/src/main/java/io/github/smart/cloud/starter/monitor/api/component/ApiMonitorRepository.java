@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.monitor.api.component;
 
+import io.github.smart.cloud.exception.AbstractBaseException;
 import io.github.smart.cloud.starter.monitor.api.dto.ApiExceptionDTO;
 import io.github.smart.cloud.starter.monitor.api.dto.ApiHealthCacheDTO;
 import io.github.smart.cloud.starter.monitor.api.enums.ApiExceptionRemindType;
@@ -75,7 +76,7 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
             } else {
                 apiHealthCacheDTO.getFailCount().increment();
                 if (throwable != null) {
-                    apiHealthCacheDTO.setMessage(throwable.toString());
+                    apiHealthCacheDTO.setThrowable(throwable);
                 }
             }
         } catch (Throwable e) {
@@ -105,14 +106,14 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
             BigDecimal failCount = BigDecimal.valueOf(failCountSum);
             BigDecimal total = BigDecimal.valueOf(apiHealthCacheDTO.getSuccessCount().sum()).add(failCount);
             BigDecimal failRate = failCount.divide(total, 4, RoundingMode.HALF_UP);
-            ApiExceptionRemindType remindType = match(name, total, failRate, apiHealthCacheDTO.getMessage());
+            ApiExceptionRemindType remindType = match(name, total, failRate, apiHealthCacheDTO.getThrowable());
             if (remindType != ApiExceptionRemindType.NONE) {
                 ApiExceptionDTO apiExceptionDTO = new ApiExceptionDTO();
                 apiExceptionDTO.setName(name);
                 apiExceptionDTO.setTotal(total.longValue());
                 apiExceptionDTO.setFailCount(failCount.longValue());
                 apiExceptionDTO.setFailRate(PercentUtil.format(failRate));
-                apiExceptionDTO.setMessage(apiHealthCacheDTO.getMessage());
+                apiExceptionDTO.setThrowable(apiHealthCacheDTO.getThrowable());
                 apiExceptionDTO.setRemindType(remindType);
                 apiExceptions.add(apiExceptionDTO);
             }
@@ -136,14 +137,23 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
      * @param total
      * @param name
      * @param failRate
-     * @param message
+     * @param throwable
      * @return
      */
-    private ApiExceptionRemindType match(String name, BigDecimal total, BigDecimal failRate, String message) {
+    private ApiExceptionRemindType match(String name, BigDecimal total, BigDecimal failRate, Throwable throwable) {
         if (apiMonitorProperties.getAlertExceptionMarked()) {
+            if (!CollectionUtils.isEmpty(apiMonitorProperties.getNeedAlertExceptionCodes())) {
+                if (throwable instanceof AbstractBaseException) {
+                    AbstractBaseException exception = (AbstractBaseException) throwable;
+                    if (apiMonitorProperties.getNeedAlertExceptionCodes().contains(exception.getCode())) {
+                        return ApiExceptionRemindType.EXCEPTION_INFO;
+                    }
+                }
+            }
+
             if (!CollectionUtils.isEmpty(needAlertExceptionClassNames)) {
                 for (String needAlertExceptionClassName : needAlertExceptionClassNames) {
-                    if (message.contains(needAlertExceptionClassName)) {
+                    if (throwable.toString().contains(needAlertExceptionClassName)) {
                         return ApiExceptionRemindType.EXCEPTION_INFO;
                     }
                 }
@@ -178,8 +188,7 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
         }
 
         cleanSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("clean-api-health-cache"));
-        cleanSchedule.scheduleWithFixedDelay(this::clearApiStatusStatistics, apiMonitorProperties.getCleanIntervalSeconds(),
-                apiMonitorProperties.getCleanIntervalSeconds(), TimeUnit.SECONDS);
+        cleanSchedule.scheduleWithFixedDelay(this::clearApiStatusStatistics, apiMonitorProperties.getCleanIntervalSeconds(), apiMonitorProperties.getCleanIntervalSeconds(), TimeUnit.SECONDS);
     }
 
     @Override

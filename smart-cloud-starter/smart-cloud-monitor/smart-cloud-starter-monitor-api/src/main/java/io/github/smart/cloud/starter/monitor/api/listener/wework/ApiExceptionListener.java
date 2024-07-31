@@ -134,13 +134,13 @@ public class ApiExceptionListener implements EnvironmentAware, InitializingBean,
                     .append(apiException.getFailRate())
                     .append(isFailRateRemindType ? "</font>" : StringUtils.EMPTY);
 
-            if (apiException.getMessage() != null) {
+            if (apiException.getThrowable() != null) {
                 boolean isExceptionRemindType = apiException.getRemindType() == ApiExceptionRemindType.EXCEPTION_INFO;
                 needMention |= isExceptionRemindType;
 
                 content.append("\n>**异常信息**：")
                         .append(isExceptionRemindType ? "<font color=\"warning\">" : StringUtils.EMPTY)
-                        .append(apiException.getMessage())
+                        .append(apiException.getThrowable().toString())
                         .append(isExceptionRemindType ? "</font>" : StringUtils.EMPTY);
             }
         }
