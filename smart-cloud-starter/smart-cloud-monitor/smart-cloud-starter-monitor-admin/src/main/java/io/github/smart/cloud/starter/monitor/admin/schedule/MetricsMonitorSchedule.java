@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.admin.component;
+package io.github.smart.cloud.starter.monitor.admin.schedule;
 
 import de.codecentric.boot.admin.server.domain.entities.Instance;
 import de.codecentric.boot.admin.server.domain.values.Endpoints;
@@ -58,7 +58,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class MetricsMonitorComponent implements InitializingBean, ApplicationListener<RefreshScopeRefreshedEvent>, DisposableBean {
+public class MetricsMonitorSchedule implements InitializingBean, ApplicationListener<RefreshScopeRefreshedEvent>, DisposableBean {
 
     private final MonitorProperties monitorProperties;
     private final InstanceRegistry instanceRegistry;
@@ -136,6 +136,7 @@ public class MetricsMonitorComponent implements InitializingBean, ApplicationLis
     @Override
     public void onApplicationEvent(RefreshScopeRefreshedEvent event) {
         // 处理“@RefreshScope会导致ScheduledExecutorService失效”的问题
+        // do nothing
     }
 
 }

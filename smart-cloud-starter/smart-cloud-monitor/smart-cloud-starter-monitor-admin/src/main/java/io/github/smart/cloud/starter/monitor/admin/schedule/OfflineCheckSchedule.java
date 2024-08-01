@@ -22,7 +22,9 @@ import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationListener;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -37,7 +39,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2024-01-25
  */
 @RequiredArgsConstructor
-public class OfflineCheckSchedule implements InitializingBean, DisposableBean {
+public class OfflineCheckSchedule implements InitializingBean, ApplicationListener<RefreshScopeRefreshedEvent>, DisposableBean {
 
     private final InstanceRepository instanceRepository;
     private final MonitorProperties monitorProperties;
@@ -86,6 +88,12 @@ public class OfflineCheckSchedule implements InitializingBean, DisposableBean {
         if (checkOfflineSchedule != null) {
             checkOfflineSchedule.shutdown();
         }
+    }
+
+    @Override
+    public void onApplicationEvent(RefreshScopeRefreshedEvent event) {
+        // 处理“@RefreshScope会导致ScheduledExecutorService失效”的问题
+        // do nothing
     }
 
 }

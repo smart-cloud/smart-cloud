@@ -207,6 +207,7 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
     @Override
     public void onApplicationEvent(RefreshScopeRefreshedEvent event) {
         // 处理“@RefreshScope会导致ScheduledExecutorService失效”的问题
+        // do nothing
     }
 
     /**
