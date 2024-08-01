@@ -18,7 +18,7 @@ package io.github.smart.cloud.starter.web.exception;
 import io.github.smart.cloud.utility.spring.SpringContextUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
@@ -32,16 +32,16 @@ import java.util.Set;
  * @date 2021-11-13
  */
 @Slf4j
-public class ExceptionHandlerStrategyFactory implements InitializingBean {
+public class ExceptionHandlerStrategyFactory implements SmartInitializingSingleton {
 
     /**
      * 异常处理策略
      */
     @Getter
-    private Set<IExceptionHandlerStrategy> exceptionHandlerStrategies = new HashSet<>();
+    private final Set<IExceptionHandlerStrategy> exceptionHandlerStrategies = new HashSet<>();
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterSingletonsInstantiated() {
         Map<String, IExceptionHandlerStrategy> exceptionHandlerStrategyBeanMap = SpringContextUtil.getApplicationContext().getBeansOfType(IExceptionHandlerStrategy.class);
         if (CollectionUtils.isEmpty(exceptionHandlerStrategyBeanMap)) {
             return;

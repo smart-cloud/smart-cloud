@@ -21,13 +21,14 @@
 
 	<Appenders>
 		<Console name="console" target="SYSTEM_OUT">
-			<PatternLayout pattern="${log_format}"/>
+			<PatternLayout pattern="${log_format}" />
 		</Console>
 	</Appenders>
 
 	<Loggers>
-		<Logger name="io.github.smart.cloud.starter.rabbitmq" level="debug">
-			<AppenderRef ref="console"/>
-		</Logger>
+		<Root level="info">
+			<AppenderRef ref="console" />
+		</Root>
 	</Loggers>
+
 </Configuration>
