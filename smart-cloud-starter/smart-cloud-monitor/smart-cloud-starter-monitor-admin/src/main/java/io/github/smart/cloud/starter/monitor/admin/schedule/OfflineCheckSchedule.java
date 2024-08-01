@@ -16,12 +16,12 @@
 package io.github.smart.cloud.starter.monitor.admin.schedule;
 
 import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
-import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.admin.event.notice.OfflineNoticeEvent;
+import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Set;
@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2024-01-25
  */
 @RequiredArgsConstructor
-public class OfflineCheckSchedule implements SmartInitializingSingleton, DisposableBean {
+public class OfflineCheckSchedule implements InitializingBean, DisposableBean {
 
     private final InstanceRepository instanceRepository;
     private final MonitorProperties monitorProperties;
@@ -76,7 +76,7 @@ public class OfflineCheckSchedule implements SmartInitializingSingleton, Disposa
     }
 
     @Override
-    public void afterSingletonsInstantiated() {
+    public void afterPropertiesSet() throws Exception {
         checkOfflineSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("check-off-line-service"));
         checkOfflineSchedule.scheduleWithFixedDelay(this::checkOffline, monitorProperties.getCheckOfflineTs(), monitorProperties.getCheckOfflineTs(), TimeUnit.SECONDS);
     }

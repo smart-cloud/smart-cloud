@@ -22,7 +22,7 @@ import io.github.smart.cloud.utility.HttpUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
-import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.InitializingBean;
 
 /**
  * 企业微信机器人发送消息
@@ -32,7 +32,7 @@ import org.springframework.beans.factory.SmartInitializingSingleton;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class RobotComponent implements SmartInitializingSingleton {
+public class RobotComponent implements InitializingBean {
 
     private final MonitorProperties monitorProperties;
     private HttpHost proxy;
@@ -72,7 +72,7 @@ public class RobotComponent implements SmartInitializingSingleton {
     }
 
     @Override
-    public void afterSingletonsInstantiated() {
+    public void afterPropertiesSet() throws Exception {
         ProxyProperties proxyProperties = monitorProperties.getProxy();
         if (existProxy(proxyProperties)) {
             this.proxy = new HttpHost(proxyProperties.getHost(), proxyProperties.getPort());

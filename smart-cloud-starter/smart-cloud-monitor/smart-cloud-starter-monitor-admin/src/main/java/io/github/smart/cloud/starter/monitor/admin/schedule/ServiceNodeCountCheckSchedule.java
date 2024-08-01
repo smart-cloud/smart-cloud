@@ -24,7 +24,7 @@ import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.List;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class ServiceNodeCountCheckSchedule implements SmartInitializingSingleton, DisposableBean {
+public class ServiceNodeCountCheckSchedule implements InitializingBean, DisposableBean {
 
     private final InstanceRepository instanceRepository;
     private final MonitorProperties monitorProperties;
@@ -50,7 +50,7 @@ public class ServiceNodeCountCheckSchedule implements SmartInitializingSingleton
     private ScheduledExecutorService checkServiceNodeCountSchedule;
 
     @Override
-    public void afterSingletonsInstantiated() {
+    public void afterPropertiesSet() throws Exception {
         checkServiceNodeCountSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("check-service-node-count"));
         checkServiceNodeCountSchedule.scheduleWithFixedDelay(this::checkServiceNodeCount, monitorProperties.getCheckServiceNodeCountTs(),
                 monitorProperties.getCheckServiceNodeCountTs(), TimeUnit.SECONDS);

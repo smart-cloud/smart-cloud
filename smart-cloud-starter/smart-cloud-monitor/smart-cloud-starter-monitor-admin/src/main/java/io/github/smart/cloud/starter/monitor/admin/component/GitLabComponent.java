@@ -25,13 +25,11 @@ import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
-import org.springframework.beans.factory.SmartInitializingSingleton;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.temporal.ChronoField;
-import java.util.Date;
 
 /**
  * gitlab操作
@@ -40,7 +38,7 @@ import java.util.Date;
  * @date 2024-01-18
  */
 @RequiredArgsConstructor
-public class GitLabComponent implements SmartInitializingSingleton {
+public class GitLabComponent implements InitializingBean {
 
     private final MonitorProperties monitorProperties;
     private String jobsUrlTemplate;
@@ -96,7 +94,7 @@ public class GitLabComponent implements SmartInitializingSingleton {
     }
 
     @Override
-    public void afterSingletonsInstantiated() {
+    public void afterPropertiesSet() throws Exception {
         if (enable()) {
             this.jobsUrlTemplate = String.format("%s/api/v4/projects/%d/jobs?scope[]=running&scope[]=success", monitorProperties.getGitlab().getUrlPrefix());
 
