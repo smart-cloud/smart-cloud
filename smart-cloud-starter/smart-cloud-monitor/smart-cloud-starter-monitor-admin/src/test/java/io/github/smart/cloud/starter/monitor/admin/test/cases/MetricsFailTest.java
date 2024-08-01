@@ -20,6 +20,7 @@ import de.codecentric.boot.admin.server.domain.values.Endpoints;
 import de.codecentric.boot.admin.server.services.InstanceRegistry;
 import io.github.smart.cloud.starter.monitor.admin.component.metrics.IInstanceMetricsMonitorComponent;
 import io.github.smart.cloud.starter.monitor.admin.test.prepare.App;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +33,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = App.class, args = "--spring.profiles.active=metrics-fail", webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class MetricsFailTest {
@@ -43,6 +45,8 @@ class MetricsFailTest {
 
     @Test
     void testMetrics() throws InterruptedException {
+        Assertions.assertThat(instanceMetricsMonitorComponents).isNotEmpty();
+
         TimeUnit.SECONDS.sleep(30);
 
         List<Instance> instances = instanceRegistry.getInstances()
@@ -56,7 +60,11 @@ class MetricsFailTest {
         for (Instance instance : instances) {
             instanceMetricsMonitorComponents.forEach(instanceMetricsMonitorComponent -> {
                 try {
-                    Assertions.assertThat(instanceMetricsMonitorComponent.alert(instance)).isEqualTo(true);
+                    boolean result = instanceMetricsMonitorComponent.alert(instance);
+                    if (!result) {
+                        log.warn("------>{}", instanceMetricsMonitorComponent.getInstanceMetric().name());
+                    }
+                    Assertions.assertThat(result).isEqualTo(true);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
