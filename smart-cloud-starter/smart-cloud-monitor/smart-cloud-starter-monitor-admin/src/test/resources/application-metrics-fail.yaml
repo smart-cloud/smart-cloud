@@ -51,7 +51,7 @@ smart:
             preHeatHour: 0
             keepIncreasingCount: 1
             keepIncreasingSpeedThreshold: 0
-            threshold: 1
+            threshold: 0
 management:
   health:
     diskspace:

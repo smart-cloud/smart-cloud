@@ -47,7 +47,9 @@ class MetricsFailTest {
     void testMetrics() throws InterruptedException {
         Assertions.assertThat(instanceMetricsMonitorComponents).isNotEmpty();
 
-        TimeUnit.SECONDS.sleep(30);
+        TimeUnit.SECONDS.sleep(15);
+        System.gc();
+        TimeUnit.SECONDS.sleep(15);
 
         List<Instance> instances = instanceRegistry.getInstances()
                 .filter(Instance::isRegistered)
