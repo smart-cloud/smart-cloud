@@ -19,7 +19,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.util.unit.DataSize;
-import org.springframework.util.unit.DataUnit;
 
 /**
  * 服务指标监控配置
@@ -33,58 +32,24 @@ import org.springframework.util.unit.DataUnit;
 public class MetricAlertProperties {
 
     /**
-     * 默认预热期（单位：小时）
+     * 堆内存指标监控配置
      */
-    private Integer preHeatHour = 4;
+    private MetricItemAlertProperties<DataSize> heap = new MetricItemAlertProperties<>();
     /**
-     * 默认堆内存预警值
-     *
-     * @see DataSize#parse
+     * 非堆内存指标监控配置
      */
-    private DataSize heapThreshold = DataSize.of(3, DataUnit.GIGABYTES);
+    private MetricItemAlertProperties<DataSize> nonHeap = new MetricItemAlertProperties<>();
     /**
-     * 默认非堆内存预警值
-     *
-     * @see DataSize#parse
+     * cpu指标监控配置
      */
-    private DataSize nonHeapThreshold = DataSize.of(2, DataUnit.GIGABYTES);
+    private MetricItemAlertProperties<Double> cpu = new MetricItemAlertProperties<>();
     /**
-     * 默认连续增长的次数阈值
+     * 线程指标监控配置
      */
-    private Integer keepIncreasingCount = 5;
+    private MetricItemAlertProperties<Integer> thread = new MetricItemAlertProperties<>();
     /**
-     * cpu使用率预警值
+     * gc指标监控配置
      */
-    private double cpuUsageThreshold = 0.95d;
-    /**
-     * 活动线程数预警值
-     */
-    private int liveThreadCountThreshold = 1000;
-
-    /**
-     * gc速度预警值（单位：次数/分钟）
-     */
-    private double gcSpeedThreshold = 6.0d;
-    /**
-     * 默认连续增长太快的次数阈值
-     */
-    private Integer keepIncreasingTooFastCount = 3;
-
-    /**
-     * gc检查间隔时间（单位：秒）
-     */
-    private long gcCheckIntervalSeconds = 10 * 60L;
-    /**
-     * cpu检查间隔时间（单位：秒）
-     */
-    private long cpuCheckIntervalSeconds = 10 * 60L;
-    /**
-     * 堆（外）内存检查间隔时间（单位：秒）
-     */
-    private long memoryCheckIntervalSeconds = 120 * 60L;
-    /**
-     * 存活线程检查间隔时间（单位：秒）
-     */
-    private long threadCheckIntervalSeconds = 30 * 60L;
+    private MetricItemAlertProperties<Double> gc = new MetricItemAlertProperties<>();
 
 }

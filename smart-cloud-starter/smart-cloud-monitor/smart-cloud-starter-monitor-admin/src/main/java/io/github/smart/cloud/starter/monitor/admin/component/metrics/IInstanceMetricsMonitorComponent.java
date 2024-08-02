@@ -27,7 +27,7 @@ import java.io.IOException;
  * @author collin
  * @date 2024-07-28
  */
-public interface IInstanceMetricsMonitorComponent {
+public interface IInstanceMetricsMonitorComponent<U> extends IMetricProperties<U> {
 
     /**
      * 获取实例监控维度

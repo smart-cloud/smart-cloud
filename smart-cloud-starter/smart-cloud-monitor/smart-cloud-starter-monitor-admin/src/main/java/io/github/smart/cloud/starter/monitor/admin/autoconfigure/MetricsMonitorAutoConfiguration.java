@@ -16,9 +16,9 @@
 package io.github.smart.cloud.starter.monitor.admin.autoconfigure;
 
 import de.codecentric.boot.admin.server.services.InstanceRegistry;
+import io.github.smart.cloud.starter.monitor.admin.component.metrics.IInstanceMetricsMonitorComponent;
+import io.github.smart.cloud.starter.monitor.admin.component.metrics.impl.*;
 import io.github.smart.cloud.starter.monitor.admin.schedule.MetricsMonitorSchedule;
-import io.github.smart.cloud.starter.monitor.admin.component.metrics.*;
-import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,9 +66,9 @@ public class MetricsMonitorAutoConfiguration {
 
     @Bean
     @RefreshScope
-    public MetricsMonitorSchedule metricsMonitorSchedule(final MonitorProperties monitorProperties, final InstanceRegistry instanceRegistry,
-                                                          final List<IInstanceMetricsMonitorComponent> instanceMetricsMonitorComponents) {
-        return new MetricsMonitorSchedule(monitorProperties, instanceRegistry, instanceMetricsMonitorComponents);
+    public MetricsMonitorSchedule metricsMonitorSchedule(final InstanceRegistry instanceRegistry,
+                                                         final List<IInstanceMetricsMonitorComponent> instanceMetricsMonitorComponents) {
+        return new MetricsMonitorSchedule(instanceRegistry, instanceMetricsMonitorComponents);
     }
 
 }

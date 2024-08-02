@@ -21,7 +21,6 @@ import de.codecentric.boot.admin.server.services.InstanceRegistry;
 import de.codecentric.boot.admin.server.web.ApplicationsController;
 import de.codecentric.boot.admin.server.web.servlet.InstancesProxyController;
 import io.github.smart.cloud.starter.monitor.admin.component.metrics.IInstanceMetricsMonitorComponent;
-import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.micrometer.core.instrument.util.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,7 +59,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class MetricsMonitorSchedule implements InitializingBean, ApplicationListener<RefreshScopeRefreshedEvent>, DisposableBean {
 
-    private final MonitorProperties monitorProperties;
     private final InstanceRegistry instanceRegistry;
     private final List<IInstanceMetricsMonitorComponent> instanceMetricsMonitorComponents;
     private static final String ENDPOINT_METRICS = "metrics";
@@ -91,7 +89,8 @@ public class MetricsMonitorSchedule implements InitializingBean, ApplicationList
         Instant now = Instant.now();
         for (Instance instance : instances) {
             // 稳定阈值
-            if (instance.getStatusTimestamp().plus(Duration.ofHours(monitorProperties.getMetric().getPreHeatHour())).isAfter(now)) {
+            Integer preHeatHour = instanceMetricsMonitorComponent.getPreHeatHour(instance.getRegistration().getName());
+            if (instance.getStatusTimestamp().plus(Duration.ofHours(preHeatHour)).isAfter(now)) {
                 continue;
             }
 

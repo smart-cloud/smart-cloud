@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.admin.component.metrics;
+package io.github.smart.cloud.starter.monitor.admin.component.metrics.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.codecentric.boot.admin.server.domain.entities.Instance;
+import io.github.smart.cloud.starter.monitor.admin.component.metrics.IInstanceMetricsMonitorComponent;
 import io.github.smart.cloud.starter.monitor.admin.dto.MetricCheckResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.enums.MetricCheckStatus;
 import io.github.smart.cloud.starter.monitor.admin.event.MetricAlertEvent;
-import io.github.smart.cloud.starter.monitor.admin.properties.MetricAlertProperties;
 import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.utility.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @date 2024-07-28
  */
 @Slf4j
-public abstract class AbstractInstanceMetricsMonitorComponent<T extends Number> implements IInstanceMetricsMonitorComponent, ApplicationContextAware, InitializingBean {
+public abstract class AbstractInstanceMetricsMonitorComponent<T extends Number, U> implements IInstanceMetricsMonitorComponent<U>, ApplicationContextAware, InitializingBean {
 
     private ApplicationContext applicationContext;
     protected ObjectMapper objectMapper;
@@ -65,9 +65,8 @@ public abstract class AbstractInstanceMetricsMonitorComponent<T extends Number> 
 
     @Override
     public void truncateHistory() {
-        MetricAlertProperties metric = monitorProperties.getMetric();
-        Integer keepIncreasingCountThreshold = Math.max(metric.getKeepIncreasingCount(), metric.getKeepIncreasingTooFastCount());
-        HISTORY_DATA.values().forEach(data -> {
+        HISTORY_DATA.forEach((serviceName, data) -> {
+            Integer keepIncreasingCountThreshold = getKeepIncreasingCount(serviceName);
             int needRemoveCount = data.size() - keepIncreasingCountThreshold;
             if (needRemoveCount > 0) {
                 for (int i = 0; i < needRemoveCount; i++) {
@@ -99,18 +98,18 @@ public abstract class AbstractInstanceMetricsMonitorComponent<T extends Number> 
         return HttpUtil.get(url, null, null);
     }
 
-    protected boolean matchKeepIncreasing(String instanceId, T metricValue) {
+    protected boolean matchKeepIncreasing(String serviceName, String instanceId, T metricValue) {
         List<T> instanceData = HISTORY_DATA.computeIfAbsent(instanceId, (key) -> new CopyOnWriteArrayList<>());
         instanceData.add(metricValue);
         int historyCount = instanceData.size();
-        MetricAlertProperties metricAlertProperties = monitorProperties.getMetric();
-        if (historyCount < metricAlertProperties.getKeepIncreasingCount()) {
+        Integer keepIncreasingCount = getKeepIncreasingCount(serviceName);
+        if (historyCount < keepIncreasingCount) {
             return false;
         }
 
         // 后面的大于前面的值
         T lastValue = instanceData.get(historyCount - 1);
-        for (int i = 1; i < metricAlertProperties.getKeepIncreasingCount(); i++) {
+        for (int i = 1; i < keepIncreasingCount; i++) {
             T currentValue = instanceData.get(historyCount - 1 - i);
             if (lastValue.doubleValue() < currentValue.doubleValue()) {
                 return false;

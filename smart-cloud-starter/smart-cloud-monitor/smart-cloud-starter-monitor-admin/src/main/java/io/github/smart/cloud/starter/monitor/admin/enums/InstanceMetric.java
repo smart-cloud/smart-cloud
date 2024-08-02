@@ -32,24 +32,28 @@ public enum InstanceMetric {
     /**
      * cpu
      */
-    CPU("process.cpu.usage", "cpu使用率"),
+    CPU("cpu", "process.cpu.usage", "cpu使用率"),
     /**
      * gc信息
      */
-    GC_INFO("jvm.gc.pause", "gc信息"),
+    GC_INFO("gc", "jvm.gc.pause", "gc信息"),
     /**
      * 活动线程数
      */
-    LIVE_THREAD_COUNT("jvm.threads.live", "活动线程数"),
+    LIVE_THREAD_COUNT("thread", "jvm.threads.live", "活动线程数"),
     /**
      * 堆内存
      */
-    HEAP("jvm.memory.used?tag=area:heap", "堆内存"),
+    HEAP("heap", "jvm.memory.used?tag=area:heap", "堆内存"),
     /**
      * 堆外内存
      */
-    NON_HEAP("jvm.memory.used?tag=area:nonheap", "堆外内存");
+    NON_HEAP("non_heap", "jvm.memory.used?tag=area:nonheap", "堆外内存");
 
+    /**
+     * 指标名称
+     */
+    private String name;
     /**
      * metrics接口请求参数
      */

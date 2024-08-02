@@ -18,6 +18,9 @@ package io.github.smart.cloud.starter.monitor.admin.properties;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.unit.DataSize;
+import org.springframework.util.unit.DataUnit;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -33,7 +36,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-public class MonitorProperties {
+public class MonitorProperties implements InitializingBean {
 
     /**
      * 服务启动时过滤消息时间间隔（单位：毫秒）
@@ -71,9 +74,112 @@ public class MonitorProperties {
      * 不监听的一直离线服务
      */
     private Set<String> excludeOfflineCheckServices = new HashSet<>();
+
     /**
-     * 指标监控阈值
+     * 服务内存指标检查间隔时间（单位：秒）
+     */
+    private Long memoryCheckIntervalSeconds = 30 * 60L;
+    /**
+     * 服务cpu指标检查间隔时间（单位：秒）
+     */
+    private Long cpuCheckIntervalSeconds = 10 * 60L;
+    /**
+     * 服务线程指标检查间隔时间（单位：秒）
+     */
+    private Long threadCheckIntervalSeconds = 20 * 60L;
+    /**
+     * 服务gc指标检查间隔时间（单位：秒）
+     */
+    private Long gcCheckIntervalSeconds = 10 * 60L;
+    /**
+     * 默认指标监控阈值
      */
     private MetricAlertProperties metric = new MetricAlertProperties();
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        settingDefaultHeap();
+        settingDefaultNonHeap();
+        settingDefaultCpu();
+        settingDefaultThread();
+        settingDefaultGc();
+    }
+
+    private void settingDefaultHeap() {
+        MetricItemAlertProperties<DataSize> heap = metric.getHeap();
+        if (heap.getPreHeatHour() == null) {
+            heap.setPreHeatHour(4);
+        }
+        if (heap.getKeepIncreasingCount() == null) {
+            heap.setKeepIncreasingCount(5);
+        }
+        if (heap.getKeepIncreasingSpeedThreshold() == null) {
+            heap.setKeepIncreasingSpeedThreshold(DataSize.of(10, DataUnit.MEGABYTES));
+        }
+        if (heap.getThreshold() == null) {
+            heap.setThreshold(DataSize.of(3, DataUnit.GIGABYTES));
+        }
+    }
+
+    private void settingDefaultNonHeap() {
+        MetricItemAlertProperties<DataSize> nonHeap = metric.getNonHeap();
+        if (nonHeap.getPreHeatHour() == null) {
+            nonHeap.setPreHeatHour(4);
+        }
+        if (nonHeap.getKeepIncreasingCount() == null) {
+            nonHeap.setKeepIncreasingCount(5);
+        }
+        if (nonHeap.getKeepIncreasingSpeedThreshold() == null) {
+            nonHeap.setKeepIncreasingSpeedThreshold(DataSize.of(5, DataUnit.MEGABYTES));
+        }
+        if (nonHeap.getThreshold() == null) {
+            nonHeap.setThreshold(DataSize.of(2, DataUnit.GIGABYTES));
+        }
+    }
+
+    private void settingDefaultCpu() {
+        MetricItemAlertProperties<Double> cpu = metric.getCpu();
+        if (cpu.getPreHeatHour() == null) {
+            cpu.setPreHeatHour(2);
+        }
+        if (cpu.getKeepIncreasingCount() == null) {
+            cpu.setKeepIncreasingCount(5);
+        }
+        if (cpu.getKeepIncreasingSpeedThreshold() == null) {
+            cpu.setKeepIncreasingSpeedThreshold(0.50d);
+        }
+        if (cpu.getThreshold() == null) {
+            cpu.setThreshold(0.90d);
+        }
+    }
+
+    private void settingDefaultThread() {
+        MetricItemAlertProperties<Integer> thread = metric.getThread();
+        if (thread.getPreHeatHour() == null) {
+            thread.setPreHeatHour(2);
+        }
+        if (thread.getKeepIncreasingCount() == null) {
+            thread.setKeepIncreasingCount(3);
+        }
+        if (thread.getKeepIncreasingSpeedThreshold() == null) {
+            thread.setKeepIncreasingSpeedThreshold(1);
+        }
+        if (thread.getThreshold() == null) {
+            thread.setThreshold(1000);
+        }
+    }
+
+    private void settingDefaultGc() {
+        MetricItemAlertProperties<Double> gc = metric.getGc();
+        if (gc.getPreHeatHour() == null) {
+            gc.setPreHeatHour(2);
+        }
+        if (gc.getKeepIncreasingCount() == null) {
+            gc.setKeepIncreasingCount(3);
+        }
+        if (gc.getKeepIncreasingSpeedThreshold() == null) {
+            gc.setKeepIncreasingSpeedThreshold(6.0);
+        }
+    }
 
 }

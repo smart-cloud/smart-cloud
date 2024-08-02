@@ -2,7 +2,7 @@ server:
   port: 40014
 spring:
   application:
-    name: monitor-admin-metrics-fail
+    name: monitorAdminMetricsFail
   security:
     user:
       name: admin
@@ -20,19 +20,38 @@ smart:
     filterEventTs: 0
     checkOfflineTs: 5000
     checkServiceNodeCountTs: 5000
-    metric:
-      preHeatHour: 0
-      heapThreshold: 1MB
-      nonHeapThreshold: 1MB
-      keepIncreasingCount: 1
-      cpuUsageThreshold: 0.001
-      liveThreadCountThreshold: 1
-      gcSpeedThreshold: 0
-      keepIncreasingTooFastCount: 1
-      gcCheckIntervalSeconds: 5
-      cpuCheckIntervalSeconds: 5
-      memoryCheckIntervalSeconds: 5
-      threadCheckIntervalSeconds: 5
+    memoryCheckIntervalSeconds: 5
+    cpuCheckIntervalSeconds: 5
+    threadCheckIntervalSeconds: 5
+    gcCheckIntervalSeconds: 5
+    serviceInfos:
+      monitorAdminMetricsFail:
+        metric:
+          heap:
+            preHeatHour: 0
+            keepIncreasingCount: 1
+            keepIncreasingSpeedThreshold: 1MB
+            threshold: 1MB
+          nonHeap:
+            preHeatHour: 0
+            keepIncreasingCount: 1
+            keepIncreasingSpeedThreshold: 1MB
+            threshold: 1MB
+          cpu:
+            preHeatHour: 0
+            keepIncreasingCount: 1
+            keepIncreasingSpeedThreshold: 0.0001
+            threshold: 0.0001
+          thread:
+            preHeatHour: 0
+            keepIncreasingCount: 1
+            keepIncreasingSpeedThreshold: 1
+            threshold: 1
+          gc:
+            preHeatHour: 0
+            keepIncreasingCount: 1
+            keepIncreasingSpeedThreshold: 0
+            threshold: 1
 management:
   health:
     diskspace:

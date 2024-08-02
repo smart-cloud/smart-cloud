@@ -19,46 +19,32 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 /**
- * 服务配置
+ * 服务指标监控属性配置
  *
  * @author collin
- * @date 2023-01-16
+ * @date 2024-08-03
  */
 @Getter
 @Setter
 @ToString
-public class ServiceInfoProperties implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class MetricItemAlertProperties<T> {
 
     /**
-     * gitlab工程ID
+     * 预热期（单位：小时）
      */
-    private Long id;
+    private Integer preHeatHour;
     /**
-     * 企业微信提醒人（账号）
+     * 连续增长的次数阈值
      */
-    private Set<String> reminders = new LinkedHashSet<>();
+    private Integer keepIncreasingCount;
     /**
-     * 提醒的tag最小时间间隔
+     * 连续新增预警阈值
      */
-    private long remindTagMinDiffTs = 3600 * 1000L;
+    private T keepIncreasingSpeedThreshold;
     /**
-     * 机器人key
+     * 预警值
      */
-    private String robotKey;
-    /**
-     * 服务实例节点数
-     */
-    private Integer nodeCount;
-    /**
-     * 指标监控阈值
-     */
-    private MetricAlertProperties metric = new MetricAlertProperties();
+    private T threshold;
 
 }

@@ -13,37 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.monitor.admin.component.metrics;
+package io.github.smart.cloud.starter.monitor.admin.component.metrics.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import de.codecentric.boot.admin.server.domain.entities.Instance;
 import io.github.smart.cloud.starter.monitor.admin.dto.MetricCheckResultDTO;
-import io.github.smart.cloud.starter.monitor.admin.enums.InstanceMetric;
 import io.github.smart.cloud.starter.monitor.admin.enums.MetricCheckStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
+import org.springframework.util.unit.DataSize;
 
 import java.io.IOException;
 
 /**
- * 服务gc指标监控
+ * 服务使用内存指标监控父类
  *
  * @author collin
  * @date 2024-07-28
  */
 @Slf4j
-public class GcSpeedMonitorComponent extends AbstractInstanceSpeedMetricsMonitorComponent<Long> {
-
-    @Override
-    public InstanceMetric getInstanceMetric() {
-        return InstanceMetric.GC_INFO;
-    }
+public abstract class AbstractJvmMemoryUsedMonitorComponent extends AbstractInstanceMetricsMonitorComponent<Long, DataSize> {
 
     @Override
     public MetricCheckResultDTO check(Instance instance) throws IOException {
         String response = sendGetRequest(instance);
-        if (!StringUtils.hasText(response)) {
+        if (response == null || !StringUtils.hasText(response)) {
             return MetricCheckResultDTO.ok();
         }
 
@@ -57,33 +52,30 @@ public class GcSpeedMonitorComponent extends AbstractInstanceSpeedMetricsMonitor
                 return MetricCheckResultDTO.ok();
             }
 
-            JsonNode valueNode = getValueNode(measurementsNodes, "COUNT");
+            JsonNode valueNode = getValueNode(measurementsNodes, "VALUE");
             if (valueNode == null) {
                 return MetricCheckResultDTO.ok();
             }
 
-            String name = instance.getRegistration().getName();
-            long currentGcCount = valueNode.asLong();
-            // gc速度太快
-            if (matchIncreaseTooFast(name, currentGcCount)) {
-                String alertDesc = String.format("gc速度超过预警值[%.2f次/分钟]", getSpeed());
-                return MetricCheckResultDTO.error(MetricCheckStatus.GC_SPEED_TOO_FAST, alertDesc);
+            DataSize currentSize = DataSize.ofBytes(valueNode.asLong());
+            String serviceName = instance.getRegistration().getName();
+            DataSize threshold = getThreshold(serviceName);
+            // 触发阈值
+            if (currentSize.compareTo(threshold) >= 0) {
+                String alertDesc = String.format("当前值[%dMB]超过预警值[%dMB]", currentSize.toMegabytes(), threshold.toMegabytes());
+                return MetricCheckResultDTO.error(MetricCheckStatus.THRESHOLD_EXCEPTION, alertDesc);
+            }
+
+            // 连续新增
+            if (matchKeepIncreasing(serviceName, instance.getId().toString(), valueNode.asLong())) {
+                String alertDesc = String.format("内存连续新增超过预警值[%d次]，当前内值[%dMB]，有内存泄漏倾向", getKeepIncreasingCount(serviceName), currentSize.toMegabytes());
+                return MetricCheckResultDTO.error(MetricCheckStatus.KEEP_INCREASING_EXCEPTION, alertDesc);
             }
         } catch (JsonProcessingException e) {
             log.error("parse json error|response={}", response, e);
         }
 
         return MetricCheckResultDTO.ok();
-    }
-
-    @Override
-    protected double getSpeed() {
-        return monitorProperties.getMetric().getGcSpeedThreshold();
-    }
-
-    @Override
-    public long getCheckIntervalSeconds() {
-        return monitorProperties.getMetric().getGcCheckIntervalSeconds();
     }
 
 }
