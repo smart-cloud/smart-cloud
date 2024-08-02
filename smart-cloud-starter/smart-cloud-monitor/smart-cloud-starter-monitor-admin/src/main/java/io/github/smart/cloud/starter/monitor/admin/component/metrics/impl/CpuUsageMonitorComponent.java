@@ -87,6 +87,11 @@ public class CpuUsageMonitorComponent extends AbstractInstanceMetricsMonitorComp
     }
 
     @Override
+    protected double getDiffThreshold(String serviceName) {
+        return getKeepIncreasingSpeedThreshold(serviceName) * getCheckIntervalSeconds() / 60;
+    }
+
+    @Override
     public long getCheckIntervalSeconds() {
         return monitorProperties.getCpuCheckIntervalSeconds();
     }

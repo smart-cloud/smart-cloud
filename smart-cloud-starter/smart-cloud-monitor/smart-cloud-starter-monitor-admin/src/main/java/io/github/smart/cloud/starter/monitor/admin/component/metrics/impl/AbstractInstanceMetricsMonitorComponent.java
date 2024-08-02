@@ -109,15 +109,26 @@ public abstract class AbstractInstanceMetricsMonitorComponent<T extends Number, 
 
         // 后面的大于前面的值
         T lastValue = instanceData.get(historyCount - 1);
+        double diffThreshold = getDiffThreshold(serviceName);
         for (int i = 1; i < keepIncreasingCount; i++) {
             T currentValue = instanceData.get(historyCount - 1 - i);
-            if (lastValue.doubleValue() < currentValue.doubleValue()) {
+            double diff = lastValue.doubleValue() - currentValue.doubleValue();
+            // 超过阈值
+            if (diff < diffThreshold) {
                 return false;
             }
             lastValue = currentValue;
         }
         return true;
     }
+
+    /**
+     * 获取差值阈值
+     *
+     * @param serviceName
+     * @return
+     */
+    protected abstract double getDiffThreshold(String serviceName);
 
     protected JsonNode getValueNode(JsonNode measurementsNodes, String statisticName) {
         for (int i = 0; i < measurementsNodes.size(); i++) {

@@ -98,18 +98,24 @@ public class GcSpeedMonitorComponent extends AbstractInstanceMetricsMonitorCompo
         }
 
         Long lastValue = instanceData.get(historyCount - 1);
-        Long checkIntervalSeconds = getCheckIntervalSeconds();
+        Double diffThreshold = getDiffThreshold(serviceName);
         for (int i = 1; i < keepIncreasingCount; i++) {
             Long currentValue = instanceData.get(historyCount - 1 - i);
             double diff = lastValue.doubleValue() - currentValue.doubleValue();
             if (diff <= 0) {
                 return false;
-            } else if (diff < getKeepIncreasingSpeedThreshold(serviceName) * (checkIntervalSeconds / 60)) {
+            } else if (diff < diffThreshold) {
                 return false;
             }
             lastValue = currentValue;
         }
+        
         return true;
+    }
+
+    @Override
+    protected double getDiffThreshold(String serviceName) {
+        return getKeepIncreasingSpeedThreshold(serviceName) * getCheckIntervalSeconds() / 60;
     }
 
     @Override

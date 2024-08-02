@@ -78,4 +78,9 @@ public abstract class AbstractJvmMemoryUsedMonitorComponent extends AbstractInst
         return MetricCheckResultDTO.ok();
     }
 
+    @Override
+    protected double getDiffThreshold(String serviceName) {
+        return getKeepIncreasingSpeedThreshold(serviceName).toBytes() * getCheckIntervalSeconds() / 60;
+    }
+
 }

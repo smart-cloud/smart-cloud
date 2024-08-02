@@ -142,4 +142,9 @@ public class LiveThreadCountMonitorComponent extends AbstractInstanceMetricsMoni
         return monitorProperties.getMetric().getThread().getThreshold();
     }
 
+    @Override
+    protected double getDiffThreshold(String serviceName) {
+        return getKeepIncreasingSpeedThreshold(serviceName) * getCheckIntervalSeconds() / 60;
+    }
+
 }
