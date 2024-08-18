@@ -29,10 +29,13 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cloud.context.scope.refresh.RefreshScopeRefreshedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.util.CollectionUtils;
+import sun.security.provider.certpath.SunCertPathBuilderException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.cert.CertPathValidatorException;
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.LongAdder;
@@ -172,17 +175,23 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
     public void afterPropertiesSet() {
         needAlertExceptionClassNames = apiMonitorProperties.getNeedAlertExceptionClassNames();
         if (CollectionUtils.isEmpty(needAlertExceptionClassNames)) {
-            Set<String> defaultNeedAlertExceptionClassNames = new HashSet<>(8);
+            Set<String> defaultNeedAlertExceptionClassNames = new HashSet<>(32);
             defaultNeedAlertExceptionClassNames.add(SQLException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(SQLTimeoutException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(NumberFormatException.class.getSimpleName());
             defaultNeedAlertExceptionClassNames.add(ConcurrentModificationException.class.getSimpleName());
             defaultNeedAlertExceptionClassNames.add(NullPointerException.class.getSimpleName());
             defaultNeedAlertExceptionClassNames.add(IndexOutOfBoundsException.class.getSimpleName());
             defaultNeedAlertExceptionClassNames.add(ArrayIndexOutOfBoundsException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(StringIndexOutOfBoundsException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(ArrayStoreException.class.getSimpleName());
             defaultNeedAlertExceptionClassNames.add(ClassCastException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(ClassNotFoundException.class.getSimpleName());
             defaultNeedAlertExceptionClassNames.add(StackOverflowError.class.getSimpleName());
             defaultNeedAlertExceptionClassNames.add(OutOfMemoryError.class.getSimpleName());
             defaultNeedAlertExceptionClassNames.add(IllegalMonitorStateException.class.getSimpleName());
-            defaultNeedAlertExceptionClassNames.add(StringIndexOutOfBoundsException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(CertPathValidatorException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(SunCertPathBuilderException.class.getSimpleName());
 
             needAlertExceptionClassNames = defaultNeedAlertExceptionClassNames;
         }
