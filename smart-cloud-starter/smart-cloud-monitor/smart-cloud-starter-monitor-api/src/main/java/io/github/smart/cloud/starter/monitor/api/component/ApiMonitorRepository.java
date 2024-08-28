@@ -192,6 +192,7 @@ public class ApiMonitorRepository implements InitializingBean, DisposableBean, A
             defaultNeedAlertExceptionClassNames.add(IllegalMonitorStateException.class.getSimpleName());
             defaultNeedAlertExceptionClassNames.add(CertPathValidatorException.class.getSimpleName());
             defaultNeedAlertExceptionClassNames.add(SunCertPathBuilderException.class.getSimpleName());
+            defaultNeedAlertExceptionClassNames.add(NoSuchElementException.class.getSimpleName());
 
             needAlertExceptionClassNames = defaultNeedAlertExceptionClassNames;
         }
