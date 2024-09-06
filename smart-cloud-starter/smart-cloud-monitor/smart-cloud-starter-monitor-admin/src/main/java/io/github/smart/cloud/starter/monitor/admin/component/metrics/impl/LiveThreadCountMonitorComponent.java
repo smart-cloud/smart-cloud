@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.monitor.admin.component.metrics.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import de.codecentric.boot.admin.server.domain.entities.Instance;
+import io.github.smart.cloud.starter.monitor.admin.dto.MatchIncreaseResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.dto.MetricCheckResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.enums.InstanceMetric;
 import io.github.smart.cloud.starter.monitor.admin.enums.MetricCheckStatus;
@@ -74,8 +75,11 @@ public class LiveThreadCountMonitorComponent extends AbstractInstanceMetricsMoni
             }
 
             // 连续新增
-            if (matchKeepIncreasing(name, instance.getId().toString(), currentLiveThreadCount)) {
-                String alertDesc = String.format("活动线程数连续新增超过预警值[%d次]，当前线程数[%f]", getKeepIncreasingCount(name), currentLiveThreadCount);
+            MatchIncreaseResultDTO matchIncreaseResult = matchKeepIncreasing(name, instance.getId().toString(),
+                    currentLiveThreadCount);
+            if (matchIncreaseResult.isMatch()) {
+                String alertDesc = String.format("活动线程数连续新增超过预警值[%f][%d次]，当前线程数[%f]", getDiffThreshold(name),
+                        getKeepIncreasingCount(name), currentLiveThreadCount);
                 return MetricCheckResultDTO.error(MetricCheckStatus.KEEP_INCREASING_EXCEPTION, alertDesc);
             }
         } catch (JsonProcessingException e) {

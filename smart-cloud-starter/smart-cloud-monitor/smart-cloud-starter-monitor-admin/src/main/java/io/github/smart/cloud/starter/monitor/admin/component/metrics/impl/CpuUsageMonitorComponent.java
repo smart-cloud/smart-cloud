@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.monitor.admin.component.metrics.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import de.codecentric.boot.admin.server.domain.entities.Instance;
+import io.github.smart.cloud.starter.monitor.admin.dto.MatchIncreaseResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.dto.MetricCheckResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.enums.InstanceMetric;
 import io.github.smart.cloud.starter.monitor.admin.enums.MetricCheckStatus;
@@ -75,8 +76,10 @@ public class CpuUsageMonitorComponent extends AbstractInstanceMetricsMonitorComp
             }
 
             // 连续新增
-            if (matchKeepIncreasing(name, instance.getId().toString(), currentCpuUsage)) {
-                String alertDesc = String.format("cpu使用率连续新增超过预警值[%d次]，当前使用率[%.4f]", getKeepIncreasingCount(name), currentCpuUsage);
+            MatchIncreaseResultDTO matchIncreaseResult = matchKeepIncreasing(name, instance.getId().toString(), currentCpuUsage);
+            if (matchIncreaseResult.isMatch()) {
+                String alertDesc = String.format("cpu使用率连续新增超过预警值[%.4f][%d次]，当前使用率[%.4f]", getDiffThreshold(name),
+                        getKeepIncreasingCount(name), currentCpuUsage);
                 return MetricCheckResultDTO.error(MetricCheckStatus.KEEP_INCREASING_EXCEPTION, alertDesc);
             }
         } catch (JsonProcessingException e) {
@@ -88,7 +91,7 @@ public class CpuUsageMonitorComponent extends AbstractInstanceMetricsMonitorComp
 
     @Override
     protected double getDiffThreshold(String serviceName) {
-        return getKeepIncreasingSpeedThreshold(serviceName) * getCheckIntervalSeconds() / 60;
+        return getKeepIncreasingSpeedThreshold(serviceName) * getCheckIntervalSeconds() / 60.0D;
     }
 
     @Override

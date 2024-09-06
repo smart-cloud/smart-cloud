@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.codecentric.boot.admin.server.domain.entities.Instance;
 import io.github.smart.cloud.starter.monitor.admin.component.metrics.IInstanceMetricsMonitorComponent;
+import io.github.smart.cloud.starter.monitor.admin.dto.MatchIncreaseResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.dto.MetricCheckResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.enums.MetricCheckStatus;
 import io.github.smart.cloud.starter.monitor.admin.event.MetricAlertEvent;
@@ -98,13 +99,13 @@ public abstract class AbstractInstanceMetricsMonitorComponent<T extends Number, 
         return HttpUtil.get(url, null, null);
     }
 
-    protected boolean matchKeepIncreasing(String serviceName, String instanceId, T metricValue) {
+    protected MatchIncreaseResultDTO matchKeepIncreasing(String serviceName, String instanceId, T metricValue) {
         List<T> instanceData = HISTORY_DATA.computeIfAbsent(instanceId, (key) -> new CopyOnWriteArrayList<>());
         instanceData.add(metricValue);
         int historyCount = instanceData.size();
         Integer keepIncreasingCount = getKeepIncreasingCount(serviceName);
         if (historyCount < keepIncreasingCount) {
-            return false;
+            return MatchIncreaseResultDTO.normal();
         }
 
         // 后面的大于前面的值
@@ -115,11 +116,13 @@ public abstract class AbstractInstanceMetricsMonitorComponent<T extends Number, 
             double diff = lastValue.doubleValue() - currentValue.doubleValue();
             // 超过阈值
             if (diff < diffThreshold) {
-                return false;
+                return MatchIncreaseResultDTO.normal();
             }
             lastValue = currentValue;
         }
-        return true;
+        double speed = (instanceData.get(historyCount - 1).doubleValue() - instanceData.get(historyCount - 2).doubleValue())*60.0D / getCheckIntervalSeconds();
+
+        return MatchIncreaseResultDTO.match(speed);
     }
 
     /**

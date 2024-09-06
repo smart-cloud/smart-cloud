@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.monitor.admin.component.metrics.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import de.codecentric.boot.admin.server.domain.entities.Instance;
+import io.github.smart.cloud.starter.monitor.admin.dto.MatchIncreaseResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.dto.MetricCheckResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.enums.InstanceMetric;
 import io.github.smart.cloud.starter.monitor.admin.enums.MetricCheckStatus;
@@ -70,8 +71,11 @@ public class GcSpeedMonitorComponent extends AbstractInstanceMetricsMonitorCompo
             String name = instance.getRegistration().getName();
             long currentGcCount = valueNode.asLong();
             // gc速度太快
-            if (matchIncreaseTooFast(name, instance.getId().toString(), currentGcCount)) {
-                String alertDesc = String.format("gc速度超过预警值[%.2f次/分钟]", getKeepIncreasingSpeedThreshold(name));
+            MatchIncreaseResultDTO matchIncreaseResult = matchIncreaseTooFast(name, instance.getId().toString(),
+                    currentGcCount);
+            if (matchIncreaseResult.isMatch()) {
+                String alertDesc = String.format("gc速度[%.2f次/分钟]超过预警值[%.2f次/分钟]",
+                        matchIncreaseResult.getIncreaseValue(), getKeepIncreasingSpeedThreshold(name));
                 return MetricCheckResultDTO.error(MetricCheckStatus.GC_SPEED_TOO_FAST, alertDesc);
             }
         } catch (JsonProcessingException e) {
@@ -88,13 +92,13 @@ public class GcSpeedMonitorComponent extends AbstractInstanceMetricsMonitorCompo
      * @param metricValue
      * @return true：太快；false：正常
      */
-    private boolean matchIncreaseTooFast(String serviceName, String instanceId, Long metricValue) {
+    private MatchIncreaseResultDTO matchIncreaseTooFast(String serviceName, String instanceId, Long metricValue) {
         List<Long> instanceData = HISTORY_DATA.computeIfAbsent(instanceId, (key) -> new CopyOnWriteArrayList<>());
         instanceData.add(metricValue);
         int historyCount = instanceData.size();
         Integer keepIncreasingCount = getKeepIncreasingCount(serviceName);
         if (historyCount < keepIncreasingCount) {
-            return false;
+            return MatchIncreaseResultDTO.normal();
         }
 
         Long lastValue = instanceData.get(historyCount - 1);
@@ -102,20 +106,19 @@ public class GcSpeedMonitorComponent extends AbstractInstanceMetricsMonitorCompo
         for (int i = 1; i < keepIncreasingCount; i++) {
             Long currentValue = instanceData.get(historyCount - 1 - i);
             double diff = lastValue.doubleValue() - currentValue.doubleValue();
-            if (diff <= 0) {
-                return false;
-            } else if (diff < diffThreshold) {
-                return false;
+            if (diff < diffThreshold) {
+                return MatchIncreaseResultDTO.normal();
             }
             lastValue = currentValue;
         }
-        
-        return true;
+        double speed = (instanceData.get(historyCount - 1) - instanceData.get(historyCount - 2)) * 60.0D / getCheckIntervalSeconds();
+
+        return MatchIncreaseResultDTO.match(speed);
     }
 
     @Override
     protected double getDiffThreshold(String serviceName) {
-        return getKeepIncreasingSpeedThreshold(serviceName) * getCheckIntervalSeconds() / 60;
+        return getKeepIncreasingSpeedThreshold(serviceName) * getCheckIntervalSeconds() / 60.0D;
     }
 
     @Override

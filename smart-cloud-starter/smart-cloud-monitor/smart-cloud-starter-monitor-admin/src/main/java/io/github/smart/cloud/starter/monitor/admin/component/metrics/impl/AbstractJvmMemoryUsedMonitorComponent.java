@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.monitor.admin.component.metrics.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import de.codecentric.boot.admin.server.domain.entities.Instance;
+import io.github.smart.cloud.starter.monitor.admin.dto.MatchIncreaseResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.dto.MetricCheckResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.enums.MetricCheckStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -67,8 +68,10 @@ public abstract class AbstractJvmMemoryUsedMonitorComponent extends AbstractInst
             }
 
             // 连续新增
-            if (matchKeepIncreasing(serviceName, instance.getId().toString(), valueNode.asLong())) {
-                String alertDesc = String.format("内存连续新增超过预警值[%d次]，当前内值[%dMB]，有内存泄漏倾向", getKeepIncreasingCount(serviceName), currentSize.toMegabytes());
+            MatchIncreaseResultDTO matchIncreaseResult = matchKeepIncreasing(serviceName, instance.getId().toString(), valueNode.asLong());
+            if (matchIncreaseResult.isMatch()) {
+                String alertDesc = String.format("内存连续新增超过预警值[%dMB][%d次]，当前内值[%dMB]，有内存泄漏倾向",
+                        getKeepIncreasingCount(serviceName), currentSize.toMegabytes());
                 return MetricCheckResultDTO.error(MetricCheckStatus.KEEP_INCREASING_EXCEPTION, alertDesc);
             }
         } catch (JsonProcessingException e) {
