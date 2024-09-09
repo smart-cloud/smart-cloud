@@ -73,7 +73,7 @@ public class GcSpeedMonitorComponent extends AbstractInstanceMetricsMonitorCompo
             // gc速度太快
             MatchIncreaseResultDTO matchIncreaseResult = matchIncreaseTooFast(name, instance.getId().toString(),
                     currentGcCount);
-            if (matchIncreaseResult.isMatch()) {
+            if (matchIncreaseResult.getMatch()) {
                 String alertDesc = String.format("gc速度[%.2f次/分钟]超过预警值[%.2f次/分钟]",
                         matchIncreaseResult.getIncreaseValue(), getKeepIncreasingSpeedThreshold(name));
                 return MetricCheckResultDTO.error(MetricCheckStatus.GC_SPEED_TOO_FAST, alertDesc);

@@ -33,7 +33,7 @@ public class MatchIncreaseResultDTO {
     /**
      * 是否通过
      */
-    private boolean match;
+    private Boolean match;
     /**
      * 单位新增值
      */

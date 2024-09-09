@@ -77,7 +77,7 @@ public class CpuUsageMonitorComponent extends AbstractInstanceMetricsMonitorComp
 
             // 连续新增
             MatchIncreaseResultDTO matchIncreaseResult = matchKeepIncreasing(name, instance.getId().toString(), currentCpuUsage);
-            if (matchIncreaseResult.isMatch()) {
+            if (matchIncreaseResult.getMatch()) {
                 String alertDesc = String.format("cpu使用率连续新增超过预警值[%.4f][%d次]，当前使用率[%.4f]", getDiffThreshold(name),
                         getKeepIncreasingCount(name), currentCpuUsage);
                 return MetricCheckResultDTO.error(MetricCheckStatus.KEEP_INCREASING_EXCEPTION, alertDesc);
