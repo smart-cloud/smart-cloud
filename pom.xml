@@ -85,7 +85,7 @@
         <dynamic-datasource>3.5.1</dynamic-datasource>
         <shardingsphere-jdbc>5.1.0</shardingsphere-jdbc>
         <seata>1.4.2</seata>
-        <podam>8.0.2.RELEASE</podam>
+        <podam>7.2.11.RELEASE</podam>
         <guava>31.1-jre</guava>
         <reflections>0.10.2</reflections>
         <jasypt>3.0.4</jasypt>
