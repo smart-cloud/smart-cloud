@@ -76,34 +76,34 @@
         <spring.boot>2.6.15</spring.boot>
         <spring-cloud>2021.0.9</spring-cloud>
         <!--https://github.com/alibaba/spring-cloud-alibaba/wiki/版本说明-->
-        <spring-cloud-alibaba>2021.0.6.0</spring-cloud-alibaba>
+        <spring-cloud-alibaba>2021.0.6.1</spring-cloud-alibaba>
         <openfeign>3.1.2</openfeign>
         <spring.boot.admin>2.6.7</spring.boot.admin>
         <redisson>3.17.1</redisson>
+        <mysql-connector-j>9.0.0</mysql-connector-j>
         <mybatis-plus>3.5.1</mybatis-plus>
         <dynamic-datasource>3.5.1</dynamic-datasource>
         <shardingsphere-jdbc>5.1.0</shardingsphere-jdbc>
         <seata>1.4.2</seata>
-        <mysql>8.0.28</mysql>
-        <podam>7.2.9.RELEASE</podam>
+        <podam>8.0.2.RELEASE</podam>
         <guava>31.1-jre</guava>
         <reflections>0.10.2</reflections>
         <jasypt>3.0.4</jasypt>
         <commons-codec>1.15</commons-codec>
-        <commons-io>2.11.0</commons-io>
+        <commons-io>2.16.1</commons-io>
         <servlet>4.0.1</servlet>
-        <xxl-job>2.3.0</xxl-job>
+        <xxl-job>2.4.1</xxl-job>
         <commons-collections4>4.4</commons-collections4>
-        <log4j-layout-template-json>2.17.1</log4j-layout-template-json>
+        <log4j-layout-template-json>2.24.0</log4j-layout-template-json>
         <maven-pmd-plugin>3.15.0</maven-pmd-plugin>
         <p3c-pmd>2.1.1</p3c-pmd>
-        <jacoco-maven-plugin>0.8.7</jacoco-maven-plugin>
+        <jacoco-maven-plugin>0.8.12</jacoco-maven-plugin>
         <embedded-redis>0.7.3</embedded-redis>
-        <rabbitmq-mock>1.1.1</rabbitmq-mock>
+        <rabbitmq-mock>1.2.0</rabbitmq-mock>
         <embedded-elasticsearch>2.10.0</embedded-elasticsearch>
-        <logstash-logback-encoder>7.2</logstash-logback-encoder>
+        <logstash-logback-encoder>8.0</logstash-logback-encoder>
         <bcpkix-jdk15on>1.68</bcpkix-jdk15on>
-        <jsr305>3.0.2</jsr305>
+        <spotbugs-annotations>4.8.6</spotbugs-annotations>
     </properties>
 
     <dependencyManagement>
@@ -432,6 +432,12 @@
             </dependency>
 
             <dependency>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
+                <version>${mysql-connector-j}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus}</version>
@@ -453,12 +459,6 @@
                 <groupId>org.apache.shardingsphere</groupId>
                 <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
                 <version>${shardingsphere-jdbc}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql}</version>
             </dependency>
 
             <!-- mock -->
@@ -563,9 +563,9 @@
             </dependency>
 
             <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-                <version>${jsr305}</version>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-annotations</artifactId>
+                <version>${spotbugs-annotations}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -619,7 +619,8 @@
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>${maven-pmd-plugin}</version>
                 <configuration>
-                    <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+                    <inputEncoding>${project.build.sourceEncoding}</inputEncoding>
+                    <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
                     <!--扫描级别，小于等于这个级别的错误代码将不通过扫描。不配默认是5-->
                     <minimumPriority>5</minimumPriority>
                     <printFailingErrors>true</printFailingErrors>
