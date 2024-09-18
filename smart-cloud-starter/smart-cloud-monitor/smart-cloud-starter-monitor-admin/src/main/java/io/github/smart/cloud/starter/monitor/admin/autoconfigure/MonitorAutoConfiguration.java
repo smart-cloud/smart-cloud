@@ -23,6 +23,7 @@ import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.admin.schedule.OfflineCheckSchedule;
 import io.github.smart.cloud.starter.monitor.admin.schedule.ServiceNodeCountCheckSchedule;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ApplicationEventPublisher;
@@ -48,6 +49,7 @@ public class MonitorAutoConfiguration {
     @Bean
     @RefreshScope
     @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = "smart.cloud.monitor", value = "gitlab.enabled", havingValue = "true", matchIfMissing = true)
     public GitLabComponent gitLabComponent(final MonitorProperties monitorProperties) {
         return new GitLabComponent(monitorProperties);
     }

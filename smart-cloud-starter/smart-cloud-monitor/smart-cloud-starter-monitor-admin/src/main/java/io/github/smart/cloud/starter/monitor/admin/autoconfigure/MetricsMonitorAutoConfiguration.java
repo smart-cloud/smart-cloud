@@ -21,12 +21,15 @@ import io.github.smart.cloud.starter.monitor.admin.component.metrics.IInstanceMe
 import io.github.smart.cloud.starter.monitor.admin.component.metrics.impl.*;
 import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.admin.schedule.MetricsMonitorSchedule;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+
+import static io.github.smart.cloud.starter.monitor.admin.autoconfigure.MetricsMonitorAutoConfiguration.MONITOR_METRICS_PREFIX;
 
 /**
  * 服务指标监控
@@ -35,43 +38,55 @@ import java.util.List;
  * @date 2024-07-28
  */
 @Configuration
+@ConditionalOnProperty(prefix = MONITOR_METRICS_PREFIX, value = "enabled", havingValue = "true", matchIfMissing = true)
 public class MetricsMonitorAutoConfiguration {
+
+    /**
+     * 监控指标前缀
+     */
+    public static final String MONITOR_METRICS_PREFIX = "smart.cloud.monitor.metrics";
 
     @Bean
     @RefreshScope
+    @ConditionalOnProperty(prefix = MONITOR_METRICS_PREFIX, value = "cpu-usage.enabled", havingValue = "true", matchIfMissing = true)
     public CpuUsageMonitorComponent cpuUsageMonitorComponent() {
         return new CpuUsageMonitorComponent();
     }
 
     @Bean
     @RefreshScope
+    @ConditionalOnProperty(prefix = MONITOR_METRICS_PREFIX, value = "gc-speed.enabled", havingValue = "true", matchIfMissing = true)
     public GcSpeedMonitorComponent gcSpeedMonitorComponent() {
         return new GcSpeedMonitorComponent();
     }
 
     @Bean
     @RefreshScope
+    @ConditionalOnProperty(prefix = MONITOR_METRICS_PREFIX, value = "jvm-heap.enabled", havingValue = "true", matchIfMissing = true)
     public JvmMemoryHeapUsedMonitorComponent jvmMemoryHeapUsedMonitorComponent() {
         return new JvmMemoryHeapUsedMonitorComponent();
     }
 
     @Bean
     @RefreshScope
+    @ConditionalOnProperty(prefix = MONITOR_METRICS_PREFIX, value = "jvm-nonheap.enabled", havingValue = "true", matchIfMissing = true)
     public JvmMemoryNonHeapUsedMonitorComponent jvmMemoryNonHeapUsedMonitorComponent() {
         return new JvmMemoryNonHeapUsedMonitorComponent();
     }
 
     @Bean
     @RefreshScope
+    @ConditionalOnProperty(prefix = MONITOR_METRICS_PREFIX, value = "live-thread-count.enabled", havingValue = "true", matchIfMissing = true)
     public LiveThreadCountMonitorComponent liveThreadCountMonitorComponent() {
         return new LiveThreadCountMonitorComponent();
     }
 
     @Bean
     @RefreshScope
+    @ConditionalOnProperty(prefix = MONITOR_METRICS_PREFIX, value = "tomcat.enabled", havingValue = "true", matchIfMissing = true)
     public IInstanceMetricsMonitorComponent tomcatMetricMonitorComponent(final ApplicationEventPublisher applicationEventPublisher,
-                                                                           final ObjectMapper objectMapper,
-                                                                           final MonitorProperties monitorProperties) {
+                                                                         final ObjectMapper objectMapper,
+                                                                         final MonitorProperties monitorProperties) {
         return new TomcatMetricMonitorComponent(applicationEventPublisher, objectMapper, monitorProperties);
     }
 
