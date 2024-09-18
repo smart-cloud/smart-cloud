@@ -71,7 +71,7 @@ smart-cloud
    └──smart-cloud-starter-monitor -- 服务监控，接口监控
       ├──smart-cloud-monitor-common -- 监控公共代码
       ├──smart-cloud-starter-monitor-api -- 接口异常监控
-      └──smart-cloud-starter-monitor-admin -- spring boot admin监控，企业微信发通知
+      └──smart-cloud-starter-monitor-admin -- spring boot admin监控（服务状态、gc、线程数、内存、cpu、tomcat等），企业微信发通知
 ```
 
 # 三、技术栈

@@ -15,11 +15,14 @@
  */
 package io.github.smart.cloud.starter.monitor.admin.autoconfigure;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.codecentric.boot.admin.server.services.InstanceRegistry;
 import io.github.smart.cloud.starter.monitor.admin.component.metrics.IInstanceMetricsMonitorComponent;
 import io.github.smart.cloud.starter.monitor.admin.component.metrics.impl.*;
+import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
 import io.github.smart.cloud.starter.monitor.admin.schedule.MetricsMonitorSchedule;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -62,6 +65,14 @@ public class MetricsMonitorAutoConfiguration {
     @RefreshScope
     public LiveThreadCountMonitorComponent liveThreadCountMonitorComponent() {
         return new LiveThreadCountMonitorComponent();
+    }
+
+    @Bean
+    @RefreshScope
+    public IInstanceMetricsMonitorComponent tomcatMetricMonitorComponent(final ApplicationEventPublisher applicationEventPublisher,
+                                                                           final ObjectMapper objectMapper,
+                                                                           final MonitorProperties monitorProperties) {
+        return new TomcatMetricMonitorComponent(applicationEventPublisher, objectMapper, monitorProperties);
     }
 
     @Bean

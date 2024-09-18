@@ -56,4 +56,11 @@ public interface IMetricProperties<U> {
      */
     U getThreshold(String serviceName);
 
+    /**
+     * 获取检查间隔时间
+     *
+     * @return
+     */
+    long getCheckIntervalSeconds();
+
 }

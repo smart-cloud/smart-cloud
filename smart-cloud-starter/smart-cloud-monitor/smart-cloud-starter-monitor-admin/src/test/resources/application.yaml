@@ -1,5 +1,10 @@
 server:
   port: 40013
+  tomcat:
+    mbeanregistry:
+      #启用Tomcat的MBean注册表以便actuator接口获取到tomcat指标
+      enabled: true
+
 spring:
   application:
     name: monitor-admin

@@ -24,6 +24,7 @@ import io.github.smart.cloud.starter.monitor.admin.enums.InstanceMetric;
 import io.github.smart.cloud.starter.monitor.admin.enums.MetricCheckStatus;
 import io.github.smart.cloud.starter.monitor.admin.properties.MetricItemAlertProperties;
 import io.github.smart.cloud.starter.monitor.admin.properties.ServiceInfoProperties;
+import io.github.smart.cloud.starter.monitor.admin.util.ActuatorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
@@ -48,7 +49,7 @@ public class GcSpeedMonitorComponent extends AbstractInstanceMetricsMonitorCompo
 
     @Override
     public MetricCheckResultDTO check(Instance instance) throws IOException {
-        String response = sendGetRequest(instance);
+        String response = ActuatorUtil.sendGetRequest(instance, getInstanceMetric().getValue());
         if (!StringUtils.hasText(response)) {
             return MetricCheckResultDTO.ok();
         }
@@ -63,7 +64,7 @@ public class GcSpeedMonitorComponent extends AbstractInstanceMetricsMonitorCompo
                 return MetricCheckResultDTO.ok();
             }
 
-            JsonNode valueNode = getValueNode(measurementsNodes, "COUNT");
+            JsonNode valueNode = ActuatorUtil.parseValueNode(measurementsNodes, "COUNT");
             if (valueNode == null) {
                 return MetricCheckResultDTO.ok();
             }

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.unit.DataSize;
 import org.springframework.util.unit.DataUnit;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -92,6 +93,10 @@ public class MonitorProperties implements InitializingBean {
      */
     private Long gcCheckIntervalSeconds = 10 * 60L;
     /**
+     * 服务tomcat指标检查间隔时间（单位：秒）
+     */
+    private Long tomcatCheckIntervalSeconds = 5 * 60L;
+    /**
      * 默认指标监控阈值
      */
     private MetricAlertProperties metric = new MetricAlertProperties();
@@ -103,6 +108,7 @@ public class MonitorProperties implements InitializingBean {
         settingDefaultCpu();
         settingDefaultThread();
         settingDefaultGc();
+        settingDefaultTomcat();
     }
 
     private void settingDefaultHeap() {
@@ -179,6 +185,16 @@ public class MonitorProperties implements InitializingBean {
         }
         if (gc.getKeepIncreasingSpeedThreshold() == null) {
             gc.setKeepIncreasingSpeedThreshold(6.0);
+        }
+    }
+
+    private void settingDefaultTomcat() {
+        MetricItemAlertProperties<BigDecimal> gc = metric.getTomcat();
+        if (gc.getPreHeatHour() == null) {
+            gc.setPreHeatHour(1);
+        }
+        if (gc.getThreshold() == null) {
+            gc.setThreshold(BigDecimal.valueOf(0.85D));
         }
     }
 

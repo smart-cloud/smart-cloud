@@ -15,7 +15,6 @@
  */
 package io.github.smart.cloud.starter.monitor.admin.component.metrics.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.codecentric.boot.admin.server.domain.entities.Instance;
 import io.github.smart.cloud.starter.monitor.admin.component.metrics.IInstanceMetricsMonitorComponent;
@@ -24,7 +23,6 @@ import io.github.smart.cloud.starter.monitor.admin.dto.MetricCheckResultDTO;
 import io.github.smart.cloud.starter.monitor.admin.enums.MetricCheckStatus;
 import io.github.smart.cloud.starter.monitor.admin.event.MetricAlertEvent;
 import io.github.smart.cloud.starter.monitor.admin.properties.MonitorProperties;
-import io.github.smart.cloud.utility.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
@@ -93,12 +91,6 @@ public abstract class AbstractInstanceMetricsMonitorComponent<T extends Number, 
         return true;
     }
 
-    protected String sendGetRequest(Instance instance) throws IOException {
-        String url = String.format("%s/metrics/%s", instance.getRegistration().getManagementUrl(), getInstanceMetric().getValue());
-
-        return HttpUtil.get(url, null, null);
-    }
-
     protected MatchIncreaseResultDTO matchKeepIncreasing(String serviceName, String instanceId, T metricValue) {
         List<T> instanceData = HISTORY_DATA.computeIfAbsent(instanceId, (key) -> new CopyOnWriteArrayList<>());
         instanceData.add(metricValue);
@@ -120,7 +112,7 @@ public abstract class AbstractInstanceMetricsMonitorComponent<T extends Number, 
             }
             lastValue = currentValue;
         }
-        double speed = (instanceData.get(historyCount - 1).doubleValue() - instanceData.get(historyCount - 2).doubleValue())*60.0D / getCheckIntervalSeconds();
+        double speed = (instanceData.get(historyCount - 1).doubleValue() - instanceData.get(historyCount - 2).doubleValue()) * 60.0D / getCheckIntervalSeconds();
 
         return MatchIncreaseResultDTO.match(speed);
     }
@@ -132,15 +124,5 @@ public abstract class AbstractInstanceMetricsMonitorComponent<T extends Number, 
      * @return
      */
     protected abstract double getDiffThreshold(String serviceName);
-
-    protected JsonNode getValueNode(JsonNode measurementsNodes, String statisticName) {
-        for (int i = 0; i < measurementsNodes.size(); i++) {
-            JsonNode measurementsNode = measurementsNodes.get(i);
-            if (statisticName.equals(measurementsNode.get("statistic").asText())) {
-                return measurementsNode.get("value");
-            }
-        }
-        return null;
-    }
 
 }

@@ -44,7 +44,11 @@ public enum MetricCheckStatus {
     /**
      * gc太频繁异常
      */
-    GC_SPEED_TOO_FAST("gc太频繁异常");
+    GC_SPEED_TOO_FAST("gc太频繁异常"),
+    /**
+     * 可用资源预警
+     */
+    AVAILABLE_RESOURCE_ALERT("可用资源预警");
 
     private String desc;
 

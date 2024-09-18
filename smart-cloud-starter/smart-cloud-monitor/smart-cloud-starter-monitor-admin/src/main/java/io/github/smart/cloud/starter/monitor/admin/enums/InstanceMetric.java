@@ -21,6 +21,7 @@ import lombok.Getter;
 
 /**
  * 服务监控指标
+ * <p>指标值可通过actuator接口获取（http://localhost:8080/actuator/metric）</p>
  *
  * @author collin
  * @date 2024-07-28
@@ -48,7 +49,11 @@ public enum InstanceMetric {
     /**
      * 堆外内存
      */
-    NON_HEAP("non_heap", "jvm.memory.used?tag=area:nonheap", "堆外内存");
+    NON_HEAP("non_heap", "jvm.memory.used?tag=area:nonheap", "堆外内存"),
+    /**
+     * tomcat性能指标
+     */
+    TOMCAT("tomcat", null, "tomcat性能指标");
 
     /**
      * 指标名称

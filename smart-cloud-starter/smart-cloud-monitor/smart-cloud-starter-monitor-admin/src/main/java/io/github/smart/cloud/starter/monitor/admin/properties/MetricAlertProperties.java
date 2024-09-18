@@ -20,6 +20,8 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.util.unit.DataSize;
 
+import java.math.BigDecimal;
+
 /**
  * 服务指标监控配置
  *
@@ -51,5 +53,9 @@ public class MetricAlertProperties {
      * gc指标监控配置
      */
     private MetricItemAlertProperties<Double> gc = new MetricItemAlertProperties<>();
+    /**
+     * tomcat指标监控配置
+     */
+    private MetricItemAlertProperties<BigDecimal> tomcat = new MetricItemAlertProperties<>();
 
 }

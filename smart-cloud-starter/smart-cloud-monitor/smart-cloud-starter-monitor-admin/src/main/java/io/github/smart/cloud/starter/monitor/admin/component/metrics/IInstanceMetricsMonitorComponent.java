@@ -59,11 +59,4 @@ public interface IInstanceMetricsMonitorComponent<U> extends IMetricProperties<U
      */
     void truncateHistory();
 
-    /**
-     * 获取检查间隔时间
-     *
-     * @return
-     */
-    long getCheckIntervalSeconds();
-
 }

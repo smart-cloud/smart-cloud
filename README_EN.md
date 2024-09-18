@@ -73,7 +73,7 @@ smart-cloud
    └──smart-cloud-starter-monitor -- Service monitoring, interface monitoring
       ├──smart-cloud-monitor-common -- Monitor common code
       ├──smart-cloud-starter-monitor-api -- api exception monitoring
-      └──smart-cloud-starter-monitor-admin -- spring boot admin monitoring, wework notifications
+      └──smart-cloud-starter-monitor-admin -- spring boot admin monitoring(Service status, gc, thread count, memory, cpu, tomcat, etc.), wework notifications
 ```
 
 # technology stack
