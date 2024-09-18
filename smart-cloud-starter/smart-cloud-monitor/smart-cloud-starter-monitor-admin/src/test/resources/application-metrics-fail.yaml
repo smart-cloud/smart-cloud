@@ -1,5 +1,10 @@
 server:
   port: 40014
+  tomcat:
+    mbeanregistry:
+      #启用Tomcat的MBean注册表以便actuator接口获取到tomcat指标
+      enabled: true
+
 spring:
   application:
     name: monitorAdminMetricsFail
@@ -51,6 +56,9 @@ smart:
             preHeatHour: 0
             keepIncreasingCount: 1
             keepIncreasingSpeedThreshold: 0
+            threshold: 0
+          tomcat:
+            preHeatHour: 0
             threshold: 0
 management:
   health:

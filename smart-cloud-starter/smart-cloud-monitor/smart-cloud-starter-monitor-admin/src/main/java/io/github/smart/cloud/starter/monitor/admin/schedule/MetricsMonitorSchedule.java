@@ -61,7 +61,7 @@ public class MetricsMonitorSchedule implements InitializingBean, ApplicationList
 
     private final InstanceRegistry instanceRegistry;
     private final List<IInstanceMetricsMonitorComponent> instanceMetricsMonitorComponents;
-    private static final String ENDPOINT_METRICS = "metrics";
+    public static final String ENDPOINT_METRICS = "metrics";
     private List<ScheduledExecutorService> metricsMonitorSchedules = null;
 
     @Override

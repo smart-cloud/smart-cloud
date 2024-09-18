@@ -19,6 +19,7 @@ import de.codecentric.boot.admin.server.domain.entities.Instance;
 import de.codecentric.boot.admin.server.domain.values.Endpoints;
 import de.codecentric.boot.admin.server.services.InstanceRegistry;
 import io.github.smart.cloud.starter.monitor.admin.component.metrics.IInstanceMetricsMonitorComponent;
+import io.github.smart.cloud.starter.monitor.admin.schedule.MetricsMonitorSchedule;
 import io.github.smart.cloud.starter.monitor.admin.test.prepare.App;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -55,7 +56,7 @@ class MetricsFailTest {
                 .filter(Instance::isRegistered)
                 .filter(instance -> {
                     Endpoints endpoints = instance.getEndpoints();
-                    return endpoints != null && endpoints.isPresent("metrics");
+                    return endpoints != null && endpoints.isPresent(MetricsMonitorSchedule.ENDPOINT_METRICS);
                 }).collectList().block(Duration.ofMillis(10_000L));
 
         Assertions.assertThat(instances).isNotEmpty();
