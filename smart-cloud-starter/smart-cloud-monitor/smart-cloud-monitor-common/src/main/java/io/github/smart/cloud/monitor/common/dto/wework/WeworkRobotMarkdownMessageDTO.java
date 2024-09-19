@@ -41,7 +41,9 @@ public class WeworkRobotMarkdownMessageDTO extends AbstractWeworkRobotMessageDTO
     private WeworkRobotMessageContentDTO markdown;
 
     public WeworkRobotMarkdownMessageDTO(String content) {
-        this.markdown = new WeworkRobotMessageContentDTO(content);
+        this.markdown = new WeworkRobotMessageContentDTO();
+        markdown.setContent(content);
+
         setMsgtype(WeworkRobotMessageType.MARKDOWN.getValue());
     }
 

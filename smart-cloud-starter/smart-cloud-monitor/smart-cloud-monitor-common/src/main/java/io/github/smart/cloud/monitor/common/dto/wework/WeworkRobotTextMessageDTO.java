@@ -15,7 +15,6 @@
  */
 package io.github.smart.cloud.monitor.common.dto.wework;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.smart.cloud.monitor.common.enums.WeworkRobotMessageType;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,20 +39,14 @@ public class WeworkRobotTextMessageDTO extends AbstractWeworkRobotMessageDTO imp
     /**
      * 消息内容
      */
-    private WeworkRobotMessageContentDTO text;
-    /**
-     * 提醒人
-     */
-    @JsonProperty("mentioned_list")
-    private LinkedHashSet<String> mentionedList;
+    private WeworkRobotTextMessageContentDTO text;
 
     public WeworkRobotTextMessageDTO(String content) {
         this(content, null);
     }
 
     public WeworkRobotTextMessageDTO(String content, LinkedHashSet<String> mentionedList) {
-        this.text = new WeworkRobotMessageContentDTO(content);
-        this.mentionedList = mentionedList;
+        this.text = new WeworkRobotTextMessageContentDTO(content, mentionedList);
         setMsgtype(WeworkRobotMessageType.TEXT.getValue());
     }
 

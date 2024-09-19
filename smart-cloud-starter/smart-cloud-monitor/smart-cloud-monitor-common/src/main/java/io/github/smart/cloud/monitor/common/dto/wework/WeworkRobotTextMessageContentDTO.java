@@ -15,11 +15,12 @@
  */
 package io.github.smart.cloud.monitor.common.dto.wework;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.io.Serializable;
+import java.util.LinkedHashSet;
 
 /**
  * 企业微信机器人消息内容
@@ -30,13 +31,19 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-public class WeworkRobotMessageContentDTO implements Serializable {
+public class WeworkRobotTextMessageContentDTO extends WeworkRobotMessageContentDTO {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 消息内容
+     * 提醒人
      */
-    private String content;
+    @JsonProperty("mentioned_list")
+    private LinkedHashSet<String> mentionedList;
+
+    public WeworkRobotTextMessageContentDTO(String content, LinkedHashSet<String> mentionedList) {
+        setContent(content);
+        setMentionedList(mentionedList);
+    }
 
 }
