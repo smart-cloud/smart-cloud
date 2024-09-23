@@ -21,7 +21,7 @@ import de.codecentric.boot.admin.server.services.InstanceRegistry;
 import de.codecentric.boot.admin.server.web.ApplicationsController;
 import de.codecentric.boot.admin.server.web.servlet.InstancesProxyController;
 import io.github.smart.cloud.starter.monitor.admin.component.metrics.IInstanceMetricsMonitorComponent;
-import io.micrometer.core.instrument.util.NamedThreadFactory;
+import io.github.smart.cloud.utility.concurrent.NamedThreadFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
@@ -48,6 +48,7 @@ import java.util.concurrent.TimeUnit;
  *     <li>gc次数监控（在指定时间内，gc次数超过阈值）</li>
  *     <li>线程数监控（超过阈值）</li>
  *     <li>内存使用监控（超过阈值；总体一直增长(内存泄漏)）</li>
+ *     <li>tomcat指标监控（线程数）</li>
  * </ul>
  *
  * @author collin
