@@ -232,3 +232,6 @@ smart-cloud-starter-web | 2001 | 待校验参数object不能为null
 smart-cloud-starter-elasticsearch-dynamic-datasource | 3001 | elasticsearch ds key不存在
 smart-cloud-starter-elasticsearch-dynamic-datasource | 3002 | elasticsearch 数据源未找到
 smart-cloud-starter-elasticsearch-dynamic-datasource | 3003 | elasticsearch 动态数据源属性未配置
+
+---
+![](docs/images/wechat_cp.png)
