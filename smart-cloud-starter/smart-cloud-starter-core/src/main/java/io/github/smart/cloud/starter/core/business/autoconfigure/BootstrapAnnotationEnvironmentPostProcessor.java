@@ -35,7 +35,10 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 启动类注解值读取
@@ -149,7 +152,7 @@ public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentP
          */
         private static String[] getLocationPatternsOnSpringBoot(Class<?> mainApplicationClass) {
             YamlScan yamlScan = AnnotationUtils.findAnnotation(mainApplicationClass, YamlScan.class);
-            if (Objects.isNull(yamlScan)) {
+            if (yamlScan == null) {
                 return new String[0];
             }
 

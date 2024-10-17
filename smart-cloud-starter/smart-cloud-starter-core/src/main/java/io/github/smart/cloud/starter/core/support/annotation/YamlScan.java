@@ -39,12 +39,7 @@ import java.lang.annotation.*;
 public @interface YamlScan {
 
     /**
-     * 属性名locationPatterns
-     */
-    public static final String ATTRIBUTE_LOCATION_PATTERNS = "locationPatterns";
-
-    /**
-     * yml文件路径（支持正则表达式）
+     * yaml文件路径（支持正则表达式）
      */
     String[] locationPatterns();
 
