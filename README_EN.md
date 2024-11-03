@@ -69,7 +69,8 @@ smart-cloud
    ├──smart-cloud-starter-rabbitmq -- rabbitmq encapsulation (consumption failure, automatically put into the delayed queue for re-consumption)
    ├──smart-cloud-starter-rate-limit -- api rate limit
    ├──smart-cloud-starter-redis -- redis encapsulation, custom distributed lock annotation
-   └──smart-cloud-starter-web -- web encapsulation (log aspect, exception handling, parameter verification)
+   ├──smart-cloud-starter-static-discovery -- The service address of the feign client is dynamically obtained from the configuration center (not through the registry)
+   ├──smart-cloud-starter-web -- web encapsulation (log aspect, exception handling, parameter verification)
    └──smart-cloud-starter-monitor -- Service monitoring, interface monitoring
       ├──smart-cloud-monitor-common -- Monitor common code
       ├──smart-cloud-starter-monitor-api -- api exception monitoring

@@ -1,0 +1,17 @@
+server:
+  port: 40009
+spring:
+  cloud:
+    loadbalancer:
+      cache:
+        ttl: 1s
+smart:
+  cloud:
+    static-discovery:
+      instanceConfig:
+        feignClientRpc:
+          - http://localhost:40009
+          - http://localhost:40009
+        tunnelHandler:
+          - http://192.168.15.63:8099
+          - http://192.168.15.64:8099

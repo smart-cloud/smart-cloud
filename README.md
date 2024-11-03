@@ -67,6 +67,7 @@ smart-cloud
    ├──smart-cloud-starter-rabbitmq -- rabbitmq封装（消费失败，自动放入延迟队列重新消费）
    ├──smart-cloud-starter-rate-limit -- 接口限流
    ├──smart-cloud-starter-redis -- redis封装、自定义分布式锁注解
+   ├──smart-cloud-starter-static-discovery -- 支持feign client的服务地址从配置中心动态获取（不通过注册中心）
    ├──smart-cloud-starter-web -- web封装（日志切面、异常处理、参数校验）
    └──smart-cloud-starter-monitor -- 服务监控，接口监控
       ├──smart-cloud-monitor-common -- 监控公共代码

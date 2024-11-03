@@ -292,6 +292,12 @@
 
             <dependency>
                 <groupId>io.github.smart-cloud</groupId>
+                <artifactId>smart-cloud-starter-static-discovery</artifactId>
+                <version>${smart-cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.smart-cloud</groupId>
                 <artifactId>smart-cloud-starter-web</artifactId>
                 <version>${smart-cloud.version}</version>
             </dependency>
