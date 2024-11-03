@@ -6,7 +6,7 @@
     <springProperty scope="context" name="app_name" source="spring.application.name" defaultValue="app"/>
     <springProperty scope="context" name="log_path" source="logging.base-dir" defaultValue="/data/logs"/>
 
-    <property name="log_format" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%X{X-B3-SpanId}|%X{X-B3-ParentSpanId}|%X{X-B3-TraceId}] %thread [%logger{36} %method %line] %mm%n"/>
+    <property name="log_format" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%X{traceId}|%X{spanId}] %thread [%logger{36} %method %line] %mm%n"/>
 
     <!-- 开发环境使用 打印在控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
