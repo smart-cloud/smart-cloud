@@ -97,7 +97,7 @@ class RateLimitTest {
         Map<String, Integer> config = rateLimitProperties.getConfig();
         config.put("io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.update", 3);
         config.put("io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.query", 100);
-        refreshScope.refresh("scopedTarget.rateLimitInstanceFactory");
+        refreshScope.refresh(RateLimitInstanceFactory.class);
 
         Semaphore updateSemaphore = rateLimitInstanceFactory.get("io.github.smart.cloud.starter.rate.limit.test.prepare.controller.ProductController.update");
         Assertions.assertThat(updateSemaphore).isNotNull();
