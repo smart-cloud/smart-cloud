@@ -1,0 +1,56 @@
+@startuml
+!include <cloudinsight/java>
+skinparam sequenceMessageAlign center
+skinparam linetype ortho
+
+<style>
+    node{
+        BackgroundColor #f0f0f0
+    }
+    artifact,file,collections{
+        BackgroundColor #aliceblue
+        LineColor blue
+    }
+    rectangle {
+        BackgroundColor #a0a0f0
+        LineColor palegreen
+    }
+</style>
+
+title 服务合并部署原理图
+node 合并前部署的服务 {
+    rectangle "<$java>\n服务A" as serviceA{
+            file A服务内部代码
+            collections A服务依赖的jar
+    }
+    rectangle "<$java>\n服务B" as serviceB{
+            file B服务内部代码
+            collections B服务依赖的jar
+    }
+    rectangle "<$java>\n服务C" as serviceC{
+            file C服务内部代码
+            collections C服务依赖的jar
+    }
+}
+
+node 合并后部署的服务 {
+    rectangle "<$java>\n合并服务A、B、C后部署的合并服务" as serviceABC{
+        artifact 合并服务的启动类
+        file 合并服务的pom.xml{
+            label "include A服务pom" as la
+            label "include B服务pom" as lb
+            label "include C服务pom" as lc
+        }
+    }
+}
+
+serviceA-[hidden]->serviceB
+serviceB-[hidden]->serviceC
+la-[hidden]>lb
+lb-[hidden]>lc
+
+合并前部署的服务==>合并后部署的服务
+
+note right of 合并前部署的服务:存在三个服务
+note top of 合并后部署的服务:只有一个服务
+@enduml
