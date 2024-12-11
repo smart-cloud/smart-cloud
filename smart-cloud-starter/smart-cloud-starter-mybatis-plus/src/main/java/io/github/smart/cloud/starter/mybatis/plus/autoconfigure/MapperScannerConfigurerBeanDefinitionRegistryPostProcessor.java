@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.mybatis.plus.autoconfigure;
 
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
+import io.github.smart.cloud.starter.core.constants.SmartApplicationConfig;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValue;
@@ -65,7 +65,7 @@ public class MapperScannerConfigurerBeanDefinitionRegistryPostProcessor implemen
 
         Set<String> packages = new HashSet<>(2);
         packages.add(String.valueOf(existedPropertyValue.getValue()));
-        String[] componentScans = PackageConfig.getBasePackages();
+        String[] componentScans = SmartApplicationConfig.getBasePackages();
         for (String componentScan : componentScans) {
             packages.add(componentScan);
         }

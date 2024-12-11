@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.web.test.prepare.controller;
 
 import io.github.smart.cloud.common.pojo.Response;
-import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
+import io.github.smart.cloud.starter.core.util.ResponseUtil;
 import io.github.smart.cloud.starter.web.test.prepare.vo.ProductCreateReqVO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

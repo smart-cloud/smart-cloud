@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.business.util;
+package io.github.smart.cloud.starter.core.util;
 
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
+import io.github.smart.cloud.starter.core.constants.SmartApplicationConfig;
 import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -41,7 +41,7 @@ public class ReflectionUtil extends ReflectionUtils {
     private static Reflections reflections;
 
     static {
-        String[] basePackages = PackageConfig.getBasePackages();
+        String[] basePackages = SmartApplicationConfig.getBasePackages();
         Collection<URL> urls = new HashSet<>();
         for (String basePackage : basePackages) {
             urls.addAll(ClasspathHelper.forPackage(basePackage));

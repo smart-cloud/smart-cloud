@@ -18,7 +18,7 @@ package io.github.smart.cloud.starter.web.exception.strategy;
 import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.exception.AbstractBaseException;
-import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
+import io.github.smart.cloud.starter.core.util.ResponseUtil;
 import io.github.smart.cloud.starter.web.exception.IExceptionHandlerStrategy;
 import io.github.smart.cloud.utility.spring.I18nUtil;
 import org.apache.commons.lang3.StringUtils;

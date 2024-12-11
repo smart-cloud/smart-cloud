@@ -1,5 +1,8 @@
+org.springframework.boot.SpringApplicationRunListener=\
+io.github.smart.cloud.starter.core.SmartApplicationConfigInitializer
+
 org.springframework.boot.env.EnvironmentPostProcessor=\
-io.github.smart.cloud.starter.core.business.autoconfigure.BootstrapAnnotationEnvironmentPostProcessor
+io.github.smart.cloud.starter.core.YamlScanProcessor
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.smart.cloud.starter.core.business.autoconfigure.SmartAsyncConfigurerSupportAutoConfiguration
+io.github.smart.cloud.starter.core.SmartAsyncConfigurerSupportAutoConfiguration

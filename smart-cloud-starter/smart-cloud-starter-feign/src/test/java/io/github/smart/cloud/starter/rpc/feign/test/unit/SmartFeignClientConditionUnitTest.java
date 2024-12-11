@@ -22,7 +22,7 @@ import io.github.smart.cloud.starter.rpc.feign.test.prepare.rpc.TestRpc3;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
+import io.github.smart.cloud.starter.core.constants.SmartApplicationConfig;
 import io.github.smart.cloud.starter.rpc.feign.test.prepare.rpc.TestRpc1;
 import io.github.smart.cloud.starter.rpc.feign.test.prepare.rpc.TestRpc2;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,7 +35,7 @@ class SmartFeignClientConditionUnitTest {
 
     @Test
     void test() {
-        PackageConfig.setBasePackages(new String[]{SuiteTest.class.getPackage().getName()});
+        SmartApplicationConfig.setBasePackages(new String[]{SuiteTest.class.getPackage().getName()});
         SmartFeignClientCondition smartFeignClientCondition = new SmartFeignClientCondition();
 
         AnnotationMetadata annotationMetadata1 = AnnotationMetadata.introspect(TestRpc1.class);

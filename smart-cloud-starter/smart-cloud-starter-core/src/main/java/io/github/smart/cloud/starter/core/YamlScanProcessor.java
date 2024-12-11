@@ -13,20 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.business.autoconfigure;
+package io.github.smart.cloud.starter.core;
 
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
-import io.github.smart.cloud.starter.core.constants.SmartEnv;
-import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
-import io.github.smart.cloud.starter.core.support.annotation.YamlScan;
-import io.github.smart.cloud.utility.ClassUtil;
+import io.github.smart.cloud.starter.core.annotation.YamlScan;
+import io.github.smart.cloud.starter.core.constants.SmartApplicationConfig;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.env.YamlPropertySourceLoader;
-import org.springframework.boot.test.context.AnnotatedClassFinder;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertySource;
@@ -41,85 +35,16 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 启动类注解值读取
+ * {@link YamlScan}注解处理逻辑
  *
  * @author collin
  * @date 2019-06-21
  */
-public class BootstrapAnnotationEnvironmentPostProcessor implements EnvironmentPostProcessor {
-
-    private boolean isInit = false;
-    /**
-     * SpringApplication#registerShutdownHook
-     */
-    private final String registerShutdownHookFieldName = "registerShutdownHook";
+public class YamlScanProcessor implements EnvironmentPostProcessor {
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        if (isInit) {
-            return;
-        }
-        if (isRegisterShutdownHook(application)) {
-            Class<?> mainApplicationClass = application.getMainApplicationClass();
-            // 1、获取启动类、启动类注解
-            SmartBootApplication smartBootApplication = AnnotationUtils.findAnnotation(mainApplicationClass, SmartBootApplication.class);
-            if (smartBootApplication == null) {
-                SpringBootTest springBootTest = AnnotationUtils.findAnnotation(mainApplicationClass, SpringBootTest.class);
-                if (springBootTest != null && ArrayUtils.isNotEmpty(springBootTest.classes())) {
-                    mainApplicationClass = springBootTest.classes()[0];
-                } else {
-                    // 此处findFromClass的参数为测试启动类
-                    mainApplicationClass = new AnnotatedClassFinder(SmartBootApplication.class).findFromClass(mainApplicationClass);
-                    if (mainApplicationClass == null) {
-                        return;
-                    }
-                }
-                smartBootApplication = AnnotationUtils.findAnnotation(mainApplicationClass, SmartBootApplication.class);
-                if (smartBootApplication != null) {
-                    SmartEnv.setUnitTest(true);
-                }
-            }
-            if (smartBootApplication == null) {
-                return;
-            }
-
-            // 2、设置{@link ComponentScan}的{@code basePackages}
-            BasePackagesInitializer.init(mainApplicationClass, smartBootApplication);
-
-            // 3、加载yml
-            YamlLoader.loadYaml(environment, mainApplicationClass);
-            isInit = true;
-        }
-    }
-
-    private boolean isRegisterShutdownHook(SpringApplication application) {
-        return ClassUtil.findFieldValue(application, SpringApplication.class, registerShutdownHookFieldName);
-    }
-
-    /**
-     * @author collin
-     * @desc BasePackages初始化
-     * @date 2020/02/23
-     */
-    private static class BasePackagesInitializer {
-
-        /**
-         * 设置{@link ComponentScan}的{@code basePackages}
-         *
-         * @param mainApplicationClass
-         * @param smartBootApplication
-         */
-        public static void init(Class<?> mainApplicationClass, SmartBootApplication smartBootApplication) {
-            String[] componentBasePackages = smartBootApplication.componentBasePackages();
-            String[] basePackages = null;
-            if (componentBasePackages == null || componentBasePackages.length == 0) {
-                basePackages = new String[]{mainApplicationClass.getPackage().getName()};
-            } else {
-                basePackages = componentBasePackages;
-            }
-            PackageConfig.setBasePackages(basePackages);
-        }
-
+        YamlLoader.loadYaml(environment, SmartApplicationConfig.getMainApplicationClass());
     }
 
     /**

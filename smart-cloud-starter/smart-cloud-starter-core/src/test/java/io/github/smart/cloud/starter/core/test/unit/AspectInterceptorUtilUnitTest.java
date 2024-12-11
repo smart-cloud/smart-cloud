@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.core.test.unit;
 
-import io.github.smart.cloud.starter.core.business.util.AspectInterceptorUtil;
+import io.github.smart.cloud.starter.core.util.AspectInterceptorUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Controller;

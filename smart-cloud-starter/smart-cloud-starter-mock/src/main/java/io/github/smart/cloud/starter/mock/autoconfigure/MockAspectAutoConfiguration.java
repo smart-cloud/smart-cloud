@@ -18,8 +18,8 @@ package io.github.smart.cloud.starter.mock.autoconfigure;
 import io.github.smart.cloud.starter.configure.SmartAutoConfiguration;
 import io.github.smart.cloud.starter.configure.properties.MockProperties;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
-import io.github.smart.cloud.starter.core.business.util.AspectInterceptorUtil;
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
+import io.github.smart.cloud.starter.core.util.AspectInterceptorUtil;
+import io.github.smart.cloud.starter.core.constants.SmartApplicationConfig;
 import io.github.smart.cloud.starter.mock.annotation.Mock;
 import io.github.smart.cloud.starter.mock.condition.MockCondition;
 import io.github.smart.cloud.starter.mock.interceptor.MockInterceptor;
@@ -67,7 +67,7 @@ public class MockAspectAutoConfiguration {
         }
 
         AspectJExpressionPointcut mockPointcut = new AspectJExpressionPointcut();
-        String mockExpression = AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil.getMethodExpression(annotations));
+        String mockExpression = AspectInterceptorUtil.buildExpression(SmartApplicationConfig.getBasePackages(), AspectInterceptorUtil.getMethodExpression(annotations));
         mockPointcut.setExpression(mockExpression);
 
         DefaultBeanFactoryPointcutAdvisor mockAdvisor = new DefaultBeanFactoryPointcutAdvisor();

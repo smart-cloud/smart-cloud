@@ -17,8 +17,8 @@ package io.github.smart.cloud.starter.core.test.unit;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
-import io.github.smart.cloud.starter.core.support.condition.SmartBootApplicationCondition;
+import io.github.smart.cloud.starter.core.annotation.SmartBootApplication;
+import io.github.smart.cloud.starter.core.condition.SmartBootApplicationCondition;
 import org.springframework.core.type.AnnotationMetadata;
 
 class SmartSpringCloudApplicationConditionUnitTest {

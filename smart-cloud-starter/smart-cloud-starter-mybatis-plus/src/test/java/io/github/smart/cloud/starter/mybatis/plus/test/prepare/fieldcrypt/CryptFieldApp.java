@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.mybatis.plus.test.prepare.fieldcrypt;
 
-import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
+import io.github.smart.cloud.starter.core.annotation.SmartBootApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 

@@ -18,7 +18,7 @@ package io.github.smart.cloud.starter.web.exception;
 import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.constants.SymbolConstant;
-import io.github.smart.cloud.starter.core.business.util.ResponseUtil;
+import io.github.smart.cloud.starter.core.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 

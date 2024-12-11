@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.support.bean;
+package io.github.smart.cloud.starter.core;
 
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -29,18 +29,18 @@ import org.springframework.util.StringUtils;
  */
 public class UniqueBeanNameGenerator extends AnnotationBeanNameGenerator {
 
-	@Override
-	public String generateBeanName(BeanDefinition definition, BeanDefinitionRegistry registry) {
-		if (definition instanceof AnnotatedBeanDefinition) {
-			String beanName = determineBeanNameFromAnnotation((AnnotatedBeanDefinition) definition);
-			if (StringUtils.hasText(beanName)) {
-				// Explicit bean name found.
-				return beanName;
-			}
-		}
+    @Override
+    public String generateBeanName(BeanDefinition definition, BeanDefinitionRegistry registry) {
+        if (definition instanceof AnnotatedBeanDefinition) {
+            String beanName = determineBeanNameFromAnnotation((AnnotatedBeanDefinition) definition);
+            if (StringUtils.hasText(beanName)) {
+                // Explicit bean name found.
+                return beanName;
+            }
+        }
 
-		// 如果该bean名称没有指定，则按照“package+className”的规则生成
-		return definition.getBeanClassName();
-	}
-	
+        // 如果该bean名称没有指定，则按照“package+className”的规则生成
+        return definition.getBeanClassName();
+    }
+
 }

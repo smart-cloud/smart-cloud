@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.rate.limit;
 
 import io.github.smart.cloud.constants.SymbolConstant;
-import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
+import io.github.smart.cloud.starter.core.util.ReflectionUtil;
 import io.github.smart.cloud.starter.rate.limit.annotation.RateLimiter;
 import io.github.smart.cloud.starter.rate.limit.properties.RateLimitProperties;
 import io.github.smart.cloud.starter.rate.limit.util.RateLimitUtil;

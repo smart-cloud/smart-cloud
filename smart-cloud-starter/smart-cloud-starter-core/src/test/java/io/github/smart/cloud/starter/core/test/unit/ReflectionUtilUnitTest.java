@@ -15,8 +15,8 @@
  */
 package io.github.smart.cloud.starter.core.test.unit;
 
-import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
+import io.github.smart.cloud.starter.core.util.ReflectionUtil;
+import io.github.smart.cloud.starter.core.constants.SmartApplicationConfig;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,21 +29,21 @@ class ReflectionUtilUnitTest {
 
     @Test
     void testGetSubTypesOf() {
-        PackageConfig.setBasePackages(new String[]{Animal.class.getPackage().getName()});
+        SmartApplicationConfig.setBasePackages(new String[]{Animal.class.getPackage().getName()});
         Set<Class<? extends Animal>> set = ReflectionUtil.getSubTypesOf(Animal.class);
         Assertions.assertThat(set).hasSize(1);
     }
 
     @Test
     void testGetTypesAnnotatedWith() {
-        PackageConfig.setBasePackages(new String[]{AnnotatedClassController.class.getPackage().getName()});
+        SmartApplicationConfig.setBasePackages(new String[]{AnnotatedClassController.class.getPackage().getName()});
         Set<Class<?>> set = ReflectionUtil.getTypesAnnotatedWith(RestController.class);
         Assertions.assertThat(set).hasSize(1);
     }
 
     @Test
     void testGetMethodsAnnotatedWith() {
-        PackageConfig.setBasePackages(new String[]{AnnotatedClassController.class.getPackage().getName()});
+        SmartApplicationConfig.setBasePackages(new String[]{AnnotatedClassController.class.getPackage().getName()});
         Set<Method> set = ReflectionUtil.getMethodsAnnotatedWith(GetMapping.class);
         Assertions.assertThat(set).hasSize(1);
     }

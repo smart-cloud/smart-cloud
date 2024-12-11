@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.support.annotation;
+package io.github.smart.cloud.starter.core.annotation;
 
-import io.github.smart.cloud.starter.core.business.autoconfigure.BootstrapAnnotationEnvironmentPostProcessor;
+import io.github.smart.cloud.starter.core.YamlScanProcessor;
 
 import java.lang.annotation.*;
 
@@ -30,7 +30,7 @@ import java.lang.annotation.*;
  *
  * @author collin
  * @date 2019-05-11
- * @see BootstrapAnnotationEnvironmentPostProcessor
+ * @see YamlScanProcessor
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

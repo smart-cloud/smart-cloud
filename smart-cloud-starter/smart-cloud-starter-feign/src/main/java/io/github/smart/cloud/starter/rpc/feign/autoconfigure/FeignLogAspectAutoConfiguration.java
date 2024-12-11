@@ -17,8 +17,8 @@ package io.github.smart.cloud.starter.rpc.feign.autoconfigure;
 
 import io.github.smart.cloud.starter.configure.constants.ConfigureConstant;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
-import io.github.smart.cloud.starter.core.business.util.AspectInterceptorUtil;
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
+import io.github.smart.cloud.starter.core.util.AspectInterceptorUtil;
+import io.github.smart.cloud.starter.core.constants.SmartApplicationConfig;
 import io.github.smart.cloud.starter.rpc.feign.annotation.SmartFeignClient;
 import io.github.smart.cloud.starter.rpc.feign.interceptor.FeignLogInterceptor;
 import org.springframework.aop.Advisor;
@@ -51,7 +51,7 @@ public class FeignLogAspectAutoConfiguration {
     public Pointcut feignClientPointcut() {
         AspectJExpressionPointcut feignClientPointcut = new AspectJExpressionPointcut();
 
-        String feignExpression = AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages(), AspectInterceptorUtil
+        String feignExpression = AspectInterceptorUtil.buildExpression(SmartApplicationConfig.getBasePackages(), AspectInterceptorUtil
                 .getTypeExpression(Arrays.asList(FeignClient.class, SmartFeignClient.class)));
         feignClientPointcut.setExpression(feignExpression);
         return feignClientPointcut;

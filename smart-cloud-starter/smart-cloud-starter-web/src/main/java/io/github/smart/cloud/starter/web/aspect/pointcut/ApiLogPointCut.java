@@ -15,8 +15,8 @@
  */
 package io.github.smart.cloud.starter.web.aspect.pointcut;
 
-import io.github.smart.cloud.starter.core.business.util.AspectInterceptorUtil;
-import io.github.smart.cloud.starter.core.constants.PackageConfig;
+import io.github.smart.cloud.starter.core.util.AspectInterceptorUtil;
+import io.github.smart.cloud.starter.core.constants.SmartApplicationConfig;
 import io.github.smart.cloud.starter.web.annotation.ApiLog;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.StaticMethodMatcherPointcut;
@@ -40,7 +40,7 @@ public class ApiLogPointCut extends StaticMethodMatcherPointcut {
         super();
 
         packageExpressionPointcut = new AspectJExpressionPointcut();
-        packageExpressionPointcut.setExpression(AspectInterceptorUtil.buildExpression(PackageConfig.getBasePackages()));
+        packageExpressionPointcut.setExpression(AspectInterceptorUtil.buildExpression(SmartApplicationConfig.getBasePackages()));
     }
 
     @Override

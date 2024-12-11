@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.support.condition;
+package io.github.smart.cloud.starter.core.condition;
 
 import io.github.smart.cloud.starter.core.constants.SmartEnv;
-import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
+import io.github.smart.cloud.starter.core.annotation.SmartBootApplication;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;

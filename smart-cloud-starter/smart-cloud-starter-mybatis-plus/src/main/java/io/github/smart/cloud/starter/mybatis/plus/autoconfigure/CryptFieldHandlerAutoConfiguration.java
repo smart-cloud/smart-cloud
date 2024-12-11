@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.mybatis.plus.autoconfigure;
 
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
+import io.github.smart.cloud.starter.core.util.ReflectionUtil;
 import io.github.smart.cloud.starter.mybatis.plus.common.CryptField;
 import io.github.smart.cloud.starter.mybatis.plus.handler.CryptFieldHandler;
 import org.apache.ibatis.session.Configuration;

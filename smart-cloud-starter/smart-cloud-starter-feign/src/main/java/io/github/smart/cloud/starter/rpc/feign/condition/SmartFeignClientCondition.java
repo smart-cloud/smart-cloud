@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.rpc.feign.condition;
 
-import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
+import io.github.smart.cloud.starter.core.util.ReflectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Condition;

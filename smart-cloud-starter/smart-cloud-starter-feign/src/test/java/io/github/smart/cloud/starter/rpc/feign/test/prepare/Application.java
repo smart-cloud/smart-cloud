@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.rpc.feign.test.prepare;
 
-import io.github.smart.cloud.starter.core.support.annotation.SmartBootApplication;
+import io.github.smart.cloud.starter.core.annotation.SmartBootApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 

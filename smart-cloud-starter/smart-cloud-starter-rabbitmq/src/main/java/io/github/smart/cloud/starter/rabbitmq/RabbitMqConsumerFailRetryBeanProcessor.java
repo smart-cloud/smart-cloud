@@ -15,7 +15,7 @@
  */
 package io.github.smart.cloud.starter.rabbitmq;
 
-import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
+import io.github.smart.cloud.starter.core.util.ReflectionUtil;
 import io.github.smart.cloud.starter.rabbitmq.annotation.MqConsumerFailRetry;
 import io.github.smart.cloud.starter.rabbitmq.util.MqNameUtil;
 import io.github.smart.cloud.starter.rabbitmq.util.MqUtil;

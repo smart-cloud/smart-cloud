@@ -16,28 +16,36 @@
 package io.github.smart.cloud.starter.core.constants;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.Assert;
 
 /**
- * package配置值
+ * 应用配置
  *
  * @author collin
  * @date 2021-11-11
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PackageConfig {
+public class SmartApplicationConfig {
 
     /**
-     * 基础包
+     * 应用启动类
+     */
+    @Getter
+    @Setter
+    private static Class<?> mainApplicationClass;
+
+    /**
+     * 应用基础包名
      */
     @Setter
     private static String[] basePackages;
 
     public static String[] getBasePackages() {
-        Assert.isTrue(ArrayUtils.isNotEmpty(PackageConfig.basePackages), "basePackages未配置！！！");
+        Assert.isTrue(ArrayUtils.isNotEmpty(SmartApplicationConfig.basePackages), "basePackages未配置！！！");
 
         return basePackages;
     }

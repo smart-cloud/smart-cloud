@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.smart.cloud.starter.core.support.annotation;
+package io.github.smart.cloud.starter.core.annotation;
 
-import io.github.smart.cloud.starter.core.support.bean.UniqueBeanNameGenerator;
-import io.github.smart.cloud.starter.core.support.condition.SmartBootApplicationCondition;
+import io.github.smart.cloud.starter.core.condition.SmartBootApplicationCondition;
+import io.github.smart.cloud.starter.core.UniqueBeanNameGenerator;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

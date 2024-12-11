@@ -21,7 +21,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.apache.ibatis.type.TypeHandlerRegistry;
-import io.github.smart.cloud.starter.core.business.util.ReflectionUtil;
+import io.github.smart.cloud.starter.core.util.ReflectionUtil;
 import io.github.smart.cloud.starter.mp.shardingjdbc.handler.ShardingsphereEnumTypeHandler;
 import io.github.smart.cloud.starter.mybatis.plus.enums.DeleteState;
 import org.springframework.beans.BeansException;
