@@ -23,7 +23,7 @@
     <parent>
         <groupId>io.github.smart-cloud</groupId>
         <artifactId>smart-cloud-starter</artifactId>
-        <version>1.0.6-SNAPSHOT</version>
+        <version>1.0.6</version>
     </parent>
     <artifactId>smart-cloud-starter-mp-shardingjdbc</artifactId>
     <description>mybatis plus、dynamic-datasource、shardingjdbc封装（支持多数据源、分库分表；mapper工具类）</description>

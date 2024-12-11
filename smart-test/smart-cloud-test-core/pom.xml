@@ -23,7 +23,7 @@
     <parent>
         <groupId>io.github.smart-cloud</groupId>
         <artifactId>smart-test</artifactId>
-        <version>1.0.6-SNAPSHOT</version>
+        <version>1.0.6</version>
     </parent>
     <artifactId>smart-cloud-test-core</artifactId>
     <description>test 单元测试、集成测试封装</description>
