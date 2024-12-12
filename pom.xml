@@ -26,7 +26,7 @@
     </parent>
     <groupId>io.github.smart-cloud</groupId>
     <artifactId>smart-cloud</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>smart-cloud</name>
     <description>基于springboot与springcloud的脚手架，支持服务合并部署与拆分部署、接口加解密签名、日志数据 脱敏、接口数据mock、接口限流、接口文档自动生成、请求幂等校验、接口日志、sql日志切面打印、分表分库、国际化语言、服务监控等</description>
@@ -72,7 +72,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <smart-cloud.version>1.0.6</smart-cloud.version>
+        <smart-cloud.version>1.0.7-SNAPSHOT</smart-cloud.version>
         <spring.boot>2.6.15</spring.boot>
         <spring-cloud>2021.0.9</spring-cloud>
         <!--https://github.com/alibaba/spring-cloud-alibaba/wiki/版本说明-->
