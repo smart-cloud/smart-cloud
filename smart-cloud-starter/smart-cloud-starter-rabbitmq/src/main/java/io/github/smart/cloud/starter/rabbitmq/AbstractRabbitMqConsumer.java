@@ -26,7 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 
@@ -47,6 +49,7 @@ public abstract class AbstractRabbitMqConsumer<T> implements IRabbitMqConsumer {
     private IRabbitMqAdapter rabbitMqAdapter;
     @Autowired
     private SmartProperties smartProperties;
+    private String queueName = null;
 
     /**
      * 消费者具体执行的业务逻辑
@@ -86,19 +89,19 @@ public abstract class AbstractRabbitMqConsumer<T> implements IRabbitMqConsumer {
                 String logLevel = smartProperties.getRabbitmq().getLevel();
                 if (log.isWarnEnabled()) {
                     if (LogLevel.DEBUG.equals(logLevel) && log.isDebugEnabled()) {
-                        log.debug("receive.msg={}", JacksonUtil.toJson(body));
+                        log.debug("receive.msg.{}={}", getQueueName(), JacksonUtil.toJson(body));
                     } else if (LogLevel.INFO.equals(logLevel) && log.isInfoEnabled()) {
-                        log.info("receive.msg={}", JacksonUtil.toJson(body));
+                        log.info("receive.msg.{}={}", getQueueName(), JacksonUtil.toJson(body));
                     } else if (LogLevel.WARN.equals(logLevel)) {
-                        log.warn("receive.msg={}", JacksonUtil.toJson(body));
+                        log.warn("receive.msg.{}={}", getQueueName(), JacksonUtil.toJson(body));
                     }
                 }
                 doProcess(body);
             } else {
-                log.warn("idempotent.check.fail|msg={}", JacksonUtil.toJson(body));
+                log.warn("idempotent.check.fail.{}|msg={}", getQueueName(), JacksonUtil.toJson(body));
             }
         } catch (Exception e) {
-            log.error("consumer.mq.exception|object={}", JacksonUtil.toJson(body), e);
+            log.error("consumer.mq.exception.{}|object={}", getQueueName(), JacksonUtil.toJson(body), e);
             RetryResult retryResult = MqUtil.retryAfterConsumerFail(rabbitMqAdapter, body, headers, getClass());
             boolean isThrow = retryResult == RetryResult.NOT_SUPPORT || (retryResult == RetryResult.REACHED_RETRY_THRESHOLD && !executeAfterRetryConsumerFail(body));
             if (isThrow) {
@@ -109,6 +112,20 @@ public abstract class AbstractRabbitMqConsumer<T> implements IRabbitMqConsumer {
                 lock.unlock();
             }
         }
+    }
+
+    private String getQueueName() {
+        if (queueName != null) {
+            return queueName;
+        }
+
+        RabbitListener rabbitListener = AnnotationUtils.findAnnotation(getClass(), RabbitListener.class);
+        if (rabbitListener == null) {
+            queueName = "";
+        } else {
+            queueName = rabbitListener.queues()[0];
+        }
+        return queueName;
     }
 
 }
