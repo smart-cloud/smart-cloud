@@ -19,6 +19,7 @@ import io.github.smart.cloud.monitor.common.dto.wework.AbstractWeworkRobotMessag
 import io.github.smart.cloud.monitor.common.dto.wework.WeworkRobotMarkdownMessageDTO;
 import io.github.smart.cloud.monitor.common.dto.wework.WeworkRobotTextMessageDTO;
 import io.github.smart.cloud.monitor.common.enums.WeworkRobotMessageType;
+import io.github.smart.cloud.monitor.common.util.MarkdownUtil;
 import io.github.smart.cloud.starter.monitor.api.core.IMessageFactory;
 import io.github.smart.cloud.starter.monitor.api.dto.ApiExceptionAlertDTO;
 import io.github.smart.cloud.starter.monitor.api.enums.ApiExceptionRemindType;
@@ -85,7 +86,7 @@ public class ApiExceptionMessageFactory extends AbstractMessageFactory implement
             }
             content.append("\n**异常信息**：")
                     .append("<font color=\"warning\">")
-                    .append(apiExceptionAlert.getThrowable().toString())
+                    .append(MarkdownUtil.escape(apiExceptionAlert.getThrowable().toString()))
                     .append("</font>");
 
             if (!CollectionUtils.isEmpty(apiMonitorProperties.getExceptionApiMonitor().getReminders())) {
@@ -149,7 +150,7 @@ public class ApiExceptionMessageFactory extends AbstractMessageFactory implement
                 boolean isExceptionRemindType = apiException.getRemindType() == ApiExceptionRemindType.EXCEPTION_INFO;
                 content.append("\n>**异常信息**：")
                         .append(isExceptionRemindType ? "<font color=\"warning\">" : StringUtils.EMPTY)
-                        .append(apiException.getThrowable().toString())
+                        .append(MarkdownUtil.escape(apiException.getThrowable().toString()))
                         .append(isExceptionRemindType ? "</font>" : StringUtils.EMPTY);
             }
             needMention |= apiException.getNeedAtSomeone();
