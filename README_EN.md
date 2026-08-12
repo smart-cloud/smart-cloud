@@ -295,7 +295,7 @@ Star ⭐, Fork 🍴, and PR 🔧 are welcome!
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=smart-cloud/smart-cloud&type=Date)](https://star-history.com/#smart-cloud/smart-cloud&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=smart-cloud/smart-cloud&type=Date)](https://star-history.dera.page/#smart-cloud/smart-cloud&Date)
 
 ---
 
