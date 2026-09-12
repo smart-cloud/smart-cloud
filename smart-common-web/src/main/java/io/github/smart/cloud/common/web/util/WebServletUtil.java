@@ -66,7 +66,7 @@ public class WebServletUtil {
 
 		// 如果是多级代理，那么取第一个ip为客户ip
 		if (ip != null && ip.contains(SymbolConstant.COMMA)) {
-			ip = ip.substring(ip.lastIndexOf(SymbolConstant.COMMA) + 1, ip.length()).trim();
+			ip = ip.substring(0, ip.indexOf(SymbolConstant.COMMA)).trim();
 		}
 		return ip;
 	}

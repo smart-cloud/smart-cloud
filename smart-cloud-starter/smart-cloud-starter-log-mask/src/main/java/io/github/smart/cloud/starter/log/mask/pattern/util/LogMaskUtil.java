@@ -40,12 +40,12 @@ public class LogMaskUtil {
             // 2、脱敏
             Pattern pattern = LogMaskContext.get();
             if (pattern == null) {
-                if (MaskMode.ANNOTATION.getValue() == PatternConfig.getMode()) {
+                if (MaskMode.ANNOTATION.getValue().compareTo(PatternConfig.getMode()) == 0) {
                     // 上下文中没标注，则不脱敏
                     return formattedMessage;
                 }
                 // 全脱敏
-                else if (MaskMode.FULL.getValue() == PatternConfig.getMode()) {
+                else if (MaskMode.FULL.getValue().compareTo(PatternConfig.getMode()) == 0) {
                     return PatternUtil.mask(formattedMessage);
                 }
 

@@ -97,7 +97,7 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
                     log.warn(SLOW_LOG_PATTERN, truncate(buildLogAspectDO(invocation.getArguments(), result, cost), apiLogProperties.getLogMaxLength()));
                 } else {
                     Set<String> ignoreUrls = apiLogProperties.getIgnoreUrls();
-                    if (ignoreUrls == null || !ignoreUrls.contains(WebServletUtil.getHttpServletRequest().getPathInfo())) {
+                    if (ignoreUrls == null || !ignoreUrls.contains(WebServletUtil.getHttpServletRequest().getRequestURI())) {
                         ApiLog apiLog = invocation.getMethod().getAnnotation(ApiLog.class);
                         LogLevel logLevel = (apiLog == null) ? LogLevel.INFO : apiLog.level();
                         if (LogLevel.DEBUG == logLevel && log.isDebugEnabled()) {
@@ -133,7 +133,7 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
     private LogAspectDTO buildLogAspectDO(Object[] args, Object result, long cost) {
         HttpServletRequest request = WebServletUtil.getHttpServletRequest();
         return LogAspectDTO.builder()
-                .url(request.getPathInfo())
+                .url(request.getRequestURI())
                 .method(request.getMethod())
                 .head(getHeaders(request))
                 .args(getRequestArgs(args))

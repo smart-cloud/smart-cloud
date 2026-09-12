@@ -35,6 +35,7 @@ public class HttpsCertificateUtil {
      * https前缀
      */
     private static final String HTTPS_PREFIX = "https://";
+    private static final int DEFAULT_TIMEOUT_MILLIS = 10000;
 
     /**
      * 获取证书有效期（有效期从小到大排序）
@@ -45,6 +46,16 @@ public class HttpsCertificateUtil {
      * @throws IOException
      */
     public static List<Date> getValidTimes(String url, Proxy proxy) throws IOException {
+        return getValidTimes(url, proxy, DEFAULT_TIMEOUT_MILLIS);
+    }
+
+    /**
+     * 获取证书有效期，并限制网络连接和读取时间。
+     */
+    public static List<Date> getValidTimes(String url, Proxy proxy, int timeoutMillis) throws IOException {
+        if (timeoutMillis <= 0) {
+            throw new IllegalArgumentException("timeoutMillis must be greater than zero");
+        }
         if (!url.startsWith(HTTPS_PREFIX)) {
             url = HTTPS_PREFIX + url;
         }
@@ -56,6 +67,8 @@ public class HttpsCertificateUtil {
             } else {
                 connection = (HttpsURLConnection) new URL(url).openConnection();
             }
+            connection.setConnectTimeout(timeoutMillis);
+            connection.setReadTimeout(timeoutMillis);
             connection.connect();
 
             Certificate[] certificates = connection.getServerCertificates();

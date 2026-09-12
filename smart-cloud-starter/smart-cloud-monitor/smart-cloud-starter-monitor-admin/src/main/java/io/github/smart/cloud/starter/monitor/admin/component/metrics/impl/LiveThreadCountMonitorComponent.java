@@ -79,7 +79,7 @@ public class LiveThreadCountMonitorComponent extends AbstractInstanceMetricsMoni
             MatchIncreaseResultDTO matchIncreaseResult = matchKeepIncreasing(name, instance.getId().toString(),
                     currentLiveThreadCount);
             if (matchIncreaseResult.getMatch()) {
-                String alertDesc = String.format("活动线程数连续新增超过预警值[%f][%d次]，当前线程数[%f]", getDiffThreshold(name),
+                String alertDesc = String.format("活动线程数连续新增超过预警值[%.2f][%d次]，当前线程数[%d]", getDiffThreshold(name),
                         getKeepIncreasingCount(name), currentLiveThreadCount);
                 return MetricCheckResultDTO.alert(MetricCheckStatus.KEEP_INCREASING_EXCEPTION, alertDesc);
             }

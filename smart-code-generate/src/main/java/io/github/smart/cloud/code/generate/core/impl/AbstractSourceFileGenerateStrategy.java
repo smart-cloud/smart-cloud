@@ -25,6 +25,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
@@ -119,7 +120,10 @@ public abstract class AbstractSourceFileGenerateStrategy<T extends CommonBO> imp
      * @return
      */
     private static String getClassFilePath(String basePath, String classPackage, String className) {
-        return basePath + Config.SRC_MAIN_JAVA + classPackage.replaceAll("\\.", "/") + "/" + className + Config.JAVA_FILE_SUFFIX;
+        return Paths.get(basePath, Config.SRC_MAIN_JAVA,
+                        classPackage.replace('.', File.separatorChar),
+                        className + Config.JAVA_FILE_SUFFIX)
+                .normalize().toString();
     }
 
 }

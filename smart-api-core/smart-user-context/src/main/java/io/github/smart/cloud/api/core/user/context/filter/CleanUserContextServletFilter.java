@@ -41,8 +41,11 @@ public class CleanUserContextServletFilter extends OncePerRequestFilter implemen
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
-        AbstractUserContext.remove();
+        try {
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+        } finally {
+            AbstractUserContext.remove();
+        }
     }
 
 }

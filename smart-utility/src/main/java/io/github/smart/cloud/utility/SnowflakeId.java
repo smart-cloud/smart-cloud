@@ -146,8 +146,8 @@ public final class SnowflakeId {
         if (current >= newest) {
             try {
                 TimeUnit.MILLISECONDS.sleep(5);
-            } catch (InterruptedException ignore) {
-                // don't care
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -188,6 +188,9 @@ public final class SnowflakeId {
                 continue;
             }
             byte[] mac = networkInterface.getHardwareAddress();
+            if (mac == null || mac.length < 6) {
+                continue;
+            }
             return ((mac[4] & 0B11) << 8) | (mac[5] & 0xFF);
         }
         throw new RuntimeException("no available mac found");

@@ -76,9 +76,20 @@ public class Response<T> implements Serializable {
         this.message = message;
     }
 
-    public Response(T body) {
-        this(CommonReturnCodes.SUCCESS, null);
-        this.body = body;
+    /**
+     * 创建一个成功且带响应体的响应对象。
+     *
+     * <p>不能再使用 {@code Response(T)} 构造函数：当 T 为 String 时，
+     * 它会与 {@code Response(String code)} 发生重载歧义并把响应体误当成状态码。</p>
+     *
+     * @param body 响应体
+     * @param <T> 响应体类型
+     * @return 成功响应
+     */
+    public static <T> Response<T> withBody(T body) {
+        Response<T> response = new Response<>(CommonReturnCodes.SUCCESS, null);
+        response.setBody(body);
+        return response;
     }
 
 }

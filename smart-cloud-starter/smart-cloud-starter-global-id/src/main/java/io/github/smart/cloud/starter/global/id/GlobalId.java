@@ -25,7 +25,7 @@ import io.github.smart.cloud.utility.SnowflakeId;
  */
 public class GlobalId {
 
-    private static SnowflakeId snowflakeId;
+    private static volatile SnowflakeId snowflakeId;
 
     private GlobalId() {
     }

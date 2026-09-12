@@ -23,10 +23,11 @@ import io.github.smart.cloud.code.generate.constants.DbConstants;
 import io.github.smart.cloud.code.generate.enums.GenerateTypeEnum;
 import io.github.smart.cloud.code.generate.properties.CodeProperties;
 import io.github.smart.cloud.code.generate.properties.DbProperties;
-import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 import java.util.*;
@@ -63,10 +64,20 @@ public class DbUtil {
         Connection connection = DriverManager.getConnection(db.getUrl(), props);
         String schema = db.getSchema();
         if (schema != null && schema.trim().length() > 0) {
-            String fileContent = FileUtils.readFileToString(new ClassPathResource(schema).getFile(), StandardCharsets.UTF_8);
+            ClassPathResource resource = new ClassPathResource(schema);
+            String fileContent;
+            try (InputStream inputStream = resource.getInputStream()) {
+                fileContent = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+            }
             if (fileContent != null && fileContent.trim().length() > 0) {
-                try (PreparedStatement preparedStatement = connection.prepareStatement(fileContent.trim())) {
-                    preparedStatement.execute();
+                // 按语句执行，兼容 schema.sql 中包含多条初始化 SQL 的场景。
+                for (String statement : fileContent.split(";")) {
+                    if (statement.trim().length() == 0) {
+                        continue;
+                    }
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(statement.trim())) {
+                        preparedStatement.execute();
+                    }
                 }
             }
         }

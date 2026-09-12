@@ -19,7 +19,11 @@ import io.github.smart.cloud.common.web.filter.ReactiveRequestContextHolder;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.ClassUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -43,6 +47,11 @@ public class WebUtil {
 	private static final boolean WEBFLUX_PRESENT = ClassUtils.isPresent(WEBFLUX_INDICATOR_CLASS, null);
 
 	public static boolean isWebFlux() {
+        // Classpath presence is not enough when Servlet and WebFlux are both present.
+        RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
+        if (attributes instanceof ServletRequestAttributes) {
+            return false;
+        }
 		return WEBFLUX_PRESENT;
 	}
 
@@ -71,7 +80,7 @@ public class WebUtil {
 
 	public static String getMappingPath() {
 		if (isWebFlux()) {
-			return WebReactiveUtil.getServerHttpRequest().getPath().contextPath().value();
+			return WebReactiveUtil.getServerHttpRequest().getPath().pathWithinApplication().value();
 		}
 
 		return WebServletUtil.getHttpServletRequest().getServletPath();
@@ -87,7 +96,8 @@ public class WebUtil {
 
 	public static String getUserAgent() {
 		if (isWebFlux()) {
-			return ReactiveRequestContextHolder.getHttpHeaders().getFirst(USER_AGENT);
+			HttpHeaders headers = ReactiveRequestContextHolder.getHttpHeaders();
+			return headers == null ? null : headers.getFirst(USER_AGENT);
 		}
 
 		return WebServletUtil.getHttpServletRequest().getHeader(USER_AGENT);
@@ -127,16 +137,22 @@ public class WebUtil {
 		}
 
 		boolean canConnect = false;
+		HttpURLConnection connection = null;
 		try {
 			URL urlConnection = new URL(url);
 
-			HttpURLConnection connection = (HttpURLConnection) urlConnection.openConnection();
+			connection = (HttpURLConnection) urlConnection.openConnection();
 			connection.setUseCaches(false);
 			connection.setConnectTimeout(timeout);
+			connection.setReadTimeout(timeout);
 			int state = connection.getResponseCode();
 			canConnect = (state == HttpURLConnection.HTTP_OK);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+		} finally {
+			if (connection != null) {
+				connection.disconnect();
+			}
 		}
 
 		return canConnect;

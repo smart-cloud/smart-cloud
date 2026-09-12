@@ -68,8 +68,12 @@ public class OfflineCheckSchedule implements InitializingBean, ApplicationListen
         }
 
         OFF_LINE_SERVICES.forEach(name -> {
-            Long healthInstanceCount = instanceRepository.findByName(name).filter(item -> item.getStatusInfo().isUp()).count().share().block();
-            if (healthInstanceCount > 0 || monitorProperties.getExcludeOfflineCheckServices().contains(name)) {
+            Long healthInstanceCount = instanceRepository.findByName(name)
+                    .filter(item -> item.getStatusInfo() != null && item.getStatusInfo().isUp())
+                    .count().share().block();
+            if (healthInstanceCount != null && (healthInstanceCount > 0
+                    || (monitorProperties.getExcludeOfflineCheckServices() != null
+                    && monitorProperties.getExcludeOfflineCheckServices().contains(name)))) {
                 OFF_LINE_SERVICES.remove(name);
             } else {
                 applicationEventPublisher.publishEvent(new OfflineNoticeEvent(this, name));
@@ -80,7 +84,7 @@ public class OfflineCheckSchedule implements InitializingBean, ApplicationListen
     @Override
     public void afterPropertiesSet() throws Exception {
         checkOfflineSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("check-off-line-service"));
-        checkOfflineSchedule.scheduleWithFixedDelay(this::checkOffline, monitorProperties.getCheckOfflineTs(), monitorProperties.getCheckOfflineTs(), TimeUnit.SECONDS);
+        checkOfflineSchedule.scheduleWithFixedDelay(this::checkOffline, monitorProperties.getCheckOfflineTs(), monitorProperties.getCheckOfflineTs(), TimeUnit.MILLISECONDS);
     }
 
     @Override

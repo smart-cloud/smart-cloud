@@ -96,7 +96,7 @@ public class GitLabComponent implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         if (enable()) {
-            this.jobsUrlTemplate = String.format("%s/api/v4/projects/%d/jobs?scope[]=running&scope[]=success", monitorProperties.getGitlab().getUrlPrefix());
+            this.jobsUrlTemplate = monitorProperties.getGitlab().getUrlPrefix() + "/api/v4/projects/%d/jobs?scope[]=running&scope[]=success";
 
             this.headers = new Header[1];
             headers[0] = new BasicHeader("PRIVATE-TOKEN", monitorProperties.getGitlab().getToken());

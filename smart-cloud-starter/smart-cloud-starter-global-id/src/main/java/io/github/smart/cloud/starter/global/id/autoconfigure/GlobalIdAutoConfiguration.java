@@ -19,6 +19,7 @@ import io.github.smart.cloud.exception.AcquiredLockFailException;
 import io.github.smart.cloud.starter.global.id.GlobalId;
 import io.github.smart.cloud.starter.global.id.constants.RedisKey;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -36,6 +37,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class GlobalIdAutoConfiguration implements InitializingBean {
 
     private final RedissonClient redissonClient;
@@ -81,8 +83,7 @@ public class GlobalIdAutoConfiguration implements InitializingBean {
             }
         }
 
-        workId = workId % MAX_WORKER_ID;
-        GlobalId.init(workId);
+        GlobalId.init(workId % MAX_WORKER_ID);
     }
 
 }

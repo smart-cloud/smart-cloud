@@ -21,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.util.context.ContextView;
 
 /**
  * reactive上下文
@@ -31,6 +32,10 @@ import org.springframework.web.server.ServerWebExchange;
 @UtilityClass
 public class ReactiveRequestContextHolder {
 
+    /** Reactor Context 中保存请求 exchange 的 key。 */
+    public static final String SERVER_WEB_EXCHANGE_CONTEXT_KEY = ReactiveRequestContextHolder.class.getName()
+            + ".SERVER_WEB_EXCHANGE";
+
     private static final ThreadLocal<ServerWebExchange> SERVER_WEB_EXCHANGE_HOLDER = new NamedThreadLocal<>(
             "ServerWebExchange context");
 
@@ -38,12 +43,34 @@ public class ReactiveRequestContextHolder {
         return SERVER_WEB_EXCHANGE_HOLDER.get();
     }
 
+    /**
+     * 优先从 Reactor Context 读取请求上下文，ThreadLocal 仅作为同步代码兼容回退。
+     */
+    public static ServerWebExchange getServerWebExchange(ContextView contextView) {
+        if (contextView != null && contextView.hasKey(SERVER_WEB_EXCHANGE_CONTEXT_KEY)) {
+            return contextView.get(SERVER_WEB_EXCHANGE_CONTEXT_KEY);
+        }
+        return getServerWebExchange();
+    }
+
+    static ServerWebExchange getThreadLocalServerWebExchange() {
+        return SERVER_WEB_EXCHANGE_HOLDER.get();
+    }
+
     public static void setServerWebExchange(ServerWebExchange exchange) {
-        SERVER_WEB_EXCHANGE_HOLDER.set(exchange);
+        if (exchange == null) {
+            SERVER_WEB_EXCHANGE_HOLDER.remove();
+        } else {
+            SERVER_WEB_EXCHANGE_HOLDER.set(exchange);
+        }
     }
 
     public static void removeServerWebExchange() {
         SERVER_WEB_EXCHANGE_HOLDER.remove();
+    }
+
+    static void restoreServerWebExchange(ServerWebExchange exchange) {
+        setServerWebExchange(exchange);
     }
 
     public static HttpHeaders getHttpHeaders() {

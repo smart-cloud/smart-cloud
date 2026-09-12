@@ -240,7 +240,11 @@ public class ExceptionApiMonitorDataProcessor implements IApiMonitorDataProcesso
             }
 
             BigDecimal failCount = BigDecimal.valueOf(failCountCount);
-            BigDecimal total = BigDecimal.valueOf(apiRequestSummary.getTotalCount());
+            long totalCountValue = apiRequestSummary.getTotalCount();
+            if (totalCountValue <= 0) {
+                continue;
+            }
+            BigDecimal total = BigDecimal.valueOf(totalCountValue);
             BigDecimal failRate = failCount.divide(total, 4, RoundingMode.HALF_UP);
             ApiExceptionRemindType remindType = match(name, total, failRate, apiRequestSummary.getThrowable());
             if (remindType != ApiExceptionRemindType.NONE) {
@@ -266,14 +270,16 @@ public class ExceptionApiMonitorDataProcessor implements IApiMonitorDataProcesso
                 ApiExceptionRemindType remindType2 = o2.getRemindType();
                 // 异常信息类型排在前
                 if (ApiExceptionRemindType.EXCEPTION_INFO == remindType1 && ApiExceptionRemindType.EXCEPTION_INFO != remindType2) {
-                    return 1;
-                }
-                if (ApiExceptionRemindType.EXCEPTION_INFO != remindType1 && ApiExceptionRemindType.EXCEPTION_INFO == remindType2) {
                     return -1;
                 }
+                if (ApiExceptionRemindType.EXCEPTION_INFO != remindType1 && ApiExceptionRemindType.EXCEPTION_INFO == remindType2) {
+                    return 1;
+                }
 
-                // 按失败率倒叙排序
-                return (int) (o2.getFailCount() * o1.getTotalCount() - o1.getFailCount() * o2.getTotalCount());
+                // 按失败率倒叙排序，使用 BigDecimal 避免 long 乘法溢出。
+                BigDecimal left = BigDecimal.valueOf(o2.getFailCount()).multiply(BigDecimal.valueOf(o1.getTotalCount()));
+                BigDecimal right = BigDecimal.valueOf(o1.getFailCount()).multiply(BigDecimal.valueOf(o2.getTotalCount()));
+                return left.compareTo(right);
             });
             // 异常接口超过最大上报数量时，进行裁剪
             if (apiExceptions.size() > exceptionApiMonitorProperties.getApiReportMaxCount()) {

@@ -47,7 +47,7 @@ public class ResponseUtil {
      * @return
      */
     public static <R> Response<R> success(R data) {
-        return new Response<>(data);
+        return Response.withBody(data);
     }
 
     /**

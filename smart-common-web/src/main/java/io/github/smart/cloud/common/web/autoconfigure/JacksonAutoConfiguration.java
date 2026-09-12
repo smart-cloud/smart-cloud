@@ -43,6 +43,7 @@ public class JacksonAutoConfiguration {
             jacksonObjectMapperBuilder.serializerByType(BigInteger.class, ToStringSerializer.instance);
             jacksonObjectMapperBuilder.serializerByType(BigDecimal.class, ToStringSerializer.instance);
             jacksonObjectMapperBuilder.serializerByType(Long.class, ToStringSerializer.instance);
+            jacksonObjectMapperBuilder.serializerByType(Long.TYPE, ToStringSerializer.instance);
         };
     }
 

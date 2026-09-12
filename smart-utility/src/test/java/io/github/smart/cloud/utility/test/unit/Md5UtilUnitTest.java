@@ -20,13 +20,16 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 class Md5UtilUnitTest {
 
     @Test
-    void testGenerateFileMd5() throws IOException {
-        String path = Md5UtilUnitTest.class.getResource("").getFile() + Md5UtilUnitTest.class.getSimpleName()
-                + ".class";
+    void testGenerateFileMd5() throws IOException, URISyntaxException {
+        String path = Paths.get(Md5UtilUnitTest.class.getResource("").toURI())
+                .resolve(Md5UtilUnitTest.class.getSimpleName() + ".class")
+                .toString();
 
         String md5 = Md5Util.generateFileMd5(path);
         Assertions.assertThat(md5).isNotBlank();

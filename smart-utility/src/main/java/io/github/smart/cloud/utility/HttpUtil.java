@@ -206,15 +206,14 @@ public class HttpUtil {
             httpPost.setHeaders(headers);
         }
         String result = null;
+        int statusCode = -1;
         try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
             HttpResponse response = client.execute(httpPost);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                result = EntityUtils.toString(entity, charset);
-            }
+            statusCode = response.getStatusLine().getStatusCode();
+            result = readResponse(response, charset);
         } finally {
-            if (log.isInfoEnabled()) {
-                log.info("{} | headers=>{}, stringEntity=>{}, result=>{}", url, JacksonUtil.toJson(headers), stringEntity, result);
+            if (log.isDebugEnabled()) {
+                log.debug("{} | headers=>{}, stringEntity=>{}, statusCode={}, result=>{}", url, JacksonUtil.toJson(headers), stringEntity, statusCode, result);
             }
         }
 
@@ -267,15 +266,14 @@ public class HttpUtil {
         httpPost.setHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED.toString());
 
         String result = null;
+        int statusCode = -1;
         try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
             HttpResponse response = client.execute(httpPost);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                result = EntityUtils.toString(entity, charset);
-            }
+            statusCode = response.getStatusLine().getStatusCode();
+            result = readResponse(response, charset);
         } finally {
-            if (log.isInfoEnabled()) {
-                log.info("{} | parameters=>{}, result=>{}", url, JacksonUtil.toJson(parameters), result);
+            if (log.isDebugEnabled()) {
+                log.debug("{} | parameters=>{}, statusCode={}, result=>{}", url, JacksonUtil.toJson(parameters), statusCode, result);
             }
         }
 
@@ -379,11 +377,19 @@ public class HttpUtil {
                 Map.Entry<String, JsonNode> entry = jsonNodeIterator.next();
                 JsonNode jsonNode = entry.getValue();
                 if (jsonNode.isArray()) {
-                    String jsonArrayStr = jsonNode.toString();
-                    // 移除首尾的“[]”
-                    builder.setParameter(entry.getKey(), jsonArrayStr.substring(1, jsonArrayStr.length() - 1));
+                    StringBuilder arrayValue = new StringBuilder();
+                    for (JsonNode element : jsonNode) {
+                        if (arrayValue.length() > 0) {
+                            arrayValue.append(',');
+                        }
+                        if (!element.isNull()) {
+                            arrayValue.append(element.isValueNode() ? element.asText() : element.toString());
+                        }
+                    }
+                    builder.setParameter(entry.getKey(), arrayValue.toString());
                 } else if (!jsonNode.isNull()) {
-                    builder.setParameter(entry.getKey(), jsonNode.asText());
+                    builder.setParameter(entry.getKey(),
+                            jsonNode.isValueNode() ? jsonNode.asText() : jsonNode.toString());
                 }
             }
         }
@@ -396,19 +402,28 @@ public class HttpUtil {
         }
 
         String result = null;
+        int statusCode = -1;
         try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
             HttpResponse response = client.execute(httpGet);
-            HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                result = EntityUtils.toString(entity, charset);
-            }
+            statusCode = response.getStatusLine().getStatusCode();
+            result = readResponse(response, charset);
         } finally {
-            if (log.isInfoEnabled()) {
-                log.info("{} | requestJsonStr={}, result=>{}", url, requestJsonStr, result);
+            if (log.isDebugEnabled()) {
+                log.debug("{} | requestJsonStr={}, statusCode={}, result=>{}", url, requestJsonStr, statusCode, result);
             }
         }
 
         return result;
+    }
+
+    private static String readResponse(HttpResponse response, String charset) throws IOException {
+        int statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode < HttpStatus.SC_OK || statusCode >= HttpStatus.SC_MULTIPLE_CHOICES) {
+            throw new IOException("HTTP request failed with status " + statusCode);
+        }
+
+        HttpEntity entity = response.getEntity();
+        return entity == null ? null : EntityUtils.toString(entity, charset);
     }
 
     /**

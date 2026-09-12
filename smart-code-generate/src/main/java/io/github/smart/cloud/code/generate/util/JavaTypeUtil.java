@@ -41,7 +41,7 @@ public class JavaTypeUtil {
         MysqlType mysqlType = MysqlType.getByJdbcType(jdbcType);
         if (isByteType(mysqlType, length)) {
             return Byte.class.getSimpleName();
-        } else if (mysqlType == MysqlType.TIMESTAMP || mysqlType == MysqlType.DATETIME) {
+        } else if (mysqlType == MysqlType.TIMESTAMP || mysqlType == MysqlType.DATE || mysqlType == MysqlType.DATETIME) {
             return Date.class.getSimpleName();
         } else if (mysqlType == MysqlType.BLOB || mysqlType == MysqlType.VARBINARY
                 || mysqlType == MysqlType.TINYBLOB || mysqlType == MysqlType.MEDIUMBLOB
@@ -74,10 +74,9 @@ public class JavaTypeUtil {
     }
 
     private static boolean isByteType(MysqlType mysqlType, int length) {
-        return length <= 2 && (mysqlType == MysqlType.INT || mysqlType == MysqlType.INT_UNSIGNED
-                || mysqlType == MysqlType.BIT
-                || mysqlType == MysqlType.SMALLINT || mysqlType == MysqlType.SMALLINT_UNSIGNED
-                || mysqlType == MysqlType.TINYINT || mysqlType == MysqlType.TINYINT_UNSIGNED);
-    }
+        return (length <= 3 && (mysqlType == MysqlType.TINYINT || mysqlType == MysqlType.TINYINT_UNSIGNED))
+                || (length <= 1 && mysqlType == MysqlType.BIT);
+
+}
 
 }

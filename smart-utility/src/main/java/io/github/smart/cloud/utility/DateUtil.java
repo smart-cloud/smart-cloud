@@ -255,7 +255,8 @@ public class DateUtil {
             try {
                 initZoneId();
             } catch (Exception e) {
-                log.error("init zoneid fail", e);
+                log.warn("init zoneid fail, use system default zone id", e);
+                zoneId = ZoneId.systemDefault();
             }
         }
 
@@ -273,7 +274,9 @@ public class DateUtil {
             DATETIME_FORMATTER_ROUTER.put(DatePatternConst.DATE_HH_MM.length(), DateFormatterConst.DATE_HH_MM);
             DATETIME_FORMATTER_ROUTER.put(DatePatternConst.DATETIME.length(), DateFormatterConst.DATETIME);
             DATETIME_FORMATTER_ROUTER.put(DatePatternConst.DATETIME_SSS.length(), DateFormatterConst.DATETIME_SSS);
-            DATETIME_FORMATTER_ROUTER.put(DatePatternConst.UTC.length(), DateFormatterConst.UTC);
+            // DatePatternConst.UTC contains four literal quote characters, which are not part of the formatted value.
+            int utcLength = DateFormatterConst.UTC.format(LocalDateTime.of(2000, 1, 1, 0, 0, 0, 0)).length();
+            DATETIME_FORMATTER_ROUTER.put(utcLength, DateFormatterConst.UTC);
         }
 
         /**

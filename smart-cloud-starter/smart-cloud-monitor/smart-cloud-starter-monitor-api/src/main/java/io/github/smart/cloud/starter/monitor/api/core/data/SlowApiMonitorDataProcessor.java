@@ -128,8 +128,11 @@ public class SlowApiMonitorDataProcessor implements IApiMonitorDataProcessor<Api
             }
 
 
-            BigDecimal slowRateThreshold = slowApiMonitorProperties.getSlowRateThreshold(apiName);
             long totalCount = apiRequestSummary.getTotalCount();
+            if (totalCount <= 0) {
+                continue;
+            }
+            BigDecimal slowRateThreshold = slowApiMonitorProperties.getSlowRateThreshold(apiName);
             BigDecimal slowRate = BigDecimal.valueOf(slowCount).divide(BigDecimal.valueOf(totalCount), 4, RoundingMode.HALF_UP);
 
             ApiSlowAlertDTO apiSlowAlert = new ApiSlowAlertDTO();

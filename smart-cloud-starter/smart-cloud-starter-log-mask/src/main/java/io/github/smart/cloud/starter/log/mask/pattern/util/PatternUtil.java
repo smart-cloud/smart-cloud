@@ -64,7 +64,7 @@ public class PatternUtil {
             String key = matcher.group(1);
             if (names == null || names.contains(key.toLowerCase())) {
                 String separator = matcher.group(2);
-                matcher.appendReplacement(sb, key + separator + LogMaskConstants.MASK_VALUE);
+                matcher.appendReplacement(sb, Matcher.quoteReplacement(key + separator + LogMaskConstants.MASK_VALUE));
             }
         }
         return matcher.appendTail(sb).toString();

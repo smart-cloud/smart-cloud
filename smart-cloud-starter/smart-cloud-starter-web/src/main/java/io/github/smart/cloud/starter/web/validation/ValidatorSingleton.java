@@ -43,18 +43,14 @@ public class ValidatorSingleton {
          * hibernate-validator校验实例
          */
         INSTANCE;
-        private Validator validator;
+        private final Validator validator;
 
         Holder() {
-            try{
-                ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
-                        .configure()
-                        .addProperty("hibernate.validator.fail_fast", "true")
-                        .buildValidatorFactory();
-                validator = validatorFactory.getValidator();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            ValidatorFactory validatorFactory = Validation.byProvider(HibernateValidator.class)
+                    .configure()
+                    .addProperty("hibernate.validator.fail_fast", "true")
+                    .buildValidatorFactory();
+            validator = validatorFactory.getValidator();
         }
     }
 

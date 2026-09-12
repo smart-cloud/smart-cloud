@@ -44,7 +44,7 @@ public class MyBatisPlusAutoConfiguration {
      * @return
      */
     @Bean
-    @ConditionalOnProperty(prefix = ConfigureConstant.SMART_PROPERTIES_PREFIX, name = ".dbQueryMonitor.enable", havingValue = "true", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = ConfigureConstant.SMART_PROPERTIES_PREFIX, name = "dbQueryMonitor.enable", havingValue = "true", matchIfMissing = true)
     public DbQueryMonitor dbQueryMonitor(final SmartProperties smartProperties) {
         return new DbQueryMonitor(smartProperties);
     }

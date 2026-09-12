@@ -56,7 +56,7 @@ public class TransactionUtil {
         try {
             action.accept(status);
             commitTransaction(status);
-        } catch (Exception e) {
+        } catch (RuntimeException | Error e) {
             rollbackTransaction(status);
             throw e;
         }
@@ -72,7 +72,6 @@ public class TransactionUtil {
     public <T> T executeInTransaction(Function<TransactionStatus, T> action) {
         return executeInTransaction(action, TransactionDefinition.PROPAGATION_REQUIRED);
     }
-// TODO:异常时回滚后是否抛异常
 
     /**
      * 在指定传播行为的事务中执行有返回值的操作
@@ -88,7 +87,7 @@ public class TransactionUtil {
             T result = action.apply(status);
             commitTransaction(status);
             return result;
-        } catch (Exception e) {
+        } catch (RuntimeException | Error e) {
             rollbackTransaction(status);
             throw e;
         }

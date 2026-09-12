@@ -50,6 +50,13 @@ class ResponseUtilTest {
     }
 
     @Test
+    void testSuccessWithStringBody() {
+        Response<String> response = ResponseUtil.success("hello");
+        Assertions.assertThat(response.getCode()).isEqualTo(CommonReturnCodes.SUCCESS);
+        Assertions.assertThat(response.getBody()).isEqualTo("hello");
+    }
+
+    @Test
     void testIsSuccess() {
         Assertions.assertThat(ResponseUtil.isSuccess(ResponseUtil.error(CommonReturnCodes.VALIDATE_FAIL))).isFalse();
         Assertions.assertThat(ResponseUtil.isSuccess(ResponseUtil.success())).isTrue();

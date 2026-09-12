@@ -23,6 +23,7 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.TimeUnit;
 
 class NonceUtilUnitTest {
 
@@ -37,13 +38,14 @@ class NonceUtilUnitTest {
                 try {
                     cyclicBarrier.await();
                     values.add(String.valueOf(NonceUtil.nextId()));
-                    latch.countDown();
                 } catch (InterruptedException | BrokenBarrierException e) {
                     e.printStackTrace();
+                } finally {
+                    latch.countDown();
                 }
             }).start();
         }
-        latch.await();
+        Assertions.assertThat(latch.await(10, TimeUnit.SECONDS)).isTrue();
 
         Assertions.assertThat(values).hasSize(parties);
     }

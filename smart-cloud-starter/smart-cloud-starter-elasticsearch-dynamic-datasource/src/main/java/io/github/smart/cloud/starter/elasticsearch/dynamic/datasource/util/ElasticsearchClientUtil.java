@@ -70,8 +70,7 @@ public class ElasticsearchClientUtil {
         try {
             return dynamicRestHighLevelClient.determine().indices().exists(new GetIndexRequest(indexName), RequestOptions.DEFAULT);
         } catch (IOException e) {
-            log.error("indexName={}", indexName, e);
-            return false;
+            throw new IllegalStateException("Failed to check whether Elasticsearch index exists: " + indexName, e);
         }
     }
 

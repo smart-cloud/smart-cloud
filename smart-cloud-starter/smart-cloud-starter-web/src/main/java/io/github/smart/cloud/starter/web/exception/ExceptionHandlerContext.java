@@ -17,10 +17,8 @@ package io.github.smart.cloud.starter.web.exception;
 
 import io.github.smart.cloud.common.pojo.Response;
 import io.github.smart.cloud.constants.CommonReturnCodes;
-import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.starter.core.util.ResponseUtil;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * 异常处理工具
@@ -51,20 +49,7 @@ public class ExceptionHandlerContext {
             }
         }
 
-        if (e != null) {
-            String message = e.getMessage();
-            if (StringUtils.isBlank(message)) {
-                message = e.toString();
-                // 只取异常类名
-                int index = message.lastIndexOf(SymbolConstant.DOT);
-                if (index != -1) {
-                    message = message.substring(index + 1);
-                }
-            }
-
-            return ResponseUtil.of(CommonReturnCodes.SERVER_ERROR, message);
-        }
-
+        // 未分类异常可能包含 SQL、文件路径、凭据或内部类名等敏感信息，不能直接返回客户端。
         return ResponseUtil.of(CommonReturnCodes.SERVER_ERROR, null);
     }
 

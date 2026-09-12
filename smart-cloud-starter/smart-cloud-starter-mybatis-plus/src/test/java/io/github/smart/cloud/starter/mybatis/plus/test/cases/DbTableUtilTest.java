@@ -47,7 +47,7 @@ class DbTableUtilTest {
     @Test
     void testCreateTableIfAbsent() {
         String sourceTableName = "t_product_info";
-        String targetTableName = String.format("_%s", sourceTableName, RandomUtil.uuid());
+        String targetTableName = String.format("%s_%s", sourceTableName, RandomUtil.uuid());
         // 不存在
         boolean result1 = DbTableUtil.createTableIfAbsent("test_mybatis_plus", sourceTableName, targetTableName, dynamicRoutingDataSource.determineDataSource());
         Assertions.assertThat(result1).isTrue();

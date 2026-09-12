@@ -99,7 +99,7 @@ public class BaseRepository<M extends SmartMapper<T>, T extends BaseEntity> exte
         IPage<T> page = super.page(new Page<>(q.getPageNum(), q.getPageSize(), true), wrapper);
         List<T> entityDatas = page.getRecords();
         if (CollectionUtils.isEmpty(entityDatas)) {
-            return new BasePageResponse<>(null, q.getPageNum(), q.getPageSize(), 0);
+            return new BasePageResponse<>(null, q.getPageNum(), q.getPageSize(), page.getTotal());
         }
 
         List<R> pageDatas = entityDatas.stream()

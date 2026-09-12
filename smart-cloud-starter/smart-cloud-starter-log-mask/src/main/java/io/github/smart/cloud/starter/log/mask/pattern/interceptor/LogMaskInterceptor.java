@@ -33,6 +33,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -55,7 +56,9 @@ public class LogMaskInterceptor implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         // 非注解脱敏
-        if (logMaskProperties.getMode() == null || MaskMode.ANNOTATION.getValue().compareTo(logMaskProperties.getMode()) != 0) {
+        Integer mode = logMaskProperties.getMode();
+        if (mode == null || (MaskMode.ANNOTATION.getValue().compareTo(mode) != 0
+                && MaskMode.FULL.getValue().compareTo(mode) != 0)) {
             return invocation.proceed();
         }
 
@@ -65,15 +68,25 @@ public class LogMaskInterceptor implements MethodInterceptor {
         } catch (Exception e) {
             log.warn("getLogMask error|method={}#{}", invocation.getMethod().getDeclaringClass(), invocation.getMethod().getName(), e);
         }
+        if (logMask == null && MaskMode.FULL.getValue().compareTo(mode) == 0) {
+            logMask = DEFAULT_LOGMASK;
+        }
         if (logMask == null) {
             return invocation.proceed();
         }
 
+        Pattern previousPattern = LogMaskContext.get();
         try {
             LogMaskContext.set(logMask.regex());
             return invocation.proceed();
         } finally {
-            LogMaskContext.remove();
+            if (logMask.cleanAfter()) {
+                if (previousPattern == null) {
+                    LogMaskContext.remove();
+                } else {
+                    LogMaskContext.set(previousPattern);
+                }
+            }
         }
     }
 
@@ -117,10 +130,9 @@ public class LogMaskInterceptor implements MethodInterceptor {
                 if (logMask != null) {
                     LOG_MASK_CACHE.put(method, logMask);
                     return logMask;
-                } else {
-                    LOG_MASK_CACHE.put(method, DEFAULT_LOGMASK);
-                    return DEFAULT_LOGMASK;
                 }
+                // In ANNOTATION mode an unannotated mapper must not be treated as FULL mode.
+                return null;
             }
         }
 

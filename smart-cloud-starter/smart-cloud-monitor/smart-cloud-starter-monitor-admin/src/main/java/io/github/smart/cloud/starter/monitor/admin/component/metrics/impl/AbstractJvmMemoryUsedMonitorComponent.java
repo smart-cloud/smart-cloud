@@ -72,6 +72,7 @@ public abstract class AbstractJvmMemoryUsedMonitorComponent extends AbstractInst
             MatchIncreaseResultDTO matchIncreaseResult = matchKeepIncreasing(serviceName, instance.getId().toString(), valueNode.asLong());
             if (matchIncreaseResult.getMatch()) {
                 String alertDesc = String.format("内存连续新增超过预警值[%dMB][%d次]，当前内值[%dMB]，有内存泄漏倾向",
+                        getKeepIncreasingSpeedThreshold(serviceName).toMegabytes(),
                         getKeepIncreasingCount(serviceName), currentSize.toMegabytes());
                 return MetricCheckResultDTO.alert(MetricCheckStatus.KEEP_INCREASING_EXCEPTION, alertDesc);
             }

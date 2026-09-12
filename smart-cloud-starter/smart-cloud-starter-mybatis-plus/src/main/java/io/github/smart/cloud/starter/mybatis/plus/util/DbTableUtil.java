@@ -120,13 +120,20 @@ public class DbTableUtil {
      * @return
      */
     private static List<String> queryTables(String targetDbName, String tableName, boolean prefix, DataSource dataSource) {
-        if (prefix) {
-            tableName += SymbolConstant.PERCENT;
-        }
         List<String> tablesWithPrefix = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
             DatabaseMetaData databaseMetaData = connection.getMetaData();
-            try (ResultSet resultSet = databaseMetaData.getTables(targetDbName, null, tableName, null)) {
+            String searchPattern = tableName;
+            if (prefix) {
+                String escape = databaseMetaData.getSearchStringEscape();
+                if (escape == null || escape.isEmpty()) {
+                    escape = "\\";
+                }
+                searchPattern = tableName.replace(escape, escape + escape)
+                        .replace("_", escape + "_")
+                        .replace("%", escape + "%") + SymbolConstant.PERCENT;
+            }
+            try (ResultSet resultSet = databaseMetaData.getTables(targetDbName, null, searchPattern, null)) {
                 while (resultSet.next()) {
                     tablesWithPrefix.add(resultSet.getString(3));
                 }

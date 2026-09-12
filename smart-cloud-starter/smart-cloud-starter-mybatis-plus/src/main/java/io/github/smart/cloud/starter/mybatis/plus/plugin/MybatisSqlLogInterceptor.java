@@ -69,23 +69,26 @@ public class MybatisSqlLogInterceptor implements Interceptor {
         long start = System.currentTimeMillis();
         try {
             returnValue = invocation.proceed();
-        } finally {
-            if (log.isWarnEnabled()) {
-                long end = System.currentTimeMillis();
-                long time = (end - start);
-                MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-                BoundSql boundSql = null;
-                if (invocation.getArgs().length == ARGS_LENGTH) {
-                    boundSql = (BoundSql) invocation.getArgs()[ARGS_LENGTH - 1];
-                } else {
-                    Object parameter = invocation.getArgs()[1];
-                    boundSql = mappedStatement.getBoundSql(parameter);
+            } finally {
+                if (log.isWarnEnabled()) {
+                    try {
+                        long end = System.currentTimeMillis();
+                        long time = (end - start);
+                        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
+                        BoundSql boundSql;
+                        if (invocation.getArgs().length == ARGS_LENGTH) {
+                            boundSql = (BoundSql) invocation.getArgs()[ARGS_LENGTH - 1];
+                        } else {
+                            Object parameter = invocation.getArgs()[1];
+                            boundSql = mappedStatement.getBoundSql(parameter);
+                        }
+                        showSql(mappedStatement.getConfiguration(), boundSql, mappedStatement.getId(), time, returnValue);
+                    } catch (Throwable logException) {
+                        // 日志格式化失败不能覆盖原始 SQL 业务异常。
+                        log.warn("mybatis sql log failed", logException);
+                    }
                 }
-                String sqlId = mappedStatement.getId();
-                Configuration configuration = mappedStatement.getConfiguration();
-                showSql(configuration, boundSql, sqlId, time, returnValue);
             }
-        }
         return returnValue;
     }
 
@@ -199,11 +202,11 @@ public class MybatisSqlLogInterceptor implements Interceptor {
             MetaObject metaObject = configuration.newMetaObject(parameterObject);
             for (ParameterMapping parameterMapping : parameterMappings) {
                 String propertyName = parameterMapping.getProperty();
-                if (metaObject.hasGetter(propertyName)) {
-                    Object obj = metaObject.getValue(propertyName);
-                    sql = sql.replaceFirst(QUOTE, getParameterValue(obj));
-                } else if (boundSql.hasAdditionalParameter(propertyName)) {
+                if (boundSql.hasAdditionalParameter(propertyName)) {
                     Object obj = boundSql.getAdditionalParameter(propertyName);
+                    sql = sql.replaceFirst(QUOTE, getParameterValue(obj));
+                } else if (metaObject.hasGetter(propertyName)) {
+                    Object obj = metaObject.getValue(propertyName);
                     sql = sql.replaceFirst(QUOTE, getParameterValue(obj));
                 }
             }

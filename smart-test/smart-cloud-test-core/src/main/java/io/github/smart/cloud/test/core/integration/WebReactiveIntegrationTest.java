@@ -24,6 +24,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -123,12 +124,12 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
                 if (jsonNode.isArray()) {
                     String[] values = new String[jsonNode.size()];
                     for (int i = 0; i < values.length; i++) {
-                        String value = jsonNode.get(i).isNull() ? null : String.valueOf(jsonNode.get(i));
+                        String value = jsonNode.get(i).isNull() ? null : jsonNode.get(i).asText();
                         values[i] = value;
                     }
                     params.put(entry.getKey(), values);
                 } else if (!jsonNode.isNull()) {
-                    params.put(entry.getKey(), String.valueOf(jsonNode));
+                    params.put(entry.getKey(), jsonNode.asText());
                 }
             }
         }
@@ -143,7 +144,20 @@ public class WebReactiveIntegrationTest extends AbstractIntegrationTest implemen
         if (bodyStr != null) {
             requestBodyUriSpec.bodyValue(bodyStr);
         }
-        WebTestClient.RequestHeadersSpec requestHeadersSpec = params == null ? requestBodyUriSpec.uri(url) : requestBodyUriSpec.uri(url, params);
+        WebTestClient.RequestHeadersSpec requestHeadersSpec;
+        if (params == null) {
+            requestHeadersSpec = requestBodyUriSpec.uri(url);
+        } else {
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(url);
+            params.forEach((key, value) -> {
+                if (value instanceof String[]) {
+                    uriBuilder.queryParam(key, (Object[]) value);
+                } else {
+                    uriBuilder.queryParam(key, value);
+                }
+            });
+            requestHeadersSpec = requestBodyUriSpec.uri(uriBuilder.build().toUri());
+        }
         headers.forEach(requestHeadersSpec::header);
 
         byte[] resultBytes = requestHeadersSpec

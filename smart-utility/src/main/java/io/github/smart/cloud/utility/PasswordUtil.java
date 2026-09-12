@@ -42,9 +42,8 @@ public class PasswordUtil {
         String md5 = DigestUtils.md5Hex(password + salt);
         // 截取前8位，继续第二次md5
         int sublength = 8;
-        String subMd5 = md5.substring(sublength);
-        md5 = DigestUtils.md5Hex(subMd5 + salt);
-        return md5.substring(0, sublength) + md5.substring(sublength);
+        String subMd5 = md5.substring(0, sublength);
+        return DigestUtils.md5Hex(subMd5 + salt);
     }
 
     /**

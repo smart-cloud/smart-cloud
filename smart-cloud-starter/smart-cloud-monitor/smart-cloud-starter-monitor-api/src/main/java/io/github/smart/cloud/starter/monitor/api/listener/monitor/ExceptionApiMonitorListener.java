@@ -37,7 +37,7 @@ public class ExceptionApiMonitorListener implements ApplicationListener<ApiMonit
     @Override
     public void onApplicationEvent(ApiMonitorEvent event) {
         MonitorType monitorType = event.getMonitorType();
-        if (MonitorType.ALL == monitorType || MonitorType.SLOW == monitorType) {
+        if (MonitorType.ALL == monitorType || MonitorType.EXCEPTION == monitorType) {
             exceptionApiMonitorRepository.process(event);
         }
     }

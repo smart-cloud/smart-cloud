@@ -40,13 +40,20 @@ public class NetworkUtil {
      * @return
      */
     public static boolean isOk(String hostname, int port, int timeout, int failRetryCount) {
+        if (failRetryCount <= 0) {
+            return false;
+        }
+
         for (int i = 0; i < failRetryCount; i++) {
             if (NetworkUtil.telnet(hostname, port, timeout)) {
                 return true;
-            } else {
+            }
+            if (i + 1 < failRetryCount) {
                 try {
                     TimeUnit.SECONDS.sleep(10);
                 } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return false;
                 }
             }
         }

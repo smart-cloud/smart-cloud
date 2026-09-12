@@ -37,11 +37,20 @@ public class ReactiveFilter implements WebFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        // 缓存ServerWebExchange（request、response）
-        ReactiveRequestContextHolder.setServerWebExchange(exchange);
-
-        // local参数设置
-        return chain.filter(exchange).doFinally(signal -> ReactiveRequestContextHolder.removeServerWebExchange());
+        // Reactor Context 是异步链路的主上下文；ThreadLocal 仅在当前同步调用栈中兼容旧 API。
+        return Mono.deferContextual(contextView -> {
+            ServerWebExchange previous = ReactiveRequestContextHolder.getThreadLocalServerWebExchange();
+            ReactiveRequestContextHolder.setServerWebExchange(
+                    ReactiveRequestContextHolder.getServerWebExchange(contextView));
+            try {
+                return chain.filter(exchange)
+                        .doFinally(signal -> ReactiveRequestContextHolder.restoreServerWebExchange(previous));
+            } catch (RuntimeException | Error e) {
+                ReactiveRequestContextHolder.restoreServerWebExchange(previous);
+                throw e;
+            }
+        }).contextWrite(context -> context.put(
+                ReactiveRequestContextHolder.SERVER_WEB_EXCHANGE_CONTEXT_KEY, exchange));
     }
 
 }

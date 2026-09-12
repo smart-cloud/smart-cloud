@@ -183,7 +183,8 @@ public class RedisAdapterImpl implements IRedisAdapter {
         args.add(expireSeconds);
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
-            keys.add(entry.getKey());
+            // Script arguments use the value serializer; hash fields must instead remain
+            // compatible with the configured hash-key serializer (StringRedisSerializer).
             args.add(entry.getValue());
         }
 
@@ -228,21 +229,35 @@ public class RedisAdapterImpl implements IRedisAdapter {
      * @param data
      * @return
      */
-    private final String buildHashLuaScript(Map<String, Object> data) {
+    private String buildHashLuaScript(Map<String, Object> data) {
         StringBuilder hashLua = new StringBuilder(128);
         hashLua.append("redis.call('hmset', KEYS[1], ");
 
-        for (int index = 0, size = data.size(); index < size; index++) {
+        int index = 0;
+        int size = data.size();
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
             int luaArgIndex = index + 2;
-            hashLua.append("KEYS[").append(luaArgIndex).append("], ARGV[").append(luaArgIndex).append(']');
+            hashLua.append('\'').append(escapeLuaString(entry.getKey())).append("', ARGV[")
+                    .append(luaArgIndex).append(']');
             if (index < size - 1) {
                 hashLua.append(',');
             }
+            index++;
         }
 
         hashLua.append("); return redis.call('expire', KEYS[1], ARGV[1]);");
 
         return hashLua.toString();
+    }
+
+    /**
+     * Escape a hash field for a Lua single-quoted string literal.
+     */
+    private String escapeLuaString(String value) {
+        return value.replace("\\", "\\\\")
+                .replace("'", "\\'")
+                .replace("\r", "\\r")
+                .replace("\n", "\\n");
     }
 
 }

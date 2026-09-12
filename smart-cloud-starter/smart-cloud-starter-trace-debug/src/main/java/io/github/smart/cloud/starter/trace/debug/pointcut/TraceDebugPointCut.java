@@ -57,7 +57,7 @@ public class TraceDebugPointCut extends StaticMethodMatcherPointcut {
         String className = targetClass.getName();
         // 要排除的类
         if (traceDebugPointCutProperties.getExcludeClassSet().contains(className)) {
-            return true;
+            return false;
         }
 
         // 要匹配的类

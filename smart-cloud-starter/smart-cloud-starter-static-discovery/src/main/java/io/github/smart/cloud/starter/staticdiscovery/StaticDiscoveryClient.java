@@ -75,7 +75,13 @@ public class StaticDiscoveryClient implements DiscoveryClient, InitializingBean 
             AtomicInteger counter = new AtomicInteger(1);
             List<ServiceInstance> serviceInstances = uris.stream().map(item -> {
                 URI uri = URI.create(item);
-                return new DefaultServiceInstance(String.format("%s-%d", serviceId, counter.getAndIncrement()), serviceId, uri.getHost(), uri.getPort(), false);
+                boolean secure = "https".equalsIgnoreCase(uri.getScheme());
+                int port = uri.getPort();
+                if (port < 0) {
+                    port = secure ? 443 : 80;
+                }
+                return new DefaultServiceInstance(String.format("%s-%d", serviceId, counter.getAndIncrement()),
+                        serviceId, uri.getHost(), port, secure);
             }).collect(Collectors.toList());
 
             tempServices.add(serviceId);

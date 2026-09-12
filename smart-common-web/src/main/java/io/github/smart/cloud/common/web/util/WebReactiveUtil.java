@@ -45,7 +45,11 @@ public class WebReactiveUtil {
      * @return ip地址
      */
     public static String getRealIp() {
-        HttpHeaders httpHeaders = ReactiveRequestContextHolder.getHttpHeaders();
+        ServerHttpRequest request = ReactiveRequestContextHolder.getServerHttpRequest();
+        if (request == null) {
+            return null;
+        }
+        HttpHeaders httpHeaders = request.getHeaders();
         if (httpHeaders == null) {
             return null;
         }
@@ -58,9 +62,9 @@ public class WebReactiveUtil {
             ip = httpHeaders.getFirst("WL-Proxy-Client-IP");
         }
         if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
-            InetSocketAddress inetSocketAddress = ReactiveRequestContextHolder.getServerHttpRequest().getRemoteAddress();
-            if (inetSocketAddress != null) {
-                ip = inetSocketAddress.toString();
+            InetSocketAddress inetSocketAddress = request.getRemoteAddress();
+            if (inetSocketAddress != null && inetSocketAddress.getAddress() != null) {
+                ip = inetSocketAddress.getAddress().getHostAddress();
             }
         }
         if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
@@ -72,7 +76,7 @@ public class WebReactiveUtil {
 
         // 如果是多级代理，那么取第一个ip为客户ip
         if (ip != null && ip.contains(SymbolConstant.COMMA)) {
-            ip = ip.substring(ip.lastIndexOf(SymbolConstant.COMMA) + 1, ip.length()).trim();
+            ip = ip.substring(0, ip.indexOf(SymbolConstant.COMMA)).trim();
         }
         return ip;
     }

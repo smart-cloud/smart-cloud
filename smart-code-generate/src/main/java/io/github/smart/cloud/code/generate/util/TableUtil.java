@@ -38,7 +38,7 @@ public class TableUtil {
     /**
      * 分表后缀
      */
-    private static final String[] TABLE_SHARDING_SUFFIXS = {"_0", "_00"};
+    private static final String[] TABLE_SHARDING_SUFFIXS = {"_00", "_0"};
     /**
      * 字段前缀
      */
@@ -93,14 +93,14 @@ public class TableUtil {
      * @return
      */
     private static String getJavaName(String name, String[] prefixs, String[] tableShardingSuffixs, boolean isTable) {
+        if (name == null || name.isEmpty()) {
+            return name;
+        }
+
         for (String prefix : prefixs) {
             if (name.startsWith(prefix)) {
                 name = name.substring(prefix.length());
-                if (isTable) {
-                    // 首字母变大小
-                    String tableNameStart = String.valueOf(name.charAt(0)).toUpperCase();
-                    name = (name.length() == 1) ? tableNameStart : (tableNameStart + name.substring(1, name.length()));
-                }
+                break;
             }
         }
 
@@ -108,19 +108,23 @@ public class TableUtil {
             for (String suffix : tableShardingSuffixs) {
                 if (name.endsWith(suffix)) {
                     name = name.substring(0, name.length() - suffix.length());
+                    break;
                 }
             }
         }
 
+        StringBuilder javaName = new StringBuilder(name.length());
+        boolean upperNext = isTable;
         for (int i = 0; i < name.length(); i++) {
-            if (name.charAt(i) == SEPARATOR) {
-                String tableNameStart = name.substring(0, i);
-                char tableNameMiddle = name.charAt(i + 1);
-                String tableNameEnd = name.substring(i + 2, name.length());
-                name = tableNameStart + String.valueOf(tableNameMiddle).toUpperCase() + tableNameEnd;
+            char current = name.charAt(i);
+            if (current == SEPARATOR) {
+                upperNext = true;
+                continue;
             }
+            javaName.append(upperNext ? Character.toUpperCase(current) : current);
+            upperNext = false;
         }
-        return name;
+        return javaName.toString();
     }
 
     /**

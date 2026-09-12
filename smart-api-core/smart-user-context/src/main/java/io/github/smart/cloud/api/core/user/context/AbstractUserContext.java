@@ -26,7 +26,7 @@ public abstract class AbstractUserContext {
     /**
      * 用户上下文信息
      */
-    protected static final ThreadLocal<SmartUser> USER_THREAD_LOCAL = new InheritableThreadLocal<>();
+    protected static final ThreadLocal<SmartUser> USER_THREAD_LOCAL = new ThreadLocal<>();
 
     /**
      * 设置用户上下文信息

@@ -27,6 +27,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationEventPublisher;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
@@ -53,14 +54,15 @@ public class ServiceNodeCountCheckSchedule implements InitializingBean, Disposab
     public void afterPropertiesSet() throws Exception {
         checkServiceNodeCountSchedule = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("check-service-node-count"));
         checkServiceNodeCountSchedule.scheduleWithFixedDelay(this::checkServiceNodeCount, monitorProperties.getCheckServiceNodeCountTs(),
-                monitorProperties.getCheckServiceNodeCountTs(), TimeUnit.SECONDS);
+                monitorProperties.getCheckServiceNodeCountTs(), TimeUnit.MILLISECONDS);
     }
 
     private void checkServiceNodeCount() {
         Map<String, List<Instance>> instanceOnlineInfo = instanceRepository.findAll()
+                .filter(instance -> instance.getStatusInfo() != null && instance.getStatusInfo().isUp())
                 .collectList()
                 .map(instances -> instances.stream().collect(Collectors.groupingBy(instance -> instance.getRegistration().getName()))).share().block();
-        if (instanceOnlineInfo == null || instanceOnlineInfo.isEmpty()) {
+        if (instanceOnlineInfo == null) {
             log.warn("instance online info is empty");
             return;
         }
@@ -71,24 +73,10 @@ public class ServiceNodeCountCheckSchedule implements InitializingBean, Disposab
             return;
         }
 
-        instanceOnlineInfo.forEach((name, instances) -> {
-            int currentNodeCount = instances.size();
-            if (currentNodeCount == 0) {
-                applicationEventPublisher.publishEvent(new ServiceNodeCountCheckNoticeEvent(this, name, currentNodeCount));
-                return;
-            }
-
-            ServiceInfoProperties serviceInfoProperties = serviceConfigInfo.get(name);
-            if (serviceInfoProperties == null) {
-                return;
-            }
-
+        serviceConfigInfo.forEach((name, serviceInfoProperties) -> {
+            int currentNodeCount = instanceOnlineInfo.getOrDefault(name, Collections.emptyList()).size();
             Integer nodeCount = serviceInfoProperties.getNodeCount();
-            if (nodeCount == null) {
-                return;
-            }
-
-            if (currentNodeCount < nodeCount) {
+            if (nodeCount != null && currentNodeCount < nodeCount) {
                 applicationEventPublisher.publishEvent(new ServiceNodeCountCheckNoticeEvent(this, name, currentNodeCount));
             }
         });

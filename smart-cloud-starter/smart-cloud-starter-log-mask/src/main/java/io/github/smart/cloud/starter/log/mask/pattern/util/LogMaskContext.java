@@ -30,6 +30,10 @@ public class LogMaskContext {
     public static final ThreadLocal<Pattern> CONTEXT = new ThreadLocal<>();
 
 
+    public static void set(Pattern pattern) {
+        CONTEXT.set(pattern);
+    }
+
     /**
      * 为当前上下文设置匹配的正则表达式
      *

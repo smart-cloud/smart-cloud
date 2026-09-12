@@ -37,7 +37,8 @@ public class OrderBillShardingAlgorithm<T extends Comparable<?>> implements Comp
         if (uidValues != null) {
             uidValues.stream().forEach(uid -> {
                 Long uidSharding = OrderUtil.whichTable((Long) uid);
-                targetTableNames.add(String.format("%s_%s", complexKeysShardingValue.getLogicTableName(), uidSharding));
+                addTargetTable(availableTargetNames, targetTableNames,
+                        complexKeysShardingValue.getLogicTableName(), uidSharding);
             });
         }
 
@@ -45,11 +46,28 @@ public class OrderBillShardingAlgorithm<T extends Comparable<?>> implements Comp
         if (orderNoValues != null) {
             orderNoValues.stream().forEach(orderNo -> {
                 Long orderNoSharding = OrderUtil.whichTable((String) orderNo);
-                targetTableNames.add(String.format("%s_%s", complexKeysShardingValue.getLogicTableName(), orderNoSharding));
+                if (orderNoSharding != null) {
+                    addTargetTable(availableTargetNames, targetTableNames,
+                            complexKeysShardingValue.getLogicTableName(), orderNoSharding);
+                }
             });
         }
 
+        if (targetTableNames.isEmpty()) {
+            return availableTargetNames;
+        }
         return targetTableNames;
+    }
+
+    private void addTargetTable(Collection<String> availableTargetNames, Set<String> targetTableNames,
+                                String logicTableName, Long suffix) {
+        if (suffix == null) {
+            return;
+        }
+        String target = String.format("%s_%d", logicTableName, suffix);
+        if (availableTargetNames.contains(target)) {
+            targetTableNames.add(target);
+        }
     }
 
     @Override

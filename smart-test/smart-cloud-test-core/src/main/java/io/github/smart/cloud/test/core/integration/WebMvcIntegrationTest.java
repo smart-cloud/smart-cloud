@@ -22,7 +22,9 @@ import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,10 +39,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.Filter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -60,14 +62,11 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
     public void initMock() {
         // 添加过滤器
         Map<String, Filter> filterMap = applicationContext.getBeansOfType(Filter.class);
-        Filter[] filters = new Filter[filterMap.size()];
-        int i = 0;
-        for (Map.Entry<String, Filter> entry : filterMap.entrySet()) {
-            filters[i++] = entry.getValue();
-        }
+        List<Filter> filters = new ArrayList<>(filterMap.values());
+        AnnotationAwareOrderComparator.sort(filters);
 
         mockMvc = MockMvcBuilders.webAppContextSetup((WebApplicationContext) applicationContext)
-                .addFilters(filters)
+                .addFilters(filters.toArray(new Filter[0]))
                 .build();
     }
 
@@ -208,8 +207,11 @@ public class WebMvcIntegrationTest extends AbstractIntegrationTest implements II
                 .multipart(url);
         for (FileVO fileVO : files) {
             File file = fileVO.getFile();
-            MockMultipartFile mockMultipartFile = new MockMultipartFile(fileVO.getName(), file.getCanonicalPath(),
-                    MediaType.MULTIPART_FORM_DATA_VALUE, Files.newInputStream(Paths.get(file.toURI())));
+            String contentType = MediaTypeFactory.getMediaType(file.getName())
+                    .map(MediaType::toString)
+                    .orElse(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+            MockMultipartFile mockMultipartFile = new MockMultipartFile(fileVO.getName(), file.getName(),
+                    contentType, Files.newInputStream(Paths.get(file.toURI())));
             mockMultipartHttpServletRequestBuilder.file(mockMultipartFile);
         }
         if (null != params && params.size() > 0) {
