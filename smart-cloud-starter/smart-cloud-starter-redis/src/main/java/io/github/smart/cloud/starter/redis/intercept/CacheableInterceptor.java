@@ -18,6 +18,7 @@ package io.github.smart.cloud.starter.redis.intercept;
 import io.github.smart.cloud.constants.CommonReturnCodes;
 import io.github.smart.cloud.exception.AcquiredLockFailException;
 import io.github.smart.cloud.starter.redis.annotation.Cacheable;
+import io.github.smart.cloud.starter.redis.constants.NullCacheValue;
 import io.github.smart.cloud.starter.redis.enums.RedisKeyPrefix;
 import org.aopalliance.intercept.MethodInvocation;
 import org.redisson.api.RLock;
@@ -50,7 +51,7 @@ public class CacheableInterceptor extends AbstractCacheInterceptor {
         // 从缓存获取
         Object cache = redisTemplate.opsForValue().get(cacheKey);
         if (cache != null) {
-            return cache;
+            return isNullCacheValue(cache) ? null : cache;
         }
 
         // 缓存中没有，则从数据源获取，并放入缓存
@@ -66,17 +67,28 @@ public class CacheableInterceptor extends AbstractCacheInterceptor {
             // 再次从缓存中获取一次，如果存在则返回
             cache = redisTemplate.opsForValue().get(cacheKey);
             if (cache != null) {
-                return cache;
+                return isNullCacheValue(cache) ? null : cache;
             }
 
             Object result = invocation.proceed();
-            redisTemplate.opsForValue().set(cacheKey, result, cacheable.cacheTtl(), cacheable.cacheUnit());
+            if (result == null) {
+                if (cacheable.cacheNull()) {
+                    redisTemplate.opsForValue().set(cacheKey, NullCacheValue.INSTANCE,
+                            cacheable.cacheNullTtl(), cacheable.cacheNullUnit());
+                }
+            } else {
+                redisTemplate.opsForValue().set(cacheKey, result, cacheable.cacheTtl(), cacheable.cacheUnit());
+            }
             return result;
         } finally {
             if (isRequiredLock) {
                 lock.unlock();
             }
         }
+    }
+
+    private boolean isNullCacheValue(Object cache) {
+        return cache instanceof NullCacheValue;
     }
 
 }

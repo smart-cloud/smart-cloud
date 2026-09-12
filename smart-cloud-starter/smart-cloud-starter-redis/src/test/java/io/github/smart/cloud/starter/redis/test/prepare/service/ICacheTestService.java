@@ -36,4 +36,35 @@ public interface ICacheTestService {
      */
     OrderInfo query(String orderNo);
 
+    /**
+     * 查询不存在的数据，不缓存空值
+     *
+     * @param key 缓存key
+     * @return null
+     */
+    String queryNullWithoutCache(String key);
+
+    /**
+     * 查询不存在的数据，使用默认空值缓存时间
+     *
+     * @param key 缓存key
+     * @return null
+     */
+    String queryNullWithDefaultTtl(String key);
+
+    /**
+     * 查询不存在的数据，使用自定义空值缓存时间
+     *
+     * @param key 缓存key
+     * @return null
+     */
+    String queryNullWithCustomTtl(String key);
+
+    /**
+     * 获取空值查询的回源次数
+     *
+     * @return 回源次数
+     */
+    int getNullQueryInvocationCount();
+
 }

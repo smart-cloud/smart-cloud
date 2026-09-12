@@ -23,9 +23,12 @@ import io.github.smart.cloud.starter.redis.test.prepare.service.ICacheTestServic
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class CacheTestServiceImpl implements ICacheTestService {
+
+    private final AtomicInteger nullQueryInvocationCount = new AtomicInteger();
 
     @CacheEvict(name = "order:", expressions = {"#createOrderBO.orderNo"})
     @Override
@@ -44,6 +47,34 @@ public class CacheTestServiceImpl implements ICacheTestService {
         orderInfo.setOrderNo(orderNo);
         orderInfo.setPrice(100L);
         return orderInfo;
+    }
+
+    @Cacheable(name = "null-without-cache", expressions = {"#key"}, cacheTtl = 3600, cacheUnit = TimeUnit.SECONDS)
+    @Override
+    public String queryNullWithoutCache(String key) {
+        nullQueryInvocationCount.incrementAndGet();
+        return null;
+    }
+
+    @Cacheable(name = "null-default-ttl", expressions = {"#key"}, cacheTtl = 3600,
+            cacheUnit = TimeUnit.SECONDS, cacheNull = true)
+    @Override
+    public String queryNullWithDefaultTtl(String key) {
+        nullQueryInvocationCount.incrementAndGet();
+        return null;
+    }
+
+    @Cacheable(name = "null-custom-ttl", expressions = {"#key"}, cacheTtl = 3600,
+            cacheUnit = TimeUnit.SECONDS, cacheNull = true, cacheNullTtl = 2, cacheNullUnit = TimeUnit.SECONDS)
+    @Override
+    public String queryNullWithCustomTtl(String key) {
+        nullQueryInvocationCount.incrementAndGet();
+        return null;
+    }
+
+    @Override
+    public int getNullQueryInvocationCount() {
+        return nullQueryInvocationCount.get();
     }
 
 }

@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.redis.test.integration;
 
+import io.github.smart.cloud.starter.redis.constants.NullCacheValue;
 import io.github.smart.cloud.starter.redis.enums.RedisKeyPrefix;
 import io.github.smart.cloud.starter.redis.test.prepare.bo.CreateOrderBO;
 import io.github.smart.cloud.starter.redis.test.prepare.dataobject.OrderInfo;
@@ -48,6 +49,73 @@ class CacheIntegrationTest extends AbstractRedisIntegrationTest {
         Assertions.assertThat(orderInfoCache.getOrderNo()).isEqualTo(orderInfoCache.getOrderNo());
         Assertions.assertThat(orderInfoCache.getPrice()).isNotNull();
         Assertions.assertThat(orderInfoCache.getPrice()).isEqualTo(orderInfoCache.getPrice());
+    }
+
+    @Test
+    void testNullResultIsNotCachedByDefault() {
+        String key = RandomStringUtils.random(32, true, true);
+        int invocationCount = cacheTestService.getNullQueryInvocationCount();
+
+        Assertions.assertThat(cacheTestService.queryNullWithoutCache(key)).isNull();
+
+        String cacheKey = cacheKey("null-without-cache", key);
+        Assertions.assertThat(redisTemplate.opsForValue().get(cacheKey)).isNull();
+
+        Assertions.assertThat(cacheTestService.queryNullWithoutCache(key)).isNull();
+        Assertions.assertThat(cacheTestService.getNullQueryInvocationCount()).isEqualTo(invocationCount + 2);
+    }
+
+    @Test
+    void testNullResultUsesDefaultTtlAndIsCached() {
+        String key = RandomStringUtils.random(32, true, true);
+        int invocationCount = cacheTestService.getNullQueryInvocationCount();
+
+        Assertions.assertThat(cacheTestService.queryNullWithDefaultTtl(key)).isNull();
+
+        String cacheKey = cacheKey("null-default-ttl", key);
+        Object cachedValue = redisTemplate.opsForValue().get(cacheKey);
+        Assertions.assertThat(cachedValue).isInstanceOf(NullCacheValue.class);
+        Long ttl = redisTemplate.getExpire(cacheKey, TimeUnit.MILLISECONDS);
+        Assertions.assertThat(ttl).isBetween(1L, 60_000L);
+
+        Assertions.assertThat(cacheTestService.queryNullWithDefaultTtl(key)).isNull();
+        Assertions.assertThat(cacheTestService.getNullQueryInvocationCount()).isEqualTo(invocationCount + 1);
+    }
+
+    @Test
+    void testNullResultUsesCustomTtlAndIsCached() throws InterruptedException {
+        String key = RandomStringUtils.random(32, true, true);
+        int invocationCount = cacheTestService.getNullQueryInvocationCount();
+
+        Assertions.assertThat(cacheTestService.queryNullWithCustomTtl(key)).isNull();
+
+        String cacheKey = cacheKey("null-custom-ttl", key);
+        Assertions.assertThat(redisTemplate.opsForValue().get(cacheKey)).isInstanceOf(NullCacheValue.class);
+        Long ttl = redisTemplate.getExpire(cacheKey, TimeUnit.MILLISECONDS);
+        Assertions.assertThat(ttl).isBetween(1L, 2_000L);
+
+        // 空值占位命中时不应再次回源
+        Assertions.assertThat(cacheTestService.queryNullWithCustomTtl(key)).isNull();
+        Assertions.assertThat(cacheTestService.getNullQueryInvocationCount()).isEqualTo(invocationCount + 1);
+
+        // TTL 到期后应删除占位值，并重新执行数据源方法
+        waitForCacheExpiration(cacheKey);
+        Assertions.assertThat(redisTemplate.hasKey(cacheKey)).isFalse();
+
+        Assertions.assertThat(cacheTestService.queryNullWithCustomTtl(key)).isNull();
+        Assertions.assertThat(cacheTestService.getNullQueryInvocationCount()).isEqualTo(invocationCount + 2);
+        Assertions.assertThat(redisTemplate.opsForValue().get(cacheKey)).isInstanceOf(NullCacheValue.class);
+    }
+
+    private void waitForCacheExpiration(String cacheKey) throws InterruptedException {
+        long deadline = System.currentTimeMillis() + 5_000L;
+        while (redisTemplate.hasKey(cacheKey) && System.currentTimeMillis() < deadline) {
+            TimeUnit.MILLISECONDS.sleep(100L);
+        }
+    }
+
+    private String cacheKey(String name, String key) {
+        return RedisKeyPrefix.CACHE.getKey() + name + ":" + key;
     }
 
     @Test

@@ -61,6 +61,27 @@ public @interface Cacheable {
     TimeUnit cacheUnit() default TimeUnit.MILLISECONDS;
 
     /**
+     * 是否缓存空值（方法返回值为 null）
+     *
+     * @return
+     */
+    boolean cacheNull() default false;
+
+    /**
+     * 空值缓存有效期
+     *
+     * @return
+     */
+    long cacheNullTtl() default 60_000L;
+
+    /**
+     * 空值缓存有效期时间单位
+     *
+     * @return
+     */
+    TimeUnit cacheNullUnit() default TimeUnit.MILLISECONDS;
+
+    /**
      * 锁最大等待时间
      *
      * @return
