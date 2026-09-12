@@ -14,7 +14,7 @@
   <a href="https://github.com/smart-cloud/smart-cloud/actions/workflows/build.yml"><img src="https://github.com/smart-cloud/smart-cloud/actions/workflows/build.yml/badge.svg?branch=dev" alt="build"></a>
   <a href="https://codecov.io/gh/smart-cloud/smart-cloud"><img src="https://codecov.io/gh/smart-cloud/smart-cloud/branch/dev/graph/badge.svg" alt="codecov"></a>
   <a href="https://github.com/smart-cloud/smart-cloud/blob/dev/LICENSE"><img src="https://img.shields.io/badge/license-Apache%202-green" alt="license"></a>
-  <a href="https://mvnrepository.com/artifact/io.github.smart-cloud/smart-cloud"><img src="https://maven-badges.herokuapp.com/maven-central/io.github.smart-cloud/smart-cloud/badge.svg" alt="Maven Central"></a>
+  <a href="https://mvnrepository.com/artifact/io.github.smart-cloud/smart-cloud"><img src="https://img.shields.io/github/v/release/smart-cloud/smart-cloud.svg" alt="Maven Central"></a>
   <a href="https://github.com/smart-cloud/smart-cloud"><img src="https://img.shields.io/github/stars/smart-cloud/smart-cloud?style=social" alt="GitHub stars"></a>
   <a href="https://github.com/smart-cloud/smart-cloud/blob/dev/README_EN.md"><img src="https://img.shields.io/badge/document-English-blue.svg" alt="EN doc"></a>
   <a href="https://github.com/smart-cloud/smart-cloud#readme"><img src="https://img.shields.io/badge/文档-中文版-blue.svg" alt="CN doc"></a>
