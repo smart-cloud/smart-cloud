@@ -44,6 +44,18 @@ public class MybatisProperties implements Serializable {
      * 切面日志打印最大长度
      */
     private Integer logMaxLength;
+    /**
+     * 慢sql时间（单位：毫秒，默认1000毫秒）。耗时达到该值的sql以warn级别打印
+     */
+    private int slowSqlMinCost = 1000;
+    /**
+     * 是否只打印慢sql（默认false）。为true时，未达到slowSqlMinCost的sql不打印
+     */
+    private boolean onlySlowSql = false;
+    /**
+     * 是否打印sql执行结果（默认true）
+     */
+    private boolean logResult = true;
 
     /**
      * 加解密密钥信息<加解密字段类全类名, 加解密秘钥>

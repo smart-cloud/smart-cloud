@@ -99,8 +99,22 @@ public class DateUtil {
      * @return
      */
     public static String format(Date date, String format) {
-        return LocalDateTime.ofInstant(date.toInstant(), Holder.getZoneId())
-                .format(DateTimeFormatter.ofPattern(format));
+        return format(date, DateTimeFormatter.ofPattern(format));
+    }
+
+    /**
+     * 格式化日期
+     *
+     * <p>
+     * 使用{@link Date#getTime()}而不是{@link Date#toInstant()}，兼容java.sql.Date（其toInstant会抛UnsupportedOperationException）
+     *
+     * @param date
+     * @param formatter
+     * @return
+     */
+    private static String format(Date date, DateTimeFormatter formatter) {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(date.getTime()), Holder.getZoneId())
+                .format(formatter);
     }
 
     /**
@@ -121,7 +135,7 @@ public class DateUtil {
      * @return 返回格式：yyyy-MM-dd
      */
     public static String formatDate(Date date) {
-        return format(date, DatePatternConst.DATE);
+        return format(date, DateFormatterConst.DATE);
     }
 
     /**
@@ -131,7 +145,7 @@ public class DateUtil {
      * @return 返回格式：yyyy-MM-dd
      */
     public static String formatDate(long currentMillis) {
-        return format(toDate(currentMillis), DatePatternConst.DATE);
+        return format(toDate(currentMillis), DateFormatterConst.DATE);
     }
 
     /**
@@ -141,7 +155,7 @@ public class DateUtil {
      * @return 返回格式：yyyy-MM-dd HH:mm:ss
      */
     public static String formatDateTime(Date date) {
-        return format(date, DatePatternConst.DATETIME);
+        return format(date, DateFormatterConst.DATETIME);
     }
 
     /**
@@ -151,7 +165,7 @@ public class DateUtil {
      * @return 返回格式：yyyy-MM-dd HH:mm:ss
      */
     public static String formatDateTime(long currentMillis) {
-        return format(toDate(currentMillis), DatePatternConst.DATETIME);
+        return format(toDate(currentMillis), DateFormatterConst.DATETIME);
     }
 
     /**
