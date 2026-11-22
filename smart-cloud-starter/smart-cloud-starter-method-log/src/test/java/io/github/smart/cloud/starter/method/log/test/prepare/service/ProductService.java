@@ -15,7 +15,6 @@
  */
 package io.github.smart.cloud.starter.method.log.test.prepare.service;
 
-import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.method.log.annotation.MethodLog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class ProductService {
     @Autowired
     private SmartProperties smartProperties;
 
-    @MethodLog(level = LogLevel.WARN)
+    @MethodLog
     public String query(Long id) {
         return String.valueOf(id);
     }

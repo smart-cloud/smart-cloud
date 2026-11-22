@@ -15,7 +15,6 @@
  */
 package io.github.smart.cloud.starter.configure.test.cases;
 
-import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
 import io.github.smart.cloud.starter.configure.test.prepare.Application;
 import org.assertj.core.api.Assertions;

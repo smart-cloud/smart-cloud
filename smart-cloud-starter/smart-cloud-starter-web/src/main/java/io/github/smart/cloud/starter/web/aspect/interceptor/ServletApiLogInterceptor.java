@@ -17,11 +17,9 @@ package io.github.smart.cloud.starter.web.aspect.interceptor;
 
 import io.github.smart.cloud.common.web.pojo.LogAspectDTO;
 import io.github.smart.cloud.common.web.util.WebServletUtil;
-import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.constants.OrderConstant;
 import io.github.smart.cloud.starter.configure.properties.ApiLogProperties;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
-import io.github.smart.cloud.starter.web.annotation.ApiLog;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,18 +53,6 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
      * 默认日志最大长度
      */
     private static final int DEFAULT_LOG_MAX_LENGTH = 2048;
-    /**
-     * 慢日志
-     */
-    private static final String SLOW_LOG_PATTERN = "api.slow=>{}";
-    /**
-     * 普通日志
-     */
-    private static final String LOG_PATTERN = "api.log=>{}";
-    /**
-     * 错误日志
-     */
-    private static final String ERROR_LOG_PATTERN = "api.error=>{}";
 
     @Override
     public int getOrder() {
@@ -86,28 +72,20 @@ public class ServletApiLogInterceptor implements MethodInterceptor, Ordered {
             result = invocation.proceed();
         } catch (Exception e) {
             long cost = System.currentTimeMillis() - startTime;
-            log.error(ERROR_LOG_PATTERN, truncate(buildLogAspectDO(invocation.getArguments(), result, cost), apiLogProperties.getLogMaxLength()), e);
+            log.error("api.error=>{}", truncate(buildLogAspectDO(invocation.getArguments(), result, cost), apiLogProperties.getLogMaxLength()), e);
             throw e;
         }
 
         try {
-            if (log.isWarnEnabled()) {
-                long cost = System.currentTimeMillis() - startTime;
-                if (cost >= apiLogProperties.getSlowApiMinCost()) {
-                    log.warn(SLOW_LOG_PATTERN, truncate(buildLogAspectDO(invocation.getArguments(), result, cost), apiLogProperties.getLogMaxLength()));
-                } else {
-                    Set<String> ignoreUrls = apiLogProperties.getIgnoreUrls();
-                    if (ignoreUrls == null || !ignoreUrls.contains(WebServletUtil.getHttpServletRequest().getRequestURI())) {
-                        ApiLog apiLog = invocation.getMethod().getAnnotation(ApiLog.class);
-                        LogLevel logLevel = (apiLog == null) ? LogLevel.INFO : apiLog.level();
-                        if (LogLevel.DEBUG == logLevel && log.isDebugEnabled()) {
-                            log.debug(LOG_PATTERN, truncate(buildLogAspectDO(invocation.getArguments(), result, cost), apiLogProperties.getLogMaxLength()));
-                        } else if (LogLevel.INFO == logLevel && log.isInfoEnabled()) {
-                            log.info(LOG_PATTERN, truncate(buildLogAspectDO(invocation.getArguments(), result, cost), apiLogProperties.getLogMaxLength()));
-                        } else if (LogLevel.WARN == logLevel && log.isWarnEnabled()) {
-                            log.warn(LOG_PATTERN, truncate(buildLogAspectDO(invocation.getArguments(), result, cost), apiLogProperties.getLogMaxLength()));
-                        }
-                    }
+            long cost = System.currentTimeMillis() - startTime;
+            if (cost >= apiLogProperties.getSlowApiMinCost()) {
+                if (log.isWarnEnabled()) {
+                    log.warn("api.slow=>{}", truncate(buildLogAspectDO(invocation.getArguments(), result, cost), apiLogProperties.getLogMaxLength()));
+                }
+            } else if (log.isInfoEnabled()) {
+                Set<String> ignoreUrls = apiLogProperties.getIgnoreUrls();
+                if (ignoreUrls == null || !ignoreUrls.contains(WebServletUtil.getHttpServletRequest().getRequestURI())) {
+                    log.info("api.log=>{}", truncate(buildLogAspectDO(invocation.getArguments(), result, cost), apiLogProperties.getLogMaxLength()));
                 }
             }
         } catch (Exception e) {

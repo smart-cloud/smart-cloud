@@ -15,8 +15,6 @@
  */
 package io.github.smart.cloud.starter.method.log.annotation;
 
-import io.github.smart.cloud.constants.LogLevel;
-
 import java.lang.annotation.*;
 
 /**
@@ -29,12 +27,5 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface MethodLog {
-
-    /**
-     * 日志级别
-     *
-     * @return
-     */
-    LogLevel level() default LogLevel.INFO;
 
 }

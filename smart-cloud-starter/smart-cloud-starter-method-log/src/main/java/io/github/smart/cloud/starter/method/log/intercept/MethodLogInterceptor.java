@@ -15,11 +15,9 @@
  */
 package io.github.smart.cloud.starter.method.log.intercept;
 
-import io.github.smart.cloud.constants.LogLevel;
 import io.github.smart.cloud.constants.SymbolConstant;
 import io.github.smart.cloud.starter.configure.properties.MethodLogProperties;
 import io.github.smart.cloud.starter.configure.properties.SmartProperties;
-import io.github.smart.cloud.starter.method.log.annotation.MethodLog;
 import io.github.smart.cloud.utility.JacksonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,14 +42,6 @@ public class MethodLogInterceptor implements MethodInterceptor {
      * 默认日志最大长度
      */
     private static final int DEFAULT_LOG_MAX_LENGTH = 2048;
-    /**
-     * 慢日志
-     */
-    private static final String SLOW_LOG_PATTERN = "method.slow=>{}({}ms)-->args={}, result={}";
-    /**
-     * 普通日志
-     */
-    private static final String LOG_PATTERN = "method.log=>{}({}ms)-->args={}, result={}";
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -61,33 +51,21 @@ public class MethodLogInterceptor implements MethodInterceptor {
         try {
             result = invocation.proceed();
 
-            if (log.isWarnEnabled()) {
-                long cost = System.currentTimeMillis() - startTime;
-                if (cost >= methodLogProperties.getSlowApiMinCost()) {
-                    log.warn(SLOW_LOG_PATTERN, getTag(invocation.getMethod()), cost,
+            long cost = System.currentTimeMillis() - startTime;
+            if (cost >= methodLogProperties.getSlowApiMinCost()) {
+                if (log.isWarnEnabled()) {
+                    log.warn("method.slow=>{}({}ms)-->args={}, result={}", getTag(invocation.getMethod()), cost,
                             getArgs(invocation.getArguments(), methodLogProperties.getLogMaxLength()),
                             getResult(result, methodLogProperties.getLogMaxLength()));
-                } else {
-                    MethodLog methodLog = invocation.getMethod().getAnnotation(MethodLog.class);
-                    LogLevel logLevel = methodLog.level();
-                    if (LogLevel.DEBUG == logLevel && log.isDebugEnabled()) {
-                        log.debug(LOG_PATTERN, getTag(invocation.getMethod()), cost,
-                                getArgs(invocation.getArguments(), methodLogProperties.getLogMaxLength()),
-                                getResult(result, methodLogProperties.getLogMaxLength()));
-                    } else if (LogLevel.INFO == logLevel && log.isInfoEnabled()) {
-                        log.info(LOG_PATTERN, getTag(invocation.getMethod()), cost,
-                                getArgs(invocation.getArguments(), methodLogProperties.getLogMaxLength()),
-                                getResult(result, methodLogProperties.getLogMaxLength()));
-                    } else if (LogLevel.WARN == logLevel) {
-                        log.warn(LOG_PATTERN, getTag(invocation.getMethod()), cost,
-                                getArgs(invocation.getArguments(), methodLogProperties.getLogMaxLength()),
-                                getResult(result, methodLogProperties.getLogMaxLength()));
-                    }
                 }
+            } else if (log.isInfoEnabled()) {
+                log.info("method.log=>{}({}ms)-->args={}, result={}", getTag(invocation.getMethod()), cost,
+                        getArgs(invocation.getArguments(), methodLogProperties.getLogMaxLength()),
+                        getResult(result, methodLogProperties.getLogMaxLength()));
             }
         } catch (Exception e) {
             long cost = System.currentTimeMillis() - startTime;
-            log.error(LOG_PATTERN, getTag(invocation.getMethod()), cost,
+            log.error("method.error=>{}({}ms)-->args={}, result={}", getTag(invocation.getMethod()), cost,
                     getArgs(invocation.getArguments(), methodLogProperties.getLogMaxLength()),
                     getResult(result, methodLogProperties.getLogMaxLength()), e);
             throw e;
