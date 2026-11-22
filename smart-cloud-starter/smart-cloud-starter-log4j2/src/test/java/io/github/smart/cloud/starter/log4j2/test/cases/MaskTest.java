@@ -87,7 +87,7 @@ class MaskTest {
         Assertions.assertThat(output.getAll()).contains("XXX,mobile:***,测试");
 
         log.info("xx，姓名:{}, mobile= {}.测试 GG", name, mobile);
-        Assertions.assertThat(output.getAll()).contains("xx，姓名:***,mobile= ***GG");
+        Assertions.assertThat(output.getAll()).contains("xx，姓名:***, mobile= *** GG");
     }
 
 }

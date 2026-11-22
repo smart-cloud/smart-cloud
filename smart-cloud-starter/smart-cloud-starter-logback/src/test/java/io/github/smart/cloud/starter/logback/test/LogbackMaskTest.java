@@ -122,7 +122,7 @@ public class LogbackMaskTest {
         log.info("xx，姓名:{}, mobile= {}.测试 GG", name, mobile);
         String result3 = logOutput.toString();
         System.out.print(result3);
-        Assertions.assertThat(result3).contains("xx，姓名:***,mobile= ***GG");
+        Assertions.assertThat(result3).contains("xx，姓名:***, mobile= *** GG");
     }
 
 }
