@@ -18,14 +18,12 @@ package io.github.smart.cloud.starter.trace.debug.autoconfigure;
 import io.github.smart.cloud.starter.trace.debug.filter.TraceDebugHttpHeaderArgsParseFilter;
 import io.github.smart.cloud.starter.trace.debug.intercept.TraceDebugInterceptor;
 import io.github.smart.cloud.starter.trace.debug.pointcut.TraceDebugPointCut;
-import io.github.smart.cloud.starter.trace.debug.properties.TraceDebugPointCutProperties;
 import io.github.smart.cloud.starter.trace.debug.properties.TraceDebugProperties;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -42,16 +40,9 @@ import org.springframework.core.annotation.Order;
 public class TraceDebugAutoConfiguration {
 
     @Bean
-    @RefreshScope
     @ConfigurationProperties(prefix = "smart.trace-debug")
     public TraceDebugProperties traceDebugProperties() {
         return new TraceDebugProperties();
-    }
-
-    @Bean
-    @ConfigurationProperties(prefix = "smart.trace-debug.point-cut")
-    public TraceDebugPointCutProperties traceDebugPointCutProperties() {
-        return new TraceDebugPointCutProperties();
     }
 
     @Bean
@@ -62,8 +53,8 @@ public class TraceDebugAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public TraceDebugPointCut traceDebugPointCut(final TraceDebugPointCutProperties traceDebugPointCutProperties) {
-        return new TraceDebugPointCut(traceDebugPointCutProperties);
+    public TraceDebugPointCut traceDebugPointCut(final TraceDebugProperties traceDebugProperties) {
+        return new TraceDebugPointCut(traceDebugProperties.getPointCut());
     }
 
     @Bean

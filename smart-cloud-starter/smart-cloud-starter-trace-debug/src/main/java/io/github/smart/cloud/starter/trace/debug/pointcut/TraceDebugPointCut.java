@@ -16,7 +16,7 @@
 package io.github.smart.cloud.starter.trace.debug.pointcut;
 
 import io.github.smart.cloud.starter.trace.debug.annotation.TraceDebug;
-import io.github.smart.cloud.starter.trace.debug.properties.TraceDebugPointCutProperties;
+import io.github.smart.cloud.starter.trace.debug.properties.TraceDebugProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.support.StaticMethodMatcherPointcut;
@@ -42,7 +42,7 @@ public class TraceDebugPointCut extends StaticMethodMatcherPointcut {
     /**
      * 类切面
      */
-    private final TraceDebugPointCutProperties traceDebugPointCutProperties;
+    private final TraceDebugProperties.PointCut pointCut;
     /**
      * FeignClient注解类名
      */
@@ -56,12 +56,12 @@ public class TraceDebugPointCut extends StaticMethodMatcherPointcut {
     public boolean matches(Method method, Class<?> targetClass) {
         String className = targetClass.getName();
         // 要排除的类
-        if (traceDebugPointCutProperties.getExcludeClassSet().contains(className)) {
+        if (pointCut.getExcludeClassSet().contains(className)) {
             return false;
         }
 
         // 要匹配的类
-        if (traceDebugPointCutProperties.getMatchClassSet().contains(className)) {
+        if (pointCut.getMatchClassSet().contains(className)) {
             return true;
         }
 
