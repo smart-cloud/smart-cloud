@@ -15,13 +15,13 @@
  */
 package io.github.smart.cloud.starter.api.version.test;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.suite.api.SelectPackages;
-import org.junit.runner.RunWith;
+import org.junit.platform.suite.api.Suite;
 
-@Disabled
-@RunWith(JUnitPlatform.class)
+/**
+ * 测试套件（仅供 IDE 中手动运行，mvn test 时已在根 pom 的 surefire 中排除）
+ */
+@Suite
 @SelectPackages({"io.github.smart.cloud.starter.api.version.test.cases"})
 public class SuiteTest {
 

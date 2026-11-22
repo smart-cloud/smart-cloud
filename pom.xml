@@ -632,6 +632,16 @@
                     <showWarnings>true</showWarnings>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- SuiteTest（JUnit5 @Suite）仅供 IDE 中手动运行，mvn test 时排除，避免用例重复执行 -->
+                    <excludes>
+                        <exclude>**/SuiteTest.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
             <!-- 生成source源码包 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
