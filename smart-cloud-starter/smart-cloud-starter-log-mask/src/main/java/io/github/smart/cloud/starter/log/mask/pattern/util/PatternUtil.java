@@ -56,18 +56,50 @@ public class PatternUtil {
         if (content == null) {
             return null;
         }
+        // 默认正则必须包含分隔符才可能命中，不含则直接返回，避免执行正则
+        if (pattern == PatternConfig.REGEX_PATTERN && !containsSeparator(content)) {
+            return content;
+        }
 
-        StringBuffer sb = new StringBuffer();
         Matcher matcher = pattern.matcher(content);
+        StringBuilder sb = null;
+        int last = 0;
         while (matcher.find()) {
             // key + 分割符 + value
             String key = matcher.group(1);
             if (names == null || names.contains(key.toLowerCase())) {
-                String separator = matcher.group(2);
-                matcher.appendReplacement(sb, Matcher.quoteReplacement(key + separator + LogMaskConstants.MASK_VALUE));
+                if (sb == null) {
+                    sb = new StringBuilder(content.length());
+                }
+                sb.append(content, last, matcher.start())
+                        .append(key)
+                        .append(content, matcher.start(2), matcher.end(2))
+                        .append(LogMaskConstants.MASK_VALUE);
+                last = matcher.end();
             }
         }
-        return matcher.appendTail(sb).toString();
+
+        // 无命中时直接返回原串
+        if (sb == null) {
+            return content;
+        }
+        return sb.append(content, last, content.length()).toString();
+    }
+
+    /**
+     * 是否包含默认正则的键值分隔符（:、：、=）
+     *
+     * @param content
+     * @return
+     */
+    private static boolean containsSeparator(String content) {
+        for (int i = 0, len = content.length(); i < len; i++) {
+            char c = content.charAt(i);
+            if (c == ':' || c == '=' || c == '：') {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
