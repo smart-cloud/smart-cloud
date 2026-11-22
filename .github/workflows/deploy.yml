@@ -1,38 +1,40 @@
-# 相当于脚本用途的一个声明
+# 发布到 Maven Central（Central Publisher Portal）
+# 需要在仓库 Secrets 中配置：
+#   CENTRAL_TOKEN_USERNAME / CENTRAL_TOKEN_PASSWORD：在 https://central.sonatype.com 生成的 user token
+#   GPG_SECRET：ASCII-armored 的 GPG 私钥
+#   GPG_PASSWORD：GPG 私钥密码
 name: Maven Central Repo Deployment
-# 触发脚本的事件  这里为发布release之后触发
+# 发布 release 之后触发
 on:
   release:
     types: [released]
-# 定义一个发行任务
+
+permissions:
+  contents: read
+
 jobs:
   publish:
-    # 任务运行的环境
     runs-on: ubuntu-latest
-    # 任务的步骤
     steps:
-      # 1. 声明 checkout 仓库代码到工作区
       - name: Checkout Git Repo
-        uses: actions/checkout@v2
-      # 2. 安装Java 环境 这里会用到的参数就是 Git Action secrets中配置的，
-      #    取值要在key前面加  secrets.
-      - name: Set up Maven Central Repo
-        uses: actions/setup-java@v1
+        uses: actions/checkout@v6
+
+      # setup-java 会生成 settings.xml（server id=central）并导入 GPG 私钥
+      - name: Set up JDK 8 and Maven Central credentials
+        uses: actions/setup-java@v5
         with:
-          java-version: 1.8
-          server-id: sonatype-nexus-staging
-          server-username: ${{ secrets.OSSRH_USER }}
-          server-password: ${{ secrets.OSSRH_PASSWORD }}
-          gpg-passphrase:  ${{ secrets.GPG_PASSWORD }}
-      # 3. 发布到Maven中央仓库
+          java-version: '8'
+          distribution: 'temurin'
+          cache: maven
+          server-id: central
+          server-username: CENTRAL_TOKEN_USERNAME
+          server-password: CENTRAL_TOKEN_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_SECRET }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
       - name: Publish to Maven Central Repo
-        # 这里用到了其他人写的action脚本，详细可以去看他的文档。
-        uses: samuelmeuli/action-maven-publish@v1.4.0
-        with:
-          gpg_private_key: ${{ secrets.GPG_SECRET }}
-          gpg_passphrase: ${{ secrets.GPG_PASSWORD }}
-          nexus_username: ${{ secrets.OSSRH_USER }}
-          nexus_password: ${{ secrets.OSSRH_PASSWORD }}
-          maven_goals_phases: clean deploy
-          maven_args: -Dmaven.test.skip=true -T 4
-          maven_profiles: deploy
+        run: mvn -B clean deploy -P deploy -Dmaven.test.skip=true
+        env:
+          CENTRAL_TOKEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          CENTRAL_TOKEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSWORD }}

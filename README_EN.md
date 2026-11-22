@@ -200,7 +200,7 @@ Smart Cloud's most distinctive feature: **services can be merged or split at wil
 
 - **Merged deployment**: add service dependencies in `pom.xml` — calls automatically switch to in-process
 - **Split deployment**: each service runs independently — communicates via Feign RPC
-- **Auto switching**: via [SmartFeignClient](https://github.com/smart-cloud/smart-cloud/blob/dev/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/org/smartframework/cloud/starter/rpc/feign/annotation/SmartFeignClient.java) annotation + [condition check](https://github.com/smart-cloud/smart-cloud/blob/463cc09b6c2f8a0b947f0a2fcc157ee037ba419d/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/org/smartframework/cloud/starter/rpc/feign/condition/SmartFeignClientCondition.java#L32) — no code changes needed
+- **Auto switching**: via [SmartFeignClient](https://github.com/smart-cloud/smart-cloud/blob/dev/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/io/github/smart/cloud/starter/rpc/feign/annotation/SmartFeignClient.java) annotation + [condition check](https://github.com/smart-cloud/smart-cloud/blob/dev/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/io/github/smart/cloud/starter/rpc/feign/condition/SmartFeignClientCondition.java#L49) — no code changes needed
 
 ### Key Problems Solved in Merged Deployment
 

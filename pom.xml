@@ -99,6 +99,7 @@
         <maven-pmd-plugin>3.21.0</maven-pmd-plugin>
         <p3c-pmd>2.1.1</p3c-pmd>
         <jacoco-maven-plugin>0.8.14</jacoco-maven-plugin>
+        <central-publishing-maven-plugin>0.12.0</central-publishing-maven-plugin>
         <embedded-redis>0.7.3</embedded-redis>
         <rabbitmq-mock>1.2.0</rabbitmq-mock>
         <embedded-elasticsearch>2.10.0</embedded-elasticsearch>
@@ -842,9 +843,18 @@
                         </executions>
                     </plugin>
 
+                    <!-- 发布到 Maven Central（Central Publisher Portal），凭据为 settings.xml 中 id=central 的 user token -->
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>${central-publishing-maven-plugin}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>central</publishingServerId>
+                            <centralSnapshotsUrl>https://central.sonatype.com/repository/maven-snapshots/</centralSnapshotsUrl>
+                            <autoPublish>true</autoPublish>
+                            <waitUntil>published</waitUntil>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -860,30 +870,5 @@
             </plugin>
         </plugins>
     </reporting>
-
-    <repositories>
-        <repository>
-            <id>aliyun</id>
-            <name>aliyun</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
-
-        <repository>
-            <id>repo1</id>
-            <name>repo1</name>
-            <url>https://repo1.maven.org/maven2</url>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-    </distributionManagement>
 
 </project>

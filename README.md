@@ -200,7 +200,7 @@ Smart Cloud 最具特色的能力：**服务可拆可合**。
 
 - **合并部署**：只需在 `pom.xml` 中引入待合并服务的依赖，服务间自动切换为进程内调用
 - **拆分部署**：各服务独立部署，通过 Feign RPC 远程通信
-- **自动切换**：通过 [SmartFeignClient](https://github.com/smart-cloud/smart-cloud/blob/dev/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/org/smartframework/cloud/starter/rpc/feign/annotation/SmartFeignClient.java) 注解 + [条件判断](https://github.com/smart-cloud/smart-cloud/blob/463cc09b6c2f8a0b947f0a2fcc157ee037ba419d/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/org/smartframework/cloud/starter/rpc/feign/condition/SmartFeignClientCondition.java#L32)，无需修改任何业务代码
+- **自动切换**：通过 [SmartFeignClient](https://github.com/smart-cloud/smart-cloud/blob/dev/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/io/github/smart/cloud/starter/rpc/feign/annotation/SmartFeignClient.java) 注解 + [条件判断](https://github.com/smart-cloud/smart-cloud/blob/dev/smart-cloud-starter/smart-cloud-starter-feign/src/main/java/io/github/smart/cloud/starter/rpc/feign/condition/SmartFeignClientCondition.java#L49)，无需修改任何业务代码
 
 ### 合并部署解决的关键问题
 
