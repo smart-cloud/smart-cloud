@@ -35,12 +35,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequiredArgsConstructor
 public class ExceptionControllerAdvice {
 
-    static {
-        // 增加对404等的处理
-        System.setProperty("spring.mvc.throw-exception-if-no-handler-found", "true");
-        System.setProperty("spring.resources.add-mappings", "false");
-    }
-
     private final ExceptionHandlerContext exceptionHandlerContext;
 
     @ExceptionHandler(Exception.class)
