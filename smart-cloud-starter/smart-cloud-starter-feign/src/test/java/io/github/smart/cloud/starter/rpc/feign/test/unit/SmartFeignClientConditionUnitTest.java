@@ -16,7 +16,6 @@
 package io.github.smart.cloud.starter.rpc.feign.test.unit;
 
 import io.github.smart.cloud.starter.rpc.feign.condition.SmartFeignClientCondition;
-import io.github.smart.cloud.starter.rpc.feign.test.SuiteTest;
 import io.github.smart.cloud.starter.rpc.feign.test.prepare.Application;
 import io.github.smart.cloud.starter.rpc.feign.test.prepare.rpc.TestRpc3;
 import org.assertj.core.api.Assertions;
@@ -35,7 +34,7 @@ class SmartFeignClientConditionUnitTest {
 
     @Test
     void test() {
-        SmartApplicationConfig.setBasePackages(new String[]{SuiteTest.class.getPackage().getName()});
+        SmartApplicationConfig.setBasePackages(new String[]{"io.github.smart.cloud.starter.rpc.feign.test"});
         SmartFeignClientCondition smartFeignClientCondition = new SmartFeignClientCondition();
 
         AnnotationMetadata annotationMetadata1 = AnnotationMetadata.introspect(TestRpc1.class);
