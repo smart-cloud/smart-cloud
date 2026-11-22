@@ -30,7 +30,24 @@ import java.util.regex.Pattern;
 @Slf4j
 public class LogMaskUtil {
 
+    /**
+     * 使用当前线程上下文（{@link LogMaskContext}）中的正则脱敏
+     *
+     * @param formattedMessage
+     * @return
+     */
     public static String mask(String formattedMessage) {
+        return mask(formattedMessage, LogMaskContext.get());
+    }
+
+    /**
+     * 使用指定的上下文正则脱敏（用于异步打印日志：上下文在业务线程中捕获，在日志线程中脱敏）
+     *
+     * @param formattedMessage
+     * @param pattern          业务线程上下文中的正则，为null表示上下文中未设置
+     * @return
+     */
+    public static String mask(String formattedMessage, Pattern pattern) {
         try {
             // 1、不脱敏
             if (null == PatternConfig.getMode() || MaskMode.OFF.getValue().compareTo(PatternConfig.getMode()) == 0) {
@@ -38,7 +55,6 @@ public class LogMaskUtil {
             }
 
             // 2、脱敏
-            Pattern pattern = LogMaskContext.get();
             if (pattern == null) {
                 if (MaskMode.ANNOTATION.getValue().compareTo(PatternConfig.getMode()) == 0) {
                     // 上下文中没标注，则不脱敏

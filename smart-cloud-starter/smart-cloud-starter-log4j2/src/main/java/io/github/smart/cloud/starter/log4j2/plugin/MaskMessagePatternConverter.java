@@ -15,6 +15,7 @@
  */
 package io.github.smart.cloud.starter.log4j2.plugin;
 
+import io.github.smart.cloud.starter.log.mask.pattern.util.LogMaskContext;
 import io.github.smart.cloud.starter.log.mask.pattern.util.LogMaskUtil;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.config.Configuration;
@@ -24,6 +25,9 @@ import org.apache.logging.log4j.core.pattern.LogEventPatternConverter;
 import org.apache.logging.log4j.core.pattern.PatternConverter;
 import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.util.PerformanceSensitive;
+import org.apache.logging.log4j.util.ReadOnlyStringMap;
+
+import java.util.regex.Pattern;
 
 /**
  * 自定义log4j2模式匹配符
@@ -57,8 +61,29 @@ public class MaskMessagePatternConverter extends LogEventPatternConverter {
     @Override
     public void format(final LogEvent event, final StringBuilder toAppendTo) {
         Message message = event.getMessage();
-        String maskText = LogMaskUtil.mask(message.getFormattedMessage());
+        String maskText = LogMaskUtil.mask(message.getFormattedMessage(), getMaskPattern(event));
         toAppendTo.append(maskText);
+    }
+
+    /**
+     * 获取脱敏正则：优先取业务线程中随日志事件传递的正则（见{@link LogMaskContextDataProvider}），
+     * 以支持异步打印；事件中没有时，取当前线程上下文中的正则（同步打印时与业务线程相同）。
+     *
+     * @param event
+     * @return
+     */
+    private static Pattern getMaskPattern(final LogEvent event) {
+        ReadOnlyStringMap contextData = event.getContextData();
+        if (contextData != null) {
+            String patternId = contextData.getValue(LogMaskContextDataProvider.MASK_PATTERN_ID_KEY);
+            if (patternId != null) {
+                Pattern pattern = LogMaskContextDataProvider.getPattern(patternId);
+                if (pattern != null) {
+                    return pattern;
+                }
+            }
+        }
+        return LogMaskContext.get();
     }
 
 }

@@ -13,6 +13,24 @@
         <outputStream class="java.io.ByteArrayOutputStream"/>
     </appender>
 
+    <!-- 异步脱敏测试：ASYNC_MEMORY（异步）-> ASYNC_MEMORY_TARGET（内存） -->
+    <appender name="ASYNC_MEMORY_TARGET" class="ch.qos.logback.core.OutputStreamAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${log_format}</pattern>
+        </encoder>
+        <outputStream class="java.io.ByteArrayOutputStream"/>
+    </appender>
+    <appender name="ASYNC_MEMORY" class="io.github.smart.cloud.starter.logback.appender.MaskAsyncAppender">
+        <includeCallerData>true</includeCallerData>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="ASYNC_MEMORY_TARGET"/>
+    </appender>
+
+    <logger name="async_mask_test" level="INFO" additivity="false">
+        <appender-ref ref="ASYNC_MEMORY"/>
+    </logger>
+
     <root>
         <level value="INFO"/>
         <appender-ref ref="MEMORY"/>

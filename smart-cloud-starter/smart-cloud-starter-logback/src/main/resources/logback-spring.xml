@@ -64,11 +64,35 @@
         </encoder>
     </appender>
 
+    <!--
+        异步打印（支持脱敏）：业务线程中捕获脱敏上下文，日志线程中再脱敏
+        includeCallerData：日志格式中使用了%method、%line，需在业务线程中提前获取调用者信息
+        discardingThreshold=0：队列将满时不丢弃INFO及以下级别的日志
+    -->
+    <appender name="async_console" class="io.github.smart.cloud.starter.logback.appender.MaskAsyncAppender">
+        <includeCallerData>true</includeCallerData>
+        <queueSize>2048</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="console"/>
+    </appender>
+    <appender name="async_local_disk_file" class="io.github.smart.cloud.starter.logback.appender.MaskAsyncAppender">
+        <includeCallerData>true</includeCallerData>
+        <queueSize>2048</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="local_disk_file"/>
+    </appender>
+    <appender name="async_elk_file" class="io.github.smart.cloud.starter.logback.appender.MaskAsyncAppender">
+        <includeCallerData>true</includeCallerData>
+        <queueSize>2048</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="elk_file"/>
+    </appender>
+
     <root>
         <level value="INFO"/>
-        <appender-ref ref="console"/>
-        <appender-ref ref="local_disk_file"/>
-        <appender-ref ref="elk_file"/>
+        <appender-ref ref="async_console"/>
+        <appender-ref ref="async_local_disk_file"/>
+        <appender-ref ref="async_elk_file"/>
     </root>
 
 </configuration>

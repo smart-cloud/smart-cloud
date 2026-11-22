@@ -17,10 +17,15 @@ package io.github.smart.cloud.starter.logback.pattern;
 
 import ch.qos.logback.classic.pattern.ClassicConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
+import io.github.smart.cloud.starter.log.mask.pattern.util.LogMaskContext;
 import io.github.smart.cloud.starter.log.mask.pattern.util.LogMaskUtil;
+import io.github.smart.cloud.starter.logback.appender.MaskLoggingEvent;
 
 /**
  * logback日志脱敏
+ *
+ * <p>同步打印时取当前线程上下文中的脱敏正则；经{@link io.github.smart.cloud.starter.logback.appender.MaskAsyncAppender}
+ * 异步打印时，取业务线程中捕获并随事件传递的脱敏正则。
  *
  * @author collin
  * @date 2022-12-02
@@ -29,7 +34,10 @@ public class MaskMessageConverter extends ClassicConverter {
 
     @Override
     public String convert(ILoggingEvent event) {
-        return LogMaskUtil.mask(event.getFormattedMessage());
+        if (event instanceof MaskLoggingEvent) {
+            return LogMaskUtil.mask(event.getFormattedMessage(), ((MaskLoggingEvent) event).getMaskPattern());
+        }
+        return LogMaskUtil.mask(event.getFormattedMessage(), LogMaskContext.get());
     }
 
 }

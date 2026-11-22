@@ -24,12 +24,21 @@
 	</Properties>
 
 	<Appenders>
-		<Console name="console" target="SYSTEM_OUT">
+		<!-- follow="true"：跟随System.setOut的重新赋值，使各测试类的OutputCaptureExtension都能捕获到日志 -->
+		<Console name="console" target="SYSTEM_OUT" follow="true">
 			<PatternLayout pattern="${log_format}" />
 		</Console>
+
+		<!-- 异步脱敏测试 -->
+		<Async name="async_console" includeLocation="true">
+			<AppenderRef ref="console"/>
+		</Async>
 	</Appenders>
 
 	<Loggers>
+		<Logger name="async_mask_test" level="info" additivity="false">
+			<AppenderRef ref="async_console" />
+		</Logger>
 		<Root level="info">
 			<AppenderRef ref="console" />
 		</Root>
